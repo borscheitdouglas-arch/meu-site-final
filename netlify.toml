@@ -5,6 +5,3 @@
 
 [context.production.environment]
 # coloque aqui variáveis de ambiente se necessário
-
-[plugins]
-  # plugins podem ser adicionados aqui
