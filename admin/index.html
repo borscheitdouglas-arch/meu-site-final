@@ -6,7 +6,61 @@
   <title>CMS Admin</title>
 </head>
 <body>
-  <!-- Carrega o CMS padrão -->
+  <!-- UI simples de administração local -->
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:18px}
+    .row{display:flex;gap:12px}
+    input,textarea{padding:8px;border:1px solid #ccc;border-radius:4px;width:100%}
+    .btn{padding:8px 10px;border:0;background:#2b8cff;color:#fff;border-radius:4px;cursor:pointer}
+    .btn.outline{background:#fff;color:#333;border:1px solid #ccc}
+    .small{font-size:13px;color:#555}
+    #loginBox{margin-bottom:16px}
+    #adminUI{display:none}
+    .product-item{display:flex;gap:12px;align-items:center;padding:8px;border-bottom:1px solid #eee}
+  </style>
+
+  <div id="loginBox">
+    <label class="small">Senha de administrador:</label>
+    <div style="display:flex;gap:8px;margin-top:6px">
+      <input id="pwd" type="password" placeholder="senha">
+      <button id="loginBtn" class="btn">Entrar</button>
+    </div>
+    <p class="small">Senha padrão: <code>admin123</code> (mude em produção)</p>
+  </div>
+
+  <div id="adminUI">
+    <h2>Adicionar / Editar partitura</h2>
+    <div style="max-width:820px">
+      <div style="display:flex;gap:12px;margin-bottom:8px">
+        <input id="title" placeholder="Título (obrigatório)">
+        <input id="price" placeholder="Preço (opcional)">
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:8px">
+        <label class="small">Capa (imagem)</label>
+        <input id="cover" type="file" accept="image/*">
+        <label class="small">Partitura (pdf)</label>
+        <input id="sheet" type="file" accept="application/pdf">
+      </div>
+      <div style="margin-bottom:12px">
+        <textarea id="desc" rows="3" placeholder="Descrição (opcional)"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:18px">
+        <button id="saveProd" class="btn">Salvar</button>
+        <button id="clearForm" class="btn outline">Limpar</button>
+        <button id="exportBtn" class="btn outline">Exportar JSON</button>
+        <input id="importFile" type="file" accept="application/json" style="display:inline-block">
+        <button id="clearAllBtn" class="btn outline">Remover todos</button>
+      </div>
+
+      <h3>Listagem</h3>
+      <div id="productsList"></div>
+    </div>
+    <hr>
+    <p class="small">Alternativa: também existe um esboço de Netlify CMS configurado via `admin/config.yml` (requer deploy em Netlify/git-gateway para gravar no repositório).</p>
+  </div>
+
+  <script src="admin.js"></script>
+  <!-- fallback: Netlify CMS caso queira usar no futuro -->
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 </body>
 </html>

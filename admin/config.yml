@@ -2,8 +2,9 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "assets/img/uploads"
-public_folder: "/assets/img/uploads"
+# Media uploads centralizadas (imagens e PDFs)
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
 collections:
   - name: "products"
@@ -18,4 +19,17 @@ collections:
       - { label: "Descrição", name: "desc", widget: "text" }
       - { label: "Capa (imagem)", name: "cover", widget: "image" }
       - { label: "Partitura (arquivo)", name: "sheet", widget: "file" }
+      - { label: "Publicado", name: "published", widget: "boolean", default: true }
+
+  - name: "partituras"
+    label: "Partituras"
+    folder: "content/partituras"
+    create: true
+    slug: "{{slug}}"
+    format: "json"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Descrição", name: "desc", widget: "text", required: false }
+      - { label: "Capa (imagem)", name: "cover", widget: "image", required: false }
+      - { label: "Partitura (PDF)", name: "sheet", widget: "file" }
       - { label: "Publicado", name: "published", widget: "boolean", default: true }

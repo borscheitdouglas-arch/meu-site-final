@@ -1,0 +1,7 @@
+{
+  "title": "Exemplo de Partitura",
+  "desc": "Partitura de exemplo criada pelo Netlify CMS.",
+  "cover": "/assets/uploads/exemplo-capa.jpg",
+  "sheet": "/assets/uploads/exemplo-partitura.pdf",
+  "published": true
+}

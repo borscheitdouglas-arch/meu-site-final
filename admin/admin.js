@@ -71,8 +71,8 @@
     if(products.length===0){ list.innerHTML='<p class="small">Nenhum produto cadastrado ainda.</p>'; return }
     products.forEach(p=>{
       const el = document.createElement('div'); el.className='product-item';
-        el.innerHTML = `
-        <img src="${p.cover||'../assets/img/thumbnails.jpg'}" alt="");
+      el.innerHTML = `
+        <img src="${p.cover||'../assets/img/thumbnails.jpg'}" alt="" style="width:84px;height:84px;object-fit:cover;margin-right:12px">
         <div style="flex:1">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <strong>${p.title}</strong>
@@ -80,6 +80,10 @@
           </div>
           <div class="small">${(p.desc||'').slice(0,120)}</div>
           <div class="small">${p.badge?('Badge: '+p.badge):''} ${p.tag?(' | '+p.tag):''} ${p.rating?(' | ★ '+p.rating):''}</div>
+          <div style="margin-top:6px">
+            ${p.sheet?(`<a href="${p.sheet}" download="${p.sheetName||'sheet'}" class="btn outline small">Baixar partitura</a>`):''}
+            ${p.cover?(`<a href="${p.cover}" download="${(p.title||'cover').replace(/\s+/g,'_')+'_cover'}" class="btn outline small">Baixar capa</a>`):''}
+          </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px">
           <button class="btn edit">Editar</button>
