@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Formações</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <button id="menu-btn" class="menu-btn">☰</button>
+    <div class="logo"><a href="../index.html"><img src="../assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="header-actions">
+      <button id="dark-toggle" class="icon-btn" aria-label="Dark mode">🌙</button>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="card">
+      <h1>Formações</h1>
+      <p class="meta">Escolha um tópico abaixo para abrir a formação correspondente.</p>
+
+      <section class="formations-grid" style="margin-top:18px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;">
+        <a class="btn" href="formacao-1.html">Tópico 1 — Introdução</a>
+        <a class="btn" href="formacao-2.html">Tópico 2 — Teoria</a>
+        <a class="btn" href="formacao-3.html">Tópico 3 — Prática</a>
+        <a class="btn" href="formacao-4.html">Tópico 4 — Exercícios</a>
+      </section>
+
+      <div style="margin-top:18px">
+        <a class="btn outline" href="../index.html">Voltar</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Meu Site. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="../scripts/script.js"></script>
+</body>
+</html>

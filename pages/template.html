@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{TITLE}}</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <button id="menu-btn" class="menu-btn">☰</button>
+    <div class="logo"><a href="../index.html"><img src="../assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="header-actions">
+      <button id="dark-toggle" class="icon-btn" aria-label="Dark mode">🌙</button>
+      <a class="icon-btn" href="#" title="Loja">
+        🛍️
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="#" title="Minha conta">
+        👤
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="list-card">
+      <img src="../assets/img/thumbnails.jpg" alt="Capa">
+      <div class="card-body">
+        <small class="tag">{{TAG}}</small>
+        <h1>{{TITLE}}</h1>
+        <p>{{DESCRIPTION}}</p>
+        <div class="card-actions">
+          <a class="btn video-btn" href="{{VIDEO}}" target="_blank" rel="noopener">Ver vídeo</a>
+          <a class="btn outline" href="{{SHEET}}" download>Baixar partitura</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Meu Site. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="../scripts/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Produto — Meu Site</title>
+  <link href="../styles/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <button id="menu-btn" class="menu-btn">☰</button>
+    <div class="logo"><a href="../index.html"><img src="../assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="header-actions">
+      <button id="dark-toggle" class="icon-btn" aria-label="Dark mode">🌙</button>
+      <a class="icon-btn" href="../pages/loja.html" title="Loja">
+        <img src="../assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="../pages/contato.html" title="Contato">
+        <img src="../assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <a class="icon-btn" href="../pages/cart.html" title="Carrinho">🛒</a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="materia product-detail">
+      <!-- O conteúdo será preenchido pelo scripts/store.js se houver ?id=... -->
+      <h2>Produto</h2>
+      <p class="small">Carregando...</p>
+    </article>
+
+    <aside class="homily">
+      <h3>Informações</h3>
+      <p>Use o botão para pedir via WhatsApp ou adicionar ao carrinho.</p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Meu Site. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="../scripts/store.js"></script>
+  <script src="../scripts/cart.js"></script>
+</body>
+</html>
