@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Meu Site - Modelo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
@@ -40,6 +39,7 @@
     <ul>
       <li><a href="index.html">Início</a></li>
       <li><a href="pages/formacoes.html">Formações</a></li>
+      
       <li>
         <details>
           <summary>Advento</summary>
@@ -51,6 +51,7 @@
           </ul>
         </details>
       </li>
+      
       <li>
         <details>
           <summary>Natal</summary>
@@ -132,55 +133,40 @@
           </ul>
         </details>
       </li>
+      <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
+      <li class="menu-ordinario">
+        <details>
+          <summary>Ordinário da missa</summary>
+          <ul>
+            <li><a href="pages/kyrie.html">Kyrie</a></li>
+            <li><a href="pages/gloria.html">Gloria</a></li>
+            <li><a href="pages/sanctus.html">Sanctus</a></li>
+            <li><a href="pages/agnus-dei.html">Agnus Dei</a></li>
+            <li><a href="pages/ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
+          </ul>
+        </details>
+      </li>
     </ul>
   </nav>
   <div id="nav-overlay" class="nav-overlay" hidden></div>
 
-  <!-- BANNER / CARROSSEL -->
-  <section class="hero">
-    <div class="carousel" id="carousel">
-      <div class="slide active" data-link="pages/materia-nova.html">
-        <img id="banner-image" src="assets/img/thumbnails.jpg" alt="Banner 1">
-        <div class="hero-content">
-          <small>CONVERSAS DE FAMÍLIA</small>
-          <h1>O Purgatório é igual para todos?</h1>
-          <p>Breve descrição. Troque facilmente usando o arquivo HTML.</p>
-          <div class="hero-actions">
-            <a class="btn" href="pages/materia-nova.html">ASSISTA À AULA</a>
-            <a class="btn outline" href="assets/partituras/exemplo.pdf" download>Baixar Partitura</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- mais slides (copie/cole e troque imagem/texte) -->
-      <div class="slide" data-link="#">
-        <img src="assets/img/banner1.jpg" alt="Banner 2">
-        <div class="hero-content">
-          <small>TEMA</small>
-          <h1>Outro título grande</h1>
-          <p>Subtítulo do segundo slide.</p>
-        </div>
-      </div>
-
-      <!-- dots -->
-      <!-- arrows -->
-      <button class="carousel-arrow prev" aria-label="Anterior">‹</button>
-      <button class="carousel-arrow next" aria-label="Próximo">›</button>
-      <!-- dots -->
-      <div class="carousel-dots" id="carousel-dots"></div>
+  <!-- BANNER (imagem estática) -->
+  <section class="hero-banner">
+    <div class="hero-inner">
+      <img src="assets/img/capa-superior.png" alt="Capa superior" class="capa-superior">
     </div>
   </section>
 
   <!-- CONTEÚDO: artigos e homilia -->
   <main class="container">
     <section class="articles">
-      <h2>LEITURA RECOMENDADA</h2>
+      <h2>DESTAQUES DA SEMANA</h2>
 
       <!-- Nova matéria: botão para abrir página formativa -->
       <article class="list-card">
         <img src="assets/img/thumbnails.jpg" alt="Matéria">
         <div class="card-body">
-          <small class="tag">#MATERIAL</small>
+          <small class="tag">#FORMAÇÃO</small>
           <h3>Matéria formativa — Título provisório</h3>
           <p>Conteúdo formativo — clique no botão para abrir a página completa.</p>
           <div class="card-actions">
@@ -193,7 +179,7 @@
       <article class="list-card">
         <img src="assets/img/thumbnails.jpg" alt="Capa da música">
         <div class="card-body">
-          <small class="tag">#DOUTRINA</small>
+          <small class="tag">#PARTITURA E LITURGIA</small>
           <h3>Como as indulgências ajudam as almas do Purgatório?</h3>
           <p>As indulgências pro defunctis são como “uma mesa enorme...”</p>
           <div class="card-actions">
@@ -207,7 +193,7 @@
       <article class="list-card">
         <img src="assets/img/banner1.jpg" alt="Outro artigo">
         <div class="card-body">
-          <small class="tag">#ESPIRITUALIDADE</small>
+          <small class="tag">#FORMAÇÃO</small>
           <h3>Como podemos ajudar as almas do Purgatório?</h3>
           <p>O que são os chamados “sufrágios”? Que boas obras nós...</p>
         </div>
@@ -216,7 +202,7 @@
       <article class="list-card">
         <img src="assets/img/banner2.jpg" alt="Outro artigo">
         <div class="card-body">
-          <small class="tag">#ESPIRITUALIDADE</small>
+          <small class="tag">#FORMAÇÃO</small>
           <h3>Uma ladainha pelas almas do Purgatório</h3>
           <p>Peçamos nesta ladainha a intercessão de todos os santos...</p>
         </div>
@@ -224,7 +210,10 @@
     </section>
 
     <aside class="homily">
-      <h3>HOMILIA DIÁRIA</h3>
+      <!-- QR code acima da homilia (coloque assets/img/qrcode.png) -->
+      <div class="homily-qrcode-wrap">
+        <img src="assets/img/qrcode.png" alt="QR Code" class="homily-qrcode">
+      </div>
       <div class="video-card">
         <img src="assets/img/homilia.jpg" alt="Homilia">
         <!-- se quiser vídeo substitua por iframe/video -->
@@ -237,5 +226,6 @@
   </footer>
 
   <script src="scripts/script.js"></script>
+  
 </body>
 </html>
