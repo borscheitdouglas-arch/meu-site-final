@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="g1" x1="0%" x2="100%">
+      <stop offset="0%" stop-color="#f2d88b"/>
+      <stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+    <filter id="soft2" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#4f3508" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <g fill="url(#g1)" stroke="#7f5d0f" stroke-width="1" filter="url(#soft2)">
+    <path d="M10 180 C40 150, 80 130, 130 110 C110 90, 86 70, 80 40 C100 60, 140 84, 180 40" fill="none" stroke-width="6" stroke-linecap="round"/>
+
+    <path d="M8 188 C40 182, 70 172, 96 150 C76 140, 52 132, 26 144 C18 148,12 188,8 188 Z" opacity="0.96"/>
+
+    <!-- ornament center: small fleur -->
+    <g transform="translate(40,40) scale(0.6)">
+      <path d="M40 4 C46 20, 70 22, 72 38 C66 34, 56 44, 40 54 C24 44,14 34,8 38 C10 22,34 20,40 4 Z" fill="#fff6e6" opacity="0.14"/>
+    </g>
+  </g>
+</svg>

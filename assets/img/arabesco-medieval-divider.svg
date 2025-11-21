@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#f2d88b"/>
+      <stop offset="50%" stop-color="#c9a227"/>
+      <stop offset="100%" stop-color="#e6c97a"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#6b4a08" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <g fill="url(#goldGrad)" stroke="#956f12" stroke-width="1" filter="url(#soft)">
+    <!-- central flourish -->
+    <path d="M100 60 C220 10, 420 10, 540 60 C660 110, 860 110, 980 60" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M300 60 C360 30, 420 30, 480 60 C420 80, 360 80, 300 60 Z" opacity="0.98"/>
+
+    <!-- symmetric ornaments left/right -->
+    <g transform="translate(0,0)">
+      <path d="M40 60 C72 36, 96 24, 140 26 C116 44, 92 58, 60 64 C48 66, 44 62, 40 60 Z"/>
+      <path d="M1160 60 C1128 36, 1104 24, 1060 26 C1084 44, 1108 58, 1140 64 C1152 66, 1156 62, 1160 60 Z"/>
+    </g>
+
+    <!-- delicate leaf details along the central curve -->
+    <g stroke="none" fill-opacity="0.96">
+      <ellipse cx="420" cy="46" rx="14" ry="6" transform="rotate(-18 420 46)" />
+      <ellipse cx="500" cy="56" rx="12" ry="5" transform="rotate(12 500 56)" />
+      <ellipse cx="620" cy="50" rx="10" ry="4" transform="rotate(-6 620 50)" />
+      <ellipse cx="340" cy="52" rx="12" ry="5" transform="rotate(8 340 52)" />
+    </g>
+
+    <!-- small medallions -->
+    <circle cx="600" cy="60" r="6" fill="#fff4d8" opacity="0.14" />
+    <circle cx="540" cy="60" r="4" fill="#fff4d8" opacity="0.12" />
+  </g>
+</svg>
