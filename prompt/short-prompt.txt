@@ -1,0 +1,21 @@
+Objetivo:
+Aplicar mudanças de design e correções no site estático conforme instruções do usuário, mantendo segurança e previsibilidade.
+
+Contexto essencial:
+- Projeto: `j:/Meu Drive/3- Site/meu-site-final`
+- Pastas principais: `pages/`, `styles/`, `assets/img/`, `scripts/`
+
+Restrições críticas:
+- Sempre salvar arquivos em UTF-8.
+- Usar `apply_patch` para editar arquivos no repositório.
+- Não reformate arquivos inteiros nem altere histórico sem aprovação.
+
+Ações esperadas (curtas):
+1) Criar ou editar arquivos HTML/CSS conforme task específica.
+2) Centralizar CSS repetido em `styles/style.css` quando aplicável.
+3) Rodar scripts de limpeza (ex.: `scripts/fix-encoding.ps1`) somente com autorização explícita.
+4) Executar busca (`grep_search`) para validação final e reportar resultados.
+
+Observações:
+- Para operações perigosas (bulk edits, scripts que gravam `pages/`), sugerir branch de trabalho e pedir aprovação antes de merge.
+- Detalhes operacionais e exemplos estão em `docs/prompt-appendix.md`.

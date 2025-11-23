@@ -1,4 +1,4 @@
-(function(){
+﻿(function(){
   const CART_KEY = 'shopCart_v1';
   const PROD_KEY = 'shopProducts_v1';
 
@@ -9,7 +9,7 @@
   function findProduct(id){ const p = readProducts().find(x=>x.id===id); return p || null }
 
   function addToCart(id, qty=1){
-    const p = findProduct(id); if(!p){ alert('Produto não encontrado no catálogo.'); return }
+    const p = findProduct(id); if(!p){ alert('Produto nÃ£o encontrado no catÃ¡logo.'); return }
     const cart = readCart(); const idx = cart.findIndex(i=>i.id===id);
     if(idx===-1) cart.push({id:id, title:p.title, price:p.price, qty:qty}); else cart[idx].qty += qty;
     writeCart(cart); showMiniToast('Adicionado ao carrinho'); updateCartCount();
@@ -53,7 +53,7 @@
     document.getElementById('clearCartBtn').addEventListener('click', ()=>{ if(confirm('Limpar carrinho?')){ clearCart(); renderCartPage(); showMiniToast('Carrinho limpo'); } });
     document.getElementById('whatsCheckout').addEventListener('click', (ev)=>{
       ev.preventDefault(); const cart = readCart(); if(cart.length===0){ alert('Carrinho vazio'); return }
-      let msg = 'Olá, gostaria de fazer um pedido:%0A'; cart.forEach(it=> msg += `- ${it.title} x${it.qty} (%20${it.price})%0A`);
+      let msg = 'OlÃ¡, gostaria de fazer um pedido:%0A'; cart.forEach(it=> msg += `- ${it.title} x${it.qty} (%20${it.price})%0A`);
       msg += `%0ATotal: R$ ${cartTotal().toFixed(2).replace('.',',')}%0A`;
       const wa = `https://wa.me/5511979038063?text=${encodeURIComponent(msg)}`; window.open(wa,'_blank');
     });
@@ -67,3 +67,4 @@
   });
 
 })();
+

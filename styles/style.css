@@ -1,4 +1,4 @@
-:root{
+﻿:root{
   --bg:#000000; --text:#ffffff; --accent:#c41616;
   --card:#0f0f10; --muted:#bdbdbd;
   --header-height:48px;
@@ -268,6 +268,7 @@ body.nav-open .side-nav details summary.ordinario:hover{
 .side-nav a[href$="gloria.html"],
 .side-nav a[href$="sanctus.html"],
 .side-nav a[href$="agnus-dei.html"],
+.side-nav a[href$="pater-noster.html"],
 .side-nav a[href$="ad-libitum.html"]{
   color: var(--illum-gold) !important;
 }
@@ -281,6 +282,7 @@ body.nav-open .side-nav a[href$="kyrie.html"],
 body.nav-open .side-nav a[href$="gloria.html"],
 body.nav-open .side-nav a[href$="sanctus.html"],
 body.nav-open .side-nav a[href$="agnus-dei.html"],
+body.nav-open .side-nav a[href$="pater-noster.html"],
 body.nav-open .side-nav a[href$="ad-libitum.html"]{
   color: var(--illum-gold) !important;
 }
@@ -1083,6 +1085,38 @@ header.site-header, .site-footer{border-color:rgba(255,255,255,0.03)}
 
 /* End global refinement */
 
+/* ===== Liturgical notice card (shared) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap');
+
+:root{--lit-gold:#D4AF37; --lit-text:#EDEDED; --lit-card-bg:rgba(6,6,6,0.94)}
+
+body.liturgic{
+  margin:0;
+  font-family: Cardo, 'Playfair Display', serif;
+  background:#fff1c1;
+  color:var(--lit-text);
+  background-image: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.06) 60%);
+  background-blend-mode:multiply;
+}
+
+.page-wrap{min-height:calc(100vh - var(--header-height,48px)); display:flex; align-items:center; justify-content:center; padding:48px 16px}
+.notice-card{width:100%; max-width:750px; background:transparent; border-radius:10px; padding:0; box-sizing:border-box; position:relative; text-align:center}
+.notice-inner{background:var(--lit-card-bg); border-radius:10px; padding:48px; box-sizing:border-box; color:var(--lit-text); border:1px solid rgba(212,175,55,0.40); box-shadow: 0 18px 50px rgba(0,0,0,0.7), 0 6px 18px rgba(0,0,0,0.6) inset; position:relative; overflow:hidden}
+.arabesco{display:block; width:100%; text-align:center; margin:6px 0}
+.arabesco svg{width:220px; height:auto; opacity:0.92}
+.icon{font-size:52px; color:var(--lit-gold); display:block; margin:0 auto 18px; line-height:1}
+.title{font-family:'Playfair Display', 'Cardo', serif; color:var(--lit-gold); font-size:28px; margin:6px 0 6px}
+.subtitle{font-family:'Cardo', serif; color:rgba(237,237,237,0.92); font-size:16px; margin-bottom:18px}
+.message{color:var(--lit-text); font-size:17px; line-height:1.8; max-width:680px; margin:0 auto}
+.message p{margin:12px 0}
+.footer-note{margin-top:22px;color:rgba(237,237,237,0.78); font-size:0.98rem}
+.notice-inner::before{content:''; position:absolute; inset:0; pointer-events:none; background-image: radial-gradient(ellipse at 10% 10%, rgba(212,175,55,0.02), transparent 12%), radial-gradient(ellipse at 90% 90%, rgba(212,175,55,0.01), transparent 12%); mix-blend-mode:overlay; opacity:0.9}
+
+@media(max-width:680px){.notice-inner{padding:40px}.title{font-size:22px}.icon{font-size:44px}.arabesco svg{width:160px}}
+@media(max-width:420px){.notice-inner{padding:36px}.title{font-size:20px}.icon{font-size:40px}.message{font-size:15px}}
+
+/* end liturgical notice card */
+
 /* ===== Highlight top two side-nav items and improve scroll behavior ===== */
 @media(min-width:901px){
   /* Emphasize Início and Formações (first two items) to increase prominence */
@@ -1104,6 +1138,12 @@ header.site-header, .site-footer{border-color:rgba(255,255,255,0.03)}
 
   /* Ensure the nav list is scrollable but with comfortable padding at the bottom */
   .side-nav ul{padding-bottom:28px}
+
+  /* Move only the second menu item (Formações) slightly up so it
+     appears closer to the top while keeping Início visible. */
+  .side-nav > ul > li:nth-of-type(2){
+    transform: translateY(-12px);
+  }
 }
 
 /* ===== Aplicar efeitos aos subitens litúrgicos específicos ===== */
@@ -1117,6 +1157,7 @@ header.site-header, .site-footer{border-color:rgba(255,255,255,0.03)}
   .side-nav a[href$="gloria.html"],
   .side-nav a[href$="sanctus.html"],
   .side-nav a[href$="agnus-dei.html"],
+  .side-nav a[href$="pater-noster.html"],
   .side-nav a[href$="ad-libitum.html"]{
     font-family: 'EB Garamond', serif; /* mesma fonte */
     font-size:15px; /* tamanho igual aos rótulos */
@@ -1137,6 +1178,7 @@ header.site-header, .site-footer{border-color:rgba(255,255,255,0.03)}
   .side-nav a[href$="gloria.html"]::after,
   .side-nav a[href$="sanctus.html"]::after,
   .side-nav a[href$="agnus-dei.html"]::after,
+  .side-nav a[href$="pater-noster.html"]::after,
   .side-nav a[href$="ad-libitum.html"]::after{
     display:block !important;
     content: '';
@@ -1162,6 +1204,7 @@ header.site-header, .site-footer{border-color:rgba(255,255,255,0.03)}
   .side-nav a[href$="gloria.html"]:hover,
   .side-nav a[href$="sanctus.html"]:hover,
   .side-nav a[href$="agnus-dei.html"]:hover,
+  .side-nav a[href$="pater-noster.html"]:hover,
   .side-nav a[href$="ad-libitum.html"]:hover{
     letter-spacing: calc(1px + 0.5px);
     transform: translateY(-2px);
@@ -1178,6 +1221,7 @@ header.site-header, .site-footer{border-color:rgba(255,255,255,0.03)}
   .side-nav a[href$="gloria.html"]:hover::after,
   .side-nav a[href$="sanctus.html"]:hover::after,
   .side-nav a[href$="agnus-dei.html"]:hover::after,
+  .side-nav a[href$="pater-noster.html"]:hover::after,
   .side-nav a[href$="ad-libitum.html"]:hover::after{
     transform: scaleX(1);
     opacity: 1;
@@ -1220,6 +1264,25 @@ header.site-header, .site-footer{border-color:rgba(255,255,255,0.03)}
     text-shadow: 0 1px 4px rgba(201,162,39,0.28);
     filter: none;
   }
+}
+
+/* Brilho dourado no hover para os tópicos principais do menu */
+.side-nav details summary.advento:hover,
+.side-nav details summary.natal:hover,
+.side-nav details summary.quaresma:hover,
+.side-nav details summary.pascoa:hover,
+.side-nav details summary.tempo-comum:hover,
+.side-nav details summary.ordinario:hover,
+body.nav-open .side-nav details summary.advento:hover,
+body.nav-open .side-nav details summary.natal:hover,
+body.nav-open .side-nav details summary.quaresma:hover,
+body.nav-open .side-nav details summary.pascoa:hover,
+body.nav-open .side-nav details summary.tempo-comum:hover,
+body.nav-open .side-nav details summary.ordinario:hover {
+  color: var(--illum-gold) !important;
+  text-shadow: 0 2px 12px rgba(201,162,39,0.6);
+  filter: drop-shadow(0 8px 18px rgba(201,162,39,0.12));
+  transition: color .18s ease, text-shadow .22s ease, filter .22s ease;
 }
 
 /* ===== Ajuste específico: itens do Advento no menu lateral ======

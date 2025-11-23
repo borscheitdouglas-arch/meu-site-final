@@ -1,15 +1,15 @@
-const editor = grapesjs.init({
+﻿const editor = grapesjs.init({
     container: '#gjs',
     height: '100%',
     fromElement: false,
-    storageManager: false, // não salva automaticamente ainda
+    storageManager: false, // nÃ£o salva automaticamente ainda
     plugins: [],
 });
 
-// Tenta carregar a página principal (`../index.html`) e seus estilos CSS
-// Observação: isso só funciona corretamente quando os arquivos estão sendo
+// Tenta carregar a pÃ¡gina principal (`../index.html`) e seus estilos CSS
+// ObservaÃ§Ã£o: isso sÃ³ funciona corretamente quando os arquivos estÃ£o sendo
 // servidos via HTTP (ex: http://localhost:8000). Se abrir o arquivo via
-// file://, o fetch pode falhar por segurança.
+// file://, o fetch pode falhar por seguranÃ§a.
 async function fetchText(url) {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Falha ao buscar ${url}: ${res.status}`);
@@ -23,7 +23,7 @@ async function loadPageIntoEditor(pageRelPath = '../index.html') {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
-        // Conteúdo principal: usamos todo o body para preservar estrutura
+        // ConteÃºdo principal: usamos todo o body para preservar estrutura
         const bodyHtml = doc.body ? doc.body.innerHTML : html;
 
         // Reunir estilos: links rel=stylesheet + <style> internos
@@ -37,7 +37,7 @@ async function loadPageIntoEditor(pageRelPath = '../index.html') {
                 const cssText = await fetchText(cssUrl);
                 css += '\n/* ' + cssUrl + ' */\n' + cssText;
             } catch (e) {
-                console.warn('Não foi possível carregar CSS:', href, e);
+                console.warn('NÃ£o foi possÃ­vel carregar CSS:', href, e);
             }
         }
         const styleTags = Array.from(doc.querySelectorAll('style'));
@@ -47,12 +47,12 @@ async function loadPageIntoEditor(pageRelPath = '../index.html') {
         editor.setComponents(bodyHtml);
         if (css) editor.setStyle(css);
 
-        console.log('Página carregada no editor a partir de', pageUrl);
+        console.log('PÃ¡gina carregada no editor a partir de', pageUrl);
     } catch (err) {
-        console.warn('Falha ao carregar a página para o editor:', err);
+        console.warn('Falha ao carregar a pÃ¡gina para o editor:', err);
         // fallback simples
         editor.setComponents(`
-            <h1>Seu editor GrapesJS está funcionando!</h1>
+            <h1>Seu editor GrapesJS estÃ¡ funcionando!</h1>
             <p>Edite este texto e teste os blocos ao lado.</p>
         `);
     }
@@ -60,3 +60,4 @@ async function loadPageIntoEditor(pageRelPath = '../index.html') {
 
 // Executa a carga ao iniciar
 loadPageIntoEditor().catch(e => console.error(e));
+

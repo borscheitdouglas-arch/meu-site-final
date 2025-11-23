@@ -1,4 +1,4 @@
-(function(){
+﻿(function(){
   const pwd = document.getElementById('pwd');
   const loginBtn = document.getElementById('loginBtn');
   const loginBox = document.getElementById('loginBox');
@@ -30,7 +30,7 @@
     const desc = document.getElementById('desc').value.trim();
     const coverFile = document.getElementById('cover').files[0];
     const sheetFile = document.getElementById('sheet').files[0];
-    if(!title){ alert('Preencha um título'); return }
+    if(!title){ alert('Preencha um tÃ­tulo'); return }
     const products = readJSON();
     let coverData, sheetData, sheetName;
     if(coverFile) coverData = await fileToDataUrl(coverFile);
@@ -54,7 +54,7 @@
       const p = {
         id:uid(), title, price, desc,
         oldPrice: oldPrice||'', discount: discount||'', badge: badge||'', tag: tag||'', rating: rating||'',
-        cover:coverData||'../assets/img/thumbnails.jpg', sheet:sheetData||'', sheetName:sheetName||''
+        cover:coverData||'../assets/img/edições-para-o-site/thumbnails.jpg', sheet:sheetData||'', sheetName:sheetName||''
       }
       products.unshift(p);
     }
@@ -72,14 +72,14 @@
     products.forEach(p=>{
       const el = document.createElement('div'); el.className='product-item';
       el.innerHTML = `
-        <img src="${p.cover||'../assets/img/thumbnails.jpg'}" alt="" style="width:84px;height:84px;object-fit:cover;margin-right:12px">
+        <img src="${p.cover||'../assets/img/edições-para-o-site/thumbnails.jpg'}" alt="" style="width:84px;height:84px;object-fit:cover;margin-right:12px">
         <div style="flex:1">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <strong>${p.title}</strong>
             <span class="small">${p.price||''}</span>
           </div>
           <div class="small">${(p.desc||'').slice(0,120)}</div>
-          <div class="small">${p.badge?('Badge: '+p.badge):''} ${p.tag?(' | '+p.tag):''} ${p.rating?(' | ★ '+p.rating):''}</div>
+          <div class="small">${p.badge?('Badge: '+p.badge):''} ${p.tag?(' | '+p.tag):''} ${p.rating?(' | â˜… '+p.rating):''}</div>
           <div style="margin-top:6px">
             ${p.sheet?(`<a href="${p.sheet}" download="${p.sheetName||'sheet'}" class="btn outline small">Baixar partitura</a>`):''}
             ${p.cover?(`<a href="${p.cover}" download="${(p.title||'cover').replace(/\s+/g,'_')+'_cover'}" class="btn outline small">Baixar capa</a>`):''}
@@ -123,14 +123,14 @@
 
   document.getElementById('importFile').addEventListener('change', (ev)=>{
     const f = ev.target.files[0]; if(!f) return;
-    const r = new FileReader(); r.onload = ()=>{ try{ const parsed = JSON.parse(r.result); localStorage.setItem(SAVE_KEY, JSON.stringify(parsed)); renderList(); alert('Importado com sucesso') }catch(e){ alert('Arquivo inválido') } }; r.readAsText(f);
+    const r = new FileReader(); r.onload = ()=>{ try{ const parsed = JSON.parse(r.result); localStorage.setItem(SAVE_KEY, JSON.stringify(parsed)); renderList(); alert('Importado com sucesso') }catch(e){ alert('Arquivo invÃ¡lido') } }; r.readAsText(f);
   });
 
-  // botão para limpar todos os produtos (remove a chave do storage)
+  // botÃ£o para limpar todos os produtos (remove a chave do storage)
   const clearBtn = document.getElementById('clearAllBtn');
   if(clearBtn){
     clearBtn.addEventListener('click', ()=>{
-      if(!confirm('Remover todos os produtos salvos? Esta ação não pode ser desfeita do navegador.')) return;
+      if(!confirm('Remover todos os produtos salvos? Esta aÃ§Ã£o nÃ£o pode ser desfeita do navegador.')) return;
       localStorage.removeItem(SAVE_KEY);
       renderList();
       alert('Todos os produtos foram removidos.');
@@ -139,13 +139,15 @@
 
   loginBtn.addEventListener('click', ()=>{
     const val = pwd.value||'';
-    // senha simples no front-end; ALTERE em produção
+    // senha simples no front-end; ALTERE em produÃ§Ã£o
     if(val === 'admin123'){
       sessionStorage.setItem('isAdmin','1'); loginBox.style.display='none'; adminUI.style.display='block'; renderList();
     }else{ alert('Senha incorreta') }
   });
 
-  // se já logado
+  // se jÃ¡ logado
   if(sessionStorage.getItem('isAdmin')){ loginBox.style.display='none'; adminUI.style.display='block'; renderList(); }
 
 })();
+
+
