@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Douglas AssumpÃ§Ã£o</title>
+  <link rel="icon" href="../assets/img/edições-para-o-site/icone.png" sizes="192x192">
+  <link rel="shortcut icon" href="../assets/img/edições-para-o-site/icone.png">
+  <link rel="icon" href="../assets/img/edições-para-o-site/icone.png">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
+    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="header-actions">
+      <a class="icon-btn" href="/pages/loja.html" title="Loja">
+        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="/pages/contato.html" title="Contato">
+        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="card detailed-card" style="max-width:820px;margin:28px auto;padding:28px;box-shadow:0 8px 30px rgba(0,0,0,0.08);border-radius:10px;">
+      <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+        <img src="/assets/img/Materia 1.jpg" alt="O Canto como Oração" style="width:260px;height:160px;object-fit:cover;border-radius:8px;flex:0 0 auto;">
+        <div style="flex:1 1 320px;">
+          <small class="tag">#FORMAÇÃO</small>
+          <h1 style="font-family:'EB Garamond', Georgia, serif;margin:8px 0 12px;font-size:28px;">O Canto como Oração e Parte da Liturgia</h1>
+          <p style="color:#444;line-height:1.5;margin-bottom:16px;">Uma reflexão sobre como o canto litúrgico serve como forma de oração comunitária e instrumento central da celebração. Esta matéria explora princípios, práticas e recomendações para que o canto enriqueça a liturgia.</p>
+          <div class="card-actions">
+            <a class="btn" href="materia-nova.html">Abrir matéria</a>
+            <a class="btn outline" href="/pages/formacoes.html" style="margin-left:8px;">Voltar</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>Â© 2025 Meu Site. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="../scripts/script.js"></script>
+</body>
+</html>
+
+
+
+
+

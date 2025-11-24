@@ -9,24 +9,85 @@
   <link rel="icon" href="../assets/img/icone.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/style.css">
+  <style>
+    /* Página matéria: estilo local para ficar similar à referência enviada */
+    body {
+      background: #210806; /* marrom muito escuro / área vermelha */
+      color: #ffffff; /* textos fora do cartão devem ser brancos */
+    }
+    main.container { padding: 48px 20px; display:block; }
+    .materia-hero { max-width:980px; margin:34px auto 18px; padding:28px 20px; color: #ffffff; }
+    h1#materia-title { color:#ffffff; font-size:36px; letter-spacing:0.3px; }
+    .meta { color:#e6d9c8; font-style:italic; }
+
+    /* cartão de leitura central */
+    article.card.materia {
+      background: #f6e6cf; /* bege claro (área amarela-claro) */
+      color: #000000; /* texto preto dentro do cartão */
+      max-width:980px;
+      margin:18px auto;
+      padding:40px 48px;
+      border-radius:12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      line-height:1.85;
+      font-family: 'EB Garamond', Georgia, serif;
+    }
+
+    /* conteúdo */
+    #materia-content h2 { font-size:20px; margin-top:28px; color:#000000; }
+    #materia-content p { color:#000000; font-size:16px; }
+    #materia-content ul { margin-left:1.05rem; }
+
+    /* bloco de citação estilizado (caso existam blockquotes) */
+    #materia-content blockquote {
+      border-left:4px solid #d0b57a;
+      margin:18px 0; padding:12px 18px; background:rgba(208,181,122,0.03);
+      font-style:italic; color:#5b4a3b;
+    }
+
+    /* botão Voltar estilo lateral discreto */
+    .card .btn.outline { border-color:#b08a1a; color:#b08a1a; background:transparent; }
+
+    /* reduzir tamanho do header dentro desta página para harmonizar */
+    .site-header { background: transparent; }
+    .site-header .logo img { height:38px; }
+  </style>
 </head>
 <body>
   <header class="site-header">
-    <button id="menu-btn" class="menu-btn">☰</button>
-    <div class="logo"><a href="../index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <button id="menu-btn" class="menu-btn">â˜°</button>
+    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
     <div class="header-actions">
-      <button id="dark-toggle" class="icon-btn" aria-label="Dark mode">🌙</button>
+      <a class="icon-btn" href="/pages/loja.html" title="Loja">
+        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="/pages/contato.html" title="Contato">
+        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
       <input id="search" type="search" placeholder="Buscar..." />
     </div>
   </header>
 
   <main class="container">
-    <div class="materia-hero">
-      <h1 id="materia-title">O Canto como Oração e Parte da Liturgia.</h1>
-      <p id="materia-intro" class="meta">A voz que se torna oração — reflexão sobre o papel do canto (especialmente o canto gregoriano) na vida litúrgica e espiritual da Igreja.</p>
+    <div class="materia-hero" style="max-width:980px;margin:34px auto 18px;padding:28px 20px;">
+      <div style="display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap;">
+        <div style="flex:1 1 580px;">
+          <h1 id="materia-title" style="font-family: 'EB Garamond', Georgia, serif; font-size:36px; line-height:1.08; margin:0 0 10px;">O Canto como Oração e Parte da Liturgia</h1>
+          <p id="materia-intro" class="meta" style="color:#444;margin:0 0 18px;">A voz que se torna oração — reflexão sobre o papel do canto (especialmente o canto gregoriano) na vida litúrgica e espiritual da Igreja.</p>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <small style="color:#b08a1a;font-weight:600">#FORMAÇÃO</small>
+            <span style="color:#777">•</span>
+            <time datetime="2025-11-24" style="color:#777">24 de novembro de 2025</time>
+          </div>
+        </div>
+        <!-- imagem removida conforme solicitado -->
+      </div>
+      <!-- divisor decorativo removido conforme solicitado -->
     </div>
 
-    <article class="card materia">
+    <article class="card materia" style="max-width:980px;margin:18px auto;padding:28px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.06);">
 
       <section id="materia-content">
         <h2>1. Introdução: quando a música se torna oração</h2>
@@ -76,8 +137,8 @@
         <p>Assim, cantar na liturgia é mais do que executar uma melodia: é participar do mistério da comunhão entre o humano e o divino. E quando o canto se cala, o silêncio permanece — porque o verdadeiro canto continua dentro da alma, onde Deus habita, e onde a música nunca cessa.</p>
       </section>
 
-      <div style="margin-top:18px">
-        <a class="btn outline" href="../index.html">Voltar</a>
+      <div style="margin-top:18px;display:flex;gap:12px;justify-content:flex-end;">
+        <a class="btn outline" href="/index.html">Voltar</a>
       </div>
     </article>
   </main>
@@ -89,3 +150,4 @@
   <script src="../scripts/script.js"></script>
 </body>
 </html>
+

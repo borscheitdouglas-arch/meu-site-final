@@ -1,0 +1,333 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>1º Domingo do Advento - Entrada | A Vós Senhor elevo a minha alma</title>
+  <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Tema escuro inspirado na referência */
+    :root{--bg:#151515;--panel:#1f1f1f;--muted:#9a9a9a;--accent:#e6e6e6;--accent-2:#c9a56a}
+    html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .wrap{max-width:1100px;margin:0 auto;padding:30px 20px}
+
+    .content{display:grid;grid-template-columns: 1fr 320px;gap:28px;align-items:start;padding-left:64px}
+    @media(max-width:1400px){.content{grid-template-columns:1fr 320px}}
+    @media(max-width:1200px){.content{grid-template-columns:1fr 320px}}
+    @media(max-width:980px){.content{grid-template-columns:1fr 300px}}
+    @media(max-width:820px){.content{grid-template-columns:1fr;padding-bottom:36px}}
+
+    .player{background:transparent}
+    .video-frame{position:relative;background:linear-gradient(180deg, rgba(255,234,179,0.02), rgba(0,0,0,0.6));border-radius:6px;overflow:hidden;box-shadow:none;aspect-ratio:16/9;min-height:420px}
+    .video-frame::before{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;background:radial-gradient(ellipse at top center, rgba(214,168,79,0.22) 0%, rgba(214,168,79,0.12) 12%, rgba(26,26,26,0) 60%)}
+    .video-frame iframe{width:100%;height:100%;border:0;display:block}
+
+    /* Video stage: poster, custom controls and embedded player */
+    .video-stage{position:relative;width:100%;height:100%}
+    /* Regras do player antigo removidas (poster, controles custom, progress). */
+
+    @media(max-width:1100px){.video-frame{aspect-ratio:16/9}}
+    @media(max-width:820px){.video-frame{aspect-ratio:16/9}}
+
+    .meta-row{display:flex;align-items:center;gap:12px;margin-top:14px;color:var(--muted);font-size:0.95rem}
+    .meta-row .dot{width:8px;height:1px;background:rgba(255,255,255,0.06);flex:0 0 auto}
+
+    h1.title{font-family:Georgia, serif;font-size:2rem;margin:14px 0 8px;color:var(--accent);font-weight:700}
+    .excerpt{color:var(--muted);line-height:1.7;font-size:1rem;max-width:880px;font-family:Georgia, serif}
+
+    /* Sidebar */
+    .sidebar{position:relative}
+    .list{display:flex;flex-direction:column;gap:12px}
+    .item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:6px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));}
+    .item .thumb{width:110px;height:62px;background:#111;border-radius:4px;overflow:hidden;flex-shrink:0}
+    .item .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .item .info{flex:1}
+    .item .info a{color:var(--accent);font-weight:600;text-decoration:none}
+    .item .info .sub{display:block;color:var(--muted);font-size:0.88rem;margin-top:6px}
+
+    /* Bottom spacing similar to reference */
+    .spacer{height:44px}
+
+    /* Faixa branca com botão de download (estende largura total) */
+    /* Partitura: fundo vermelho escuro (ajustado para #180000), texto branco e Playfair */
+    .white-section{background:#180000;color:#fff;position:relative;border-top:0}
+    .white-section::before{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg, rgba(212,175,55,0.95), rgba(212,175,55,0.6));border-radius:2px}
+    .white-inner{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;gap:12px;background:transparent;border-radius:6px}
+    /* Partitura: usar Cinzel bold para título, meta e botão */
+    .white-inner .left{font-size:1.05rem;color:#fff;font-family:'Cinzel', Georgia, serif;font-weight:700;line-height:1.08}
+    .white-inner .left strong{display:block;font-size:1.35rem;font-weight:700;letter-spacing:0.4px;font-family:'Cinzel', Georgia, serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .white-inner .left .meta{font-size:1.02rem;margin-top:8px;color:#fff;font-weight:700;font-family:'Cinzel', Georgia, serif;opacity:0.98}
+    .white-inner .right a{display:inline-block}
+    /* Bloco devocional: fundo amarelo claro e texto escuro */
+    .white-text{max-width:980px;margin:12px auto 28px;color:#180000;line-height:1.75;padding:18px 20px;background:#ffe7c5;border-radius:8px;font-family:'Playfair Display', serif}
+    .white-text h3{font-size:1.02rem;margin-top:14px;color:#180000;font-weight:700}
+    .white-text blockquote{border-left:4px solid #caa75a;padding-left:12px;margin:12px 0;color:#6b4d26;font-style:italic;background:transparent;padding-top:8px;padding-bottom:8px}
+    .white-text .cite{display:block;color:#8a6b3a;font-size:0.85rem;margin-top:6px}
+
+    /* Botão dourado na faixa de partitura */
+    .white-inner .right .btn{background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;font-family:'Cinzel', Georgia, serif;box-shadow:0 8px 22px rgba(217,166,73,0.14);transition:transform .12s ease,box-shadow .18s ease,filter .18s ease;text-shadow:0 1px 0 rgba(0,0,0,0.25)}
+    .white-inner .right .btn:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(214,168,79,0.32),0 0 36px rgba(214,168,79,0.2);filter:brightness(1.08)}
+
+    /* divider between download block and devotional text */
+    .white-divider{border:0;height:2px;background:linear-gradient(90deg, rgba(212,175,55,0.95), rgba(212,175,55,0.6));margin:18px 0;border-radius:2px}
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
+    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="header-actions">
+      <a class="icon-btn" href="/pages/loja.html" title="Loja">
+        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="/pages/contato.html" title="Contato">
+        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <!-- SIDE NAV (cópia para permitir o menu lateral) -->
+  <nav id="side-nav" class="side-nav" aria-hidden="true">
+    <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
+
+    <div class="side-nav-hero" aria-hidden="true">
+      <div class="menu-frame">
+        <img src="../assets/img/1.jpg" alt="Imagem do menu">
+      </div>
+    </div>
+
+    <ul>
+    <li><a href="../index.html" class="menu-item inicio">Início</a></li>
+    <li><a href="../pages/formacoes.html" class="menu-item formacoes">Formações</a></li>
+      
+      <li>
+        <details>
+          <summary class="menu-item advento">Advento</summary>
+            <ul>
+            <li><a href="advento-1-video.html">1º Domingo do Advento</a></li>
+            <li><a href="advento-2.html">2º Domingo do Advento</a></li>
+            <li><a href="advento-3.html">3º Domingo do Advento</a></li>
+            <li><a href="advento-4.html">4º Domingo do Advento</a></li>
+          </ul>
+        </details>
+      </li>
+      
+      <li>
+        <details>
+          <summary class="menu-item natal">Natal</summary>
+          <ul>
+            <li><a href="../pages/natal-noite.html">Missa da Noite</a></li>
+            <li><a href="../pages/natal-aurora.html">Missa da Aurora</a></li>
+            <li><a href="../pages/natal-dia.html">Missa do Dia</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item quaresma">Quaresma</summary>
+          <ul>
+            <li><a href="../pages/quaresma-1.html">1º Domingo da Quaresma</a></li>
+            <li><a href="../pages/quaresma-2.html">2º Domingo da Quaresma</a></li>
+            <li><a href="../pages/quaresma-3.html">3º Domingo da Quaresma</a></li>
+            <li><a href="../pages/quaresma-4.html">4º Domingo da Quaresma</a></li>
+            <li><a href="../pages/quaresma-5.html">5º Domingo da Quaresma</a></li>
+            <li><a href="../pages/quaresma-ramos.html">Domingo de Ramos</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item pascoa">Páscoa</summary>
+          <ul>
+            <li><a href="../pages/pascoa-vigilia.html">Vigília Pascal</a></li>
+            <li><a href="../pages/pascoa-1.html">Domingo da Páscoa</a></li>
+            <li><a href="../pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
+            <li><a href="../pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
+            <li><a href="../pages/pascoa-4.html">4º Domingo da Páscoa</a></li>
+            <li><a href="../pages/pascoa-5.html">5º Domingo da Páscoa</a></li>
+            <li><a href="../pages/pascoa-6.html">6º Domingo da Páscoa</a></li>
+            <li><a href="../pages/pascoa-ascensao.html">Ascensão do Senhor</a></li>
+            <li><a href="../pages/pascoa-pentecostes.html">Pentecostes</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item tempo-comum">Tempo Comum</summary>
+          <ul>
+            <!-- 1..34 -->
+            <li><a href="../pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
+            <li><a href="../pages/tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+          </ul>
+        </details>
+      </li>
+      <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
+      <li class="menu-ordinario">
+        <details>
+          <summary class="menu-item ordinario">Ordinário da missa</summary>
+          <ul>
+            <li><a href="../pages/kyrie.html">Kyrie</a></li>
+            <li><a href="../pages/gloria.html">Gloria</a></li>
+            <li><a href="../pages/sanctus.html">Sanctus</a></li>
+            <li><a href="../pages/agnus-dei.html">Agnus Dei</a></li>
+            <li><a href="../pages/pater-noster.html">Pater noster / Pai nosso</a></li>
+            <li><a href="../pages/ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+  <div id="nav-overlay" class="nav-overlay" hidden></div>
+
+  <div class="wrap">
+    <div class="content">
+      <main class="player" role="main">
+        <div class="video-frame" role="region" aria-label="Vídeo principal do 1º Domingo do Advento">
+          <div class="video-embed" style="position:relative;padding-top:56.25%;">
+            <iframe
+              src="https://www.youtube.com/embed/JjGXATuQobQ?start=1&rel=0&controls=1"
+              title="1° Domingo do Advento - Entrada"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+            ></iframe>
+          </div>
+        </div>
+        <!-- metadados removidos conforme solicitado -->
+        <h1 class="title">1° Domingo do Advento - Entrada | "A Vós Senhor elevo a minha alma"</h1>
+
+        <p class="excerpt">Neste vídeo celebramos o 1° Domingo do Advento, momento em que a Igreja inicia uma caminhada sagrada rumo ao encontro com o Senhor que vem. O Advento nos convida a despertar o coração, a vigiar com amor e a renovar nossa confiança na promessa de Deus, que sempre visita o seu povo.</p>
+
+        <div class="spacer"></div>
+      </main>
+
+      <aside class="sidebar" role="complementary" aria-label="Vídeos relacionados">
+        <div style="color:var(--muted);font-weight:600;margin-bottom:12px">Próximos vídeos</div>
+
+        <div class="list">
+          <article class="item">
+            <a class="thumb" href="https://youtu.be/JjGXATuQobQ" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.youtube.com/vi/JjGXATuQobQ/hqdefault.jpg" alt="Miniatura: Comunhão - O Senhor nos dará">
+            </a>
+            <div class="info">
+              <a href="https://youtu.be/JjGXATuQobQ" target="_blank" rel="noopener noreferrer">1° Domingo do Advento - Comunhão | “O Senhor nos dará”</a>
+              <span class="sub">Comunhão • Homilia Diária • YouTube</span>
+            </div>
+          </article>
+
+          <!-- mais itens podem ser adicionados aqui -->
+
+        </div>
+      </aside>
+    </div>
+  </div>
+  <!-- Faixa branca com botão para baixar partitura -->
+  <section class="white-section" aria-label="Partitura e recursos">
+    <div class="white-inner">
+      <div class="left">
+        <strong>Partitura: 1° Domingo do Advento — Entrada</strong>
+        <div class="meta">Disponível para download em PDF</div>
+      </div>
+      <div class="right">
+        <a class="btn outline" href="../assets/partituras/1%20-%20Advento/1%C2%B0%20Domingo%20do%20Advento/1%C2%B0Domingo_do_Advento-Entrada.pdf" download>Baixar partitura</a>
+      </div>
+    </div>
+    <hr class="white-divider" aria-hidden="true">
+    <div class="white-text">
+      <p>No silêncio expectante do Advento, ergue-se um chamado antigo e santo: vigiar e orar, como fazem os santos Padres da Igreja em seus escritos. <span class="cite">diocesedemaraba.com.br</span> É um tempo de espera vigilante, não apenas pelo aniversário da Encarnação, mas pela vinda definitiva do Senhor.</p>
+
+      <h3>I. O Advento segundo os Santos</h3>
+
+      <p>São João da Cruz, místico e doutor da Igreja, nos apresenta, em seu poema Romances, uma visão profunda do Advento:</p>
+
+      <blockquote>“Quando foi chegado o tempo / Em que de nascer havia, / Assim como o desposado, / Do seu tálamo saía …”</blockquote>
+      <span class="cite">ChurchPOP Português • uploads.weconnect.com</span>
+
+      <p>Ele usa a imagem do desposório para descrever a vinda de Cristo: o Filho, o Noivo, saindo do “tálamo” do Pai para encontrar a Esposa — a Igreja, a humanidade. <span class="cite">Carmelitas Descalços</span></p>
+
+      <p>São João da Cruz prossegue, contemplando a humildade da Encarnação:</p>
+
+      <blockquote>“Abraçado à sua esposa … a bendita Mãe / Em um presépio poria / Entre pobres animais …”</blockquote>
+      <span class="cite">ChurchPOP Português</span>
+
+      <p>Neste contraste — Deus infante entre animais, o desposório celebrado por homens e anjos — ele capta o mistério sublime de que o amor divino assume forma frágil para nos redimir.</p>
+
+      <p>Ele também medita sobre o paradoxo da encarnação:</p>
+
+      <blockquote>“O pranto do homem em Deus, / E no homem a alegria; / Coisas que num e no outro / Tão diferente ser soía.”</blockquote>
+      <span class="cite">ChurchPOP Português</span>
+
+      <p>É o santo eco de que em Cristo estamos chamados a uma troca misteriosa: Ele chora por nós, e em nós encontramos, paradoxalmente, a fonte de alegria.</p>
+
+      <p>Essa visão advém de uma teologia muito profunda: Deus torna-se humano para que a humanidade seja desposada ao divino, para que a Esposa (a Igreja, cada alma) seja restaurada. <span class="cite">Carmelitas Descalços</span></p>
+
+      <h3>II. O canto gregoriano como expressão litúrgica dessa espera</h3>
+
+      <p>Mas como traduzir essa espera mística em som? Aqui entra o canto gregoriano, patrimônio vivo da tradição litúrgica da Igreja. A Constituição <em>Sacrosanctum Concilium</em>, do Concílio Vaticano II, afirma que:</p>
+
+      <blockquote>“A tradição musical da Igreja é um tesouro de inestimável valor … o canto sagrado, intimamente unido com o texto, constitui parte necessária ou integrante da Liturgia solene.”</blockquote>
+      <span class="cite">Vaticano</span>
+
+      <p>Não é à toa que os documentos magisteriais da Igreja insistem numa música sacra que reflita a majestade de Deus, a santidade do culto e a universalidade da fé. O Papa Pio XII, na encíclica <em>Musicae Sacrae Disciplina</em>, fala disso claramente: o canto gregoriano, pelas suas melodias simples mas profundamente elevadas, “instila doçura na alma … por meios musicais simples e fáceis, mas permeados de tão sublime e santa arte.” <span class="cite">Vaticano</span></p>
+
+      <p>Essa “doçura” evocada no canto gregoriano dialoga com o espírito do Advento: o canto litúrgico não é mero ornamento, mas oração vocal, vigília em forma de melodia. Cada nota, cada sílaba latente, pode ser entendida como vela acesa na escuridão, uma oferenda à espera do Noivo divino.</p>
+
+      <h3>III. A união mística entre Advento e canto sacro</h3>
+
+      <p>Quando contemplamos, com São João da Cruz, o mistério da vinda de Cristo — o Filho que se faz homem, ajoelhado no presépio — devemos ser também como os cantores da antiga Igreja: guardas da melodia, vigilantes do mistério através do canto.</p>
+
+      <p>O Advento nos convida a preparar o coração.</p>
+
+      <p>O canto gregoriano nos ajuda a moldar esse coração na sobriedade, na reverência e na harmonia com o sublime.</p>
+
+      <p>E os santos, especialmente São João da Cruz, nos guiam para uma compreensão mais alta: a alma deve tornar-se uma casa para o Esposo, assim como Maria acolheu o Verbo no seu seio.</p>
+
+      <p>Nesse encontro — entre vigilância, oração, música e mistério — descobrimos que o Advento é mais do que expectativa: é participação na história do amor trinitário, através de melodias antigas que nos recordam quem somos e para quem vivemos.</p>
+    </div>
+  </section>
+
+  <!-- Video embed: iframe simples do YouTube (inserido diretamente) -->
+  <script src="../scripts/script.js"></script>
+</body>
+</html>
+
+

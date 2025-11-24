@@ -1,8 +1,76 @@
 ﻿// script.js - funÃ§Ãµes: carrossel, dark-mode e animaÃ§Ãµes simples
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Remover o botão de alternância do modo escuro (🌙) de todas as páginas
+  try{
+    const darkBtn = document.getElementById('dark-toggle');
+    if(darkBtn) darkBtn.parentNode && darkBtn.remove();
+  }catch(e){}
+
+  // Insere o cabeçalho padrão a partir do `index.html` caso esteja ausente
+  async function ensureHeader(){
+    const existing = document.querySelector('.site-header');
+    if(existing && existing.querySelector('.header-actions') && existing.querySelector('.header-actions').querySelector('.icon-btn')) return;
+    const candidates = ['../index.html','/index.html','index.html'];
+    for(const path of candidates){
+      try{
+        const res = await fetch(path);
+        if(!res.ok) continue;
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const srcHeader = doc.querySelector('.site-header');
+        if(srcHeader){
+          // Remover possível botão dark-toggle do cabeçalho importado
+          const imported = srcHeader.cloneNode(true);
+          const importedDark = imported.querySelector('#dark-toggle');
+          if(importedDark) importedDark.remove();
+
+          if(existing){
+            existing.parentNode.replaceChild(imported, existing);
+          } else {
+            document.body.insertAdjacentElement('afterbegin', imported);
+          }
+          // normalizar possíveis hrefs relativos
+          try{
+            const anchors = document.querySelectorAll('.site-header a[href]');
+            anchors.forEach(a => {
+              const href = a.getAttribute('href');
+              if(!href) return;
+              if(href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.match(/^https?:\/\//i) || href.startsWith('/')) return;
+              try{ const u = new URL(href, location.origin + '/'); a.setAttribute('href', u.pathname + u.search + u.hash); }catch(e){}
+            });
+          }catch(e){}
+        }
+        break;
+      }catch(err){ continue; }
+    }
+  }
+
+  // Popular automaticamente a seção de destaques a partir de pages/pages.json
+  async function loadAutoHighlights(){
+    const container = document.querySelector('.articles');
+    if(!container) return;
+    try{
+      const res = await fetch('/pages/pages.json');
+      if(!res.ok) return;
+      const items = await res.json();
+      if(!Array.isArray(items) || items.length === 0) return;
+      // construir HTML simples de cards
+      const html = [];
+      html.push('<h2>DESTAQUES DA SEMANA</h2>');
+      for(const it of items.slice(0,6)){
+        const thumb = it.thumb || '/assets/img/thumbnails.jpg';
+        const tag = it.tag ? `<small class="tag">${it.tag}</small>` : '';
+        const excerpt = it.excerpt ? `<p>${it.excerpt}</p>` : '';
+        const actions = `\n<div class="card-actions">\n<a class="btn" href="${it.url}">Abrir matéria</a>\n${it.download?`<a class="btn outline" href="${it.download}" download>Baixar partitura</a>`:''}\n</div>`;
+        html.push(`<article class="list-card">\n<img src="${thumb}" alt="${it.title}">\n<div class="card-body">\n${tag}\n<h3>${it.title}</h3>\n${excerpt}\n${actions}\n</div>\n</article>`);
+      }
+      container.innerHTML = html.join('\n');
+    }catch(e){ /* silencioso */ }
+  }
   // SIDE NAV: garantir que o markup do menu exista em TODAS as pÃ¡ginas
-  const menuBtn = document.getElementById('menu-btn');
+  let menuBtn; // será (re)consultado após possíveis substituições do cabeçalho
   let sideNav = document.getElementById('side-nav');
   let navOverlay = document.getElementById('nav-overlay');
 
@@ -74,7 +142,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   await ensureSideNav();
+  await ensureHeader();
+  await loadAutoHighlights();
 
+  // (re)obter referências a elementos que podem ter sido inseridos/substituídos
+  menuBtn = document.getElementById('menu-btn');
+  sideNav = document.getElementById('side-nav') || sideNav;
+  navOverlay = document.getElementById('nav-overlay') || navOverlay;
   const closeNav = document.getElementById('close-nav');
 
   function openNav(){
