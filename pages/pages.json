@@ -1,18 +1,18 @@
 [
   {
-    "title": "1º Domingo do Advento — Homilia e Partitura",
+    "title": "1° Domingo do Advento - Entrada | \"A Vós Senhor elevo a minha alma\"",
     "url": "pages/advento-1-video.html",
-    "thumb": "/assets/img/thumbnails.jpg",
+    "thumb": "/assets/capas-partituras/1 - Advento/1° Domingo do Advento/Thumbanail-Advento-Entrada.png",
     "tag": "#PARTITURA E LITURGIA",
-    "excerpt": "Vídeo e partitura para o 1º Domingo do Advento. Clique para ver o vídeo e baixar a partitura.",
-    "download": "assets/partituras/01-Advento-1.pdf"
+    "excerpt": "O Advento nos convida a despertar o coração, a vigiar com amor e a renovar nossa confiança na promessa de Deus, que sempre visita o seu povo.",
+    "hasPartitura": true
   },
   {
-    "title": "Matéria formativa — Título provisório",
+    "title": "O Canto como Oração e Parte da Liturgia",
     "url": "pages/materia-nova.html",
-    "thumb": "/assets/img/thumbnails.jpg",
+    "thumb": "/assets/img/Materia 1.jpg",
     "tag": "#FORMAÇÃO",
-    "excerpt": "Conteúdo formativo — clique no botão para abrir a página completa."
+    "excerpt": "A voz que se torna oração — reflexão sobre o papel do canto na vida litúrgica e espiritual da Igreja."
   }
 ]
 

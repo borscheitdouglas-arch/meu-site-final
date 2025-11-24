@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const thumb = it.thumb || '/assets/img/thumbnails.jpg';
         const tag = it.tag ? `<small class="tag">${it.tag}</small>` : '';
         const excerpt = it.excerpt ? `<p>${it.excerpt}</p>` : '';
-        const actions = `\n<div class="card-actions">\n<a class="btn" href="${it.url}">Abrir matéria</a>\n${it.download?`<a class="btn outline" href="${it.download}" download>Baixar partitura</a>`:''}\n</div>`;
+        const downloadIndicator = it.hasPartitura ? `<span class="partitura-indicator">→ Partitura disponível</span>` : '';
+        const actions = `\n<div class="card-actions">\n<a class="btn" href="${it.url}">Abrir matéria</a>\n${downloadIndicator}\n${it.download?`<a class="btn outline" href="${it.download}" download>Baixar partitura</a>`:''}\n</div>`;
         html.push(`<article class="list-card">\n<img src="${thumb}" alt="${it.title}">\n<div class="card-body">\n${tag}\n<h3>${it.title}</h3>\n${excerpt}\n${actions}\n</div>\n</article>`);
       }
       container.innerHTML = html.join('\n');

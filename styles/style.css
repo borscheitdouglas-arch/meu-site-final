@@ -1018,6 +1018,32 @@ body.dark{ --bg:#121213; --text:#e9e9e9; --card:#161617; --muted:#bbbbbb; }
 .list-card .card-actions .btn{padding:8px 12px}
 .list-card .card-actions .btn.outline{border-color:#d4af37;color:#d4af37;background:transparent}
 
+/* Partitura indicator: golden shiny text with arrow pointing left */
+.partitura-indicator{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:'EB Garamond', serif;
+  font-weight:700;
+  font-size:0.95rem;
+  color:#d4af37;
+  background:linear-gradient(135deg, #d4af37, #f4c542, #d4af37);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  text-shadow:0 0 8px rgba(212,175,55,0.4);
+  letter-spacing:0.3px;
+  margin-left:8px;
+}
+
+.partitura-indicator::before{
+  content:"→";
+  -webkit-text-fill-color:#d4af37;
+  color:#d4af37;
+  font-size:1.1rem;
+  filter:drop-shadow(0 0 4px rgba(212,175,55,0.5));
+}
+
 /* Reduce heavy separators elsewhere that may affect the cards area */
 .articles h2{margin-bottom:12px}
 
