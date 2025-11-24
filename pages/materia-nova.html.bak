@@ -12,18 +12,18 @@
   <style>
     /* Página matéria: estilo local para ficar similar à referência enviada */
     body {
-      background: #210806; /* marrom muito escuro */
-      color: #ffffff; /* texto branco na área vermelha */
+      background: #210806; /* marrom muito escuro / área vermelha */
+      color: #ffffff; /* textos fora do cartão devem ser brancos */
     }
     main.container { padding: 48px 20px; display:block; }
-    .materia-hero { max-width:980px; margin:34px auto 18px; padding:28px 20px; }
+    .materia-hero { max-width:980px; margin:34px auto 18px; padding:28px 20px; color: #ffffff; }
     h1#materia-title { color:#ffffff; font-size:36px; letter-spacing:0.3px; }
-    .meta { color:#6b5b47; font-style:italic; }
+    .meta { color:#e6d9c8; font-style:italic; }
 
     /* cartão de leitura central */
     article.card.materia {
-      background: #f6e6cf; /* bege claro */
-      color: #2b1a10;
+      background: #f6e6cf; /* bege claro (área amarela-claro) */
+      color: #000000; /* texto preto dentro do cartão */
       max-width:980px;
       margin:18px auto;
       padding:40px 48px;
@@ -34,8 +34,8 @@
     }
 
     /* conteúdo */
-    #materia-content h2 { font-size:20px; margin-top:28px; color:#2b1a10; }
-    #materia-content p { color:#2b1a10; font-size:16px; }
+    #materia-content h2 { font-size:20px; margin-top:28px; color:#000000; }
+    #materia-content p { color:#000000; font-size:16px; }
     #materia-content ul { margin-left:1.05rem; }
 
     /* bloco de citação estilizado (caso existam blockquotes) */
