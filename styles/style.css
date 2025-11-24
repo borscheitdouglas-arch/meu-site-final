@@ -1037,7 +1037,7 @@ body.dark{ --bg:#121213; --text:#e9e9e9; --card:#161617; --muted:#bbbbbb; }
 }
 
 .partitura-indicator::before{
-  content:"→";
+  content:"←";
   -webkit-text-fill-color:#d4af37;
   color:#d4af37;
   font-size:1.1rem;
