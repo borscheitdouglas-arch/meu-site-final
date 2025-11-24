@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿// script.js - funções: carrossel, dark-mode e animações simples
 
 // Carrega dinamicamente o script do AdSense caso ainda não esteja presente.
@@ -12,9 +11,6 @@
     document.head.appendChild(s);
   }catch(e){}
 })();
-=======
-﻿// script.js - funÃ§Ãµes: carrossel, dark-mode e animaÃ§Ãµes simples
->>>>>>> 0e0d43e0e0b08274ad14cb2ce2a043b05224f578
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Remover o botão de alternância do modo escuro (🌙) de todas as páginas
