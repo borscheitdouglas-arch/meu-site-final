@@ -1,0 +1,198 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vigília Pascal — Meu Site</title>
+  <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
+  <link rel="shortcut icon" href="/assets/img/icone.png">
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <header class="site-header">
+    <button id="menu-btn" class="menu-btn">â˜°</button>
+    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="header-actions">
+      <a class="icon-btn" href="/pages/loja.html" title="Loja">
+        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="/pages/contato.html" title="Contato">
+        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+    <!-- SIDE NAV -->
+    <nav id="side-nav" class="side-nav" aria-hidden="true">
+      <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
+
+      <!-- Imagem do menu (campo superior) -->
+      <div class="side-nav-hero" aria-hidden="true">
+        <div class="menu-frame">
+          <img src="/assets/img/1.jpg" alt="Imagem do menu">
+        </div>
+      </div>
+
+      <ul>
+      <li><a href="/index.html" class="menu-item inicio">Início</a></li>
+      <li><a href="/pages/formacoes.html" class="menu-item formacoes">Formações</a></li>
+      
+        <li>
+          <details>
+            <summary class="menu-item advento">Advento</summary>
+            <ul>
+              <li><a href="/pages/advento-1.html">1º Domingo do Advento</a></li>
+              <li><a href="/pages/advento-2.html">2º Domingo do Advento</a></li>
+              <li><a href="/pages/advento-3.html">3º Domingo do Advento</a></li>
+              <li><a href="/pages/advento-4.html">4º Domingo do Advento</a></li>
+            </ul>
+          </details>
+        </li>
+      
+        <li>
+          <details>
+            <summary class="menu-item natal">Natal</summary>
+            <ul>
+              <li><a href="/pages/natal-noite.html">Missa da Noite</a></li>
+              <li><a href="/pages/natal-aurora.html">Missa da Aurora</a></li>
+              <li><a href="/pages/natal-dia.html">Missa do Dia</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary class="menu-item quaresma">Quaresma</summary>
+            <ul>
+              <li><a href="/pages/quaresma-1.html">1º Domingo da Quaresma</a></li>
+              <li><a href="/pages/quaresma-2.html">2º Domingo da Quaresma</a></li>
+              <li><a href="/pages/quaresma-3.html">3º Domingo da Quaresma</a></li>
+              <li><a href="/pages/quaresma-4.html">4º Domingo da Quaresma</a></li>
+              <li><a href="/pages/quaresma-5.html">5º Domingo da Quaresma</a></li>
+              <li><a href="/pages/quaresma-ramos.html">Domingo de Ramos</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary class="menu-item pascoa">Páscoa</summary>
+            <ul>
+              <li><a href="/pages/pascoa-vigilia.html">Vigília Pascal</a></li>
+              <li><a href="/pages/pascoa-1.html">Domingo da Páscoa</a></li>
+              <li><a href="/pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
+              <li><a href="/pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
+              <li><a href="/pages/pascoa-4.html">4º Domingo da Páscoa</a></li>
+              <li><a href="/pages/pascoa-5.html">5º Domingo da Páscoa</a></li>
+              <li><a href="/pages/pascoa-6.html">6º Domingo da Páscoa</a></li>
+              <li><a href="/pages/pascoa-ascensao.html">Ascensão do Senhor</a></li>
+              <li><a href="/pages/pascoa-pentecostes.html">Pentecostes</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary class="menu-item tempo-comum">Tempo Comum</summary>
+            <ul>
+              <li><a href="/pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
+              <li><a href="/pages/tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+            </ul>
+          </details>
+        </li>
+        <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
+        <li class="menu-ordinario">
+          <details>
+            <summary class="menu-item ordinario">Ordinário da missa</summary>
+            <ul>
+              <li><a href="/pages/kyrie.html">Kyrie</a></li>
+              <li><a href="/pages/gloria.html">Gloria</a></li>
+              <li><a href="/pages/sanctus.html">Sanctus</a></li>
+              <li><a href="/pages/agnus-dei.html">Agnus Dei</a></li>
+              <li><a href="/pages/pater-noster.html">Pater noster / Pai nosso</a></li>
+              <li><a href="/pages/ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="nav-overlay" class="nav-overlay" hidden></div>
+
+  <main>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap');
+      :root{--gold:#D4AF37;--text:#F1EFEF}
+      body{margin:0;font-family:Cardo, 'Playfair Display', serif;background:linear-gradient(180deg,#fff7e8 0%, #f3e6c8 6%, rgba(212,175,55,0.06) 20%, #f0e6d0 40%);}
+      .page-wrap{min-height:calc(100vh - var(--header-height,48px)); display:flex; align-items:center; justify-content:center; padding:48px 16px 36px}
+      .notice-card{width:100%; max-width:780px; background:transparent; border-radius:10px; padding:48px; box-sizing:border-box; position:relative; text-align:center}
+      .notice-inner{background:rgba(10,8,6,0.88); border-radius:10px; padding:44px; box-sizing:border-box; color:var(--text); border:1px solid rgba(212,175,55,0.36); box-shadow:0 12px 40px rgba(0,0,0,0.5)}
+      .arabesco-top{width:100%; height:48px; background-image:url('../assets/img/ediÃ§Ãµes-para-o-site/arabesco-medieval-divider.svg'); background-repeat:no-repeat; background-position:center; background-size:contain; opacity:0.96; margin-bottom:18px}
+      .arabesco-bottom{width:100%; height:40px; background-image:url('../assets/img/ediÃ§Ãµes-para-o-site/arabesco-medieval-divider.svg'); background-repeat:no-repeat; background-position:center; background-size:contain; opacity:0.86; margin-top:18px}
+      .icon{font-size:46px; color:var(--gold); display:block; margin:0 auto 12px; line-height:1}
+      .title{font-family:'Playfair Display', 'Cardo', serif; color:var(--gold); font-size:28px; margin:6px 0 14px}
+      .message{color:var(--text); font-size:16px; line-height:1.7; max-width:700px; margin:0 auto}
+      .footer-note{margin-top:18px;color:rgba(241,239,239,0.86); font-size:0.95rem}
+      @media(max-width:520px){.notice-inner{padding:28px}.title{font-size:20px}.icon{font-size:36px}}
+    </style>
+
+    <div class="page-wrap">
+      <div class="notice-card">
+        <div class="notice-inner" role="status" aria-live="polite">
+          <div class="arabesco-top" aria-hidden="true"></div>
+          <div class="icon" aria-hidden="true">✠</div>
+          <h1 class="title">Conteúdo em Preparação — Vigília Pascal</h1>
+          <div class="message">
+            <p>O material da Vigília Pascal está sendo preparado e revisado cuidadosamente.</p>
+            <p>Em breve disponibilizaremos as partituras e orientações para execução.</p>
+            <p>Retorne mais tarde para acessar os recursos completos.</p>
+          </div>
+          <div class="footer-note">Obrigado por sua paciência e interesse.</div>
+          <div class="arabesco-bottom" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer"><p>Â© 2025 Meu Site. Todos os direitos reservados.</p></footer>
+  <script src="../scripts/script.js"></script>
+</body>
+</html>
+
+
+
+
+
+

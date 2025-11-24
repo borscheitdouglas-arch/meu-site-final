@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="goldA" x1="0%" x2="100%">
+      <stop offset="0%" stop-color="#f7df9a"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Outer wreath -->
+  <g fill="none" stroke="url(#goldA)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)">
+    <path d="M60 8 C80 8, 108 18, 108 44 C108 72, 86 92, 60 92 C34 92, 12 72, 12 44 C12 18, 40 8, 60 8 Z" opacity="0.98"/>
+  </g>
+
+  <!-- central ornate plus -->
+  <g transform="translate(60,60)" fill="url(#goldA)" stroke="#8a6b10" stroke-width="0.8">
+    <rect x="-3.5" y="-26" width="7" height="52" rx="2"/>
+    <rect x="-26" y="-3.5" width="52" height="7" rx="2"/>
+    <!-- small terminals -->
+    <circle cx="0" cy="-34" r="4"/>
+    <circle cx="0" cy="34" r="4"/>
+    <circle cx="-34" cy="0" r="4"/>
+    <circle cx="34" cy="0" r="4"/>
+    <circle cx="0" cy="0" r="5" fill="#fff8e6" opacity="0.9"/>
+  </g>
+
+  <!-- delicate inner details -->
+  <g fill="#fff6e6" opacity="0.06">
+    <ellipse cx="60" cy="34" rx="6" ry="2" transform="rotate(-10 60 34)" />
+    <ellipse cx="60" cy="26" rx="8" ry="3" transform="rotate(6 60 26)" />
+  </g>
+</svg>
