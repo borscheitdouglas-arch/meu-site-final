@@ -602,6 +602,7 @@ body.nav-open .side-nav-hero{display:none}
   }
 }
 .header-actions{display:flex; align-items:center; gap:8px}
+.header-actions a{text-decoration:none}
 .icon-btn{background:none; border:none; cursor:pointer; font-size:18px}
 /* make icon + label act as a single column group */
 .icon-btn{display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:4px}
