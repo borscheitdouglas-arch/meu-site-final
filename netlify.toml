@@ -1,7 +1,0 @@
-# Netlify config - publica o site a partir do diretório raiz
-[build]
-  publish = "."
-  command = ""
-
-[context.production.environment]
-# coloque aqui variáveis de ambiente se necessário
