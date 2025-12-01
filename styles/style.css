@@ -1464,7 +1464,7 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   color: #fff1c0 !important;
 }
 
-/* ========== Mobile Optimization (não afeta desktop) ========== */
+/* ========== Mobile Optimization COMPLETA (não afeta desktop) ========== */
 @media(max-width: 768px){
   /* Header menor e mais compacto */
   .site-header{
@@ -1482,13 +1482,17 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   }
   
   /* Ícones do header menores */
+  .header-actions{
+    gap: 8px;
+  }
+  
   .header-actions .icon-img{
     width: 20px;
     height: 20px;
   }
   
   .header-actions .icon-label{
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
   
   /* Search box menor */
@@ -1498,38 +1502,6 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
     padding: 4px 8px;
   }
   
-  /* Cards da página inicial menores */
-  .list-card{
-    padding: 12px;
-    margin-bottom: 12px;
-  }
-  
-  .list-card img{
-    width: 100%;
-    height: 160px;
-    margin-bottom: 10px;
-  }
-  
-  .list-card h3{
-    font-size: 1.1rem;
-    margin: 8px 0;
-  }
-  
-  .list-card p{
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-  
-  .list-card .tag{
-    font-size: 0.75rem;
-  }
-  
-  /* Botões menores */
-  .btn, .list-card .card-actions .btn{
-    padding: 8px 14px;
-    font-size: 0.85rem;
-  }
-  
   /* Banner hero menor */
   .hero-banner{
     height: 180px;
@@ -1537,55 +1509,193 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   
   .hero-banner img{
     height: 180px;
+    object-fit: cover;
   }
   
   /* Container com menos padding */
   .container{
-    padding: 12px;
+    padding: 16px 12px;
     gap: 16px;
   }
   
-  /* Títulos menores */
+  /* Main articles section */
+  .articles{
+    padding: 0;
+  }
+  
+  .articles h2{
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Cards da página inicial - OTIMIZADO */
+  .list-card{
+    flex-direction: column;
+    padding: 0;
+    margin-bottom: 16px;
+    border-radius: 10px;
+  }
+  
+  .list-card img{
+    width: 100%;
+    height: 180px;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 0;
+  }
+  
+  .list-card .card-body{
+    padding: 18px 16px;
+  }
+  
+  .list-card h3{
+    font-size: 1.2rem;
+    margin: 8px 0 10px;
+    line-height: 1.3;
+  }
+  
+  .list-card p{
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  
+  .list-card .tag{
+    font-size: 0.7rem;
+    padding: 3px 10px;
+  }
+  
+  /* Botões mobile-friendly (min 44px altura) */
+  .btn, .list-card .card-actions .btn{
+    padding: 12px 18px;
+    font-size: 0.9rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .list-card .card-actions{
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  
+  .list-card .card-actions .btn{
+    width: 100%;
+  }
+  
+  /* Títulos responsivos */
   h1{
     font-size: 1.6rem;
+    line-height: 1.3;
   }
   
   h2{
     font-size: 1.4rem;
+    line-height: 1.3;
   }
   
   h3{
     font-size: 1.2rem;
+    line-height: 1.3;
   }
   
   /* Side nav ajustado */
   .side-nav{
     width: 85%;
-    max-width: 300px;
+    max-width: 320px;
+  }
+  
+  .side-nav-hero{
+    height: 150px;
   }
   
   .side-nav-hero img{
-    height: 140px;
+    height: 150px;
+  }
+  
+  .side-nav ul{
+    padding: 12px 8px;
+  }
+  
+  .side-nav a, .side-nav summary{
+    font-size: 0.95rem;
+    padding: 10px 12px;
   }
   
   /* Homily/aside menor */
   .homily{
     padding: 12px;
+    margin-top: 20px;
+  }
+  
+  .homily-qrcode-wrap{
+    margin-bottom: 12px;
+  }
+  
+  .homily-qrcode{
+    max-width: 200px;
   }
   
   .homily img, .video-card img{
-    max-height: 180px;
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
   }
   
   /* Footer compacto */
   .site-footer{
-    padding: 12px;
+    padding: 16px 12px;
     font-size: 0.85rem;
+  }
+  
+  /* Seção branca de partitura */
+  .white-section{
+    padding: 0;
+  }
+  
+  .white-inner{
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 16px;
+    gap: 14px;
+  }
+  
+  .white-inner .left strong{
+    font-size: 1.1rem;
+  }
+  
+  .white-inner .left .meta{
+    font-size: 0.9rem;
+  }
+  
+  .white-inner .right{
+    width: 100%;
+  }
+  
+  .white-inner .right .btn{
+    width: 100%;
+    text-align: center;
+  }
+  
+  .white-text{
+    padding: 16px 14px;
+    font-size: 0.95rem;
+  }
+  
+  .white-text h3{
+    font-size: 1.05rem;
+  }
+  
+  .white-text blockquote{
+    font-size: 0.9rem;
+    padding: 8px 0 8px 10px;
   }
   
   /* Card de contato responsivo */
   main.container > section{
-    padding: 40px 24px 30px !important;
+    padding: 30px 20px !important;
+    border-radius: 8px;
   }
   
   main.container > section h1{
@@ -1594,6 +1704,18 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   
   main.container > section p{
     font-size: 0.95rem !important;
+    line-height: 1.6;
+  }
+  
+  /* Formulário de contato */
+  form input, form textarea, form select{
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+  
+  form button{
+    min-height: 44px;
+    font-size: 0.95rem;
   }
 }
 
@@ -1601,28 +1723,74 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   /* Ajustes extras para celulares muito pequenos */
   .site-header{
     padding: 6px 10px;
+    height: 52px;
+  }
+  
+  body{
+    padding-top: 52px;
   }
   
   .logo img{
     height: 32px;
   }
   
+  .header-actions .icon-label{
+    display: none;
+  }
+  
+  .header-actions .icon-btn{
+    padding: 4px 6px;
+  }
+  
   #search{
-    width: 80px;
-    font-size: 0.8rem;
+    width: 70px;
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+  
+  .hero-banner{
+    height: 150px;
+  }
+  
+  .hero-banner img{
+    height: 150px;
+  }
+  
+  .container{
+    padding: 12px 10px;
+  }
+  
+  .articles h2{
+    font-size: 1.2rem;
+  }
+  
+  .list-card{
+    margin-bottom: 14px;
+  }
+  
+  .list-card img{
+    height: 160px;
+  }
+  
+  .list-card .card-body{
+    padding: 14px 12px;
   }
   
   .list-card h3{
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   
   .list-card p{
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
   
-  .btn{
-    padding: 6px 12px;
-    font-size: 0.8rem;
+  .list-card .tag{
+    font-size: 0.65rem;
+  }
+  
+  .btn, .list-card .card-actions .btn{
+    padding: 10px 16px;
+    font-size: 0.85rem;
   }
   
   h1{
@@ -1633,8 +1801,274 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
     font-size: 1.2rem;
   }
   
+  h3{
+    font-size: 1.05rem;
+  }
+  
+  .white-inner{
+    padding: 16px 12px;
+  }
+  
+  .white-inner .left strong{
+    font-size: 1rem;
+  }
+  
+  .white-text{
+    padding: 14px 12px;
+    font-size: 0.9rem;
+  }
+  
   main.container > section{
-    padding: 30px 18px 24px !important;
+    padding: 24px 16px !important;
+  }
+  
+  main.container > section h1{
+    font-size: 1.3rem !important;
+  }
+}
+
+/* ========== OTIMIZAÇÕES MOBILE PARA FEATURES PREMIUM ========== */
+@media(max-width: 768px){
+  /* Hero Section - INDEX */
+  .hero-main-title{
+    font-size: 1.8rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .hero-subtitle{
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    max-width: 95% !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .hero-section .btn{
+    padding: 12px 24px !important;
+    font-size: 0.95rem !important;
+  }
+  
+  /* Linha decorativa dourada */
+  .linha-decorativa{
+    margin: 16px 0 !important;
+  }
+  
+  /* Navegação Litúrgica - Cards em grid */
+  .liturgy-nav-title{
+    font-size: 1.4rem !important;
+    margin: 24px 0 18px !important;
+  }
+  
+  .liturgy-cards-grid{
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    margin-bottom: 30px !important;
+  }
+  
+  .liturgy-card{
+    padding: 18px 16px !important;
+    text-align: left !important;
+  }
+  
+  .liturgy-card .emoji{
+    font-size: 2rem !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .liturgy-card h3{
+    font-size: 1.2rem !important;
+    margin: 0 !important;
+  }
+  
+  /* Containers de Vídeo Premium */
+  .video-premium-container{
+    padding: 20px 14px !important;
+    margin: 20px 0 !important;
+  }
+  
+  .video-premium-container iframe{
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9;
+  }
+  
+  .video-premium-container h2{
+    font-size: 1.3rem !important;
+    line-height: 1.3 !important;
+    margin-top: 16px !important;
+  }
+  
+  .video-premium-container .subtitle{
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Cards da Sidebar (Entrada/Comunhão) */
+  .sidebar-premium-card{
+    margin: 20px 0 !important;
+    padding: 0 !important;
+  }
+  
+  .sidebar-premium-card .card-badge{
+    font-size: 0.7rem !important;
+    padding: 4px 12px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .sidebar-premium-card img{
+    width: 100% !important;
+    height: 160px !important;
+    border-radius: 8px 8px 0 0 !important;
+  }
+  
+  .sidebar-premium-card .card-content{
+    padding: 16px 14px !important;
+  }
+  
+  .sidebar-premium-card h3{
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .sidebar-premium-card .citation{
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 14px !important;
+  }
+  
+  .sidebar-premium-card .cta-button{
+    width: 100% !important;
+    padding: 12px 20px !important;
+    font-size: 0.9rem !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+  
+  /* Cards de partitura (advento-1-video.html) */
+  .partitura-card{
+    flex-direction: column !important;
+    padding: 16px 14px !important;
+    text-align: center !important;
+  }
+  
+  .partitura-card img{
+    width: 70px !important;
+    height: auto !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .partitura-card .card-info{
+    text-align: center !important;
+  }
+  
+  .partitura-card h3{
+    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .partitura-card p{
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Seção Destaques */
+  .destaques-title{
+    font-size: 1.4rem !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+@media(max-width: 480px){
+  /* Hero Section - Telas muito pequenas */
+  .hero-main-title{
+    font-size: 1.5rem !important;
+    margin-bottom: 14px !important;
+  }
+  
+  .hero-subtitle{
+    font-size: 0.9rem !important;
+    margin-bottom: 18px !important;
+  }
+  
+  .hero-section .btn{
+    padding: 10px 20px !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Navegação Litúrgica */
+  .liturgy-nav-title{
+    font-size: 1.2rem !important;
+    margin: 20px 0 16px !important;
+  }
+  
+  .liturgy-cards-grid{
+    gap: 12px !important;
+  }
+  
+  .liturgy-card{
+    padding: 16px 14px !important;
+  }
+  
+  .liturgy-card .emoji{
+    font-size: 1.8rem !important;
+  }
+  
+  .liturgy-card h3{
+    font-size: 1.1rem !important;
+  }
+  
+  /* Containers de Vídeo */
+  .video-premium-container{
+    padding: 16px 12px !important;
+  }
+  
+  .video-premium-container h2{
+    font-size: 1.2rem !important;
+  }
+  
+  .video-premium-container .subtitle{
+    font-size: 0.85rem !important;
+  }
+  
+  /* Sidebar Cards */
+  .sidebar-premium-card img{
+    height: 140px !important;
+  }
+  
+  .sidebar-premium-card .card-content{
+    padding: 14px 12px !important;
+  }
+  
+  .sidebar-premium-card h3{
+    font-size: 1rem !important;
+  }
+  
+  .sidebar-premium-card .citation{
+    font-size: 0.85rem !important;
+  }
+  
+  .sidebar-premium-card .cta-button{
+    padding: 10px 18px !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Cards de partitura */
+  .partitura-card img{
+    width: 60px !important;
+  }
+  
+  .partitura-card h3{
+    font-size: 1rem !important;
+  }
+  
+  .partitura-card p{
+    font-size: 0.85rem !important;
+  }
+  
+  /* Destaques */
+  .destaques-title{
+    font-size: 1.2rem !important;
   }
 }
 

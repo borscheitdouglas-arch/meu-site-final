@@ -167,26 +167,40 @@
   <!-- HERO SECTION - Identidade e missão do site -->
   <section style="background:linear-gradient(135deg, rgba(31,31,31,0.98) 0%, rgba(21,21,21,1) 100%);padding:60px 20px;text-align:center;border-bottom:2px solid rgba(212,175,55,0.3);">
     <div style="max-width:900px;margin:0 auto;">
-      <h1 style="font-family:'Cinzel',Georgia,serif;font-size:2.8rem;color:#d4af37;margin:0 0 20px;letter-spacing:1.5px;text-shadow:0 2px 16px rgba(212,175,55,0.3);font-weight:700;">Canto Gregoriano & Liturgia</h1>
-      <p style="font-size:1.2rem;color:#b8b8b8;line-height:1.8;margin:0 0 35px;font-family:Georgia,serif;">Partituras, formações e conteúdo devocional para enriquecer a celebração litúrgica segundo a tradição da Igreja</p>
+      <h1 class="hero-main-title" style="font-family:'Cinzel',Georgia,serif;font-size:2.8rem;color:#d4af37;margin:0 0 20px;letter-spacing:1.5px;text-shadow:0 2px 16px rgba(212,175,55,0.3);font-weight:700;">Canto Gregoriano & Liturgia</h1>
+      <p class="hero-subtitle" style="font-size:1.2rem;color:#b8b8b8;line-height:1.8;margin:0 0 35px;font-family:Georgia,serif;">Partituras, formações e conteúdo devocional para enriquecer a celebração litúrgica segundo a tradição da Igreja</p>
       
       <!-- Linha decorativa -->
-      <div style="display:flex;align-items:center;gap:20px;margin:0 auto 35px;max-width:500px;">
+      <div class="hero-divider" style="display:flex;align-items:center;gap:20px;margin:0 auto 35px;max-width:500px;">
         <div style="flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
         <div style="width:8px;height:8px;background:#d4af37;transform:rotate(45deg);box-shadow:0 0 10px rgba(212,175,55,0.5);"></div>
         <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
       </div>
       
-      <a href="#destaques" style="display:inline-block;background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:16px 40px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1.05rem;font-family:'Cinzel',Georgia,serif;box-shadow:0 8px 24px rgba(217,166,73,0.2);transition:all .3s ease;letter-spacing:0.5px;">Explorar Conteúdo</a>
+      <a href="#destaques" class="hero-cta-btn" style="display:inline-block;background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:16px 40px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1.05rem;font-family:'Cinzel',Georgia,serif;box-shadow:0 8px 24px rgba(217,166,73,0.2);transition:all .3s ease;letter-spacing:0.5px;">Explorar Conteúdo</a>
     </div>
+    
+    <style>
+      @media(max-width:768px){
+        .hero-main-title{font-size:1.8rem!important;letter-spacing:0.8px!important;margin-bottom:16px!important}
+        .hero-subtitle{font-size:1rem!important;line-height:1.6!important;margin-bottom:28px!important}
+        .hero-divider{max-width:300px!important;margin-bottom:28px!important}
+        .hero-cta-btn{padding:14px 32px!important;font-size:0.95rem!important}
+      }
+      @media(max-width:480px){
+        .hero-main-title{font-size:1.5rem!important}
+        .hero-subtitle{font-size:0.95rem!important}
+        .hero-cta-btn{padding:12px 28px!important;font-size:0.9rem!important}
+      }
+    </style>
   </section>
 
   <!-- NAVEGAÇÃO LITÚRGICA - Cards de categorias -->
   <section style="background:#151515;padding:50px 20px;">
     <div style="max-width:1200px;margin:0 auto;">
-      <h2 style="font-family:'Cinzel',Georgia,serif;font-size:2rem;color:#d4af37;text-align:center;margin:0 0 40px;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25);">Navegue por Tempo Litúrgico</h2>
+      <h2 class="liturgy-nav-title" style="font-family:'Cinzel',Georgia,serif;font-size:2rem;color:#d4af37;text-align:center;margin:0 0 40px;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25);">Navegue por Tempo Litúrgico</h2>
       
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;">
+      <div class="liturgy-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;">
         <!-- Card Advento -->
         <a href="pages/advento-1-video.html" style="text-decoration:none;background:linear-gradient(135deg, rgba(31,31,31,0.98), rgba(21,21,21,1));border:1px solid rgba(138,43,226,0.3);border-radius:12px;padding:30px 20px;text-align:center;transition:all .3s ease;position:relative;overflow:hidden;">
           <div style="font-size:3rem;margin-bottom:15px;">🕯️</div>
@@ -223,6 +237,22 @@
         </a>
       </div>
     </div>
+    
+    <style>
+      @media(max-width:768px){
+        .liturgy-nav-title{font-size:1.5rem!important;margin-bottom:30px!important}
+        .liturgy-cards-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))!important;gap:16px!important}
+        .liturgy-cards-grid a{padding:20px 12px!important}
+        .liturgy-cards-grid a div:first-child{font-size:2.2rem!important;margin-bottom:10px!important}
+        .liturgy-cards-grid a h3{font-size:1.1rem!important}
+        .liturgy-cards-grid a p{font-size:0.8rem!important}
+      }
+      @media(max-width:480px){
+        .liturgy-nav-title{font-size:1.3rem!important}
+        .liturgy-cards-grid{grid-template-columns:1fr 1fr!important;gap:12px!important}
+        .liturgy-cards-grid a{padding:16px 10px!important}
+      }
+    </style>
   </section>
 
   <!-- CONTEÚDO: artigos e homilia -->
