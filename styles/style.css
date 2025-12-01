@@ -935,50 +935,183 @@ body.dark{ --bg:#121213; --text:#e9e9e9; --card:#161617; --muted:#bbbbbb; }
   .product-card img{height:140px}
 }
 
-/* ======== Visual improvements for cards (requested) ======== */
-/* Apply dark background, subtle golden border, shadow, spacing, and typography tweaks */
+/* ======== PREMIUM CARD STYLING - Transformação completa ======== */
 .list-card{
-  /* keep layout/sizes but increase inner spacing */
-  padding:22px; /* slightly larger padding for 'respiro' */
-  background:#161616; /* very dark grey background for contrast */
-  border-radius:8px;
-  border:1px solid rgba(212,175,55,0.12); /* subtle golden border */
-  box-shadow:0 8px 18px rgba(0,0,0,0.30); /* soft shadow below cards */
-  margin-bottom:18px; /* keep vertical rhythm */
-  align-items:flex-start; /* ensure top alignment */
+  padding:0;
+  background:linear-gradient(135deg, rgba(31,31,31,0.98) 0%, rgba(21,21,21,1) 100%);
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,0.3);
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  margin-bottom:24px;
+  align-items:stretch;
+  transition:all .3s ease;
+  overflow:hidden;
+  position:relative;
+}
+
+.list-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at top left, rgba(212,175,55,0.08) 0%, transparent 50%);
+  pointer-events:none;
+  opacity:0.8;
+  z-index:0;
+}
+
+.list-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(212,175,55,0.2), 0 0 40px rgba(212,175,55,0.1);
+  border-color:rgba(212,175,55,0.6);
 }
 
 /* Remove white divider lines under cards from any previous rules */
 .list-card[style], .list-card{border-bottom:none}
 
-/* Keep image sizes unchanged but ensure they remain visually the same */
-.list-card img{width:220px; height:130px; object-fit:cover; border-radius:6px}
+/* Image with overlay */
+.list-card img{
+  width:280px;
+  height:100%;
+  min-height:200px;
+  object-fit:cover;
+  border-radius:0;
+  position:relative;
+  z-index:1;
+}
 
 /* Card body spacing (internal) */
-.list-card .card-body{padding-left:8px}
+.list-card .card-body{
+  flex:1;
+  padding:28px 32px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+  z-index:2;
+}
 
-/* Category/tag: reduced opacity for less emphasis */
-.list-card .tag{opacity:0.72; color:#d4af37; font-weight:700}
+/* Category/tag: vibrant golden */
+.list-card .tag{
+  display:inline-block;
+  background:rgba(212,175,55,0.15);
+  border:1px solid rgba(212,175,55,0.4);
+  color:#d4af37;
+  font-weight:700;
+  font-size:0.75rem;
+  padding:4px 12px;
+  border-radius:4px;
+  letter-spacing:0.8px;
+  text-transform:uppercase;
+  font-family:'Cinzel',Georgia,serif;
+  margin-bottom:8px;
+}
 
-/* Titles: stronger weight but same size */
-.list-card h3, .list-card .card-body h3{font-weight:700; margin:8px 0}
+/* Titles: refined typography */
+.list-card h3, .list-card .card-body h3{
+  font-family:'Cinzel',Georgia,serif;
+  font-weight:700;
+  font-size:1.5rem;
+  margin:0 0 12px 0;
+  color:#e6e6e6;
+  letter-spacing:0.3px;
+  line-height:1.3;
+}
 
-/* Description: slightly less contrast */
-.list-card p{color:rgba(255,255,255,0.78); margin:0}
+/* Description: clearer text */
+.list-card p{
+  color:#b8b8b8;
+  margin:0 0 auto 0;
+  line-height:1.7;
+  font-size:1.05rem;
+}
 
-/* Buttons: primary remains red (var(--accent)), secondary outlined becomes golden */
-.list-card .card-actions .btn{margin-right:10px}
-.list-card .card-actions .btn.outline{border-color:#d4af37;color:#d4af37;background:transparent}
-.list-card .card-actions .btn.outline:hover{background:rgba(212,175,55,0.06)}
+/* Card actions */
+.list-card .card-actions{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
 
-/* Make sure small meta text is a bit more muted */
-.list-card .small, .list-card .meta{color:rgba(255,255,255,0.72)}
+/* Primary button: premium golden style */
+.list-card .card-actions .btn{
+  background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);
+  color:#fff;
+  padding:12px 24px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:0.95rem;
+  font-family:'Cinzel',Georgia,serif;
+  box-shadow:0 6px 18px rgba(217,166,73,0.18);
+  transition:all .3s ease;
+  text-shadow:0 1px 0 rgba(0,0,0,0.3);
+  border:none;
+  letter-spacing:0.5px;
+  display:inline-block;
+}
 
-/* Responsive: keep spacing but reduce padding on small screens */
+.list-card .card-actions .btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 28px rgba(214,168,79,0.32), 0 0 30px rgba(214,168,79,0.2);
+  filter:brightness(1.1);
+}
+
+/* Secondary button: elegant outline */
+.list-card .card-actions .btn.outline{
+  background:transparent;
+  border:2px solid rgba(212,175,55,0.5);
+  color:#d4af37;
+  box-shadow:none;
+}
+
+.list-card .card-actions .btn.outline:hover{
+  background:rgba(212,175,55,0.12);
+  border-color:rgba(212,175,55,0.8);
+  box-shadow:0 6px 18px rgba(212,175,55,0.15);
+  transform:translateY(-2px);
+}
+
+/* Badge "Partitura disponível" - elegant design */
+.list-card .card-actions small{
+  color:#d4af37;
+  font-size:0.85rem;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:Georgia,serif;
+}
+
+.list-card .card-actions small::before{
+  content:'←';
+  font-size:1.1rem;
+  opacity:0.8;
+}
+
+/* Make sure small meta text is golden */
+.list-card .small, .list-card .meta{
+  color:#d4af37;
+  font-weight:600;
+}
+
+/* Responsive: stack image on top on small screens */
 @media(max-width:900px){
-  .list-card{padding:16px}
-  .list-card img{height:200px;width:100%}
-  .list-card .card-body{padding-left:0}
+  .list-card{
+    flex-direction:column;
+  }
+  .list-card img{
+    width:100%;
+    height:220px;
+    min-height:220px;
+  }
+  .list-card .card-body{
+    padding:24px 20px;
+  }
+  .list-card h3, .list-card .card-body h3{
+    font-size:1.3rem;
+  }
 }
 
 /* Ensure no extra bright borders from other rules interfere */
