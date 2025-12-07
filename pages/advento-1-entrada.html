@@ -544,9 +544,27 @@
       <div class="closing-cta">
         <p class="cta-prompt">Deseja continuar sua jornada devocional?</p>
         <div class="cta-links">
-          <a href="../pages/advento-1.html" class="cta-button">Próximas meditações</a>
+          <a href="../formacoes.html" class="cta-button">Próximas meditações</a>
           <a href="/" class="cta-button secondary">Voltar ao calendário</a>
         </div>
+      </div>
+
+      <!-- Seção QRCode -->
+      <div class="closing-divider" style="margin-top: 48px;"></div>
+      
+      <div class="qrcode-section">
+        <p class="qrcode-message">Leve a paz do Advento com você</p>
+        
+        <div class="qrcode-container">
+          <div class="qrcode-frame">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://meu-site-final.vercel.app/pages/formacoes.html" 
+                 alt="QRCode para Formações" 
+                 class="qrcode-image"
+                 title="Escaneie para acessar as formações">
+          </div>
+        </div>
+        
+        <p class="qrcode-subtitle">Escaneie para explorar<br>nossas formações espirituais</p>
       </div>
     </div>
   </section>
@@ -639,6 +657,71 @@
       background: transparent;
     }
 
+    /* QRCode Section */
+    .qrcode-section {
+      margin-top: 32px;
+      animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+
+    .qrcode-message {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: #caa75a;
+      margin: 0 0 32px 0;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .qrcode-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .qrcode-frame {
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.1), rgba(202,167,90,0.05));
+      border: 2px solid rgba(202,167,90,0.3);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(202,167,90,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .qrcode-frame:hover {
+      border-color: rgba(202,167,90,0.6);
+      box-shadow: 0 12px 48px rgba(202,167,90,0.25);
+      transform: translateY(-4px);
+    }
+
+    .qrcode-image {
+      display: block;
+      width: 200px;
+      height: 200px;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .qrcode-subtitle {
+      font-size: 0.9rem;
+      color: #9a9a9a;
+      line-height: 1.6;
+      margin: 0;
+      letter-spacing: 0.3px;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @media (max-width: 768px) {
       .closing-section {
         padding: 48px 16px;
@@ -661,6 +744,23 @@
       .cta-button {
         width: 100%;
         text-align: center;
+      }
+
+      .qrcode-message {
+        font-size: 1.2rem;
+      }
+
+      .qrcode-frame {
+        padding: 20px;
+      }
+
+      .qrcode-image {
+        width: 180px;
+        height: 180px;
+      }
+
+      .qrcode-subtitle {
+        font-size: 0.85rem;
       }
     }
   </style>
