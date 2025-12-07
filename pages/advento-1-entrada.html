@@ -523,5 +523,146 @@
       });
     });
   </script>
+
+  <!-- Seção de encerramento contemplativo -->
+  <section class="closing-section">
+    <div class="closing-container">
+      <div class="closing-divider"></div>
+      
+      <div class="closing-content">
+        <h3 class="closing-title">Prepare seu coração</h3>
+        <p class="closing-text">
+          O Advento nos convida a despertar, a nos preparar espiritualmente para a vinda de Cristo. 
+          Que este tempo de espera fecunde em nós a esperança, a vigilância e a profunda alegria de 
+          um Deus que vem ao nosso encontro.
+        </p>
+      </div>
+
+      <div class="closing-divider"></div>
+
+      <!-- CTA Sutil -->
+      <div class="closing-cta">
+        <p class="cta-prompt">Deseja continuar sua jornada devocional?</p>
+        <div class="cta-links">
+          <a href="../pages/advento-1.html" class="cta-button">Próximas meditações</a>
+          <a href="/" class="cta-button secondary">Voltar ao calendário</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Seção de encerramento */
+    .closing-section {
+      background: linear-gradient(180deg, rgba(21,21,21,0), rgba(21,21,21,0.5));
+      padding: 64px 20px;
+      margin-top: 80px;
+      border-top: 1px solid rgba(202,167,90,0.15);
+    }
+
+    .closing-container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .closing-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.5), transparent);
+      margin: 0 auto 32px;
+    }
+
+    .closing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #e6e6e6;
+      margin: 0 0 20px 0;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .closing-text {
+      font-size: 1.05rem;
+      color: #9a9a9a;
+      line-height: 1.85;
+      margin: 0 0 40px 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-style: italic;
+    }
+
+    .closing-cta {
+      margin-top: 48px;
+    }
+
+    .cta-prompt {
+      font-size: 0.95rem;
+      color: #9a9a9a;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .cta-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 12px 32px;
+      border: 1px solid #caa75a;
+      color: #caa75a;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .cta-button:hover {
+      background: rgba(202,167,90,0.1);
+      color: #e6e6e6;
+      border-color: #e6e6e6;
+    }
+
+    .cta-button.secondary {
+      border-color: rgba(202,167,90,0.3);
+      color: #9a9a9a;
+    }
+
+    .cta-button.secondary:hover {
+      border-color: #caa75a;
+      color: #caa75a;
+      background: transparent;
+    }
+
+    @media (max-width: 768px) {
+      .closing-section {
+        padding: 48px 16px;
+        margin-top: 60px;
+      }
+
+      .closing-title {
+        font-size: 1.5rem;
+      }
+
+      .closing-text {
+        font-size: 1rem;
+      }
+
+      .cta-links {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .cta-button {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
 </body>
 </html>
