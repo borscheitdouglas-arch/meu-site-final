@@ -340,24 +340,6 @@
         <h1 class="title">1º Domingo do Advento - Entrada | "A Vós Senhor elevo a minha alma"</h1>
 
         <!-- Excerpt em card destacado -->
-        <div class="excerpt-card">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#d4af37" stroke-width="1.5">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <p>Neste vídeo celebramos o 1º Domingo do Advento, momento em que a Igreja inicia uma caminhada sagrada rumo ao encontro com o Senhor que vem. O Advento nos convida a despertar o coração, a vigiar com amor e a renovar nossa confiança na promessa de Deus, que sempre visita o seu povo.</p>
-        </div>
-
-        <!-- Table of Contents -->
-        <div class="toc fade-in-up">
-          <h3>📑 Índice de conteúdo</h3>
-          <ul>
-            <li><a href="#secao-1">O Advento segundo os Santos</a></li>
-            <li><a href="#secao-2">O canto gregoriano na liturgia</a></li>
-            <li><a href="#secao-3">A união mística do Advento e canto sacro</a></li>
-          </ul>
-        </div>
-
-        <div class="spacer"></div>
       </main>
 
       <aside class="sidebar" role="complementary" aria-label="Recursos complementares">
@@ -506,20 +488,12 @@
     }, observerOptions);
 
     // Observe all elements with fade-in-up class and other animated sections
-    document.querySelectorAll('.toc, .social-share, .sidebar-section').forEach(el => {
+    document.querySelectorAll('.social-share, .sidebar-section').forEach(el => {
       observer.observe(el);
     });
 
     // Smooth scroll para links do TOC
-    document.querySelectorAll('.toc a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
+    // (removido - índice foi removido)
 
     // Navigation links smoothing
     document.querySelectorAll('a[href^="#"]').forEach(link => {

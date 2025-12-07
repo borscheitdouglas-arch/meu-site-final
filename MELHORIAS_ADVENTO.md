@@ -25,11 +25,8 @@ Agora com **3 seções principais**:
 - 📥 **Downloads** - Acesso rápido à partitura em PDF
 - 🎓 **Saiba Mais** - Informações complementares
 
-### 4. **Índice de Conteúdo (TOC)** ✓
-- Índice interativo com links internos
-- Navegação para as 3 seções principais
-- Smooth scroll para cada seção
-- Ícone visual destacado (📑)
+### 4. **Índice de Conteúdo (TOC)** ✓ ~~REMOVIDO~~
+~~Índice interativo com links internos~~
 
 ### 5. **Navegação Entre Domingos** ✓ ~~REMOVIDO~~
 ~~Botões Previous/Next~~
