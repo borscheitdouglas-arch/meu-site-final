@@ -394,6 +394,538 @@
     </div>
   </section>
 
+  <!-- Seção de encerramento contemplativo -->
+  <section class="closing-section">
+    <div class="closing-container">
+      <div class="closing-divider"></div>
+      
+      <div class="closing-content">
+        <h3 class="closing-title">Prepare seu coração</h3>
+        <p class="closing-text">
+          O Advento nos convida a despertar, a nos preparar espiritualmente para a vinda de Cristo. 
+          Que este tempo de espera fecunde em nós a esperança, a vigilância e a profunda alegria de 
+          um Deus que vem ao nosso encontro.
+        </p>
+      </div>
+
+      <div class="closing-divider"></div>
+
+      <!-- CTA Sutil -->
+      <div class="closing-cta">
+        <p class="cta-prompt">Deseja continuar sua jornada devocional?</p>
+        <div class="cta-links">
+          <a href="formacoes.html" class="cta-button">Próximas meditações</a>
+          <a href="/" class="cta-button secondary">Voltar ao calendário</a>
+        </div>
+      </div>
+
+      <!-- QRCode belíssimo -->
+      <div class="qrcode-section">
+        <h3 class="qrcode-message">
+          <svg class="pix-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="15" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="2" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="15" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.8"/>
+          </svg>
+          Apoie nossa missão
+        </h3>
+        <p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
+        
+        <div class="qrcode-container">
+          <img src="../assets/img/qrcode-pix-oficial.png" alt="QRCode para formações espirituais" class="qrcode-image">
+        </div>
+
+        <!-- PIX Key Section -->
+        <div class="pix-key-section">
+          <p class="pix-key-label">Ou copie a chave PIX:</p>
+          <div class="pix-key-container">
+            <span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
+            <button class="copy-button" onclick="copyPixKey()" title="Copiar chave PIX">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="copy-text">Copiar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Seção de encerramento */
+    .closing-section {
+      background: linear-gradient(180deg, rgba(21,21,21,0), rgba(21,21,21,0.5));
+      padding: 64px 20px;
+      margin-top: 80px;
+      border-top: 1px solid rgba(202,167,90,0.15);
+    }
+
+    .closing-container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .closing-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.5), transparent);
+      margin: 0 auto 32px;
+    }
+
+    .closing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #e6e6e6;
+      margin: 0 0 20px 0;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .closing-text {
+      font-size: 1.05rem;
+      color: #9a9a9a;
+      line-height: 1.85;
+      margin: 0 0 40px 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-style: italic;
+    }
+
+    .closing-cta {
+      margin-top: 40px;
+      margin-bottom: 32px;
+    }
+
+    .cta-prompt {
+      font-size: 0.9rem;
+      color: #9a9a9a;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .cta-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 11px 28px;
+      border: 1px solid #caa75a;
+      color: #caa75a;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      border-radius: 4px;
+    }
+
+    .cta-button:hover {
+      background: rgba(202,167,90,0.1);
+      color: #e6e6e6;
+      border-color: #e6e6e6;
+    }
+
+    .cta-button.secondary {
+      border-color: rgba(202,167,90,0.3);
+      color: #9a9a9a;
+    }
+
+    .cta-button.secondary:hover {
+      border-color: #caa75a;
+      color: #caa75a;
+      background: transparent;
+    }
+
+    /* QRCode Section */
+    .qrcode-section {
+      margin-top: 20px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(202,167,90,0.1);
+      animation: fadeInUp 0.6s ease 0.3s both;
+    }
+
+    .qrcode-message {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #e6e6e6;
+      margin: 0 0 8px 0;
+      font-weight: 400;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .pix-icon {
+      width: 32px;
+      height: 32px;
+      color: #caa75a;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(202,167,90,0.2));
+      transition: all 0.3s ease;
+    }
+
+    .qrcode-section:hover .pix-icon {
+      transform: scale(1.1) rotate(5deg);
+      filter: drop-shadow(0 4px 8px rgba(202,167,90,0.35));
+    }
+
+    .qrcode-subtitle {
+      font-size: 0.85rem;
+      color: #9a9a9a;
+      margin: 0 0 24px 0;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .qrcode-container {
+      display: inline-block;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.05), rgba(202,167,90,0.02));
+      border: 1.5px solid rgba(202,167,90,0.25);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(202,167,90,0.08);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qrcode-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.4), transparent, rgba(202,167,90,0.2));
+      border-radius: 16px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .qrcode-container:hover {
+      border-color: rgba(202,167,90,0.5);
+      box-shadow: 0 15px 50px rgba(202,167,90,0.15), 0 0 30px rgba(202,167,90,0.12);
+      transform: translateY(-6px);
+      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03));
+    }
+
+    .qrcode-container:hover::before {
+      opacity: 1;
+    }
+
+    .qrcode-image {
+      display: block;
+      width: 260px;
+      height: 260px;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 8px;
+      image-rendering: pixelated;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+    }
+
+    /* PIX Key Section */
+    .pix-key-section {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(202,167,90,0.15);
+      animation: fadeInUp 0.6s ease 0.5s both;
+    }
+
+    .pix-key-label {
+      font-size: 0.9rem;
+      color: #9a9a9a;
+      margin: 0 0 16px 0;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .pix-key-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.02));
+      border: 1.5px solid rgba(202,167,90,0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pix-key-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.3), transparent);
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .pix-key-container:hover {
+      border-color: rgba(202,167,90,0.4);
+      background: linear-gradient(135deg, rgba(202,167,90,0.12), rgba(202,167,90,0.04));
+    }
+
+    .pix-key-container:hover::before {
+      opacity: 1;
+    }
+
+    .pix-key-text {
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      color: #caa75a;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      flex: 1;
+    }
+
+    .copy-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #caa75a, #d4af37);
+      border: none;
+      border-radius: 8px;
+      color: #151515;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      box-shadow: 0 4px 12px rgba(202,167,90,0.2);
+      flex-shrink: 0;
+    }
+
+    .copy-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(202,167,90,0.3);
+      background: linear-gradient(135deg, #d4af37, #e6c355);
+    }
+
+    .copy-button:active {
+      transform: translateY(0);
+    }
+
+    .copy-button svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .copy-button.copied {
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+    }
+
+    .copy-text {
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .closing-section {
+        padding: 48px 16px;
+        margin-top: 60px;
+      }
+
+      .closing-title {
+        font-size: 1.5rem;
+      }
+
+      .closing-text {
+        font-size: 1rem;
+        margin-bottom: 32px;
+      }
+
+      .cta-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .cta-button {
+        width: 100%;
+        text-align: center;
+        padding: 10px 24px;
+        font-size: 0.9rem;
+      }
+
+      .closing-cta {
+        margin-bottom: 28px;
+      }
+
+      .qrcode-section {
+        margin-top: 16px;
+        padding-top: 24px;
+      }
+
+      .qrcode-message {
+        font-size: 1.3rem;
+      }
+
+      .qrcode-subtitle {
+        font-size: 0.8rem;
+        margin-bottom: 20px;
+      }
+
+      .qrcode-container {
+        padding: 20px;
+      }
+
+      .qrcode-image {
+        width: 240px;
+        height: 240px;
+      }
+
+      .pix-key-section {
+        margin-top: 24px;
+        padding-top: 24px;
+      }
+
+      .pix-key-container {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 20px;
+      }
+
+      .pix-key-text {
+        font-size: 0.9rem;
+      }
+
+      .copy-button {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 14px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .closing-section {
+        padding: 40px 14px;
+      }
+
+      .closing-title {
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+      }
+
+      .closing-text {
+        font-size: 0.95rem;
+        margin-bottom: 28px;
+        line-height: 1.7;
+      }
+
+      .cta-prompt {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+      }
+
+      .cta-links {
+        gap: 8px;
+      }
+
+      .cta-button {
+        padding: 9px 20px;
+        font-size: 0.85rem;
+      }
+
+      .closing-cta {
+        margin-bottom: 24px;
+      }
+
+      .qrcode-message {
+        font-size: 1.1rem;
+      }
+
+      .qrcode-subtitle {
+        font-size: 0.75rem;
+        margin-bottom: 16px;
+      }
+
+      .qrcode-container {
+        padding: 16px;
+      }
+
+      .qrcode-image {
+        width: 220px;
+        height: 220px;
+      }
+
+      .pix-key-label {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+      }
+
+      .pix-key-container {
+        padding: 14px 16px;
+        gap: 10px;
+      }
+
+      .pix-key-text {
+        font-size: 0.85rem;
+      }
+
+      .copy-button {
+        padding: 9px 12px;
+        font-size: 0.75rem;
+      }
+
+      .copy-button svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <script>
+    function copyPixKey() {
+      const pixKey = 'douglas.assumpcao@hotmail.com';
+      navigator.clipboard.writeText(pixKey).then(() => {
+        const button = event.target.closest('.copy-button');
+        const originalText = button.innerHTML;
+        
+        button.classList.add('copied');
+        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="copy-text">Copiado!</span>';
+        
+        setTimeout(() => {
+          button.classList.remove('copied');
+          button.innerHTML = originalText;
+        }, 2000);
+      });
+    }
+  </script>
+
   <!-- Video embed: iframe simples do YouTube (inserido diretamente) -->
   <script src="../scripts/script.js"></script>
 </body>
