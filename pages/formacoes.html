@@ -70,12 +70,16 @@
     /* Hero Section */
     .hero-section {
       text-align: center;
-      margin: 60px 0 50px;
-      padding: 40px 20px;
+      margin: 80px 0 0;
+      padding: 80px 20px 60px;
       max-width: 900px;
       margin-left: auto;
       margin-right: auto;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .hero-section::before {
@@ -85,44 +89,42 @@
       left: 50%;
       transform: translateX(-50%);
       width: 60px;
-      height: 2px;
+      height: 3px;
       background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
       margin-bottom: 24px;
     }
 
     .hero-section h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.4rem;
+      font-size: 2.8rem;
       color: var(--accent);
-      margin: 24px 0 16px;
+      margin: 32px 0 20px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
     .hero-section p {
       color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 700px;
+      font-size: 1.08rem;
+      max-width: 650px;
       margin: 0 auto;
-      line-height: 1.8;
+      line-height: 1.9;
+      font-style: italic;
     }
 
     /* Card Grid */
     .formacoes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 28px;
-      margin: 60px 0;
-      max-width: 1100px;
-      margin-left: auto;
-      margin-right: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 80px 0 60px;
+      width: 100%;
+      padding: 0 20px;
     }
 
     .formacoes-grid .meditation-card {
-      grid-column: 1 / -1;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
+      width: 100%;
+      max-width: 720px;
     }
 
     .formacao-card {
@@ -160,10 +162,14 @@
 
     /* Meditation Card Special Styling */
     .meditation-card {
-      padding: 48px 40px !important;
+      padding: 56px 48px !important;
       border: 1.5px solid rgba(202, 167, 90, 0.3);
       background: linear-gradient(135deg, rgba(202, 167, 90, 0.08) 0%, rgba(21, 21, 21, 0.5) 100%) !important;
       box-shadow: 0 8px 32px rgba(202, 167, 90, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     .meditation-card:hover {
@@ -185,9 +191,9 @@
     }
 
     .meditation-card .card-icon {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 28px;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 32px;
       box-shadow: 0 12px 24px rgba(202, 167, 90, 0.25);
     }
 
@@ -222,9 +228,10 @@
     }
 
     .meditation-card h3 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      font-size: 2.2rem;
+      margin-bottom: 24px;
       font-family: 'Playfair Display', serif;
+      letter-spacing: 0.5px;
     }
 
     .formacao-card p {
@@ -235,36 +242,37 @@
     }
 
     .meditation-card p {
-      font-size: 1rem;
-      line-height: 1.8;
+      font-size: 1.08rem;
+      line-height: 1.85;
       color: #b8b8b8;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     /* Card Features */
     .card-features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid rgba(202, 167, 90, 0.15);
+      gap: 24px;
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1.5px solid rgba(202, 167, 90, 0.2);
+      width: 100%;
     }
 
     .feature {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       text-align: center;
     }
 
     .feature-icon {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
     }
 
     .feature-text {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--muted);
       font-weight: 600;
       letter-spacing: 0.3px;
@@ -291,12 +299,13 @@
     }
 
     .card-btn.btn-primary {
-      padding: 13px 32px !important;
+      padding: 16px 48px !important;
       background: linear-gradient(135deg, var(--accent-2), var(--gold-light)) !important;
       color: var(--bg) !important;
       border: none !important;
-      font-size: 0.95rem !important;
+      font-size: 1rem !important;
       box-shadow: 0 8px 24px rgba(202, 167, 90, 0.25) !important;
+      letter-spacing: 0.5px !important;
     }
 
     .card-btn.btn-primary:hover {
@@ -307,11 +316,11 @@
 
     /* CTA Section */
     .cta-section {
-      max-width: 800px;
-      margin: 80px auto;
-      padding: 48px;
-      background: linear-gradient(135deg, rgba(202, 167, 90, 0.12) 0%, rgba(202, 167, 90, 0.05) 100%);
-      border: 1.5px solid rgba(202, 167, 90, 0.3);
+      max-width: 900px;
+      margin: 100px auto 60px;
+      padding: 64px 48px;
+      background: linear-gradient(135deg, rgba(202, 167, 90, 0.15) 0%, rgba(202, 167, 90, 0.08) 100%);
+      border: 1.5px solid rgba(202, 167, 90, 0.35);
       border-radius: 16px;
       text-align: center;
       position: relative;
@@ -332,27 +341,27 @@
 
     .cta-section h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
+      font-size: 2.2rem;
       color: var(--accent);
-      margin: 0 0 16px;
+      margin: 0 0 20px;
       font-weight: 700;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.5px;
       position: relative;
       z-index: 1;
     }
 
     .cta-section p {
       color: var(--muted);
-      font-size: 1rem;
-      margin: 0 0 28px;
-      line-height: 1.7;
+      font-size: 1.08rem;
+      margin: 0 0 32px;
+      line-height: 1.8;
       position: relative;
       z-index: 1;
     }
 
     .cta-btn {
       display: inline-block;
-      padding: 14px 40px;
+      padding: 16px 48px;
       background: linear-gradient(135deg, var(--accent-2), var(--gold-light));
       color: var(--bg);
       text-decoration: none;
@@ -361,9 +370,11 @@
       transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
       border: none;
       cursor: pointer;
-      font-size: 0.95rem;
-      letter-spacing: 0.3px;
-      box-shadow: 0 8px 20px rgba(202, 167, 90, 0.2);
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 24px rgba(202, 167, 90, 0.25);
+      position: relative;
+      z-index: 1;
       position: relative;
       z-index: 1;
     }
@@ -534,13 +545,31 @@
         padding: 24px 20px;
       }
 
+      .meditation-card {
+        padding: 40px 24px !important;
+      }
+
+      .card-features {
+        gap: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+      }
+
+      .feature-icon {
+        font-size: 1.8rem;
+      }
+
+      .meditation-card h3 {
+        font-size: 1.8rem;
+      }
+
       .cta-section {
-        padding: 36px 24px;
-        margin: 60px auto;
+        padding: 48px 24px;
+        margin: 80px auto 40px;
       }
 
       .cta-section h2 {
-        font-size: 1.4rem;
+        font-size: 1.8rem;
       }
 
       .pix-container {
@@ -563,20 +592,76 @@
     }
 
     @media (max-width: 480px) {
+      .hero-section {
+        padding: 60px 16px 40px;
+      }
+
       .hero-section h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        margin-bottom: 16px;
       }
 
       .hero-section p {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
       }
 
       .formacoes-grid {
+        margin: 60px 0 40px;
+        padding: 0 16px;
+      }
+
+      .meditation-card {
+        padding: 32px 20px !important;
+      }
+
+      .meditation-card h3 {
+        font-size: 1.6rem;
+      }
+
+      .meditation-card p {
+        font-size: 1rem;
+      }
+
+      .card-features {
         grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+      }
+
+      .feature {
+        padding: 12px 0;
+      }
+
+      .feature-icon {
+        font-size: 1.6rem;
+      }
+
+      .feature-text {
+        font-size: 0.85rem;
+      }
+
+      .card-btn.btn-primary {
+        padding: 14px 32px !important;
+        font-size: 0.95rem !important;
       }
 
       .cta-section {
-        padding: 28px 20px;
+        padding: 40px 20px;
+        margin: 60px 0 40px;
+      }
+
+      .cta-section h2 {
+        font-size: 1.6rem;
+      }
+
+      .cta-section p {
+        font-size: 0.95rem;
+      }
+
+      .cta-btn {
+        padding: 14px 36px;
+        font-size: 0.9rem;
       }
 
       .pix-container {
