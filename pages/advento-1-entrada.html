@@ -551,7 +551,16 @@
 
       <!-- QRCode belíssimo -->
       <div class="qrcode-section">
-        <h3 class="qrcode-message">💝 Apoie nossa missão</h3>
+        <h3 class="qrcode-message">
+          <svg class="pix-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="15" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="2" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="15" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.8"/>
+          </svg>
+          Apoie nossa missão
+        </h3>
         <p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
         
         <div class="qrcode-container">
@@ -666,6 +675,24 @@
       margin: 0 0 8px 0;
       font-weight: 400;
       letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .pix-icon {
+      width: 32px;
+      height: 32px;
+      color: #caa75a;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(202,167,90,0.2));
+      transition: all 0.3s ease;
+    }
+
+    .qrcode-section:hover .pix-icon {
+      transform: scale(1.1) rotate(5deg);
+      filter: drop-shadow(0 4px 8px rgba(202,167,90,0.35));
     }
 
     .qrcode-subtitle {
