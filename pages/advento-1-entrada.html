@@ -549,22 +549,16 @@
         </div>
       </div>
 
-      <!-- Seção QRCode -->
-      <div class="closing-divider" style="margin-top: 48px;"></div>
-      
+      <!-- QRCode belíssimo -->
       <div class="qrcode-section">
-        <p class="qrcode-message">Leve a paz do Advento com você</p>
+        <div class="qrcode-divider"></div>
+        
+        <h3 class="qrcode-message">✨ Leve a paz do Advento com você</h3>
+        <p class="qrcode-subtitle">Escaneie para explorar nossas formações espirituais</p>
         
         <div class="qrcode-container">
-          <div class="qrcode-frame">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://meu-site-final.vercel.app/pages/formacoes.html" 
-                 alt="QRCode para Formações" 
-                 class="qrcode-image"
-                 title="Escaneie para acessar as formações">
-          </div>
+          <img src="../assets/img/qrcode-pix-oficial.png" alt="QRCode para formações espirituais" class="qrcode-image">
         </div>
-        
-        <p class="qrcode-subtitle">Escaneie para explorar<br>nossas formações espirituais</p>
       </div>
     </div>
   </section>
@@ -659,67 +653,78 @@
 
     /* QRCode Section */
     .qrcode-section {
-      margin-top: 32px;
-      animation: fadeInUp 0.8s ease-out 0.3s both;
+      margin-top: 56px;
+      animation: fadeInUp 0.6s ease 0.3s both;
+    }
+
+    .qrcode-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.5), transparent);
+      margin: 0 auto 32px;
     }
 
     .qrcode-message {
       font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      color: #caa75a;
-      margin: 0 0 32px 0;
+      font-size: 1.4rem;
+      color: #e6e6e6;
+      margin: 0 0 8px 0;
       font-weight: 400;
       letter-spacing: 1px;
-    }
-
-    .qrcode-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-
-    .qrcode-frame {
-      padding: 24px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.1), rgba(202,167,90,0.05));
-      border: 2px solid rgba(202,167,90,0.3);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(202,167,90,0.15);
-      transition: all 0.3s ease;
-    }
-
-    .qrcode-frame:hover {
-      border-color: rgba(202,167,90,0.6);
-      box-shadow: 0 12px 48px rgba(202,167,90,0.25);
-      transform: translateY(-4px);
-    }
-
-    .qrcode-image {
-      display: block;
-      width: 200px;
-      height: 200px;
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 8px;
     }
 
     .qrcode-subtitle {
       font-size: 0.9rem;
       color: #9a9a9a;
-      line-height: 1.6;
-      margin: 0;
-      letter-spacing: 0.3px;
+      margin: 0 0 28px 0;
+      letter-spacing: 0.5px;
     }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .qrcode-container {
+      display: inline-block;
+      padding: 28px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(202,167,90,0.2);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(202,167,90,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qrcode-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.3), transparent);
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .qrcode-container:hover {
+      border-color: rgba(202,167,90,0.5);
+      box-shadow: 0 12px 48px rgba(202,167,90,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+      transform: translateY(-4px);
+    }
+
+    .qrcode-container:hover::before {
+      opacity: 1;
+    }
+
+    .qrcode-image {
+      display: block;
+      width: 280px;
+      height: 280px;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 8px;
+      image-rendering: pixelated;
     }
 
     @media (max-width: 768px) {
@@ -750,17 +755,32 @@
         font-size: 1.2rem;
       }
 
-      .qrcode-frame {
+      .qrcode-subtitle {
+        font-size: 0.85rem;
+      }
+
+      .qrcode-container {
         padding: 20px;
       }
 
       .qrcode-image {
-        width: 180px;
-        height: 180px;
+        width: 240px;
+        height: 240px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .qrcode-message {
+        font-size: 1rem;
       }
 
-      .qrcode-subtitle {
-        font-size: 0.85rem;
+      .qrcode-container {
+        padding: 16px;
+      }
+
+      .qrcode-image {
+        width: 200px;
+        height: 200px;
       }
     }
   </style>
