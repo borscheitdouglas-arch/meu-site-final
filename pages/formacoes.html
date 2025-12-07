@@ -6,11 +6,494 @@
   <meta name="description" content="Formações e cursos espirituais sobre liturgia, música sacra e espiritualidade cristã.">
   <meta name="keywords" content="formação, cursos, liturgia, música, espiritualidade">
   <title>Formações - Douglas Assumpção</title>
-  <link rel="icon" href="../assets/img/edi"es-para-o-site/icone.png" sizes="192x192">
-  <link rel="shortcut icon" href="../assets/img/edi"es-para-o-site/icone.png">
+  <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
+  <link rel="shortcut icon" href="/assets/img/icone.png">
   <link rel="stylesheet" href="../styles/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
      crossorigin="anonymous"></script>
+  <style>
+    /* Tema escuro */
+    :root {
+      --bg: #151515;
+      --panel: #1f1f1f;
+      --muted: #9a9a9a;
+      --accent: #e6e6e6;
+      --accent-2: #c9a56a;
+      --gold-light: #d4af37;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--bg);
+      color: var(--accent);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    main.container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 28px 0;
+      max-width: 980px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .breadcrumb a {
+      color: var(--accent-2);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--gold-light);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      margin: 60px 0 50px;
+      padding: 40px 20px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+      margin-bottom: 24px;
+    }
+
+    .hero-section h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: var(--accent);
+      margin: 24px 0 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-section p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* Card Grid */
+    .formacoes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      margin: 60px 0;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .formacao-card {
+      border: 1px solid rgba(202, 167, 90, 0.2);
+      border-radius: 12px;
+      padding: 32px 28px;
+      background: linear-gradient(135deg, rgba(31, 31, 31, 0.6) 0%, rgba(21, 21, 21, 0.3) 100%);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formacao-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-2), var(--gold-light), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .formacao-card:hover {
+      border-color: rgba(212, 175, 55, 0.4);
+      background: linear-gradient(135deg, rgba(31, 31, 31, 0.8) 0%, rgba(21, 21, 21, 0.5) 100%);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(202, 167, 90, 0.15);
+    }
+
+    .formacao-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--accent-2) 0%, var(--gold-light) 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 16px rgba(202, 167, 90, 0.2);
+      transition: all 0.4s ease;
+    }
+
+    .formacao-card:hover .card-icon {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 24px rgba(202, 167, 90, 0.3);
+    }
+
+    .card-icon svg {
+      width: 32px;
+      height: 32px;
+      color: var(--bg);
+      stroke-width: 2.5;
+    }
+
+    .formacao-card h3 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin: 0 0 14px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .formacao-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin: 0 0 20px;
+    }
+
+    .card-btn {
+      display: inline-block;
+      padding: 11px 28px;
+      border: 1.5px solid var(--accent-2);
+      color: var(--accent-2);
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+    }
+
+    .card-btn:hover {
+      background: var(--accent-2);
+      color: var(--bg);
+      box-shadow: 0 8px 20px rgba(202, 167, 90, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 48px;
+      background: linear-gradient(135deg, rgba(202, 167, 90, 0.12) 0%, rgba(202, 167, 90, 0.05) 100%);
+      border: 1.5px solid rgba(202, 167, 90, 0.3);
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(202, 167, 90, 0.1), transparent),
+                  radial-gradient(circle at 80% 80%, rgba(202, 167, 90, 0.05), transparent);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+      margin: 0 0 16px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-section p {
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 0 0 28px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: linear-gradient(135deg, var(--accent-2), var(--gold-light));
+      color: var(--bg);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 8px 20px rgba(202, 167, 90, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 28px rgba(202, 167, 90, 0.3);
+    }
+
+    /* PIX Section */
+    .pix-section {
+      max-width: 700px;
+      margin: 80px auto;
+      padding: 0;
+    }
+
+    .pix-container {
+      padding: 40px;
+      background: linear-gradient(135deg, rgba(202, 167, 90, 0.12) 0%, rgba(202, 167, 90, 0.05) 100%);
+      border: 1.5px solid rgba(202, 167, 90, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 24px rgba(202, 167, 90, 0.1);
+    }
+
+    .pix-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--accent-2);
+      margin: 0 0 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .pix-input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .pix-input {
+      flex: 1;
+      padding: 13px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(202, 167, 90, 0.2);
+      border-radius: 8px;
+      color: var(--accent);
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      transition: all 0.3s ease;
+    }
+
+    .pix-input:focus {
+      outline: none;
+      border-color: var(--accent-2);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 12px rgba(202, 167, 90, 0.15);
+    }
+
+    .pix-copy-btn {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      background: linear-gradient(135deg, var(--accent-2), var(--gold-light));
+      border: none;
+      border-radius: 8px;
+      color: var(--bg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      box-shadow: 0 4px 12px rgba(202, 167, 90, 0.3);
+      flex-shrink: 0;
+    }
+
+    .pix-copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(202, 167, 90, 0.4);
+    }
+
+    .pix-copy-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .pix-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: right;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .pix-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(202, 167, 90, 0.2), transparent);
+      margin: 24px 0;
+    }
+
+    .pix-message {
+      text-align: center;
+    }
+
+    .pix-message p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 16px;
+      font-weight: 400;
+    }
+
+    .pix-gratitude {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--accent-2);
+      margin: 0;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .formacao-card {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .formacao-card:nth-child(1) { animation-delay: 0.1s; }
+    .formacao-card:nth-child(2) { animation-delay: 0.2s; }
+    .formacao-card:nth-child(3) { animation-delay: 0.3s; }
+    .formacao-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      main.container {
+        padding: 16px;
+      }
+
+      .hero-section {
+        margin: 40px 0 36px;
+        padding: 30px 16px;
+      }
+
+      .hero-section h1 {
+        font-size: 1.8rem;
+      }
+
+      .formacoes-grid {
+        gap: 20px;
+        margin: 48px 0;
+      }
+
+      .formacao-card {
+        padding: 24px 20px;
+      }
+
+      .cta-section {
+        padding: 36px 24px;
+        margin: 60px auto;
+      }
+
+      .cta-section h2 {
+        font-size: 1.4rem;
+      }
+
+      .pix-container {
+        padding: 32px;
+      }
+
+      .pix-input-group {
+        flex-direction: column;
+      }
+
+      .pix-copy-btn {
+        width: 100%;
+      }
+
+      .pix-label {
+        text-align: left;
+        margin-top: 4px;
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section h1 {
+        font-size: 1.5rem;
+      }
+
+      .hero-section p {
+        font-size: 0.9rem;
+      }
+
+      .formacoes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-section {
+        padding: 28px 20px;
+      }
+
+      .pix-container {
+        padding: 24px;
+      }
+
+      .pix-title {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -33,96 +516,92 @@
 
   <main class="container">
     <!-- Breadcrumb -->
-    <nav class="breadcrumb" style="margin:20px 0; font-size:0.9rem;">
+    <nav class="breadcrumb">
       <a href="/index.html">Início</a>
       <span> / </span>
       <span>Formações</span>
     </nav>
 
-    <!-- Título da Página -->
-    <section style="text-align: center; margin: 48px 0 40px;">
-      <h1 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #e6e6e6; margin: 0 0 12px; font-weight: 400; letter-spacing: 1px;">Formações Espirituais</h1>
-      <p style="color: #9a9a9a; font-size: 1.05rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">Explore nossos cursos e formações sobre liturgia, música sacra e aprofundamento da fé.</p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <h1>Formações Espirituais</h1>
+      <p>Explore nossos cursos e formações sobre liturgia, música sacra e aprofundamento da fé cristã. Desenvolvidas com carinho para nutrir sua jornada espiritual.</p>
     </section>
 
     <!-- Grid de Formações -->
-    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; margin: 48px 0;">
+    <section class="formacoes-grid">
       
       <!-- Formação 1 -->
-      <article class="card" style="border: 1px solid rgba(202,167,90,0.2); border-radius: 10px; padding: 24px; background: rgba(255,255,255,0.02); transition: all 0.3s ease;">
-        <div style="background: linear-gradient(135deg, #caa75a, #d4af37); width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <article class="formacao-card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         </div>
-        <h3 style="font-size: 1.3rem; color: #e6e6e6; margin: 0 0 12px; font-weight: 600;">Introdução à Liturgia</h3>
-        <p style="color: #9a9a9a; font-size: 0.95rem; line-height: 1.6; margin: 0 0 16px;">Compreenda os mistérios e a beleza da Missa através de uma formação completa sobre os ritos, símbolos e espiritualidade da liturgia.</p>
-        <a href="formacao-1.html" class="btn" style="display: inline-block; padding: 10px 24px; border: 1px solid #caa75a; color: #caa75a; text-decoration: none; border-radius: 4px; transition: all 0.3s ease; font-size: 0.9rem;">Explorar</a>
+        <h3>Introdução à Liturgia</h3>
+        <p>Compreenda os mistérios e a beleza da Missa através de uma formação completa sobre os ritos, símbolos e espiritualidade da liturgia sagrada.</p>
+        <a href="formacao-1.html" class="card-btn">Explorar →</a>
       </article>
 
       <!-- Formação 2 -->
-      <article class="card" style="border: 1px solid rgba(202,167,90,0.2); border-radius: 10px; padding: 24px; background: rgba(255,255,255,0.02); transition: all 0.3s ease;">
-        <div style="background: linear-gradient(135deg, #caa75a, #d4af37); width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="2"><path d="M9 18V5l12-2v13M9 5c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2z"/><ellipse cx="6" cy="18" rx="2" ry="3"/><ellipse cx="20" cy="16" rx="2" ry="3"/></svg>
+      <article class="formacao-card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18V5l12-2v13M9 5c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2z"/><ellipse cx="6" cy="18" rx="2" ry="3"/><ellipse cx="20" cy="16" rx="2" ry="3"/></svg>
         </div>
-        <h3 style="font-size: 1.3rem; color: #e6e6e6; margin: 0 0 12px; font-weight: 600;">Música Sacra e Gregoriada</h3>
-        <p style="color: #9a9a9a; font-size: 0.95rem; line-height: 1.6; margin: 0 0 16px;">Mergulhe na tradição do canto gregoriano e descubra como a música enriquece a celebração litúrgica e a oração comunitária.</p>
-        <a href="formacao-2.html" class="btn" style="display: inline-block; padding: 10px 24px; border: 1px solid #caa75a; color: #caa75a; text-decoration: none; border-radius: 4px; transition: all 0.3s ease; font-size: 0.9rem;">Explorar</a>
+        <h3>Música Sacra e Gregoriada</h3>
+        <p>Mergulhe na tradição do canto gregoriano e descubra como a música enriquece a celebração litúrgica e a oração comunitária de forma profunda.</p>
+        <a href="formacao-2.html" class="card-btn">Explorar →</a>
       </article>
 
       <!-- Formação 3 -->
-      <article class="card" style="border: 1px solid rgba(202,167,90,0.2); border-radius: 10px; padding: 24px; background: rgba(255,255,255,0.02); transition: all 0.3s ease;">
-        <div style="background: linear-gradient(135deg, #caa75a, #d4af37); width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <article class="formacao-card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
-        <h3 style="font-size: 1.3rem; color: #e6e6e6; margin: 0 0 12px; font-weight: 600;">Aprofundamento Espiritual</h3>
-        <p style="color: #9a9a9a; font-size: 0.95rem; line-height: 1.6; margin: 0 0 16px;">Desenvolva sua vida espiritual através da meditação, contemplação e direção espiritual baseada na tradição católica.</p>
-        <a href="formacao-3.html" class="btn" style="display: inline-block; padding: 10px 24px; border: 1px solid #caa75a; color: #caa75a; text-decoration: none; border-radius: 4px; transition: all 0.3s ease; font-size: 0.9rem;">Explorar</a>
+        <h3>Aprofundamento Espiritual</h3>
+        <p>Desenvolva sua vida espiritual através da meditação, contemplação e direção espiritual baseada na tradição católica e no ensinamento dos santos.</p>
+        <a href="formacao-3.html" class="card-btn">Explorar →</a>
       </article>
 
       <!-- Formação 4 -->
-      <article class="card" style="border: 1px solid rgba(202,167,90,0.2); border-radius: 10px; padding: 24px; background: rgba(255,255,255,0.02); transition: all 0.3s ease;">
-        <div style="background: linear-gradient(135deg, #caa75a, #d4af37); width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4.25 2.52"/></svg>
+      <article class="formacao-card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4.25 2.52"/></svg>
         </div>
-        <h3 style="font-size: 1.3rem; color: #e6e6e6; margin: 0 0 12px; font-weight: 600;">Ciclos Litúrgicos</h3>
-        <p style="color: #9a9a9a; font-size: 0.95rem; line-height: 1.6; margin: 0 0 16px;">Conheça os tempos litúrgicos do ano eclesiástico: Advento, Natal, Quaresma, Páscoa e Pentecostes com suas riquezas espirituais.</p>
-        <a href="formacao-4.html" class="btn" style="display: inline-block; padding: 10px 24px; border: 1px solid #caa75a; color: #caa75a; text-decoration: none; border-radius: 4px; transition: all 0.3s ease; font-size: 0.9rem;">Explorar</a>
+        <h3>Ciclos Litúrgicos</h3>
+        <p>Conheça os tempos litúrgicos do ano eclesiástico: Advento, Natal, Quaresma, Páscoa e Pentecostes com suas riquezas espirituais e celebrações.</p>
+        <a href="formacao-4.html" class="card-btn">Explorar →</a>
       </article>
 
     </section>
 
-    <!-- CTA Inscrição -->
-    <section style="max-width: 700px; margin: 64px auto; padding: 40px; background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03)); border: 1.5px solid rgba(202,167,90,0.25); border-radius: 16px; text-align: center;">
-      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #e6e6e6; margin: 0 0 16px; font-weight: 400;">Aprofunde sua Fé</h2>
-      <p style="color: #9a9a9a; font-size: 0.95rem; margin: 0 0 24px; line-height: 1.6;">Nossas formações são desenvolvidas com carinho para ajudá-lo a crescer espiritualmente e compreender melhor a riqueza da tradição católica.</p>
-      <a href="/pages/contato.html" class="btn" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #caa75a, #d4af37); color: #151515; text-decoration: none; border-radius: 4px; font-weight: 600; transition: all 0.3s ease; border: none;">Saiba Mais</a>
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <h2>Aprofunde sua Fé</h2>
+      <p>Nossas formações são desenvolvidas com dedicação para ajudá-lo a crescer espiritualmente e compreender melhor a riqueza da tradição católica. Cada curso é uma convocação à santidade.</p>
+      <a href="/pages/contato.html" class="cta-btn">Saiba Mais</a>
     </section>
 
     <!-- Seção PIX -->
-    <section style="max-width: 600px; margin: 64px auto; padding: 0;">
-      <div style="padding: 28px; background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03)); border: 1.5px solid rgba(202,167,90,0.25); border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(202,167,90,0.08);">
+    <section class="pix-section">
+      <div class="pix-container">
         
-        <div style="margin-bottom: 20px;">
-          <h4 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #caa75a; margin: 0; font-weight: 400; letter-spacing: 1px;">Chave PIX:</h4>
-        </div>
+        <h4 class="pix-title">Chave PIX</h4>
         
-        <div style="margin-bottom: 20px;">
-          <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-            <input type="text" value="douglas.assumpcao@hotmail.com" readonly style="flex: 1; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(202,167,90,0.2); border-radius: 8px; color: #e6e6e6; font-family: 'Courier New', monospace; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.3px; transition: all 0.3s ease;">
-            <button onclick="copyToClipboard('douglas.assumpcao@hotmail.com')" style="width: 46px; height: 46px; padding: 0; background: linear-gradient(135deg, #caa75a, #d4af37); border: none; border-radius: 8px; color: #151515; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1); box-shadow: 0 4px 12px rgba(202,167,90,0.3); flex-shrink: 0;" title="Copiar chave PIX">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px;">
-                <rect x="9" y="9" width="13" height="13" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                <path d="M5 15H4C2.9 15 2 14.1 2 13V4C2 2.9 2.9 2 4 2H13C14.1 2 15 2.9 15 4V5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-          <p style="font-size: 0.75rem; color: #9a9a9a; margin: 0; text-align: right; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">E-mail</p>
+        <div class="pix-input-group">
+          <input type="text" class="pix-input" value="douglas.assumpcao@hotmail.com" readonly>
+          <button class="pix-copy-btn" onclick="copyToClipboard('douglas.assumpcao@hotmail.com')" title="Copiar chave PIX">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="9" y="9" width="13" height="13" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M5 15H4C2.9 15 2 14.1 2 13V4C2 2.9 2.9 2 4 2H13C14.1 2 15 2.9 15 4V5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
+        <p class="pix-label">E-mail</p>
 
-        <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(202,167,90,0.2), transparent); margin: 20px 0;"></div>
+        <div class="pix-divider"></div>
 
-        <div style="text-align: center;">
-          <p style="font-size: 0.95rem; color: #9a9a9a; line-height: 1.6; margin: 0 0 16px 0; font-weight: 400;">Sua contribuição nos ajuda a continuar produzindo formações de qualidade.</p>
-          <p style="font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #caa75a; margin: 0; font-style: italic; font-weight: 400; letter-spacing: 0.5px;">🙏 Que Deus abençoe sua generosidade</p>
+        <div class="pix-message">
+          <p>Sua contribuição nos ajuda a continuar produzindo formações de qualidade e disseminando o conhecimento espiritual.</p>
+          <p class="pix-gratitude">🙏 Que Deus abençoe sua generosidade</p>
         </div>
       </div>
     </section>
@@ -141,14 +620,30 @@
       navigator.clipboard.writeText(text).then(() => {
         const btn = event.target.closest('button');
         const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px;"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
         setTimeout(() => {
           btn.innerHTML = originalHTML;
-          btn.style.background = 'linear-gradient(135deg, #caa75a, #d4af37)';
+          btn.style.background = 'linear-gradient(135deg, #c9a56a, #d4af37)';
         }, 2000);
       });
     }
+
+    // Fade in animations on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.formacao-card, .cta-section, .pix-section').forEach(el => {
+      el.style.opacity = '0';
+      observer.observe(el);
+    });
   </script>
 </body>
 </html>
