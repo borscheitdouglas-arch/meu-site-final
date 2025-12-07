@@ -567,52 +567,41 @@
           <img src="../assets/img/qrcode-pix-oficial.png" alt="QRCode para formações espirituais" class="qrcode-image">
         </div>
 
-        <!-- Seção PIX Info Sofisticada -->
-        <div class="pix-info-section">
-          <div class="pix-info-container">
-            <div class="pix-header">
-              <h4 class="pix-title">Chave PIX:</h4>
-            </div>
-            
-            <div class="pix-content">
-              <div class="pix-key-display">
-                <input type="text" class="pix-key-input" value="douglas.assumpcao@hotmail.com" readonly>
-                <button class="pix-copy-btn" onclick="copyToClipboard('douglas.assumpcao@hotmail.com')" title="Copiar chave PIX">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="9" y="9" width="13" height="13" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                    <path d="M5 15H4C2.9 15 2 14.1 2 13V4C2 2.9 2.9 2 4 2H13C14.1 2 15 2.9 15 4V5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-              <p class="pix-label">E-mail</p>
-            </div>
-
-            <div class="pix-divider"></div>
-
-            <div class="pix-message">
-              <p class="pix-description">Sua contribuição nos ajuda a continuar produzindo e compartilhando partituras litúrgicas de qualidade.</p>
-              <p class="pix-blessing">🙏 Que Deus abençoe sua generosidade</p>
-            </div>
+        <!-- PIX Key Section -->
+        <div class="pix-key-section">
+          <p class="pix-key-label">Ou copie a chave PIX:</p>
+          <div class="pix-key-container">
+            <span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
+            <button class="copy-button" onclick="copyPixKey()" title="Copiar chave PIX">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="copy-text">Copiar</span>
+            </button>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Script para copiar PIX -->
-    <script>
-      function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-          const btn = event.target.closest('.pix-copy-btn');
-          const originalHTML = btn.innerHTML;
-          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            btn.innerHTML = originalHTML;
-            btn.classList.remove('copied');
-          }, 2000);
-        });
-      }
-    </script>
+  <script>
+    function copyPixKey() {
+      const pixKey = 'douglas.assumpcao@hotmail.com';
+      navigator.clipboard.writeText(pixKey).then(() => {
+        const button = event.target.closest('.copy-button');
+        const originalText = button.innerHTML;
+        
+        button.classList.add('copied');
+        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="copy-text">Copiado!</span>';
+        
+        setTimeout(() => {
+          button.classList.remove('copied');
+          button.innerHTML = originalText;
+        }, 2000);
+      });
+    }
+  </script>
 
   <style>
     /* Seção de encerramento */
@@ -739,147 +728,6 @@
       filter: drop-shadow(0 4px 8px rgba(202,167,90,0.35));
     }
 
-    /* PIX Info Section */
-    .pix-info-section {
-      margin-top: 36px;
-      animation: fadeInUp 0.7s ease 0.5s both;
-    }
-
-    .pix-info-container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 28px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03));
-      border: 1.5px solid rgba(202,167,90,0.25);
-      border-radius: 16px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(202,167,90,0.08);
-    }
-
-    .pix-header {
-      margin-bottom: 20px;
-    }
-
-    .pix-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      color: #caa75a;
-      margin: 0;
-      font-weight: 400;
-      letter-spacing: 1px;
-    }
-
-    .pix-content {
-      margin-bottom: 20px;
-    }
-
-    .pix-key-display {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .pix-key-input {
-      flex: 1;
-      padding: 12px 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(202,167,90,0.2);
-      border-radius: 8px;
-      color: #e6e6e6;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      cursor: text;
-      transition: all 0.3s ease;
-    }
-
-    .pix-key-input:focus {
-      outline: none;
-      border-color: rgba(202,167,90,0.5);
-      background: rgba(202,167,90,0.08);
-      box-shadow: 0 0 12px rgba(202,167,90,0.15);
-    }
-
-    .pix-key-input::selection {
-      background: rgba(202,167,90,0.3);
-      color: #e6e6e6;
-    }
-
-    .pix-copy-btn {
-      width: 46px;
-      height: 46px;
-      padding: 0;
-      background: linear-gradient(135deg, #caa75a, #d4af37);
-      border: none;
-      border-radius: 8px;
-      color: #151515;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      box-shadow: 0 4px 12px rgba(202,167,90,0.3);
-      flex-shrink: 0;
-    }
-
-    .pix-copy-btn:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 6px 20px rgba(202,167,90,0.4);
-    }
-
-    .pix-copy-btn:active {
-      transform: translateY(0) scale(0.98);
-    }
-
-    .pix-copy-btn.copied {
-      background: linear-gradient(135deg, #4ade80, #22c55e);
-    }
-
-    .pix-copy-btn svg {
-      width: 20px;
-      height: 20px;
-      stroke-width: 2.5;
-    }
-
-    .pix-label {
-      font-size: 0.75rem;
-      color: #9a9a9a;
-      margin: 0;
-      text-align: right;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .pix-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.2), transparent);
-      margin: 20px 0;
-    }
-
-    .pix-message {
-      text-align: center;
-    }
-
-    .pix-description {
-      font-size: 0.95rem;
-      color: #9a9a9a;
-      line-height: 1.6;
-      margin: 0 0 16px 0;
-      font-weight: 400;
-    }
-
-    .pix-blessing {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: #caa75a;
-      margin: 0;
-      font-style: italic;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
-
     .qrcode-subtitle {
       font-size: 0.85rem;
       color: #9a9a9a;
@@ -937,6 +785,111 @@
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
     }
 
+    /* PIX Key Section */
+    .pix-key-section {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(202,167,90,0.15);
+      animation: fadeInUp 0.6s ease 0.5s both;
+    }
+
+    .pix-key-label {
+      font-size: 0.9rem;
+      color: #9a9a9a;
+      margin: 0 0 16px 0;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .pix-key-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.02));
+      border: 1.5px solid rgba(202,167,90,0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pix-key-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.3), transparent);
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .pix-key-container:hover {
+      border-color: rgba(202,167,90,0.4);
+      background: linear-gradient(135deg, rgba(202,167,90,0.12), rgba(202,167,90,0.04));
+    }
+
+    .pix-key-container:hover::before {
+      opacity: 1;
+    }
+
+    .pix-key-text {
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      color: #caa75a;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      flex: 1;
+    }
+
+    .copy-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #caa75a, #d4af37);
+      border: none;
+      border-radius: 8px;
+      color: #151515;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      box-shadow: 0 4px 12px rgba(202,167,90,0.2);
+      flex-shrink: 0;
+    }
+
+    .copy-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(202,167,90,0.3);
+      background: linear-gradient(135deg, #d4af37, #e6c355);
+    }
+
+    .copy-button:active {
+      transform: translateY(0);
+    }
+
+    .copy-button svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .copy-button.copied {
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+    }
+
+    .copy-text {
+      font-size: 0.85rem;
+    }
+
     @media (max-width: 768px) {
       .closing-section {
         padding: 48px 16px;
@@ -991,43 +944,26 @@
         height: 240px;
       }
 
-      .pix-info-section {
-        margin-top: 28px;
+      .pix-key-section {
+        margin-top: 24px;
+        padding-top: 24px;
       }
 
-      .pix-info-container {
-        padding: 20px;
+      .pix-key-container {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 20px;
       }
 
-      .pix-title {
-        font-size: 1.1rem;
-      }
-
-      .pix-key-display {
-        gap: 6px;
-      }
-
-      .pix-key-input {
-        font-size: 0.85rem;
-        padding: 10px 12px;
-      }
-
-      .pix-copy-btn {
-        width: 42px;
-        height: 42px;
-      }
-
-      .pix-copy-btn svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .pix-description {
+      .pix-key-text {
         font-size: 0.9rem;
       }
 
-      .pix-blessing {
-        font-size: 1rem;
+      .copy-button {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 14px;
+        font-size: 0.8rem;
       }
     }
 
@@ -1065,19 +1001,8 @@
         margin-bottom: 24px;
       }
 
-      .qrcode-section {
-        margin-top: 12px;
-        padding-top: 20px;
-      }
-
       .qrcode-message {
         font-size: 1.1rem;
-        gap: 8px;
-      }
-
-      .pix-icon {
-        width: 24px;
-        height: 24px;
       }
 
       .qrcode-subtitle {
@@ -1094,54 +1019,28 @@
         height: 220px;
       }
 
-      .pix-info-section {
-        margin-top: 20px;
-      }
-
-      .pix-info-container {
-        padding: 16px;
-      }
-
-      .pix-title {
-        font-size: 1rem;
-        margin-bottom: 16px;
-      }
-
-      .pix-key-display {
-        gap: 6px;
-        margin-bottom: 6px;
-      }
-
-      .pix-key-input {
-        font-size: 0.8rem;
-        padding: 9px 10px;
-      }
-
-      .pix-copy-btn {
-        width: 40px;
-        height: 40px;
-      }
-
-      .pix-copy-btn svg {
-        width: 16px;
-        height: 16px;
-      }
-
-      .pix-label {
-        font-size: 0.7rem;
-      }
-
-      .pix-divider {
-        margin: 16px 0;
-      }
-
-      .pix-description {
+      .pix-key-label {
         font-size: 0.85rem;
         margin-bottom: 12px;
       }
 
-      .pix-blessing {
-        font-size: 0.95rem;
+      .pix-key-container {
+        padding: 14px 16px;
+        gap: 10px;
+      }
+
+      .pix-key-text {
+        font-size: 0.85rem;
+      }
+
+      .copy-button {
+        padding: 9px 12px;
+        font-size: 0.75rem;
+      }
+
+      .copy-button svg {
+        width: 14px;
+        height: 14px;
       }
     }
   </style>
