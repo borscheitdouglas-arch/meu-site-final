@@ -551,10 +551,8 @@
 
       <!-- QRCode belíssimo -->
       <div class="qrcode-section">
-        <div class="qrcode-divider"></div>
-        
         <h3 class="qrcode-message">💝 Apoie nossa missão</h3>
-        <p class="qrcode-subtitle">Escaneie o QRCode para fazer um PIX e nos ajudar a continuar levando espiritualidade</p>
+        <p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
         
         <div class="qrcode-container">
           <img src="../assets/img/qrcode-pix-oficial.png" alt="QRCode para formações espirituais" class="qrcode-image">
@@ -606,32 +604,34 @@
     }
 
     .closing-cta {
-      margin-top: 48px;
+      margin-top: 40px;
+      margin-bottom: 32px;
     }
 
     .cta-prompt {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #9a9a9a;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       letter-spacing: 0.5px;
     }
 
     .cta-links {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
     .cta-button {
       display: inline-block;
-      padding: 12px 32px;
+      padding: 11px 28px;
       border: 1px solid #caa75a;
       color: #caa75a;
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       transition: all 0.3s ease;
       letter-spacing: 0.5px;
+      border-radius: 4px;
     }
 
     .cta-button:hover {
@@ -653,20 +653,15 @@
 
     /* QRCode Section */
     .qrcode-section {
-      margin-top: 56px;
+      margin-top: 20px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(202,167,90,0.1);
       animation: fadeInUp 0.6s ease 0.3s both;
-    }
-
-    .qrcode-divider {
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.5), transparent);
-      margin: 0 auto 32px;
     }
 
     .qrcode-message {
       font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       color: #e6e6e6;
       margin: 0 0 8px 0;
       font-weight: 400;
@@ -674,20 +669,21 @@
     }
 
     .qrcode-subtitle {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #9a9a9a;
-      margin: 0 0 28px 0;
+      margin: 0 0 24px 0;
       letter-spacing: 0.5px;
+      font-weight: 500;
     }
 
     .qrcode-container {
       display: inline-block;
-      padding: 28px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(202,167,90,0.2);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(202,167,90,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.05), rgba(202,167,90,0.02));
+      border: 1.5px solid rgba(202,167,90,0.25);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(202,167,90,0.08);
       transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
       position: relative;
       overflow: hidden;
@@ -700,8 +696,8 @@
       left: -2px;
       right: -2px;
       bottom: -2px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.3), transparent);
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.4), transparent, rgba(202,167,90,0.2));
+      border-radius: 16px;
       opacity: 0;
       transition: opacity 0.4s ease;
       z-index: -1;
@@ -709,8 +705,9 @@
 
     .qrcode-container:hover {
       border-color: rgba(202,167,90,0.5);
-      box-shadow: 0 12px 48px rgba(202,167,90,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
-      transform: translateY(-4px);
+      box-shadow: 0 15px 50px rgba(202,167,90,0.15), 0 0 30px rgba(202,167,90,0.12);
+      transform: translateY(-6px);
+      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03));
     }
 
     .qrcode-container:hover::before {
@@ -719,12 +716,13 @@
 
     .qrcode-image {
       display: block;
-      width: 280px;
-      height: 280px;
+      width: 260px;
+      height: 260px;
       background: #ffffff;
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 8px;
       image-rendering: pixelated;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
     }
 
     @media (max-width: 768px) {
@@ -739,24 +737,37 @@
 
       .closing-text {
         font-size: 1rem;
+        margin-bottom: 32px;
       }
 
       .cta-links {
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
       }
 
       .cta-button {
         width: 100%;
         text-align: center;
+        padding: 10px 24px;
+        font-size: 0.9rem;
+      }
+
+      .closing-cta {
+        margin-bottom: 28px;
+      }
+
+      .qrcode-section {
+        margin-top: 16px;
+        padding-top: 24px;
       }
 
       .qrcode-message {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
       }
 
       .qrcode-subtitle {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        margin-bottom: 20px;
       }
 
       .qrcode-container {
@@ -770,8 +781,46 @@
     }
 
     @media (max-width: 480px) {
+      .closing-section {
+        padding: 40px 14px;
+      }
+
+      .closing-title {
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+      }
+
+      .closing-text {
+        font-size: 0.95rem;
+        margin-bottom: 28px;
+        line-height: 1.7;
+      }
+
+      .cta-prompt {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+      }
+
+      .cta-links {
+        gap: 8px;
+      }
+
+      .cta-button {
+        padding: 9px 20px;
+        font-size: 0.85rem;
+      }
+
+      .closing-cta {
+        margin-bottom: 24px;
+      }
+
       .qrcode-message {
-        font-size: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .qrcode-subtitle {
+        font-size: 0.75rem;
+        margin-bottom: 16px;
       }
 
       .qrcode-container {
@@ -779,8 +828,8 @@
       }
 
       .qrcode-image {
-        width: 200px;
-        height: 200px;
+        width: 220px;
+        height: 220px;
       }
     }
   </style>
