@@ -118,6 +118,13 @@
       margin-right: auto;
     }
 
+    .formacoes-grid .meditation-card {
+      grid-column: 1 / -1;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     .formacao-card {
       border: 1px solid rgba(202, 167, 90, 0.2);
       border-radius: 12px;
@@ -151,6 +158,19 @@
       opacity: 1;
     }
 
+    /* Meditation Card Special Styling */
+    .meditation-card {
+      padding: 48px 40px !important;
+      border: 1.5px solid rgba(202, 167, 90, 0.3);
+      background: linear-gradient(135deg, rgba(202, 167, 90, 0.08) 0%, rgba(21, 21, 21, 0.5) 100%) !important;
+      box-shadow: 0 8px 32px rgba(202, 167, 90, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .meditation-card:hover {
+      border-color: rgba(212, 175, 55, 0.5) !important;
+      box-shadow: 0 16px 48px rgba(202, 167, 90, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    }
+
     .card-icon {
       width: 64px;
       height: 64px;
@@ -164,9 +184,21 @@
       transition: all 0.4s ease;
     }
 
+    .meditation-card .card-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 28px;
+      box-shadow: 0 12px 24px rgba(202, 167, 90, 0.25);
+    }
+
     .formacao-card:hover .card-icon {
       transform: scale(1.1) rotate(5deg);
       box-shadow: 0 12px 24px rgba(202, 167, 90, 0.3);
+    }
+
+    .meditation-card:hover .card-icon {
+      transform: scale(1.15) rotate(-8deg);
+      box-shadow: 0 16px 32px rgba(202, 167, 90, 0.35);
     }
 
     .card-icon svg {
@@ -174,6 +206,11 @@
       height: 32px;
       color: var(--bg);
       stroke-width: 2.5;
+    }
+
+    .meditation-card .card-icon svg {
+      width: 40px;
+      height: 40px;
     }
 
     .formacao-card h3 {
@@ -184,11 +221,53 @@
       letter-spacing: 0.3px;
     }
 
+    .meditation-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+
     .formacao-card p {
       color: var(--muted);
       font-size: 0.95rem;
       line-height: 1.7;
       margin: 0 0 20px;
+    }
+
+    .meditation-card p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #b8b8b8;
+      margin-bottom: 28px;
+    }
+
+    /* Card Features */
+    .card-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(202, 167, 90, 0.15);
+    }
+
+    .feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 1.8rem;
+    }
+
+    .feature-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.3px;
     }
 
     .card-btn {
@@ -209,6 +288,21 @@
       color: var(--bg);
       box-shadow: 0 8px 20px rgba(202, 167, 90, 0.25);
       transform: translateY(-2px);
+    }
+
+    .card-btn.btn-primary {
+      padding: 13px 32px !important;
+      background: linear-gradient(135deg, var(--accent-2), var(--gold-light)) !important;
+      color: var(--bg) !important;
+      border: none !important;
+      font-size: 0.95rem !important;
+      box-shadow: 0 8px 24px rgba(202, 167, 90, 0.25) !important;
+    }
+
+    .card-btn.btn-primary:hover {
+      background: linear-gradient(135deg, var(--gold-light), var(--accent-2)) !important;
+      transform: translateY(-3px) !important;
+      box-shadow: 0 12px 32px rgba(202, 167, 90, 0.35) !important;
     }
 
     /* CTA Section */
@@ -518,60 +612,44 @@
 
     <!-- Hero Section -->
     <section class="hero-section">
-      <h1>Formações Espirituais</h1>
-      <p>Explore nossos cursos e formações sobre liturgia, música sacra e aprofundamento da fé cristã. Desenvolvidas com carinho para nutrir sua jornada espiritual.</p>
+      <h1>Meditações Espirituais</h1>
+      <p>Encontre paz e transcendência através de meditações contemplativas desenvolvidas para aprofundar sua conexão espiritual. Uma jornada de autodescoberta e comunhão com o sagrado.</p>
     </section>
 
     <!-- Grid de Formações -->
     <section class="formacoes-grid">
       
-      <!-- Formação 1 -->
-      <article class="formacao-card">
+      <!-- Meditação -->
+      <article class="formacao-card meditation-card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M12 16c1.5 0 2.5-1 3-2"/></svg>
         </div>
-        <h3>Introdução à Liturgia</h3>
-        <p>Compreenda os mistérios e a beleza da Missa através de uma formação completa sobre os ritos, símbolos e espiritualidade da liturgia sagrada.</p>
-        <a href="formacao-1.html" class="card-btn">Explorar →</a>
-      </article>
-
-      <!-- Formação 2 -->
-      <article class="formacao-card">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18V5l12-2v13M9 5c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2z"/><ellipse cx="6" cy="18" rx="2" ry="3"/><ellipse cx="20" cy="16" rx="2" ry="3"/></svg>
+        <h3>Meditações Espirituais</h3>
+        <p>Mergulhe em meditações profundas e contemplativas, desenvolvidas para aprofundar sua vida espiritual e conectá-lo com a transcendência. Cada sessão é um convite à paz interior e ao encontro com o sagrado através da oração contemplativa.</p>
+        <div class="card-features">
+          <div class="feature">
+            <span class="feature-icon">🕯️</span>
+            <span class="feature-text">Meditações Guiadas</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🙏</span>
+            <span class="feature-text">Contemplação Profunda</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">✨</span>
+            <span class="feature-text">Crescimento Espiritual</span>
+          </div>
         </div>
-        <h3>Música Sacra e Gregoriada</h3>
-        <p>Mergulhe na tradição do canto gregoriano e descubra como a música enriquece a celebração litúrgica e a oração comunitária de forma profunda.</p>
-        <a href="formacao-2.html" class="card-btn">Explorar →</a>
-      </article>
-
-      <!-- Formação 3 -->
-      <article class="formacao-card">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <h3>Aprofundamento Espiritual</h3>
-        <p>Desenvolva sua vida espiritual através da meditação, contemplação e direção espiritual baseada na tradição católica e no ensinamento dos santos.</p>
-        <a href="formacao-3.html" class="card-btn">Explorar →</a>
-      </article>
-
-      <!-- Formação 4 -->
-      <article class="formacao-card">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4.25 2.52"/></svg>
-        </div>
-        <h3>Ciclos Litúrgicos</h3>
-        <p>Conheça os tempos litúrgicos do ano eclesiástico: Advento, Natal, Quaresma, Páscoa e Pentecostes com suas riquezas espirituais e celebrações.</p>
-        <a href="formacao-4.html" class="card-btn">Explorar →</a>
+        <a href="materia-nova.html" class="card-btn btn-primary">Começar Meditação →</a>
       </article>
 
     </section>
 
     <!-- CTA Section -->
     <section class="cta-section">
-      <h2>Aprofunde sua Fé</h2>
-      <p>Nossas formações são desenvolvidas com dedicação para ajudá-lo a crescer espiritualmente e compreender melhor a riqueza da tradição católica. Cada curso é uma convocação à santidade.</p>
-      <a href="/pages/contato.html" class="cta-btn">Saiba Mais</a>
+      <h2>Encontre a Paz Interior</h2>
+      <p>A meditação é uma jornada de autodescoberta e conexão espiritual. Cada momento de silêncio e contemplação nos aproxima da verdade essencial. Inicie sua prática hoje e transforme sua vida espiritual.</p>
+      <a href="materia-nova.html" class="cta-btn">Começar Meditação →</a>
     </section>
 
     <!-- Seção PIX -->
@@ -594,7 +672,7 @@
         <div class="pix-divider"></div>
 
         <div class="pix-message">
-          <p>Sua contribuição nos ajuda a continuar produzindo formações de qualidade e disseminando o conhecimento espiritual.</p>
+          <p>Sua contribuição nos ajuda a continuar desenvolvendo meditações de qualidade e compartilhando práticas espirituais profundas com o mundo.</p>
           <p class="pix-gratitude">🙏 Que Deus abençoe sua generosidade</p>
         </div>
       </div>
