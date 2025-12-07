@@ -31,12 +31,8 @@ Agora com **3 seções principais**:
 - Smooth scroll para cada seção
 - Ícone visual destacado (📑)
 
-### 5. **Navegação Entre Domingos** ✓
-Botões Previous/Next:
-- ← Voltar para Vídeo Principal
-- → Próximo para Comunhão
-- Design visual integrado
-- Responsivo em mobile
+### 5. **Navegação Entre Domingos** ✓ ~~REMOVIDO~~
+~~Botões Previous/Next~~
 
 ### 6. **Compartilhamento Social** ✓
 Seção com links para:
@@ -46,11 +42,8 @@ Seção com links para:
 - ✉️ Email
 - Design elegante com hover effects
 
-### 7. **Próximos Conteúdos** ✓
-Seção sugestiva com:
-- 2º Domingo do Advento
-- 3º Domingo do Advento
-- Formações Litúrgicas
+### 7. **Próximos Conteúdos** ✓ ~~REMOVIDO~~
+~~Seção sugestiva com próximos domingos~~
 
 ### 8. **Consolidação de Estilos** ✓
 - Removidos **+150 linhas de inline styles**
@@ -63,13 +56,8 @@ Seção sugestiva com:
   - `.sidebar-card` e variações
   - `.toc` (Table of Contents)
 
-### 9. **Timeline Visual do Advento** ✓
-Visualização elegante dos 4 domingos:
-- **Semana 1** (ATIVO): Despertar e vigilância
-- **Semana 2**: Preparação e renovação
-- **Semana 3**: Alegria e consolação
-- **Semana 4**: Cumprimento e contemplação
-- Design com indicador visual de progresso
+### 9. **Timeline Visual do Advento** ✓ ~~REMOVIDO~~
+~~Visualização elegante dos 4 domingos~~
 
 ### 10. **Animações de Scroll** ✓
 - Fade-in-up animations para elementos

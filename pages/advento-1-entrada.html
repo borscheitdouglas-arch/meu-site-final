@@ -411,18 +411,6 @@
     </div>
   </div>
 
-  <!-- Navigation buttons (Previous/Next) -->
-  <div class="nav-buttons">
-    <a href="advento-1-video.html" class="nav-btn">
-      <span>← Voltar</span>
-      <small>Advento - Vídeo principal</small>
-    </a>
-    <a href="advento-1-comunhao.html" class="nav-btn">
-      <span>Próximo →</span>
-      <small>Advento - Comunhão</small>
-    </a>
-  </div>
-
   <!-- Social sharing -->
   <div class="social-share">
     <label>Compartilhar:</label>
@@ -433,51 +421,6 @@
   </div>
 
   <!-- Timeline do Advento -->
-  <div class="advento-timeline">
-    <h3>📅 Jornada do Advento</h3>
-    <div class="timeline-container">
-      <div class="timeline-item active">
-        <div class="timeline-item-week">Semana 1</div>
-        <div class="timeline-item-title">1º Domingo do Advento</div>
-        <div class="timeline-item-desc">Despertar e vigilância — o início da jornada sagrada</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-item-week">Semana 2</div>
-        <div class="timeline-item-title">2º Domingo do Advento</div>
-        <div class="timeline-item-desc">Preparação e renovação — aprofundando a esperança</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-item-week">Semana 3</div>
-        <div class="timeline-item-title">3º Domingo do Advento</div>
-        <div class="timeline-item-desc">Alegria e consolação — a proximidade do Senhor</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-item-week">Semana 4</div>
-        <div class="timeline-item-title">4º Domingo do Advento</div>
-        <div class="timeline-item-desc">Cumprimento e contemplação — o Verbo se faz carne</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Next content -->
-  <div class="next-content">
-    <h3>📚 Continue sua jornada espiritual</h3>
-    <div class="next-content-grid">
-      <a href="advento-2.html" class="next-content-item">
-        <div class="next-content-item-title">2º Domingo do Advento</div>
-        <div class="next-content-item-desc">Próxima etapa da preparação litúrgica</div>
-      </a>
-      <a href="advento-3.html" class="next-content-item">
-        <div class="next-content-item-title">3º Domingo do Advento</div>
-        <div class="next-content-item-desc">Aprofundando a espera contemplativa</div>
-      </a>
-      <a href="formacoes.html" class="next-content-item">
-        <div class="next-content-item-title">Formações Litúrgicas</div>
-        <div class="next-content-item-desc">Aprenda mais sobre a liturgia</div>
-      </a>
-    </div>
-  </div>
-
   <!-- Faixa branca com botão para baixar partitura -->
   <section class="white-section" aria-label="Partitura e recursos">
     <div class="white-inner">
@@ -563,7 +506,7 @@
     }, observerOptions);
 
     // Observe all elements with fade-in-up class and other animated sections
-    document.querySelectorAll('.toc, .nav-buttons, .social-share, .next-content, .advento-timeline, .sidebar-section').forEach(el => {
+    document.querySelectorAll('.toc, .social-share, .sidebar-section').forEach(el => {
       observer.observe(el);
     });
 
