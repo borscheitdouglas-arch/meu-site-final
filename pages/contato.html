@@ -15,6 +15,375 @@
       font-weight: normal;
       font-style: normal;
     }
+
+    /* PÁGINA CONTATO - MELHORIAS */
+    .contato-breadcrumb {
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .contato-breadcrumb a {
+      color: #c9a227;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .contato-breadcrumb a:hover {
+      color: #e6d9c8;
+      text-decoration: underline;
+    }
+
+    .contato-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .contato-header {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .contato-header h1 {
+      font-family: 'EB Garamond', serif;
+      color: #c9a227;
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin: 0 0 16px;
+      letter-spacing: 0.8px;
+      text-shadow: 0 6px 20px rgba(201, 162, 39, 0.12);
+    }
+
+    .contato-header p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.1rem;
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .contato-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    /* CARD INFO */
+    .info-card {
+      background: linear-gradient(135deg, rgba(201, 162, 39, 0.08) 0%, rgba(201, 162, 39, 0.03) 100%);
+      border: 2px solid rgba(201, 162, 39, 0.3);
+      border-radius: 12px;
+      padding: 32px;
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .info-card:hover {
+      border-color: #c9a227;
+      box-shadow: 0 12px 40px rgba(201, 162, 39, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .info-card h2 {
+      font-family: 'EB Garamond', serif;
+      color: #c9a227;
+      font-size: 1.6rem;
+      margin: 0 0 24px;
+      text-align: center;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+    }
+
+    .contact-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .contact-icon {
+      font-size: 24px;
+      color: #c9a227;
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(201, 162, 39, 0.1);
+      border-radius: 8px;
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-label {
+      color: #c9a227;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .contact-value {
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .contact-value:hover {
+      color: #c9a227;
+      text-decoration: underline;
+    }
+
+    /* FORMULÁRIO */
+    .form-card {
+      background: linear-gradient(135deg, rgba(201, 162, 39, 0.08) 0%, rgba(201, 162, 39, 0.03) 100%);
+      border: 2px solid rgba(201, 162, 39, 0.3);
+      border-radius: 12px;
+      padding: 32px;
+      animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+
+    .form-card h2 {
+      font-family: 'EB Garamond', serif;
+      color: #c9a227;
+      font-size: 1.6rem;
+      margin: 0 0 24px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #c9a227;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(201, 162, 39, 0.3);
+      border-radius: 6px;
+      color: rgba(255,255,255,0.92);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #c9a227;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 12px rgba(201, 162, 39, 0.2);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #c9a227 0%, #d4af37 100%);
+      color: #1a1a1a;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201, 162, 39, 0.3);
+    }
+
+    .form-submit:active {
+      transform: translateY(0);
+    }
+
+    /* RESPONSE TIME */
+    .response-time {
+      background: rgba(201, 162, 39, 0.1);
+      border-left: 4px solid #c9a227;
+      padding: 20px 24px;
+      border-radius: 6px;
+      margin-bottom: 30px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .response-time p {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.95rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .response-time strong {
+      color: #c9a227;
+      font-weight: 700;
+    }
+
+    /* SOCIAL LINKS */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(201, 162, 39, 0.2);
+    }
+
+    .social-link {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(201, 162, 39, 0.1);
+      border: 2px solid rgba(201, 162, 39, 0.3);
+      border-radius: 8px;
+      color: #c9a227;
+      font-size: 20px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: #c9a227;
+      color: #1a1a1a;
+      border-color: #c9a227;
+      transform: translateY(-4px);
+    }
+
+    /* ANIMAÇÕES */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      .contato-header h1 {
+        font-size: 2rem;
+      }
+
+      .contato-header p {
+        font-size: 1rem;
+      }
+
+      .contato-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .info-card,
+      .form-card {
+        padding: 24px;
+      }
+
+      .info-card h2,
+      .form-card h2 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .contato-container {
+        padding: 20px 16px;
+      }
+
+      .contato-header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+      }
+
+      .contato-header p {
+        font-size: 0.95rem;
+      }
+
+      .info-card,
+      .form-card {
+        padding: 20px;
+      }
+
+      .info-card h2,
+      .form-card h2 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+
+      .contact-item {
+        gap: 12px;
+      }
+
+      .contact-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+      }
+
+      .social-links {
+        gap: 12px;
+      }
+
+      .social-link {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
      crossorigin="anonymous"></script>
@@ -50,8 +419,8 @@
     </div>
 
     <ul>
-    <li><a href="/index.html" class="menu-item inicio">Inécio</a></li>
-    <li><a href="/pages/formacoes.html" class="menu-item formacoes">Forma"es</a></li>
+    <li><a href="/index.html" class="menu-item inicio">Início</a></li>
+    <li><a href="/pages/formacoes.html" class="menu-item formacoes">Formações</a></li>
       
       <li>
         <details>
@@ -145,7 +514,7 @@
           </ul>
         </details>
       </li>
-      <!-- Ordinário da missa (separado abaixo dos demais tépicos) -->
+      <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
       <li class="menu-ordinario">
         <details>
           <summary class="menu-item ordinario">Ordinário da missa</summary>
@@ -155,7 +524,7 @@
             <li><a href="/pages/sanctus.html">Sanctus</a></li>
             <li><a href="/pages/agnus-dei.html">Agnus Dei</a></li>
             <li><a href="/pages/pater-noster.html">Pater noster / Pai nosso</a></li>
-            <li><a href="/pages/ad-libitum.html">Ad libitum (<em>Ã€ vontade</em>)</a></li>
+            <li><a href="/pages/ad-libitum.html">Ad libitum (<em>à vontade</em>)</a></li>
           </ul>
         </details>
       </li>
@@ -164,53 +533,126 @@
 
   <div id="nav-overlay" class="nav-overlay" hidden></div>
 
-  <main class="container" style="display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 200px); padding: 40px 20px;">
-    <section style="position: relative; width: 100%; max-width: 720px; border-radius: 16px; padding: 60px 50px 40px; box-sizing: border-box; background: linear-gradient(180deg, rgba(54, 50, 42, 0.9), rgba(35, 32, 28, 0.95)); box-shadow: 0 20px 50px rgba(0,0,0,0.7); text-align: center; overflow: hidden;">
-      
-      <!-- Arabesco superior -->
-      <div style="position: absolute; left: 50%; transform: translateX(-50%); top: 15px; width: 65%; height: 40px; background-image: url('/assets/img/arabesco-medieval-divider.svg'); background-size: contain; background-repeat: no-repeat; opacity: 0.95; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));"></div>
-      
-      <!-- MedalhO dourado no topo -->
-      <div style="display: inline-block; width: 80px; height: 80px; margin: 0 0 20px; position: relative;">
-        <img src="/assets/img/arabesco-medieval-medallion-plain.svg" alt="Medalhéo" style="width: 80px; height: 80px; display: block;">
-        <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'The Centurion', serif; font-size: 3.2rem; font-weight: normal; color: #2b2b2b; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">C</span>
-      </div>
-      
-      <!-- Título principal -->
-      <h1 style="font-family: 'EB Garamond', serif; color: #c9a227; font-weight: 700; font-size: 2rem; margin: 10px 0 16px; letter-spacing: 0.8px; text-shadow: 0 6px 20px rgba(201, 162, 39, 0.12), 0 2px 6px rgba(0,0,0,0.6); line-height: 1.3;">Contato</h1>
-      
-      <!-- Descrição -->
-      <p style="color: rgba(255,255,255,0.92); font-size: 1.05rem; max-width: 640px; margin: 0 auto 30px; line-height: 1.65;">página para entrar em contato em caso de dévidas, sugestées, pedidos de material ou assuntos relacionados ao site.</p>
-      
-      <!-- Informa"es de contato -->
-      <div style="background: rgba(0,0,0,0.2); border-radius: 10px; padding: 24px 30px; margin: 0 auto 20px; max-width: 500px; text-align: left;">
-        <h3 style="font-family: 'EB Garamond', serif; color: #c9a227; font-size: 1.4rem; margin: 0 0 18px; text-align: center;">Douglas Assumpção</h3>
+  <main class="contato-container">
+    <!-- Breadcrumb -->
+    <nav class="contato-breadcrumb">
+      <a href="/index.html">← Voltar para Início</a>
+    </nav>
+
+    <!-- Header -->
+    <div class="contato-header">
+      <h1>Entre em Contato</h1>
+      <p>Estamos aqui para responder suas dúvidas, sugestões, pedidos de material ou qualquer assunto relacionado ao site. Adoraríamos ouvir de você!</p>
+    </div>
+
+    <!-- Info Time Response -->
+    <div class="response-time">
+      <p>⏱️ Tempo médio de resposta: <strong>24 a 48 horas</strong></p>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="contato-content">
+      <!-- Info Card -->
+      <div class="info-card">
+        <h2>Informações de Contato</h2>
         
-        <p style="color: rgba(255,255,255,0.92); font-size: 1rem; margin: 8px 0; line-height: 1.6;">
-          <strong style="color: #c9a227;">E-mail:</strong> 
-          <a href="mailto:magister.douglas@gmail.com" style="color: rgba(255,255,255,0.92); text-decoration: underline;">magister.douglas@gmail.com</a>
-        </p>
-        
-        <p style="color: rgba(255,255,255,0.92); font-size: 1rem; margin: 8px 0; line-height: 1.6;">
-          <strong style="color: #c9a227;">Instagram:</strong> 
-          <a href="https://instagram.com/douglasassumpcao_" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.92); text-decoration: underline;">@douglasassumpcao_</a>
-        </p>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div class="contact-info">
+            <span class="contact-label">E-mail</span>
+            <a href="mailto:magister.douglas@gmail.com" class="contact-value">magister.douglas@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div class="contact-info">
+            <span class="contact-label">Instagram</span>
+            <a href="https://instagram.com/douglasassumpcao_" target="_blank" rel="noopener" class="contact-value">@douglasassumpcao_</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">👤</div>
+          <div class="contact-info">
+            <span class="contact-label">Nome</span>
+            <p class="contact-value" style="margin: 0;">Douglas Assumpção</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">⏰</div>
+          <div class="contact-info">
+            <span class="contact-label">Disponibilidade</span>
+            <p class="contact-value" style="margin: 0;">Segunda a Sexta, 9h-18h (Brasília)</p>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+          <a href="mailto:magister.douglas@gmail.com" class="social-link" title="E-mail">✉️</a>
+          <a href="https://instagram.com/douglasassumpcao_" target="_blank" rel="noopener" class="social-link" title="Instagram">📷</a>
+          <a href="https://wa.me/55" class="social-link" title="WhatsApp">💬</a>
+        </div>
       </div>
-      
-      <!-- Nota de agradecimento -->
-      <p style="margin-top: 20px; color: rgba(255,255,255,0.78); font-size: 0.98rem;">Obrigado pelo seu contato.</p>
-      
-      <!-- Arabesco inferior (invertido) -->
-      <div style="position: absolute; left: 50%; transform: translateX(-50%) rotate(180deg); bottom: 12px; width: 55%; height: 32px; background-image: url('/assets/img/arabesco-medieval-divider.svg'); background-size: contain; background-repeat: no-repeat; opacity: 0.85;"></div>
-      
-    </section>
+
+      <!-- Form Card -->
+      <div class="form-card">
+        <h2>Envie uma Mensagem</h2>
+        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+          <div class="form-group">
+            <label for="name">Nome Completo</label>
+            <input type="text" id="name" name="name" placeholder="Seu nome" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Assunto</label>
+            <input type="text" id="subject" name="subject" placeholder="Assunto da mensagem" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Mensagem</label>
+            <textarea id="message" name="message" placeholder="Sua mensagem aqui..." required></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">Enviar Mensagem</button>
+        </form>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">
-    <p>é 2025 Meu Site. Todos os direitos reservados.</p>
+    <p>© 2025 Meu Site. Todos os direitos reservados.</p>
   </footer>
 
   <script src="../scripts/script.js"></script>
+  <script>
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+      
+      // Construir URL mailto
+      const mailtoLink = `mailto:magister.douglas@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Nome: ${name}\nE-mail: ${email}\n\nMensagem:\n${message}`)}`;
+      
+      // Abrir cliente de email
+      window.location.href = mailtoLink;
+      
+      // Limpar formulário
+      document.getElementById('contactForm').reset();
+      
+      // Feedback visual
+      alert('Formulário será aberto em seu cliente de email padrão. Se não abrir, copie o texto e envie para: magister.douglas@gmail.com');
+    }
+  </script>
 </body>
 </html>
 
