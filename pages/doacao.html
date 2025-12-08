@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apoie Nossa Missão - Doação PIX</title>
+  <link rel="icon" href="../assets/img/icone.png" sizes="192x192">
+  <link rel="shortcut icon" href="../assets/img/icone.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&family=Cinzel:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+  <style>
+    /* ===== PAGE DOAÇÃO ===== */
+    body.doacao-page {
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+      color: #ffffff;
+    }
+
+    .doacao-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* HEADER DOAÇÃO */
+    .doacao-header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .doacao-header h1 {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 48px;
+      font-weight: 900;
+      color: #d4af37;
+      letter-spacing: 2px;
+      margin: 0 0 16px 0;
+      text-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+      text-transform: uppercase;
+    }
+
+    .doacao-header .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: #b8b8b8;
+      margin: 0;
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+    }
+
+    /* MAIN CONTENT */
+    .doacao-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+
+    /* SEÇÃO TEXTO */
+    .doacao-text {
+      animation: fadeInLeft 0.8s ease-out 0.2s both;
+    }
+
+    .doacao-text h2 {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #d4af37;
+      margin: 0 0 24px 0;
+      letter-spacing: 1px;
+    }
+
+    .doacao-text p {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.9;
+      color: #d0d0d0;
+      margin: 0 0 20px 0;
+    }
+
+    .doacao-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .beneficios {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .beneficio-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .beneficio-icon {
+      font-size: 24px;
+      color: #d4af37;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .beneficio-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #b8b8b8;
+      line-height: 1.6;
+    }
+
+    /* SEÇÃO QR CODE */
+    .doacao-qrcode {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInRight 0.8s ease-out 0.2s both;
+    }
+
+    .qr-card {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0.02) 100%);
+      border: 2px solid #d4af37;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(212, 175, 55, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    .qr-code-wrapper {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 40px rgba(212, 175, 55, 0.2);
+    }
+
+    .qr-code-wrapper img {
+      width: 280px;
+      height: 280px;
+      display: block;
+    }
+
+    .qr-label {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #d4af37;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .qr-instruction {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #d4af37;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    /* PIX KEY SECTION */
+    .pix-key-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .pix-key-label {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #d4af37;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .pix-key-container {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(212, 175, 55, 0.08);
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .pix-key-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #d4af37;
+      font-family: 'Inter', monospace;
+      font-size: 13px;
+      outline: none;
+      padding: 0;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .pix-copy-btn {
+      background: #d4af37;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #0f0f0f;
+      font-weight: 700;
+      font-size: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .pix-copy-btn:hover {
+      background: #e6c547;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+    }
+
+    .pix-key-type {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #888;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* FOOTER MESSAGE */
+    .doacao-footer {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.03) 100%);
+      border-left: 4px solid #d4af37;
+      padding: 32px;
+      border-radius: 8px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .doacao-footer p {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      color: #d4af37;
+      margin: 0 0 16px 0;
+      line-height: 1.8;
+      font-weight: 500;
+    }
+
+    .doacao-footer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .blessing {
+      font-size: 28px;
+      margin-top: 16px;
+      letter-spacing: 2px;
+    }
+
+    /* BREADCRUMB */
+    .doacao-breadcrumb {
+      margin-bottom: 40px;
+      font-size: 14px;
+    }
+
+    .doacao-breadcrumb a {
+      color: #d4af37;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .doacao-breadcrumb a:hover {
+      color: #e6c547;
+      text-decoration: underline;
+    }
+
+    /* ANIMAÇÕES */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      .doacao-container {
+        padding: 40px 20px;
+      }
+
+      .doacao-header h1 {
+        font-size: 36px;
+      }
+
+      .doacao-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .doacao-text h2 {
+        font-size: 26px;
+      }
+
+      .doacao-text p {
+        font-size: 16px;
+      }
+
+      .qr-code-wrapper img {
+        width: 240px;
+        height: 240px;
+      }
+
+      .doacao-footer {
+        padding: 24px;
+      }
+
+      .doacao-footer p {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .doacao-container {
+        padding: 30px 16px;
+      }
+
+      .doacao-header h1 {
+        font-size: 28px;
+        margin-bottom: 12px;
+      }
+
+      .doacao-header .subtitle {
+        font-size: 14px;
+      }
+
+      .doacao-text h2 {
+        font-size: 22px;
+      }
+
+      .doacao-text p {
+        font-size: 14px;
+      }
+
+      .qr-card {
+        padding: 24px;
+      }
+
+      .qr-code-wrapper {
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+
+      .qr-code-wrapper img {
+        width: 200px;
+        height: 200px;
+      }
+
+      .beneficio-item {
+        margin-bottom: 12px;
+        gap: 12px;
+      }
+
+      .beneficio-icon {
+        font-size: 20px;
+      }
+
+      .beneficio-text {
+        font-size: 13px;
+      }
+
+      .pix-key-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .pix-copy-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body class="doacao-page">
+  <header class="site-header">
+    <button id="menu-btn" class="menu-btn" aria-label="Abrir menu">
+      <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
+    </button>
+    <div class="logo"><img src="../assets/img/icone.png" alt="CNP" id="site-logo"></div>
+    <div class="header-actions">
+      <button id="dark-toggle" class="icon-btn" aria-label="Dark mode">??</button>
+      <a class="icon-btn" href="loja.html" title="Loja">
+        <img src="../assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="contato.html" title="Contato">
+        <img src="../assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <!-- SIDE NAV (mesmo do index) -->
+  <nav id="side-nav" class="side-nav" aria-hidden="true">
+    <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
+    <div class="side-nav-hero" aria-hidden="true">
+      <div class="menu-frame">
+        <img src="../assets/img/1.jpg" alt="Imagem do menu">
+      </div>
+    </div>
+    <ul>
+      <li><a href="../index.html" class="menu-item inicio">Início</a></li>
+      <li><a href="formacoes.html" class="menu-item formacoes">Formações</a></li>
+      <li>
+        <details>
+          <summary class="menu-item advento">Advento</summary>
+          <ul>
+            <li><a href="advento-1-video.html">1º Domingo do Advento</a></li>
+            <li><a href="advento-2.html">2º Domingo do Advento</a></li>
+            <li><a href="advento-3.html">3º Domingo do Advento</a></li>
+            <li><a href="advento-4.html">4º Domingo do Advento</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item natal">Natal</summary>
+          <ul>
+            <li><a href="natal-noite.html">Missa da Noite</a></li>
+            <li><a href="natal-aurora.html">Missa da Aurora</a></li>
+            <li><a href="natal-dia.html">Missa do Dia</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+  <div id="nav-overlay" class="nav-overlay" hidden></div>
+
+  <!-- MAIN CONTENT -->
+  <main class="doacao-container">
+    <nav class="doacao-breadcrumb">
+      <a href="../index.html">← Voltar para Início</a>
+    </nav>
+
+    <div class="doacao-header">
+      <h1>Apoie Nossa Missão</h1>
+      <p class="subtitle">Ajude a manter viva a tradição do Canto Gregoriano e a produção de partituras litúrgicas</p>
+    </div>
+
+    <div class="doacao-content">
+      <!-- TEXTO -->
+      <div class="doacao-text">
+        <h2>Por que Apoiar?</h2>
+        <p>O Canto Gregoriano é uma das mais belas expressões da fé cristã e um patrimônio cultural imaterial que precisa ser preservado. Sua contribuição nos ajuda a:</p>
+
+        <div class="beneficios">
+          <div class="beneficio-item">
+            <div class="beneficio-icon">🎵</div>
+            <div class="beneficio-text">Produzir e compartilhar partituras litúrgicas de alta qualidade</div>
+          </div>
+          <div class="beneficio-item">
+            <div class="beneficio-icon">📚</div>
+            <div class="beneficio-text">Criar conteúdo educativo sobre música sagrada e liturgia</div>
+          </div>
+          <div class="beneficio-item">
+            <div class="beneficio-icon">🙏</div>
+            <div class="beneficio-text">Manter a tradição do canto gregoriano viva para futuras gerações</div>
+          </div>
+          <div class="beneficio-item">
+            <div class="beneficio-icon">✨</div>
+            <div class="beneficio-text">Desenvolver recursos digitais para comunidades religiosas</div>
+          </div>
+        </div>
+
+        <p style="margin-top: 28px;">Toda doação, por menor que seja, faz uma diferença real em nossa missão. Agradecemos sua generosidade e confiança.</p>
+      </div>
+
+      <!-- QR CODE -->
+      <div class="doacao-qrcode">
+        <div class="qr-card">
+          <span class="qr-label">QR Code PIX</span>
+          <div class="qr-code-wrapper">
+            <img src="../assets/img/qrcode-pix-oficial.png" alt="QR Code PIX para Doação">
+          </div>
+          <p class="qr-instruction">Escaneie com seu app bancário</p>
+
+          <div class="pix-key-section">
+            <label class="pix-key-label">Ou copie a chave PIX:</label>
+            <div class="pix-key-container">
+              <input type="text" id="pix-key" value="douglas.assumpcao@hotmail.com" readonly class="pix-key-input">
+              <button onclick="copyPixKey()" class="pix-copy-btn">
+                <span>📋 Copiar</span>
+              </button>
+            </div>
+            <p class="pix-key-type">E-mail</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER MESSAGE -->
+    <div class="doacao-footer">
+      <p>"Mais bem-aventurado é dar do que receber"</p>
+      <p>Atos 20:35</p>
+      <div class="blessing">🙏 Que Deus abençoe sua generosidade</div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Meu Site. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="../scripts/script.js"></script>
+  <script>
+    function copyPixKey() {
+      const pixKey = document.getElementById('pix-key');
+      pixKey.select();
+      pixKey.setSelectionRange(0, 99999);
+      
+      navigator.clipboard.writeText(pixKey.value).then(() => {
+        const btn = event.target.closest('.pix-copy-btn');
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<span>✓ Copiado!</span>';
+        btn.style.background = '#90EE90';
+        
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.style.background = '';
+        }, 2500);
+      }).catch(err => {
+        alert('Chave PIX: douglas.assumpcao@hotmail.com');
+      });
+    }
+  </script>
+</body>
+</html>
