@@ -164,6 +164,66 @@
     </div>
   </section>
 
+  <!-- CAROUSEL DE ANÚNCIOS -->
+  <section class="announcement-carousel">
+    <div class="carousel-container">
+      <button class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
+      
+      <div class="carousel-inner">
+        <div class="carousel-slide active">
+          <div class="announcement-content">
+            <h2>ANUNCIE AQUI!</h2>
+            <p>SE VOCÊ VIU ISSO, SEUS CLIENTES TAMBÉM VÃO VER</p>
+            <a href="pages/contato.html" class="announcement-btn">Quero Anunciar no site</a>
+          </div>
+        </div>
+        
+        <div class="carousel-slide">
+          <div class="announcement-content">
+            <h2>PARTITURAS LITÚRGICAS</h2>
+            <p>CONFIRA NOSSA COLEÇÃO COMPLETA DE CANTOS GREGORIANOS</p>
+            <a href="pages/loja.html" class="announcement-btn">Acessar Loja</a>
+          </div>
+        </div>
+        
+        <div class="carousel-slide">
+          <div class="announcement-content">
+            <h2>FORMAÇÕES ESPIRITUAIS</h2>
+            <p>APROFUNDE SEU CONHECIMENTO SOBRE A LITURGIA</p>
+            <a href="pages/formacoes.html" class="announcement-btn">Saiba Mais</a>
+          </div>
+        </div>
+        
+        <div class="carousel-slide">
+          <div class="announcement-content">
+            <h2>COMUNIDADE DE FÉ</h2>
+            <p>JUNTE-SE A MILHARES DE FIÉIS EM ORAÇÃO</p>
+            <a href="pages/contato.html" class="announcement-btn">Entre em Contato</a>
+          </div>
+        </div>
+        
+        <div class="carousel-slide">
+          <div class="announcement-content">
+            <h2>NOVIDADES SEMANAIS</h2>
+            <p>NÃO PERCA OS NOVOS CONTEÚDOS E PARTITURAS</p>
+            <a href="pages/contato.html" class="announcement-btn">Fique Atualizado</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="carousel-btn carousel-next" aria-label="Próximo">›</button>
+    </div>
+    
+    <!-- Indicadores de slides -->
+    <div class="carousel-indicators">
+      <button class="indicator active" aria-label="Slide 1"></button>
+      <button class="indicator" aria-label="Slide 2"></button>
+      <button class="indicator" aria-label="Slide 3"></button>
+      <button class="indicator" aria-label="Slide 4"></button>
+      <button class="indicator" aria-label="Slide 5"></button>
+    </div>
+  </section>
+
   <!-- CONTEÚDO: artigos e homilia -->
   <main class="container" id="destaques">
     <section class="articles">
@@ -293,6 +353,45 @@
   <script src="scripts/script.js"></script>
   
   <script>
+    // Carousel de Anúncios
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const totalSlides = slides.length;
+
+    function showSlide(n) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      indicators.forEach(indicator => indicator.classList.remove('active'));
+      
+      slides[n].classList.add('active');
+      indicators[n].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    // Event listeners para botões
+    document.querySelector('.carousel-next').addEventListener('click', nextSlide);
+    document.querySelector('.carousel-prev').addEventListener('click', prevSlide);
+
+    // Event listeners para indicadores
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        currentSlide = index;
+        showSlide(currentSlide);
+      });
+    });
+
+    // Auto-advance carousel a cada 6 segundos
+    setInterval(nextSlide, 6000);
+    
     // Função para copiar a chave PIX
     function copyPixKey() {
       const pixKey = document.getElementById('pix-key');
