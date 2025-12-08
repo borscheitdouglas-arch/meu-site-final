@@ -387,121 +387,6 @@
     }
 
     /* PIX Section */
-    .pix-section {
-      max-width: 700px;
-      margin: 80px auto;
-      padding: 0;
-    }
-
-    .pix-container {
-      padding: 40px;
-      background: linear-gradient(135deg, rgba(202, 167, 90, 0.12) 0%, rgba(202, 167, 90, 0.05) 100%);
-      border: 1.5px solid rgba(202, 167, 90, 0.3);
-      border-radius: 16px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 24px rgba(202, 167, 90, 0.1);
-    }
-
-    .pix-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      color: var(--accent-2);
-      margin: 0 0 24px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .pix-input-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-
-    .pix-input {
-      flex: 1;
-      padding: 13px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(202, 167, 90, 0.2);
-      border-radius: 8px;
-      color: var(--accent);
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.2px;
-      transition: all 0.3s ease;
-    }
-
-    .pix-input:focus {
-      outline: none;
-      border-color: var(--accent-2);
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 12px rgba(202, 167, 90, 0.15);
-    }
-
-    .pix-copy-btn {
-      width: 48px;
-      height: 48px;
-      padding: 0;
-      background: linear-gradient(135deg, var(--accent-2), var(--gold-light));
-      border: none;
-      border-radius: 8px;
-      color: var(--bg);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      box-shadow: 0 4px 12px rgba(202, 167, 90, 0.3);
-      flex-shrink: 0;
-    }
-
-    .pix-copy-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(202, 167, 90, 0.4);
-    }
-
-    .pix-copy-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .pix-label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-align: right;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-top: 6px;
-    }
-
-    .pix-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(202, 167, 90, 0.2), transparent);
-      margin: 24px 0;
-    }
-
-    .pix-message {
-      text-align: center;
-    }
-
-    .pix-message p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin: 0 0 16px;
-      font-weight: 400;
-    }
-
-    .pix-gratitude {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
-      color: var(--accent-2);
-      margin: 0;
-      font-style: italic;
-      font-weight: 400;
-      letter-spacing: 0.3px;
-    }
-
     /* Animations */
     @keyframes fadeInUp {
       from {
@@ -739,32 +624,6 @@
 
     </section>
 
-    <!-- Seção PIX -->
-    <section class="pix-section">
-      <div class="pix-container">
-        
-        <h4 class="pix-title">Chave PIX</h4>
-        
-        <div class="pix-input-group">
-          <input type="text" class="pix-input" value="douglas.assumpcao@hotmail.com" readonly>
-          <button class="pix-copy-btn" onclick="copyToClipboard('douglas.assumpcao@hotmail.com')" title="Copiar chave PIX">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="9" y="9" width="13" height="13" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-              <path d="M5 15H4C2.9 15 2 14.1 2 13V4C2 2.9 2.9 2 4 2H13C14.1 2 15 2.9 15 4V5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        <p class="pix-label">E-mail</p>
-
-        <div class="pix-divider"></div>
-
-        <div class="pix-message">
-          <p>Sua contribuição nos ajuda a continuar desenvolvendo meditações de qualidade e compartilhando práticas espirituais profundas com o mundo.</p>
-          <p class="pix-gratitude">🙏 Que Deus abençoe sua generosidade</p>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <footer class="site-footer">
@@ -773,21 +632,7 @@
 
   <script src="../scripts/script.js"></script>
   
-  <!-- Script para copiar PIX -->
   <script>
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = event.target.closest('button');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
-        setTimeout(() => {
-          btn.innerHTML = originalHTML;
-          btn.style.background = 'linear-gradient(135deg, #c9a56a, #d4af37)';
-        }, 2000);
-      });
-    }
-
     // Fade in animations on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -799,7 +644,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.formacao-card, .cta-section, .pix-section').forEach(el => {
+    document.querySelectorAll('.formacao-card').forEach(el => {
       el.style.opacity = '0';
       observer.observe(el);
     });
