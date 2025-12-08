@@ -10,17 +10,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/style.css">
   <style>
-    /* página Matéria: estilo local para ficar similar — referéncia enviada */
+    /* página Matéria: estilo local para ficar similar — referência enviada */
     body {
-      background: #210806; /* marrom muito escuro / "rea vermelha */
-      color: #ffffff; /* textos fora do carTão devem ser brancos */
+      background: #210806; /* marrom muito escuro / área vermelha */
+      color: #ffffff; /* textos fora do cartão devem ser brancos */
     }
     main.container { padding: 48px 20px; display:block; }
     .materia-hero { max-width:980px; margin:34px auto 18px; padding:28px 20px; color: #ffffff; }
     h1#materia-title { color:#ffffff; font-size:36px; letter-spacing:0.3px; }
     .meta { color:#e6d9c8; font-style:italic; }
 
-    /* carTão de leitura central */
+    /* cartão de leitura central */
     article.card.materia {
       background: #f6e6cf; /* bege claro ("rea amarela-claro) */
       color: #000000; /* texto preto dentro do carTão */
@@ -33,19 +33,107 @@
       font-family: 'EB Garamond', Georgia, serif;
     }
 
-    /* CONTEÃšDO */
-    #materia-content h2 { font-size:20px; margin-top:28px; color:#000000; }
-    #materia-content p { color:#000000; font-size:16px; }
-    #materia-content ul { margin-left:1.05rem; }
+    /* CONTEÚDO */
+    #materia-content h2 {
+      font-size: 26px;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      color: #2c1810;
+      padding-top: 18px;
+      border-top: 2px solid rgba(208, 181, 122, 0.3);
+      font-weight: 700;
+    }
+    #materia-content h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
 
-    /* bloco de citaO estilizado (caso existam blockquotes) */
-    #materia-content blockquote {
-      border-left:4px solid #d0b57a;
-      margin:18px 0; padding:12px 18px; background:rgba(208,181,122,0.03);
-      font-style:italic; color:#5b4a3b;
+    #materia-content p {
+      color: #000000;
+      font-size: 16px;
+      line-height: 2.0;
+      margin-bottom: 18px;
     }
 
-    /* boTão Voltar estilo lateral discreto */
+    #materia-content ul {
+      margin: 24px 0;
+      padding-left: 28px;
+    }
+    #materia-content li {
+      color: #000000;
+      margin-bottom: 16px;
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    /* bloco de citação estilizado */
+    #materia-content blockquote {
+      border-left: 5px solid #d0b57a;
+      margin: 28px 0;
+      padding: 20px 24px;
+      background: linear-gradient(90deg, rgba(208,181,122,0.08) 0%, rgba(208,181,122,0.02) 100%);
+      font-style: italic;
+      color: #3d2817;
+      font-size: 17px;
+      line-height: 1.9;
+    }
+
+    /* índice de conteúdo */
+    #materia-toc {
+      background: rgba(208, 181, 122, 0.06);
+      border-left: 4px solid #d0b57a;
+      padding: 24px 28px;
+      margin: 0 0 32px 0;
+      border-radius: 8px;
+    }
+    #materia-toc h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #2c1810;
+      margin: 0 0 12px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    #materia-toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    #materia-toc li {
+      margin-bottom: 8px;
+    }
+    #materia-toc a {
+      color: #2c1810;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+    #materia-toc a:hover {
+      color: #d0b57a;
+      text-decoration: underline;
+    }
+
+    /* breadcrumb */
+    .materia-breadcrumb {
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+    .materia-breadcrumb a {
+      color: #e6d9c8;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .materia-breadcrumb a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* tempo de leitura */
+    .leitura-time {
+      display: inline-block;
+      color: #b08a1a;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    /* botão Voltar estilo lateral discreto */
     .card .btn.outline { border-color:#b08a1a; color:#b08a1a; background:transparent; }
   </style>
 </head>
@@ -71,13 +159,18 @@
 
   <main class="container">
     <div class="materia-hero" style="max-width:980px;margin:34px auto 18px;padding:28px 20px;">
+      <nav class="materia-breadcrumb" style="margin-bottom:18px;">
+        <a href="formacoes.html">← Voltar para Formações</a>
+      </nav>
       <div style="display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap;">
         <div style="flex:1 1 580px;">
-          <h1 id="materia-title" style="font-family: 'EB Garamond', Georgia, serif; font-size:36px; line-height:1.08; margin:0 0 10px;">O Canto como OraO e Parte da Liturgia</h1>
-          <p id="materia-intro" class="meta" style="color:#ffffff;margin:0 0 18px;">A voz que se torna oração — reflexO sobre o papel do canto (especialmente o canto gregoriano) na vida litúrgica e espiritual da Igreja.</p>
-          <div style="display:flex;gap:12px;align-items:center;">
+          <h1 id="materia-title" style="font-family: 'EB Garamond', Georgia, serif; font-size:36px; line-height:1.08; margin:0 0 10px;">O Canto como Oração e Parte da Liturgia</h1>
+          <p id="materia-intro" class="meta" style="color:#ffffff;margin:0 0 18px;">A voz que se torna oração — reflexão sobre o papel do canto (especialmente o canto gregoriano) na vida litúrgica e espiritual da Igreja.</p>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <span class="leitura-time">⏱ 8 min de leitura</span>
+            <span style="color:#777">•</span>
             <small style="color:#b08a1a;font-weight:600">#FORMAção</small>
-            <span style="color:#777">é</span>
+            <span style="color:#777">•</span>
             <time datetime="2025-11-24" style="color:#777">24 de novembro de 2025</time>
           </div>
         </div>
@@ -89,57 +182,71 @@
     <article class="card materia" style="max-width:980px;margin:18px auto;padding:28px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.06);">
 
       <section id="materia-content">
-        <h2>1. Introdução: quando a música se torna oração</h2>
-        <p>Desde os primeiros séculos do cristianismo, a Igreja percebeu que a palavra, sozinha, Não bastava para expressar o mistério da fé. Era preciso algo que a elevasse, que a fizesse respirar o divino — e assim nasceu o canto litérgico.</p>
-        <p>O canto gregoriano, expressão mais pura e antiga dessa tradição, Não — apenas uma forma de arte. Ele — oraO cantada, uma ponte entre a terra e o céu, onde a voz humana se torna instrumento da graça. Quando o monge entoa os salmos, ele Não busca ser ouvido por aplausos, mas por Deus. Cada som — oferenda; cada pausa, um espaO para o espírito falar.</p>
-        <p>A música litúrgica, portanto, Não — uma adição — oração — ela — a oraO em forma sonora. Cantar na liturgia — prolongar a Palavra de Deus em vibração, — deixar que o Verbo continue ecoando nas vozes humanas.</p>
+        <div id="materia-toc">
+          <h3>Índice do Artigo</h3>
+          <ul>
+            <li><a href="#secao-1">1. Introdução: quando a música se torna oração</a></li>
+            <li><a href="#secao-2">2. O Canto como Oração</a></li>
+            <li><a href="#secao-3">3. Estrutura da Liturgia: onde o canto encontra o sagrado</a></li>
+            <li><a href="#secao-4">4. O Canto Gregoriano na Liturgia</a></li>
+            <li><a href="#secao-5">5. O Silêncio: onde o som encontra Deus</a></li>
+            <li><a href="#secao-6">6. Teologia da música Sagrada</a></li>
+            <li><a href="#secao-7">7. A Prática Vocal litúrgica</a></li>
+            <li><a href="#secao-8">8. Conclusão: quando o canto se torna Comunhão</a></li>
+          </ul>
+        </div>
 
-        <h2>2. O Canto como Oração</h2>
-        <p>O verdadeiro canto litérgico nasce da oraO interior. Não — performance, nem espetéculo, mas expressão de fé. O coraO reza, e a voz responde.</p>
-        <p>No canto gregoriano, o texto latino — quase sempre retirado das Escrituras é — o centro. A melodia Não existe para brilhar por si mesma, mas para revestir a Palavra, tornando-a mais viva e contemplativa. — por isso que o gregoriano — monédico: uma s— voz, uma s— Igreja, uma s— oração.</p>
-        <p>Cada sílaba — tratada com delicadeza. O ritmo segue o pulso da linguagem, Não o compasso da métrica. Assim, o canto se move como a respiraO da alma — livre, natural, mas profundamente ordenado. O cantor Não interpreta o texto; ele o deixa ressoar. E, nesse movimento, o som se torna oração, e a oraO se torna música.</p>
-        <p>"Quem canta reza duas vezesé, dizia Santo Agostinho — Não por multiplicar palavras, mas por permitir que a prépria alma cante com o corpo.</p>
+        <h2 id="secao-1">1. Introdução: quando a música se torna oração</h2>
+        <p>Desde os primeiros séculos do cristianismo, a Igreja percebeu que a palavra, sozinha, não bastava para expressar o mistério da fé. Era preciso algo que a elevasse, que a fizesse respirar o divino — e assim nasceu o canto litúrgico.</p>
+        <p>O canto gregoriano, expressão mais pura e antiga dessa tradição, não é apenas uma forma de arte. Ele é oração cantada, uma ponte entre a terra e o céu, onde a voz humana se torna instrumento da graça. Quando o monge entoa os salmos, ele não busca ser ouvido por aplausos, mas por Deus. Cada som é oferenda; cada pausa, um espaço para o espírito falar.</p>
+        <p>A música litúrgica, portanto, não é uma adição à oração — ela é a oração em forma sonora. Cantar na liturgia é prolongar a Palavra de Deus em vibração, é deixar que o Verbo continue ecoando nas vozes humanas.</p>
 
-        <h2>3. Estrutura da Liturgia: onde o canto encontra o sagrado</h2>
-        <p>A liturgia — o coraO pulsante da vida cristé. Nela, tudo tem significado: gestos, palavras, siléncios e, claro, o canto.</p>
-        <p>O canto gregoriano Não — algo que se acrescenta — missa ou ao ofécio; ele faz parte da prépria estrutura litúrgica. Desde a Antiguidade, cada momento da celebraO foi acompanhado de um canto préprio:</p>
+        <h2 id="secao-2">2. O Canto como Oração</h2>
+        <p>O verdadeiro canto litúrgico nasce da oração interior. Não é performance, nem espetáculo, mas expressão de fé. O coração reza, e a voz responde.</p>
+        <p>No canto gregoriano, o texto latino — quase sempre retirado das Escrituras — é o centro. A melodia não existe para brilhar por si mesma, mas para revestir a Palavra, tornando-a mais viva e contemplativa. É por isso que o gregoriano é monódico: uma só voz, uma só Igreja, uma só oração.</p>
+        <p>Cada sílaba é tratada com delicadeza. O ritmo segue o pulso da linguagem, não o compasso da métrica. Assim, o canto se move como a respiração da alma — livre, natural, mas profundamente ordenado. O cantor não interpreta o texto; ele o deixa ressoar. E, nesse movimento, o som se torna oração, e a oração se torna música.</p>
+        <blockquote>"Quem canta reza duas vezes", dizia Santo Agostinho — não por multiplicar palavras, mas por permitir que a própria alma cante com o corpo.</blockquote>
+
+        <h2 id="secao-3">3. Estrutura da Liturgia: onde o canto encontra o sagrado</h2>
+        <p>A liturgia — o coração pulsante da vida cristã. Nela, tudo tem significado: gestos, palavras, silêncios e, claro, o canto.</p>
+        <p>O canto gregoriano não é algo que se acrescenta à missa ou ao ofício; ele faz parte da própria estrutura litúrgica. Desde a Antiguidade, cada momento da celebração foi acompanhado de um canto próprio:</p>
         <ul>
-          <li style="color:#000000;"><strong>Ordinário da Missa</strong> — Kyrie, Gloria, Sanctus, Agnus Dei, Pater noster / Pai nosso, Ad libitum (Ã€ vontade).</li>
-          <li style="color:#000000;"><strong>Préprio da Missa</strong> — salmos e antéfonas que mudam conforme o tempo litérgico.</li>
-          <li style="color:#000000;"><strong>Ofécio Divino</strong> — Laudes, Vósperas, Completas— cada hora com seu canto.</li>
+          <li style="color:#000000;"><strong>Ordinário da Missa</strong> — Kyrie, Gloria, Sanctus, Agnus Dei, Pater noster / Pai nosso, Ad libitum (À vontade).</li>
+          <li style="color:#000000;"><strong>Próprio da Missa</strong> — salmos e antéfonas que mudam conforme o tempo litúrgico.</li>
+          <li style="color:#000000;"><strong>Ofício Divino</strong> — Laudes, Vésperas, Completas — cada hora com seu canto.</li>
         </ul>
         <p>Nessas melodias, o tempo humano se santifica. A música se torna ritmo da oração, e o dia, partitura da presença de Deus.</p>
 
-        <h2>4. O Canto Gregoriano na Liturgia</h2>
-        <p>O gregoriano Não busca adornar a liturgia, mas revelar seu sentido interior. Ele — como o "cone sonoro da oração: simples e profundo, luminoso e recolhido.</p>
-        <p>Cada modo gregoriano (dérico, frégio, lédio, etc.) carrega um colorido espiritual. O modo dérico, por exemplo, exprime firmeza e recolhimento; o frégio, séplica e mistério; o lédio, luz e alegria pura. Esses modos Não apenas moldam a melodia, mas também conduzem a alma do fiel: do arrependimento — paz, da espera — contemplação.</p>
-        <p>Cantar gregoriano — entrar num diélogo: a comunidade responde — Palavra de Deus com um canto que nasce do siléncio e retorna a ele. Por isso, o gregoriano nunca termina em grito, mas em repouso — um eco que se dissolve no sagrado.</p>
+        <h2 id="secao-4">4. O Canto Gregoriano na Liturgia</h2>
+        <p>O gregoriano não busca adornar a liturgia, mas revelar seu sentido interior. Ele é como o "ícone sonoro" da oração: simples e profundo, luminoso e recolhido.</p>
+        <p>Cada modo gregoriano (dórico, frígio, lídio, etc.) carrega um colorido espiritual. O modo dórico, por exemplo, exprime firmeza e recolhimento; o frígio, súplica e mistério; o lídio, luz e alegria pura. Esses modos não apenas moldam a melodia, mas também conduzem a alma do fiel: do arrependimento à paz, da espera à contemplação.</p>
+        <p>Cantar gregoriano é entrar num diálogo: a comunidade responde à Palavra de Deus com um canto que nasce do silêncio e retorna a ele. Por isso, o gregoriano nunca termina em grito, mas em repouso — um eco que se dissolve no sagrado.</p>
 
-        <h2>5. O Siléncio: onde o som encontra Deus</h2>
-        <p>No coraO da liturgia, o siléncio — Tão importante quanto o som. O canto gregoriano Não preenche o espaéo: ele nasce do siléncio e o conduz de volta a ele.</p>
-        <p>Esse siléncio Não — auséncia, mas presença plena. — o espaO onde a Palavra repousa e o coraO escuta. Na tradiO monóstica, o siléncio — chamado de "porta do mistérioé. Sem ele, o canto seria ruédo; com ele, o canto se torna oraO pura.</p>
-        <p>O cantor que entende o siléncio canta com humildade — Não para ser ouvido, mas para deixar Deus ser ouvido através de sua voz.</p>
+        <h2 id="secao-5">5. O Silêncio: onde o som encontra Deus</h2>
+        <p>No coração da liturgia, o silêncio é tão importante quanto o som. O canto gregoriano não preenche o espaço: ele nasce do silêncio e o conduz de volta a ele.</p>
+        <p>Esse silêncio não é ausência, mas presença plena. É o espaço onde a Palavra repousa e o coração escuta. Na tradição monástica, o silêncio é chamado de "porta do mistério". Sem ele, o canto seria ruído; com ele, o canto se torna oração pura.</p>
+        <p>O cantor que entende o silêncio canta com humildade — não para ser ouvido, mas para deixar Deus ser ouvido através de sua voz.</p>
 
-        <h2>6. Teologia da música Sagrada</h2>
-        <p>A música, para a teologia cristé, — mais do que expressão estática: — sinal da harmonia divina. O cosmos inteiro canta — das estrelas que seguem seu curso "s aves que louvam o amanhecer. O homem, criado — imagem de Deus, participa desse louvor com sua voz.</p>
-        <p>Santo Agostinho dizia que O amor — o peso da almaé, e a música — sua vibração. são Tomés de Aquino via na beleza musical o reflexo da ordem celestial. Assim, o canto litérgico — eco da criaO restaurada — um fragmento do paraéso reencontrado na voz humana.</p>
-        <p>O gregoriano traduz essa teologia em som: sem ostentação, sem ritmo marcado, sem vaidade. Ele — pura transparéncia, uma janela aberta para o invisível.</p>
+        <h2 id="secao-6">6. Teologia da música Sagrada</h2>
+        <p>A música, para a teologia cristã, é mais do que expressão estática: é sinal da harmonia divina. O cosmos inteiro canta — das estrelas que seguem seu curso às aves que louvam o amanhecer. O homem, criado à imagem de Deus, participa desse louvor com sua voz.</p>
+        <p>Santo Agostinho dizia que o amor é o peso da alma, e a música é sua vibração. São Tomás de Aquino via na beleza musical o reflexo da ordem celestial. Assim, o canto litúrgico é eco da criação restaurada — um fragmento do paraíso reencontrado na voz humana.</p>
+        <p>O gregoriano traduz essa teologia em som: sem ostentação, sem ritmo marcado, sem vaidade. Ele é pura transparência, uma janela aberta para o invisível.</p>
 
-        <h2>7. A Prética Vocal litúrgica</h2>
-        <p>Cantar na liturgia — servir. A voz, nesse contexto, Não — instrumento de exibição, mas de Comunhão. Por isso, o canto gregoriano exige do cantor Não apenas técnica, mas espírito orante.</p>
-        <p>A emissão deve ser natural, sem vibrato, unida ao coro — um s— corpo sonoro, uma s— inteNão. Respirar bem — respirar com calma; frasear — respeitar o sentido do texto; entoar — escutar o outro.</p>
-        <p>Antes de cantar, o coro reza; durante o canto, ele ora em unóssono; e apés o canto, permanece em siléncio, deixando que a oraO continue ecoando dentro. Essa — a pedagogia espiritual do gregoriano: ensinar a escutar Deus através da beleza sonora.</p>
+        <h2 id="secao-7">7. A Prática Vocal litúrgica</h2>
+        <p>Cantar na liturgia é servir. A voz, nesse contexto, não é instrumento de exibição, mas de comunhão. Por isso, o canto gregoriano exige do cantor não apenas técnica, mas espírito orante.</p>
+        <p>A emissão deve ser natural, sem vibrato, unida ao coro — um só corpo sonoro, uma só intenção. Respirar bem é respirar com calma; frasear é respeitar o sentido do texto; entoar é escutar o outro.</p>
+        <p>Antes de cantar, o coro reza; durante o canto, ele ora em uníssono; e após o canto, permanece em silêncio, deixando que a oração continue ecoando dentro. Essa é a pedagogia espiritual do gregoriano: ensinar a escutar Deus através da beleza sonora.</p>
 
-        <h2>8. Conclusão: quando o canto se torna Comunhão</h2>
-        <p>O canto gregoriano é, ao mesmo tempo, arte e oração, som e siléncio, tempo e eternidade. Em cada nota h— séculos de fé; em cada pausa, o respiro do espírito.</p>
-        <p>Quando o fiel canta, ele Não apenas participa da liturgia — ele — transformado por ela. Sua voz se une "s vozes dos santos, dos monges, e da Igreja inteira que canta h— mil anos o mesmo louvor.</p>
-        <p>Assim, cantar na liturgia — mais do que executar uma melodia: — participar do mistério da Comunhão entre o humano e o divino. E quando o canto se cala, o siléncio permanece — porque o verdadeiro canto continua dentro da alma, onde Deus habita, e onde a música nunca cessa.</p>
+        <h2 id="secao-8">8. Conclusão: quando o canto se torna Comunhão</h2>
+        <p>O canto gregoriano é, ao mesmo tempo, arte e oração, som e silêncio, tempo e eternidade. Em cada nota há séculos de fé; em cada pausa, o respiro do espírito.</p>
+        <p>Quando o fiel canta, ele não apenas participa da liturgia — ele é transformado por ela. Sua voz se une às vozes dos santos, dos monges, e da Igreja inteira que canta há mil anos o mesmo louvor.</p>
+        <p>Assim, cantar na liturgia é mais do que executar uma melodia: é participar do mistério da Comunhão entre o humano e o divino. E quando o canto se cala, o silêncio permanece — porque o verdadeiro canto continua dentro da alma, onde Deus habita, e onde a música nunca cessa.</p>
       </section>
     </article>
   </main>
 
   <footer class="site-footer">
-    <p>é 2025 Meu Site. Todos os direitos reservados.</p>
+    <p>© 2025 Meu Site. Todos os direitos reservados.</p>
   </footer>
 
   <script src="../scripts/script.js"></script>
