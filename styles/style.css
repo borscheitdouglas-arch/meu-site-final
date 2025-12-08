@@ -2377,6 +2377,7 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
     border-radius: 8px;
     background: linear-gradient(135deg, #404040 0%, #555555 100%);
     min-height: 140px;
+    position: relative;
   }
 
   .carousel-slide {
@@ -2386,6 +2387,8 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
     justify-content: center;
     opacity: 0;
     position: absolute;
+    left: 0;
+    top: 0;
     transition: opacity 0.5s ease-in-out;
     animation-duration: 0.5s;
   }
