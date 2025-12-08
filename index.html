@@ -8,6 +8,217 @@
   <link rel="shortcut icon" href="assets/img/icone.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/style.css">
+  <style>
+    /* CAROUSEL ANÚNCIOS */
+    .announcement-carousel {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+    }
+
+    .carousel-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      position: relative;
+    }
+
+    .carousel-slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      padding: 40px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(45,45,45,0.95) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-slide.active {
+      display: flex !important;
+      opacity: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .carousel-slide h2 {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 42px;
+      font-weight: 900;
+      color: #d4af37;
+      letter-spacing: 2px;
+      margin: 0 0 20px 0;
+      text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .carousel-slide p {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0 0 32px 0;
+      max-width: 700px;
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+    }
+
+    .carousel-slide .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: #d4af37;
+      color: #1a1a1a;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: 2px solid #d4af37;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .carousel-slide .btn:hover {
+      background: transparent;
+      color: #d4af37;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.25);
+    }
+
+    /* Botões Navigation */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(212, 175, 55, 0.8);
+      color: #1a1a1a;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-nav:hover {
+      background: #d4af37;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+    }
+
+    .carousel-nav.prev {
+      left: 20px;
+    }
+
+    .carousel-nav.next {
+      right: 20px;
+    }
+
+    /* Indicadores (dots) */
+    .carousel-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .carousel-dot.active {
+      background: #d4af37;
+      transform: scale(1.3);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+    }
+
+    .carousel-dot:hover {
+      background: rgba(212, 175, 55, 0.7);
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .carousel-slide h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+      }
+
+      .carousel-slide p {
+        font-size: 16px;
+      }
+
+      .carousel-container {
+        min-height: 240px;
+      }
+
+      .carousel-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .carousel-nav.prev {
+        left: 12px;
+      }
+
+      .carousel-nav.next {
+        right: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .carousel-slide h2 {
+        font-size: 22px;
+      }
+
+      .carousel-slide p {
+        font-size: 14px;
+      }
+
+      .carousel-slide .btn {
+        padding: 12px 24px;
+        font-size: 12px;
+      }
+
+      .carousel-container {
+        min-height: 200px;
+        padding: 20px;
+      }
+
+      .carousel-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+    }
+  </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
      crossorigin="anonymous"></script>
 </head>
@@ -85,7 +296,7 @@
         <details>
           <summary class="menu-item pascoa">Páscoa</summary>
           <ul>
-            <li><a href="pages/pascoa-vigilia.html">Vigília Pascal</a></li>
+            <li><a href="pages/pascoa-vigilia.html">Vig�lia Pascal</a></li>
             <li><a href="pages/pascoa-1.html">Domingo da Páscoa</a></li>
             <li><a href="pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
             <li><a href="pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
@@ -139,7 +350,7 @@
           </ul>
         </details>
       </li>
-      <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
+      <!-- Ordin�rio da missa (separado abaixo dos demais t�picos) -->
       <li class="menu-ordinario">
         <details>
           <summary class="menu-item ordinario">Ordinário da missa</summary>
@@ -149,7 +360,7 @@
             <li><a href="pages/sanctus.html">Sanctus</a></li>
             <li><a href="pages/agnus-dei.html">Agnus Dei</a></li>
             <li><a href="pages/pater-noster.html">Pater noster / Pai nosso</a></li>
-            <li><a href="pages/ad-libitum.html">Ad libitum (<em>à vontade</em>)</a></li>
+            <li><a href="pages/ad-libitum.html">Ad libitum (<em>� vontade</em>)</a></li>
           </ul>
         </details>
       </li>
@@ -167,64 +378,55 @@
   <!-- CAROUSEL DE ANÚNCIOS -->
   <section class="announcement-carousel">
     <div class="carousel-container">
-      <button class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
-      
-      <div class="carousel-inner">
-        <div class="carousel-slide active">
-          <div class="announcement-content">
-            <h2>ANUNCIE AQUI!</h2>
-            <p>SE VOCÊ VIU ISSO, SEUS CLIENTES TAMBÉM VÃO VER</p>
-            <a href="pages/contato.html" class="announcement-btn">Quero Anunciar no site</a>
-          </div>
-        </div>
-        
-        <div class="carousel-slide">
-          <div class="announcement-content">
-            <h2>PARTITURAS LITÚRGICAS</h2>
-            <p>CONFIRA NOSSA COLEÇÃO COMPLETA DE CANTOS GREGORIANOS</p>
-            <a href="pages/loja.html" class="announcement-btn">Acessar Loja</a>
-          </div>
-        </div>
-        
-        <div class="carousel-slide">
-          <div class="announcement-content">
-            <h2>FORMAÇÕES ESPIRITUAIS</h2>
-            <p>APROFUNDE SEU CONHECIMENTO SOBRE A LITURGIA</p>
-            <a href="pages/formacoes.html" class="announcement-btn">Saiba Mais</a>
-          </div>
-        </div>
-        
-        <div class="carousel-slide">
-          <div class="announcement-content">
-            <h2>COMUNIDADE DE FÉ</h2>
-            <p>JUNTE-SE A MILHARES DE FIÉIS EM ORAÇÃO</p>
-            <a href="pages/contato.html" class="announcement-btn">Entre em Contato</a>
-          </div>
-        </div>
-        
-        <div class="carousel-slide">
-          <div class="announcement-content">
-            <h2>NOVIDADES SEMANAIS</h2>
-            <p>NÃO PERCA OS NOVOS CONTEÚDOS E PARTITURAS</p>
-            <a href="pages/contato.html" class="announcement-btn">Fique Atualizado</a>
-          </div>
-        </div>
+      <!-- Slide 1 -->
+      <div class="carousel-slide active">
+        <h2>Anuncie Aqui!</h2>
+        <p>Se você viu isso, seus clientes também vão ver</p>
+        <a href="pages/contato.html" class="btn">Quero Anunciar no site</a>
       </div>
-      
-      <button class="carousel-btn carousel-next" aria-label="Próximo">›</button>
-    </div>
-    
-    <!-- Indicadores de slides -->
-    <div class="carousel-indicators">
-      <button class="indicator active" aria-label="Slide 1"></button>
-      <button class="indicator" aria-label="Slide 2"></button>
-      <button class="indicator" aria-label="Slide 3"></button>
-      <button class="indicator" aria-label="Slide 4"></button>
-      <button class="indicator" aria-label="Slide 5"></button>
+
+      <!-- Slide 2 -->
+      <div class="carousel-slide">
+        <h2>Explore Nossas Partituras</h2>
+        <p>Acesse a maior coleção de cantos gregorianos e partituras litúrgicas</p>
+        <a href="pages/loja.html" class="btn">Ir para Loja</a>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-slide">
+        <h2>Formações Espirituais</h2>
+        <p>Aprofunde seu conhecimento sobre liturgia e música sagrada</p>
+        <a href="pages/formacoes.html" class="btn">Ver Formações</a>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="carousel-slide">
+        <h2>Calendário Litúrgico</h2>
+        <p>Acompanhe os tempos litúrgicos e as celebrações do ano</p>
+        <a href="index.html#destaques" class="btn">Ver Calendário</a>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="carousel-slide">
+        <h2>Apoie Nossa Missão</h2>
+        <p>Contribua para manter viva a tradição do Canto Gregoriano</p>
+        <a href="index.html#destaques" class="btn">Fazer Doação</a>
+      </div>
+
+      <!-- Botões de Navegação -->
+      <button class="carousel-nav prev" onclick="changeSlide(-1)">&#10094;</button>
+      <button class="carousel-nav next" onclick="changeSlide(1)">&#10095;</button>
+
+      <!-- Indicadores -->
+      <div class="carousel-indicators">
+        <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+        <div class="carousel-dot" onclick="goToSlide(1)"></div>
+        <div class="carousel-dot" onclick="goToSlide(2)"></div>
+        <div class="carousel-dot" onclick="goToSlide(3)"></div>
+        <div class="carousel-dot" onclick="goToSlide(4)"></div>
+      </div>
     </div>
   </section>
-
-  <!-- CONTEÚDO: artigos e homilia -->
   <main class="container" id="destaques">
     <section class="articles">
       <h2 style="font-family:'Cinzel',Georgia,serif;color:#d4af37;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25);margin-bottom:35px;">DESTAQUES DA SEMANA</h2>
@@ -267,10 +469,10 @@
         <img src="assets/img/thumbnails.jpg" alt="Capa da música">
         <div class="card-body">
           <small class="tag">#PARTITURA E LITURGIA</small>
-          <h3>Como as indulgências ajudam as almas do Purgatório?</h3>
-          <p>As indulgências pro defunctis são como "uma mesa enorme..."</p>
+          <h3>Como as indulg�ncias ajudam as almas do Purgat�rio?</h3>
+          <p>As indulg�ncias pro defunctis são como �uma mesa enorme...�</p>
           <div class="card-actions">
-            <a class="btn" href="https://www.youtube.com/watch?v=Qli8bqEYG5E&list=PL6GNFcAEZhH-cVH_1UrFxXegi_eZ6PnDA" target="_blank" rel="noopener">Ver vídeo</a>
+            <a class="btn" href="https://www.youtube.com/watch?v=Qli8bqEYG5E&list=PL6GNFcAEZhH-cVH_1UrFxXegi_eZ6PnDA" target="_blank" rel="noopener">Ver v�deo</a>
             <a class="btn outline" href="assets/partituras/33-Domingo-TC-Para-mim-so-ha-um-bem.pdf" download>Baixar partitura</a>
           </div>
         </div>
@@ -280,18 +482,18 @@
       <article class="list-card">
         <img src="assets/img/banner1.jpg" alt="Outro artigo">
         <div class="card-body">
-          <small class="tag">#FORMAÇÃO</small>
-          <h3>Como podemos ajudar as almas do Purgatório?</h3>
-          <p>O que são os chamados "sufágios"? Que boas obras nós...</p>
+          <small class="tag">#FORMA��O</small>
+          <h3>Como podemos ajudar as almas do Purgat�rio?</h3>
+          <p>O que são os chamados �sufr�gios�? Que boas obras nós...</p>
         </div>
       </article>
 
       <article class="list-card">
         <img src="assets/img/banner2.jpg" alt="Outro artigo">
         <div class="card-body">
-          <small class="tag">#FORMAÇÃO</small>
-          <h3>Uma ladainha pelas almas do Purgatório</h3>
-          <p>Peçamos nesta ladainha a intercessão de todos os santos...</p>
+          <small class="tag">#FORMA��O</small>
+          <h3>Uma ladainha pelas almas do Purgat�rio</h3>
+          <p>Pe�amos nesta ladainha a intercessão de todos os santos...</p>
         </div>
       </article>
     </section>
@@ -347,51 +549,57 @@
   </main>
 
   <footer class="site-footer">
-    <p>© 2025 Meu Site. Todos os direitos reservados.</p>
+    <p>� 2025 Meu Site. Todos os direitos reservados.</p>
   </footer>
 
   <script src="scripts/script.js"></script>
   
   <script>
-    // Carousel de Anúncios
+    // ===== CAROUSEL ANÚNCIOS =====
     let currentSlide = 0;
     const slides = document.querySelectorAll('.carousel-slide');
-    const indicators = document.querySelectorAll('.indicator');
+    const dots = document.querySelectorAll('.carousel-dot');
     const totalSlides = slides.length;
+    let autoPlayInterval;
 
-    function showSlide(n) {
+    function showSlide(index) {
+      // Remove active de todos os slides e dots
       slides.forEach(slide => slide.classList.remove('active'));
-      indicators.forEach(indicator => indicator.classList.remove('active'));
-      
-      slides[n].classList.add('active');
-      indicators[n].classList.add('active');
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      // Adiciona active ao slide e dot correto
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
     }
 
-    function nextSlide() {
+    function changeSlide(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+      resetAutoPlay();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      showSlide(currentSlide);
+      resetAutoPlay();
+    }
+
+    function autoPlay() {
       currentSlide = (currentSlide + 1) % totalSlides;
       showSlide(currentSlide);
     }
 
-    function prevSlide() {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      showSlide(currentSlide);
+    function resetAutoPlay() {
+      clearInterval(autoPlayInterval);
+      autoPlayInterval = setInterval(autoPlay, 6000); // Trocar slide a cada 6 segundos
     }
 
-    // Event listeners para botões
-    document.querySelector('.carousel-next').addEventListener('click', nextSlide);
-    document.querySelector('.carousel-prev').addEventListener('click', prevSlide);
-
-    // Event listeners para indicadores
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        currentSlide = index;
-        showSlide(currentSlide);
-      });
+    // Iniciar auto-play ao carregar
+    document.addEventListener('DOMContentLoaded', () => {
+      showSlide(0);
+      autoPlayInterval = setInterval(autoPlay, 6000);
     });
 
-    // Auto-advance carousel a cada 6 segundos
-    setInterval(nextSlide, 6000);
-    
     // Função para copiar a chave PIX
     function copyPixKey() {
       const pixKey = document.getElementById('pix-key');
