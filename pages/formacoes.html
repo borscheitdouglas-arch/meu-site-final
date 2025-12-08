@@ -177,74 +177,98 @@
 
     /* Meditation Card Special Styling */
     .meditation-card {
-      padding: 20px 24px !important;
-      border: 1px solid rgba(202, 167, 90, 0.2);
-      background: linear-gradient(90deg, rgba(202, 167, 90, 0.04) 0%, rgba(21, 21, 21, 0.2) 100%) !important;
-      box-shadow: 0 4px 12px rgba(202, 167, 90, 0.08);
+      padding: 22px 28px !important;
+      border: 1.5px solid rgba(202, 167, 90, 0.25);
+      background: linear-gradient(90deg, rgba(202, 167, 90, 0.06) 0%, rgba(21, 21, 21, 0.25) 100%) !important;
+      box-shadow: 0 6px 20px rgba(202, 167, 90, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       display: flex !important;
       flex-direction: row !important;
-      align-items: center;
+      align-items: center !important;
+      justify-content: space-between !important;
       text-align: left !important;
-      max-width: 600px !important;
-      border-radius: 12px;
-      gap: 20px;
+      max-width: 700px !important;
+      border-radius: 18px;
+      gap: 24px;
     }
 
     .meditation-card:hover {
-      border-color: rgba(212, 175, 55, 0.35) !important;
-      box-shadow: 0 6px 18px rgba(202, 167, 90, 0.12) !important;
-      transform: translateX(4px);
-      background: linear-gradient(90deg, rgba(202, 167, 90, 0.08) 0%, rgba(21, 21, 21, 0.3) 100%) !important;
+      border-color: rgba(212, 175, 55, 0.5) !important;
+      box-shadow: 0 8px 28px rgba(202, 167, 90, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+      transform: translateY(-2px);
+      background: linear-gradient(90deg, rgba(202, 167, 90, 0.1) 0%, rgba(21, 21, 21, 0.35) 100%) !important;
     }
 
     .card-icon {
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
       background: linear-gradient(135deg, var(--accent-2) 0%, var(--gold-light) 100%);
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 0 !important;
-      box-shadow: 0 8px 20px rgba(202, 167, 90, 0.2);
-      transition: all 0.3s ease;
+      box-shadow: 0 10px 24px rgba(202, 167, 90, 0.25);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
       flex-shrink: 0;
+      position: relative;
+    }
+
+    .card-icon::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
     .meditation-card .card-icon {
-      width: 60px;
-      height: 60px;
+      width: 66px;
+      height: 66px;
       margin-bottom: 0 !important;
-      box-shadow: 0 8px 18px rgba(202, 167, 90, 0.18);
+      box-shadow: 0 10px 26px rgba(202, 167, 90, 0.22);
     }
 
     .formacao-card:hover .card-icon {
-      transform: scale(1.08) rotate(5deg);
-      box-shadow: 0 10px 22px rgba(202, 167, 90, 0.3);
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 28px rgba(202, 167, 90, 0.35);
+    }
+
+    .formacao-card:hover .card-icon::after {
+      opacity: 1;
     }
 
     .meditation-card:hover .card-icon {
-      transform: scale(1.1) rotate(-4deg);
-      box-shadow: 0 10px 24px rgba(202, 167, 90, 0.28);
+      transform: scale(1.12) rotate(-5deg) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(202, 167, 90, 0.32);
+    }
+
+    .meditation-card:hover .card-icon::after {
+      opacity: 1;
     }
 
     .card-icon svg {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       color: var(--bg);
       stroke-width: 2;
+      position: relative;
+      z-index: 1;
     }
 
     .meditation-card .card-icon svg {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
     }
 
     .meditation-card-content {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       flex: 1;
+      min-width: 0;
     }
 
     .formacao-card h3 {
@@ -257,13 +281,13 @@
     }
 
     .meditation-card h3 {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       margin: 0 !important;
       font-family: 'Playfair Display', serif;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
       color: var(--accent);
       font-weight: 700;
-      line-height: 1.3;
+      line-height: 1.2;
     }
 
     .formacao-card p {
@@ -274,11 +298,12 @@
     }
 
     .meditation-card p {
-      font-size: 0.85rem;
-      line-height: 1.5;
-      color: #a0a0a0;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #a8a8a8;
       margin: 0 !important;
       letter-spacing: 0.2px;
+      font-weight: 400;
     }
 
     /* Card Features */
@@ -296,29 +321,30 @@
     .feature {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       text-align: center;
       white-space: nowrap;
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: all 0.3s ease;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      background: rgba(202, 167, 90, 0.05);
     }
 
     .meditation-card .feature:hover {
-      background: rgba(202, 167, 90, 0.12);
-      transform: translateY(-1px);
+      background: rgba(202, 167, 90, 0.15);
+      transform: translateY(-2px);
     }
 
     .feature-icon {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       flex-shrink: 0;
     }
 
     .feature-text {
-      font-size: 0.75rem;
-      color: #8a8a8a;
+      font-size: 0.8rem;
+      color: #9a9a9a;
       font-weight: 600;
-      letter-spacing: 0.1px;
+      letter-spacing: 0.15px;
     }
 
     .card-btn {
@@ -342,23 +368,45 @@
     }
 
     .card-btn.btn-primary {
-      padding: 10px 28px !important;
+      padding: 12px 32px !important;
       background: linear-gradient(135deg, var(--accent-2), var(--gold-light)) !important;
       color: var(--bg) !important;
       border: none !important;
-      font-size: 0.85rem !important;
-      box-shadow: 0 6px 16px rgba(202, 167, 90, 0.2) !important;
-      letter-spacing: 0.2px !important;
+      font-size: 0.9rem !important;
+      box-shadow: 0 8px 20px rgba(202, 167, 90, 0.24) !important;
+      letter-spacing: 0.3px !important;
       font-weight: 700 !important;
-      border-radius: 8px !important;
+      border-radius: 10px !important;
       flex-shrink: 0;
       white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+
+    .card-btn.btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+    }
+
+    .card-btn.btn-primary > * {
+      position: relative;
+      z-index: 1;
     }
 
     .card-btn.btn-primary:hover {
       background: linear-gradient(135deg, var(--gold-light), var(--accent-2)) !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 22px rgba(202, 167, 90, 0.28) !important;
+      transform: translateY(-3px) !important;
+      box-shadow: 0 12px 28px rgba(202, 167, 90, 0.32) !important;
+    }
+
+    .card-btn.btn-primary:hover::before {
+      opacity: 1;
     }
 
     /* CTA Section */
