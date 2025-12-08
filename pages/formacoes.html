@@ -387,6 +387,224 @@
     }
 
     /* PIX Section */
+    /* Seção de encerramento e PIX */
+    .closing-section {
+      background: linear-gradient(180deg, rgba(21,21,21,0), rgba(21,21,21,0.5));
+      padding: 64px 20px;
+      margin-top: 80px;
+      border-top: 1px solid rgba(202,167,90,0.15);
+    }
+
+    .closing-container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .closing-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.5), transparent);
+      margin: 0 auto 32px;
+    }
+
+    /* QRCode Section */
+    .qrcode-section {
+      margin-top: 20px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(202,167,90,0.1);
+      animation: fadeInUp 0.6s ease 0.3s both;
+    }
+
+    .qrcode-message {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #e6e6e6;
+      margin: 0 0 8px 0;
+      font-weight: 400;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .pix-icon {
+      width: 32px;
+      height: 32px;
+      color: #caa75a;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(202,167,90,0.2));
+      transition: all 0.3s ease;
+    }
+
+    .qrcode-section:hover .pix-icon {
+      transform: scale(1.1) rotate(5deg);
+      filter: drop-shadow(0 4px 8px rgba(202,167,90,0.35));
+    }
+
+    .qrcode-subtitle {
+      font-size: 0.85rem;
+      color: #9a9a9a;
+      margin: 0 0 24px 0;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .qrcode-container {
+      display: inline-block;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.05), rgba(202,167,90,0.02));
+      border: 1.5px solid rgba(202,167,90,0.25);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(202,167,90,0.08);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qrcode-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.4), transparent, rgba(202,167,90,0.2));
+      border-radius: 16px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .qrcode-container:hover {
+      border-color: rgba(202,167,90,0.5);
+      box-shadow: 0 15px 50px rgba(202,167,90,0.15), 0 0 30px rgba(202,167,90,0.12);
+      transform: translateY(-6px);
+      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03));
+    }
+
+    .qrcode-container:hover::before {
+      opacity: 1;
+    }
+
+    .qrcode-image {
+      display: block;
+      width: 260px;
+      height: 260px;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 8px;
+      image-rendering: pixelated;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+    }
+
+    /* PIX Key Section */
+    .pix-key-section {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(202,167,90,0.15);
+      animation: fadeInUp 0.6s ease 0.5s both;
+    }
+
+    .pix-key-label {
+      font-size: 0.9rem;
+      color: #9a9a9a;
+      margin: 0 0 16px 0;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .pix-key-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.02));
+      border: 1.5px solid rgba(202,167,90,0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pix-key-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, rgba(202,167,90,0.3), transparent);
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .pix-key-container:hover {
+      border-color: rgba(202,167,90,0.4);
+      background: linear-gradient(135deg, rgba(202,167,90,0.12), rgba(202,167,90,0.04));
+    }
+
+    .pix-key-container:hover::before {
+      opacity: 1;
+    }
+
+    .pix-key-text {
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      color: #caa75a;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      flex: 1;
+    }
+
+    .copy-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #caa75a, #d4af37);
+      border: none;
+      border-radius: 8px;
+      color: #151515;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      box-shadow: 0 4px 12px rgba(202,167,90,0.2);
+      flex-shrink: 0;
+    }
+
+    .copy-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(202,167,90,0.3);
+      background: linear-gradient(135deg, #d4af37, #e6c355);
+    }
+
+    .copy-button:active {
+      transform: translateY(0);
+    }
+
+    .copy-button svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .copy-button.copied {
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+    }
+
+    .copy-text {
+      font-size: 0.85rem;
+    }
+
     /* Animations */
     @keyframes fadeInUp {
       from {
@@ -624,6 +842,46 @@
 
     </section>
 
+    <!-- Seção de Apoio: PIX -->
+    <section class="closing-section">
+      <div class="closing-container">
+        <div class="closing-divider"></div>
+        
+        <div class="qrcode-section">
+          <h3 class="qrcode-message">
+            <svg class="pix-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <rect x="15" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <rect x="2" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <rect x="15" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.8"/>
+            </svg>
+            Apoie nossa missão
+          </h3>
+          <p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
+          
+          <div class="qrcode-container">
+            <img src="../assets/img/qrcode-pix-oficial.png" alt="QRCode para meditações espirituais" class="qrcode-image">
+          </div>
+
+          <!-- PIX Key Section -->
+          <div class="pix-key-section">
+            <p class="pix-key-label">Ou copie a chave PIX:</p>
+            <div class="pix-key-container">
+              <span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
+              <button class="copy-button" onclick="copyPixKey()" title="Copiar chave PIX">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="copy-text">Copiar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -633,6 +891,22 @@
   <script src="../scripts/script.js"></script>
   
   <script>
+    function copyPixKey() {
+      const pixKey = 'douglas.assumpcao@hotmail.com';
+      navigator.clipboard.writeText(pixKey).then(() => {
+        const button = event.target.closest('.copy-button');
+        const originalHTML = button.innerHTML;
+        
+        button.classList.add('copied');
+        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="copy-text">Copiado!</span>';
+        
+        setTimeout(() => {
+          button.classList.remove('copied');
+          button.innerHTML = originalHTML;
+        }, 2000);
+      });
+    }
+
     // Fade in animations on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -644,7 +918,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.formacao-card').forEach(el => {
+    document.querySelectorAll('.formacao-card, .qrcode-section').forEach(el => {
       el.style.opacity = '0';
       observer.observe(el);
     });
