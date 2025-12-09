@@ -20,7 +20,10 @@
     .page-subtitle{font-family:Georgia, serif;font-size:1.05rem;color:var(--muted);text-align:center;margin:0 0 48px;font-style:italic}
 
     /* Cards container */
-    .cards-container{display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:36px;max-width:920px;margin:0 auto}
+    .cards-container{display:grid;grid-template-columns:repeat(3, 1fr);gap:36px;max-width:1200px;margin:0 auto}
+    @media(max-width:1200px){.cards-container{grid-template-columns:repeat(3, 1fr)}}
+    @media(max-width:768px){.cards-container{grid-template-columns:repeat(2, 1fr)}}
+    @media(max-width:480px){.cards-container{grid-template-columns:1fr}}
 
     /* Card styles */
     .card{background:linear-gradient(135deg, rgba(31,31,31,0.98) 0%, rgba(21,21,21,1) 100%);border:1px solid rgba(212,175,55,0.3);border-radius:16px;padding:0;text-align:left;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:420px;cursor:pointer}
