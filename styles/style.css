@@ -2387,6 +2387,13 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   .carousel-slide h2{font-size:20px}
   .homily{padding:16px; margin-top:32px}
   body{font-size:15px}
+  /* Vídeos otimizados para tablet */
+  .video-frame{min-height:280px}
+  .video-container{padding:20px 24px; margin-bottom:16px}
+  .video-premium-container{padding:12px}
+  .video-premium-container h2{font-size:1.1rem}
+  .video-premium-container .subtitle{font-size:0.85rem}
+  .sidebar-card-img{height:110px}
 }
 
 /* Melhorias para celulares 480px */
@@ -2436,10 +2443,18 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   .homily h2{font-size:1rem}
   .homily p{font-size:0.9rem; line-height:1.5}
   
-  /* Vídeos responsivos */
-  .video-frame{aspect-ratio:16/9; min-height:160px; width:100%}
-  .video-premium-container{padding:8px}
-  .video-premium-container h2{font-size:1rem}
+  /* Vídeos responsivos - MOBILE 480px */
+  .video-frame{aspect-ratio:16/9; min-height:160px; width:100%; max-width:100%}
+  .video-container{padding:12px 16px; margin-bottom:12px}
+  .video-embed{padding-top:56.25%}
+  .video-premium-container{padding:8px; margin:0 -8px}
+  .video-premium-container iframe{width:100%; aspect-ratio:16/9}
+  .video-premium-container h2{font-size:0.95rem}
+  .video-premium-container .subtitle{font-size:0.75rem}
+  /* Cards com vídeos (relacionados) */
+  .video-card img{max-width:100%; height:auto}
+  .sidebar-card-img{height:80px}
+  .sidebar-card-img img{width:100%; height:100%; object-fit:cover}
   
   /* Matéria mobile */
   .materia{padding:8px; margin:12px 0}
