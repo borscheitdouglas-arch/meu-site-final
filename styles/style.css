@@ -740,9 +740,19 @@ body.nav-open .site-header{background:rgba(0,0,0,0.25)}
 
 /* responsive */
 @media(max-width:900px){
-  .container{grid-template-columns:1fr}
+  .container{grid-template-columns:1fr; gap:20px}
   .slide img{display:none}
   .hero-content{width:100%}
+  /* Sidebar vai para baixo em tablets */
+  .homily{margin-top:40px; padding:20px; background:linear-gradient(135deg, rgba(31,31,31,0.5) 0%, rgba(21,21,21,0.7) 100%); border-radius:8px}
+  /* Botões maiores para toque */
+  .btn{padding:12px 18px; min-height:44px; display:inline-flex; align-items:center}
+  /* Cards mais compactos */
+  .list-card{margin-bottom:12px}
+  .list-card img{width:100px; height:75px}
+  .list-card .card-body{padding:12px 10px}
+  .list-card h3{font-size:0.9rem}
+  .list-card p{font-size:0.75rem}
 }
 
 /* small refinements: buttons */
@@ -1196,6 +1206,27 @@ body.dark{ --bg:#121213; --text:#e9e9e9; --card:#161617; --muted:#bbbbbb; }
 @media(max-width:900px){
   .products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px}
   .product-card img{height:140px}
+}
+
+@media(max-width:768px){
+  .products-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px}
+  .product-card{padding:8px}
+  .product-card img{height:120px}
+  .product-card .ribbon{padding:4px 8px; font-size:11px}
+  .product-card .price-row .current{font-size:16px}
+}
+
+@media(max-width:480px){
+  .products-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px}
+  .product-card{padding:6px; gap:4px}
+  .product-card img{height:100px}
+  .product-card .ribbon{padding:3px 6px; font-size:10px; left:6px; top:6px}
+  .product-card .tag{padding:3px 6px; font-size:10px}
+  .product-card .rating{gap:4px; font-size:12px}
+  .product-card .price-row{gap:6px; margin-top:6px}
+  .product-card .price-row .current{font-size:14px}
+  .product-card .price-row .old{font-size:11px}
+  .product-card .discount-pill{padding:4px 6px; font-size:10px}
 }
 
 /* ======== PREMIUM CARD STYLING - Transformação completa ======== */
@@ -2342,6 +2373,97 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   }
 }
 
+/* Melhorias para tablets 768px */
+@media(max-width:768px){
+  .container{padding:0 12px; gap:16px}
+  .site-header{padding:8px 12px}
+  .logo img{height:36px}
+  .header-actions{gap:8px}
+  .btn{padding:10px 14px; min-height:42px}
+  .list-card{margin-bottom:10px; padding:0}
+  .list-card img{width:100px; height:75px}
+  .hero-banner{margin-bottom:16px}
+  .carousel-container{min-height:250px}
+  .carousel-slide h2{font-size:20px}
+  .homily{padding:16px; margin-top:32px}
+  body{font-size:15px}
+}
 
-
+/* Melhorias para celulares 480px */
+@media(max-width:480px){
+  html{font-size:14px}
+  body{font-size:13px; line-height:1.5}
+  
+  /* Header extremamente compacto */
+  .site-header{padding:6px 8px; gap:8px}
+  .logo img{height:28px}
+  .header-actions{gap:4px}
+  .icon-btn{padding:3px; width:40px; height:40px; min-width:40px}
+  .icon-btn svg{width:18px; height:18px}
+  #search{width:80px; padding:4px 6px; font-size:12px}
+  
+  /* Hero banner menor */
+  .hero-banner{margin-bottom:8px}
+  .carousel-container{min-height:180px}
+  .carousel-slide h2{font-size:16px; padding:12px}
+  .carousel-slide p{font-size:12px; line-height:1.3}
+  .carousel-nav{bottom:6px; gap:4px}
+  
+  /* Cards de destaques ultra-compactos */
+  .articles{gap:4px; margin-bottom:24px}
+  .list-card{margin-bottom:4px; padding:0; min-height:auto}
+  .list-card img{width:70px; height:52px; object-fit:cover}
+  .list-card .card-body{padding:6px 8px; gap:2px}
+  .list-card h3{font-size:0.75rem; margin:0; line-height:1.2; font-weight:600}
+  .list-card p{font-size:0.65rem; margin:0; line-height:1.2; max-height:32px}
+  .list-card .tag{font-size:0.55rem; padding:1px 6px; margin:0}
+  .list-card .card-actions{gap:3px; margin-top:4px; flex-wrap:wrap}
+  .list-card .btn{padding:4px 8px; font-size:0.6rem; min-height:30px; height:30px}
+  
+  /* Container mais compacto */
+  .container{grid-template-columns:1fr; padding:0 8px; gap:12px; margin:8px auto}
+  
+  /* Botões touch-friendly */
+  .btn{padding:10px 12px; font-size:13px; min-height:44px; display:inline-flex; align-items:center; justify-content:center}
+  .btn:active{opacity:0.8}
+  
+  /* Remover elementos decorativos para economizar espaço */
+  .divider-line{display:none}
+  .decorative-element{display:none}
+  
+  /* Sidebar descer e ficar full-width */
+  .homily{width:100%; margin-top:24px; padding:12px; border-radius:4px}
+  .homily h2{font-size:1rem}
+  .homily p{font-size:0.9rem; line-height:1.5}
+  
+  /* Vídeos responsivos */
+  .video-frame{aspect-ratio:16/9; min-height:160px; width:100%}
+  .video-premium-container{padding:8px}
+  .video-premium-container h2{font-size:1rem}
+  
+  /* Matéria mobile */
+  .materia{padding:8px; margin:12px 0}
+  .materia h1{font-size:18px}
+  .materia h2{font-size:16px}
+  .materia h3{font-size:14px}
+  .materia p, .materia li{font-size:13px; line-height:1.6}
+  
+  /* Footer compacto */
+  .site-footer{padding:12px 8px; margin-top:24px; font-size:12px}
+  .site-footer a{display:block; margin:4px 0}
+  
+  /* Tipografia mobile-friendly */
+  h1{font-size:20px}
+  h2{font-size:17px}
+  h3{font-size:15px}
+  
+  /* Links melhorados para toque */
+  a{-webkit-tap-highlight-color:rgba(255,255,255,0.1)}
+  
+  /* Remover hover effects em touch */
+  @media(hover:none){
+    .btn:hover{background:var(--accent)}
+    a:hover{opacity:1}
+  }
+}
 
