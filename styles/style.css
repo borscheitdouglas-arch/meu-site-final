@@ -398,6 +398,43 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
   pointer-events:none;
 }
 
+/* ===== Regras específicas para o bloco de compartilhamento (Advento) ===== */
+.social-share{
+  margin:16px auto; /* reduzir espaço vertical grande */
+  padding:12px 14px; /* cartão mais compacto */
+  gap:12px;
+  max-width:920px;
+  align-items:center;
+  border-radius:8px;
+}
+.social-share label{font-size:0.95rem; margin-right:10px}
+.social-share a, .social-share button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  min-width:44px;
+  border-radius:8px;
+  background:rgba(212,175,55,0.06);
+  border:1px solid rgba(212,175,55,0.18);
+  color:#c9a56a;
+  text-decoration:none;
+  transition:transform 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+.social-share a:hover, .social-share button:hover{transform:translateY(-3px); background:rgba(212,175,55,0.12); box-shadow:0 8px 18px rgba(212,175,55,0.06)}
+.social-share a:focus-visible, .social-share button:focus-visible{outline:3px solid rgba(212,175,55,0.18); outline-offset:3px}
+.social-share a svg, .social-share button svg{width:18px; height:18px}
+
+/* Tooltip fallback for small labels (screen readers) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Ensure the social block doesn't look oversized on very small screens */
+@media(max-width:480px){
+  .social-share{padding:10px 10px; gap:8px}
+  .social-share label{display:none}
+}
+
 /* Summary do ordinário: reduzir padding-top para que fique imediatamente abaixo do arabesco */
 .side-nav li.menu-ordinario details summary{padding-top:6px}
 
