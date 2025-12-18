@@ -155,6 +155,28 @@
     .copy-text{font-size:0.85rem}
 
   </style>
+  <!-- Open Graph / Twitter Card e JSON-LD -->
+  <meta property="og:title" content="Veni Veni Emmanuel">
+  <meta property="og:description" content="Veni Veni Emmanuel — partitura, vídeo e reflexão litúrgica.">
+  <meta property="og:type" content="video.other">
+  <meta property="og:url" content="https://seu-dominio.com/pages/veni-veni-emmanuel.html">
+  <meta property="og:image" content="https://i.ytimg.com/vi/0ly0RrwoA_I/maxresdefault.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Veni Veni Emmanuel">
+  <meta name="twitter:description" content="Veni Veni Emmanuel — partitura, vídeo e reflexão litúrgica.">
+  <meta name="twitter:image" content="https://i.ytimg.com/vi/0ly0RrwoA_I/maxresdefault.jpg">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"VideoObject",
+    "name":"Veni Veni Emmanuel",
+    "description":"Veni Veni Emmanuel — partitura, vídeo e reflexão litúrgica.",
+    "thumbnailUrl":["https://i.ytimg.com/vi/0ly0RrwoA_I/maxresdefault.jpg"],
+    "uploadDate":"2020-01-01",
+    "embedUrl":"https://www.youtube.com/embed/0ly0RrwoA_I",
+    "contentUrl":"https://www.youtube.com/watch?v=0ly0RrwoA_I"
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -305,14 +327,43 @@
         <div class="video-container">
           <div class="video-frame video-border" role="region" aria-label="vídeo principal - Veni Veni Emmanuel">
             <div class="video-embed">
-              <iframe
-                src="https://www.youtube.com/embed/0ly0RrwoA_I?start=1&rel=0&controls=1"
-                title="Veni Veni Emmanuel"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-              ></iframe>
+              <div class="yt-placeholder" data-video-id="0ly0RrwoA_I" role="button" tabindex="0" aria-label="Carregar vídeo Veni Veni Emmanuel" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;background-color:#000;overflow:hidden">
+                <img src="https://i.ytimg.com/vi/0ly0RrwoA_I/hqdefault.jpg" alt="Thumbnail do vídeo" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.6)"/>
+                <button aria-hidden="true" style="position:absolute;border:0;background:rgba(212,175,55,0.95);width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.4)">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="#151515" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+              </div>
+            </div>
+            <script>
+              (function(){
+                function loadVideo(placeholder){
+                  var id = placeholder.dataset.videoId;
+                  var iframe = document.createElement('iframe');
+                  iframe.setAttribute('src','https://www.youtube.com/embed/'+id+'?rel=0&controls=1&autoplay=1');
+                  iframe.setAttribute('title','Veni Veni Emmanuel');
+                  iframe.setAttribute('frameborder','0');
+                  iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                  iframe.setAttribute('allowfullscreen','');
+                  iframe.style.position='absolute';
+                  iframe.style.top='0';
+                  iframe.style.left='0';
+                  iframe.style.width='100%';
+                  iframe.style.height='100%';
+                  iframe.loading='lazy';
+                  placeholder.parentNode.replaceChild(iframe, placeholder);
+                }
+                document.addEventListener('click',function(e){
+                  var ph = e.target.closest('.yt-placeholder');
+                  if(ph) { loadVideo(ph); }
+                });
+                document.addEventListener('keydown',function(e){
+                  if((e.key==='Enter' || e.key===' ') && document.activeElement && document.activeElement.classList && document.activeElement.classList.contains('yt-placeholder')) {
+                    e.preventDefault();
+                    loadVideo(document.activeElement);
+                  }
+                });
+              })();
+            </script>
             </div>
           </div>
         </div>
