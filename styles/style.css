@@ -318,7 +318,27 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
 .side-nav a::after,
 .side-nav details summary::after{display:none}
 
+/* Conteúdo dentro de details (ul) */
+.side-nav details ul{
+  display: block;
+  list-style: none;
+  padding: 8px 0 8px 16px;
+  margin: 0;
+  visibility: visible;
+  opacity: 1;
+  max-height: 2000px;
+  overflow: visible;
+  transition: all 0.2s ease-out;
+}
+
 /* Subitens (links dentro de cada details) — menores e sem destaque */
+.side-nav details ul li{
+  display: block;
+  margin: 6px 0;
+  visibility: visible;
+  opacity: 1;
+}
+
 .side-nav details ul a{
   font-size:13px; /* menor que os rótulos */
   font-weight:400;
@@ -326,9 +346,17 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
   color:rgba(255,255,255,0.90);
   padding-left:8px;
   transition:none;
+  display: block;
+  visibility: visible;
 }
 .side-nav details ul a::after{display:none !important}
-.side-nav details ul a:hover, .side-nav details ul a:focus{transform:none; text-shadow:none; color:rgba(255,255,255,0.92); background:transparent; text-decoration:none}
+.side-nav details ul a:hover, .side-nav details ul a:focus{
+  transform:none; 
+  text-shadow:none; 
+  color:rgba(255,255,255,0.92); 
+  background:transparent; 
+  text-decoration:none
+}
 
 /* Garantir que summaries (os headers dos grupos) não se destaquem além do tamanho do rótulo */
 .side-nav details summary{cursor:pointer; padding:6px 0; font-weight:600}
