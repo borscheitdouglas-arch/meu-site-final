@@ -492,7 +492,7 @@ body.nav-open .side-nav{
   background-repeat: no-repeat;
   color: #fff;
   position:fixed; /* garante que pseudo-overlay fique relativo ao nav */
-  overflow:hidden;
+  overflow: visible;
 }
 
 /* overlay para legibilidade */
