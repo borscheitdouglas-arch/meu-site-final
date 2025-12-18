@@ -511,6 +511,13 @@ body.nav-open .side-nav *{position:relative; z-index:2}
 /* Fonte e acabamento mais clássico quando aberto */
 body.nav-open .side-nav{font-family: 'EB Garamond', serif}
 
+/* Permitir que todos os itens do menu fiquem visíveis quando aberto */
+body.nav-open .side-nav ul{
+  overflow: visible;
+  height: auto;
+  max-height: none;
+}
+
 /* Links adaptados para leitura sobre imagem */
 body.nav-open .side-nav a{color:rgba(255,255,255,0.95); text-shadow:0 2px 8px rgba(0,0,0,0.6)}
 body.nav-open .side-nav a:hover{color:var(--illum-gold); text-decoration:underline}
