@@ -454,10 +454,17 @@
         <div class="meta">Disponível para download em PDF</div>
       </div>
       <div class="right">
-        <a class="btn outline" href="../assets/partituras/Advento/3%C2%BA%20Domingo%20do%20Advento/3%C2%B0Domingo_do_Advento-Entrada.pdf" download>Baixar partitura</a>
+          <a class="btn outline" href="../assets/partituras/Advento/3%C2%BA%20Domingo%20do%20Advento/3%C2%B0Domingo_do_Advento-Entrada.pdf" download>Baixar partitura</a>
+          <button type="button" class="btn outline view-score-btn" data-target="#score-viewer">Visualizar partitura</button>
       </div>
     </div>
     <hr class="white-divider" aria-hidden="true">
+      <div id="score-viewer" class="score-viewer" hidden>
+        <div class="score-frame">
+          <iframe src="../assets/partituras/Advento/3%C2%BA%20Domingo%20do%20Advento/3%C2%B0Domingo_do_Advento-Entrada.pdf#view=FitH" title="Partitura 3º Domingo do Advento — Entrada" loading="lazy"></iframe>
+        </div>
+      </div>
+      <p class="score-hint">Dica: se precisar aproximar, use o zoom do navegador ou abra em nova aba para visualizar em tela cheia.</p>
     <div class="white-text">
       <p>O terceiro domingo do Advento marca um ponto de virada na atmosfera litúrgica. Enquanto os dois primeiros domingos nos convidam à vigilância e ao arrependimento, o terceiro traz consigo a explosão da alegria: <em>"Eis que o Senhor vem!"</em></p>
 
@@ -477,6 +484,89 @@
       <p>Que nossa espera seja marcada pela esperança alegre, confiante e vigilante.</p>
     </div>
   </section>
+
+  <style>
+    .score-viewer {
+      margin: 16px auto 0;
+      max-width: 980px;
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.55);
+    }
+
+    .score-frame {
+      position: relative;
+      width: 100%;
+      padding-top: 125%;
+      background: radial-gradient(circle at top, #222 0, #000 52%);
+    }
+
+    .score-frame iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .score-hint {
+      max-width: 980px;
+      margin: 8px auto 0;
+      font-size: 0.85rem;
+      color: #bdbdbd;
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .score-frame {
+        padding-top: 140%;
+      }
+    }
+
+    .white-section .white-inner .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .white-section .white-inner .right .btn {
+      min-width: 230px;
+    }
+
+    .white-section .white-inner .right a.btn,
+    .white-section .white-inner .right button.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+  </style>
+
+  <script>
+    // Toggle da visualização da partitura em PDF
+    (function(){
+      var btn = document.querySelector('.view-score-btn');
+      var viewer = document.getElementById('score-viewer');
+      if(!btn || !viewer) return;
+      btn.addEventListener('click', function(){
+        var isOpen = !viewer.hasAttribute('hidden');
+        if(isOpen){
+          viewer.setAttribute('hidden','hidden');
+          btn.textContent = 'Visualizar partitura';
+          btn.setAttribute('aria-expanded','false');
+        } else {
+          viewer.removeAttribute('hidden');
+          btn.textContent = 'Fechar visualização';
+          btn.setAttribute('aria-expanded','true');
+          try{ viewer.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){}
+        }
+      });
+    })();
+  </script>
 
   <script src="../scripts/lazy-youtube.js" defer></script>
   <script src="../scripts/video-durations.js" defer></script>

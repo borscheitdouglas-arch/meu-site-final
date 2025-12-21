@@ -2,7 +2,7 @@
   --bg:#000000; --text:#ffffff; --accent:#c41616;
   --card:#0f0f10; --muted:#bdbdbd;
   --header-height:48px;
-  --header-height-mobile:40px;
+  --header-height-mobile:56px;
   /* paleta para estilo "Iluminuria Gregoriana Suave" */
   --illum-bg-1:#fbf6ef; /* pergaminho claro */
   --illum-bg-2:#efe3cd; /* pergaminho levemente envelhecido */
@@ -479,14 +479,15 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
 }
 
 @media(max-width:480px){
-  body{padding-top:var(--header-height-mobile)}
+  /* Garantir que o conteúdo não fique sob o cabeçalho no mobile */
+  body{padding-top:calc(var(--header-height-mobile) + env(safe-area-inset-top, 0px))}
 }
 
 /* Side nav */
-.side-nav{position:fixed; left:0; top:0; bottom:0; width:320px; background:var(--bg); box-shadow:2px 0 18px rgba(0,0,0,.12); transform:translateX(-100%); transition:transform .28s ease; z-index:120; display:flex; flex-direction:column;}
+.side-nav{position:fixed; left:0; top:0; bottom:0; width:280px; max-width:280px; background:var(--bg); box-shadow:2px 0 18px rgba(0,0,0,.12); transform:translateX(-100%); transition:transform .28s ease; z-index:120; display:flex; flex-direction:column;}
 .side-nav.open{transform:translateX(0)}
-.side-nav .close-nav{background:none; border:none; font-size:28px; padding:12px 18px; cursor:pointer}
-.side-nav ul{list-style:none; padding:0 18px; margin:0; /* allow the list to grow and scroll inside the flex column */; overflow:auto; flex:1 1 auto}
+.side-nav .close-nav{background:none; border:none; font-size:24px; padding:10px 12px; cursor:pointer}
+.side-nav ul{list-style:none; padding:0 12px; margin:0; /* allow the list to grow and scroll inside the flex column */; overflow:auto; flex:1 1 auto}
 .side-nav li{margin:8px 0}
 .side-nav a{color:#8ab4ff; text-decoration:none; display:inline-block; padding:4px 0}
 .side-nav a:visited{color:#6fa9ff}
@@ -507,9 +508,9 @@ body.nav-open .side-nav{
 .side-nav-hero{width:100%; overflow:hidden; display:block}
 
 /* Frame para imagem: deixa ela 'encaixada' dentro do menu */
-.side-nav-hero{width:100%; padding:16px; box-sizing:border-box; display:block}
-.side-nav-hero .menu-frame{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border-radius:10px; overflow:hidden; border:4px solid rgba(198,138,20,0.12); box-shadow:0 8px 24px rgba(0,0,0,0.45);}
-.side-nav-hero .menu-frame img{width:100%; height:160px; object-fit:cover; display:block}
+.side-nav-hero{width:100%; padding:12px; box-sizing:border-box; display:block}
+.side-nav-hero .menu-frame{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border-radius:8px; overflow:hidden; border:2px solid rgba(198,138,20,0.12); box-shadow:0 4px 12px rgba(0,0,0,0.45);}
+.side-nav-hero .menu-frame img{width:100%; height:140px; object-fit:cover; display:block}
 
 /* Ajustes específicos para o estilo iluminado */
 body.nav-open .side-nav-hero .menu-frame{border-color:rgba(198,138,20,0.9); box-shadow:inset 0 -28px 48px rgba(255,244,220,0.06), 0 18px 40px rgba(10,6,4,0.45)}
@@ -529,7 +530,7 @@ body.nav-open .side-nav{
   background-repeat: no-repeat;
   color: #fff;
   position:fixed; /* garante que pseudo-overlay fique relativo ao nav */
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* overlay para legibilidade */
@@ -588,7 +589,12 @@ body.nav-open .side-nav-hero{display:none}
 @media(max-width:900px){
   .list-card{flex-direction:column}
   .list-card img{width:100%; height:200px}
-  .side-nav{width:80%}
+  .side-nav, body.nav-open .side-nav{width:34vw; max-width:34vw}
+}
+
+/* Mobile phones: a pouco mais estreito */
+@media(max-width:480px){
+  .side-nav, body.nav-open .side-nav{width:28vw; max-width:28vw}
 }
 
 /* Mobile: cores específicas por tópico (mantém hover escurecido ~12%) */
@@ -781,7 +787,8 @@ body.nav-open .site-header{background:rgba(0,0,0,0.25)}
    (isso evita escurecer o banner duas vezes e garante cobertura uniforme). */
 
 @media(max-width:480px){
-  .site-header{min-height:56px; padding:10px 12px}
+  /* Header com altura consistente no mobile */
+  .site-header{height:var(--header-height-mobile); padding:10px 12px}
 }
 
 /* ajuste fino: em telas pequenas subir menos para manter foco visual */
@@ -1973,10 +1980,10 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
     line-height: 1.3;
   }
   
-  /* Side nav ajustado */
+  /* Side nav ajustado (mais estreito em telas pequenas) */
   .side-nav{
-    width: 85%;
-    max-width: 320px;
+    width: 70%;
+    max-width: 280px;
   }
   
   .side-nav-hero{
@@ -2543,6 +2550,12 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   h1{font-size:20px}
   h2{font-size:17px}
   h3{font-size:15px}
+
+  /* "Modo leitura" para seções brancas (Advento etc.) */
+  .white-section .white-inner{flex-direction:column; align-items:flex-start; gap:12px}
+  .white-section .white-inner .right{width:100%; align-items:stretch}
+  .white-section .white-inner .right .btn{width:100%; min-width:0}
+  .white-text{font-size:0.95rem; line-height:1.7}
   
   /* Links melhorados para toque */
   a{-webkit-tap-highlight-color:rgba(255,255,255,0.1)}

@@ -77,7 +77,8 @@
     .white-inner .left{font-size:1.05rem;color:#fff;font-family:'Cinzel', Georgia, serif;font-weight:700;line-height:1.08}
     .white-inner .left strong{display:block;font-size:1.35rem;font-weight:700;letter-spacing:0.4px;font-family:'Cinzel', Georgia, serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     .white-inner .left .meta{font-size:1.02rem;margin-top:8px;color:#fff;font-weight:700;font-family:'Cinzel', Georgia, serif;opacity:0.98}
-    .white-inner .right a{display:inline-block}
+    .white-inner .right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+    .white-inner .right a,.white-inner .right button{display:inline-block}
     /* Bloco devocional: fundo amarelo claro e texto escuro */
     .white-text{max-width:980px;margin:12px auto 28px;color:#180000;line-height:1.75;padding:18px 20px;background:#ffe7c5;border-radius:8px;font-family:'Playfair Display', serif}
     .white-text h3{font-size:1.02rem;margin-top:14px;color:#180000;font-weight:700}
@@ -338,10 +339,17 @@
         <div class="meta">Disponível para download em PDF</div>
       </div>
       <div class="right">
-        <a class="btn outline" href="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf" download>Baixar partitura</a>
+          <a class="btn outline" href="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf" download>Baixar partitura</a>
+          <button type="button" class="btn outline view-score-btn" data-target="#score-viewer">Visualizar partitura</button>
       </div>
     </div>
     <hr class="white-divider" aria-hidden="true">
+      <div id="score-viewer" class="score-viewer" hidden>
+        <div class="score-frame">
+          <iframe src="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf#view=FitH" title="Partitura 2º Domingo do Advento — Comunhão" loading="lazy"></iframe>
+        </div>
+      </div>
+      <p class="score-hint">Dica: se precisar aproximar, use o zoom do navegador ou abra em nova aba para visualizar em tela cheia.</p>
     <div class="white-text">
       <p>No silêncio expectante do Advento, ergue-se um chamado antigo e santo: vigiar e orar, como fazem os santos Padres da Igreja em seus escritos. <span class="cite">diocesedemaraba.com.br</span> — um tempo de espera vigilante, não apenas pelo aniversário da encarnação, mas pela vinda definitiva do Senhor.</p>
 
@@ -475,6 +483,17 @@
   </section>
 
   <style>
+    /* Viewer da partitura em PDF dentro da página */
+    .score-viewer{max-width:980px;margin:0 auto 24px;border-radius:8px;overflow:hidden;background:#111;border:1px solid rgba(0,0,0,0.15);box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+    .score-frame{position:relative;padding-top:125%;background:#000}
+    .score-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .score-hint{max-width:980px;margin:-6px auto 22px;color:#6b4d26;font-size:0.85rem;text-align:right;font-family:'Georgia',serif;opacity:0.85}
+    @media(max-width:768px){.score-frame{padding-top:140%}}
+    .white-section .white-inner .right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+    .white-section .white-inner .right .btn{min-width:230px;}
+    .white-section .white-inner .right a.btn,
+    .white-section .white-inner .right button.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center}
+
     /* Social Share */
     .social-share{display:flex;gap:12px;align-items:center;margin:-100px auto 0;padding:20px;background:linear-gradient(135deg, rgba(31,31,31,0.5) 0%, rgba(21,21,21,0.7) 100%);border:1px solid rgba(212,175,55,0.2);border-radius:6px;max-width:980px}
     .social-share label{color:#c9a56a;font-weight:600;margin-right:12px;white-space:nowrap;font-size:0.95rem}
@@ -672,7 +691,6 @@
       }
     }
   </style>
-
   <!-- Video embed: iframe simples do YouTube (inserido diretamente) -->
   <script>
     function copyPixKey() {
@@ -688,6 +706,27 @@
         }, 2000);
       });
     }
+  </script>
+  <script>
+    // Toggle da visualização da partitura em PDF
+    (function(){
+      var btn = document.querySelector('.view-score-btn');
+      var viewer = document.getElementById('score-viewer');
+      if(!btn || !viewer) return;
+      btn.addEventListener('click', function(){
+        var isOpen = !viewer.hasAttribute('hidden');
+        if(isOpen){
+          viewer.setAttribute('hidden','hidden');
+          btn.textContent = 'Visualizar partitura';
+          btn.setAttribute('aria-expanded','false');
+        } else {
+          viewer.removeAttribute('hidden');
+          btn.textContent = 'Fechar visualização';
+          btn.setAttribute('aria-expanded','true');
+          try{ viewer.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){}
+        }
+      });
+    })();
   </script>
   <script src="../scripts/script.js"></script>
 </body>

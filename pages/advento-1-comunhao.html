@@ -330,10 +330,17 @@
         <div class="meta">Disponível para download em PDF</div>
       </div>
       <div class="right">
-        <a class="btn outline" href="../assets/partituras/Advento/1%C2%B0%20Domingo%20do%20Advento/1%C2%B0Domingo_do_Advento-Comunhao.pdf" download>Baixar partitura</a>
+        <a class="btn outline" href="../assets/partituras/Advento/1%C2%B0%20Domingo%20do%20Advento/1%C2%B0Domingo_do_Advento-comunh%C3%A3o.pdf" download>Baixar partitura</a>
+        <button type="button" class="btn outline view-score-btn" data-target="#score-viewer">Visualizar partitura</button>
       </div>
     </div>
     <hr class="white-divider" aria-hidden="true">
+    <div id="score-viewer" class="score-viewer" hidden>
+      <div class="score-frame">
+        <iframe src="../assets/partituras/Advento/1%C2%B0%20Domingo%20do%20Advento/1%C2%B0Domingo_do_Advento-comunh%C3%A3o.pdf#view=FitH" title="Partitura 1º Domingo do Advento — Comunhão" loading="lazy"></iframe>
+      </div>
+    </div>
+    <p class="score-hint">Dica: se precisar aproximar, use o zoom do navegador ou abra em nova aba para visualizar em tela cheia.</p>
     <div class="white-text">
       <p>No silêncio expectante do Advento, ergue-se um chamado antigo e santo: vigiar e orar, como fazem os santos Padres da Igreja em seus escritos. <span class="cite">diocesedemaraba.com.br</span> — um tempo de espera vigilante, não apenas pelo aniversário da encarnação, mas pela vinda definitiva do Senhor.</p>
 
@@ -434,6 +441,65 @@
   </section>
 
   <style>
+    .score-viewer {
+      margin: 16px auto 0;
+      max-width: 980px;
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.55);
+    }
+
+    .score-frame {
+      position: relative;
+      width: 100%;
+      padding-top: 125%;
+      background: radial-gradient(circle at top, #222 0, #000 52%);
+    }
+
+    .score-frame iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .score-hint {
+      max-width: 980px;
+      margin: 8px auto 0;
+      font-size: 0.85rem;
+      color: #bdbdbd;
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .score-frame {
+        padding-top: 140%;
+      }
+    }
+
+    .white-section .white-inner .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .white-section .white-inner .right .btn {
+      min-width: 230px;
+    }
+
+    .white-section .white-inner .right a.btn,
+    .white-section .white-inner .right button.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
     /* Social Share */
     .social-share{display:flex;gap:12px;align-items:center;margin:-100px auto 0;padding:20px;background:linear-gradient(135deg, rgba(31,31,31,0.5) 0%, rgba(21,21,21,0.7) 100%);border:1px solid rgba(212,175,55,0.2);border-radius:6px;max-width:980px}
     .social-share label{color:#c9a56a;font-weight:600;margin-right:12px;white-space:nowrap;font-size:0.95rem}
@@ -647,6 +713,27 @@
         }, 2000);
       });
     }
+  </script>
+  <script>
+    // Toggle da visualização da partitura em PDF
+    (function(){
+      var btn = document.querySelector('.view-score-btn');
+      var viewer = document.getElementById('score-viewer');
+      if(!btn || !viewer) return;
+      btn.addEventListener('click', function(){
+        var isOpen = !viewer.hasAttribute('hidden');
+        if(isOpen){
+          viewer.setAttribute('hidden','hidden');
+          btn.textContent = 'Visualizar partitura';
+          btn.setAttribute('aria-expanded','false');
+        } else {
+          viewer.removeAttribute('hidden');
+          btn.textContent = 'Fechar visualização';
+          btn.setAttribute('aria-expanded','true');
+          try{ viewer.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){}
+        }
+      });
+    })();
   </script>
   <script src="../scripts/lazy-youtube.js"></script>
   <script src="../scripts/share.js"></script>

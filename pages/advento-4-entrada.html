@@ -31,14 +31,29 @@
       h1.title{font-size:1.5rem;letter-spacing:0.3px}
       h1.title small{font-size:0.7em}
       .sidebar{margin-top:30px}
+      /* Mobile: vídeo mais compacto e visível logo na dobra */
+      .video-area{width:100%;max-width:360px;margin:0 auto}
+      .video-container{width:100%;padding:16px 12px 18px;margin:0 auto 16px;border-radius:10px}
+      .video-frame{width:100%;aspect-ratio:16/9;min-height:auto}
+      /* Garantir que o vídeo ocupe 100% da largura disponível e não corte a thumbnail */
+      .yt-placeholder img{object-fit:contain !important; background:#000}
     }
     
     @media(max-width:480px){
       .wrap{padding:12px 8px 40px}
       .content{gap:12px}
-      h1.title{font-size:1.1rem; margin:8px 0 4px}
-      .video-frame{min-height:200px; aspect-ratio:16/9}
-      .video-container{padding:12px 16px; margin-bottom:12px}
+      h1.title{font-size:1.1rem; margin:8px 12px 6px}
+      /* Estilo YouTube: vídeo 16:9 ocupando toda a largura, sem cortes */
+      .video-area{max-width:320px;margin:0 auto}
+      .video-container{padding:0; margin:0 auto 12px auto; border-radius:8px}
+      .video-frame{min-height:auto; aspect-ratio:16/9; border-radius:8px; box-shadow:none}
+      .video-embed{padding-top:56.25%}
+      /* Não cortar a thumbnail: barras pretas como no YouTube */
+      .yt-placeholder img{object-fit:contain; background:#000}
+      .yt-play{width:64px; height:64px}
+      .divider-line{margin:16px 12px}
+      .meta-row{padding:0 12px}
+      .lead-excerpt{font-size:0.95rem; padding:0 12px}
       .divider-line{margin:24px 0 20px 0; gap:12px}
       .excerpt-card{padding:12px 16px; gap:8px; margin-bottom:16px}
       .excerpt-card svg{width:20px; height:20px}
@@ -123,7 +138,8 @@
     .white-inner .left{font-size:1.05rem;color:#fff;font-family:'Cinzel', Georgia, serif;font-weight:700;line-height:1.08}
     .white-inner .left strong{display:block;font-size:1.35rem;font-weight:700;letter-spacing:0.4px;font-family:'Cinzel', Georgia, serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     .white-inner .left .meta{font-size:1.02rem;margin-top:8px;color:#fff;font-weight:700;font-family:'Cinzel', Georgia, serif;opacity:0.98}
-    .white-inner .right a{display:inline-block}
+    .white-inner .right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+    .white-inner .right a,.white-inner .right button{display:inline-block}
     
     /* Bloco devocional */
     
@@ -133,6 +149,13 @@
     .white-text h3::before{content:'';margin-right:10px}
     .white-text blockquote{border-left:5px solid #caa75a;padding:16px 0 16px 20px;margin:20px 0;color:#4d3819;font-style:italic;background:rgba(0,0,0,0.05);padding-top:16px;padding-bottom:16px;font-size:1.08rem;line-height:1.8}
     .white-text .cite{display:block;color:#6b4d26;font-size:0.92rem;margin-top:10px;font-weight:600;font-style:normal}
+
+    /* Viewer da partitura em PDF dentro da página */
+    .score-viewer{max-width:980px;margin:0 auto 24px;border-radius:8px;overflow:hidden;background:#111;border:1px solid rgba(0,0,0,0.15);box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+    .score-frame{position:relative;padding-top:125%;background:#000}
+    .score-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .score-hint{max-width:980px;margin:-6px auto 22px;color:#6b4d26;font-size:0.85rem;text-align:right;font-family:'Georgia',serif;opacity:0.85}
+    @media(max-width:768px){.score-frame{padding-top:140%}}
 
     /* Button */
     .white-inner .right .btn{background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;font-family:'Cinzel', Georgia, serif;box-shadow:0 8px 22px rgba(217,166,73,0.14);transition:transform .12s ease,box-shadow .18s ease,filter .18s ease;text-shadow:0 1px 0 rgba(0,0,0,0.25);border:none;cursor:pointer}
@@ -175,7 +198,7 @@
     .video-frame:hover .yt-placeholder img{transform:scale(1.03);filter:brightness(0.7)}
     .yt-play{transition:transform .25s ease, box-shadow .25s ease}
     @keyframes pulsePlay{0%{box-shadow:0 0 0 0 rgba(212,175,55,0.35)}70%{box-shadow:0 0 0 12px rgba(212,175,55,0)}100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}}
-    .video-frame:hover .yt-play{transform:scale(1.06);animation:pulsePlay 1.6s ease-out infinite}
+    .video-frame:hover .yt-play{transform:translate(-50%,-50%) scale(1.06);animation:pulsePlay 1.6s ease-out infinite}
 
     .suggestion-item{border-radius:8px;padding:6px;transition:transform .18s ease, box-shadow .18s ease, background .18s ease}
     .suggestion-thumb{position:relative;overflow:hidden}
@@ -473,10 +496,17 @@
         <div class="meta">Entrada do 4º Domingo do Advento — Liber Usualis, Solesmes, 1961, p. 1868</div>
       </div>
       <div class="right">
-        <a class="btn outline" href="../assets/partituras/Advento/4%C2%B0%20Domingo%20do%20Advento/Rorate%20Caeli.pdf" download>Baixar partitura</a>
+        <a class="btn outline" href="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf" download>Baixar partitura</a>
+        <button type="button" class="btn outline view-score-btn" data-target="#score-viewer">Visualizar partitura</button>
       </div>
     </div>
     <hr class="white-divider" aria-hidden="true">
+    <div id="score-viewer" class="score-viewer" hidden>
+      <div class="score-frame">
+        <iframe src="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf#view=FitH" title="Partitura Rorate Caeli" loading="lazy"></iframe>
+      </div>
+    </div>
+    <p class="score-hint">Dica: se precisar aproximar, use o zoom do navegador ou abra em nova aba para visualizar em tela cheia.</p>
     <div class="white-text">
       <h2 style="font-size:1.8rem;margin:24px 0 16px;color:#180000;border-bottom:3px solid rgba(202,167,90,0.5);padding-bottom:12px;">Rorate caeli — canto do Advento na tradição litúrgica</h2>
 
@@ -592,16 +622,37 @@
       navigator.clipboard.writeText(pixKey).then(() => {
         const button = event.target.closest('.copy-button');
         const originalText = button.innerHTML;
-        
+
         button.classList.add('copied');
         button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="copy-text">Copiado!</span>';
-        
+
         setTimeout(() => {
           button.classList.remove('copied');
           button.innerHTML = originalText;
         }, 2000);
       });
     }
+  </script>
+  <script>
+    // Toggle da visualização da partitura em PDF
+    (function(){
+      var btn = document.querySelector('.view-score-btn');
+      var viewer = document.getElementById('score-viewer');
+      if(!btn || !viewer) return;
+      btn.addEventListener('click', function(){
+        var isOpen = !viewer.hasAttribute('hidden');
+        if(isOpen){
+          viewer.setAttribute('hidden','hidden');
+          btn.textContent = 'Visualizar partitura';
+          btn.setAttribute('aria-expanded','false');
+        } else {
+          viewer.removeAttribute('hidden');
+          btn.textContent = 'Fechar visualização';
+          btn.setAttribute('aria-expanded','true');
+          try{ viewer.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){}
+        }
+      });
+    })();
   </script>
 
   <style>
