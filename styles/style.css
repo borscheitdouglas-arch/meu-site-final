@@ -2481,7 +2481,7 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
 /* Melhorias para celulares 480px */
 @media(max-width:480px){
   html{font-size:14px}
-  body{font-size:13px; line-height:1.5}
+  body{font-size:13px; line-height:1.5; padding-top:56px}
   
   /* Header extremamente compacto */
   .site-header{padding:6px 8px; gap:8px}
