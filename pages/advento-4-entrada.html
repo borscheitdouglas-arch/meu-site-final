@@ -31,11 +31,8 @@
       h1.title{font-size:1.5rem;letter-spacing:0.3px}
       h1.title small{font-size:0.7em}
       .sidebar{margin-top:30px}
-      /* Mobile: vídeo mais compacto e visível logo na dobra */
-      .video-area{width:100%;max-width:360px;margin:0 auto}
-      .video-container{width:100%;padding:16px 12px 18px;margin:0 auto 16px;border-radius:10px}
-      .video-frame{width:100%;aspect-ratio:16/9;min-height:auto}
-      /* Garantir que o vídeo ocupe 100% da largura disponível e não corte a thumbnail */
+      /* Garantir que o vídeo ocupe 100% da largura e não corte a thumbnail */
+      .video-area, .video-container, .video-frame{width:100%}
       .yt-placeholder img{object-fit:contain !important; background:#000}
     }
     
@@ -44,9 +41,8 @@
       .content{gap:12px}
       h1.title{font-size:1.1rem; margin:8px 12px 6px}
       /* Estilo YouTube: vídeo 16:9 ocupando toda a largura, sem cortes */
-      .video-area{max-width:320px;margin:0 auto}
-      .video-container{padding:0; margin:0 auto 12px auto; border-radius:8px}
-      .video-frame{min-height:auto; aspect-ratio:16/9; border-radius:8px; box-shadow:none}
+      .video-container{padding:0; margin:0 0 12px 0; border-radius:0}
+      .video-frame{min-height:auto; aspect-ratio:auto; border-radius:0; box-shadow:none}
       .video-embed{padding-top:56.25%}
       /* Não cortar a thumbnail: barras pretas como no YouTube */
       .yt-placeholder img{object-fit:contain; background:#000}
@@ -210,6 +206,52 @@
     .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px;color:#c9a56a}
     .meta-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(212,175,55,0.10);border:1px solid rgba(212,175,55,0.35);border-radius:20px;font-weight:600;font-size:0.9rem}
     .lead-excerpt{color:var(--muted);line-height:1.75;font-size:1.1rem;max-width:980px;margin:10px 0 0}
+
+    /* Ajustes específicos para mobile desta página (vídeo + título) */
+    @media(max-width:768px){
+      .video-area,
+      .video-container,
+      .video-frame{
+        width:100%;
+        max-width:100%;
+      }
+      .video-frame{
+        min-height:260px;
+      }
+      .video-container{
+        padding:20px 16px;
+        margin-bottom:16px;
+      }
+    }
+
+    @media(max-width:480px){
+      /* Vídeo em 16:9 ocupando toda a largura, sem cortes */
+      .video-container{
+        padding:0;
+        margin:0 0 12px 0;
+        border-radius:0;
+      }
+      .video-frame{
+        min-height:auto;
+        aspect-ratio:16/9;
+        border-radius:0;
+        box-shadow:none;
+      }
+      .video-embed{
+        padding-top:56.25%;
+      }
+      /* Reexibir divisor e alinhar título + trecho no mobile */
+      .divider-line{
+        display:flex;
+        margin:16px 12px;
+      }
+      .meta-row{
+        padding:0 12px;
+      }
+      .lead-excerpt{
+        padding:0 12px;
+      }
+    }
 
     /* Movimento reduzido */
     @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}

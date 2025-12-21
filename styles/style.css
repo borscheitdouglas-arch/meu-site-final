@@ -68,8 +68,11 @@ h1, h2, h3, .section-title, .articles h2, .materia h1, .materia h2, .materia h3,
   color:var(--text);
 }
 
-/* Evita que o conteúdo fique por baixo do header fixo */
-body{padding-top:var(--header-height)}
+/* Evita que o conteúdo fique por baixo do header fixo
+  Ajuste considera a altura do conteúdo (height) + padding vertical
+  para o cabeçalho fixo, evitando que o topo do vídeo/título
+  fique parcialmente encoberto em telas menores. */
+body{padding-top:calc(var(--header-height) + 24px)}
 .site-header{background:transparent}
 .site-header{
   display:flex; align-items:center; justify-content:space-between;
