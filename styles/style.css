@@ -589,12 +589,12 @@ body.nav-open .side-nav-hero{display:none}
 @media(max-width:900px){
   .list-card{flex-direction:column}
   .list-card img{width:100%; height:200px}
-  .side-nav, body.nav-open .side-nav{width:34vw; max-width:34vw}
+  .side-nav, body.nav-open .side-nav{width:82vw; max-width:420px; min-width:320px}
 }
 
 /* Mobile phones: a pouco mais estreito */
 @media(max-width:480px){
-  .side-nav, body.nav-open .side-nav{width:28vw; max-width:28vw}
+  .side-nav, body.nav-open .side-nav{width:94vw; max-width:94vw}
 }
 
 /* Mobile: cores específicas por tópico (mantém hover escurecido ~12%) */
@@ -1982,8 +1982,9 @@ body.nav-open .side-nav a[href$="advento-4.html"]{
   
   /* Side nav ajustado (mais estreito em telas pequenas) */
   .side-nav{
-    width: 70%;
-    max-width: 280px;
+    width: 92%;
+    max-width: 440px;
+    min-width: 320px;
   }
   
   .side-nav-hero{
