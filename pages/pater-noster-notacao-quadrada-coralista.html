@@ -3,51 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Pater noster — Notação Quadrada Coralista</title>
+  <title>Pater Noster (Canto Gregoriano) — Notação Quadrada Coralista</title>
   <meta name="description" content="Guia completo do Pai Nosso em notação quadrada para coralistas e assembleias com ensaio passo a passo.">
   <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
   <link rel="stylesheet" href="../styles/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg:#151515;--panel:#1f1f1f;--muted:#a5a5a5;--accent:#f6f0e3;--accent-2:#d4af37;--line:rgba(212,175,55,0.25)}
-    html,body{height:100%;margin:0;background:var(--bg);color:var(--accent);font-family:Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased}
-    .wrap{max-width:1160px;margin:0 auto;padding:40px 20px 80px}
-    .content{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px}
-    @media(max-width:960px){.content{grid-template-columns:1fr}}
-    .main-panel{background:radial-gradient(circle at top,#1f1f1f 0%,#151515 90%);border:1px solid var(--line);border-radius:18px;padding:32px 30px}
-    .eyebrow{color:var(--muted);letter-spacing:0.25em;font-size:0.72rem;text-transform:uppercase;margin:0 0 10px}
-    h1.title{font-family:'Cinzel',serif;font-size:2rem;margin:0 0 12px;color:var(--accent)}
-    .lead{margin:0 0 26px;font-size:1.1rem;line-height:1.7;color:var(--muted)}
-    .video-shell{border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.45);margin-bottom:20px}
-    .video-shell iframe{width:100%;height:420px;display:block;border:0;background:#000}
-    @media(max-width:640px){.video-shell iframe{height:240px}}
-    .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
-    .chip{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:0.9rem;color:var(--accent)}
-    .resource-card{background:rgba(255,255,255,0.02);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:28px}
-    .resource-card h2{margin:0 0 10px;font-size:1.25rem;font-family:'Cinzel',serif;color:var(--accent)}
-    .resource-card p{margin:0 0 18px;line-height:1.6;color:var(--muted)}
-    .resource-actions{display:flex;flex-wrap:wrap;gap:12px}
-    .cta-btn,.ghost-btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:999px;font-weight:600;text-decoration:none;font-size:0.95rem;transition:transform .18s ease,box-shadow .18s ease}
-    .cta-btn{background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#111;box-shadow:0 14px 26px rgba(214,168,79,0.25)}
-    .cta-btn:hover{transform:translateY(-2px);box-shadow:0 22px 42px rgba(214,168,79,0.35)}
-    .ghost-btn{border:1px solid var(--line);color:var(--accent);background:transparent}
-    .ghost-btn:hover{transform:translateY(-2px);border-color:var(--accent-2);color:var(--accent-2)}
-    .section{margin-bottom:30px}
-    .section h2{margin:0 0 12px;font-size:1.2rem;font-family:'Cinzel',serif;color:var(--accent)}
-    .section p{margin:0 0 14px;line-height:1.8;color:var(--muted)}
-    .steps{counter-reset:item;margin:0;padding:0}
-    .steps li{list-style:none;margin-bottom:12px;padding-left:34px;position:relative;color:var(--muted);line-height:1.6}
-    .steps li::before{counter-increment:item;content:counter(item);position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:50%;border:1px solid var(--accent-2);display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:var(--accent-2)}
-    blockquote{margin:0;padding:14px 0 14px 16px;border-left:3px solid var(--accent-2);color:#caa96c;font-style:italic;line-height:1.7}
-    .sidebar{position:sticky;top:80px}
-    .sidebar h3{margin:0 0 16px;font-size:0.95rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--muted)}
-    .sidebar-cards{display:flex;flex-direction:column;gap:14px}
-    .sidebar-card{display:block;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:16px;background:rgba(255,255,255,0.02);transition:transform .18s ease,border-color .18s ease}
-    .sidebar-card:hover{transform:translateY(-3px);border-color:var(--accent-2)}
-    .sidebar-card span{display:block;font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.2em;margin-bottom:4px}
-    .sidebar-card strong{display:block;font-size:1rem;color:var(--accent)}
-    .sidebar-card p{margin:6px 0 0;font-size:0.88rem;color:var(--muted)}
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cinzel+Decorative&family=Inter:wght@400;500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/pater-noster-notacao-moderna.css">
+  <!-- TODO: substitua ca-pub-4057076422969683 pelo seu ID real do AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683" crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="site-header">
@@ -86,23 +49,6 @@
             <li><a href="advento-2.html">2º Domingo do Advento</a></li>
             <li><a href="advento-3.html">3º Domingo do Advento</a></li>
             <li><a href="advento-4.html">4º Domingo do Advento</a></li>
-          </ul>
-        </details>
-      </li>
-      <li>
-        <details>
-          <summary class="menu-item natal">Natal</summary>
-          <ul>
-            <li><a href="natal-noite.html">Missa da Noite</a></li>
-            <li><a href="natal-aurora.html">Missa da Aurora</a></li>
-            <li><a href="natal-dia.html">Missa do Dia</a></li>
-          </ul>
-        </details>
-      </li>
-      <li>
-        <details>
-          <summary class="menu-item quaresma">Quaresma</summary>
-          <ul>
             <li><a href="quaresma-1.html">1º Domingo da Quaresma</a></li>
             <li><a href="quaresma-2.html">2º Domingo da Quaresma</a></li>
             <li><a href="quaresma-3.html">3º Domingo da Quaresma</a></li>
@@ -188,72 +134,420 @@
 
   <div class="wrap">
     <div class="content">
-      <main class="main-panel" role="main">
-        <p class="eyebrow">Ordinário da missa · Pai Nosso</p>
-        <h1 class="title">Pater noster — Notação Quadrada Coralista</h1>
-        <p class="lead">Versão limpa, sem cifras, para formar coralistas e assembleia no fraseado clássico do Pai Nosso romano. Ênfase em respirações e acentos do texto latino.</p>
-        <div class="video-shell" aria-label="Vídeo de referência">
-          <iframe src="https://www.youtube.com/embed/waVx0DRuCxg" title="Pater noster coral" loading="lazy" allowfullscreen></iframe>
+      <div class="content-shell">
+        <aside class="ad-slot ad-slot--side ad-slot--left" data-ad-zone="side-left" aria-label="Publicidade lateral esquerda">
+          <p class="ad-slot-label">Espaço publicitário</p>
+          <small>Anúncios exibidos aqui permanecem fora do conteúdo.</small>
+          <ins class="adsbygoogle"
+               style="display:block;min-height:260px;width:100%;"
+               data-ad-client="ca-pub-4057076422969683"
+               data-ad-slot="1111111111"
+               data-ad-format="auto"
+               data-full-width-responsive="false"></ins>
+        </aside>
+        <main class="main-panel" role="main">
+        <div class="video-and-suggestions">
+          <div class="video-area">
+            <section class="hero-media" aria-label="Prévia visual">
+              <div class="hero-media-grid">
+                <div class="video-shell" aria-label="Vídeo de referência">
+                  <iframe src="https://www.youtube.com/embed/waVx0DRuCxg" title="Pater Noster coral em notação quadrada" loading="lazy" allowfullscreen></iframe>
+                </div>
+              </div>
+            </section>
+            <section class="hero-info" aria-label="Detalhes do arranjo">
+              <div class="title-stack">
+                <p class="eyebrow">Ordinário da missa · Pai Nosso</p>
+                <h1 class="page-heading">Pater Noster (Canto Gregoriano)</h1>
+                <p class="page-subheading">Notação Quadrada Coralista</p>
+              </div>
+              <div class="hero-summary">
+                <p>Versão limpa, sem cifras, para formar coralistas e assembleia no fraseado clássico do Pai Nosso romano. Ênfase em respirações, sílabas tônicas e catequese musical rápida para fixar o texto latino.</p>
+              </div>
+              <div class="hero-cta-card">
+                <a class="cta-btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Coral.pdf" download>
+                  <span class="btn-icon" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 4v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M6.5 9.5L10 13l3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15.5h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  </span>
+                  <span>Baixar PDF coral</span>
+                </a>
+                <button type="button" class="cta-btn secondary" data-preview-target="#score-preview" data-preview-pdf="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Coral.pdf" data-preview-download="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Coral.pdf" data-preview-pages="1">
+                  <span class="btn-icon" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="m13.5 13.5 2.5 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  </span>
+                  <span>Visualizar partitura</span>
+                </button>
+              </div>
+            </section>
+          </div>
+          <aside class="suggestions-column" aria-label="Outras versões do Pai Nosso">
+            <h3>Outras versões</h3>
+            <div class="suggestion-cards">
+              <a class="suggestion-card" href="pater-noster-notacao-quadrada-cifrada.html">
+                <div class="suggestion-token">Q</div>
+                <div class="suggestion-text">
+                  <span class="suggestion-label">Quadrada</span>
+                  <strong>Com cifras</strong>
+                  <p>Apoio harmônico para organistas e tecladistas.</p>
+                </div>
+              </a>
+              <a class="suggestion-card" href="pater-noster-notacao-moderna-cifrada.html">
+                <div class="suggestion-token">M</div>
+                <div class="suggestion-text">
+                  <span class="suggestion-label">Moderna</span>
+                  <strong>Com cifras</strong>
+                  <p>Pentagrama adaptado para banda litúrgica.</p>
+                </div>
+              </a>
+              <a class="suggestion-card" href="pater-noster-notacao-moderna-coralista.html">
+                <div class="suggestion-token">M</div>
+                <div class="suggestion-text">
+                  <span class="suggestion-label">Moderna</span>
+                  <strong>Coral SATB</strong>
+                  <p>Entradas guiadas e exercícios de ensaio.</p>
+                </div>
+              </a>
+            </div>
+            <a class="collection-cta" href="pater-noster.html">Ver mosaico completo</a>
+          </aside>
         </div>
-        <div class="meta-row">
-          <span class="chip">Formato: PDF coral</span>
-          <span class="chip">Uso: Ensaios de coro e assembleia</span>
-          <span class="chip">Duração média: 2'10"</span>
-        </div>
-
-        <section class="resource-card">
-          <h2>Materiais inclusos</h2>
-          <p>Partitura com sinais de respiração sugeridos, pauta auxiliar com tradução literal e marcação das sílabas tônicas para catequese musical rápida.</p>
-          <div class="resource-actions">
-            <a class="cta-btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Coral.pdf" download>Baixar PDF</a>
-            <a class="ghost-btn" href="../assets/capas-partituras/pater-noster-quadrada-coral.jpg" target="_blank" rel="noopener">Imprimir cartaz</a>
+        <section class="score-preview" id="score-preview" hidden tabindex="-1" aria-label="Pré-visualização da partitura" data-max-pages="1">
+          <div class="score-preview-inner">
+            <div class="score-preview-header">
+              <div class="score-preview-titles">
+                <p class="eyebrow">Pré-visualização</p>
+                <strong>Partitura coral em notação quadrada</strong>
+              </div>
+              <button type="button" class="close-preview" data-close-preview>Fechar</button>
+            </div>
+            <div class="preview-toolbar" role="group" aria-label="Controles da partitura">
+              <div class="toolbar-group" aria-label="Controles de zoom">
+                <button type="button" class="toolbar-btn" data-preview-action="zoom-out" aria-label="Diminuir zoom">−</button>
+                <span class="toolbar-value" data-preview-zoom>Zoom: largura</span>
+                <button type="button" class="toolbar-btn" data-preview-action="zoom-in" aria-label="Aumentar zoom">+</button>
+              </div>
+              <div class="toolbar-group" aria-label="Ajustes de enquadramento">
+                <button type="button" class="toolbar-btn" data-preview-action="fit-width" aria-pressed="true">Largura</button>
+                <button type="button" class="toolbar-btn" data-preview-action="fit-page" aria-pressed="false">Página</button>
+              </div>
+              <div class="toolbar-group" aria-label="Navegação entre páginas">
+                <button type="button" class="toolbar-btn" data-preview-action="prev-page" aria-label="Página anterior">‹</button>
+                <span class="toolbar-value" data-preview-page>Pág. 1</span>
+                <button type="button" class="toolbar-btn" data-preview-action="next-page" aria-label="Próxima página">›</button>
+              </div>
+              <button type="button" class="toolbar-btn" data-preview-action="fullscreen" aria-pressed="false">Tela cheia</button>
+            </div>
+            <div class="score-preview-frame">
+              <iframe class="score-preview-embed" src="about:blank" data-preview-src="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Coral.pdf" title="Visualização em PDF da partitura quadrada coral do Pater Noster" loading="lazy"></iframe>
+            </div>
+            <a class="btn-outline score-preview-download" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Coral.pdf" download>Baixar PDF completo</a>
           </div>
         </section>
+        <section class="section theology-section" id="pater-noster-teologia">
+          <div class="section-intro">
+            <p class="eyebrow">Teologia viva</p>
+            <h2>O Pater Noster</h2>
+            <p>O <em>Pater Noster</em> — conhecido em português como <em>Pai Nosso</em> — é a oração ensinada pelo próprio Nosso Senhor Jesus Cristo aos seus discípulos, conforme os Evangelhos. Ela ocupa lugar central na vida espiritual cristã e sintetiza toda a doutrina da confiança filial, da obediência à vontade divina e da esperança no Reino de Deus.</p>
+            <p>Esta edição em notação quadrada foi pensada para formar coralistas e assembleia no fraseado clássico. Respirações sugeridas, tradução literal e marcação das sílabas tônicas permitem catequese musical mesmo em ensaios rápidos.</p>
+            <p>Na Sagrada Liturgia, o <em>Pater Noster</em> ocupa posição privilegiada, sendo rezado ou cantado após a Oração Eucarística. Trata-se de uma oração comum a toda a assembleia, expressando a unidade do Corpo de Cristo em torno do Pai.</p>
+            <p>Este material destina-se a músicos, cantores e estudiosos da música sacra que desejam aprofundar-se na tradição do canto gregoriano, unindo técnica musical, fidelidade litúrgica e espiritualidade.</p>
+          </div>
+          <aside class="support-qr support-qr--theology" aria-label="Contribua com o projeto">
+            <p class="support-label">Apoie</p>
+            <h3>Ajude este canto</h3>
+            <p class="support-copy">Escaneie e contribua com qualquer valor para manter materiais litúrgicos livres e acessíveis.</p>
+            <figure class="support-qr-code">
+              <img src="../assets/img/qrcode-pix-oficial.png" alt="QR Code para contribuição via Pix">
+            </figure>
+            <p class="support-note">Pix · contribuição espontânea</p>
+          </aside>
 
-        <section class="section">
-          <h2>Plano de ensaio</h2>
-          <ol class="steps">
-            <li>Inicie com leitura falada em uníssono marcando as sílabas sustentadas (ex.: "sanctificetur").</li>
-            <li>Cante apenas o incipit e o final para garantir entradas e cadências homogêneas.</li>
-            <li>Programe um giro pela igreja: o coro canta voltado para a assembleia, depois em semicírculo para ouvir a ressonância.</li>
-          </ol>
+          <div class="theology-body">
+            <article class="doctrine-block" id="pn-filiacao">
+              <h3>Plano de ensaio</h3>
+              <p>1. Inicie com leitura falada marcando as sílabas sustentadas (por exemplo, "sanctificetur").</p>
+              <p>2. Cante apenas incipit e final para garantir entradas e cadências homogêneas.</p>
+              <p>3. Programe um giro pela igreja: o coro canta voltado para a assembleia e depois em semicírculo para ouvir a ressonância.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-celestis">
+              <h3>Escuta formativa</h3>
+              <p>Sugira aos coralistas ouvir a gravação com partitura em mãos e marcar onde percebem o clímax. Esse exercício reforça o senso de unidade e devolve confiança para cantar sem acompanhamento.</p>
+              <p class="inline-quote">"O Pai Nosso é a escola onde o Espírito ensina a Igreja a respirar." — Bento XVI</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-nomen">
+              <h3>Inspirar a assembleia</h3>
+              <p>Antes da missa, convide a assembleia a repetir apenas a resposta final "sed libera nos a malo". Pequenos lembretes geram maior adesão durante a liturgia e criam consciência de participação.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-regnum">
+              <h3>"ADVENIAT REGNUM TUUM": ESPERANÇA ESCATOLÓGICA</h3>
+              <p>O Reino de Deus é ao mesmo tempo presente e futuro. São Gregório de Nissa ensina que essa petição expressa o desejo de que o pecado seja destruído e que Deus reine plenamente no coração humano.</p>
+              <p>Santo Agostinho interpreta essa súplica como o anseio da Igreja pela consumação final da história, quando Cristo entregará o Reino ao Pai. Cada vez que o Pater Noster é rezado, a Igreja confessa sua esperança escatológica.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-voluntas">
+              <h3>"FIAT VOLUNTAS TUA": A ORAÇÃO DA OBEDIÊNCIA</h3>
+              <p>Essa petição une o fiel à oração de Cristo no Getsêmani. São Cipriano de Cartago, em seu tratado <em>De Oratione Dominica</em>, afirma que o cristão não pede que Deus faça sua vontade, mas que ele próprio seja capaz de aceitar a vontade de Deus.</p>
+              <p>Aqui, o Pater Noster torna-se escola de conformação interior. A vontade divina não é opressão, mas caminho de liberdade.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-panem">
+              <h3>"PANEM NOSTRUM QUOTIDIANUM": O PÃO DA VIDA</h3>
+              <p>Desde os primeiros séculos, os Padres da Igreja viram nessa petição uma referência direta à Eucaristia. São Jerônimo observa que o termo grego <em>epiousios</em> pode ser traduzido como "supersubstancial", indicando o pão que ultrapassa o alimento material.</p>
+              <p>Santo Ambrósio afirma que esse pão é Cristo, oferecido diariamente à Igreja. Ao rezar o Pater Noster, o fiel exprime sua fome de Deus e sua dependência radical da graça.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-dimitte">
+              <h3>"DIMITTE NOBIS DEBITA NOSTRA": MISERICÓRDIA QUE OBRIGA</h3>
+              <p>Essa é a única petição condicionada do Pater Noster. São João Crisóstomo adverte que ninguém pode pedir o perdão de Deus sem estar disposto a perdoar.</p>
+              <p>Santo Agostinho afirma que essa frase é pronunciada diariamente porque o cristão precisa diariamente de misericórdia. O Pater Noster impede qualquer espiritualidade orgulhosa.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-tentatio">
+              <h3>"NE NOS INDUCAS IN TENTATIONEM": HUMILDADE E VIGILÂNCIA</h3>
+              <p>Deus não tenta o homem, mas permite que ele seja provado. São Tomás de Aquino explica que essa petição pede a força para não sucumbir à tentação e a graça da perseverança final.</p>
+              <p>O cristão reconhece sua fragilidade e aprende a confiar não em si mesmo, mas em Deus.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-liberatio">
+              <h3>"SED LIBERA NOS A MALO": O CLAMOR FINAL</h3>
+              <p>Os Padres da Igreja interpretam o "mal" tanto como o pecado quanto como o Maligno. São Cipriano afirma que essa petição resume todas as anteriores: é o grito da humanidade ferida que deseja ser libertada definitivamente.</p>
+              <p>Ela aponta para a vitória final de Cristo e para a esperança da vida eterna.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-liturgia">
+              <h3>O PATER NOSTER NA LITURGIA DA MISSA</h3>
+              <p>Na Missa, o Pater Noster ocupa lugar imediatamente anterior à Comunhão. Santo Agostinho explica que essa posição não é acidental: somente quem reconhece Deus como Pai pode aproximar-se da mesa do Filho.</p>
+              <p>A Igreja sempre considerou o Pater Noster como preparação imediata para a Eucaristia, oração dos filhos que se aproximam do Pão da Vida.</p>
+            </article>
+          </div>
+
+          <div class="synthesis-card" id="pn-sintese">
+            <h3>Síntese contemplativa</h3>
+            <p>O Pater Noster é o Evangelho rezado: ensina quem é Deus, quem é o homem e qual o destino da história. Ao rezá-lo, a Igreja aprende a viver como filha, a esperar como peregrina e a amar como Cristo amou. É a oração que começa na terra, mas já pertence ao Céu.</p>
+          </div>
         </section>
-
-        <section class="section">
-          <h2>Escuta formativa</h2>
-          <p>Sugira aos coralistas ouvir a gravação de referência com partitura em mãos e marcar onde percebem movimento de clímax. Esse exercício reforça o senso de unidade e devolve confiança ao cantar sem acompanhamento.</p>
-        </section>
-
-        <section class="section">
-          <h2>Inspirar a assembleia</h2>
-          <blockquote>“O Pai Nosso é a escola onde o Espírito ensina a Igreja a respirar.” — Bento XVI</blockquote>
-          <p>Antes da missa, convide a assembleia a repetir apenas a resposta final "sed libera nos a malo". Pequenos lembretes geram maior adesão durante a liturgia.</p>
-        </section>
-      </main>
-
-      <aside class="sidebar" aria-label="Outras versões do Pai Nosso">
-        <h3>Outras versões</h3>
-        <div class="sidebar-cards">
-          <a class="sidebar-card" href="pater-noster-notacao-quadrada-cifrada.html">
-            <span>Quadrada</span>
-            <strong>Com cifras discretas</strong>
-            <p>Apoio harmônico para organistas e tecladistas.</p>
-          </a>
-          <a class="sidebar-card" href="pater-noster-notacao-moderna-cifrada.html">
-            <span>Moderna</span>
-            <strong>Formações híbridas</strong>
-            <p>Suporte para banda litúrgica e coro.</p>
-          </a>
-          <a class="sidebar-card" href="pater-noster-notacao-moderna-coralista.html">
-            <span>Moderna</span>
-            <strong>Coral SATB</strong>
-            <p>Entradas guiadas por vozes e letra acentuada.</p>
-          </a>
-        </div>
-      </aside>
+        </main>
+        <aside class="ad-slot ad-slot--side ad-slot--right" data-ad-zone="side-right" aria-label="Publicidade lateral direita">
+          <p class="ad-slot-label">Espaço publicitário</p>
+          <small>Reserve este espaço para patrocinadores.</small>
+          <ins class="adsbygoogle"
+               style="display:block;min-height:260px;width:100%;"
+               data-ad-client="ca-pub-4057076422969683"
+               data-ad-slot="2222222222"
+               data-ad-format="auto"
+               data-full-width-responsive="false"></ins>
+        </aside>
+      </div>
+      <div class="ad-slot ad-slot--bottom" data-ad-zone="bottom" aria-label="Publicidade inferior">
+        <p class="ad-slot-label">Espaço publicitário</p>
+        <small>Formato amplo para banners ao final da página.</small>
+        <ins class="adsbygoogle"
+             style="display:block;min-height:280px;width:100%;"
+             data-ad-client="ca-pub-4057076422969683"
+             data-ad-slot="3333333333"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
     </div>
   </div>
 
+  <div class="liturgical-footer">
+    <span class="footer-badge">Coleção Ordinário · 2025</span>
+    <p>Cada formato do Pater Noster está reunido em um mosaico curado, facilitando a escolha para corais, assembleias e instrumentistas.</p>
+    <a class="footer-cta" href="pater-noster.html">Retornar ao mosaico</a>
+    <p>O <em>Pater Noster</em> não é apenas um canto, mas uma oração solene confiada à Igreja pelo próprio Cristo. Sua execução musical deve sempre conduzir à oração, à reverência e ao silêncio interior.</p>
+  </div>
+
   <script src="../scripts/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      const activateGoogleAds=()=>{
+        window.adsbygoogle=window.adsbygoogle||[];
+        document.querySelectorAll('ins.adsbygoogle').forEach(unit=>{
+          try{
+            window.adsbygoogle.push({});
+            const slot=unit.closest('.ad-slot');
+            if(slot){slot.classList.add('has-ad');}
+          }catch(err){
+            console.warn('AdSense não pôde ser inicializado',err);
+          }
+        });
+      };
+      activateGoogleAds();
+      const previewMap=new Map();
+      const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
+      const normalizeSrc=src=>{
+        if(!src) return '';
+        const [base]=src.split('#');
+        return base;
+      };
+      const setDisabled=(btn,disabled)=>{
+        if(!btn) return;
+        btn.disabled=!!disabled;
+        btn.setAttribute('aria-disabled',disabled?'true':'false');
+      };
+      const updateDisplays=state=>{
+        if(!state) return;
+        if(state.zoomDisplay){
+          let label='';
+          if(state.zoomMode==='fit-width'){label='largura';}
+          else if(state.zoomMode==='fit-page'){label='página';}
+          else{label=`${state.zoomValue}%`;}
+          state.zoomDisplay.textContent=`Zoom: ${label}`;
+        }
+        if(state.pageDisplay){
+          const label=state.maxPages?`Pág. ${state.page} / ${state.maxPages}`:`Pág. ${state.page}`;
+          state.pageDisplay.textContent=label;
+        }
+        if(state.fitWidthBtn){state.fitWidthBtn.setAttribute('aria-pressed',String(state.zoomMode==='fit-width'));}
+        if(state.fitPageBtn){state.fitPageBtn.setAttribute('aria-pressed',String(state.zoomMode==='fit-page'));}
+        if(state.fullscreenBtn){state.fullscreenBtn.setAttribute('aria-pressed',String(state.panel.classList.contains('is-fullscreen')));}
+        setDisabled(state.prevBtn,state.page<=1);
+        if(state.nextBtn){
+          const disableNext=state.maxPages?state.page>=state.maxPages:false;
+          setDisabled(state.nextBtn,disableNext);
+        }
+      };
+      const buildHash=state=>{
+        const hashParts=['toolbar=0','navpanes=0',`page=${state.page}`];
+        if(state.zoomMode==='fit-width'){hashParts.push('view=FitH');}
+        else if(state.zoomMode==='fit-page'){hashParts.push('view=Fit');}
+        else{hashParts.push(`zoom=${state.zoomValue}`);}
+        return hashParts.join('&');
+      };
+      const applyPdfState=state=>{
+        if(!state||!state.frame||!state.baseSrc) return;
+        state.frame.src=`${state.baseSrc}#${buildHash(state)}`;
+        state.isFrameLoaded=true;
+      };
+      const exitFullscreen=state=>{
+        if(!state) return;
+        state.panel.classList.remove('is-fullscreen');
+        document.body.classList.remove('no-scroll');
+        if(state.fullscreenBtn){state.fullscreenBtn.setAttribute('aria-pressed','false');}
+      };
+      const hidePanel=state=>{
+        if(!state) return;
+        exitFullscreen(state);
+        state.panel.classList.remove('is-visible');
+        state.panel.hidden=true;
+        if(state.activeTrigger){state.activeTrigger.focus();}
+        state.activeTrigger=null;
+      };
+      const handleAction=(state,action)=>{
+        if(!state) return;
+        switch(action){
+          case 'zoom-in':
+            if(state.zoomMode!=='custom'){state.zoomMode='custom';state.zoomValue=100;}
+            state.zoomValue=clamp(state.zoomValue+10,50,200);
+            break;
+          case 'zoom-out':
+            if(state.zoomMode!=='custom'){state.zoomMode='custom';state.zoomValue=100;}
+            state.zoomValue=clamp(state.zoomValue-10,50,200);
+            break;
+          case 'fit-width':
+            state.zoomMode='fit-width';
+            break;
+          case 'fit-page':
+            state.zoomMode='fit-page';
+            break;
+          case 'prev-page':
+            if(state.page<=1) return;
+            state.page-=1;
+            break;
+          case 'next-page':
+            if(state.maxPages&&state.page>=state.maxPages) return;
+            state.page+=1;
+            break;
+          case 'fullscreen':{
+            const isFull=state.panel.classList.toggle('is-fullscreen');
+            document.body.classList.toggle('no-scroll',isFull);
+            if(state.fullscreenBtn){state.fullscreenBtn.setAttribute('aria-pressed',String(isFull));}
+            return;
+          }
+          default:
+            break;
+        }
+        updateDisplays(state);
+        applyPdfState(state);
+      };
+      document.querySelectorAll('[data-preview-target]').forEach(trigger=>{
+        const selector=trigger.getAttribute('data-preview-target');
+        if(!selector) return;
+        const panel=document.querySelector(selector);
+        if(!panel) return;
+        let state=previewMap.get(panel);
+        if(!state){
+          const frameEl=panel.querySelector('.score-preview-embed');
+          const frameSrc=frameEl?frameEl.getAttribute('data-preview-src'):null;
+          state={
+            panel,
+            frame:frameEl,
+            download:panel.querySelector('.score-preview-download'),
+            closeBtn:panel.querySelector('[data-close-preview]'),
+            toolbar:panel.querySelector('.preview-toolbar'),
+            zoomDisplay:panel.querySelector('[data-preview-zoom]'),
+            pageDisplay:panel.querySelector('[data-preview-page]'),
+            fitWidthBtn:panel.querySelector('[data-preview-action="fit-width"]'),
+            fitPageBtn:panel.querySelector('[data-preview-action="fit-page"]'),
+            fullscreenBtn:panel.querySelector('[data-preview-action="fullscreen"]'),
+            prevBtn:panel.querySelector('[data-preview-action="prev-page"]'),
+            nextBtn:panel.querySelector('[data-preview-action="next-page"]'),
+            activeTrigger:null,
+            zoomMode:'fit-width',
+            zoomValue:110,
+            page:1,
+            maxPages:Number.parseInt(panel.dataset.maxPages||'',10)||null,
+            baseSrc:normalizeSrc(frameSrc),
+            isFrameLoaded:false
+          };
+          previewMap.set(panel,state);
+          if(state.closeBtn){
+            state.closeBtn.addEventListener('click',function(){hidePanel(state);});
+          }
+          if(state.toolbar){
+            state.toolbar.addEventListener('click',function(evt){
+              const btn=evt.target.closest('[data-preview-action]');
+              if(!btn) return;
+              handleAction(state,btn.dataset.previewAction);
+            });
+          }
+          updateDisplays(state);
+        }
+        trigger.addEventListener('click',function(event){
+          event.preventDefault();
+          const pdfSource=normalizeSrc(trigger.dataset.previewPdf||trigger.dataset.previewSrc||state.baseSrc||'');
+          if(pdfSource){
+            state.baseSrc=pdfSource;
+            state.page=1;
+            state.zoomMode='fit-width';
+            state.zoomValue=110;
+          }
+          if(trigger.dataset.previewPages){
+            const parsed=Number.parseInt(trigger.dataset.previewPages,10);
+            if(Number.isFinite(parsed)&&parsed>0){state.maxPages=parsed;}
+          }
+          if(state.download&&trigger.dataset.previewDownload){state.download.href=trigger.dataset.previewDownload;}
+          updateDisplays(state);
+          applyPdfState(state);
+          panel.hidden=false;
+          panel.classList.add('is-visible');
+          state.activeTrigger=trigger;
+          panel.scrollIntoView({behavior:'smooth',block:'start'});
+          panel.focus({preventScroll:true});
+        });
+      });
+      document.addEventListener('keydown',function(event){
+        if(event.key==='Escape'){
+          previewMap.forEach(state=>{
+            if(!state.panel.hidden){hidePanel(state);}
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
