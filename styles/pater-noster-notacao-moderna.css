@@ -468,6 +468,116 @@ body::before {
   }
 }
 
+@media (max-width: 768px) {
+  .wrap {
+    padding: 20px 14px 56px;
+  }
+
+  .main-panel {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .hero-info {
+    padding: 18px;
+  }
+
+  .hero-summary {
+    padding: 14px 16px;
+    max-width: 100%;
+  }
+
+  .hero-summary p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .hero-media {
+    border-radius: 22px;
+  }
+
+  .suggestion-card {
+    padding: 10px 12px;
+  }
+
+  .hero-cta-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cta-btn,
+  .ghost-btn,
+  .btn-outline {
+    width: 100%;
+  }
+
+  .score-preview {
+    padding: 18px;
+  }
+
+  .score-preview-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .close-preview {
+    width: 100%;
+    text-align: center;
+  }
+
+  .preview-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .preview-toolbar > .toolbar-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .toolbar-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .theology-section {
+    padding: 26px 18px;
+  }
+
+  .theology-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .support-qr {
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-heading {
+    font-size: 1.5rem;
+  }
+
+  .page-subheading {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+  }
+
+  .eyebrow,
+  .support-label {
+    letter-spacing: 0.28em;
+  }
+
+  .video-shell iframe {
+    height: 200px;
+  }
+
+  .ad-slot--bottom {
+    padding: 12px 10px;
+  }
+}
+
 .hero-cta-card {
   margin: 0;
   padding: 16px 20px;
@@ -684,7 +794,13 @@ body::before {
 
 @media (max-width: 640px) {
   .score-preview-embed {
-    height: 380px;
+    height: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .score-preview-embed {
+    height: 320px;
   }
 }
 
