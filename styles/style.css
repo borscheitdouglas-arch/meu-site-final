@@ -487,7 +487,18 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
 .side-nav{position:fixed; left:0; top:0; bottom:0; width:280px; max-width:280px; background:var(--bg); box-shadow:2px 0 18px rgba(0,0,0,.12); transform:translateX(-100%); transition:transform .28s ease; z-index:120; display:flex; flex-direction:column;}
 .side-nav.open{transform:translateX(0)}
 .side-nav .close-nav{background:none; border:none; font-size:24px; padding:10px 12px; cursor:pointer}
-.side-nav ul{list-style:none; padding:0 12px; margin:0; /* allow the list to grow and scroll inside the flex column */; overflow:auto; flex:1 1 auto}
+.side-nav ul{
+  list-style:none;
+  padding:0 12px calc(env(safe-area-inset-bottom,0px) + 20px);
+  margin:0;
+  /* allow the list to grow and scroll inside the flex column */
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-gutter:stable;
+}
 .side-nav li{margin:8px 0}
 .side-nav a{color:#8ab4ff; text-decoration:none; display:inline-block; padding:4px 0}
 .side-nav a:visited{color:#6fa9ff}
