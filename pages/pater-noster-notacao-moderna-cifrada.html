@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="../styles/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cinzel+Decorative&family=Inter:wght@400;500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/pater-noster-notacao-moderna.css">
+  <!-- TODO: substitua ca-pub-0000000000000000 pelo seu ID real do AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="site-header">
@@ -136,6 +138,12 @@
         <aside class="ad-slot ad-slot--side ad-slot--left" data-ad-zone="side-left" aria-label="Publicidade lateral esquerda">
           <p class="ad-slot-label">Espaço publicitário</p>
           <small>Anúncios exibidos aqui permanecem fora do conteúdo.</small>
+          <ins class="adsbygoogle"
+               style="display:block;min-height:260px;width:100%;"
+               data-ad-client="ca-pub-0000000000000000"
+               data-ad-slot="1111111111"
+               data-ad-format="auto"
+               data-full-width-responsive="false"></ins>
         </aside>
         <main class="main-panel" role="main">
         <div class="video-and-suggestions">
@@ -330,11 +338,23 @@
         <aside class="ad-slot ad-slot--side ad-slot--right" data-ad-zone="side-right" aria-label="Publicidade lateral direita">
           <p class="ad-slot-label">Espaço publicitário</p>
           <small>Reserve este espaço para patrocinadores.</small>
+          <ins class="adsbygoogle"
+               style="display:block;min-height:260px;width:100%;"
+               data-ad-client="ca-pub-0000000000000000"
+               data-ad-slot="2222222222"
+               data-ad-format="auto"
+               data-full-width-responsive="false"></ins>
         </aside>
       </div>
       <div class="ad-slot ad-slot--bottom" data-ad-zone="bottom" aria-label="Publicidade inferior">
         <p class="ad-slot-label">Espaço publicitário</p>
         <small>Formato amplo para banners ao final da página.</small>
+        <ins class="adsbygoogle"
+             style="display:block;min-height:280px;width:100%;"
+             data-ad-client="ca-pub-0000000000000000"
+             data-ad-slot="3333333333"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
       </div>
     </div>
   </div>
@@ -349,11 +369,19 @@
   <script src="../scripts/script.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded',function(){
-      document.querySelectorAll('[data-ad-zone]').forEach(slot=>{
-        slot.addEventListener('DOMNodeInserted',function(){
-          if(slot.children.length>0){slot.classList.add('has-ad');}
+      const activateGoogleAds=()=>{
+        window.adsbygoogle=window.adsbygoogle||[];
+        document.querySelectorAll('ins.adsbygoogle').forEach(unit=>{
+          try{
+            window.adsbygoogle.push({});
+            const slot=unit.closest('.ad-slot');
+            if(slot){slot.classList.add('has-ad');}
+          }catch(err){
+            console.warn('AdSense não pôde ser inicializado',err);
+          }
         });
-      });
+      };
+      activateGoogleAds();
       const previewMap=new Map();
       const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
       const normalizeSrc=src=>{

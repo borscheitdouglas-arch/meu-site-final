@@ -71,6 +71,15 @@ body::before {
   gap: 6px;
 }
 
+.ad-slot ins.adsbygoogle {
+  display: block;
+  width: 100%;
+  min-height: 250px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  margin-top: 6px;
+}
+
 .ad-slot-label {
   margin: 0;
   text-transform: uppercase;
