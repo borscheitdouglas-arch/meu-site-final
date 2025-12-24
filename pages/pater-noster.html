@@ -1,17 +1,70 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Pater noster / Pai nosso</title>
-  <link rel="icon" href="../assets/img/edi"es-para-o-site/icone.png" sizes="192x192">
-  <link rel="shortcut icon" href="../assets/img/edi"es-para-o-site/icone.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../assets/img/icone.png" sizes="192x192">
   <link rel="stylesheet" href="../styles/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
-     crossorigin="anonymous"></script>
+      crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#151515;--panel:#1f1f1f;--muted:#a4a4a4;--accent:#f4f1ea;--accent-2:#d4af37;--border:rgba(212,175,55,0.35)}
+    html,body{height:100%;margin:0;font-family:'Playfair Display',Georgia,serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .wrap{max-width:1100px;margin:0 auto;padding:60px 20px 140px}
+    h1.page-title{font-family:'Cinzel',Georgia,serif;font-size:2.4rem;margin:0;color:var(--accent);text-align:center;letter-spacing:0.4px}
+    .page-subtitle{font-size:1.1rem;color:var(--muted);text-align:center;margin:18px auto 44px;max-width:780px;line-height:1.6}
+    .cards-carousel{position:relative;margin:28px auto 70px;padding:0 4px}
+    .cards-carousel::before,.cards-carousel::after{content:"";position:absolute;top:0;bottom:0;width:60px;pointer-events:none;background:linear-gradient(90deg,var(--bg),rgba(21,21,21,0));z-index:1}
+    .cards-carousel::after{right:0;left:auto;transform:scaleX(-1)}
+    .cards-carousel::before{left:0}
+    .cards-track{display:flex;gap:20px;overflow-x:auto;padding:8px 10px 24px;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scroll-padding:0 60px}
+    .cards-track:focus-visible{outline:2px solid var(--accent-2);outline-offset:6px}
+    .cards-track::-webkit-scrollbar{height:6px}
+    .cards-track::-webkit-scrollbar-track{background:rgba(255,255,255,0.07);border-radius:999px}
+    .cards-track::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.6);border-radius:999px}
+    .card{flex:0 0 clamp(240px,26vw,310px);min-height:280px;background:radial-gradient(circle at top,rgba(255,255,255,0.08),rgba(0,0,0,0.65));border:1px solid rgba(212,175,55,0.45);border-radius:18px;padding:24px 22px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;scroll-snap-align:start;box-shadow:0 22px 46px rgba(0,0,0,0.4);transition:transform .25s ease,box-shadow .25s ease}
+    .card::before{content:"";position:absolute;inset:-25% auto auto -25%;width:180px;height:180px;background:radial-gradient(circle,rgba(212,175,55,0.28),transparent 60%);opacity:0.6}
+    .card:hover{transform:translateY(-6px);box-shadow:0 24px 54px rgba(0,0,0,0.45),0 0 28px rgba(212,175,55,0.18)}
+    .card>*{position:relative;z-index:1}
+    .card h2{font-family:'Cinzel',Georgia,serif;font-size:1.28rem;margin:0;color:var(--accent-2)}
+    .card-subtitle{margin:2px 0 0;font-size:0.9rem;color:rgba(244,241,234,0.78);letter-spacing:0.2px}
+    .card-description{margin:10px 0 4px;font-size:0.92rem;color:var(--accent);line-height:1.45}
+    .card-section{margin-top:6px;padding-top:12px;border-top:1px solid rgba(244,241,234,0.18)}
+    .card-section-title{margin:0;font-size:0.74rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(244,241,234,0.7)}
+    .card-list{list-style:none;padding:8px 0 0;margin:0;color:rgba(244,241,234,0.85);font-size:0.84rem;line-height:1.35}
+    .card-list li+li{margin-top:4px}
+    .card-list-check li{position:relative;padding-left:18px}
+    .card-list-check li::before{content:"";position:absolute;left:0;top:6px;width:10px;height:10px;border-radius:3px;border:1px solid rgba(212,175,55,0.7);background:rgba(212,175,55,0.15);box-shadow:0 0 8px rgba(212,175,55,0.35)}
+    .card-cta{margin-top:auto}
+    .tag{display:inline-flex;align-items:center;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(212,175,55,0.4);padding:4px 10px;border-radius:999px;margin-bottom:4px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#111;padding:11px 20px;border-radius:999px;font-weight:700;font-size:0.9rem;text-decoration:none;letter-spacing:0.4px;box-shadow:0 10px 24px rgba(0,0,0,0.35);transition:transform .2s ease,box-shadow .2s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(0,0,0,0.45)}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(244,241,234,0.25)}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:64px 0 48px}
+    .detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px}
+    .detail-card{background:var(--panel);border-radius:18px;border:1px solid rgba(255,255,255,0.04);padding:26px 24px;display:flex;flex-direction:column;gap:16px}
+    .detail-card h3{margin:0;font-size:1.2rem;font-family:'Cinzel',Georgia,serif;color:var(--accent-2)}
+    .detail-copy{margin:0;color:rgba(244,241,234,0.85);line-height:1.55;font-size:0.94rem}
+    .detail-meta{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{padding:6px 12px;border-radius:999px;border:1px solid var(--border);font-size:0.82rem;color:var(--accent)}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:auto}
+    .resources-note{color:var(--muted);font-size:0.88rem;margin-top:28px;text-align:center}
+    @media(max-width:540px){.wrap{padding:40px 16px 100px}.card{padding:22px 20px}.detail-card{padding:22px 20px}}
+  </style>
+  <meta name="description" content="Selecione o formato de partitura do Pater noster: notação quadrada ou moderna, versões cifradas e para coralistas.">
+  <meta property="og:title" content="Pater noster / Pai nosso">
+  <meta property="og:description" content="Quatro cartas com os formatos principais para estudar e executar o Pai Nosso.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seu-dominio.com/pages/pater-noster.html">
+  <meta property="og:image" content="https://seu-dominio.com/assets/img/capa-superior.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pater noster / Pai nosso">
+  <meta name="twitter:description" content="Escolha a notação ideal e acesse notas pastorais para o Pai Nosso.">
+  <meta name="twitter:image" content="https://seu-dominio.com/assets/img/capa-superior.png">
 </head>
-<body class="liturgic">
+<body>
   <header class="site-header">
     <button id="menu-btn" class="menu-btn" aria-label="Abrir menu">
       <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
@@ -30,29 +83,27 @@
     </div>
   </header>
 
-  <!-- SIDE NAV -->
   <nav id="side-nav" class="side-nav" aria-hidden="true">
     <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
 
-    <!-- Imagem do menu (campo superior) -->
     <div class="side-nav-hero" aria-hidden="true">
       <div class="menu-frame">
-        <img src="/assets/img/1.jpg" alt="Imagem do menu">
+        <img src="../assets/img/1.jpg" alt="Imagem do menu">
       </div>
     </div>
 
     <ul>
-    <li><a href="/index.html" class="menu-item inicio">Inécio</a></li>
-    <li><a href="/pages/formacoes.html" class="menu-item formacoes">Forma"es</a></li>
+    <li><a href="../index.html" class="menu-item inicio">Início</a></li>
+    <li><a href="../pages/formacoes.html" class="menu-item formacoes">Formações</a></li>
       
       <li>
         <details>
           <summary class="menu-item advento">Advento</summary>
-          <ul>
-            <li><a href="/pages/advento-1.html">1º Domingo do Advento</a></li>
-            <li><a href="/pages/advento-2.html">2º Domingo do Advento</a></li>
-            <li><a href="/pages/advento-3.html">3º Domingo do Advento</a></li>
-            <li><a href="/pages/advento-4.html">4º Domingo do Advento</a></li>
+            <ul>
+            <li><a href="advento-1-video.html">1º Domingo do Advento</a></li>
+            <li><a href="advento-2.html">2º Domingo do Advento</a></li>
+            <li><a href="advento-3.html">3º Domingo do Advento</a></li>
+            <li><a href="advento-4.html">4º Domingo do Advento</a></li>
           </ul>
         </details>
       </li>
@@ -61,9 +112,9 @@
         <details>
           <summary class="menu-item natal">Natal</summary>
           <ul>
-            <li><a href="/pages/natal-noite.html">Missa da Noite</a></li>
-            <li><a href="/pages/natal-aurora.html">Missa da Aurora</a></li>
-            <li><a href="/pages/natal-dia.html">Missa do Dia</a></li>
+            <li><a href="natal-noite.html">Missa da Noite</a></li>
+            <li><a href="natal-aurora.html">Missa da Aurora</a></li>
+            <li><a href="natal-dia.html">Missa do Dia</a></li>
           </ul>
         </details>
       </li>
@@ -71,12 +122,12 @@
         <details>
           <summary class="menu-item quaresma">Quaresma</summary>
           <ul>
-            <li><a href="/pages/quaresma-1.html">1º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-2.html">2º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-3.html">3º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-4.html">4º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-5.html">5º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-ramos.html">Domingo de Ramos</a></li>
+            <li><a href="quaresma-1.html">1º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-2.html">2º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-3.html">3º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-4.html">4º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-5.html">5º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-ramos.html">Domingo de Ramos</a></li>
           </ul>
         </details>
       </li>
@@ -84,15 +135,15 @@
         <details>
           <summary class="menu-item pascoa">Páscoa</summary>
           <ul>
-            <li><a href="/pages/pascoa-vigilia.html">Vigília Pascal</a></li>
-            <li><a href="/pages/pascoa-1.html">Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-4.html">4º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-5.html">5º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-6.html">6º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-ascensao.html">Ascensão do Senhor</a></li>
-            <li><a href="/pages/pascoa-pentecostes.html">Pentecostes</a></li>
+            <li><a href="pascoa-vigilia.html">Vigília Pascal</a></li>
+            <li><a href="pascoa-1.html">Domingo da Páscoa</a></li>
+            <li><a href="pascoa-2.html">2º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-3.html">3º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-4.html">4º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-5.html">5º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-6.html">6º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-ascensao.html">Ascensão do Senhor</a></li>
+            <li><a href="pascoa-pentecostes.html">Pentecostes</a></li>
           </ul>
         </details>
       </li>
@@ -100,115 +151,227 @@
         <details>
           <summary class="menu-item tempo-comum">Tempo Comum</summary>
           <ul>
-            <li><a href="/pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
           </ul>
         </details>
       </li>
-      <!-- Ordinário da missa (separado abaixo dos demais tépicos) -->
       <li class="menu-ordinario">
         <details>
           <summary class="menu-item ordinario">Ordinário da missa</summary>
           <ul>
-            <li><a href="/pages/kyrie.html">Kyrie</a></li>
-            <li><a href="/pages/gloria.html">Gloria</a></li>
-            <li><a href="/pages/sanctus.html">Sanctus</a></li>
-            <li><a href="/pages/agnus-dei.html">Agnus Dei</a></li>
-            <li><a href="/pages/pater-noster.html">Pater noster / Pai nosso</a></li>
-            <li><a href="/pages/ad-libitum.html">Ad libitum (<em>Ã€ vontade</em>)</a></li>
+            <li><a href="kyrie.html">Kyrie</a></li>
+            <li><a href="gloria.html">Gloria</a></li>
+            <li><a href="sanctus.html">Sanctus</a></li>
+            <li><a href="agnus-dei.html">Agnus Dei</a></li>
+            <li><a href="pater-noster.html" aria-current="page">Pater noster / Pai nosso</a></li>
+            <li><a href="ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
           </ul>
         </details>
       </li>
     </ul>
   </nav>
-
   <div id="nav-overlay" class="nav-overlay" hidden></div>
 
-  <main>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap');
-      :root{--gold:#D4AF37;--text:#EDEDED;--card-bg: rgba(6,6,6,0.94)}
-      html,body{height:100%}
-      body{margin:0;font-family:Cardo, 'Playfair Display', serif;background:#fff1c1;color:var(--text);background-image: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.06) 60%);background-blend-mode:multiply}
-      .page-wrap{min-height:calc(100vh - var(--header-height,48px)); display:flex; align-items:center; justify-content:center; padding:48px 16px}
-      .notice-card{width:100%; max-width:750px; background:transparent; border-radius:10px; padding:0; box-sizing:border-box; position:relative; text-align:center}
-      .notice-inner{background:var(--card-bg); border-radius:10px; padding:48px; box-sizing:border-box; color:var(--text); border:1px solid rgba(212,175,55,0.40); box-shadow: 0 18px 50px rgba(0,0,0,0.7), 0 6px 18px rgba(0,0,0,0.6) inset; position:relative; overflow:hidden}
-      .arabesco{display:block; width:100%; text-align:center; margin:6px 0}
-      .arabesco svg{width:220px; height:auto; opacity:0.92}
-      .icon{font-size:52px; color:var(--gold); display:block; margin:0 auto 18px; line-height:1}
-      .title{font-family:'Playfair Display', 'Cardo', serif; color:var(--gold); font-size:28px; margin:6px 0 18px}
-      .message{color:var(--text); font-size:17px; line-height:1.8; max-width:680px; margin:0 auto}
-      .message p{margin:12px 0}
-      .footer-note{margin-top:22px;color:rgba(237,237,237,0.78); font-size:0.98rem}
-      .notice-inner::before{content:''; position:absolute; inset:0; pointer-events:none; background-image: radial-gradient(ellipse at 10% 10%, rgba(212,175,55,0.02), transparent 12%), radial-gradient(ellipse at 90% 90%, rgba(212,175,55,0.01), transparent 12%); mix-blend-mode:overlay; opacity:0.9}
-      @media(max-width:680px){.notice-inner{padding:40px}.title{font-size:22px}.icon{font-size:44px}.arabesco svg{width:160px}}
-      @media(max-width:420px){.notice-inner{padding:36px}.title{font-size:20px}.icon{font-size:40px}.message{font-size:15px}}
-    </style>
+  <div class="wrap">
+    <h1 class="page-title">Pater noster / Pai nosso</h1>
+    <p class="page-subtitle">Escolha rapidamente o formato de partitura: mantenha a melodia gregoriana com cifras discretas, prepare coralistas em notação quadrada ou integre formações modernas com arranjos cifrados.</p>
 
-    <div class="page-wrap">
-      <div class="notice-card">
-        <div class="notice-inner" role="status" aria-live="polite">
-          <span class="arabesco" aria-hidden="true">
-            <svg viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="none" stroke-width="1"><path d="M10 20 C30 0, 70 0, 90 20 C110 40, 150 40, 170 20" stroke="rgba(212,175,55,0.95)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 20 C45 10, 55 10, 70 20" stroke="rgba(212,175,55,0.85)" stroke-width="1.8" stroke-linecap="round"/></g></svg>
-          </span>
-
-          <div class="icon" aria-hidden="true">?</div>
-          <h1 class="title">CONTEÃšDO em Preparação</h1>
-          <div class="message">
-            <p>O material est— sendo preparado e revisado cuidadosamente.</p>
-            <p>Em breve disponibilizaremos as partituras e orienta"es para execução.</p>
-            <p>Retorne mais tarde para acessar os recursos completos.</p>
+    <div class="cards-carousel" aria-label="Formatos disponíveis do Pai Nosso">
+      <div class="cards-track" tabindex="0">
+        <article class="card">
+          <span class="tag">Salmista · organista</span>
+          <h2>Notação Quadrada com Cifras</h2>
+          <p class="card-subtitle">Organistas e regentes que sustentam o coro</p>
+          <p class="card-description">Tetragrama fiel ao Graduale Simplex com cifras encaixadas nos incisos para apoiar a harmonia sem quebrar o fraseado gregoriano.</p>
+          <div class="card-section">
+            <p class="card-section-title">Indicado para</p>
+            <ul class="card-list">
+              <li>Organistas com pedal</li>
+              <li>Tecladistas de apoio</li>
+              <li>Mestres de capela</li>
+            </ul>
           </div>
-          <div class="footer-note">Obrigado por sua paciéncia e interesse. Salve Maria!</div>
+          <div class="card-section">
+            <p class="card-section-title">Diferencial</p>
+            <ul class="card-list card-list-check">
+              <li>Neumas completos com respirações guiadas</li>
+              <li>Cifras discretas em cada jubilus</li>
+              <li>Notas rápidas de articulação</li>
+            </ul>
+          </div>
+          <a class="btn card-cta" href="pater-noster-notacao-quadrada-cifrada.html">👉 Ver partituras</a>
+        </article>
 
-          <span class="arabesco" aria-hidden="true">
-            <svg viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="translate(200,40) scale(-1,-1)" fill="none"><path d="M10 20 C30 0, 70 0, 90 20 C110 40, 150 40, 170 20" stroke="rgba(212,175,55,0.95)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 20 C45 10, 55 10, 70 20" stroke="rgba(212,175,55,0.85)" stroke-width="1.8" stroke-linecap="round"/></g></svg>
-          </span>
-        </div>
+        <article class="card">
+          <span class="tag">Schola · assembleia</span>
+          <h2>Notação Quadrada para Coralistas</h2>
+          <p class="card-subtitle">Para memorizar texto e acentos</p>
+          <p class="card-description">Versão limpa, sem cifras, com tradução espelhada e respirações marcadas à maneira de Solesmes para formar assembleias e schola cantorum.</p>
+          <div class="card-section">
+            <p class="card-section-title">Indicado para</p>
+            <ul class="card-list">
+              <li>Coralistas iniciantes</li>
+              <li>Ensaios congregacionais</li>
+              <li>Oficinas de canto gregoriano</li>
+            </ul>
+          </div>
+          <div class="card-section">
+            <p class="card-section-title">Diferencial</p>
+            <ul class="card-list card-list-check">
+              <li>Glosa português-latim imediata</li>
+              <li>Respirações sugeridas em cada frase</li>
+              <li>Dinâmica indicada para assembleia</li>
+            </ul>
+          </div>
+          <a class="btn card-cta" href="pater-noster-notacao-quadrada-coralista.html">👉 Acessar partituras</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Violão · teclado</span>
+          <h2>Notação Moderna com Cifras</h2>
+          <p class="card-subtitle">Arranjo contemporâneo para bandas paroquiais</p>
+          <p class="card-description">Pentagrama completo com compassos guiados, cifras funcionais e QR para metrônomo em 68&nbsp;BPM para integrar violão, teclado e sopros leves.</p>
+          <div class="card-section">
+            <p class="card-section-title">Indicado para</p>
+            <ul class="card-list">
+              <li>Violonistas solo ou base</li>
+              <li>Tecladistas modernos</li>
+              <li>Pequenas bandas litúrgicas</li>
+            </ul>
+          </div>
+          <div class="card-section">
+            <p class="card-section-title">Diferencial</p>
+            <ul class="card-list card-list-check">
+              <li>Melodia em clave de sol</li>
+              <li>Cifras com tensões e slash chords</li>
+              <li>Indicação de groove e rubato</li>
+            </ul>
+          </div>
+          <a class="btn card-cta" href="pater-noster-notacao-moderna-cifrada.html">👉 Ver partituras</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Coral misto</span>
+          <h2>Notação Moderna para Coral</h2>
+          <p class="card-subtitle">SATB simplificado com texto acentuado</p>
+          <p class="card-description">Distribuição clara para soprano/alto e apoio para tenores/baixos, ideal para alternar coro e assembleia mantendo entradas precisas.</p>
+          <div class="card-section">
+            <p class="card-section-title">Indicado para</p>
+            <ul class="card-list">
+              <li>Corais mistos paroquiais</li>
+              <li>Ensaios por naipe</li>
+              <li>Liturgias com participação alternada</li>
+            </ul>
+          </div>
+          <div class="card-section">
+            <p class="card-section-title">Diferencial</p>
+            <ul class="card-list card-list-check">
+              <li>Entradas escalonadas por voz</li>
+              <li>Sugestões de reforço instrumental</li>
+              <li>Texto latino com acento auxiliar</li>
+            </ul>
+          </div>
+          <a class="btn card-cta" href="pater-noster-notacao-moderna-coralista.html">👉 Acessar partituras</a>
+        </article>
       </div>
     </div>
-  </main>
 
-  <footer class="site-footer">
-    <p>é 2025 Meu Site. Todos os direitos reservados.</p>
-  </footer>
+    <div class="divider" aria-hidden="true"></div>
+
+    <section class="detail-grid" aria-label="Downloads rápidos">
+      <article class="detail-card" id="quadrada-cifrada">
+        <h3>Notação Quadrada com Cifras</h3>
+        <p class="detail-copy">Incipits completos, quilismas destacados e cifras discretas acima de cada jubilus para quem conduz o coro sem abrir mão da tradição.</p>
+        <div class="detail-meta">
+          <span class="chip">Formato: PDF</span>
+          <span class="chip">Uso: Organistas e regentes</span>
+          <span class="chip">Tonalidade: Fá</span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Cifra.pdf" download>Baixar PDF</a>
+          <a class="btn ghost" href="pater-noster-notacao-quadrada-cifrada.html">Ver página completa</a>
+        </div>
+      </article>
+
+      <article class="detail-card" id="quadrada-coral">
+        <h3>Notação Quadrada para Coralistas</h3>
+        <p class="detail-copy">Remove cifras para evitar distrações, acrescenta tradução espelhada e respirações sugeridas para formar assembleias em pouco tempo.</p>
+        <div class="detail-meta">
+          <span class="chip">Formato: PDF</span>
+          <span class="chip">Uso: Ensaios coletivos</span>
+          <span class="chip">Idioma: Latim com glosa</span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.Q.-Coral.pdf" download>Baixar PDF</a>
+          <a class="btn ghost" href="pater-noster-notacao-quadrada-coralista.html">Ver página completa</a>
+        </div>
+      </article>
+
+      <article class="detail-card" id="moderna-cifrada">
+        <h3>Notação Moderna com Cifras</h3>
+        <p class="detail-copy">Transcrição em clave de sol com cifras completas, indicação de fermatas e pulsação sugerida para violão, teclado ou piano digital.</p>
+        <div class="detail-meta">
+          <span class="chip">Formato: PDF</span>
+          <span class="chip">Uso: Comunidades pequenas</span>
+          <span class="chip">Compassos: 3/4 adaptados</span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.M.-Orgão.pdf" download>Baixar PDF</a>
+          <a class="btn ghost" href="pater-noster-notacao-moderna-cifrada.html">Ver página completa</a>
+        </div>
+      </article>
+
+      <article class="detail-card" id="moderna-coral">
+        <h3>Notação Moderna para Coral</h3>
+        <p class="detail-copy">Distribuição simplificada em duas pautas com entradas escalonadas, acentos de texto e sugestões de reforço instrumental.</p>
+        <div class="detail-meta">
+          <span class="chip">Formato: PDF</span>
+          <span class="chip">Uso: Ensaios SATB</span>
+          <span class="chip">Tessitura: Do3 – Lá4</span>
+        </div>
+        <div class="actions">
+          <a class="btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.M.-Coral.pdf" download>Baixar PDF</a>
+          <a class="btn ghost" href="pater-noster-notacao-moderna-coralista.html">Ver página completa</a>
+        </div>
+      </article>
+    </section>
+
+    <p class="resources-note">Caso inclua áudio guia ou novas revisões, atualize os arquivos na pasta <code>assets/partituras/Pater-Noster-LATIM</code> para manter todos os links íntegros.</p>
+  </div>
 
   <script src="../scripts/script.js"></script>
 </body>
 </html>
-
-
-
-

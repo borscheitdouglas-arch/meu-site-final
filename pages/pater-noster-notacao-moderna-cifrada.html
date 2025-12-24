@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pater noster — Notação Moderna Cifrada</title>
+  <meta name="description" content="Arranjo contemporâneo do Pai Nosso com melodia em pentagrama e cifras funcionais para banda litúrgica e grupos jovens.">
+  <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cinzel+Decorative&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#111014;--bg-alt:#1c181f;--panel:#151218;--panel-soft:rgba(255,255,255,0.02);--muted:#b5aebf;--accent:#f9f6ee;--accent-2:#d4af37;--line:rgba(212,175,55,0.25);--glow:rgba(212,175,55,0.35)}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--accent);font-family:'Spectral','Playfair Display',serif;-webkit-font-smoothing:antialiased;position:relative}
+    body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at top,var(--glow),transparent 55%),radial-gradient(circle at 20% 20%,rgba(255,255,255,0.08),transparent 40%),radial-gradient(circle at 80% 10%,rgba(140,92,33,0.25),transparent 45%);opacity:0.5;pointer-events:none;z-index:-1}
+    .wrap{max-width:1200px;margin:0 auto;padding:50px 24px 120px}
+    .content{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:34px}
+    @media(max-width:960px){.content{grid-template-columns:1fr}}
+    .main-panel{background:linear-gradient(135deg,#1d1821 0%,#0f0e11 70%);border:1px solid rgba(255,255,255,0.08);border-radius:26px;padding:36px 38px;box-shadow:0 40px 90px rgba(0,0,0,0.5);position:relative;overflow:hidden}
+    .main-panel::after{content:"";position:absolute;inset:20px;border:1px solid rgba(255,255,255,0.05);border-radius:22px;pointer-events:none}
+    .eyebrow{color:var(--muted);letter-spacing:0.35em;font-size:0.68rem;text-transform:uppercase;margin:0 0 12px}
+    h1.title{font-family:'Cinzel Decorative',serif;font-size:2.4rem;margin:0 0 16px;color:var(--accent);letter-spacing:0.06em}
+    .lead{margin:0 0 30px;font-size:1.14rem;line-height:1.8;color:rgba(249,246,238,0.8);max-width:38ch}
+    .hero{margin-bottom:36px}
+    .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;align-items:center}
+    .hero-copy{position:relative;padding-right:10px}
+    .hero-art{position:relative;border-radius:24px;overflow:hidden;background:radial-gradient(circle at top,var(--glow),rgba(0,0,0,0.4));padding:6px}
+    .hero-art img{width:100%;height:100%;object-fit:cover;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,0.6)}
+    .hero-art::after{content:"Coleção Ordinário · 2025";position:absolute;bottom:16px;right:18px;font-size:0.72rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(249,246,238,0.72);background:rgba(0,0,0,0.55);padding:6px 14px;border-radius:999px}
+    .hero-stats{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}
+    .hero-stat{flex:1 1 120px;padding:12px 14px;border-radius:16px;border:1px solid rgba(244,241,234,0.18);background:rgba(255,255,255,0.03);backdrop-filter:blur(6px)}
+    .hero-stat span{display:block;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted)}
+    .hero-stat strong{display:block;font-size:1.05rem;margin-top:4px;color:var(--accent)}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+    .cta-btn,.ghost-btn,.btn-outline{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:999px;font-weight:600;text-decoration:none;font-size:0.95rem;transition:transform .18s ease,box-shadow .18s ease}
+    .cta-btn{background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#111;box-shadow:0 14px 26px rgba(214,168,79,0.25)}
+    .cta-btn:hover{transform:translateY(-2px);box-shadow:0 22px 42px rgba(214,168,79,0.35)}
+    .ghost-btn{border:1px solid rgba(255,255,255,0.4);color:var(--accent);background:transparent}
+    .ghost-btn:hover{border-color:var(--accent-2);color:var(--accent-2);transform:translateY(-2px)}
+    .btn-outline{border:1px solid rgba(255,255,255,0.4);color:var(--accent);background:transparent}
+    .btn-outline:hover{border-color:var(--accent-2);color:var(--accent-2);transform:translateY(-2px)}
+    .video-shell{border:1px solid rgba(255,255,255,0.08);border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.55);margin-bottom:32px;position:relative}
+    .video-shell iframe{width:100%;height:420px;display:block;border:0;background:#000}
+    @media(max-width:640px){.video-shell iframe{height:240px}}
+    .resource-suite{display:grid;grid-template-columns:320px auto;gap:24px;border:1px solid rgba(255,255,255,0.08);border-radius:22px;padding:26px;background:rgba(255,255,255,0.02);margin-bottom:32px}
+    @media(max-width:760px){.resource-suite{grid-template-columns:1fr}}
+    .resource-visual{position:relative;border-radius:18px;overflow:hidden;background:radial-gradient(circle,var(--glow),rgba(0,0,0,0.4))}
+    .resource-visual img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(0.15)}
+    .resource-visual::after{content:"Prévia " attr(data-edicao);position:absolute;top:14px;left:14px;font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;color:#111;background:var(--accent);padding:6px 14px;border-radius:999px}
+    .resource-details h2{margin:0 0 10px;font-size:1.28rem;font-family:'Cinzel',serif;color:var(--accent)}
+    .resource-details p{margin:0 0 16px;line-height:1.7;color:var(--muted)}
+    .resource-actions{display:flex;flex-wrap:wrap;gap:12px}
+    .resource-note{font-size:0.9rem;color:var(--muted);margin-top:16px}
+    .audio-preview{margin-bottom:34px;border-radius:18px;padding:22px 24px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+    .audio-preview button{border:0;border-radius:50%;width:56px;height:56px;background:linear-gradient(180deg,#d6a84f,#a3771e);color:#111;font-weight:700;font-size:0.8rem;cursor:pointer;box-shadow:0 12px 30px rgba(214,168,79,0.4);transition:transform .2s}
+    .audio-preview button:hover{transform:scale(1.06)}
+    .audio-meta{flex:1;min-width:220px}
+    .audio-meta h3{margin:0 0 6px;font-size:1.05rem;color:var(--accent)}
+    .audio-meta p{margin:0;color:var(--muted)}
+    .audio-progress{flex:1 1 220px;display:flex;align-items:center;gap:10px}
+    .audio-progress span{font-size:0.82rem;color:var(--muted)}
+    .audio-bar{flex:1;height:6px;border-radius:999px;background:rgba(255,255,255,0.1);position:relative;overflow:hidden}
+    .audio-bar::after{content:"";position:absolute;inset:0;width:40%;background:linear-gradient(90deg,#d4af37,#f6f0e3);border-radius:999px}
+    .section{margin-bottom:36px}
+    .section h2{margin:0 0 12px;font-size:1.25rem;font-family:'Cinzel',serif;color:var(--accent)}
+    .section p{margin:0 0 14px;line-height:1.8;color:var(--muted)}
+    .practice-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;border-radius:22px;padding:24px;border:1px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.25)}
+    .practice-card h3{margin:0 0 12px;font-size:1.05rem;color:var(--accent-2)}
+    .practice-checklist{margin:0;padding-left:18px;color:var(--muted);line-height:1.6}
+    .practice-checklist li+li{margin-top:6px}
+    .theology-section{margin:46px auto 0;padding:40px 34px;border-radius:24px;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(160deg,rgba(255,255,255,0.02),rgba(0,0,0,0.45));box-shadow:0 40px 80px rgba(0,0,0,0.5);max-width:900px;text-align:center}
+    .theology-section .section-intro h2{font-size:1.6rem;letter-spacing:0.08em;color:var(--accent-2)}
+    .theology-section .section-intro p{font-size:1rem;color:var(--accent);opacity:0.85}
+    .theology-body{display:flex;flex-direction:column;gap:20px;margin-top:24px}
+    .doctrine-block{padding:20px;border-radius:18px;border:1px solid rgba(244,241,234,0.12);background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);min-height:220px}
+    .doctrine-block h3{margin:0 0 10px;font-family:'Cinzel',serif;font-size:1.05rem;color:var(--accent-2);text-transform:uppercase;letter-spacing:0.04em}
+    .doctrine-block p{margin:0 0 12px;line-height:1.75;color:var(--muted)}
+    .doctrine-block p:first-of-type::first-letter{font-size:2.8rem;font-family:'Cinzel Decorative',serif;float:left;line-height:1;margin-right:6px;color:var(--accent-2)}
+    .inline-quote{margin:18px 0;padding:14px 18px;border-left:3px solid var(--accent-2);background:rgba(212,175,55,0.08);font-style:italic;color:#f0d9a1;line-height:1.6}
+    .synthesis-card{margin-top:32px;padding:24px;border:1px solid var(--accent-2);border-radius:22px;background:linear-gradient(135deg,rgba(212,175,55,0.12),rgba(0,0,0,0.2));box-shadow:0 28px 56px rgba(0,0,0,0.55)}
+    .synthesis-card h3{margin:0 0 10px;font-size:1.2rem;color:var(--accent)}
+    .synthesis-card p{margin:0;color:var(--accent);line-height:1.6}
+    blockquote{margin:0;padding:14px 0 14px 16px;border-left:3px solid var(--accent-2);color:#caa96c;font-style:italic;line-height:1.7}
+    .sidebar{position:sticky;top:80px;border:1px solid rgba(255,255,255,0.08);border-radius:26px;padding:28px;background:rgba(0,0,0,0.35);backdrop-filter:blur(10px);box-shadow:0 30px 70px rgba(0,0,0,0.45)}
+    .sidebar h3{margin:0 0 18px;font-size:0.78rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--muted)}
+    .sidebar-cards{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+    .sidebar-card{display:flex;flex-direction:column;text-decoration:none;border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:16px;background:rgba(255,255,255,0.02);transition:transform .18s ease,border-color .18s ease}
+    .sidebar-card:hover{transform:translateY(-4px);border-color:var(--accent-2)}
+    .sidebar-card span{display:block;font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.26em;margin-bottom:4px}
+    .sidebar-card strong{display:block;font-size:1.02rem;color:var(--accent)}
+    .sidebar-card p{margin:6px 0 0;font-size:0.86rem;color:var(--muted)}
+    .sidebar-cta{display:flex;flex-direction:column;gap:12px}
+    .download-all{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:16px;border:1px dashed rgba(255,255,255,0.35);color:var(--accent);text-decoration:none;font-weight:600}
+    .download-all:hover{border-color:var(--accent-2);color:var(--accent-2)}
+    .liturgical-footer{margin-top:48px;text-align:center;color:var(--muted);font-size:0.92rem}
+    .liturgical-footer a{color:var(--accent-2);text-decoration:none}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <button id="menu-btn" class="menu-btn" aria-label="Abrir menu">
+      <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
+    </button>
+    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="header-actions">
+      <a class="icon-btn" href="/pages/loja.html" title="Loja">
+        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="/pages/contato.html" title="Contato">
+        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <nav id="side-nav" class="side-nav" aria-hidden="true">
+    <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
+    <div class="side-nav-hero" aria-hidden="true">
+      <div class="menu-frame">
+        <img src="../assets/img/1.jpg" alt="Imagem do menu">
+      </div>
+    </div>
+    <ul>
+      <li><a href="../index.html" class="menu-item inicio">Início</a></li>
+      <li><a href="../pages/formacoes.html" class="menu-item formacoes">Formações</a></li>
+      <li>
+        <details>
+          <summary class="menu-item advento">Advento</summary>
+          <ul>
+            <li><a href="advento-1-video.html">1º Domingo do Advento</a></li>
+            <li><a href="advento-2.html">2º Domingo do Advento</a></li>
+            <li><a href="advento-3.html">3º Domingo do Advento</a></li>
+            <li><a href="advento-4.html">4º Domingo do Advento</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item natal">Natal</summary>
+          <ul>
+            <li><a href="natal-noite.html">Missa da Noite</a></li>
+            <li><a href="natal-aurora.html">Missa da Aurora</a></li>
+            <li><a href="natal-dia.html">Missa do Dia</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item quaresma">Quaresma</summary>
+          <ul>
+            <li><a href="quaresma-1.html">1º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-2.html">2º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-3.html">3º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-4.html">4º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-5.html">5º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-ramos.html">Domingo de Ramos</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item pascoa">Páscoa</summary>
+          <ul>
+            <li><a href="pascoa-vigilia.html">Vigília Pascal</a></li>
+            <li><a href="pascoa-1.html">Domingo da Páscoa</a></li>
+            <li><a href="pascoa-2.html">2º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-3.html">3º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-4.html">4º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-5.html">5º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-6.html">6º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-ascensao.html">Ascensão do Senhor</a></li>
+            <li><a href="pascoa-pentecostes.html">Pentecostes</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item tempo-comum">Tempo Comum</summary>
+          <ul>
+            <li><a href="tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+          </ul>
+        </details>
+      </li>
+      <li class="menu-ordinario">
+        <details open>
+          <summary class="menu-item ordinario">Ordinário da missa</summary>
+          <ul>
+            <li><a href="kyrie.html">Kyrie</a></li>
+            <li><a href="gloria.html">Gloria</a></li>
+            <li><a href="sanctus.html">Sanctus</a></li>
+            <li><a href="agnus-dei.html">Agnus Dei</a></li>
+            <li><a href="pater-noster.html">Pater noster / Pai nosso</a></li>
+            <li><a href="ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+  <div id="nav-overlay" class="nav-overlay" hidden></div>
+
+  <div class="wrap">
+    <div class="content">
+      <main class="main-panel" role="main">
+        <section class="hero">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Ordinário da missa · Pai Nosso</p>
+              <h1 class="title">Pater noster — Notação Moderna Cifrada</h1>
+              <p class="lead">Melodia completa em pentagrama com cifras funcionais, dinâmica sugerida e clique de ensaio para bandas que precisam alinhar instrumentos modernos ao canto tradicional.</p>
+              <div class="hero-stats">
+                <div class="hero-stat">
+                  <span>Andamento</span>
+                  <strong>68&nbsp;BPM · 6/8</strong>
+                </div>
+                <div class="hero-stat">
+                  <span>Tessitura</span>
+                  <strong>A3 – E5</strong>
+                </div>
+                <div class="hero-stat">
+                  <span>Formação</span>
+                  <strong>Voz, teclado, cordas</strong>
+                </div>
+              </div>
+              <div class="hero-cta">
+                <a class="cta-btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.M.-Orgão.pdf" download>Baixar partitura</a>
+                <a class="btn-outline" href="#suite-recursos">Ver materiais</a>
+              </div>
+            </div>
+            <figure class="hero-art">
+              <img src="../assets/capas-partituras/pater-noster-moderna-cifras.jpg" alt="Capa da partitura moderna cifrada do Pater Noster">
+            </figure>
+          </div>
+        </section>
+
+        <div class="video-shell" aria-label="Vídeo de referência">
+          <iframe src="https://www.youtube.com/embed/7zEQghaG7DU" title="Pater noster com banda" loading="lazy" allowfullscreen></iframe>
+        </div>
+
+        <section class="audio-preview" aria-label="Prévia em áudio">
+          <button type="button" aria-label="Ouvir prévia">▶</button>
+          <div class="audio-meta">
+            <h3>Em breve · áudio guia</h3>
+            <p>Gravação piloto com rubatos indicados e clique de referência para estudo individual.</p>
+          </div>
+          <div class="audio-progress">
+            <div class="audio-bar" aria-hidden="true"></div>
+            <span>00:48</span>
+          </div>
+        </section>
+
+        <section class="resource-suite" id="suite-recursos">
+          <div class="resource-visual" data-edicao="Edição Coral 2025">
+            <img src="../assets/capas-partituras/pater-noster-moderna-cifras.jpg" alt="Prévia do PDF do Pater Noster moderna cifrada">
+          </div>
+          <div class="resource-details">
+            <h2>Materiais pastorais</h2>
+            <p>Lead principal em Lá menor com cifras funcionais, guia melódico apenas com voz para catequese, folha auxiliar transposta para Sol menor e QR code com metrônomo em 68&nbsp;BPM para alinhar cada entrada instrumental.</p>
+            <p>Inclui roteiro pastoral para introdução silenciosa, sugestões de articulação para piano elétrico e mapa de dinâmica para alternar voz solista e assembleia.</p>
+            <div class="resource-actions">
+              <a class="cta-btn" href="../assets/partituras/Pater-Noster-LATIM/Pater-noster-N.M.-Orgão.pdf" download>Baixar PDF</a>
+              <a class="ghost-btn" href="../assets/capas-partituras/pater-noster-moderna-cifras.jpg" target="_blank" rel="noopener">Pré-visualizar</a>
+            </div>
+            <p class="resource-note">Versão atualizada em dezembro/2025. Ao acrescentar novos instrumentos, mantenha a numeração das páginas para preservar as referências do roteiro.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>Oficina instrumental</h2>
+          <div class="practice-section">
+            <article class="practice-card">
+              <h3>Textura</h3>
+              <ul class="practice-checklist">
+                <li>Inicie com piano e voz para estabilizar a condução e só depois adicione baixo suave.</li>
+                <li>Use chocalhos leves a partir do “panem nostrum” e retire percussão no “sed libera nos”.</li>
+              </ul>
+            </article>
+            <article class="practice-card">
+              <h3>Harmonia</h3>
+              <ul class="practice-checklist">
+                <li>Guitarra com voicings fechados e sem quinta quando acompanhar órgão ou teclado principal.</li>
+                <li>Explore tensões discretas (9 e 11) apenas nas cadências indicadas no PDF.</li>
+              </ul>
+            </article>
+            <article class="practice-card">
+              <h3>Expressão</h3>
+              <ul class="practice-checklist">
+                <li>Finalize ensaios tocando somente acordes de chegada para destacar o texto proclamado.</li>
+                <li>Combine o “Amém” coletivo com respirações uníssonas e silêncio instrumental de dois tempos.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section theology-section" id="pater-noster-teologia">
+          <div class="section-intro">
+            <p class="eyebrow">Teologia viva</p>
+            <h2>O Pater Noster</h2>
+            <p>A oração do Senhor, escola de filiação e síntese de toda a fé cristã.</p>
+            <p>O Pater Noster ocupa um lugar absolutamente único na vida da Igreja. Diferentemente de todas as outras orações litúrgicas, ele não nasce da inspiração dos santos nem da formulação da comunidade cristã, mas foi ensinado diretamente pelo próprio Cristo. Por isso, desde os primeiros séculos, a Igreja o reconhece como <em>oratio dominica</em>, a oração do Senhor.</p>
+            <p>Quando a Igreja reza o Pater Noster, ela não apenas repete palavras sagradas: ela entra na própria oração de Cristo ao Pai. Trata-se de uma oração filial, sacerdotal e escatológica, que forma o coração do cristão segundo o coração do Filho.</p>
+          </div>
+
+          <div class="theology-body">
+            <article class="doctrine-block" id="pn-filiacao">
+              <h3>"PATER NOSTER": A REVELAÇÃO DA FILIAÇÃO</h3>
+              <p>A invocação inicial "Pai nosso" contém uma revolução espiritual sem precedentes. No Antigo Testamento, Deus é chamado Pai sobretudo em sentido coletivo e metafórico. Em Cristo, essa relação torna-se pessoal, viva e real.</p>
+              <p>São Cirilo de Jerusalém, em suas Catequeses, ensina que ninguém pode chamar Deus de Pai sem antes ter sido regenerado no Batismo. O Pater Noster é, portanto, a oração dos filhos, não dos estranhos.</p>
+              <p class="inline-quote">"Não diz 'meu Pai', mas 'nosso Pai', porque ninguém reza isolado do Corpo de Cristo." — Santo Agostinho</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-celestis">
+              <h3>"QUI ES IN CAELIS": TRANSCENDÊNCIA E PROXIMIDADE</h3>
+              <p>A expressão "que estais nos céus" não indica distância, mas majestade. Santo Agostinho esclarece que Deus não habita os céus como um lugar físico, mas como símbolo de sua santidade e eternidade.</p>
+              <p>São João Crisóstomo ensina que essa expressão eleva a alma do fiel acima das coisas terrenas e o prepara para rezar com o coração desprendido. O cristão, ao rezar o Pater Noster, aprende a viver no mundo sem pertencer a ele.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-nomen">
+              <h3>"SANCTIFICETUR NOMEN TUUM": O LOUVOR QUE TRANSFORMA</h3>
+              <p>Quando a Igreja pede que o Nome de Deus seja santificado, ela não pede que Deus se torne mais santo, mas que sua santidade seja reconhecida e manifestada no mundo.</p>
+              <p>Santo Tomás de Aquino explica, na Suma Teológica, que essa petição ordena o coração humano ao fim último da vida cristã: a glória de Deus. O cristão pede que sua própria vida se torne lugar onde o Nome de Deus seja santificado.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-regnum">
+              <h3>"ADVENIAT REGNUM TUUM": ESPERANÇA ESCATOLÓGICA</h3>
+              <p>O Reino de Deus é ao mesmo tempo presente e futuro. São Gregório de Nissa ensina que essa petição expressa o desejo de que o pecado seja destruído e que Deus reine plenamente no coração humano.</p>
+              <p>Santo Agostinho interpreta essa súplica como o anseio da Igreja pela consumação final da história, quando Cristo entregará o Reino ao Pai. Cada vez que o Pater Noster é rezado, a Igreja confessa sua esperança escatológica.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-voluntas">
+              <h3>"FIAT VOLUNTAS TUA": A ORAÇÃO DA OBEDIÊNCIA</h3>
+              <p>Essa petição une o fiel à oração de Cristo no Getsêmani. São Cipriano de Cartago, em seu tratado <em>De Oratione Dominica</em>, afirma que o cristão não pede que Deus faça sua vontade, mas que ele próprio seja capaz de aceitar a vontade de Deus.</p>
+              <p>Aqui, o Pater Noster torna-se escola de conformação interior. A vontade divina não é opressão, mas caminho de liberdade.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-panem">
+              <h3>"PANEM NOSTRUM QUOTIDIANUM": O PÃO DA VIDA</h3>
+              <p>Desde os primeiros séculos, os Padres da Igreja viram nessa petição uma referência direta à Eucaristia. São Jerônimo observa que o termo grego <em>epiousios</em> pode ser traduzido como "supersubstancial", indicando o pão que ultrapassa o alimento material.</p>
+              <p>Santo Ambrósio afirma que esse pão é Cristo, oferecido diariamente à Igreja. Ao rezar o Pater Noster, o fiel exprime sua fome de Deus e sua dependência radical da graça.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-dimitte">
+              <h3>"DIMITTE NOBIS DEBITA NOSTRA": MISERICÓRDIA QUE OBRIGA</h3>
+              <p>Essa é a única petição condicionada do Pater Noster. São João Crisóstomo adverte que ninguém pode pedir o perdão de Deus sem estar disposto a perdoar.</p>
+              <p>Santo Agostinho afirma que essa frase é pronunciada diariamente porque o cristão precisa diariamente de misericórdia. O Pater Noster impede qualquer espiritualidade orgulhosa.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-tentatio">
+              <h3>"NE NOS INDUCAS IN TENTATIONEM": HUMILDADE E VIGILÂNCIA</h3>
+              <p>Deus não tenta o homem, mas permite que ele seja provado. São Tomás de Aquino explica que essa petição pede a força para não sucumbir à tentação e a graça da perseverança final.</p>
+              <p>O cristão reconhece sua fragilidade e aprende a confiar não em si mesmo, mas em Deus.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-liberatio">
+              <h3>"SED LIBERA NOS A MALO": O CLAMOR FINAL</h3>
+              <p>Os Padres da Igreja interpretam o "mal" tanto como o pecado quanto como o Maligno. São Cipriano afirma que essa petição resume todas as anteriores: é o grito da humanidade ferida que deseja ser libertada definitivamente.</p>
+              <p>Ela aponta para a vitória final de Cristo e para a esperança da vida eterna.</p>
+            </article>
+
+            <article class="doctrine-block" id="pn-liturgia">
+              <h3>O PATER NOSTER NA LITURGIA DA MISSA</h3>
+              <p>Na Missa, o Pater Noster ocupa lugar imediatamente anterior à Comunhão. Santo Agostinho explica que essa posição não é acidental: somente quem reconhece Deus como Pai pode aproximar-se da mesa do Filho.</p>
+              <p>A Igreja sempre considerou o Pater Noster como preparação imediata para a Eucaristia, oração dos filhos que se aproximam do Pão da Vida.</p>
+            </article>
+          </div>
+
+          <div class="synthesis-card" id="pn-sintese">
+            <h3>Síntese contemplativa</h3>
+            <p>O Pater Noster é o Evangelho rezado: ensina quem é Deus, quem é o homem e qual o destino da história. Ao rezá-lo, a Igreja aprende a viver como filha, a esperar como peregrina e a amar como Cristo amou. É a oração que começa na terra, mas já pertence ao Céu.</p>
+          </div>
+        </section>
+      </main>
+
+      <aside class="sidebar" aria-label="Outras versões do Pai Nosso">
+        <h3>Outras versões</h3>
+        <div class="sidebar-cards">
+          <a class="sidebar-card" href="pater-noster-notacao-quadrada-cifrada.html">
+            <span>Quadrada</span>
+            <strong>Cifras discretas</strong>
+            <p>Organistas e tecladistas com foco gregoriano.</p>
+          </a>
+          <a class="sidebar-card" href="pater-noster-notacao-quadrada-coralista.html">
+            <span>Quadrada</span>
+            <strong>Formação coral</strong>
+            <p>Respirações guiadas e tradução literal.</p>
+          </a>
+          <a class="sidebar-card" href="pater-noster-notacao-moderna-coralista.html">
+            <span>Moderna</span>
+            <strong>Para coro SATB</strong>
+            <p>Letra acentuada e divisões por vozes.</p>
+          </a>
+        </div>
+        <div class="sidebar-cta">
+          <a class="download-all" href="pater-noster.html">Baixar coleção completa</a>
+          <p>Reúna todas as versões em um único ensaio e alinhe repertórios para o Ordinário completo.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="liturgical-footer">
+    Coleção Ordinário · edição 2025 — <a href="pater-noster.html">voltar ao mosaico de formatos</a>
+  </div>
+
+  <script src="../scripts/script.js"></script>
+</body>
+</html>
