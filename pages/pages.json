@@ -13,6 +13,30 @@
     "thumb": "/assets/img/Materia 1.jpg",
     "tag": "#FORMAÇÃO",
     "excerpt": "A voz que se torna oração — reflexão sobre o papel do canto na vida litúrgica e espiritual da Igreja."
+  },
+  {
+    "title": "1º Domingo do Advento - Entrada",
+    "url": "pages/advento-1-entrada.html",
+    "thumb": "/assets/capas-partituras/1 - Advento/1° Domingo do Advento/Thumbanail-Advento-Entrada.png",
+    "tag": "#ADVENTO",
+    "excerpt": "Liturgia de Entrada com clima contemplativo, partitura e texto devocional para o 1º Domingo.",
+    "hasPartitura": true
+  },
+  {
+    "title": "1º Domingo do Advento - Comunhão",
+    "url": "pages/advento-1-comunhao.html",
+    "thumb": "/assets/img/capa-superior.png",
+    "tag": "#COMUNHÃO",
+    "excerpt": "Medite e acompanhe o canto de comunhão com referências bíblicas e partitura completa.",
+    "hasPartitura": true
+  },
+  {
+    "title": "2º Domingo do Advento - Entrada",
+    "url": "pages/advento-2-entrada.html",
+    "thumb": "/assets/img/1.jpg",
+    "tag": "#ADVENTO",
+    "excerpt": "Prepare a assembleia com o repertório oficial do 2º Domingo, incluindo vídeo e guia meditativo.",
+    "hasPartitura": true
   }
 ]
 

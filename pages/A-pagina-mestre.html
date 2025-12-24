@@ -3,98 +3,107 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ad libitum (À vontade) – Graduale Simplex</title>
+  <title>Página Mestre – Curadoria Litúrgica</title>
   <link rel="icon" href="../assets/img/icone.png" sizes="192x192">
   <link rel="stylesheet" href="../styles/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
       crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
+    /* Tema escuro inspirado na referência */
     :root{--bg:#151515;--panel:#1f1f1f;--muted:#9a9a9a;--accent:#e6e6e6;--accent-2:#c9a56a}
-    html,body{height:100%;margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     .wrap{max-width:1100px;margin:0 auto;padding:60px 20px 200px}
 
-    h1.page-title{font-family:'Cinzel',Georgia,serif;font-size:2.5rem;margin:0 0 16px;color:var(--accent-2);font-weight:700;text-align:center;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25)}
-    .page-subtitle{font-family:Georgia,serif;font-size:1.05rem;color:var(--muted);text-align:center;margin:0 0 48px;font-style:italic}
+    h1.page-title{font-family:'Cinzel', Georgia, serif;font-size:2.5rem;margin:0 0 16px;color:var(--accent-2);font-weight:700;text-align:center;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25)}
+    
+    .page-subtitle{font-family:Georgia, serif;font-size:1.05rem;color:var(--muted);text-align:center;margin:0 0 48px;font-style:italic}
 
-    .carousel-section{margin:0 auto 70px;padding:0 10px;max-width:1200px}
-    .carousel-head{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:12px}
-    .carousel-title{font-family:'Cinzel',Georgia,serif;font-size:1.4rem;color:var(--accent-2);letter-spacing:.4px;margin:0}
-    .carousel-controls{display:flex;gap:10px;flex-wrap:wrap}
-    .carousel-controls button{width:44px;height:44px;border-radius:50%;border:1px solid rgba(212,175,55,0.6);background:rgba(21,21,21,0.6);color:var(--accent-2);cursor:pointer;transition:all .2s ease;display:flex;align-items:center;justify-content:center;font-size:1rem}
-    .carousel-controls button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 25px rgba(212,175,55,0.2)}
-    .carousel-controls button:disabled{opacity:.35;cursor:not-allowed}
-    .carousel-window{position:relative;overflow:hidden;padding:0 6px}
-    .carousel-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 4px 24px;margin:0 -4px;scroll-behavior:smooth}
-    .carousel-track::-webkit-scrollbar{height:6px}
-    .carousel-track::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.4);border-radius:3px}
-    .carousel-track::-webkit-scrollbar-track{background:rgba(255,255,255,0.05)}
+    /* Cards container */
+    .cards-container{display:grid;grid-template-columns:repeat(3, 1fr);gap:36px;max-width:1400px;margin:0 auto}
+    @media(max-width:1200px){.cards-container{grid-template-columns:repeat(3, 1fr)}}
+    @media(max-width:768px){.cards-container{grid-template-columns:repeat(2, 1fr)}}
+    @media(max-width:480px){.cards-container{grid-template-columns:1fr}}
 
-    .card{background:linear-gradient(135deg,rgba(31,31,31,0.98) 0%,rgba(21,21,21,1) 100%);border:1px solid rgba(212,175,55,0.3);border-radius:16px;padding:0;text-align:left;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:220px;cursor:pointer;flex:0 0 280px;scroll-snap-align:start}
-    .card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(212,175,55,0.15) 0%,transparent 50%);pointer-events:none;opacity:0.9}
+    /* Card styles */
+    .card{background:linear-gradient(135deg, rgba(31,31,31,0.98) 0%, rgba(21,21,21,1) 100%);border:1px solid rgba(212,175,55,0.3);border-radius:16px;padding:0;text-align:left;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:240px;cursor:pointer}
+    
+    .card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left, rgba(212,175,55,0.15) 0%, transparent 50%);pointer-events:none;opacity:0.9}
+    
     .card:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(212,175,55,0.28),0 0 50px rgba(212,175,55,0.15);border-color:rgba(212,175,55,0.7)}
 
-    .card-header{padding:20px 18px 14px;position:relative;z-index:1}
+    .card-header{padding:24px 20px 16px;position:relative;z-index:1}
+    
     .card-icon{margin-bottom:12px;display:flex;align-items:center;justify-content:flex-start}
-    .card-icon img{width:60px;height:60px;display:block;filter:drop-shadow(0 4px 14px rgba(212,175,55,0.4));object-fit:contain;transition:transform .3s ease,filter .3s ease}
+    .card-icon svg{width:56px;height:56px;display:block;filter:drop-shadow(0 4px 12px rgba(212,175,55,0.3))}
+    .card-icon img{width:70px;height:70px;display:block;filter:drop-shadow(0 4px 16px rgba(212,175,55,0.4));object-fit:contain;transition:transform .3s ease,filter .3s ease}
+    
     .card:hover .card-icon img{transform:scale(1.08) rotate(2deg);filter:drop-shadow(0 6px 20px rgba(212,175,55,0.6))}
 
-    .card-title{font-family:'Cinzel',Georgia,serif;font-size:1.3rem;color:var(--accent-2);margin:0 0 2px;font-weight:700;letter-spacing:.2px;line-height:1.2}
-    .card-subtitle{font-family:Georgia,serif;font-size:.85rem;color:rgba(212,175,55,0.85);margin:0;font-style:italic;line-height:1.25}
+    .card-title{font-family:'Cinzel', Georgia, serif;font-size:1.5rem;color:var(--accent-2);margin:0 0 4px;font-weight:700;letter-spacing:0.3px;line-height:1.2}
 
-    .card-body{padding:0 18px 16px;position:relative;z-index:1;flex:1;display:flex;flex-direction:column}
-    .card-description{color:#b8b8b8;line-height:1.5;font-size:.85rem;margin:0 0 auto;padding-bottom:10px}
+    .card-subtitle{font-family:Georgia, serif;font-size:0.9rem;color:rgba(212,175,55,0.85);margin:0;font-style:italic;line-height:1.3}
 
-    .card-footer{padding:0 18px 20px;position:relative;z-index:1}
-    .card-link{display:inline-block;background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:10px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;font-family:'Cinzel',Georgia,serif;box-shadow:0 6px 18px rgba(217,166,73,0.16);transition:transform .12s ease,box-shadow .18s ease,filter .18s ease;text-shadow:0 1px 0 rgba(0,0,0,0.3);width:100%;text-align:center;letter-spacing:.4px}
+    .card-body{padding:0 20px 20px;position:relative;z-index:1;flex:1;display:flex;flex-direction:column}
+    
+    .card-description{color:#b8b8b8;line-height:1.6;font-size:0.9rem;margin:0 0 auto;padding-bottom:12px}
+
+    .card-footer{padding:0 20px 20px;position:relative;z-index:1}
+    
+    .card-link{display:inline-block;background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.95rem;font-family:'Cinzel', Georgia, serif;box-shadow:0 8px 24px rgba(217,166,73,0.16);transition:transform .12s ease,box-shadow .18s ease,filter .18s ease;text-shadow:0 1px 0 rgba(0,0,0,0.3);width:100%;text-align:center;letter-spacing:0.5px}
+    
     .card-link:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(214,168,79,0.36),0 0 40px rgba(214,168,79,0.24);filter:brightness(1.12)}
 
-    .carousel-track .feedback{width:100%;text-align:center;color:#b8b8b8;font-size:.95rem;letter-spacing:.08rem;text-transform:uppercase;padding:50px 20px;border:1px dashed rgba(212,175,55,0.4);border-radius:16px;flex:1 0 100%;scroll-snap-align:center}
+    .cards-container .feedback{grid-column:1/-1;text-align:center;color:#b8b8b8;font-size:0.95rem;letter-spacing:0.08rem;text-transform:uppercase;padding:60px 20px;border:1px dashed rgba(212,175,55,0.4);border-radius:16px}
 
     @media(max-width:768px){
       h1.page-title{font-size:2rem}
-      .page-subtitle{font-size:.95rem;margin-bottom:32px}
-      .carousel-section{margin-bottom:50px}
-      .carousel-controls{justify-content:flex-end;width:100%}
-      .card{flex:0 0 75vw;min-height:250px}
-      .card-header{padding:22px 20px 14px}
-      .card-body{padding:0 20px 18px}
-      .card-footer{padding:0 20px 22px}
-      .card-icon img{width:68px;height:68px}
-      .card-title{font-size:1.35rem}
-      .wrap{padding:60px 20px 140px}
+      .page-subtitle{font-size:0.95rem;margin-bottom:36px}
+      .cards-container{grid-template-columns:1fr;gap:28px;margin-bottom:60px}
+      .card{min-height:380px}
+      .card-header{padding:32px 28px 20px}
+      .card-body{padding:0 28px 28px}
+      .card-footer{padding:0 28px 28px}
+      .card-icon svg{width:64px;height:64px}
+      .card-icon img{width:80px;height:80px}
+      .card-title{font-size:1.5rem}
+      .wrap{padding:60px 20px 150px}
+    }
+    
+    @media(max-width:480px){
+      h1.page-title{font-size:1.6rem;letter-spacing:0.5px}
+      .page-subtitle{font-size:0.9rem;padding:0 10px}
+      .card{min-height:auto;padding-bottom:8px}
+      .card-header{padding:24px 20px 16px}
+      .card-body{padding:0 20px 20px}
+      .card-footer{padding:0 20px 24px}
+      .card-icon img{width:70px;height:70px}
+      .card-title{font-size:1.3rem}
+      .card-subtitle{font-size:0.95rem}
+      .card-description{font-size:0.95rem}
+      .card-link{font-size:0.95rem;padding:14px 28px}
+      .wrap{padding:60px 20px 120px}
+      .cards-container{margin-bottom:40px}
     }
 
-    @media(max-width:480px){
-      h1.page-title{font-size:1.6rem;letter-spacing:.5px}
-      .page-subtitle{font-size:.9rem;padding:0 10px}
-      .carousel-section{margin-bottom:40px}
-      .card{flex:0 0 82vw;min-height:auto;padding-bottom:8px}
-      .card-header{padding:20px 18px 14px}
-      .card-body{padding:0 18px 18px}
-      .card-footer{padding:0 18px 22px}
-      .card-icon img{width:64px;height:64px}
-      .card-title{font-size:1.2rem}
-      .card-description{font-size:.9rem}
-      .wrap{padding:60px 20px 120px}
-    }
   </style>
-  <meta property="og:title" content="Ad libitum (À vontade) – Graduale Simplex">
-  <meta property="og:description" content="Seleção do Graduale Simplex com Kyrie I, Sanctus I e Agnus Dei I para uso ad libitum.">
+  <!-- Open Graph / Twitter Card e JSON-LD -->
+  <meta property="og:title" content="Página Mestre – Curadoria Litúrgica">
+  <meta property="og:description" content="Selecione rapidamente qualquer Domingo ou formação para abrir vídeos, partituras e textos devocionais.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://seu-dominio.com/pages/ad-libitum.html">
+  <meta property="og:url" content="https://seu-dominio.com/pages/A-pagina-mestre.html">
   <meta property="og:image" content="https://seu-dominio.com/assets/img/capa-superior.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ad libitum (À vontade) – Graduale Simplex">
-  <meta name="twitter:description" content="Partituras oficiais do Graduale Simplex para momentos ad libitum.">
+  <meta name="twitter:title" content="Página Mestre – Curadoria Litúrgica">
+  <meta name="twitter:description" content="Curadoria única com cards de Advento, Natal, Quaresma e formações.">
   <meta name="twitter:image" content="https://seu-dominio.com/assets/img/capa-superior.png">
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"WebPage",
-    "name":"Ad libitum (À vontade) – Graduale Simplex",
-    "description":"Kyrie I, Sanctus I e Agnus Dei I do Graduale Simplex com acesso rápido às partituras.",
-    "url":"https://seu-dominio.com/pages/ad-libitum.html"
+    "name":"Página Mestre – Curadoria Litúrgica",
+    "description":"Painel com cards para todos os ciclos litúrgicos, carregados via pages/pages.json.",
+    "url":"https://seu-dominio.com/pages/A-pagina-mestre.html"
   }
   </script>
 </head>
@@ -113,10 +122,11 @@
         <img src="../assets/img/icone2.png" alt="Contato" class="icon-img">
         <span class="icon-label">CONTATO</span>
       </a>
-      <input id="search" type="search" placeholder="Buscar...">
+      <input id="search" type="search" placeholder="Buscar..." />
     </div>
   </header>
 
+  <!-- SIDE NAV (cópia para permitir o menu lateral) -->
   <nav id="side-nav" class="side-nav" aria-hidden="true">
     <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
 
@@ -185,6 +195,7 @@
         <details>
           <summary class="menu-item tempo-comum">Tempo Comum</summary>
           <ul>
+            <!-- 1..34 -->
             <li><a href="../pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
             <li><a href="../pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
             <li><a href="../pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
@@ -222,6 +233,7 @@
           </ul>
         </details>
       </li>
+      <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
       <li class="menu-ordinario">
         <details>
           <summary class="menu-item ordinario">Ordinário da missa</summary>
@@ -240,45 +252,33 @@
   <div id="nav-overlay" class="nav-overlay" hidden></div>
 
   <div class="wrap">
-    <h1 class="page-title">Ad libitum (À vontade)</h1>
-    <p class="page-subtitle">Seleção do Graduale Simplex para complementar o Ordinário com melodia sóbria e universal.</p>
-
+    <h1 class="page-title">Página Mestre</h1>
+    <p class="page-subtitle">Escolha o momento litúrgico ou formação especial e acesse imediatamente partituras, vídeos e textos devocionais.</p>
+    
+    <!-- Linha decorativa -->
     <div style="display:flex;align-items:center;gap:20px;margin:0 auto 50px;max-width:600px;">
-      <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.5),rgba(212,175,55,0.3));"></div>
+      <div style="flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
       <div style="width:8px;height:8px;background:#d4af37;transform:rotate(45deg);box-shadow:0 0 10px rgba(212,175,55,0.5);"></div>
-      <div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(212,175,55,0.5),rgba(212,175,55,0.3));"></div>
+      <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
     </div>
-
-    <section class="carousel-section" aria-label="Graduale Simplex">
-      <div class="carousel-head">
-        <h2 class="carousel-title">Graduale Simplex</h2>
-        <div class="carousel-controls">
-          <button type="button" id="carousel-prev" aria-label="Ver card anterior">&#10094;</button>
-          <button type="button" id="carousel-next" aria-label="Ver próximo card">&#10095;</button>
-        </div>
-      </div>
-      <div class="carousel-window" aria-live="polite" aria-busy="true">
-        <div id="carousel-track" class="carousel-track">
-          <div class="feedback">Carregando cards...</div>
-        </div>
-      </div>
-    </section>
+    
+    <div id="cards-container" class="cards-container" aria-live="polite" aria-busy="true">
+      <div class="feedback">Carregando cards...</div>
+    </div>
   </div>
 
   <script src="../scripts/script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const track = document.getElementById('carousel-track');
-    const viewport = document.querySelector('.carousel-window');
-    const prevBtn = document.getElementById('carousel-prev');
-    const nextBtn = document.getElementById('carousel-next');
-    if(!track) return;
+    const container = document.getElementById('cards-container');
+    if(!container) return;
     const iconFallback = '../assets/img/Acessar-partitura.png';
 
     function buildCard(item){
-      const mainTitle = (item.title || 'Conteúdo sem título').trim();
-      const subtitle = item.subtitle ? item.subtitle.trim() : '';
-      const description = item.excerpt || 'Atualize a descrição para este card.';
+      const parts = (item.title || '').split('|');
+      const mainTitle = (item.shortTitle || parts[0] || 'Conteúdo sem título').trim();
+      const subtitle = item.subtitle || (parts[1] ? parts[1].trim() : '');
+      const description = item.excerpt || 'Atualize o campo "excerpt" em pages/pages.json para descrever este card.';
       const cta = item.cta || 'ACESSAR PÁGINA';
       const href = item.url ? (item.url.startsWith('http') ? item.url : '/' + item.url.replace(/^\//,'')) : '#';
       const icon = item.icon || iconFallback;
@@ -298,66 +298,30 @@
       </article>`;
     }
 
-    function renderCards(data){
-      if(!Array.isArray(data) || !data.length){
-        track.innerHTML = '<div class="feedback">Nenhum card configurado.</div>';
-        viewport?.setAttribute('aria-busy','false');
-        updateControls();
-        return;
+    async function loadCards(){
+      try{
+        const res = await fetch('pages.json?cache=' + Date.now());
+        if(!res.ok) throw new Error('Erro ao carregar pages.json');
+        const data = await res.json();
+        if(!Array.isArray(data) || !data.length){
+          container.innerHTML = '<div class="feedback">Nenhum card cadastrado. Edite pages/pages.json.</div>';
+          container.setAttribute('aria-busy','false');
+          return;
+        }
+        container.innerHTML = data.map(buildCard).join('\n');
+        container.setAttribute('aria-busy','false');
+      }catch(err){
+        console.error(err);
+        container.innerHTML = '<div class="feedback">Não consegui carregar pages.json. Verifique o arquivo.</div>';
+        container.setAttribute('aria-busy','false');
       }
-      track.innerHTML = data.map(buildCard).join('\n');
-      viewport?.setAttribute('aria-busy','false');
-      updateControls();
     }
 
-    function scrollTrack(direction){
-      if(!viewport) return;
-      const step = viewport.clientWidth * 0.8;
-      track.scrollBy({left: step * direction, behavior:'smooth'});
-    }
-
-    function updateControls(){
-      const maxScroll = Math.max(track.scrollWidth - track.clientWidth, 0);
-      if(prevBtn) prevBtn.disabled = track.scrollLeft <= 0;
-      if(nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 1;
-    }
-
-    prevBtn?.addEventListener('click', () => scrollTrack(-1));
-    nextBtn?.addEventListener('click', () => scrollTrack(1));
-    track.addEventListener('scroll', updateControls, {passive:true});
-
-    const cardData = [
-      {
-        title:'Kyrie I',
-        subtitle:'Graduale Simplex',
-        excerpt:'Guia completo com vídeo, partitura em PDF e notas pastorais para entoar o Kyrie I ad libitum.',
-        url:'pages/ad-libitum-kyrie-i.html',
-        cta:'VER RECURSOS'
-      },
-      {
-        title:'Sanctus I',
-        subtitle:'Graduale Simplex',
-        excerpt:'Referência visual e devocional para a aclamação “Santo” com partitura e orientações pastorais.',
-        url:'pages/ad-libitum-sanctus-i.html',
-        cta:'VER RECURSOS'
-      },
-      {
-        title:'Agnus Dei I',
-        subtitle:'Graduale Simplex',
-        excerpt:'Apoio completo para cantar o Cordeiro de Deus com serenidade: vídeo, PDF e notas mistagógicas.',
-        url:'pages/ad-libitum-agnus-dei-i.html',
-        cta:'VER RECURSOS'
-      }
-    ];
-
-    renderCards(cardData);
+    loadCards();
   });
   </script>
 </body>
 </html>
-
-
-
 
 
 
