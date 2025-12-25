@@ -35,13 +35,46 @@
       left: 0;
       opacity: 0;
       transition: opacity 0.8s ease-in-out;
-      padding: 40px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(45,45,45,0.95) 100%);
+      padding: clamp(28px, 3vw, 48px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      border-radius: 32px;
+      overflow: hidden;
+      background-image: var(--slide-image, linear-gradient(135deg,#1f1f1f,#0f0f0f));
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+    }
+
+    .carousel-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.1) 100%);
+      z-index: 1;
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      max-width: 520px;
+      background: rgba(8,8,8,0.55);
+      border: 1px solid rgba(212,175,55,0.35);
+      padding: clamp(24px,3vw,42px);
+      border-radius: 22px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.35);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      gap: 16px;
+    }
+
+    .slide-eyebrow {
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 4px;
     }
 
     .carousel-slide.active {
@@ -69,7 +102,7 @@
       font-weight: 600;
       color: #ffffff;
       margin: 0 0 32px 0;
-      max-width: 700px;
+      max-width: 620px;
       letter-spacing: 0.5px;
       line-height: 1.6;
     }
@@ -165,57 +198,24 @@
 
     /* Responsivo */
     @media (max-width: 768px) {
-      .carousel-slide h2 {
-        font-size: 28px;
-        margin-bottom: 16px;
+      .carousel-slide {
+        align-items: center;
       }
 
-      .carousel-slide p {
-        font-size: 16px;
-      }
-
-      .carousel-container {
-        min-height: 240px;
-      }
-
-      .carousel-nav {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-      }
-
-      .carousel-nav.prev {
-        left: 12px;
-      }
-
-      .carousel-nav.next {
-        right: 12px;
+      .slide-content {
+        max-width: 100%;
+        text-align: center;
+        align-items: center;
       }
     }
 
     @media (max-width: 480px) {
       .carousel-slide h2 {
-        font-size: 22px;
+        font-size: 24px;
       }
 
       .carousel-slide p {
         font-size: 14px;
-      }
-
-      .carousel-slide .btn {
-        padding: 12px 24px;
-        font-size: 12px;
-      }
-
-      .carousel-container {
-        min-height: 200px;
-        padding: 20px;
-      }
-
-      .carousel-nav {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
       }
     }
   </style>
@@ -245,13 +245,6 @@
   <!-- SIDE NAV -->
   <nav id="side-nav" class="side-nav" aria-hidden="true">
     <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
-
-    <!-- Imagem do menu (campo superior) -->
-    <div class="side-nav-hero" aria-hidden="true">
-      <div class="menu-frame">
-        <img src="assets/img/1.jpg" alt="Imagem do menu">
-      </div>
-    </div>
 
     <ul>
     <li><a href="index.html" class="menu-item inicio">Início</a></li>
@@ -375,43 +368,7 @@
     </div>
   </section>
 
-  <!-- CAROUSEL DE ANÚNCIOS -->
-  <section class="announcement-carousel">
-    <div class="carousel-container">
-      <!-- Slide 1 -->
-      <div class="carousel-slide active">
-        <h2>Anuncie Aqui!</h2>
-        <p>Se você viu isso, seus clientes também vão ver</p>
-        <a href="pages/contato.html" class="btn">Quero Anunciar no site</a>
-      </div>
-
-      <!-- Slide 2 -->
-      <div class="carousel-slide">
-        <h2>Formações Espirituais</h2>
-        <p>Aprofunde seu conhecimento sobre liturgia e música sagrada</p>
-        <a href="pages/formacoes.html" class="btn">Ver Formações</a>
-      </div>
-
-      <!-- Slide 3 -->
-      <div class="carousel-slide">
-        <h2>Apoie Nossa Missão</h2>
-        <p>Contribua para manter viva a tradição do Canto Gregoriano</p>
-        <a href="pages/doacao.html" class="btn">Fazer Doação</a>
-      </div>
-
-      <!-- Botões de Navegação -->
-      <button class="carousel-nav prev" onclick="changeSlide(-1)">&#10094;</button>
-      <button class="carousel-nav next" onclick="changeSlide(1)">&#10095;</button>
-
-      <!-- Indicadores -->
-      <div class="carousel-indicators">
-        <div class="carousel-dot active" onclick="goToSlide(0)"></div>
-        <div class="carousel-dot" onclick="goToSlide(1)"></div>
-        <div class="carousel-dot" onclick="goToSlide(2)"></div>
-      </div>
-    </div>
-  </section>
-  <main class="container" id="destaques">
+  <main class="container home-centered" id="destaques">
     <section class="articles">
       <h2 style="font-family:'Cinzel',Georgia,serif;color:#d4af37;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25);margin-bottom:35px;">DESTAQUES DA SEMANA</h2>
       
@@ -422,134 +379,152 @@
         <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
       </div>
 
-      <!-- Nova matéria: botão para abrir página formativa -->
-      <article class="list-card">
-        <img src="assets/img/thumbnails.jpg" alt="Matéria">
-        <div class="card-body">
-          <small class="tag">#FORMAÇÃO</small>
-          <h3>O Canto como Oração e Parte da Liturgia</h3>
-          <p>Reflexão sobre o papel do canto (especialmente o canto gregoriano) na vida litúrgica e espiritual da Igreja.</p>
-          <div class="card-actions">
-            <a class="btn" href="pages/materia-nova.html">Abrir matéria</a>
-          </div>
-        </div>
-      </article>
+      <div class="liturgical-carousel" aria-label="Ordinário em destaque">
+        <button class="lit-carousel-btn prev" type="button" aria-label="Card anterior">
+          <span>&#10094;</span>
+        </button>
+        <button class="lit-carousel-btn next" type="button" aria-label="Próximo card">
+          <span>&#10095;</span>
+        </button>
 
-      <!-- 2º Domingo do Advento -->
-      <article class="list-card">
-        <img src="assets/img/thumbnails.jpg" alt="2º Domingo do Advento">
-        <div class="card-body">
-          <small class="tag">#ADVENTO</small>
-          <h3>2º Domingo do Advento</h3>
-          <p>Prepare seu coração para o Natal meditando nas leituras e cantos deste segundo domingo do tempo de Advento.</p>
-          <div class="card-actions">
-            <a class="btn" href="pages/advento-2.html">Acessar domingo</a>
-          </div>
-        </div>
-      </article>
+        <div class="lit-carousel-track">
+          <article class="lit-card lit-card-centered" style="--bg-image:url('/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg');">
+            <div class="lit-card-content">
+              <span class="lit-eyebrow">Ordinário da Missa</span>
+              <h3>Pater noster / Pai nosso</h3>
+              <p>Reze e estude cada frase do Pai-Nosso com partituras em múltiplas notações, notas catequéticas e áudio de referência.</p>
+              <div class="lit-pill-group">
+                <span class="lit-pill">LATIM + PORTUGUÊS</span>
+                <span class="lit-pill">4 PARTITURAS DISPONÍVEIS</span>
+              </div>
+              <div class="lit-card-actions">
+                <a class="btn" href="pages/pater-noster.html">Acessar página</a>
+              </div>
+            </div>
+          </article>
 
-      <!-- Entrada - 2º Domingo do Advento -->
-      <article class="list-card">
-        <img src="assets/img/thumbnails.jpg" alt="Entrada - 2º Domingo do Advento">
-        <div class="card-body">
-          <small class="tag">#ADVENTO</small>
-          <h3>Entrada - 2º Domingo do Advento</h3>
-          <p>A Vós Senhor elevo a minha alma - Canto de Entrada para o segundo domingo de Advento.</p>
-          <div class="card-actions">
-            <a class="btn" href="pages/advento-2-entrada.html">Ver</a>
-          </div>
+          <article class="lit-card" style="--bg-image:url('/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png');">
+            <div class="lit-card-content">
+              <span class="lit-eyebrow">Momentos livres</span>
+              <h3>Ad libitum (À vontade)</h3>
+              <p>Seleção refinada de cânticos opcionais para ofertório, meditação e saída, com sugestões por tempo litúrgico e clima celebrativo.</p>
+              <div class="lit-pill-group">
+                <span class="lit-pill">Sugestões sazonais</span>
+                <span class="lit-pill">Guias devocionais</span>
+              </div>
+              <div class="lit-card-actions">
+                <a class="btn" href="pages/ad-libitum.html">Explorar repertório</a>
+              </div>
+            </div>
+          </article>
         </div>
-      </article>
 
-      <!-- Comunhão - 2º Domingo do Advento -->
-      <article class="list-card">
-        <img src="assets/img/thumbnails.jpg" alt="Comunhão - 2º Domingo do Advento">
-        <div class="card-body">
-          <small class="tag">#ADVENTO</small>
-          <h3>Comunhão - 2º Domingo do Advento</h3>
-          <p>O Senhor nos dará seus benefícios - Canto de Comunhão para o segundo domingo de Advento.</p>
-          <div class="card-actions">
-            <a class="btn" href="pages/advento-2-comunhao.html">Ver</a>
-          </div>
+        <div class="lit-carousel-dots" role="tablist">
+          <button class="lit-dot active" type="button" aria-label="Pater noster"></button>
+          <button class="lit-dot" type="button" aria-label="Ad libitum"></button>
         </div>
-      </article>
+      </div>
 
-      <!-- Entrada - 3º Domingo do Advento -->
-      <article class="list-card">
-        <img src="assets/img/thumbnails.jpg" alt="Entrada - 3º Domingo do Advento">
-        <div class="card-body">
-          <small class="tag">#ADVENTO</small>
-          <h3>Entrada - 3º Domingo do Advento</h3>
-          <p>Eis que o Senhor vem - Canto de Entrada para o terceiro domingo de Advento.</p>
-          <div class="card-actions">
-            <a class="btn" href="pages/advento-3-entrada.html">Ver</a>
-          </div>
-        </div>
-      </article>
+      <div class="liturgical-carousel Carrossel-de-Anúncios1" aria-label="Outros cantos do Ordinário">
+        <button class="lit-carousel-btn prev" type="button" aria-label="Card anterior">
+          <span>&#10094;</span>
+        </button>
+        <button class="lit-carousel-btn next" type="button" aria-label="Próximo card">
+          <span>&#10095;</span>
+        </button>
 
-      <!-- Veni Veni Emanuel -->
-      <article class="list-card">
-        <img src="assets/img/thumbnails.jpg" alt="Veni Veni Emanuel">
-        <div class="card-body">
-          <small class="tag">#ADVENTO</small>
-          <h3>Veni Veni Emanuel</h3>
-          <p>Vinde, vinde Emanuel - Um dos mais belos hinos de Advento, cheio de esperança e devoção.</p>
-          <div class="card-actions">
-            <a class="btn" href="pages/veni-veni-emmanuel.html">Ver</a>
-          </div>
+        <div class="lit-carousel-track">
+          <article class="lit-card lit-card-promo-left" style="--bg-image:url('/assets/img/Anuncie/Anuncie4.png');">
+            <div class="lit-card-content lit-card-promo-content">
+              <div class="lit-card-top">
+                <span class="lit-eyebrow">ANUNCIE AQUI</span>
+                <h3>Espaço disponível para anúncios.</h3>
+              </div>
+              <div class="lit-card-spacer"></div>
+              <div class="lit-card-bottom">
+                <p>Se você viu, seus clientes também podem ver.</p>
+                <div class="lit-card-actions">
+                  <a class="btn" href="pages/contato.html">QUERO ANUNCIAR NO SITE</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="lit-card" style="--bg-image:url('/assets/img/Anuncie/Doacoes1.png');">
+            <div class="lit-card-content">
+              <span class="lit-eyebrow">PARTICIPE</span>
+              <h3>APOIE NOSSA MISSÃO</h3>
+              <p>Contribua para manter viva a tradição do Canto Gregoriano e nos ajude a oferecer novas partituras e conteúdos gratuitos.</p>
+              <div class="lit-card-actions">
+                <a class="btn" href="pages/doacao.html">FAZER DOAÇÃO</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="lit-card" style="--bg-image:url('/assets/img/banner1.jpg');">
+            <div class="lit-card-content">
+              <span class="lit-eyebrow">Ordinário da Missa</span>
+              <h3>Agnus Dei</h3>
+              <p>Cantos contemplativos para o Cordeiro de Deus com arranjos em uníssono e polifonia leve.</p>
+              <div class="lit-pill-group">
+                <span class="lit-pill">Momentos de Comunhão</span>
+                <span class="lit-pill">Áudio + partitura</span>
+              </div>
+              <div class="lit-card-actions">
+                <a class="btn" href="pages/agnus-dei.html">Abrir Agnus Dei</a>
+              </div>
+            </div>
+          </article>
         </div>
-      </article>
+
+        <div class="lit-carousel-dots" role="tablist">
+          <button class="lit-dot active" type="button" aria-label="Kyrie"></button>
+          <button class="lit-dot" type="button" aria-label="Gloria"></button>
+          <button class="lit-dot" type="button" aria-label="Agnus Dei"></button>
+        </div>
+      </div>
+
     </section>
-
-    <aside class="homily">
-      <!-- Card Premium PIX -->
-      <div class="pix-premium-card">
-        <div class="pix-header">
-          <div class="pix-icon">✨</div>
-          <h3 class="pix-title">Apoie Este Projeto</h3>
-          <p class="pix-subtitle">Ajude a manter viva a tradição do Canto Gregoriano</p>
-        </div>
-        
-        <!-- Linha decorativa -->
-        <div class="pix-divider">
-          <div class="line"></div>
-          <div class="diamond"></div>
-          <div class="line"></div>
-        </div>
-        
-        <!-- QR Code com moldura -->
-        <div class="pix-qrcode-container">
-          <div class="qrcode-frame">
-            <img src="assets/img/qrcode-pix-oficial.png" alt="QR Code PIX" class="pix-qrcode">
-          </div>
-          <p class="qrcode-instruction">Escaneie com seu app bancário</p>
-        </div>
-        
-        <!-- Chave PIX -->
-        <div class="pix-key-section">
-          <label class="pix-key-label">Chave PIX:</label>
-          <div class="pix-key-container">
-            <input type="text" id="pix-key" value="douglas.assumpcao@hotmail.com" readonly class="pix-key-input">
-            <button onclick="copyPixKey()" class="pix-copy-btn" title="Copiar chave PIX">
-              <span class="copy-icon">📋</span>
-            </button>
-          </div>
-          <p class="pix-key-type">E-mail</p>
-        </div>
-        
-        <!-- Mensagem de agradecimento -->
-        <div class="pix-footer">
-          <p>Sua contribuição nos ajuda a continuar produzindo e compartilhando partituras litúrgicas de qualidade.</p>
-          <div class="pix-blessing">🙏 Que Deus abençoe sua generosidade</div>
-        </div>
-      </div>
-      
-      <div class="video-card">
-        <img src="assets/img/homilia.jpg" alt="Homilia">
-        <!-- se quiser vídeo substitua por iframe/video -->
-      </div>
-    </aside>
   </main>
+
+  <section class="pix-section container">
+    <div class="pix-premium-card">
+      <div class="pix-header">
+        <div class="pix-icon">✨</div>
+        <h3 class="pix-title">Apoie Este Projeto</h3>
+        <p class="pix-subtitle">Ajude a manter viva a tradição do Canto Gregoriano</p>
+      </div>
+
+      <div class="pix-divider">
+        <div class="line"></div>
+        <div class="diamond"></div>
+        <div class="line"></div>
+      </div>
+
+      <div class="pix-qrcode-container">
+        <div class="qrcode-frame">
+          <img src="assets/img/qrcode-pix-oficial.png" alt="QR Code PIX" class="pix-qrcode">
+        </div>
+        <p class="qrcode-instruction">Escaneie com seu app bancário</p>
+      </div>
+
+      <div class="pix-key-section">
+        <label class="pix-key-label">Chave PIX:</label>
+        <div class="pix-key-container">
+          <input type="text" id="pix-key" value="douglas.assumpcao@hotmail.com" readonly class="pix-key-input">
+          <button onclick="copyPixKey()" class="pix-copy-btn" title="Copiar chave PIX">
+            <span class="copy-icon">📋</span>
+          </button>
+        </div>
+        <p class="pix-key-type">E-mail</p>
+      </div>
+
+      <div class="pix-footer">
+        <p>Sua contribuição nos ajuda a continuar produzindo e compartilhando partituras litúrgicas de qualidade.</p>
+        <div class="pix-blessing">🙏 Que Deus abençoe sua generosidade</div>
+      </div>
+    </div>
+  </section>
 
   <footer class="site-footer">
     <p>� 2025 Meu Site. Todos os direitos reservados.</p>
@@ -558,51 +533,6 @@
   <script src="scripts/script.js"></script>
   
   <script>
-    // ===== CAROUSEL ANÚNCIOS =====
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dot');
-    const totalSlides = slides.length;
-    let autoPlayInterval;
-
-    function showSlide(index) {
-      // Remove active de todos os slides e dots
-      slides.forEach(slide => slide.classList.remove('active'));
-      dots.forEach(dot => dot.classList.remove('active'));
-
-      // Adiciona active ao slide e dot correto
-      slides[index].classList.add('active');
-      dots[index].classList.add('active');
-    }
-
-    function changeSlide(direction) {
-      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
-      showSlide(currentSlide);
-      resetAutoPlay();
-    }
-
-    function goToSlide(index) {
-      currentSlide = index;
-      showSlide(currentSlide);
-      resetAutoPlay();
-    }
-
-    function autoPlay() {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      showSlide(currentSlide);
-    }
-
-    function resetAutoPlay() {
-      clearInterval(autoPlayInterval);
-      autoPlayInterval = setInterval(autoPlay, 6000); // Trocar slide a cada 6 segundos
-    }
-
-    // Iniciar auto-play ao carregar
-    document.addEventListener('DOMContentLoaded', () => {
-      showSlide(0);
-      autoPlayInterval = setInterval(autoPlay, 6000);
-    });
-
     // Função para copiar a chave PIX
     function copyPixKey() {
       const pixKey = document.getElementById('pix-key');
@@ -623,6 +553,53 @@
         alert('Chave PIX copiada: ' + pixKey.value);
       });
     }
+
+    // ===== CARROSSEL ORDINÁRIO =====
+    (function(){
+      const carousels = document.querySelectorAll('.liturgical-carousel');
+      if(!carousels.length) return;
+
+      carousels.forEach(litCarousel => {
+        const track = litCarousel.querySelector('.lit-carousel-track');
+        const litCards = track ? Array.from(track.querySelectorAll('.lit-card')) : [];
+        if(!track || !litCards.length) return;
+
+        const prevBtn = litCarousel.querySelector('.lit-carousel-btn.prev');
+        const nextBtn = litCarousel.querySelector('.lit-carousel-btn.next');
+        const dots = Array.from(litCarousel.querySelectorAll('.lit-dot'));
+        let litIndex = 0;
+        let litInterval;
+
+        function updateLitCarousel(){
+          track.style.transform = `translateX(-${litIndex * 100}%)`;
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === litIndex);
+          });
+        }
+
+        function goToLitSlide(idx){
+          litIndex = (idx + litCards.length) % litCards.length;
+          updateLitCarousel();
+          restartLitAutoplay();
+        }
+
+        function restartLitAutoplay(){
+          if(litInterval) clearInterval(litInterval);
+          if(litCards.length > 1){
+            litInterval = setInterval(() => goToLitSlide(litIndex + 1), 9000);
+          }
+        }
+
+        if(prevBtn) prevBtn.addEventListener('click', () => goToLitSlide(litIndex - 1));
+        if(nextBtn) nextBtn.addEventListener('click', () => goToLitSlide(litIndex + 1));
+        dots.forEach((dot, idx) => dot.addEventListener('click', () => goToLitSlide(idx)));
+        litCarousel.addEventListener('mouseenter', () => litInterval && clearInterval(litInterval));
+        litCarousel.addEventListener('mouseleave', restartLitAutoplay);
+
+        updateLitCarousel();
+        restartLitAutoplay();
+      });
+    })();
   </script>
   
 </body>

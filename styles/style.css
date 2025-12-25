@@ -398,6 +398,263 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
   pointer-events:none;
 }
 
+/* ===== Liturgical hero carousel ===== */
+.liturgical-carousel{
+  position:relative;
+  background:linear-gradient(135deg, rgba(10,10,16,0.95), rgba(22,22,32,0.98));
+  border-radius:32px;
+  padding:clamp(20px,3vw,38px) clamp(18px,3vw,42px) clamp(30px,4vw,50px);
+  overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,0.35);
+  isolation:isolate;
+  margin-bottom:46px;
+}
+
+.lit-carousel-track{
+  display:flex;
+  transition:transform .65s cubic-bezier(.4,.12,.2,1);
+}
+
+.lit-card{
+  flex:0 0 100%;
+  position:relative;
+  min-height:clamp(320px, 45vw, 420px);
+  border-radius:26px;
+  overflow:hidden;
+  display:flex;
+  align-items:stretch;
+  color:#fff;
+  padding:0;
+}
+
+.lit-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:linear-gradient(110deg, rgba(6,6,8,0.92), rgba(10,10,12,0.35)), var(--bg-image, linear-gradient(120deg,#1f1f24,#111));
+  background-size:cover;
+  background-position:center;
+  filter:saturate(1.08);
+  transition:transform .6s ease, filter .6s ease;
+}
+
+.lit-card-content{
+  position:relative;
+  z-index:2;
+  padding:clamp(24px,3.5vw,48px);
+  max-width:600px;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:100%;
+}
+
+.lit-card-content .lit-eyebrow{
+  display:inline-block;
+  margin-bottom:28px;
+}
+  position:absolute;
+  top:-40px;
+  left:0;
+  right:0;
+  height:1px;
+}
+
+.lit-card-content .lit-eyebrow{
+  display:inline-block;
+  margin-top:-200px;
+  margin-bottom:60px;
+}
+
+.lit-card-centered .lit-card-content .lit-eyebrow{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.lit-card h3{
+  font-size:clamp(28px,3.8vw,42px);
+  margin:10px 0 18px;
+  text-shadow:0 8px 25px rgba(0,0,0,0.65);
+  word-break:keep-all;
+}
+
+.lit-eyebrow{
+  font-size:13px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.75);
+}
+
+.lit-card p{
+  max-width:520px;
+  line-height:1.6;
+  font-size:16px;
+  color:rgba(255,255,255,0.9);
+}
+
+.lit-pill-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:24px 0 12px;
+  justify-content:flex-start;
+}
+
+.lit-card-centered .lit-card-content{
+  text-align:center;
+  margin:0 auto;
+}
+
+.lit-card-centered .lit-pill-group{
+  justify-content:center;
+}
+
+.lit-card-centered .lit-card-actions{
+  justify-content:center;
+}
+
+.lit-card-promo-content{
+  align-items:center;
+  text-align:center;
+  min-height:100%;
+}
+
+.lit-card-promo-content .lit-card-top{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.lit-card-spacer{
+  flex:1;
+  width:100%;
+}
+
+.lit-card-promo-content .lit-card-bottom{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+  width:100%;
+  margin-top:auto;
+  padding-bottom:12px;
+}
+
+.lit-card-promo-left .lit-card-content,
+.lit-card-promo-left .lit-card-promo-content{
+  align-items:flex-start;
+  text-align:left;
+}
+
+.lit-card-promo-left .lit-card-bottom{
+  align-items:flex-start;
+}
+
+.lit-card-promo-left .lit-card-actions{
+  justify-content:flex-start;
+}
+
+@media(max-width:900px){
+  .lit-card-content{
+    max-width:100%;
+    padding:24px 20px;
+  }
+  .lit-card h3{font-size:clamp(26px,6vw,34px);}
+  .lit-pill-group{justify-content:center;}
+  .lit-card-content{align-items:center; text-align:center;}
+}
+
+@media(max-width:600px){
+  .lit-card-content{
+    padding:20px 18px;
+  }
+  .lit-card h3{font-size:clamp(24px,7vw,30px);}
+}
+
+.lit-pill{
+  border:1px solid rgba(212,175,55,0.5);
+  border-radius:999px;
+  padding:6px 16px;
+  font-size:12px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  color:#f7f2da;
+  background:rgba(0,0,0,0.35);
+  box-shadow:0 10px 20px rgba(0,0,0,0.25);
+}
+
+.lit-card-actions{display:flex; align-items:center; gap:16px; margin-top:18px}
+.lit-card-actions .btn{box-shadow:0 12px 28px rgba(212,175,55,0.25)}
+
+.lit-carousel-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:1px solid rgba(212,175,55,0.5);
+  background:rgba(0,0,0,0.45);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:5;
+  backdrop-filter:blur(6px);
+  transition:all .3s ease;
+}
+
+.lit-carousel-btn span{font-size:22px; line-height:1}
+.lit-carousel-btn:hover{background:rgba(212,175,55,0.15); transform:translateY(-50%) scale(1.08); box-shadow:0 12px 30px rgba(0,0,0,0.35)}
+.lit-carousel-btn.prev{left:20px}
+.lit-carousel-btn.next{right:20px}
+
+.lit-carousel-dots{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:26px;
+}
+
+.lit-dot{
+  width:14px;
+  height:14px;
+  border-radius:999px;
+  border:1px solid rgba(212,175,55,0.4);
+  background:rgba(255,255,255,0.24);
+  cursor:pointer;
+  transition:all .35s ease;
+  padding:0;
+}
+
+.lit-dot.active{
+  width:36px;
+  background:#d4af37;
+  border-color:#d4af37;
+  box-shadow:0 0 18px rgba(212,175,55,0.45);
+}
+
+.liturgical-carousel:hover .lit-card::before{transform:scale(1.04); filter:saturate(1.2)}
+
+@media(max-width:1024px){
+  .lit-card{min-height:320px}
+}
+
+@media(max-width:900px){
+  .liturgical-carousel{border-radius:24px}
+  .lit-carousel-btn{display:none}
+  .lit-card::after{inset:12px}
+}
+
+@media(max-width:600px){
+  .liturgical-carousel{padding:20px 16px}
+  .lit-card{min-height:280px}
+  .lit-card h3{font-size:28px}
+  .lit-card p{font-size:15px}
+  .lit-pill{font-size:11px; padding:5px 12px}
+}
+
 /* ===== Regras específicas para o bloco de compartilhamento (Advento) ===== */
 .social-share{
   margin:16px auto; /* reduzir espaço vertical grande */
@@ -839,6 +1096,33 @@ body.nav-open .site-header{background:rgba(0,0,0,0.25)}
 .card-body h3{margin:4px 0}
 .meta{color:var(--muted); font-size:12px}
 
+.container.home-centered{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:32px;
+}
+
+.container.home-centered .articles{
+  width:min(860px, 100%);
+  align-items:center !important;
+}
+
+.container.home-centered .articles h2{
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
+.container.home-centered .articles > *{
+  width:100%;
+}
+
+.container.home-centered .liturgical-carousel{
+  width:100%;
+}
+
 /* aside */
 .homily h3{margin:0 0 12px 0}
 .video-card img{width:100%; border-radius:8px}
@@ -1043,6 +1327,17 @@ body.dark{ --bg:#121213; --text:#e9e9e9; --card:#161617; --muted:#bbbbbb; }
     0 0 0 1px rgba(212,175,55,0.1) inset,
     0 20px 60px rgba(212,175,55,0.08);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pix-section{
+  display:flex;
+  justify-content:center;
+  padding:50px 18px 20px;
+}
+
+.pix-section .pix-premium-card{
+  width:min(740px, 100%);
+  margin-bottom:0;
 }
 
 .pix-premium-card:hover{
