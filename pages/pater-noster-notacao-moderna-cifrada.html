@@ -181,31 +181,37 @@
             </section>
           </div>
           <aside class="suggestions-column" aria-label="Outras versões do Pai Nosso">
-            <h3>Outras versões</h3>
+            <div class="suggestion-heading">
+              <h3>Outras versões</h3>
+              <p>Encontre outras leituras deste canto.</p>
+            </div>
             <div class="suggestion-cards">
               <a class="suggestion-card" href="pater-noster-notacao-quadrada-cifrada.html">
-                <div class="suggestion-token">Q</div>
-                <div class="suggestion-text">
-                  <span class="suggestion-label">Quadrada</span>
-                  <strong>Cifras discretas</strong>
-                  <p>Organistas e tecladistas com foco gregoriano.</p>
+                <div class="suggestion-body">
+                  <span class="suggestion-line">Notação Quadrada</span>
+                  <strong class="suggestion-title">Cifrada</strong>
                 </div>
+                <span class="suggestion-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 4h8v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 14 14 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
               </a>
               <a class="suggestion-card" href="pater-noster-notacao-quadrada-coralista.html">
-                <div class="suggestion-token">C</div>
-                <div class="suggestion-text">
-                  <span class="suggestion-label">Quadrada</span>
-                  <strong>Formação coral</strong>
-                  <p>Respirações guiadas e tradução literal.</p>
+                <div class="suggestion-body">
+                  <span class="suggestion-line">Notação Quadrada</span>
+                  <strong class="suggestion-title">Para Coralista</strong>
                 </div>
+                <span class="suggestion-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 4h8v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 14 14 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
               </a>
               <a class="suggestion-card" href="pater-noster-notacao-moderna-coralista.html">
-                <div class="suggestion-token">M</div>
-                <div class="suggestion-text">
-                  <span class="suggestion-label">Moderna</span>
-                  <strong>Para coro SATB</strong>
-                  <p>Letra acentuada e divisões por vozes.</p>
+                <div class="suggestion-body">
+                  <span class="suggestion-line">Notação Moderna</span>
+                  <strong class="suggestion-title">Para Coralista</strong>
                 </div>
+                <span class="suggestion-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 4h8v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 14 14 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
               </a>
             </div>
             <a class="collection-cta" href="pater-noster.html">Ver mosaico completo</a>
@@ -383,6 +389,13 @@
       };
       activateGoogleAds();
       const previewMap=new Map();
+      const shouldForcePdfReload=(()=>{
+        if(typeof navigator==='undefined') return false;
+        const ua=navigator.userAgent||'';
+        const isIOS=/(iPad|iPhone|iPod)/i.test(ua);
+        const isSafari=/Safari/i.test(ua)&&!/Chrome|CriOS|Android|Edg/i.test(ua);
+        return isIOS||isSafari;
+      })();
       const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
       const normalizeSrc=src=>{
         if(!src) return '';
@@ -425,7 +438,14 @@
       };
       const applyPdfState=state=>{
         if(!state||!state.frame||!state.baseSrc) return;
-        state.frame.src=`${state.baseSrc}#${buildHash(state)}`;
+        const hash=buildHash(state);
+        let cacheSuffix='';
+        if(state.forceReload){
+          state.cacheToken=(state.cacheToken||0)+1;
+          const separator=state.baseSrc.includes('?')?'&':'?';
+          cacheSuffix=`${separator}_cb=${state.cacheToken}`;
+        }
+        state.frame.src=`${state.baseSrc}${cacheSuffix}#${hash}`;
         state.isFrameLoaded=true;
       };
       const exitFullscreen=state=>{
@@ -507,7 +527,9 @@
             page:1,
             maxPages:Number.parseInt(panel.dataset.maxPages||'',10)||null,
             baseSrc:normalizeSrc(frameSrc),
-            isFrameLoaded:false
+            isFrameLoaded:false,
+            forceReload:shouldForcePdfReload,
+            cacheToken:0
           };
           previewMap.set(panel,state);
           if(state.closeBtn){
@@ -515,7 +537,12 @@
           }
           if(state.toolbar){
             state.toolbar.addEventListener('click',function(evt){
-              const btn=evt.target.closest('[data-preview-action]');
+              let target=evt.target;
+              if(!(target instanceof Element)){
+                target=target && target.parentElement?target.parentElement:null;
+              }
+              if(!target) return;
+              const btn=target.closest('[data-preview-action]');
               if(!btn) return;
               handleAction(state,btn.dataset.previewAction);
             });
