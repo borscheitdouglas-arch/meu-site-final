@@ -726,10 +726,9 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
   }
 
   .lit-card-actions .btn{
-    padding:9px 16px;
-    font-size:11px;
-    min-height:42px;
-    flex:1;
+    padding:10px 18px;
+    font-size:12px;
+    min-height:44px;
   }
 
   .lit-carousel-dots{
