@@ -94,7 +94,7 @@ body::before {
 
 .ad-slot--side {
   position: absolute;
-  top: 60px;
+  top: var(--ad-slot-side-top, clamp(140px, 24vh, 260px));
   width: 200px;
   min-height: 260px;
   backdrop-filter: blur(6px);
@@ -102,6 +102,12 @@ body::before {
 
 .ad-slot--left {
   left: calc(-1 * clamp(120px, ((100vw - 900px) / 2), 320px));
+  height: 780px;
+  min-height: 780px;
+}
+
+.ad-slot--left ins.adsbygoogle {
+  min-height: calc(780px - 48px);
 }
 
 .ad-slot--right {
@@ -298,7 +304,7 @@ body::before {
 
 .support-qr--theology {
   position: absolute;
-  top: 34px;
+  top: calc(var(--ad-slot-side-top, clamp(140px, 24vh, 260px)) + var(--ad-slot-right-height, 300px) + 24px);
   right: calc(-1 * clamp(50px, ((100vw - 840px) / 2), 210px));
 }
 
