@@ -1,69 +1,119 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>10º Domingo do Tempo Comum — Meu Site</title>
-  <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
-  <link rel="shortcut icon" href="/assets/img/icone.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>10º Domingo do Tempo Comum | Tempo Comum</title>
+  <meta name="description" content="10º Domingo do Tempo Comum — recursos litúrgicos, reflexões sobre comunhão e orientações pastorais.">
+  <link rel="icon" href="../assets/img/icone.png" sizes="192x192">
   <link rel="stylesheet" href="../styles/style.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
-     crossorigin="anonymous"></script>
+      crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#151515;--panel:#1f1f1f;--muted:#9a9a9a;--accent:#e6e6e6;--accent-2:#c9a56a}
+    html,body{height:100%;margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .wrap{max-width:1100px;margin:0 auto;padding:60px 20px 200px}
+
+    h1.page-title{font-family:'Cinzel',Georgia,serif;font-size:2.5rem;margin:0 0 16px;color:var(--accent-2);font-weight:700;text-align:center;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25)}
+    .page-subtitle{font-family:Georgia,serif;font-size:1.05rem;color:var(--muted);text-align:center;margin:0 0 48px;font-style:italic}
+
+    .carousel-section{margin:0 auto 70px;padding:0 10px;max-width:1200px}
+    .carousel-head{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:12px}
+    .carousel-title{font-family:'Cinzel',Georgia,serif;font-size:1.4rem;color:var(--accent-2);letter-spacing:.4px;margin:0}
+    .carousel-window{position:relative;overflow:hidden;padding:0 6px}
+    .carousel-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 4px 24px;margin:0 -4px;scroll-behavior:smooth;justify-content:center}
+    .carousel-track::-webkit-scrollbar{height:6px}
+    .carousel-track::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.4);border-radius:3px}
+    .carousel-track::-webkit-scrollbar-track{background:rgba(255,255,255,0.05)}
+
+    .card{background:linear-gradient(135deg,rgba(31,31,31,0.98) 0%,rgba(21,21,21,1) 100%);border:1px solid rgba(212,175,55,0.3);border-radius:16px;padding:0;text-align:left;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:220px;cursor:pointer;flex:0 0 380px;scroll-snap-align:center}
+    .card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(212,175,55,0.15) 0%,transparent 50%);pointer-events:none;opacity:0.9}
+    .card:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(212,175,55,0.28),0 0 50px rgba(212,175,55,0.15);border-color:rgba(212,175,55,0.7)}
+
+    .card-header{padding:20px 18px 14px;position:relative;z-index:1}
+    .card-icon{margin-bottom:12px;display:flex;align-items:center;justify-content:flex-start}
+    .card-icon img{width:60px;height:60px;display:block;filter:drop-shadow(0 4px 14px rgba(212,175,55,0.4));object-fit:contain;transition:transform .3s ease,filter .3s ease}
+    .card:hover .card-icon img{transform:scale(1.08) rotate(2deg);filter:drop-shadow(0 6px 20px rgba(212,175,55,0.6))}
+
+    .card-title{font-family:'Cinzel',Georgia,serif;font-size:1.3rem;color:var(--accent-2);margin:0 0 2px;font-weight:700;letter-spacing:.2px;line-height:1.2}
+    .card-subtitle{font-family:Georgia,serif;font-size:.85rem;color:rgba(212,175,55,0.85);margin:0;font-style:italic;line-height:1.25}
+
+    .card-body{padding:0 18px 16px;position:relative;z-index:1;flex:1;display:flex;flex-direction:column}
+    .card-description{color:#b8b8b8;line-height:1.5;font-size:.85rem;margin:0 0 auto;padding-bottom:10px}
+
+    .card-footer{padding:0 18px 20px;position:relative;z-index:1}
+    .card-link{display:inline-block;background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:10px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;font-family:'Cinzel',Georgia,serif;box-shadow:0 6px 18px rgba(217,166,73,0.16);transition:transform .12s ease,box-shadow .18s ease,filter .18s ease;text-shadow:0 1px 0 rgba(0,0,0,0.3);width:100%;text-align:center;letter-spacing:.4px}
+    .card-link:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(214,168,79,0.36),0 0 40px rgba(214,168,79,0.24);filter:brightness(1.12)}
+
+    @media(max-width:768px){
+      h1.page-title{font-size:2rem}
+      .page-subtitle{font-size:.95rem;margin-bottom:32px}
+      .carousel-section{margin-bottom:50px}
+      .card{flex:0 0 75vw;min-height:250px}
+      .card-header{padding:22px 20px 14px}
+      .card-body{padding:0 20px 18px}
+      .card-footer{padding:0 20px 22px}
+      .card-icon img{width:68px;height:68px}
+      .card-title{font-size:1.35rem}
+      .wrap{padding:60px 20px 140px}
+    }
+
+    @media(max-width:480px){
+      h1.page-title{font-size:1.6rem;letter-spacing:.5px}
+      .page-subtitle{font-size:.9rem;padding:0 10px}
+      .carousel-section{margin-bottom:40px}
+      .card{flex:0 0 82vw;min-height:auto;padding-bottom:8px}
+      .card-header{padding:20px 18px 14px}
+      .card-body{padding:0 18px 18px}
+      .card-footer{padding:0 18px 22px}
+      .card-icon img{width:64px;height:64px}
+      .card-title{font-size:1.2rem}
+      .card-description{font-size:.9rem}
+      .wrap{padding:60px 20px 120px}
+    }
+  </style>
+  <meta property="og:title" content="10º Domingo do Tempo Comum">
+  <meta property="og:description" content="Recursos litúrgicos e reflexões para o 10º Domingo do Tempo Comum.">
+  <meta property="og:type" content="website">
 </head>
-<body class="liturgic">
+<body>
   <header class="site-header">
     <button id="menu-btn" class="menu-btn" aria-label="Abrir menu">
       <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
     </button>
-    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
+    <div class="logo"><a href="/index.html"><img src="../assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
     <div class="header-actions">
       <a class="icon-btn" href="/pages/loja.html" title="Loja">
-        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
+        <img src="../assets/img/icone1.png" alt="Loja" class="icon-img">
         <span class="icon-label">LOJA</span>
       </a>
       <a class="icon-btn" href="/pages/contato.html" title="Contato">
-        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
+        <img src="../assets/img/icone2.png" alt="Contato" class="icon-img">
         <span class="icon-label">CONTATO</span>
       </a>
-      <input id="search" type="search" placeholder="Buscar..." />
+      <input id="search" type="search" placeholder="Buscar...">
     </div>
   </header>
 
-  <!-- SIDE NAV -->
   <nav id="side-nav" class="side-nav" aria-hidden="true">
     <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
-
-    <!-- Imagem do menu (campo superior) -->
     <div class="side-nav-hero" aria-hidden="true">
       <div class="menu-frame">
-        <img src="/assets/img/1.jpg" alt="Imagem do menu">
+        <img src="../assets/img/1.jpg" alt="Imagem do menu">
       </div>
     </div>
-
     <ul>
-    <li><a href="/index.html" class="menu-item inicio">Inécio</a></li>
-    <li><a href="/pages/formacoes.html" class="menu-item formacoes">Forma"es</a></li>
-      
+      <li><a href="../index.html" class="menu-item inicio">Início</a></li>
+      <li><a href="../pages/formacoes.html" class="menu-item formacoes">Formações</a></li>
       <li>
         <details>
           <summary class="menu-item advento">Advento</summary>
           <ul>
-            <li><a href="/pages/advento-1.html">1º Domingo do Advento</a></li>
-            <li><a href="/pages/advento-2.html">2º Domingo do Advento</a></li>
-            <li><a href="/pages/advento-3.html">3º Domingo do Advento</a></li>
-            <li><a href="/pages/advento-4.html">4º Domingo do Advento</a></li>
-          </ul>
-        </details>
-      </li>
-      
-      <li>
-        <details>
-          <summary class="menu-item natal">Natal</summary>
-          <ul>
-            <li><a href="/pages/natal-noite.html">Missa da Noite</a></li>
-            <li><a href="/pages/natal-aurora.html">Missa da Aurora</a></li>
-            <li><a href="/pages/natal-dia.html">Missa do Dia</a></li>
+            <li><a href="advento-1-video.html">1º Domingo do Advento</a></li>
+            <li><a href="advento-2.html">2º Domingo do Advento</a></li>
+            <li><a href="advento-3.html">3º Domingo do Advento</a></li>
+            <li><a href="advento-4.html">4º Domingo do Advento</a></li>
           </ul>
         </details>
       </li>
@@ -71,141 +121,126 @@
         <details>
           <summary class="menu-item quaresma">Quaresma</summary>
           <ul>
-            <li><a href="/pages/quaresma-1.html">1º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-2.html">2º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-3.html">3º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-4.html">4º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-5.html">5º Domingo da Quaresma</a></li>
-            <li><a href="/pages/quaresma-ramos.html">Domingo de Ramos</a></li>
+            <li><a href="quaresma-1.html">1º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-2.html">2º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-3.html">3º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-4.html">4º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-5.html">5º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-ramos.html">Domingo de Ramos</a></li>
           </ul>
         </details>
       </li>
       <li>
-        <details>
-          <summary class="menu-item pascoa">Páscoa</summary>
-          <ul>
-            <li><a href="/pages/pascoa-vigilia.html">Vigília Pascal</a></li>
-            <li><a href="/pages/pascoa-1.html">Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-4.html">4º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-5.html">5º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-6.html">6º Domingo da Páscoa</a></li>
-            <li><a href="/pages/pascoa-ascensao.html">Ascensão do Senhor</a></li>
-            <li><a href="/pages/pascoa-pentecostes.html">Pentecostes</a></li>
-          </ul>
-        </details>
-      </li>
-      <li>
-        <details>
+        <details open>
           <summary class="menu-item tempo-comum">Tempo Comum</summary>
           <ul>
-            <li><a href="/pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
-            <li><a href="/pages/tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-10.html" class="active">10º Domingo do Tempo Comum</a></li>
           </ul>
         </details>
       </li>
-      <!-- Ordinário da missa (separado abaixo dos demais tépicos) -->
       <li class="menu-ordinario">
         <details>
           <summary class="menu-item ordinario">Ordinário da missa</summary>
           <ul>
-            <li><a href="/pages/kyrie.html">Kyrie</a></li>
-            <li><a href="/pages/gloria.html">Gloria</a></li>
-            <li><a href="/pages/sanctus.html">Sanctus</a></li>
-            <li><a href="/pages/agnus-dei.html">Agnus Dei</a></li>
-            <li><a href="/pages/pater-noster.html">Pater noster / Pai nosso</a></li>
-            <li><a href="/pages/ad-libitum.html">Ad libitum (<em>Ã€ vontade</em>)</a></li>
+            <li><a href="ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
           </ul>
         </details>
       </li>
     </ul>
   </nav>
-
   <div id="nav-overlay" class="nav-overlay" hidden></div>
 
-  <main>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap');
-      :root{--gold:#D4AF37;--text:#EDEDED;--card-bg: rgba(6,6,6,0.94)}
-      html,body{height:100%}
-      body{margin:0;font-family:Cardo, 'Playfair Display', serif;background:#fff1c1;color:var(--text);background-image: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.06) 60%);background-blend-mode:multiply}
-      .page-wrap{min-height:calc(100vh - var(--header-height,48px)); display:flex; align-items:center; justify-content:center; padding:48px 16px}
-      .notice-card{width:100%; max-width:750px; background:transparent; border-radius:10px; padding:0; box-sizing:border-box; position:relative; text-align:center}
-      .notice-inner{background:var(--card-bg); border-radius:10px; padding:48px; box-sizing:border-box; color:var(--text); border:1px solid rgba(212,175,55,0.40); box-shadow: 0 18px 50px rgba(0,0,0,0.7), 0 6px 18px rgba(0,0,0,0.6) inset; position:relative; overflow:hidden}
-      .arabesco{display:block; width:100%; text-align:center; margin:6px 0}
-      .arabesco svg{width:220px; height:auto; opacity:0.92}
-      .icon{font-size:52px; color:var(--gold); display:block; margin:0 auto 18px; line-height:1}
-      .title{font-family:'Playfair Display', 'Cardo', serif; color:var(--gold); font-size:28px; margin:6px 0 18px}
-      .message{color:var(--text); font-size:17px; line-height:1.8; max-width:680px; margin:0 auto}
-      .message p{margin:12px 0}
-      .footer-note{margin-top:22px;color:rgba(237,237,237,0.78); font-size:0.98rem}
-      .notice-inner::before{content:''; position:absolute; inset:0; pointer-events:none; background-image: radial-gradient(ellipse at 10% 10%, rgba(212,175,55,0.02), transparent 12%), radial-gradient(ellipse at 90% 90%, rgba(212,175,55,0.01), transparent 12%); mix-blend-mode:overlay; opacity:0.9}
-      @media(max-width:680px){.notice-inner{padding:40px}.title{font-size:22px}.icon{font-size:44px}.arabesco svg{width:160px}}
-      @media(max-width:420px){.notice-inner{padding:36px}.title{font-size:20px}.icon{font-size:40px}.message{font-size:15px}}
-    </style>
+  <div class="wrap">
+    <h1 class="page-title">10º Domingo do Tempo Comum</h1>
+    <p class="page-subtitle">Entre as festas e os jejuns, Deus visita os dias simples; e chama de santidade aquilo que o mundo chama de rotina</p>
 
-    <div class="page-wrap">
-      <div class="notice-card">
-        <div class="notice-inner" role="status" aria-live="polite">
-          <span class="arabesco" aria-hidden="true">
-            <svg viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="none" stroke-width="1"><path d="M10 20 C30 0, 70 0, 90 20 C110 40, 150 40, 170 20" stroke="rgba(212,175,55,0.95)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 20 C45 10, 55 10, 70 20" stroke="rgba(212,175,55,0.85)" stroke-width="1.8" stroke-linecap="round"/></g></svg>
-          </span>
+    <div style="display:flex;align-items:center;gap:20px;margin:0 auto 50px;max-width:600px;">
+      <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,0.5),rgba(212,175,55,0.3));"></div>
+      <div style="width:8px;height:8px;background:#d4af37;transform:rotate(45deg);box-shadow:0 0 10px rgba(212,175,55,0.5);"></div>
+      <div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(212,175,55,0.5),rgba(212,175,55,0.3));"></div>
+    </div>
 
-          <div class="icon" aria-hidden="true">?</div>
-          <h1 class="title">CONTEÃšDO em Preparação</h1>
-          <div class="message">
-            <p>O material est— sendo preparado e revisado cuidadosamente.</p>
-            <p>Em breve disponibilizaremos as partituras e orienta"es para execução.</p>
-            <p>Retorne mais tarde para acessar os recursos completos.</p>
-          </div>
-          <div class="footer-note">Obrigado por sua paciéncia e interesse. Salve Maria!</div>
-
-          <span class="arabesco" aria-hidden="true">
-            <svg viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="translate(200,40) scale(-1,-1)" fill="none"><path d="M10 20 C30 0, 70 0, 90 20 C110 40, 150 40, 170 20" stroke="rgba(212,175,55,0.95)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 20 C45 10, 55 10, 70 20" stroke="rgba(212,175,55,0.85)" stroke-width="1.8" stroke-linecap="round"/></g></svg>
-          </span>
+    <section class="carousel-section" aria-label="Tempo Comum — 10º Domingo">
+      <div class="carousel-head">
+        <h2 class="carousel-title">Música Litúrgica</h2>
+      </div>
+      <div class="carousel-window" aria-live="polite" aria-busy="true">
+        <div id="carousel-track" class="carousel-track">
+          <div style="width:100%;text-align:center;color:#b8b8b8;font-size:.95rem;letter-spacing:.08rem;text-transform:uppercase;padding:50px 20px;border:1px dashed rgba(212,175,55,0.4);border-radius:16px;flex:1 0 100%;scroll-snap-align:center">Carregando card...</div>
         </div>
       </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <p>é 2025 Meu Site. Todos os direitos reservados.</p>
-  </footer>
+    </section>
+  </div>
 
   <script src="../scripts/script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const track = document.getElementById('carousel-track');
+    const viewport = document.querySelector('.carousel-window');
+    if(!track) return;
+    const iconFallback = '../assets/img/Acessar-partitura.png';
+
+    function buildCard(item){
+      const mainTitle = (item.title || 'Conteúdo sem título').trim();
+      const subtitle = item.subtitle ? item.subtitle.trim() : '';
+      const description = item.excerpt || 'Atualize a descrição para este card.';
+      const cta = item.cta || 'ACESSAR PÁGINA';
+      // Construir href corretamente:
+      // - URLs absolutas (http...) são usadas como estão
+      // - URLs que já começam com '/' são mantidas (caminho absoluto do site)
+      // - URLs relativas são prefixadas com './' para apontar para o mesmo diretório (pages/)
+      const href = item.url
+        ? (item.url.startsWith('http') || item.url.startsWith('/') ? item.url : './' + item.url.replace(/^\.\//,''))
+        : '#';
+      const icon = item.icon || iconFallback;
+      return `
+      <article class="card">
+        <div class="card-header">
+          <div class="card-icon"><img src="${icon}" alt="Ícone ${mainTitle}"></div>
+          <h2 class="card-title">${mainTitle}</h2>
+          ${subtitle ? `<p class="card-subtitle">${subtitle}</p>` : ''}
+        </div>
+        <div class="card-body">
+          <p class="card-description">${description}</p>
+        </div>
+        <div class="card-footer">
+          <a href="${href}" class="card-link">${cta}</a>
+        </div>
+      </article>`;
+    }
+
+    function renderCards(data){
+      if(!Array.isArray(data) || !data.length){
+        track.innerHTML = '<div style="width:100%;text-align:center;color:#b8b8b8;font-size:.95rem;letter-spacing:.08rem;text-transform:uppercase;padding:50px 20px;border:1px dashed rgba(212,175,55,0.4);border-radius:16px;flex:1 0 100%;scroll-snap-align:center">Nenhum card configurado.</div>';
+        viewport?.setAttribute('aria-busy','false');
+        return;
+      }
+      track.innerHTML = data.map(buildCard).join('\n');
+      viewport?.setAttribute('aria-busy','false');
+    }
+
+    const cardData = [
+      {
+        title:'Canto de Comunhão',
+        subtitle:'10º Domingo do Tempo Comum',
+        excerpt:'Acesse materiais que fortalecem sua missão: vídeos, partituras, reflexões e formação litúrgica.',
+        url:'tempo-comum-10-comunhao.html',
+        cta:'VER RECURSOS'
+      }
+    ];
+
+    renderCards(cardData);
+  });
+  </script>
 </body>
 </html>
 
