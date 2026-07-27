@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>São Pedro e São Paulo | Douglas Assumpção</title>
+  <link rel="icon" href="../assets/img/icone.png" sizes="192x192">
+  <link rel="shortcut icon" href="../assets/img/icone.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+  <style>
+    /* filepath: /Users/douglasassumpcao/meu-site-final/pages/sao-pedro-e-sao-paulo.html */
+    body {
+      background:
+        radial-gradient(circle at top, rgba(212,175,55,0.08), transparent 34%),
+        #111;
+      color: #f3f0e8;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 76px 22px 84px;
+    }
+
+    .page-hero {
+      text-align: center;
+      padding: 8px 0 44px;
+    }
+
+    .page-title {
+      font-family: 'Cinzel', Georgia, serif;
+      color: #d4af37;
+      margin: 0 0 14px;
+      font-size: clamp(34px, 5vw, 56px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 14px rgba(212,175,55,0.2);
+    }
+
+    .page-subtitle {
+      max-width: 920px;
+      margin: 0 auto;
+      color: rgba(255,255,255,0.72);
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: clamp(20px, 2vw, 26px);
+      line-height: 1.45;
+    }
+
+    .section-rule {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 34px auto 0;
+      max-width: 680px;
+    }
+
+    .section-rule .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(212,175,55,0.5), transparent);
+    }
+
+    .section-rule .diamond {
+      width: 8px;
+      height: 8px;
+      background: #d4af37;
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(212,175,55,0.5);
+    }
+
+    .liturgical-section {
+      margin-top: 40px;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', Georgia, serif;
+      color: #d4af37;
+      font-size: clamp(24px, 2.4vw, 30px);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 0 0 30px;
+    }
+
+    .lit-card {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      border-radius: 24px;
+      border: 1px solid rgba(212,175,55,0.28);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.24)),
+        url('../assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg') center/cover no-repeat;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lit-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(0,0,0,0.72), rgba(0,0,0,0.42));
+    }
+
+    .lit-card-content {
+      position: relative;
+      z-index: 1;
+      padding: clamp(26px, 3vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 620px;
+    }
+
+    .lit-eyebrow {
+      display: inline-block;
+      color: #d4af37;
+      font-size: 28px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .lit-card h3 {
+      font-family: 'Cinzel', Georgia, serif;
+      color: #d4af37;
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .lit-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.65;
+      font-size: 17px;
+    }
+
+    .lit-card-actions {
+      margin-top: 10px;
+    }
+
+    .lit-card .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #e0b84c, #c99b2f);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Cinzel', Georgia, serif;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.28);
+    }
+
+    .lit-card .btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .info-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 22px;
+    }
+
+    .info-box {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(212,175,55,0.16);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .info-box h4 {
+      margin: 0 0 10px;
+      color: #d4af37;
+      font-size: 18px;
+      font-family: 'Cinzel', Georgia, serif;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.6;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="site-header">
+    <button id="menu-btn" class="menu-btn" aria-label="Abrir menu">
+      <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
+    </button>
+    <div class="logo"><img src="../assets/img/icone.png" alt="CNP" id="site-logo"></div>
+    <div class="header-actions">
+      <button id="dark-toggle" class="icon-btn" aria-label="Dark mode">??</button>
+      <a class="icon-btn" href="loja.html" title="Loja">
+        <img src="../assets/img/icone1.png" alt="Loja" class="icon-img">
+        <span class="icon-label">LOJA</span>
+      </a>
+      <a class="icon-btn" href="contato.html" title="Contato">
+        <img src="../assets/img/icone2.png" alt="Contato" class="icon-img">
+        <span class="icon-label">CONTATO</span>
+      </a>
+      <input id="search" type="search" placeholder="Buscar..." />
+    </div>
+  </header>
+
+  <nav id="side-nav" class="side-nav" aria-hidden="true">
+    <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
+    <ul>
+      <li><a href="../index.html" class="menu-item inicio">Início</a></li>
+      <li><a href="formacoes.html" class="menu-item formacoes">Formações</a></li>
+      
+      <li>
+        <details>
+          <summary class="menu-item advento">Advento</summary>
+            <ul>
+            <li><a href="advento-1-video.html">1º Domingo do Advento</a></li>
+            <li><a href="advento-2.html">2º Domingo do Advento</a></li>
+            <li><a href="advento-3.html">3º Domingo do Advento</a></li>
+            <li><a href="advento-4.html">4º Domingo do Advento</a></li>
+          </ul>
+        </details>
+      </li>
+      
+      <li>
+        <details>
+          <summary class="menu-item natal">Natal</summary>
+          <ul>
+            <li><a href="natal-noite.html">Missa da Noite</a></li>
+            <li><a href="natal-aurora.html">Missa da Aurora</a></li>
+            <li><a href="natal-dia.html">Missa do Dia</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item quaresma">Quaresma</summary>
+          <ul>
+            <li><a href="quaresma-1.html">1º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-2.html">2º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-3.html">3º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-4.html">4º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-5.html">5º Domingo da Quaresma</a></li>
+            <li><a href="quaresma-ramos.html">Domingo de Ramos</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item pascoa">Páscoa</summary>
+          <ul>
+            <li><a href="pascoa-vigilia.html">Vig�lia Pascal</a></li>
+            <li><a href="pascoa-1.html">Domingo da Páscoa</a></li>
+            <li><a href="pascoa-2.html">2º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-3.html">3º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-4.html">4º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-5.html">5º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-6.html">6º Domingo da Páscoa</a></li>
+            <li><a href="pascoa-ascensao.html">Ascensão do Senhor</a></li>
+            <li><a href="pascoa-pentecostes.html">Pentecostes</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary class="menu-item tempo-comum">Tempo Comum</summary>
+          <ul>
+            <!-- 1..34 -->
+            <li><a href="tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
+            <li><a href="tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+          </ul>
+        </details>
+      </li>
+
+      <li>
+        <details>
+          <summary class="menu-item solenidades">Solenidades</summary>
+          <ul>
+            <li><a href="sao-pedro-e-sao-paulo.html">São Pedro e São Paulo</a></li>
+          </ul>
+        </details>
+      </li>
+
+      <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
+      <li class="menu-ordinario">
+        <details>
+          <summary class="menu-item ordinario">Ordinário da missa</summary>
+          <ul>
+            <li><a href="kyrie.html">Kyrie</a></li>
+            <li><a href="gloria.html">Gloria</a></li>
+            <li><a href="sanctus.html">Sanctus</a></li>
+            <li><a href="agnus-dei.html">Agnus Dei</a></li>
+            <li><a href="pater-noster.html">Pater noster / Pai nosso</a></li>
+            <li><a href="ad-libitum.html">Ad libitum (<em>à vontade</em>)</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+  <div id="nav-overlay" class="nav-overlay" hidden></div>
+
+  <main class="page-shell">
+    <section class="page-hero">
+      <h1 class="page-title">São Pedro e São Paulo</h1>
+      <p class="page-subtitle">
+        Entre as festas e os jejuns, Deus visita os dias simples; e chama de santidade aquilo que o mundo chama de rotina.
+      </p>
+
+      <div class="section-rule" aria-hidden="true">
+        <div class="line"></div>
+        <div class="diamond"></div>
+        <div class="line"></div>
+      </div>
+    </section>
+
+    <section class="liturgical-section">
+      <h2 class="section-title">Música Litúrgica</h2>
+
+      <article class="lit-card">
+        <div class="lit-card-content">
+          <div class="lit-eyebrow">📖</div>
+          <h3>Solenidade de São Pedro e São Paulo</h3>
+          <p>
+            Página dedicada à solenidade, com espaço para texto litúrgico, partituras, áudio e materiais de estudo.
+          </p>
+
+          <div class="info-grid">
+            <div class="info-box">
+              <h4>Texto</h4>
+              <p>Inserir aqui o texto principal da solenidade.</p>
+            </div>
+            <div class="info-box">
+              <h4>Partitura</h4>
+              <p>Inserir aqui os arquivos ou links das partituras.</p>
+            </div>
+            <div class="info-box">
+              <h4>Áudio</h4>
+              <p>Inserir aqui a referência de áudio ou gravação.</p>
+            </div>
+          </div>
+
+          <div class="lit-card-actions">
+            <a class="btn" href="#recursos">Ver recursos</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="../scripts/script.js"></script>
+</body>
+</html>
