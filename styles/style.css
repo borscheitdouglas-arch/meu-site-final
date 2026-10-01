@@ -514,6 +514,33 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
   justify-content:center;
 }
 
+/* Conteúdos recentes: informações centralizadas em todos os slides. */
+#recent-content-carousel .lit-card-content{
+  max-width:760px;
+  margin:0 auto;
+  padding:clamp(32px,5vw,64px) clamp(64px,8vw,110px);
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+#recent-content-carousel .lit-card-content .lit-eyebrow{
+  margin:0 0 18px;
+}
+
+#recent-content-carousel .lit-card h3{
+  margin:0 0 18px;
+}
+
+#recent-content-carousel .lit-card p{
+  margin:0 auto;
+}
+
+#recent-content-carousel .lit-card-actions{
+  justify-content:center;
+  margin-top:26px;
+}
+
 .lit-card-promo-content{
   align-items:center;
   text-align:center;
@@ -567,6 +594,9 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
 @media(max-width:600px){
   .lit-card-content{
     padding:20px 18px;
+  }
+  #recent-content-carousel .lit-card-content{
+    padding:28px 22px;
   }
   .lit-card h3{font-size:clamp(24px,7vw,30px);}
 }
@@ -2006,4 +2036,3 @@ header.site-header .header-actions a[href$="loja.html"] {
 /* ============================================================
    FIM DO BLOQUEIO TEMPORÁRIO DA LOJA
    ============================================================ */
-

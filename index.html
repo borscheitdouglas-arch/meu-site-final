@@ -403,7 +403,7 @@
         <div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
       </div>
 
-      <div class="liturgical-carousel" aria-label="Ordinário em destaque">
+      <div class="liturgical-carousel" id="recent-content-carousel" aria-label="Conteúdos mais recentes">
         <button class="lit-carousel-btn prev" type="button" aria-label="Card anterior">
           <span>&#10094;</span>
         </button>
@@ -411,7 +411,7 @@
           <span>&#10095;</span>
         </button>
 
-        <div class="lit-carousel-track">
+        <div class="lit-carousel-track" aria-live="polite" aria-busy="true">
           <article class="lit-card lit-card-centered" style="--bg-image:url('/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg');">
             <div class="lit-card-content">
               <span class="lit-eyebrow">Ordinário da Missa</span>
@@ -443,7 +443,7 @@
           </article>
         </div>
 
-        <div class="lit-carousel-dots" role="tablist">
+        <div class="lit-carousel-dots" role="tablist" aria-label="Escolher conteúdo">
           <button class="lit-dot active" type="button" aria-label="Pater noster"></button>
           <button class="lit-dot" type="button" aria-label="Ad libitum"></button>
         </div>
@@ -616,7 +616,42 @@
     }
 
     // ===== CARROSSEL ORDINÁRIO =====
-    (function(){
+    (async function(){
+      const recentCarousel = document.getElementById('recent-content-carousel');
+      if(recentCarousel){
+        try {
+          const response = await fetch('content/home-carousel.json', { cache: 'no-cache' });
+          if(!response.ok) throw new Error(`HTTP ${response.status}`);
+          const items = await response.json();
+          if(Array.isArray(items) && items.length){
+            const track = recentCarousel.querySelector('.lit-carousel-track');
+            const dots = recentCarousel.querySelector('.lit-carousel-dots');
+            const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({
+              '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+            })[character]);
+            track.innerHTML = items.map((item, index) => `
+              <article class="lit-card${index === 0 ? ' lit-card-centered' : ''}" style="--bg-image:url('${escapeHTML(item.image)}');">
+                <div class="lit-card-content">
+                  <span class="lit-eyebrow">${escapeHTML(item.category)}</span>
+                  <h3>${escapeHTML(item.title)}</h3>
+                  <p>${escapeHTML(item.description)}</p>
+                  <div class="lit-card-actions">
+                    <a class="btn" href="${escapeHTML(item.url)}">Acessar página</a>
+                  </div>
+                </div>
+              </article>
+            `).join('');
+            dots.innerHTML = items.map((item, index) => `
+              <button class="lit-dot${index === 0 ? ' active' : ''}" type="button" aria-label="${escapeHTML(item.title)}"></button>
+            `).join('');
+          }
+        } catch(error) {
+          console.warn('Não foi possível carregar os conteúdos recentes; mantendo os destaques padrão.', error);
+        } finally {
+          recentCarousel.querySelector('.lit-carousel-track')?.setAttribute('aria-busy', 'false');
+        }
+      }
+
       const carousels = document.querySelectorAll('.liturgical-carousel');
       if(!carousels.length) return;
 
@@ -665,4 +700,3 @@
   
 </body>
 </html>
-

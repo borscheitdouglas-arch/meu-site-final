@@ -62,6 +62,16 @@
         ${p.sheet?`<a class="btn" href="${p.sheet}" download="${p.sheetName||'partitura'}">Download da partitura</a>`:''}
       </section>
     `;
+    // O cadastro local aceita preço vazio, zero ou a indicação de gratuidade.
+    // Marcação central evita tratar arquivos de produtos pagos como gratuitos.
+    const scoreLink = el.querySelector('a[download]');
+    if (scoreLink) {
+      const price = String(p.price || '').trim().toLowerCase();
+      const free = !price || /^(gr[aá]tis|gratuit[oa])$/.test(price) || /^(r\$\s*)?0+([.,]0{1,2})?$/.test(price);
+      scoreLink.dataset.freeScore = String(free);
+      scoreLink.dataset.scoreId = p.id;
+      scoreLink.dataset.scoreTitle = p.title;
+    }
   }
 
   document.addEventListener('DOMContentLoaded', ()=>{ render(); renderProductDetail(); });

@@ -1,0 +1,66 @@
+[
+  {
+    "title": "Canto de Comunhão | 26º Domingo do Tempo Comum",
+    "description": "Canto de Comunhão para o 26º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-26-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-09-21"
+  },
+  {
+    "title": "Canto de Comunhão | 23º Domingo do Tempo Comum",
+    "description": "Canto de Comunhão para o 23º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-23-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-08-31"
+  },
+  {
+    "title": "Canto de Comunhão | 22º Domingo do Tempo Comum",
+    "description": "Canto de Comunhão para o 22º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-22-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-08-20"
+  },
+  {
+    "title": "São Pedro e São Paulo | Douglas Assumpção",
+    "description": "Novo conteúdo disponível: São Pedro e São Paulo | Douglas Assumpção.",
+    "category": "Conteúdo novo",
+    "url": "pages/sao-pedro-e-sao-paulo.html",
+    "image": "/assets/img/cabeçalho4.png",
+    "published": "2026-07-27"
+  },
+  {
+    "title": "Canto de Comunhão | 12º Domingo do Tempo Comum",
+    "description": "Canto de Comunhão para o 12º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-12-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-06-12"
+  },
+  {
+    "title": "Canto de Comunhão | 10º Domingo do Tempo Comum",
+    "description": "Canto de Comunhão para o 10º Domingo do Tempo Comum — contexto litúrgico, texto litúrgico, significado teológico e orientações pastorais para execução e formação.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-10-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-06-12"
+  },
+  {
+    "title": "Graduale Simplex — Agnus Dei I | Ad libitum",
+    "description": "Partitura, vídeo e reflexão para cantar o Agnus Dei I do Graduale Simplex em momentos ad libitum.",
+    "category": "Conteúdo novo",
+    "url": "pages/ad-libitum-agnus-dei-i.html",
+    "image": "/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png",
+    "published": "2026-03-05"
+  },
+  {
+    "title": "Graduale Simplex — Kyrie I | Ad libitum",
+    "description": "Kyrie I do Graduale Simplex em notação moderna com cifras e catequese, seguindo o mesmo layout premium do mosaico Pater Noster.",
+    "category": "Conteúdo novo",
+    "url": "pages/ad-libitum-kyrie-i.html",
+    "image": "/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png",
+    "published": "2026-02-09"
+  }
+]
