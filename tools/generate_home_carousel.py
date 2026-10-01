@@ -81,8 +81,19 @@ def category(filename: str, title: str) -> str:
 
 def background(filename: str) -> str:
     value = filename.lower()
-    if "tempo-comum" in value:
-        return "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png"
+    seasonal_images = {
+        "tempo-comum-": "Carrossel - Tempo Comum.png",
+        "advento-": "Carrrosel - Tempo do Advento.png",
+        "natal-": "Carrrosel - Tempo do Natal.png",
+        "quaresma-": "Carrrosel - Quaresma.png",
+        "pascoa-": "Carrrosel - Pascoa.png",
+        "sao-pedro-e-sao-paulo": "Carrrosel - Festas e solenidades.png",
+        "festa-": "Carrrosel - Festas e solenidades.png",
+        "solenidade-": "Carrrosel - Festas e solenidades.png",
+    }
+    for prefix, image in seasonal_images.items():
+        if value.startswith(prefix):
+            return f"/assets/img/Carrossel da página inicial/{image}"
     if "pater-noster" in value:
         return "/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg"
     if "ad-libitum" in value:
