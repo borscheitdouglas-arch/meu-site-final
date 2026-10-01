@@ -515,30 +515,90 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
 }
 
 /* Conteúdos recentes: informações centralizadas em todos os slides. */
+#recent-content-carousel .lit-card{
+  justify-content:center;
+  min-width:0;
+  min-height:430px;
+}
+
+#recent-content-carousel .lit-card::before{
+  background-image:linear-gradient(90deg, rgba(8,12,10,0.64), rgba(8,12,10,0.78) 50%, rgba(8,12,10,0.64)), var(--bg-image);
+}
+
 #recent-content-carousel .lit-card-content{
-  max-width:760px;
+  flex:0 1 900px;
+  max-width:900px;
+  min-width:0;
   margin:0 auto;
-  padding:clamp(32px,5vw,64px) clamp(64px,8vw,110px);
+  padding:clamp(36px,5vw,60px) clamp(28px,6vw,80px);
   align-items:center;
   justify-content:center;
   text-align:center;
 }
 
 #recent-content-carousel .lit-card-content .lit-eyebrow{
-  margin:0 0 18px;
+  margin:0 0 20px;
+  color:#ead398;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.2em;
+  line-height:1.6;
+  text-shadow:0 2px 8px rgba(0,0,0,0.7);
 }
 
 #recent-content-carousel .lit-card h3{
-  margin:0 0 18px;
+  width:100%;
+  max-width:25ch;
+  margin:0 0 20px;
+  color:#f6e6be;
+  font-family:'EB Garamond', Georgia, serif;
+  font-size:clamp(32px,3.6vw,48px);
+  font-weight:400;
+  line-height:1.15;
+  letter-spacing:0.01em;
+  text-wrap:balance;
+  overflow-wrap:break-word;
+  text-shadow:0 2px 12px rgba(0,0,0,0.85);
 }
 
 #recent-content-carousel .lit-card p{
+  max-width:54ch;
   margin:0 auto;
+  color:#f8f3e9;
+  font-size:clamp(15px,1.4vw,17px);
+  line-height:1.75;
+  text-wrap:pretty;
+  text-shadow:0 2px 8px rgba(0,0,0,0.85);
 }
 
 #recent-content-carousel .lit-card-actions{
+  width:100%;
   justify-content:center;
-  margin-top:26px;
+  margin-top:28px;
+}
+
+#recent-content-carousel .lit-card-actions .btn{
+  justify-content:center;
+  margin:0;
+  padding:13px 26px;
+  border:1px solid #ead7ac;
+  border-radius:8px;
+  background:#e9d3a0;
+  color:#282318;
+  font-size:14px;
+  font-weight:600;
+  line-height:1.5;
+  letter-spacing:0.02em;
+  box-shadow:0 6px 20px rgba(0,0,0,0.24);
+}
+
+#recent-content-carousel .lit-card-actions .btn:hover{
+  background:#fae9c4;
+}
+
+#recent-content-carousel :is(.btn, .lit-dot, .lit-carousel-btn):focus-visible{
+  outline:3px solid #fff4d8;
+  outline-offset:5px;
 }
 
 .lit-card-promo-content{
@@ -596,7 +656,10 @@ body.nav-open .side-nav a[href$="ad-libitum.html"]{
     padding:20px 18px;
   }
   #recent-content-carousel .lit-card-content{
-    padding:28px 22px;
+    padding:36px 20px;
+  }
+  #recent-content-carousel .lit-card{
+    min-height:400px;
   }
   .lit-card h3{font-size:clamp(24px,7vw,30px);}
 }

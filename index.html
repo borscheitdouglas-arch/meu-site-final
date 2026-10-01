@@ -7,7 +7,7 @@
   <link rel="icon" href="assets/img/icone.png" sizes="192x192">
   <link rel="shortcut icon" href="assets/img/icone.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/style.css?v=20261001-carousel">
   <style>
     /* CAROUSEL ANÚNCIOS */
     .announcement-carousel {
@@ -427,7 +427,7 @@
             </div>
           </article>
 
-          <article class="lit-card" style="--bg-image:url('/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png');">
+          <article class="lit-card lit-card-centered" style="--bg-image:url('/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png');">
             <div class="lit-card-content">
               <span class="lit-eyebrow">Momentos livres</span>
               <h3>Ad libitum (À vontade)</h3>
@@ -629,8 +629,8 @@
             const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({
               '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
             })[character]);
-            track.innerHTML = items.map((item, index) => `
-              <article class="lit-card${index === 0 ? ' lit-card-centered' : ''}" style="--bg-image:url('${escapeHTML(item.image)}');">
+            track.innerHTML = items.map(item => `
+              <article class="lit-card lit-card-centered" style="--bg-image:url('${escapeHTML(item.image)}');">
                 <div class="lit-card-content">
                   <span class="lit-eyebrow">${escapeHTML(item.category)}</span>
                   <h3>${escapeHTML(item.title)}</h3>
