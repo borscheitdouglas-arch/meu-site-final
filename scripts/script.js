@@ -182,6 +182,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   sideNav = document.getElementById('side-nav') || sideNav;
   navOverlay = document.getElementById('nav-overlay') || navOverlay;
   const closeNav = document.getElementById('close-nav');
+  if(closeNav && !closeNav.textContent.trim()) {
+    closeNav.innerHTML = '<span aria-hidden="true">×</span> Fechar menu';
+    closeNav.setAttribute('aria-label', 'Fechar menu');
+  }
 
   function openNav(){
     if(!sideNav) return;

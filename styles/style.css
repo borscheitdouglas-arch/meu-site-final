@@ -27,20 +27,20 @@
 .side-nav > ul > li > details > summary,
 body.nav-open .side-nav > ul > li > a,
 body.nav-open .side-nav > ul > li > details > summary{
-  color: #c9a227 !important;
+  color: #c9a227;
 }
 
 .side-nav > ul > li > a:hover,
 .side-nav > ul > li > details > summary:hover,
 body.nav-open .side-nav > ul > li > a:hover,
 body.nav-open .side-nav > ul > li > details > summary:hover{
-  color: #c9a227 !important;
+  color: #c9a227;
 }
 
 /* Triângulos/ícones de expansão (summary::before) */
 .side-nav details summary::before,
 body.nav-open .side-nav details summary::before{
-  color: #c9a227 !important;
+  color: #c9a227;
 }
 
 /* Garantir legibilidade: adicionar leve text-shadow apenas para contraste */
@@ -270,7 +270,7 @@ body.nav-open .side-nav details summary.ordinario:hover{
 .side-nav a[href$="agnus-dei.html"],
 .side-nav a[href$="pater-noster.html"],
 .side-nav a[href$="ad-libitum.html"]{
-  color: var(--illum-gold) !important;
+  color: var(--illum-gold);
 }
 
 body.nav-open .side-nav a[href^="pages/advento-"],
@@ -284,7 +284,7 @@ body.nav-open .side-nav a[href$="sanctus.html"],
 body.nav-open .side-nav a[href$="agnus-dei.html"],
 body.nav-open .side-nav a[href$="pater-noster.html"],
 body.nav-open .side-nav a[href$="ad-libitum.html"]{
-  color: var(--illum-gold) !important;
+  color: var(--illum-gold);
 }
 
 
@@ -2107,3 +2107,83 @@ header.site-header .header-actions a[href$="loja.html"] {
 /* ============================================================
    FIM DO BLOQUEIO TEMPORÁRIO DA LOJA
    ============================================================ */
+
+/* Menu único para todo o site: preserva a iluminura original da Visitação. */
+body.nav-open { overflow: hidden; }
+body #side-nav {
+  width: min(380px, calc(100vw - 20px)); min-width: 0; max-width: none;
+  background: #211d18 url("../assets/img/1.jpg") center center / cover no-repeat;
+  color: #f7f0e4; border-right: 1px solid #bba16b80;
+  box-shadow: 14px 0 48px #0005; isolation: isolate;
+  overflow: hidden; scrollbar-gutter: auto;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  font-family: 'EB Garamond', Georgia, serif;
+  transition: transform 260ms ease;
+}
+body #side-nav::before {
+  content: ''; display: block; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, #16130fe0 0%, #16130fb3 30%, #16130fb8 72%, #16130fd9 100%);
+  backdrop-filter: none; pointer-events: none;
+}
+body #side-nav .side-nav-hero { display: none; }
+body #side-nav .close-nav {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  flex-shrink: 0; min-height: 64px; width: 100%; margin: 0;
+  padding: 12px 24px; border: 0; border-bottom: 1px solid #e5ce9a40;
+  background: #16130f40; color: #f7f0e4;
+  font: 500 14px/1.5 'Inter', Arial, sans-serif; cursor: pointer;
+}
+body #side-nav .close-nav span { font: 28px/1 Arial, sans-serif; }
+body #side-nav > ul {
+  flex: 1; min-height: 0; margin: 0; padding: 18px 20px 28px;
+  overflow-x: hidden; overflow-y: auto; scrollbar-gutter: stable;
+  scrollbar-width: thin; scrollbar-color: #ba9e6e80 transparent;
+}
+body #side-nav li { margin: 4px 0; }
+body #side-nav a, body #side-nav summary {
+  display: flex; align-items: center; min-height: 48px; padding: 10px 12px;
+  border-radius: 5px; color: #f7f0e4; text-decoration: none;
+  text-shadow: 0 1px 4px #000a; letter-spacing: 0;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+body #side-nav > ul > li > a, body #side-nav details > summary {
+  font: 700 21px/1.35 'EB Garamond', Georgia, serif;
+  color: #ead4a3; letter-spacing: .02em;
+}
+body #side-nav details > summary {
+  position: relative; list-style: none; margin: 0; padding-right: 36px;
+  border: 0; border-bottom: 1px solid #e5ce9a26; cursor: pointer;
+}
+body #side-nav summary::-webkit-details-marker { display: none; }
+body #side-nav details > summary::before { display: none; }
+body #side-nav details > summary::after {
+  content: ''; display: block; position: absolute; right: 15px; top: 19px;
+  width: 7px; height: 7px; border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor; transform: rotate(45deg);
+}
+body #side-nav details[open] > summary::after { top: 22px; transform: rotate(225deg); }
+body #side-nav details[open] > summary { background: #e5ce9a12; }
+body #side-nav details > ul {
+  display: block; overflow: visible; margin: 8px 0 14px 12px;
+  padding: 0 0 0 10px; border-left: 1px solid #e5ce9a55;
+  scrollbar-gutter: auto;
+}
+body #side-nav details ul a {
+  font: 400 14px/1.6 'Inter', Arial, sans-serif;
+  min-height: 44px; padding: 10px; color: #f7f0e4;
+}
+body #side-nav :is(a, summary):hover {
+  color: #fff4d5; background: #f0d8a31c; text-decoration: none;
+}
+body #side-nav a.active, body #side-nav a[aria-current] {
+  color: #fff4d5; background: #e5ce9a26;
+  box-shadow: inset 2px 0 #e5ce9a; font-weight: 600;
+}
+body #side-nav :is(a, summary, button):focus-visible {
+  outline: 2px solid #f2dba6; outline-offset: -2px; background-color: #17130dcc;
+}
+body #side-nav .menu-ordinario { padding-top: 16px; margin-top: 20px; border-top: 1px solid #e5ce9a40; }
+body #side-nav .menu-ordinario::before { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  body #side-nav, body #side-nav * { transition: none; }
+}
