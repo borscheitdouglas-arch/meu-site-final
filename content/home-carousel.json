@@ -16,7 +16,7 @@
     "published": "2026-10-03"
   },
   {
-    "title": "Canto de Comunhão | 26º Domingo do Tempo Comum",
+    "title": "Nisto conhecemos o amor | Comunhão do 26º Domingo do Tempo Comum",
     "description": "Canto de Comunhão para o 26º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-26-comunhao.html",
@@ -24,7 +24,7 @@
     "published": "2026-10-03"
   },
   {
-    "title": "Canto de Comunhão | 23º Domingo do Tempo Comum",
+    "title": "Canto de Comunhão (23º Domingo) | Comunhão do 23º Domingo do Tempo Comum",
     "description": "Canto de Comunhão para o 23º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-23-comunhao.html",
@@ -32,7 +32,7 @@
     "published": "2026-10-03"
   },
   {
-    "title": "Canto de Comunhão | 22º Domingo do Tempo Comum",
+    "title": "Canto de Comunhão (22º Domingo) | Comunhão do 22º Domingo do Tempo Comum",
     "description": "Canto de Comunhão para o 22º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-22-comunhao.html",
@@ -40,26 +40,26 @@
     "published": "2026-10-03"
   },
   {
-    "title": "Comunhão | Alegrai-vos sempre no Senhor - 3º Domingo do Advento",
-    "description": "Novo conteúdo disponível: Comunhão | Alegrai-vos sempre no Senhor - 3º Domingo do Advento.",
+    "title": "Canto de Comunhão (12º Domingo) | Comunhão do 12º Domingo do Tempo Comum",
+    "description": "Canto de Comunhão para o 12º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-12-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-03"
+  },
+  {
+    "title": "Canto de Comunhão (10º Domingo) | Comunhão do 10º Domingo do Tempo Comum",
+    "description": "Canto de Comunhão para o 10º Domingo do Tempo Comum — contexto litúrgico, texto litúrgico, significado teológico e orientações pastorais para execução e formação.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-10-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-03"
+  },
+  {
+    "title": "Alegrai-vos sempre no Senhor | Comunhão do 3º Domingo do Advento",
+    "description": "Canto de Comunhão para o 3º Domingo do Advento: vídeo, partitura e meditação.",
     "category": "Canto de Comunhão",
     "url": "pages/advento-3-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
-    "published": "2026-10-03"
-  },
-  {
-    "title": "Comunhão | O Senhor nos dará seus benefícios - 2º Domingo do Advento",
-    "description": "Novo conteúdo disponível: Comunhão | O Senhor nos dará seus benefícios - 2º Domingo do Advento.",
-    "category": "Canto de Comunhão",
-    "url": "pages/advento-2-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
-    "published": "2026-10-03"
-  },
-  {
-    "title": "Comunhão | O Senhor nos dará seus benefícios - 1º Domingo do Advento",
-    "description": "Novo conteúdo disponível: Comunhão | O Senhor nos dará seus benefícios - 1º Domingo do Advento.",
-    "category": "Canto de Comunhão",
-    "url": "pages/advento-1-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
     "published": "2026-10-03"
   }
