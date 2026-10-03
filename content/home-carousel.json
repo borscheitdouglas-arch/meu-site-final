@@ -5,7 +5,7 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-29-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-02"
+    "published": "2026-10-03"
   },
   {
     "title": "Quando o Senhor se manifestar | Comunhão do 28º Domingo do Tempo Comum",
@@ -13,7 +13,7 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-28-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-02"
+    "published": "2026-10-03"
   },
   {
     "title": "Canto de Comunhão | 26º Domingo do Tempo Comum",
@@ -21,7 +21,7 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-26-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-09-21"
+    "published": "2026-10-03"
   },
   {
     "title": "Canto de Comunhão | 23º Domingo do Tempo Comum",
@@ -29,7 +29,7 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-23-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-08-31"
+    "published": "2026-10-03"
   },
   {
     "title": "Canto de Comunhão | 22º Domingo do Tempo Comum",
@@ -37,30 +37,30 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-22-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-08-20"
+    "published": "2026-10-03"
   },
   {
-    "title": "São Pedro e São Paulo | Douglas Assumpção",
-    "description": "Novo conteúdo disponível: São Pedro e São Paulo | Douglas Assumpção.",
-    "category": "Conteúdo novo",
-    "url": "pages/sao-pedro-e-sao-paulo.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
-    "published": "2026-07-27"
-  },
-  {
-    "title": "Canto de Comunhão | 12º Domingo do Tempo Comum",
-    "description": "Canto de Comunhão para o 12º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
+    "title": "Comunhão | Alegrai-vos sempre no Senhor - 3º Domingo do Advento",
+    "description": "Novo conteúdo disponível: Comunhão | Alegrai-vos sempre no Senhor - 3º Domingo do Advento.",
     "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-12-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-06-12"
+    "url": "pages/advento-3-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-10-03"
   },
   {
-    "title": "Canto de Comunhão | 10º Domingo do Tempo Comum",
-    "description": "Canto de Comunhão para o 10º Domingo do Tempo Comum — contexto litúrgico, texto litúrgico, significado teológico e orientações pastorais para execução e formação.",
+    "title": "Comunhão | O Senhor nos dará seus benefícios - 2º Domingo do Advento",
+    "description": "Novo conteúdo disponível: Comunhão | O Senhor nos dará seus benefícios - 2º Domingo do Advento.",
     "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-10-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-06-12"
+    "url": "pages/advento-2-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-10-03"
+  },
+  {
+    "title": "Comunhão | O Senhor nos dará seus benefícios - 1º Domingo do Advento",
+    "description": "Novo conteúdo disponível: Comunhão | O Senhor nos dará seus benefícios - 1º Domingo do Advento.",
+    "category": "Canto de Comunhão",
+    "url": "pages/advento-1-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-10-03"
   }
 ]
