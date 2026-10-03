@@ -840,8 +840,8 @@
 
       .meditation-card {
         padding: 16px 16px !important;
-        flex-direction: column;
-        text-align: center;
+        flex-direction: column !important;
+        text-align: center !important;
         max-width: 100% !important;
       }
 
@@ -912,6 +912,10 @@
         padding: 14px 40px;
         font-size: 0.95rem;
       }
+    }
+    @media (max-width: 600px) {
+      .meditation-card-content { min-width: 0; width: 100%; }
+      .card-features, .social-share { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -1002,7 +1006,7 @@
           <p class="pix-key-label">Ou copie a chave PIX:</p>
           <div class="pix-key-container">
             <span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
-            <button class="copy-button" onclick="copyPixKey()" title="Copiar chave PIX">
+            <button class="copy-button" onclick="copyPixKey(this)" title="Copiar chave PIX">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
                 <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -1022,21 +1026,7 @@
   <script src="../scripts/script.js"></script>
   
   <script>
-    function copyPixKey() {
-      const pixKey = 'douglas.assumpcao@hotmail.com';
-      navigator.clipboard.writeText(pixKey).then(() => {
-        const button = event.target.closest('.copy-button');
-        const originalHTML = button.innerHTML;
-        
-        button.classList.add('copied');
-        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="copy-text">Copiado!</span>';
-        
-        setTimeout(() => {
-          button.classList.remove('copied');
-          button.innerHTML = originalHTML;
-        }, 2000);
-      });
-    }
+
 
     // Fade in animations on scroll
     const observer = new IntersectionObserver((entries) => {

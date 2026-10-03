@@ -1,5 +1,21 @@
 [
   {
+    "title": "O Filho do homem | Comunhão do 29º Domingo do Tempo Comum",
+    "description": "O Filho do homem (Mc 10,45): antífona de Comunhão do 29º Domingo, partitura e meditação sobre redenção e serviço à luz dos santos.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-29-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-02"
+  },
+  {
+    "title": "Quando o Senhor se manifestar | Comunhão do 28º Domingo do Tempo Comum",
+    "description": "Quando o Senhor se manifestar (1Jo 3,2): antífona de Comunhão do 28º Domingo, partitura, vídeo e meditação com Agostinho, Tomás de Aquino e João Paulo II.",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-28-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-02"
+  },
+  {
     "title": "Canto de Comunhão | 26º Domingo do Tempo Comum",
     "description": "Canto de Comunhão para o 26º Domingo do Tempo Comum — recursos litúrgicos, partituras e orientações pastorais.",
     "category": "Canto de Comunhão",
@@ -46,21 +62,5 @@
     "url": "pages/tempo-comum-10-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
     "published": "2026-06-12"
-  },
-  {
-    "title": "Graduale Simplex — Agnus Dei I | Ad libitum",
-    "description": "Partitura, vídeo e reflexão para cantar o Agnus Dei I do Graduale Simplex em momentos ad libitum.",
-    "category": "Conteúdo novo",
-    "url": "pages/ad-libitum-agnus-dei-i.html",
-    "image": "/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png",
-    "published": "2026-03-05"
-  },
-  {
-    "title": "Graduale Simplex — Kyrie I | Ad libitum",
-    "description": "Kyrie I do Graduale Simplex em notação moderna com cifras e catequese, seguindo o mesmo layout premium do mosaico Pater Noster.",
-    "category": "Conteúdo novo",
-    "url": "pages/ad-libitum-kyrie-i.html",
-    "image": "/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png",
-    "published": "2026-02-09"
   }
 ]

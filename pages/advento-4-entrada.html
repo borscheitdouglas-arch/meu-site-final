@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" as="style">
   <style>
-    /* Tema escuro inspirado na referéncia */
+    /* Tema escuro inspirado na referência */
     :root{--bg:#151515;--panel:#1f1f1f;--muted:#9a9a9a;--accent:#e6e6e6;--accent-2:#c9a56a;--sticky-top:72px}
     html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     .wrap{max-width:1100px;margin:0 auto;padding:30px 20px 40px}
@@ -558,7 +558,7 @@
           <p class="pix-key-label">Ou copie a chave PIX:</p>
           <div class="pix-key-container">
             <span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
-            <button class="copy-button" onclick="copyPixKey()" title="Copiar chave PIX">
+            <button class="copy-button" onclick="copyPixKey(this)" title="Copiar chave PIX">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
                 <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -572,21 +572,7 @@
   </section>
 
   <script>
-    function copyPixKey() {
-      const pixKey = 'douglas.assumpcao@hotmail.com';
-      navigator.clipboard.writeText(pixKey).then(() => {
-        const button = event.target.closest('.copy-button');
-        const originalText = button.innerHTML;
 
-        button.classList.add('copied');
-        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="copy-text">Copiado!</span>';
-
-        setTimeout(() => {
-          button.classList.remove('copied');
-          button.innerHTML = originalText;
-        }, 2000);
-      });
-    }
   </script>
   <script>
     // Toggle da visualização da partitura em PDF

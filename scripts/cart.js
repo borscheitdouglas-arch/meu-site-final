@@ -9,17 +9,24 @@
   function findProduct(id){ const p = readProducts().find(x=>x.id===id); return p || null }
 
   function addToCart(id, qty=1){
-    const p = findProduct(id); if(!p){ alert('Produto nÃ£o encontrado no catÃ¡logo.'); return }
+    const p = findProduct(id); if(!p){ alert('Produto não encontrado no catálogo.'); return }
     const cart = readCart(); const idx = cart.findIndex(i=>i.id===id);
     if(idx===-1) cart.push({id:id, title:p.title, price:p.price, qty:qty}); else cart[idx].qty += qty;
-    writeCart(cart); showMiniToast('Adicionado ao carrinho'); updateCartCount();
+    writeCart(cart); showMiniToast('Adicionado ao carrinho');
   }
 
   function removeFromCart(id){ let cart = readCart(); cart = cart.filter(i=>i.id!==id); writeCart(cart); }
 
   function clearCart(){ localStorage.removeItem(CART_KEY); }
 
-  function cartTotal(){ const cart = readCart(); let sum = 0; for(const it of cart){ const num = Number((it.price||'').replace(/[^0-9,\.]/g,'').replace(',','.')||0); sum += (num* (it.qty||1)); } return sum }
+  function priceNumber(value){
+    let amount = String(value || '').replace(/[^0-9,.]/g, '');
+    if(amount.includes(',')) amount = amount.replace(/\./g, '').replace(',', '.');
+    const number = Number(amount);
+    return Number.isFinite(number) ? number : 0;
+  }
+
+  function cartTotal(){ return readCart().reduce((sum, item) => sum + priceNumber(item.price) * (item.qty || 1), 0); }
 
   function showMiniToast(msg){
     let t = document.getElementById('mini-toast');
@@ -44,7 +51,7 @@
           <div class="small">${it.price}</div>
         </div>
       </div>`;
-      const num = Number((it.price||'').replace(/[^0-9,\.]/g,'').replace(',','.')||0); total += num * (it.qty||1);
+      total += priceNumber(it.price) * (it.qty||1);
     }
     html += '</div>';
     html += `<div style="margin-top:12px;text-align:right"><strong>Total: R$ ${total.toFixed(2).replace('.',',')}</strong></div>`;
@@ -53,8 +60,8 @@
     document.getElementById('clearCartBtn').addEventListener('click', ()=>{ if(confirm('Limpar carrinho?')){ clearCart(); renderCartPage(); showMiniToast('Carrinho limpo'); } });
     document.getElementById('whatsCheckout').addEventListener('click', (ev)=>{
       ev.preventDefault(); const cart = readCart(); if(cart.length===0){ alert('Carrinho vazio'); return }
-      let msg = 'OlÃ¡, gostaria de fazer um pedido:%0A'; cart.forEach(it=> msg += `- ${it.title} x${it.qty} (%20${it.price})%0A`);
-      msg += `%0ATotal: R$ ${cartTotal().toFixed(2).replace('.',',')}%0A`;
+      let msg = 'Olá, gostaria de fazer um pedido:\n'; cart.forEach(it=> msg += `- ${it.title} x${it.qty} (${it.price})\n`);
+      msg += `\nTotal: R$ ${cartTotal().toFixed(2).replace('.',',')}\n`;
       const wa = `https://wa.me/5511979038063?text=${encodeURIComponent(msg)}`; window.open(wa,'_blank');
     });
   }
@@ -67,4 +74,3 @@
   });
 
 })();
-

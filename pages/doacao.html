@@ -534,7 +534,7 @@
             <label class="pix-key-label">Ou copie a chave PIX:</label>
             <div class="pix-key-container">
               <input type="text" id="pix-key" value="douglas.assumpcao@hotmail.com" readonly class="pix-key-input">
-              <button onclick="copyPixKey()" class="pix-copy-btn">
+              <button onclick="copyPixKey(this)" class="pix-copy-btn">
                 <span>📋 Copiar</span>
               </button>
             </div>
@@ -558,25 +558,7 @@
 
   <script src="../scripts/script.js"></script>
   <script>
-    function copyPixKey() {
-      const pixKey = document.getElementById('pix-key');
-      pixKey.select();
-      pixKey.setSelectionRange(0, 99999);
-      
-      navigator.clipboard.writeText(pixKey.value).then(() => {
-        const btn = event.target.closest('.pix-copy-btn');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<span>✓ Copiado!</span>';
-        btn.style.background = '#90EE90';
-        
-        setTimeout(() => {
-          btn.innerHTML = originalHTML;
-          btn.style.background = '';
-        }, 2500);
-      }).catch(err => {
-        alert('Chave PIX: douglas.assumpcao@hotmail.com');
-      });
-    }
+
   </script>
 </body>
 </html>

@@ -462,8 +462,12 @@
       }
 
       .store-filter-list {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .store-layout > *, .store-filter-list > * { min-width: 0; }
+      .store-filter-list--nested { grid-template-columns: minmax(0, 1fr); }
+      .store-filter { overflow-wrap: anywhere; gap: 6px; }
 
       .store-catalog-header {
         align-items: flex-start;
@@ -762,7 +766,6 @@
   </script>
 </body>
 </html>
-
 
 
 

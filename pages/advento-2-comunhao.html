@@ -10,7 +10,7 @@
       crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Tema escuro inspirado na referéncia */
+    /* Tema escuro inspirado na referência */
     :root{--bg:#151515;--panel:#1f1f1f;--muted:#9a9a9a;--accent:#e6e6e6;--accent-2:#c9a56a}
     html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     .wrap{max-width:1100px;margin:0 auto;padding:30px 20px 200px}
@@ -336,19 +336,13 @@
     <div class="white-inner">
       <div class="left">
         <strong>Partitura: 2º Domingo do Advento — Comunhão</strong>
-        <div class="meta">Disponível para download em PDF</div>
+        <div class="meta">PDF temporariamente indisponível</div>
       </div>
       <div class="right">
-          <a class="btn outline" href="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf" download>Baixar partitura</a>
-          <button type="button" class="btn outline view-score-btn" data-target="#score-viewer">Visualizar partitura</button>
+          <span class="small" data-pending-score="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf">Partitura temporariamente indisponível.</span>
       </div>
     </div>
     <hr class="white-divider" aria-hidden="true">
-      <div id="score-viewer" class="score-viewer" hidden>
-        <div class="score-frame">
-          <iframe src="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf#view=FitH" title="Partitura 2º Domingo do Advento — Comunhão" loading="lazy"></iframe>
-        </div>
-      </div>
     <div class="white-text">
       <p>No silêncio expectante do Advento, ergue-se um chamado antigo e santo: vigiar e orar, como fazem os santos Padres da Igreja em seus escritos. <span class="cite">diocesedemaraba.com.br</span> — um tempo de espera vigilante, não apenas pelo aniversário da encarnação, mas pela vinda definitiva do Senhor.</p>
 
@@ -469,7 +463,7 @@
             <p class="pix-label">Chave PIX</p>
             <p class="pix-value">douglas.assumpcao@hotmail.com</p>
           </div>
-          <button class="copy-button" onclick="copyPixKey()">
+          <button class="copy-button" onclick="copyPixKey(this)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
               <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -692,19 +686,7 @@
   </style>
   <!-- Video embed: iframe simples do YouTube (inserido diretamente) -->
   <script>
-    function copyPixKey() {
-      const pixKey = 'douglas.assumpcao@hotmail.com';
-      navigator.clipboard.writeText(pixKey).then(() => {
-        const button = event.target.closest('.copy-button');
-        const originalText = button.innerHTML;
-        button.classList.add('copied');
-        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="copy-text">Copiado!</span>';
-        setTimeout(() => {
-          button.classList.remove('copied');
-          button.innerHTML = originalText;
-        }, 2000);
-      });
-    }
+
   </script>
   <script>
     // Toggle da visualização da partitura em PDF

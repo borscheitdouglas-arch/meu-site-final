@@ -1,0 +1,35 @@
+/* Leitura das matérias sobre as antífonas do 28º e do 29º domingos. */
+.hero-info .page-subheading { color: #d5cbb8; }
+.score-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 22px 0; text-align: left; }
+.score-details div { min-width: 0; padding: 12px; border-left: 2px solid #b98f2b; background: rgba(0,0,0,.16); }
+.score-details dt { font: 600 .75rem 'Inter', sans-serif; color: #c9a56a; margin-bottom: 6px; }
+.score-details dd { margin: 0; color: #eee6d8; font-size: .95rem; overflow-wrap: anywhere; }
+.article-shortcut { margin: 18px 0; }
+.article-shortcut a, .hero-summary a, .communion-article a { color: #f1d78a; text-decoration: underline; text-underline-offset: 3px; }
+.communion-article { text-align: left; }
+.communion-article .section-intro { text-align: center; }
+.communion-article .theology-body { grid-template-columns: minmax(0, 1fr); }
+.communion-article .doctrine-block { min-width: 0; min-height: 0; padding: 26px; }
+.communion-article .doctrine-block h3 { padding-right: 30px; line-height: 1.55; }
+.communion-article .doctrine-block p { color: #d5cfc5; line-height: 1.85; font-size: 1.04rem; }
+.communion-article .doctrine-block p:first-of-type::first-letter { float: none; font-size: inherit; font-family: inherit; color: inherit; margin: 0; }
+.communion-article .doctrine-block strong { color: #f1dfaa; }
+.communion-article .liturgical-text { margin: 22px 0 12px; color: #f1dfaa; line-height: 1.8; }
+.communion-article .source-note, .communion-article .doctrine-block .source-note { font: .83rem/1.65 'Inter', sans-serif; color: #b9b2a7; }
+.communion-article .inline-quote { margin: 20px 0 10px; line-height: 1.8; }
+.communion-article .editorial-prayer { font-style: italic; }
+.article-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; position: relative; z-index: 1; }
+.article-nav a { display: block; padding: 10px 12px; border: 1px solid rgba(212,175,55,.3); border-radius: 8px; font: .85rem/1.5 'Inter', sans-serif; }
+.article-sources { margin-top: 28px; border-top: 1px solid rgba(212,175,55,.3); padding-top: 24px; color: #d5cfc5; font-size: .95rem; line-height: 1.8; }
+.article-sources h3 { color: #d4af37; }
+.article-sources ul { padding-left: 22px; }
+.article-sources li { margin-bottom: 12px; }
+.communion-article a { overflow-wrap: anywhere; }
+.communion-article [id], .communion-article { scroll-margin-top: 80px; }
+.communion-article a:focus-visible, .article-shortcut a:focus-visible { outline: 2px solid #f1d78a; outline-offset: 4px; }
+@media(max-width:480px) {
+  .score-details { grid-template-columns: minmax(0, 1fr); }
+  .communion-article { padding: 22px 14px; }
+  .communion-article .doctrine-block { padding: 22px 16px; }
+  .communion-article .section-intro h2 { font-size: 1.25rem; letter-spacing: .02em; }
+}

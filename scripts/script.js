@@ -12,6 +12,25 @@
   }catch(e){}
 })();
 
+// Recebe o botão explicitamente: o evento do clique não existe após o await.
+window.copyPixKey = async function(button) {
+  const keyField = document.getElementById('pix-key');
+  const key = keyField && keyField.value || 'douglas.assumpcao@hotmail.com';
+  try {
+    await navigator.clipboard.writeText(key);
+    const original = button.innerHTML;
+    button.textContent = '✓ Copiado!';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.innerHTML = original;
+      button.classList.remove('copied');
+    }, 2000);
+  } catch (error) {
+    if (keyField && typeof keyField.select === 'function') keyField.select();
+    alert('Copie a chave PIX: ' + key);
+  }
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Remover o botão de alternância do modo escuro (🌙) de todas as páginas
   try{
@@ -82,30 +101,30 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.innerHTML = html.join('\n');
     }catch(e){ /* silencioso */ }
   }
-  // SIDE NAV: garantir que o markup do menu exista em TODAS as pÃ¡ginas
+  // SIDE NAV: garantir que o markup do menu exista em TODAS as páginas
   let menuBtn; // será (re)consultado após possíveis substituições do cabeçalho
   let sideNav = document.getElementById('side-nav');
   let navOverlay = document.getElementById('nav-overlay');
 
-  // tornar o logo um link para a pÃ¡gina inicial em todas as pÃ¡ginas
+  // tornar o logo um link para a página inicial em todas as páginas
   (function ensureLogoLink(){
     const logo = document.querySelector('.logo');
     if(!logo) return;
-    // se houver uma Ã¢ncora jÃ¡, atualiza href para raiz
+    // se houver uma âncora já, atualiza href para raiz
     const existingA = logo.querySelector('a');
     if(existingA){ existingA.setAttribute('href', '/index.html'); return; }
-    // caso contrÃ¡rio, envolver o img em <a>
+    // caso contrário, envolver o img em <a>
     const img = logo.querySelector('img');
     if(img){
       const a = document.createElement('a');
       a.setAttribute('href','/index.html');
-      a.setAttribute('aria-label','Ir para inÃ­cio');
+      a.setAttribute('aria-label','Ir para início');
       img.parentNode.insertBefore(a, img);
       a.appendChild(img);
     }
   })();
 
-  // tenta injetar o #side-nav e #nav-overlay a partir do index.html caso nÃ£o existam
+  // tenta injetar o #side-nav e #nav-overlay a partir do index.html caso não existam
   async function ensureSideNav(){
     if(sideNav && navOverlay) return;
     const candidates = ['../index.html','/index.html','index.html'];
@@ -119,16 +138,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const srcNav = doc.getElementById('side-nav');
         const srcOverlay = doc.getElementById('nav-overlay');
         if(srcNav){
-          // inserir o nav no inÃ­cio do body
+          // inserir o nav no início do body
           document.body.insertAdjacentHTML('afterbegin', srcNav.outerHTML);
           sideNav = document.getElementById('side-nav');
-          // normalizar hrefs do menu para caminhos absolutos relativos Ã  raiz
+          // normalizar hrefs do menu para caminhos absolutos relativos à raiz
           try{
             const anchors = sideNav.querySelectorAll('a[href]');
             anchors.forEach(a => {
               const href = a.getAttribute('href');
               if(!href) return;
-              // nÃ£o tocar em anchors internos, anchors mailto/tel ou URLs completas
+              // não tocar em anchors internos, anchors mailto/tel ou URLs completas
               if(href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.match(/^https?:\/\//i) || href.startsWith('/')) return;
               try{
                 const u = new URL(href, location.origin + '/');
@@ -142,13 +161,13 @@ document.addEventListener('DOMContentLoaded', async () => {
           document.body.insertAdjacentHTML('beforeend', srcOverlay.outerHTML);
           navOverlay = document.getElementById('nav-overlay');
         } else if(!navOverlay){
-          // criar overlay mÃ­nimo se nÃ£o houver um
+          // criar overlay mínimo se não houver um
           document.body.insertAdjacentHTML('beforeend', '<div id="nav-overlay" class="nav-overlay" hidden></div>');
           navOverlay = document.getElementById('nav-overlay');
         }
         break;
       }catch(err){
-        // falha no fetch, tenta prÃ³xima opÃ§Ã£o
+        // falha no fetch, tenta próxima opção
         continue;
       }
     }
@@ -214,7 +233,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     slides.forEach(s => s.classList.toggle('active', false));
     slides[current].classList.add('active');
     updateDots();
-    // Scroll apenas o container do carrossel (evita rolar a pÃ¡gina inteira)
+    // Scroll apenas o container do carrossel (evita rolar a página inteira)
     if (carousel && typeof carousel.scrollTo === 'function') {
       const left = slides[current].offsetLeft - carousel.offsetLeft;
       carousel.scrollTo({ left, behavior: 'smooth' });

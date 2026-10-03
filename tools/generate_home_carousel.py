@@ -20,7 +20,8 @@ MAX_ITEMS = 8
 IGNORED = {
     "404.html", "A-pagina-mestre.html", "agradecimento.html", "carrinho.html",
     "contato.html", "doacao.html", "formacoes.html", "loja.html",
-    "materia-nova.html", "pagamento.html", "produto.html",
+    "materia-nova.html", "pagamento.html", "produto.html", "cart.html",
+    "template.html", "produto-1.html", "produto-2.html",
 }
 
 # Páginas que funcionam apenas como índice de cards. O carrossel da home deve
