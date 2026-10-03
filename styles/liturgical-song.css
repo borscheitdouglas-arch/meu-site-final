@@ -1,0 +1,301 @@
+/* Padrão compartilhado das páginas de Entrada e Comunhão. */
+html.liturgical-song-root { font-size: 16px; scroll-padding-top: 80px; }
+.liturgical-song {
+  --chant-bg: #151715;
+  --chant-panel: #1d211e;
+  --chant-text: #e9e5dc;
+  --chant-muted: #bcbcaf;
+  --chant-gold: #d2b575;
+  --chant-line: #3c4139;
+  background: radial-gradient(ellipse 900px 620px at 50% 250px, #b9a46b0d, transparent), var(--chant-bg);
+  color: var(--chant-text);
+  font: 18px/1.75 'Spectral', Georgia, serif;
+}
+.liturgical-song [hidden] { display: none !important; }
+.liturgical-song a { color: var(--chant-gold); text-underline-offset: 4px; }
+.liturgical-song a:hover { color: #f2dfb5; }
+.liturgical-song button { cursor: pointer; }
+.liturgical-song :is(a, button, summary, input):focus-visible {
+  outline: 3px solid #f2dfb5; outline-offset: 4px;
+}
+.liturgical-song :is(h1, h2, h3, p, blockquote) { margin-top: 0; }
+.liturgical-song :is(h1, h2, h3) { color: var(--chant-text); }
+.liturgical-song .wrap { width: min(1168px, 100%); margin: auto; padding: 30px 32px 0; }
+.liturgical-song .main-panel { width: 100%; min-width: 0; }
+.liturgical-song .main-panel:focus { outline: none; }
+.liturgical-song .chant-skip {
+  position: fixed; top: 8px; left: 12px; z-index: 200;
+  transform: translateY(-160%); background: #f2dfb5; color: #191b17;
+  padding: 10px 18px; font: 600 16px/1.5 'Inter', sans-serif; border-radius: 4px;
+}
+.liturgical-song .chant-skip:focus { transform: none; }
+.liturgical-song .chant-breadcrumb {
+  display: flex; flex-wrap: wrap; gap: 4px 10px;
+  font: 13px/1.6 'Inter', sans-serif; color: var(--chant-muted);
+}
+.liturgical-song .chant-breadcrumb a { display: inline-flex; align-items: center; min-height: 32px; }
+.liturgical-song .chant-breadcrumb > span { align-self: center; }
+.liturgical-song .chant-heading { text-align: center; margin: 36px 0 26px; }
+.liturgical-song .eyebrow {
+  font: 500 12px/1.7 'Inter', sans-serif; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--chant-muted); margin: 0 0 10px;
+}
+.liturgical-song .chant-season-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #8eaa83; margin: 0 6px 1px 0; }
+.liturgical-song .page-heading { font: 700 clamp(28px, 3.5vw, 44px)/1.3 'Cinzel', Georgia, serif; margin: 0 0 12px; letter-spacing: .015em; }
+.liturgical-song .page-subheading { color: var(--chant-muted); font-size: 18px; margin: 0; }
+.liturgical-song .page-subheading span { margin: 0 5px; }
+.liturgical-song .chant-divider { display: block; width: min(360px, 90%); height: auto; margin: 18px auto 0; }
+.liturgical-song[data-season="advento"] .chant-season-dot { background: #b9a0ce; }
+.liturgical-song .chant-entry-ornament { display: flex; align-items: center; gap: 20px; width: min(260px, 80%); color: var(--chant-gold); }
+.liturgical-song .chant-entry-ornament::before, .liturgical-song .chant-entry-ornament::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #ad9461); }
+.liturgical-song .chant-entry-ornament::after { transform: rotate(180deg); }
+.liturgical-song .chant-quick-nav { display: flex; justify-content: center; gap: 8px 28px; flex-wrap: wrap; margin-top: 14px; font: 13px/1.5 'Inter', sans-serif; }
+.liturgical-song .chant-quick-nav a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: #ded4be; border-bottom: 1px solid transparent; }
+.liturgical-song .chant-quick-nav a:hover { border-color: var(--chant-gold); color: #f2dfb5; }
+.liturgical-song .chant-hero {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'media' 'download' 'credits';
+  max-width: 880px; margin: 0 auto; gap: 30px; align-items: start;
+}
+.liturgical-song .chant-download {
+  grid-area: download; min-width: 0; padding: 30px 38px;
+  display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 36px; align-items: center;
+  background: linear-gradient(110deg, #293024, #1d221c 65%); border: 1px solid #7e755b;
+  border-radius: 8px; box-shadow: 0 12px 35px #0002;
+}
+.liturgical-song .chant-score-sheet { display: block; padding: 4px; background: #faf8f0; border-radius: 2px; box-shadow: 0 8px 20px #0005; transform: rotate(-2deg); transition: transform .2s; }
+.liturgical-song .chant-score-sheet:hover { transform: rotate(0); }
+.liturgical-song .chant-score-sheet img { display: block; width: 100%; height: auto; }
+.liturgical-song .chant-download h2 { font: 500 28px/1.3 'Spectral', Georgia, serif; margin: 0 0 4px; }
+.liturgical-song .chant-file-meta { font: 14px/1.6 'Inter', sans-serif; color: var(--chant-muted); margin-bottom: 16px; }
+.liturgical-song .hero-cta-card { display: flex; flex-wrap: wrap; gap: 10px; }
+.liturgical-song .cta-btn {
+  display: inline-flex; justify-content: center; align-items: center; gap: 10px;
+  min-height: 48px; padding: 12px 17px; border: 1px solid transparent; border-radius: 6px;
+  background: linear-gradient(135deg, #e7d4a6, #cdb276); color: #1b201b; text-decoration: none;
+  font: 600 14px/1.5 'Inter', sans-serif;
+  transition: background-color .15s, border-color .15s;
+}
+.liturgical-song .cta-btn:hover { background: #e6cc94; color: #1b201b; }
+.liturgical-song .cta-btn.secondary { background: transparent; border-color: #8f846b; color: #e9e5dc; }
+.liturgical-song .cta-btn.secondary:hover { background: #2b302a; border-color: var(--chant-gold); }
+.liturgical-song .chant-free-note { font: 13px/1.6 'Inter', sans-serif; color: var(--chant-muted); margin: 12px 0 2px; }
+.liturgical-song .chant-pdf-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font: 14px/1.5 'Inter', sans-serif; }
+.liturgical-song .chant-media { grid-area: media; min-width: 0; }
+.liturgical-song .video-shell { position: relative; border: 1px solid #8e7d55; border-radius: 8px; overflow: hidden; background: #20291f; box-shadow: 0 18px 55px #0005; }
+.liturgical-song .chant-video-cover { position: relative; aspect-ratio: 16 / 9; isolation: isolate; padding: 24px 28px; display: grid; grid-template-rows: auto minmax(min-content, 1fr); gap: 12px; background: #151915; }
+.liturgical-song .chant-cover-art { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.liturgical-song .chant-video-cover::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #050a0799, #060c0880 45%, #060c08b3); }
+.liturgical-song .chant-video-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.liturgical-song .chant-video-status { align-self: flex-start; font: 500 11px/1.4 'Inter', sans-serif; letter-spacing: .04em; border: 1px solid #ac9670; border-radius: 3px; color: #eee6d3; background: #151a14d9; padding: 6px 9px; }
+.liturgical-song .chant-video-center { display: flex; flex-direction: column; align-items: center; align-self: center; gap: 10px; text-align: center; padding-bottom: 20px; }
+.liturgical-song .chant-video-eyebrow { font: 11px/1.5 'Inter', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #e0e3d5; margin: 0; }
+.liturgical-song .chant-video-center h2 { font: italic 400 clamp(23px, 4vw, 48px)/1.2 'Spectral', Georgia, serif; color: #f4ecda; margin: 0; text-shadow: 0 2px 12px #0008; }
+.liturgical-song .chant-play { margin-top: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 10px 20px; border: 1px solid #c6bd9e; border-radius: 28px; background: #f3ecda; color: #233024; font: 600 13px/1.5 'Inter', sans-serif; }
+.liturgical-song .chant-play:hover { background: white; }
+.liturgical-song .chant-video-credit { margin: 0; color: #e4dfd0; font: 14px/1.5 'Inter', sans-serif; }
+.liturgical-song #video-player { position: relative; aspect-ratio: 16 / 9; }
+.liturgical-song #video-player iframe { width: 100%; height: 100%; position: absolute; inset: 0; border: 0; display: block; }
+.liturgical-song .chant-media-caption { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; margin-top: 14px; }
+.liturgical-song .chant-video-note { font: 13px/1.65 'Inter', sans-serif; color: var(--chant-muted); margin: 0; }
+.liturgical-song .chant-video-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 24px; font: 14px/1.5 'Inter', sans-serif; }
+.liturgical-song .chant-video-links a { display: inline-flex; align-items: center; min-height: 44px; gap: 6px; }
+.liturgical-song .chant-hide-player, .liturgical-song .chant-close-preview { background: transparent; border: 1px solid #79806e; color: var(--chant-text); border-radius: 5px; min-height: 44px; padding: 8px 12px; font: 14px/1.5 'Inter', sans-serif; }
+.liturgical-song .score-details { grid-area: credits; margin: 0; padding: 4px 0 20px; border-bottom: 1px solid var(--chant-line); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 20px; text-align: center; }
+.liturgical-song .score-details > div + div { border-left: 1px solid var(--chant-line); }
+.liturgical-song .score-details dt { font: 13px/1.5 'Inter', sans-serif; color: var(--chant-muted); margin: 0 0 3px; }
+.liturgical-song .score-details dd { font: 16px/1.5 'Spectral', Georgia, serif; margin: 0; overflow-wrap: anywhere; }
+.liturgical-song .score-preview { max-width: 880px; margin: 32px auto; padding: 24px; background: var(--chant-panel); border: 1px solid var(--chant-line); border-radius: 8px; scroll-margin-top: 80px; }
+.liturgical-song .score-preview:focus { outline: 2px solid var(--chant-gold); outline-offset: 4px; }
+.liturgical-song .chant-preview-header { display: flex; gap: 16px; align-items: center; justify-content: space-between; }
+.liturgical-song .chant-preview-header h2 { font: 500 26px/1.3 'Spectral', Georgia, serif; margin-bottom: 8px; }
+.liturgical-song .chant-preview-help { font: 14px/1.7 'Inter', sans-serif; color: var(--chant-muted); margin: 12px 0 20px; }
+.liturgical-song .score-preview-embed { display: block; width: 100%; height: 78vh; min-height: 500px; border: 0; background: #fff; }
+.liturgical-song .chant-preview-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 20px; align-items: center; }
+.liturgical-song .chant-bridge { max-width: 720px; margin: 40px auto 0; text-align: center; color: var(--chant-muted); font-size: 17px; }
+.liturgical-song .chant-bridge p { margin-bottom: 8px; }
+.liturgical-song .chant-bridge a { display: inline-block; min-height: 44px; padding: 8px 0; font: 14px/1.6 'Inter', sans-serif; }
+.liturgical-song .communion-article { max-width: 720px; margin: 48px auto 0; padding: 42px 0 0; border-top: 1px solid var(--chant-line); }
+.liturgical-song .section-intro { text-align: center; }
+.liturgical-song .section-intro h2 { font: 700 25px/1.5 'Cinzel', Georgia, serif; color: var(--chant-gold); margin: 0 0 18px; letter-spacing: 0; }
+.liturgical-song .section-intro > p:not(.eyebrow):not(.source-note) { color: var(--chant-muted); font: 16px/1.8 'Inter', sans-serif; }
+.liturgical-song .liturgical-text { position: relative; border: 1px solid #c4b086; padding: 32px 38px; margin: 30px 0 18px; background: #eee7d6; color: #333c2c; font: italic 400 26px/1.65 'Spectral', Georgia, serif; text-align: center; }
+.liturgical-song .liturgical-text::before, .liturgical-song .liturgical-text::after { content: ''; position: absolute; width: 14px; height: 14px; border: solid #9f8857; pointer-events: none; }
+.liturgical-song .liturgical-text::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+.liturgical-song .liturgical-text::after { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+.liturgical-song .source-note { color: var(--chant-muted); font: 14px/1.7 'Inter', sans-serif; }
+.liturgical-song .article-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 28px 0 36px; }
+.liturgical-song .article-nav a { display: inline-flex; align-items: center; min-height: 44px; border: 1px solid #737864; padding: 8px 12px; border-radius: 4px; font: 14px/1.5 'Inter', sans-serif; text-decoration: none; }
+.liturgical-song .article-nav a:hover { background: #292f26; }
+.liturgical-song .doctrine-block { margin: 0; padding: 32px 0; border-bottom: 1px solid var(--chant-line); }
+.liturgical-song .doctrine-block:first-child { padding-top: 0; }
+.liturgical-song .doctrine-block h3 { font: 600 25px/1.35 'Spectral', Georgia, serif; color: #e8d9b6; text-transform: none; margin: 0 0 16px; }
+.liturgical-song .doctrine-block p { font-size: 18px; line-height: 1.8; margin: 0 0 18px; }
+.liturgical-song .doctrine-block:first-child > p:first-of-type::first-letter { float: left; font: 500 54px/.95 'Spectral', Georgia, serif; color: var(--chant-gold); padding: 5px 9px 0 0; }
+.liturgical-song .doctrine-block p:last-child { margin-bottom: 0; }
+.liturgical-song .doctrine-block .source-note { font: 14px/1.7 'Inter', sans-serif; }
+.liturgical-song .inline-quote { font-size: 22px; line-height: 1.65; font-style: italic; border-left: 2px solid var(--chant-gold); margin: 24px 0 10px; padding: 4px 0 4px 22px; color: #e8d9b6; }
+.liturgical-song .editorial-prayer { font-style: italic; }
+.liturgical-song .article-sources { margin-top: 32px; padding: 24px; border-left: 2px solid #8d805f; background: #1c201b; font-size: 16px; color: var(--chant-muted); }
+.liturgical-song .article-sources h3 { font: 600 23px/1.4 'Spectral', Georgia, serif; }
+.liturgical-song .article-sources ul { padding-left: 20px; }
+.liturgical-song .article-sources li { margin-bottom: 14px; }
+.liturgical-song .communion-article a { overflow-wrap: anywhere; }
+.liturgical-song .chant-pending { display: block; padding: 28px 32px; border: 1px solid var(--chant-line); border-radius: 8px; background: var(--chant-panel); text-align: center; }
+.liturgical-song .chant-pending h2 { font: 500 28px/1.4 'Spectral', Georgia, serif; margin-bottom: 8px; }
+.liturgical-song .chant-pending p:last-child { margin-bottom: 0; color: var(--chant-muted); }
+.liturgical-song .chant-prose h2 { font: 600 28px/1.4 'Spectral', Georgia, serif; color: #e8d9b6; margin: 28px 0 20px; }
+.liturgical-song .chant-prose h3 { font: 600 25px/1.4 'Spectral', Georgia, serif; color: #e8d9b6; margin: 32px 0 16px; padding-top: 24px; border-top: 1px solid var(--chant-line); }
+.liturgical-song .chant-prose p { margin: 0 0 20px; }
+.liturgical-song .chant-prose blockquote, .liturgical-song .quote { margin: 24px 0; padding: 16px 24px; border-left: 2px solid var(--chant-gold); background: #1c201b; color: #e8d9b6; font-style: italic; }
+.liturgical-song .chant-prose .cite { font: 13px/1.6 'Inter', sans-serif; color: var(--chant-muted); overflow-wrap: anywhere; }
+.liturgical-song .closing-section { max-width: 720px; margin: 40px auto 0; padding: 32px 0; border-top: 1px solid var(--chant-line); }
+.liturgical-song .closing-title { font: 600 25px/1.4 'Spectral', Georgia, serif; color: var(--chant-gold); }
+.liturgical-song .closing-buttons { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.liturgical-song .closing-buttons a { display: inline-flex; align-items: center; min-height: 44px; font: 14px/1.6 'Inter', sans-serif; }
+.liturgical-song .qrcode-section { max-width: 440px; margin: 32px auto 0; padding: 24px; background: var(--chant-panel); border: 1px solid var(--chant-line); border-radius: 8px; text-align: center; }
+.liturgical-song .qrcode-message { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; font: 500 22px/1.4 'Spectral', Georgia, serif; }
+.liturgical-song .qrcode-section svg { flex-shrink: 0; width: 22px; height: 22px; }
+.liturgical-song .qrcode-container img { display: block; width: 168px; max-width: 100%; height: auto; margin: 20px auto; }
+.liturgical-song .qrcode-section p { margin-bottom: 8px; }
+.liturgical-song .qrcode-subtitle, .liturgical-song .pix-key-section { font: 14px/1.7 'Inter', sans-serif; color: var(--chant-muted); overflow-wrap: anywhere; }
+.liturgical-song .copy-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin: 12px 0 0; padding: 8px 16px; border: 1px solid #8f846b; border-radius: 5px; background: transparent; color: var(--chant-text); font: 500 14px/1.5 'Inter', sans-serif; }
+.liturgical-song [id] { scroll-margin-top: 80px; }
+.liturgical-song .suggestions-column { position: static; margin: 56px 0 0; padding: 28px 0; border-top: 1px solid var(--chant-line); }
+.liturgical-song .suggestion-heading h2 { font: 500 26px/1.4 'Spectral', Georgia, serif; margin-bottom: 4px; }
+.liturgical-song .suggestion-heading p { font: 14px/1.6 'Inter', sans-serif; color: var(--chant-muted); margin-bottom: 20px; }
+.liturgical-song .suggestion-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.liturgical-song .suggestion-card { position: relative; display: block; border: 1px solid var(--chant-line); border-radius: 6px; padding: 18px 42px 18px 20px; text-decoration: none; background: var(--chant-panel); transition: border-color .2s, background-color .2s; }
+.liturgical-song .suggestion-card::after { content: '→'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--chant-gold); }
+.liturgical-song .suggestion-card:hover { border-color: #9c936f; }
+.liturgical-song .suggestion-body { display: flex; flex-direction: column; gap: 6px; }
+.liturgical-song .suggestion-line { font: 12px/1.5 'Inter', sans-serif; color: var(--chant-muted); }
+.liturgical-song .suggestion-title { font: 600 19px/1.5 'Spectral', Georgia, serif; color: var(--chant-text); }
+.liturgical-song .ad-slot { position: static; margin: 24px 0; }
+.liturgical-song .ad-slot:empty { display: none; }
+.liturgical-song .liturgical-footer { margin: 20px 0 0; padding: 28px 16px 40px; text-align: center; border-top: 1px solid var(--chant-line); }
+.liturgical-song .footer-badge { color: #bbcbb0; font: 12px/1.5 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.liturgical-song .liturgical-footer p { color: var(--chant-muted); font-size: 16px; margin: 12px 0 8px; }
+.liturgical-song .footer-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 10px; font: 14px/1.6 'Inter', sans-serif; }
+
+/* Menu compartilhado: acabamento e acessibilidade nas páginas de canto. */
+.liturgical-song.nav-open { overflow: hidden; }
+.liturgical-song .side-nav, .liturgical-song.nav-open .side-nav {
+  width: min(380px, calc(100vw - 20px)); min-width: 0; max-width: none;
+  background: #20251f; color: var(--chant-text); font-family: 'EB Garamond', Georgia, serif;
+}
+.liturgical-song.nav-open .side-nav::before { display: none; }
+.liturgical-song .side-nav .close-nav {
+  display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  flex-shrink: 0; min-height: 56px; padding: 10px 20px; margin-bottom: 8px;
+  font: 500 15px/1.5 'Inter', sans-serif; color: var(--chant-text); border-bottom: 1px solid var(--chant-line);
+}
+.liturgical-song .close-nav span { font-size: 26px; }
+.liturgical-song .side-nav ul { padding-left: 18px; padding-right: 18px; }
+.liturgical-song .side-nav li { margin: 3px 0; }
+.liturgical-song .side-nav a, .liturgical-song .side-nav summary { min-height: 44px; padding: 8px 4px; font-size: 17px; line-height: 1.6; }
+.liturgical-song .side-nav summary { list-style: none; }
+.liturgical-song .side-nav summary::-webkit-details-marker { display: none; }
+.liturgical-song .side-nav details ul a { font-size: 16px; letter-spacing: 0; }
+.liturgical-song .side-nav a.active { color: #f0d396; background: #343d2f; border-radius: 4px; }
+.liturgical-song.nav-open .side-nav a:hover { padding-left: 4px; }
+.liturgical-song .side-nav .menu-ordinario { padding-top: 20px; margin-top: 20px; border-top: 1px solid var(--chant-line); }
+.liturgical-song .side-nav .menu-ordinario::before { display: none; }
+.liturgical-song .site-header .logo a { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.liturgical-song .site-header .icon-btn { min-width: 48px; min-height: 44px; }
+
+@media (max-width: 700px) {
+  .liturgical-song { font-size: 17px; }
+  .liturgical-song .wrap { padding: 18px 16px 0; }
+  .liturgical-song .chant-heading { margin: 22px 0 24px; }
+  .liturgical-song .page-heading { font-size: 28px; }
+  .liturgical-song .page-subheading { font-size: 16px; }
+  .liturgical-song .chant-heading .eyebrow { font-size: 11px; letter-spacing: .07em; }
+  .liturgical-song .chant-divider { margin-top: 12px; }
+  .liturgical-song .chant-hero { gap: 24px; }
+  .liturgical-song .chant-download { display: block; padding: 20px; }
+  .liturgical-song .chant-score-sheet { float: left; width: 64px; margin: 0 18px 12px 0; }
+  .liturgical-song .chant-download h2 { padding-top: 8px; }
+  .liturgical-song .chant-download-content > .eyebrow { display: none; }
+  .liturgical-song .chant-file-meta { margin-bottom: 12px; }
+  .liturgical-song .hero-cta-card { clear: both; display: grid; grid-template-columns: minmax(0, 1fr); padding-top: 6px; }
+  .liturgical-song .cta-btn { font-size: 15px; }
+  .liturgical-song .chant-video-cover { padding: 14px 16px; gap: 8px; }
+  .liturgical-song .chant-video-center { padding-bottom: 0; gap: 6px; }
+  .liturgical-song .chant-video-center h2 { font-size: clamp(25px, 5.5vw, 38px); }
+  .liturgical-song .chant-video-credit { font-size: 12px; }
+  .liturgical-song .chant-video-status { font-size: 10px; padding: 3px 6px; }
+  .liturgical-song .chant-video-eyebrow { font-size: 10px; }
+  .liturgical-song .score-details { grid-template-columns: repeat(2, minmax(0, 1fr)); text-align: left; }
+  .liturgical-song .score-details > div + div { border-left: 0; }
+  .liturgical-song .score-details > div:nth-child(even) { border-left: 1px solid var(--chant-line); padding-left: 16px; }
+  .liturgical-song .score-preview { padding: 16px 0; border-left: 0; border-right: 0; border-radius: 0; }
+  .liturgical-song .chant-preview-header { flex-wrap: wrap; }
+  .liturgical-song .score-preview-embed { min-height: 420px; height: 65vh; }
+  .liturgical-song .chant-bridge { margin-top: 28px; }
+  .liturgical-song .communion-article { margin-top: 28px; padding-top: 32px; }
+  .liturgical-song .section-intro h2 { font-size: 23px; line-height: 1.45; }
+  .liturgical-song .section-intro > p:not(.eyebrow):not(.source-note) { font-size: 15px; }
+  .liturgical-song .liturgical-text { font-size: 22px; padding: 26px 22px; }
+  .liturgical-song .doctrine-block h3 { font-size: 24px; }
+  .liturgical-song .doctrine-block p { font-size: 17px; line-height: 1.75; }
+  .liturgical-song .doctrine-block .source-note { font-size: 14px; }
+  .liturgical-song .article-sources { padding: 20px 16px; }
+  .liturgical-song .article-nav { gap: 8px; margin-bottom: 28px; }
+  .liturgical-song .suggestion-cards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .liturgical-song .suggestions-column { margin-top: 36px; }
+}
+@media (max-width: 480px) {
+  .liturgical-song .chant-quick-nav { gap: 8px 24px; margin-top: 8px; }
+  .liturgical-song .chant-video-center { gap: 4px; }
+  .liturgical-song .chant-video-center h2 { font-size: 25px; }
+  .liturgical-song .chant-play { min-height: 44px; margin-top: 6px; padding: 8px 16px; }
+  .liturgical-song .chant-media-caption { flex-wrap: wrap; gap: 4px 16px; }
+  .liturgical-song .chant-media-caption > * { flex: 1 1 auto; }
+}
+@media (max-width: 360px) {
+  .liturgical-song .chant-video-cover { padding: 10px 12px; gap: 6px; }
+  .liturgical-song .chant-video-center { gap: 3px; }
+  .liturgical-song .chant-video-credit { font-size: 11px; }
+  .liturgical-song .chant-video-eyebrow { font-size: 9px; letter-spacing: .06em; }
+  .liturgical-song .chant-play { margin-top: 3px; }
+  .liturgical-song .chant-video-center h2 { font-size: 23px; }
+}
+/* Movimentos breves e únicos: o conteúdo permanece disponível sem JavaScript. */
+@keyframes chant-entrance {
+  from { opacity: .35; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes chant-emblem-entrance {
+  from { opacity: .4; transform: translateY(5px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.liturgical-song-root { scroll-behavior: smooth; }
+  .liturgical-song .chant-heading > :is(.eyebrow, .page-heading, .page-subheading, .chant-quick-nav) {
+    animation: chant-entrance 560ms cubic-bezier(.2,.65,.3,1) both;
+  }
+  .liturgical-song .chant-heading > .page-heading { animation-delay: 60ms; }
+  .liturgical-song .chant-heading > .page-subheading { animation-delay: 120ms; }
+  .liturgical-song .chant-heading > .chant-quick-nav { animation-delay: 200ms; }
+  .liturgical-song .chant-divider { animation: chant-emblem-entrance 680ms ease-out 160ms both; }
+  .liturgical-song .chant-enter { animation: chant-entrance 520ms cubic-bezier(.2,.65,.3,1) both; }
+  .liturgical-song .chant-enter:focus-within { animation: none; }
+  .liturgical-song .score-preview:not([hidden]), .liturgical-song #video-player:not([hidden]) {
+    animation: chant-entrance 240ms ease-out;
+  }
+  .liturgical-song :is(.cta-btn, .chant-play, .suggestion-card, .article-nav a) {
+    transition: transform 180ms ease-out, background-color 180ms, border-color 180ms, box-shadow 180ms;
+  }
+  .liturgical-song .chant-cover-art { transition: transform 900ms ease-out; }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .liturgical-song :is(.cta-btn, .chant-play, .suggestion-card):hover { transform: translateY(-2px); }
+  .liturgical-song :is(.cta-btn, .chant-play):hover { box-shadow: 0 5px 16px #0003; }
+  .liturgical-song :is(.cta-btn, .chant-play, .suggestion-card):active { transform: translateY(0); }
+  .liturgical-song .video-shell:hover .chant-cover-art { transform: scale(1.015); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.liturgical-song-root { scroll-behavior: auto; }
+  .liturgical-song *, .liturgical-song *::before, .liturgical-song *::after { animation: none !important; transition: none !important; }
+}

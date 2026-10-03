@@ -1,187 +1,16 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+
+<html class="liturgical-song-root" lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Rorate Caeli: a bela peça gregoriana do 4º Domingo do Advento. Explore a partitura, vídeo litúrgico e reflexão profunda sobre este intróito ancestral. Fonte: Liber Usualis, Solesmes, 1961.">
-  <meta name="keywords" content="Advento, liturgia, canto gregoriano, partitura, célula litúrgica, música sacra">
-  <link rel="canonical" href="https://seu-dominio.com/pages/advento-4-entrada.html">
-  <title>Rorate Caeli — Orvalhai, Ó Céus</title>
-  <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
-  <link rel="stylesheet" href="../styles/style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
-      crossorigin="anonymous"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" as="style">
-  <style>
-    /* Tema escuro inspirado na referência */
-    :root{--bg:#151515;--panel:#1f1f1f;--muted:#9a9a9a;--accent:#e6e6e6;--accent-2:#c9a56a;--sticky-top:72px}
-    html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-    .wrap{max-width:1100px;margin:0 auto;padding:30px 20px 40px}
-
-    .content{max-width:980px;margin:0 auto;padding-bottom:16px}
-    
-    @media(max-width:768px){
-      .wrap{padding:20px 16px 50px}
-      .content{max-width:100%}
-      h1.title{font-size:1.5rem;letter-spacing:0.3px}
-      h1.title small{font-size:0.7em}
-      .sidebar{margin-top:30px}
-    }
-    
-    @media(max-width:480px){
-      .wrap{padding:20px 16px 40px}
-      h1.title{font-size:1.3rem}
-    }
-
-    .player{background:transparent}
-    .video-frame{position:relative;background:linear-gradient(180deg, rgba(255,234,179,0.02), rgba(0,0,0,0.6));border-radius:6px;overflow:hidden;box-shadow:none;aspect-ratio:16/9;min-height:350px}
-    .video-frame::before{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;background:radial-gradient(ellipse at top center, rgba(214,168,79,0.22) 0%, rgba(214,168,79,0.12) 12%, rgba(26,26,26,0) 60%)}
-    .video-frame iframe{width:100%;height:100%;border:0;display:block}
-
-    .video-container{position:relative;padding:40px 30px;background:radial-gradient(ellipse at center, rgba(31,31,31,0.4) 0%, rgba(21,21,21,0.8) 100%);margin-bottom:20px;border-radius:12px}
-    .video-border{border:2px solid;border-image:linear-gradient(135deg, #F4E4B7 0%, #D4AF37 50%, #B8962E 100%) 1;border-radius:8px;overflow:hidden;box-shadow:0 8px 32px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15), inset 0 0 20px rgba(212,175,55,0.1)}
-    .video-embed{position:relative;padding-top:56.25%;border-radius:inherit;overflow:hidden}
-    .video-embed > *{position:absolute;inset:0}
-    .yt-placeholder{display:flex;align-items:center;justify-content:center;cursor:pointer;background:#000;overflow:hidden}
-    .yt-play{position:absolute;width:72px;height:72px;border-radius:50%;background:rgba(212,175,55,0.95);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.4)}
-
-    .divider-line{display:flex;align-items:center;gap:20px;margin:18px 0 16px 0}
-    .divider-line > div:first-child,.divider-line > div:last-child{flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3))}
-    .divider-line > div:last-child{background:linear-gradient(to left, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3))}
-    .divider-diamond{width:8px;height:8px;background:#d4af37;transform:rotate(45deg);box-shadow:0 0 10px rgba(212,175,55,0.5)}
-
-    h1.title{font-family:Georgia, serif;font-size:2rem;margin:14px 0 8px;color:var(--accent);font-weight:700;letter-spacing:0.5px;text-shadow:0 2px 8px rgba(212,175,55,0.2)}
-
-    /* Trechinho abaixo do título (similar à referência) */
-    .lead-excerpt{color:var(--muted);line-height:1.75;font-size:1.1rem;max-width:980px;margin:10px 0 0}
-
-    /* Ajuste quando o cabeçalho encolhe no scroll */
-    .site-header.shrink{height:56px;backdrop-filter:blur(6px);background-color:rgba(10,10,10,0.6)}
-    @media(max-width:768px){.site-header.shrink{height:52px}}
-
-    /* Card destacado */
-    .excerpt-card{background:linear-gradient(135deg, rgba(31,31,31,0.6) 0%, rgba(21,21,21,0.8) 100%);border:1px solid rgba(212,175,55,0.25);border-left:3px solid #d4af37;padding:20px 24px;border-radius:6px;margin-bottom:30px;box-shadow:0 4px 16px rgba(0,0,0,0.3);display:flex;gap:16px;align-items:start}
-    .excerpt-card svg{flex-shrink:0;width:28px;height:28px;margin-top:2px}
-    .excerpt-card p{margin:0;color:#c9a56a;font-size:1.05rem;line-height:1.7;font-weight:500}
-
-    /* Bottom spacing (removido para reduzir área em branco) */
-    .spacer{height:0}
-
-    /* Sidebar */
-    .sidebar{position:relative}
-    .sidebar-section{margin-bottom:28px}
-    .sidebar-title{color:var(--muted);font-weight:600;margin-bottom:12px;font-size:0.95rem;text-transform:uppercase;letter-spacing:0.5px}
-    
-    .list{display:flex;flex-direction:column;gap:12px}
-    .sidebar-card{border:1px solid rgba(212,175,55,0.2);border-radius:6px;overflow:hidden;background:linear-gradient(135deg, rgba(31,31,31,0.85) 0%, rgba(21,21,21,0.92) 100%);transition:all 0.3s ease}
-    .sidebar-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(212,175,55,0.2);border-color:rgba(212,175,55,0.5)}
-    .sidebar-card-img{width:100%;height:140px;overflow:hidden;position:relative}
-    .sidebar-card-img img{width:100%;height:100%;object-fit:cover;display:block}
-    .sidebar-card-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top, rgba(0,0,0,0.5), transparent)}
-    .sidebar-card-content{padding:16px}
-    .sidebar-badge{display:inline-block;background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.5);color:#d4af37;padding:4px 10px;border-radius:3px;font-size:0.65rem;font-weight:700;font-family:'Cinzel',Georgia,serif;letter-spacing:0.8px;margin-bottom:10px}
-    .sidebar-card-title{color:#d6a84f;font-weight:700;font-family:'Cinzel',Georgia,serif;font-size:0.95rem;line-height:1.3;margin-bottom:6px}
-    .sidebar-card-quote{color:#c9a56a;font-size:0.85rem;font-weight:600;margin-bottom:12px;line-height:1.4}
-    .sidebar-card-cta{display:flex;align-items:center;gap:5px;color:#c9a56a;font-size:0.8rem;font-weight:600}
-
-    /* Partitura: fundo vermelho escuro */
-    .white-section{background:#180000;color:#fff;position:relative;border-top:0}
-    .white-section::before{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg, rgba(212,175,55,0.95), rgba(212,175,55,0.6));border-radius:2px}
-    .white-inner{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;gap:12px;background:transparent;border-radius:6px}
-    .white-inner .left{font-size:1.05rem;color:#fff;font-family:'Cinzel', Georgia, serif;font-weight:700;line-height:1.08}
-    .white-inner .left strong{display:block;font-size:1.35rem;font-weight:700;letter-spacing:0.4px;font-family:'Cinzel', Georgia, serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-    .white-inner .left .meta{font-size:1.02rem;margin-top:8px;color:#fff;font-weight:700;font-family:'Cinzel', Georgia, serif;opacity:0.98}
-    .white-inner .right a{display:inline-block}
-    
-    /* Bloco devocional */
-    .white-text{max-width:980px;margin:12px auto 28px;color:#180000;line-height:1.85;padding:28px;background:#ffe7c5;border-radius:8px;font-family:'Playfair Display', serif}
-    .white-text p{margin:0 0 20px 0;font-size:1.05rem}
-    .white-text h3{font-size:1.35rem;margin:32px 0 16px 0;color:#180000;font-weight:700;padding-bottom:12px;border-bottom:2px solid rgba(202,167,90,0.3)}
-    .white-text h3::before{content:'';margin-right:10px}
-    .white-text blockquote{border-left:5px solid #caa75a;padding:16px 0 16px 20px;margin:20px 0;color:#4d3819;font-style:italic;background:rgba(0,0,0,0.05);padding-top:16px;padding-bottom:16px;font-size:1.08rem;line-height:1.8}
-    .white-text .cite{display:block;color:#6b4d26;font-size:0.92rem;margin-top:10px;font-weight:600;font-style:normal}
-    /* Garante que Auto Ads do AdSense não apareçam dentro do texto devocional */
-    .white-text ins.adsbygoogle{display:none !important;}
-
-    /* Button */
-    .white-inner .right .btn{background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;font-family:'Cinzel', Georgia, serif;box-shadow:0 8px 22px rgba(217,166,73,0.14);transition:transform .12s ease,box-shadow .18s ease,filter .18s ease;text-shadow:0 1px 0 rgba(0,0,0,0.25);border:none;cursor:pointer}
-    .white-inner .right .btn:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(214,168,79,0.32),0 0 36px rgba(214,168,79,0.2);filter:brightness(1.08)}
-
-    /* Divider */
-    .white-divider{border:0;height:2px;background:linear-gradient(90deg, rgba(212,175,55,0.95), rgba(212,175,55,0.6));margin:18px 0;border-radius:2px}
-
-    /* Social sharing */
-    .social-share{display:flex;gap:12px;align-items:center;margin:18px 0;padding:16px;background:linear-gradient(135deg, rgba(31,31,31,0.5) 0%, rgba(21,21,21,0.7) 100%);border:1px solid rgba(212,175,55,0.2);border-radius:6px;max-width:980px;margin-left:auto;margin-right:auto}
-    .social-share label{color:#c9a56a;font-weight:600;margin-right:12px;white-space:nowrap;font-size:0.95rem}
-    .social-share a,
-    .social-share button{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:4px;color:#c9a56a;text-decoration:none;transition:all 0.3s ease;font-size:0.9rem;font-weight:600}
-    .social-share a:hover,
-    .social-share button:hover{background:rgba(212,175,55,0.2);border-color:#d4af37;transform:translateY(-2px)}
-
-    /* Suggestions list (right of video) */
-    .suggestions{display:flex;flex-direction:column;gap:12px;position:relative;margin-top:0}
-    .suggestion-item{display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit}
-    .suggestion-thumb{width:120px;height:68px;flex-shrink:0;overflow:hidden;border-radius:6px}
-    .suggestion-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .suggestion-meta{flex:1}
-    .suggestion-title{font-size:0.95rem;color:#d6a84f;font-weight:700;margin-bottom:6px}
-    .suggestion-sub{font-size:0.85rem;color:#c9a56a}
-    .suggestion-duration{font-size:0.75rem;background:rgba(0,0,0,0.6);color:#fff;padding:4px 6px;border-radius:4px;position:absolute;right:6px;bottom:6px}
-
-    /* Mobile carrossel para sugestões */
-    @media(max-width:980px){
-      .suggestions{display:flex;flex-direction:row;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;gap:12px;padding-bottom:8px}
-      .suggestion-item{min-width:280px;scroll-snap-align:start;background:rgba(255,255,255,0.03);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:8px}
-      .suggestion-thumb{width:140px;height:80px}
-    }
-
-
-    /* Layout: vídeo + sugestões lado a lado */
-    .video-and-suggestions{display:flex;gap:24px;align-items:flex-start}
-    .video-area{flex:1}
-    .suggestions-column{width:320px;position:sticky;top:var(--sticky-top)}
-    @media(max-width:980px){
-      .video-and-suggestions{display:block}
-      .suggestions-column{width:100%;margin-top:16px}
-    }
-
-    /* Hover animations: vídeo e cards de sugestão */
-    .video-frame.video-border{transition:box-shadow .25s ease, transform .15s ease}
-    .video-frame.video-border:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,175,55,0.28), 0 0 60px rgba(212,175,55,0.22), inset 0 0 20px rgba(212,175,55,0.12)}
-    .yt-placeholder img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .28s ease, filter .28s ease}
-    .video-frame:hover .yt-placeholder img{transform:scale(1.03);filter:brightness(0.7)}
-    .yt-play{transition:transform .25s ease, box-shadow .25s ease}
-    @keyframes pulsePlay{0%{box-shadow:0 0 0 0 rgba(212,175,55,0.35)}70%{box-shadow:0 0 0 12px rgba(212,175,55,0)}100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}}
-    .video-frame:hover .yt-play{transform:scale(1.06);animation:pulsePlay 1.6s ease-out infinite}
-
-    .suggestion-item{border-radius:8px;padding:6px;transition:transform .18s ease, box-shadow .18s ease, background .18s ease}
-    .suggestion-thumb{position:relative;overflow:hidden}
-    .suggestion-thumb img{transition:transform .28s ease, filter .28s ease}
-    .suggestion-item:hover{transform:translateY(-3px);background:rgba(212,175,55,0.06);box-shadow:0 10px 24px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(212,175,55,0.35)}
-    .suggestion-item:hover .suggestion-thumb img{transform:scale(1.04);filter:brightness(0.95)}
-
-    /* Metadados em chips acima do título */
-    .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px;color:#c9a56a}
-    .meta-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(212,175,55,0.10);border:1px solid rgba(212,175,55,0.35);border-radius:20px;font-weight:600;font-size:0.9rem}
-
-    /* Respeitar preferências de movimento reduzido */
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none!important;transition:none!important}
-    }
-  </style>
-  <!-- Open Graph / Twitter Card e JSON-LD para melhor compartilhamento -->
-  <meta property="og:title" content="Rorate Caeli — Orvalhai, Ó Céus">
-  <meta property="og:description" content="Rorate Caeli: entrada do 4º Domingo do Advento. Partitura, vídeo e reflexão litúrgica.">
-  <meta property="og:type" content="video.other">
-  <meta property="og:url" content="https://seu-dominio.com/pages/advento-4-entrada.html">
-  <meta property="og:image" content="https://i.ytimg.com/vi/KdEHGiUG0n4/maxresdefault.jpg">
-  <meta property="og:site_name" content="Seu Site Litúrgico">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Rorate Caeli — Orvalhai, Ó Céus">
-  <meta name="twitter:description" content="Rorate Caeli: entrada do 4º Domingo do Advento. Partitura, vídeo e reflexão litúrgica.">
-  <meta name="twitter:image" content="https://i.ytimg.com/vi/KdEHGiUG0n4/maxresdefault.jpg">
-  <script type="application/ld+json">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Rorate Caeli — Orvalhai, Ó Céus | Entrada do 4º Domingo do Advento</title>
+<meta content="Rorate Caeli: a bela peça gregoriana do 4º Domingo do Advento. Explore a partitura, vídeo litúrgico e reflexão profunda sobre este intróito ancestral. Fonte: Liber Usualis, Solesmes, 1961." name="description"/>
+<link href="/assets/img/icone.png" rel="icon" sizes="192x192"/>
+<link href="../styles/style.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../styles/liturgical-song.css" rel="stylesheet"/>
+<link href="https://seu-dominio.com/pages/advento-4-entrada.html" rel="canonical"/><meta content="Rorate Caeli — Orvalhai, Ó Céus" property="og:title"/><meta content="Rorate Caeli: entrada do 4º Domingo do Advento. Partitura, vídeo e reflexão litúrgica." property="og:description"/><meta content="video.other" property="og:type"/><meta content="https://seu-dominio.com/pages/advento-4-entrada.html" property="og:url"/><meta content="https://i.ytimg.com/vi/KdEHGiUG0n4/maxresdefault.jpg" property="og:image"/><meta content="Seu Site Litúrgico" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Rorate Caeli — Orvalhai, Ó Céus" name="twitter:title"/><meta content="Rorate Caeli: entrada do 4º Domingo do Advento. Partitura, vídeo e reflexão litúrgica." name="twitter:description"/><meta content="https://i.ytimg.com/vi/KdEHGiUG0n4/maxresdefault.jpg" name="twitter:image"/><script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"VideoObject",
@@ -195,804 +24,323 @@
   }
   </script>
 </head>
-<body>
-  <header class="site-header">
-    <button id="menu-btn" class="menu-btn" aria-label="Abrir menu">
-      <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
-    </button>
-    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
-    <div class="header-actions">
-      <a class="icon-btn" href="/pages/loja.html" title="Loja">
-        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
-        <span class="icon-label">LOJA</span>
-      </a>
-      <a class="icon-btn" href="/pages/contato.html" title="Contato">
-        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
-        <span class="icon-label">CONTATO</span>
-      </a>
-      <input id="search" type="search" placeholder="Buscar..." />
-    </div>
-  </header>
-
-  <!-- SIDE NAV -->
-  <nav id="side-nav" class="side-nav" aria-hidden="true">
-    <button id="close-nav" class="close-nav" aria-label="Fechar"></button>
-    <div class="side-nav-hero" aria-hidden="true">
-      <div class="menu-frame">
-        <img src="../assets/img/1.jpg" alt="Imagem do menu">
-      </div>
-    </div>
-    <ul>
-      <li><a href="../index.html" class="menu-item inicio">Início</a></li>
-      <li><a href="../pages/formacoes.html" class="menu-item formacoes">Formações</a></li>
-      
-      <li>
-        <details>
-          <summary class="menu-item advento">Advento</summary>
-          <ul>
-            <li><a href="advento-1-video.html">1º Domingo do Advento</a></li>
-            <li><a href="advento-2.html">2º Domingo do Advento</a></li>
-            <li><a href="advento-3.html">3º Domingo do Advento</a></li>
-            <li><a href="advento-4.html">4º Domingo do Advento</a></li>
-          </ul>
-        </details>
-      </li>
-      
-      <li>
-        <details>
-          <summary class="menu-item natal">Natal</summary>
-          <ul>
-            <li><a href="../pages/natal-noite.html">Missa da Noite</a></li>
-            <li><a href="../pages/natal-aurora.html">Missa da Aurora</a></li>
-            <li><a href="../pages/natal-dia.html">Missa do Dia</a></li>
-          </ul>
-        </details>
-      </li>
-      <li>
-        <details>
-          <summary class="menu-item quaresma">Quaresma</summary>
-          <ul>
-            <li><a href="../pages/quaresma-1.html">1º Domingo da Quaresma</a></li>
-            <li><a href="../pages/quaresma-2.html">2º Domingo da Quaresma</a></li>
-            <li><a href="../pages/quaresma-3.html">3º Domingo da Quaresma</a></li>
-            <li><a href="../pages/quaresma-4.html">4º Domingo da Quaresma</a></li>
-            <li><a href="../pages/quaresma-5.html">5º Domingo da Quaresma</a></li>
-            <li><a href="../pages/quaresma-ramos.html">Domingo de Ramos</a></li>
-          </ul>
-        </details>
-      </li>
-      <li>
-        <details>
-          <summary class="menu-item pascoa">Páscoa</summary>
-          <ul>
-            <li><a href="../pages/pascoa-vigilia.html">Vigília Pascal</a></li>
-            <li><a href="../pages/pascoa-1.html">Domingo da Páscoa</a></li>
-            <li><a href="../pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
-            <li><a href="../pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
-            <li><a href="../pages/pascoa-4.html">4º Domingo da Páscoa</a></li>
-            <li><a href="../pages/pascoa-5.html">5º Domingo da Páscoa</a></li>
-            <li><a href="../pages/pascoa-6.html">6º Domingo da Páscoa</a></li>
-            <li><a href="../pages/pascoa-ascensao.html">Ascensão do Senhor</a></li>
-            <li><a href="../pages/pascoa-pentecostes.html">Pentecostes</a></li>
-          </ul>
-        </details>
-      </li>
-      <li>
-        <details>
-          <summary class="menu-item tempo-comum">Tempo Comum</summary>
-          <ul>
-            <li><a href="../pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
-            <li><a href="../pages/tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
-          </ul>
-        </details>
-      </li>
-      <!-- Ordinário da missa (separado abaixo dos demais tópicos) -->
-      <li class="menu-ordinario">
-        <details>
-          <summary class="menu-item ordinario">Ordinário da missa</summary>
-          <ul>
-            <li><a href="../pages/kyrie.html">Kyrie</a></li>
-            <li><a href="../pages/gloria.html">Gloria</a></li>
-            <li><a href="../pages/sanctus.html">Sanctus</a></li>
-            <li><a href="../pages/agnus-dei.html">Agnus Dei</a></li>
-            <li><a href="../pages/pater-noster.html">Pater noster / Pai nosso</a></li>
-            <li><a href="../pages/ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
-          </ul>
-        </details>
-      </li>
-    </ul>
-  </nav>
-  <div id="nav-overlay" class="nav-overlay" hidden></div>
-
-  <div class="wrap">
-    <div class="content">
-      <main class="player" role="main">
-        <!-- Container premium com sugestões ao lado -->
-        <div class="video-and-suggestions">
-          <div class="video-area">
-            <div class="video-container">
-              <div class="video-frame video-border" role="region" aria-label="vídeo principal do 4º Domingo do Advento">
-                <div class="video-embed">
-                  <div class="yt-placeholder" data-video-id="KdEHGiUG0n4" role="button" tabindex="0" aria-label="Carregar vídeo Rorate Caeli — Orvalhai, Ó Céus">
-                    <img src="https://i.ytimg.com/vi/KdEHGiUG0n4/hqdefault.jpg" alt="Thumbnail do vídeo"/>
-                    <div class="yt-play" aria-hidden="true">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="#151515" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                  </div>
-                </div>
-                <!-- Lazy YouTube loading handled by ../scripts/lazy-youtube.js -->
-              </div>
-            </div>
-          <!-- Título e trechinho alinhados com o vídeo -->
-          <div class="divider-line">
-            <div></div>
-            <div class="divider-diamond"></div>
-            <div></div>
-          </div>
-          <div class="meta-row">
-            <span class="meta-chip">Advento</span>
-            <span class="meta-chip">Entrada</span>
-            <span class="meta-chip">Partitura em PDF</span>
-          </div>
-          <h1 class="title">Rorate Caeli — Orvalhai, Ó Céus</h1>
-          <p class="lead-excerpt">No 4º Domingo do Advento, a súplica do <em>Rorate caeli</em> exprime a esperança da Igreja: que o Céu derrame justiça e a terra faça brotar o Salvador. É um convite à vigilância humilde e à alegria serena diante da proximidade do Senhor.</p>
-          </div>
-          <aside class="suggestions-column" aria-label="Sugestões de vídeos">
-            <div class="suggestions">
-              <a class="suggestion-item" href="advento-1-entrada.html" data-video-id="JjGXATuQobQ">
-                <div class="suggestion-thumb">
-                  <img src="https://img.youtube.com/vi/JjGXATuQobQ/hqdefault.jpg" alt="1º Domingo - Entrada">
-                </div>
-                <div class="suggestion-meta">
-                  <div class="suggestion-title">Entrada — 1º Domingo</div>
-                  <div class="suggestion-sub">Advento</div>
-                </div>
-              </a>
-
-              <a class="suggestion-item" href="advento-2-entrada.html" data-video-id="vwX1gu81S8A">
-                <div class="suggestion-thumb">
-                  <img src="https://img.youtube.com/vi/vwX1gu81S8A/hqdefault.jpg" alt="2º Domingo - Entrada">
-                </div>
-                <div class="suggestion-meta">
-                  <div class="suggestion-title">Entrada — 2º Domingo</div>
-                  <div class="suggestion-sub">Advento</div>
-                </div>
-              </a>
-
-              <a class="suggestion-item" href="advento-3-entrada.html" data-video-id="rYUudFu-VsU">
-                <div class="suggestion-thumb">
-                  <img src="https://img.youtube.com/vi/rYUudFu-VsU/hqdefault.jpg" alt="3º Domingo - Entrada">
-                </div>
-                <div class="suggestion-meta">
-                  <div class="suggestion-title">Entrada — 3º Domingo</div>
-                  <div class="suggestion-sub">Advento</div>
-                </div>
-              </a>
-            </div>
-          </aside>
-        </div>
-        
-        <div class="social-share" role="group" aria-label="Botões de compartilhamento">
-          <label>Compartilhar:</label>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=seu-dominio.com/pages/advento-4-entrada.html" target="_blank" rel="noopener noreferrer" title="Compartilhar no Facebook" aria-label="Compartilhar no Facebook" data-share="facebook">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-          </a>
-          <a href="https://twitter.com/intent/tweet?url=seu-dominio.com/pages/advento-4-entrada.html&text=4º Domingo do Advento - Entrada" target="_blank" rel="noopener noreferrer" title="Compartilhar no Twitter" aria-label="Compartilhar no Twitter" data-share="twitter">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23.953 4.57a10 10 0 002.856-3.915 9.964 9.964 0 01-2.824.856 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-            </svg>
-          </a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" title="Compartilhar no Instagram" aria-label="Abrir Instagram" data-share="instagram">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
-              <circle cx="17.5" cy="6.5" r="1.5"/>
-            </svg>
-          </a>
-          <a href="https://api.whatsapp.com/send?text=Confira%20este%20conteúdo:%20seu-dominio.com/pages/advento-4-entrada.html" target="_blank" rel="noopener noreferrer" title="Compartilhar no WhatsApp" aria-label="Compartilhar no WhatsApp" data-share="whatsapp">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20.9 17.8c-.5 1.1-1.5 2-2.8 2.3-1 .2-2.2.3-3.5 0-1.2-.3-2.4-.9-3.4-1.6l-.1-.1c-3.2-2.4-5.2-4.8-6.2-7.8-.3-1-.4-2.1-.3-3.2.1-1.2.5-2.3 1.1-3.3C6.3 2.8 7.1 2 8 2c.4 0 .8.2 1 .6l2 3.3c.2.3.2.7 0 1l-1.3 1.6c-.2.2-.2.6 0 .8.5.8 1.2 1.5 2 2.1.8.6 1.6 1.1 2.5 1.4.2.1.6.1.8 0l1.4-1.3c.3-.2.7-.2 1 0l3.2 2.1c.4.3.6.8.6 1.2 0 .5-.2 1-.6 1.3z"/>
-            </svg>
-          </a>
-          <a href="mailto:?subject=4º Domingo do Advento&body=Confira este conteúdo: seu-dominio.com/pages/advento-4-entrada.html" title="Compartilhar por email" aria-label="Compartilhar por email" data-share="email">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-          </a>
-          <button class="copy-link" type="button" data-action="copy-url" aria-label="Copiar link da página" title="Copiar link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3"/></svg>
-          </button>
-        </div>
-      </main>
-
-      
-    </div>
-  </div>
-
-  <!-- Faixa branca com partitura -->
-  <section class="white-section" aria-label="Partitura e recursos">
-    <div class="white-inner">
-      <div class="left">
-        <strong>Partitura: Rorate Caeli</strong>
-        <div class="meta">Entrada do 4º Domingo do Advento — Liber Usualis, Solesmes, 1961, p. 1868</div>
-      </div>
-      <div class="right">
-        <a class="btn outline" href="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf" download>Baixar partitura</a>
-        <button type="button" class="btn outline view-score-btn" data-target="#score-viewer">Visualizar partitura</button>
-      </div>
-    </div>
-    <hr class="white-divider" aria-hidden="true">
-    <div id="score-viewer" class="score-viewer" hidden>
-      <div class="score-frame">
-        <iframe src="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf#view=FitH" title="Partitura Rorate Caeli" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="white-text">
-      <h2 style="font-size:1.8rem;margin:24px 0 16px;color:#180000;border-bottom:3px solid rgba(202,167,90,0.5);padding-bottom:12px;">Rorate caeli — canto do Advento na tradição litúrgica</h2>
-
-      <h3 style="font-size:1.3rem;margin:28px 0 14px;color:#180000;font-weight:700;">Origem bíblica e sentido profético</h3>
-      
-      <p>O <em>Rorate caeli</em> é um dos cantos mais antigos e densos do repertório litúrgico cristão. Seu texto não nasce no contexto medieval, mas tem origem direta na Sagrada Escritura, no livro do profeta Isaías (Is 45,8), na tradução latina da Vulgata:</p>
-      
-      <blockquote><em>Rorate caeli desuper, et nubes pluant iustum; aperiatur terra, et germinet Salvatorem.</em></blockquote>
-      
-      <p>Trata-se de um clamor profético, redigido séculos antes do cristianismo, no qual a humanidade suplica a intervenção divina: que o céu derrame justiça e que a terra faça brotar a salvação. A força do texto reside justamente nessa tensão entre promessa e espera, entre necessidade humana e iniciativa divina.</p>
-      
-      <p>Desde os primeiros séculos, a Igreja reconheceu nesse versículo uma antecipação do mistério da Encarnação. O texto passou a ser cantado não apenas como memória de Israel, mas como oração viva da comunidade cristã que aguarda o cumprimento da promessa.</p>
-
-      <h3 style="font-size:1.3rem;margin:28px 0 14px;color:#180000;font-weight:700;">Leitura cristológica e mariana</h3>
-      
-      <p>A tradição patrística interpretou o <em>Rorate caeli</em> de modo claramente cristológico. O "Justo" e o "Salvador" anunciados pelo profeta são reconhecidos como Cristo, enviado pelo Pai para restaurar a humanidade. Ao mesmo tempo, desenvolveu-se uma leitura mariana profundamente enraizada na liturgia: a "terra" que se abre para germinar o Salvador é compreendida como imagem de Maria, na qual a promessa encontra seu cumprimento concreto.</p>
-      
-      <p>Essa leitura não introduz elementos estranhos ao texto bíblico, mas aprofunda seu simbolismo natural. Céu e terra, graça e acolhida, iniciativa divina e resposta humana permanecem em equilíbrio, conferindo ao canto uma densidade teológica rara.</p>
-
-      <h3 style="font-size:1.3rem;margin:28px 0 14px;color:#180000;font-weight:700;">O Rorate caeli no Advento</h3>
-      
-      <p>O <em>Rorate caeli</em> está intimamente ligado ao tempo do Advento, sobretudo aos dias que precedem o Natal. Já aparece em antifonários e livros litúrgicos medievais, o que atesta seu uso contínuo ao longo de séculos na liturgia romana.</p>
-      
-      <p>Em diversas regiões da Europa, especialmente na Áustria, Alemanha e Hungria, consolidou-se a tradição da chamada Missa Rorate, celebrada antes do amanhecer, à luz de velas. Nesse contexto, o canto adquire uma força particular: o silêncio da noite, a penumbra e a expectativa reforçam o sentido espiritual do texto, que não celebra ainda a vinda, mas a implora.</p>
-
-      <h3 style="font-size:1.3rem;margin:28px 0 14px;color:#180000;font-weight:700;">A linguagem musical do canto gregoriano</h3>
-      
-      <p>Musicalmente, o <em>Rorate caeli</em> pertence ao repertório do canto gregoriano. Sua melodia é sóbria e contida, sem caráter triunfal. O andamento calmo e as linhas melódicas frequentemente descendentes evocam simbolicamente a descida da graça do alto.</p>
-      
-      <p>Essa sobriedade musical favorece a interiorização do texto e está em plena consonância com o espírito do Advento, tempo marcado pela vigilância, pelo silêncio e pela espera. O canto não busca impressionar, mas conduzir à contemplação.</p>
-
-      <h3 style="font-size:1.3rem;margin:28px 0 14px;color:#180000;font-weight:700;">Sobre a tradução apresentada</h3>
-      
-      <p>A tradução portuguesa apresentada nesta página foi elaborada com especial cuidado em relação ao texto latino, tomando como referência o <em>Liber Usualis</em> (Solesmes, 1961). Procurou-se manter fidelidade vocabular e estrutural, respeitando o tom imperativo do original e preservando as imagens naturais que sustentam o simbolismo do canto.</p>
-      
-      <p>Opções como "Destilai" ou "Orvalhai" refletem o esforço de conservar a suavidade e a progressividade do verbo <em>rorare</em>, evitando traduções genéricas que diluam a força poética e teológica do texto. Da mesma forma, a manutenção de expressões como "o Justo" e "o Salvador" permite que o texto permaneça aberto à contemplação, sem reduzi-lo a uma explicação imediata.</p>
-      
-      <p>A tradução foi pensada não apenas para leitura, mas para uso litúrgico e musical, buscando equilíbrio entre fidelidade ao latim e naturalidade na língua portuguesa.</p>
-
-      <hr style="border:0;height:1px;background:linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent);margin:28px 0;">
-      
-      <p style="font-size:0.95rem;color:#6b4d26;margin-top:20px;">
-        <strong>Texto latino:</strong> Liber Usualis, Solesmes, 1961.<br>
-        <strong>Tradução e comentários:</strong> Douglas Borscheit Assumpção.
+<body class="liturgical-song" data-season="advento">
+<a class="chant-skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="site-header">
+<button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
+<svg aria-hidden="true" focusable="false" height="16" style="display:block" viewbox="0 0 22 16" width="22" xmlns="http://www.w3.org/2000/svg"><rect fill="currentColor" height="2" rx="1" width="22" y="0"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="7"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="14"></rect></svg>
+</button>
+<div class="logo"><a href="/index.html"><img alt="Douglas Assumpção — início" id="site-logo" src="/assets/img/icone.png"/></a></div>
+<div class="header-actions">
+<a class="icon-btn" href="/pages/loja.html" title="Loja">
+<img alt="Loja" class="icon-img" src="/assets/img/icone1.png"/>
+<span class="icon-label">LOJA</span>
+</a>
+<a class="icon-btn" href="/pages/contato.html" title="Contato">
+<img alt="Contato" class="icon-img" src="/assets/img/icone2.png"/>
+<span class="icon-label">CONTATO</span>
+</a>
+</div>
+</header>
+<!-- SIDE NAV -->
+<nav aria-hidden="true" aria-label="Navegação principal" class="side-nav" id="side-nav" inert="">
+<button aria-label="Fechar menu" class="close-nav" id="close-nav"><span aria-hidden="true">×</span> Fechar menu</button>
+<!-- Imagem do menu (campo superior) -->
+<div aria-hidden="true" class="side-nav-hero">
+<div class="menu-frame">
+<img alt="Imagem do menu" src="/assets/img/1.jpg"/>
+</div>
+</div>
+<ul>
+<li><a class="menu-item inicio" href="/index.html">Início</a></li>
+<li><a class="menu-item formacoes" href="/pages/formacoes.html">Formações</a></li>
+<li>
+<details open="">
+<summary class="menu-item advento">Advento</summary>
+<ul>
+<li><a href="/pages/advento-1.html">1º Domingo do Advento</a></li>
+<li><a href="/pages/advento-2.html">2º Domingo do Advento</a></li>
+<li><a href="/pages/advento-3.html">3º Domingo do Advento</a></li>
+<li><a aria-current="location" class="active" href="/pages/advento-4.html">4º Domingo do Advento</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item natal">Natal</summary>
+<ul>
+<li><a href="/pages/natal-noite.html">Missa da Noite</a></li>
+<li><a href="/pages/natal-aurora.html">Missa da Aurora</a></li>
+<li><a href="/pages/natal-dia.html">Missa do Dia</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item quaresma">Quaresma</summary>
+<ul>
+<li><a href="/pages/quaresma-1.html">1º Domingo da Quaresma</a></li>
+<li><a href="/pages/quaresma-2.html">2º Domingo da Quaresma</a></li>
+<li><a href="/pages/quaresma-3.html">3º Domingo da Quaresma</a></li>
+<li><a href="/pages/quaresma-4.html">4º Domingo da Quaresma</a></li>
+<li><a href="/pages/quaresma-5.html">5º Domingo da Quaresma</a></li>
+<li><a href="/pages/quaresma-ramos.html">Domingo de Ramos</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item pascoa">Páscoa</summary>
+<ul>
+<li><a href="/pages/pascoa-vigilia.html">Vigília Pascal</a></li>
+<li><a href="/pages/pascoa-1.html">Domingo da Páscoa</a></li>
+<li><a href="/pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
+<li><a href="/pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
+<li><a href="/pages/pascoa-4.html">4º Domingo da Páscoa</a></li>
+<li><a href="/pages/pascoa-5.html">5º Domingo da Páscoa</a></li>
+<li><a href="/pages/pascoa-6.html">6º Domingo da Páscoa</a></li>
+<li><a href="/pages/pascoa-ascensao.html">Ascensão do Senhor</a></li>
+<li><a href="/pages/pascoa-pentecostes.html">Pentecostes</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item tempo-comum">Tempo Comum</summary>
+<ul>
+<li><a href="/pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
+<li><a href="/pages/tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+</ul>
+</details>
+</li>
+<!-- Ordinário da missa (separado abaixo dos demais tépicos) -->
+<li class="menu-ordinario">
+<details>
+<summary class="menu-item ordinario">Ordinário da missa</summary>
+<ul>
+<li><a href="/pages/kyrie.html">Kyrie</a></li>
+<li><a href="/pages/gloria.html">Gloria</a></li>
+<li><a href="/pages/sanctus.html">Sanctus</a></li>
+<li><a href="/pages/agnus-dei.html">Agnus Dei</a></li>
+<li><a href="/pages/pater-noster.html">Pater noster / Pai nosso</a></li>
+<li><a href="/pages/ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
+</ul>
+</details>
+</li>
+</ul>
+</nav>
+<div class="nav-overlay" hidden="" id="nav-overlay"></div>
+<div class="wrap">
+<main class="main-panel" id="conteudo" tabindex="-1">
+<nav aria-label="Você está em" class="chant-breadcrumb">
+<a href="/index.html">Início</a><span aria-hidden="true">/</span>
+<a href="advento-4.html">4º Domingo do Advento</a><span aria-hidden="true">/</span>
+<span aria-current="page">Entrada</span>
+</nav>
+<header class="chant-heading">
+<p class="eyebrow"><span aria-hidden="true" class="chant-season-dot"></span> Advento · Antífona de Entrada</p>
+<h1 class="page-heading">Rorate Caeli — Orvalhai, Ó Céus</h1>
+<p class="page-subheading">4º Domingo do Advento · Is 45,8</p>
+<div aria-hidden="true" class="chant-divider chant-entry-ornament"><span>✦</span></div>
+<nav aria-label="Acessos nesta página" class="chant-quick-nav">
+<a href="#ouvir-canto">Ouvir o canto</a>
+<a href="#partitura">Partitura</a>
+<a href="#preparacao-do-canto">Meditação</a>
+</nav>
+</header>
+<section aria-label="Ouvir e preparar o canto" class="chant-hero">
+<section aria-labelledby="video-title" class="chant-media" data-video-id="KdEHGiUG0n4" data-video-src="https://www.youtube.com/embed/KdEHGiUG0n4" data-video-title="Canto de Entrada — 4º Domingo do Advento" id="ouvir-canto">
+<div class="video-shell">
+<div class="chant-video-cover" id="video-cover">
+<img alt="" class="chant-cover-art" fetchpriority="high" height="1536" src="../assets/img/Carrossel%20da%20p%C3%A1gina%20inicial/Carrrosel%20-%20Tempo%20do%20Advento.png" width="2752"/>
+<div class="chant-video-topline">
+<p class="chant-video-eyebrow">Canto de Entrada</p>
+<span class="chant-video-status" id="video-status">YouTube</span>
+</div>
+<div class="chant-video-center">
+<h2 id="video-title">Rorate Caeli — Orvalhai, Ó Céus</h2>
+<p class="chant-video-credit">Música: Douglas Assumpção</p>
+<button aria-controls="video-player" aria-expanded="false" class="chant-play" hidden="" type="button">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20"><path d="m8 4 13 8-13 8z"></path></svg>
+<span>Abrir player</span>
+</button>
+</div>
+</div>
+<div hidden="" id="video-player"></div>
+</div>
+<div class="chant-media-caption">
+<p class="chant-video-note" id="video-note">Novos vídeos às segundas-feiras. Se este canto ainda estiver agendado, aguarde a estreia no YouTube.</p>
+<div class="chant-video-links">
+<a href="https://youtu.be/KdEHGiUG0n4" rel="noopener noreferrer" target="_blank">Assistir no YouTube <span aria-hidden="true">↗</span></a>
+<button class="chant-hide-player" hidden="" type="button">Fechar player</button>
+</div>
+</div>
+</section>
+<div class="chant-download" id="partitura">
+<a aria-label="Abrir a partitura de Rorate Caeli — Orvalhai, Ó Céus em nova aba" class="chant-score-sheet" href="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf" rel="noopener noreferrer" target="_blank">
+<img alt="Primeira página da partitura de Rorate Caeli — Orvalhai, Ó Céus" height="510" loading="lazy" src="../assets/img/partituras/advento-4-entrada.png" width="360"/>
+</a>
+<div class="chant-download-content">
+<p class="eyebrow">Para o seu ministério de música</p>
+<h2>A partitura</h2>
+<p class="chant-file-meta">PDF · 2 páginas · 4226 kB</p>
+<div class="hero-cta-card">
+<a class="cta-btn" data-score-title="Rorate Caeli — Orvalhai, Ó Céus" download="" href="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf">
+<svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24" width="20"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"></path></svg>
+              Baixar partitura
+            </a>
+<button aria-controls="score-preview" aria-expanded="false" class="cta-btn secondary" data-preview-pdf="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf" data-preview-target="#score-preview" hidden="" type="button">
+              Visualizar partitura
+            </button>
+</div>
+<p class="chant-free-note">Partitura gratuita; contribuição opcional.</p>
+<a class="chant-pdf-link" href="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf" rel="noopener noreferrer" target="_blank">Abrir PDF em nova aba <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+<dl class="score-details"><div><dt>Canto</dt><dd>Entrada</dd></div><div><dt>Tempo litúrgico</dt><dd>Advento</dd></div><div><dt>Letra</dt><dd>The Liber Usualis, Solesmes, 1961, p. 1868</dd></div><div><dt>Música</dt><dd>Douglas Assumpção</dd></div></dl>
+</section>
+<section aria-labelledby="preview-title" class="score-preview" hidden="" id="score-preview" tabindex="-1">
+<div class="chant-preview-header">
+<div><p class="eyebrow">Partitura completa</p><h2 id="preview-title">Rorate Caeli — Orvalhai, Ó Céus</h2></div>
+<button class="chant-close-preview" type="button">Fechar prévia <span aria-hidden="true">×</span></button>
+</div>
+<p class="chant-preview-help">Use os controles do PDF para ampliar e imprimir. No celular, abra em nova aba para uma leitura mais confortável.</p>
+<iframe class="score-preview-embed" loading="lazy" src="about:blank" title="Partitura de Rorate Caeli — Orvalhai, Ó Céus — 4º Domingo do Advento"></iframe>
+<div class="chant-preview-actions">
+<a class="cta-btn secondary" href="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf" rel="noopener noreferrer" target="_blank">Abrir PDF em nova aba <span aria-hidden="true">↗</span></a>
+<a class="chant-pdf-link" data-score-title="Rorate Caeli — Orvalhai, Ó Céus" download="" href="../assets/partituras/Advento/4%C2%BA%20Domingo%20do%20Advento/Rorate%20Caeli.pdf">Baixar PDF completo</a>
+</div>
+</section>
+<div class="chant-bridge">
+<p class="lead-excerpt">No 4º Domingo do Advento, a súplica do <em>Rorate caeli</em> exprime a esperança da Igreja: que o Céu derrame justiça e a terra faça brotar o Salvador. É um convite à vigilância humilde e à alegria serena diante da proximidade do Senhor.</p>
+<a href="#preparacao-do-canto">Ler a meditação sobre a antífona <span aria-hidden="true">↓</span></a>
+</div>
+<section aria-labelledby="article-title" class="communion-article theology-section" id="preparacao-do-canto"><header class="section-intro"><p class="eyebrow">Para rezar e cantar</p><h2 id="article-title">Meditação sobre o canto</h2></header><div class="chant-prose">
+<h2>Rorate caeli — canto do Advento na tradição litúrgica</h2>
+<h3>Origem bíblica e sentido profético</h3>
+<p>O <em>Rorate caeli</em> é um dos cantos mais antigos e densos do repertório litúrgico cristão. Seu texto não nasce no contexto medieval, mas tem origem direta na Sagrada Escritura, no livro do profeta Isaías (Is 45,8), na tradução latina da Vulgata:</p>
+<blockquote><em>Rorate caeli desuper, et nubes pluant iustum; aperiatur terra, et germinet Salvatorem.</em></blockquote>
+<p>Trata-se de um clamor profético, redigido séculos antes do cristianismo, no qual a humanidade suplica a intervenção divina: que o céu derrame justiça e que a terra faça brotar a salvação. A força do texto reside justamente nessa tensão entre promessa e espera, entre necessidade humana e iniciativa divina.</p>
+<p>Desde os primeiros séculos, a Igreja reconheceu nesse versículo uma antecipação do mistério da Encarnação. O texto passou a ser cantado não apenas como memória de Israel, mas como oração viva da comunidade cristã que aguarda o cumprimento da promessa.</p>
+<h3>Leitura cristológica e mariana</h3>
+<p>A tradição patrística interpretou o <em>Rorate caeli</em> de modo claramente cristológico. O "Justo" e o "Salvador" anunciados pelo profeta são reconhecidos como Cristo, enviado pelo Pai para restaurar a humanidade. Ao mesmo tempo, desenvolveu-se uma leitura mariana profundamente enraizada na liturgia: a "terra" que se abre para germinar o Salvador é compreendida como imagem de Maria, na qual a promessa encontra seu cumprimento concreto.</p>
+<p>Essa leitura não introduz elementos estranhos ao texto bíblico, mas aprofunda seu simbolismo natural. Céu e terra, graça e acolhida, iniciativa divina e resposta humana permanecem em equilíbrio, conferindo ao canto uma densidade teológica rara.</p>
+<h3>O Rorate caeli no Advento</h3>
+<p>O <em>Rorate caeli</em> está intimamente ligado ao tempo do Advento, sobretudo aos dias que precedem o Natal. Já aparece em antifonários e livros litúrgicos medievais, o que atesta seu uso contínuo ao longo de séculos na liturgia romana.</p>
+<p>Em diversas regiões da Europa, especialmente na Áustria, Alemanha e Hungria, consolidou-se a tradição da chamada Missa Rorate, celebrada antes do amanhecer, à luz de velas. Nesse contexto, o canto adquire uma força particular: o silêncio da noite, a penumbra e a expectativa reforçam o sentido espiritual do texto, que não celebra ainda a vinda, mas a implora.</p>
+<h3>A linguagem musical do canto gregoriano</h3>
+<p>Musicalmente, o <em>Rorate caeli</em> pertence ao repertório do canto gregoriano. Sua melodia é sóbria e contida, sem caráter triunfal. O andamento calmo e as linhas melódicas frequentemente descendentes evocam simbolicamente a descida da graça do alto.</p>
+<p>Essa sobriedade musical favorece a interiorização do texto e está em plena consonância com o espírito do Advento, tempo marcado pela vigilância, pelo silêncio e pela espera. O canto não busca impressionar, mas conduzir à contemplação.</p>
+<h3>Sobre a tradução apresentada</h3>
+<p>A tradução portuguesa apresentada nesta página foi elaborada com especial cuidado em relação ao texto latino, tomando como referência o <em>Liber Usualis</em> (Solesmes, 1961). Procurou-se manter fidelidade vocabular e estrutural, respeitando o tom imperativo do original e preservando as imagens naturais que sustentam o simbolismo do canto.</p>
+<p>Opções como "Destilai" ou "Orvalhai" refletem o esforço de conservar a suavidade e a progressividade do verbo <em>rorare</em>, evitando traduções genéricas que diluam a força poética e teológica do texto. Da mesma forma, a manutenção de expressões como "o Justo" e "o Salvador" permite que o texto permaneça aberto à contemplação, sem reduzi-lo a uma explicação imediata.</p>
+<p>A tradução foi pensada não apenas para leitura, mas para uso litúrgico e musical, buscando equilíbrio entre fidelidade ao latim e naturalidade na língua portuguesa.</p>
+<hr/>
+<p>
+<strong>Texto latino:</strong> Liber Usualis, Solesmes, 1961.<br/>
+<strong>Tradução e comentários:</strong> Douglas Borscheit Assumpção.
       </p>
-    </div>
-  </section>
-
-  <!-- Seção de encerramento contemplativo -->
-  <section class="closing-section">
-    <div class="closing-container">
-      <div class="closing-divider"></div>
-      
-      <div class="closing-content">
-        <h3 class="closing-title">Prepare seu coração</h3>
-        <p class="closing-text">
+</div></section><section class="closing-section">
+<div class="closing-container">
+<div class="closing-divider"></div>
+<div class="closing-content">
+<h3 class="closing-title">Prepare seu coração</h3>
+<p class="closing-text">
           O Advento nos convida a despertar, a nos preparar espiritualmente para a vinda de Cristo. 
           Que este tempo de espera fecunde em nós a esperança, a vigilância e a profunda alegria de 
           um Deus que vem ao nosso encontro.
         </p>
-      </div>
-
-      <div class="closing-divider"></div>
-
-      <!-- CTA Sutil -->
-      <div class="closing-cta">
-        <p class="cta-prompt">Deseja continuar sua jornada devocional?</p>
-        <div class="cta-links">
-          <a href="../pages/formacoes.html" class="cta-button">Próximas meditações</a>
-          <a href="../index.html" class="cta-button secondary">Voltar ao calendário</a>
-        </div>
-      </div>
-
-      <!-- QRCode belíssimo -->
-      <div class="qrcode-section">
-        <h3 class="qrcode-message">
-          <svg class="pix-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <rect x="15" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <rect x="2" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <rect x="15" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.8"/>
-          </svg>
+</div>
+<div class="closing-divider"></div>
+<!-- CTA Sutil -->
+<div class="closing-cta">
+<p class="cta-prompt">Deseja continuar sua jornada devocional?</p>
+<div class="cta-links">
+<a class="cta-button" href="../pages/formacoes.html">Próximas meditações</a>
+<a class="cta-button secondary" href="../index.html">Voltar ao calendário</a>
+</div>
+</div>
+<!-- QRCode belíssimo -->
+<div class="qrcode-section">
+<h3 class="qrcode-message">
+<svg class="pix-icon" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="2" y="2"></rect>
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="15" y="2"></rect>
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="2" y="15"></rect>
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="15" y="15"></rect>
+<circle cx="12" cy="12" fill="currentColor" opacity="0.8" r="3"></circle>
+</svg>
           Apoie nossa missão
         </h3>
-        <p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
-        
-        <div class="qrcode-container">
-          <img src="../assets/img/qrcode-pix-oficial.png" alt="QRCode para formações espirituais" class="qrcode-image">
-        </div>
-
-        <!-- PIX Key Section -->
-        <div class="pix-key-section">
-          <p class="pix-key-label">Ou copie a chave PIX:</p>
-          <div class="pix-key-container">
-            <span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
-            <button class="copy-button" onclick="copyPixKey(this)" title="Copiar chave PIX">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              <span class="copy-text">Copiar</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script>
-
-  </script>
-  <script>
-    // Toggle da visualização da partitura em PDF
-    (function(){
-      var btn = document.querySelector('.view-score-btn');
-      var viewer = document.getElementById('score-viewer');
-      if(!btn || !viewer) return;
-      btn.addEventListener('click', function(){
-        var isOpen = !viewer.hasAttribute('hidden');
-        if(isOpen){
-          viewer.setAttribute('hidden','hidden');
-          btn.textContent = 'Visualizar partitura';
-          btn.setAttribute('aria-expanded','false');
-        } else {
-          viewer.removeAttribute('hidden');
-          btn.textContent = 'Fechar visualização';
-          btn.setAttribute('aria-expanded','true');
-          try{ viewer.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){}
-        }
-      });
-    })();
-  </script>
-
-  <style>
-    /* Seção de encerramento */
-    .closing-section {
-      background: linear-gradient(180deg, rgba(21,21,21,0), rgba(21,21,21,0.5));
-      padding: 64px 20px;
-      margin-top: 80px;
-      border-top: 1px solid rgba(202,167,90,0.15);
-    }
-
-    .closing-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .closing-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.3), transparent);
-      margin: 32px 0;
-    }
-
-    .closing-content {
-      text-align: center;
-    }
-
-    .closing-title {
-      font-family: 'Cinzel', Georgia, serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #d4af37;
-      margin: 0 0 20px 0;
-      letter-spacing: 1px;
-    }
-
-    .closing-text {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: #c9a56a;
-      margin: 0;
-    }
-
-    .closing-cta {
-      margin: 40px 0;
-      animation: fadeInUp 0.6s ease 0.3s both;
-    }
-
-    .cta-prompt {
-      color: #9a9a9a;
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-      letter-spacing: 0.5px;
-    }
-
-    .cta-links {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .cta-button {
-      display: inline-block;
-      padding: 12px 28px;
-      background: linear-gradient(135deg, #d6a84f, #b98f2b);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 18px rgba(214,168,79,0.2);
-      border: none;
-      cursor: pointer;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(214,168,79,0.35);
-    }
-
-    .cta-button.secondary {
-      background: transparent;
-      border: 1.5px solid rgba(202,167,90,0.5);
-      color: #d4af37;
-    }
-
-    .cta-button.secondary:hover {
-      border-color: #d4af37;
-      background: rgba(202,167,90,0.08);
-    }
-
-    .qrcode-section {
-      margin-top: 48px;
-      padding-top: 48px;
-      border-top: 1px solid rgba(202,167,90,0.15);
-      text-align: center;
-      animation: fadeInUp 0.6s ease 0.4s both;
-    }
-
-    .qrcode-message {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      font-family: 'Cinzel', Georgia, serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #d4af37;
-      margin: 0 0 8px 0;
-      letter-spacing: 0.5px;
-    }
-
-    .pix-icon {
-      width: 32px;
-      height: 32px;
-      color: #caa75a;
-      flex-shrink: 0;
-      filter: drop-shadow(0 2px 4px rgba(202,167,90,0.2));
-      transition: all 0.3s ease;
-    }
-
-    .qrcode-section:hover .pix-icon {
-      transform: scale(1.1) rotate(5deg);
-      filter: drop-shadow(0 4px 8px rgba(202,167,90,0.35));
-    }
-
-    .qrcode-subtitle {
-      font-size: 0.85rem;
-      color: #9a9a9a;
-      margin: 0 0 24px 0;
-      letter-spacing: 0.5px;
-      font-weight: 500;
-    }
-
-    .qrcode-container {
-      display: inline-block;
-      padding: 24px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.05), rgba(202,167,90,0.02));
-      border: 1.5px solid rgba(202,167,90,0.25);
-      border-radius: 16px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(202,167,90,0.08);
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .qrcode-container::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.4), transparent, rgba(202,167,90,0.2));
-      border-radius: 16px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: -1;
-    }
-
-    .qrcode-container:hover {
-      border-color: rgba(202,167,90,0.5);
-      box-shadow: 0 15px 50px rgba(202,167,90,0.15), 0 0 30px rgba(202,167,90,0.12);
-      transform: translateY(-6px);
-      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03));
-    }
-
-    .qrcode-container:hover::before {
-      opacity: 1;
-    }
-
-    .qrcode-image {
-      display: block;
-      width: 260px;
-      height: 260px;
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 8px;
-      image-rendering: pixelated;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-    }
-
-    /* PIX Key Section */
-    .pix-key-section {
-      margin-top: 32px;
-      padding-top: 32px;
-      border-top: 1px solid rgba(202,167,90,0.15);
-      animation: fadeInUp 0.6s ease 0.5s both;
-    }
-
-    .pix-key-label {
-      font-size: 0.9rem;
-      color: #9a9a9a;
-      margin: 0 0 16px 0;
-      letter-spacing: 0.5px;
-      font-weight: 500;
-    }
-
-    .pix-key-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 20px 24px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.02));
-      border: 1.5px solid rgba(202,167,90,0.25);
-      border-radius: 12px;
-      backdrop-filter: blur(12px);
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pix-key-text {
-      flex: 1;
-      font-size: 0.95rem;
-      color: #c9a56a;
-      font-family: 'Courier New', monospace;
-      word-break: break-all;
-    }
-
-    .copy-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      background: linear-gradient(135deg, #d6a84f, #b98f2b);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .copy-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(214,168,79,0.3);
-    }
-
-    .copy-button svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      stroke-width: 2;
-    }
-
-    .copy-text {
-      display: inline;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .closing-section {
-        padding: 48px 16px;
-      }
-
-      .closing-title {
-        font-size: 1.5rem;
-      }
-
-      .closing-text {
-        font-size: 1rem;
-      }
-
-      .cta-links {
-        gap: 12px;
-      }
-
-      .cta-button {
-        padding: 10px 24px;
-        font-size: 0.9rem;
-      }
-
-      .qrcode-message {
-        font-size: 1.3rem;
-      }
-
-      .qrcode-image {
-        width: 240px;
-        height: 240px;
-      }
-
-      .pix-key-container {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .copy-button {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .closing-section {
-        padding: 40px 14px;
-      }
-
-      .closing-title {
-        font-size: 1.3rem;
-        margin-bottom: 16px;
-      }
-
-      .closing-text {
-        font-size: 0.95rem;
-        margin-bottom: 28px;
-        line-height: 1.7;
-      }
-
-      .cta-prompt {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-      }
-
-      .cta-links {
-        gap: 8px;
-      }
-
-      .cta-button {
-        padding: 9px 20px;
-        font-size: 0.85rem;
-      }
-
-      .closing-cta {
-        margin-bottom: 24px;
-      }
-
-      .qrcode-message {
-        font-size: 1.1rem;
-      }
-
-      .qrcode-subtitle {
-        font-size: 0.75rem;
-        margin-bottom: 16px;
-      }
-
-      .qrcode-container {
-        padding: 16px;
-      }
-
-      .qrcode-image {
-        width: 220px;
-        height: 220px;
-      }
-
-      .pix-key-label {
-        font-size: 0.85rem;
-        margin-bottom: 12px;
-      }
-
-      .pix-key-container {
-        padding: 14px 16px;
-        gap: 10px;
-      }
-
-      .pix-key-text {
-        font-size: 0.85rem;
-      }
-
-      .copy-button {
-        padding: 9px 12px;
-        font-size: 0.75rem;
-      }
-
-      .copy-button svg {
-        width: 14px;
-        height: 14px;
-      }
-    }
-  </style>
-
-  <script>
-    (function(){
-      var header = document.querySelector('.site-header');
-      function onScroll(){
-        if(!header) return;
-        if(window.scrollY > 80) header.classList.add('shrink'); else header.classList.remove('shrink');
-      }
-      window.addEventListener('scroll', onScroll, {passive:true});
-      document.addEventListener('DOMContentLoaded', onScroll);
-    })();
-  </script>
-  <script src="../scripts/lazy-youtube.js" defer></script>
-  <script src="../scripts/video-durations.js" defer></script>
-  <script src="../scripts/share.js" defer></script>
-  <script src="../scripts/script.js"></script>
+<p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
+<div class="qrcode-container">
+<img alt="QRCode para formações espirituais" class="qrcode-image" src="../assets/img/qrcode-pix-oficial.png"/>
+</div>
+<!-- PIX Key Section -->
+<div class="pix-key-section">
+<p class="pix-key-label">Ou copie a chave PIX:</p>
+<div class="pix-key-container">
+<span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
+<button class="copy-button" onclick="copyPixKey(this)" title="Copiar chave PIX">
+<svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<rect height="13" rx="1" stroke="currentColor" stroke-width="1.5" width="13" x="9" y="9"></rect>
+<path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+<span class="copy-text">Copiar</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<aside aria-labelledby="related-title" class="suggestions-column">
+<div class="suggestion-heading">
+<h2 id="related-title">Outros domingos e repertórios</h2>
+<p>Cantos e recursos para continuar sua preparação.</p>
+</div>
+<div class="suggestion-cards"><a class="suggestion-card" href="advento-1-entrada.html"><div class="suggestion-body"><span class="suggestion-line">Continue no repertório</span><strong class="suggestion-title">Entrada — 1º Domingo</strong></div></a><a class="suggestion-card" href="advento-2-entrada.html"><div class="suggestion-body"><span class="suggestion-line">Continue no repertório</span><strong class="suggestion-title">Entrada — 2º Domingo</strong></div></a><a class="suggestion-card" href="advento-3-entrada.html"><div class="suggestion-body"><span class="suggestion-line">Continue no repertório</span><strong class="suggestion-title">Entrada — 3º Domingo</strong></div></a></div>
+</aside>
+</main>
+<aside aria-label="Publicidade" class="ad-slot ad-slot--bottom" data-ad-zone="bottom"></aside>
+</div>
+<footer class="liturgical-footer">
+<span class="footer-badge">Advento</span>
+<p>Canto de Entrada — 4º Domingo do Advento</p>
+<a class="footer-cta" href="advento-4.html">← Voltar ao 4º Domingo</a>
+</footer>
+<script src="../scripts/script.js"></script>
+<script src="../scripts/liturgical-song.js"></script>
 </body>
 </html>
