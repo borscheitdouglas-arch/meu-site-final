@@ -662,13 +662,22 @@ function enhanceSacredMenu(nav) {
   nav.dataset.enhanced = 'true';
   const close = nav.querySelector('.close-nav'), list = nav.querySelector(':scope > ul');
   if (!close || !list) return;
+  // Mantém apenas uma seção do menu aberta, inclusive ao navegar pelo teclado.
+  const groups = [...list.querySelectorAll(':scope > li > details')];
+  groups.forEach(group => {
+    group.setAttribute('name', 'side-nav-sections');
+    group.addEventListener('toggle', () => {
+      if (!group.open) return;
+      groups.forEach(other => { if (other !== group) other.open = false; });
+    });
+  });
   const header = document.createElement('div'); header.className = 'menu-masthead';
   const brand = document.createElement('div'); brand.className = 'menu-brand';
   brand.innerHTML = '<strong>Douglas Assumpção</strong><span>Música sacra</span>';
   nav.prepend(header); header.append(brand, close);
   close.innerHTML = '<span aria-hidden="true">×</span>'; close.title = 'Fechar menu';
   const search = document.createElement('div'); search.className = 'menu-search';
-  search.innerHTML = '<label for="menu-query">Buscar no repertório</label><div class="menu-search-field"><input id="menu-query" type="search" placeholder="Domingo, canto ou tempo litúrgico" autocomplete="off"/><button type="button" aria-label="Limpar busca" hidden>×</button></div><p class="menu-search-status" role="status" aria-live="polite"></p>';
+  search.innerHTML = '<label for="menu-query">Buscar no repertório</label><div class="menu-search-field"><input id="menu-query" type="search" placeholder="Canto ou domingo" autocomplete="off"/><button type="button" aria-label="Limpar busca" hidden>×</button></div><p class="menu-search-status" role="status" aria-live="polite"></p>';
   header.after(search);
   const input = search.querySelector('input'), clear = search.querySelector('button'), status = search.querySelector('[role="status"]');
   const results = document.createElement('ul'); results.className = 'menu-search-results'; results.hidden = true; list.after(results);

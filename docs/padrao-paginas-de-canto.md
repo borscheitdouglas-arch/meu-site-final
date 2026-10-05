@@ -12,7 +12,7 @@ O padrão está em `styles/liturgical-song.css` e `scripts/liturgical-song.js`. 
 
 - Fundo escuro, dourado discreto, título em Cinzel, leitura em Spectral e controles em Inter.
 - Arte original do carrossel correspondente ao tempo litúrgico, vídeo centralizado e carregado somente ao abrir o player.
-- Ícone eucarístico transparente nas páginas de Comunhão e ornamento discreto nas de Entrada.
+- Ícone eucarístico transparente nas páginas de Comunhão. Nas páginas individuais dos demais cantos (Entrada, Ofertório, Ordinário e outros), usar `assets/img/Icones/Icone - Livro de canto entre arabescos dourados.png` como adorno do cabeçalho, com a classe `chant-divider`, dimensões originais de 2187 × 719 e `alt=""` por ser decorativo.
 - Capa adaptável aos títulos longos; o player mantém a proporção 16:9.
 - Partitura com miniatura, informações reais do arquivo, prévia, abertura em nova aba e download com contribuição opcional.
 - Textos das meditações, fontes, créditos e encerramentos preservados.

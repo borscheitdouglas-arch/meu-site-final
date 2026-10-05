@@ -46,9 +46,6 @@ html.liturgical-song-root { font-size: 16px; scroll-padding-top: 80px; }
 .liturgical-song .page-subheading span { margin: 0 5px; }
 .liturgical-song .chant-divider { display: block; width: min(360px, 90%); height: auto; margin: 18px auto 0; }
 .liturgical-song[data-season="advento"] .chant-season-dot { background: #b9a0ce; }
-.liturgical-song .chant-entry-ornament { display: flex; align-items: center; gap: 20px; width: min(260px, 80%); color: var(--chant-gold); }
-.liturgical-song .chant-entry-ornament::before, .liturgical-song .chant-entry-ornament::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #ad9461); }
-.liturgical-song .chant-entry-ornament::after { transform: rotate(180deg); }
 .liturgical-song .chant-quick-nav { display: flex; justify-content: center; gap: 8px 28px; flex-wrap: wrap; margin-top: 14px; font: 13px/1.5 'Inter', sans-serif; }
 .liturgical-song .chant-quick-nav a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: #ded4be; border-bottom: 1px solid transparent; }
 .liturgical-song .chant-quick-nav a:hover { border-color: var(--chant-gold); color: #f2dfb5; }

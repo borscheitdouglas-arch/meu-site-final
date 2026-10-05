@@ -68,7 +68,7 @@
     if (!stopped && cards.length > 1) timer = setTimeout(() => {
       go(index + 1, true, false);
       schedule();
-    }, 8000);
+    }, 4000);
   }
   root.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { hovered = true; schedule(); } });
   root.addEventListener('pointerleave', () => { hovered = false; schedule(); });
