@@ -6,6 +6,7 @@ on:
     paths:
       - "pages/**"
       - "tools/generate_home_carousel.py"
+      - "tools/generate_menu_search.py"
 
 permissions:
   contents: write
@@ -23,13 +24,15 @@ jobs:
           python-version: "3.x"
       - name: Gerar catálogo das páginas recentes
         run: python tools/generate_home_carousel.py
+      - name: Atualizar busca do menu
+        run: python tools/generate_menu_search.py
       - name: Publicar catálogo atualizado
         run: |
-          if git diff --quiet -- content/home-carousel.json; then
+          if git diff --quiet -- content/home-carousel.json content/menu-search.json; then
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content/home-carousel.json
+          git add content/home-carousel.json content/menu-search.json
           git commit -m "Atualiza carrossel automaticamente [skip ci]"
           git push

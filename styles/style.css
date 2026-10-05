@@ -2187,3 +2187,44 @@ body #side-nav .menu-ordinario::before { display: none; }
 @media (prefers-reduced-motion: reduce) {
   body #side-nav, body #side-nav * { transition: none; }
 }
+
+/* Menu editorial: arte preservada, navegação e busca com contraste próprio. */
+body #side-nav { width: min(400px, calc(100vw - 20px)); }
+body #side-nav::before { background: linear-gradient(180deg, #10120ff2 0%, #10120feb 22%, #10120fdd 54%, #10120fcc 83%, #10120fd9 100%); }
+body #side-nav [hidden] { display: none !important; }
+body #side-nav .menu-masthead { display: flex; align-items: center; gap: 12px; padding: 24px 20px 18px 28px; flex-shrink: 0; border-bottom: 1px solid #d9c29536; background: #15130f30; }
+body #side-nav .menu-brand { flex: 1; min-width: 0; }
+body #side-nav .menu-brand strong { display: block; color: #f4e9d3; font: 500 23px/1.2 'EB Garamond',Georgia,serif; }
+body #side-nav .menu-brand span { display: block; margin-top: 6px; font: 500 10px/1.5 'Inter',sans-serif; letter-spacing: .18em; text-transform: uppercase; color: #d0b77f; }
+body #side-nav .menu-masthead .close-nav { width: 44px; min-height: 44px; padding: 0; justify-content: center; border: 1px solid #d9c29530; border-radius: 50%; background: #ffffff05; }
+body #side-nav .menu-search { flex-shrink: 0; padding: 18px 28px 8px; }
+body #side-nav .menu-search label { display: block; margin-bottom: 8px; color: #dbd2c0; font: 400 12px/1.5 'Inter',sans-serif; }
+body #side-nav .menu-search-field { display: flex; align-items: center; border: 1px solid #d9c29555; border-radius: 7px; background: #0e100ed9; }
+body #side-nav .menu-search-field:focus-within { border-color: #e2c995; box-shadow: 0 0 0 1px #e2c995; }
+body #side-nav .menu-search input { width: 100%; min-width: 0; height: 46px; padding: 10px 12px; border: 0; outline: 0; background: transparent; color: #fff4df; font: 400 16px/1.5 'Inter',sans-serif; }
+body #side-nav .menu-search input::placeholder { color: #bcb7ab; font-size: 12px; }
+body #side-nav .menu-search input::-webkit-search-cancel-button { display: none; }
+body #side-nav .menu-search button { flex-shrink: 0; width: 44px; height: 44px; background: transparent; border: 0; color: #f4e9d3; font-size: 24px; cursor: pointer; }
+body #side-nav .menu-search-status { color: #dbd2c0; font: 400 12px/1.5 'Inter',sans-serif; margin: 8px 0 0; }
+body #side-nav .menu-search-status:empty { display: none; }
+body #side-nav > ul { padding: 4px 24px 28px; }
+body #side-nav .menu-section-label { margin: 22px 10px 8px; color: #c6b087; font: 500 10px/1.5 'Inter',sans-serif; text-transform: uppercase; letter-spacing: .16em; }
+body #side-nav .menu-section-label:first-child { margin-top: 12px; }
+body #side-nav .menu-ordinario { margin-top: 0; padding-top: 0; border-top: 0; }
+body #side-nav > ul > li > a, body #side-nav details > summary { font-size: 22px; font-weight: 500; color: #f0dbb1; letter-spacing: .01em; }
+body #side-nav details > summary { border-bottom-color: #e5ce9a18; }
+body #side-nav details > summary::after { transition: transform .25s ease; }
+body #side-nav details[open] > summary::after { top: 19px; }
+body #side-nav details ul a, body #side-nav .menu-search-results a { font: 400 15px/1.6 'Inter',sans-serif; color: #f4eee1; }
+body #side-nav .menu-search-results li { border-bottom: 1px solid #e5ce9a18; }
+body #side-nav details > ul { border-left-color: #d8bf8c42; }
+body #side-nav details[open] > ul { animation: menu-items-in .25s ease-out; }
+body #side-nav :is(a,summary):hover { background: #ead4a31a; color: #fff7e7; }
+body #side-nav a.active, body #side-nav a[aria-current="page"] { background: #ead4a314; box-shadow: inset 2px 0 #d9bd81; }
+@keyframes menu-items-in { from { opacity: .4; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width: 420px) {
+ body #side-nav .menu-masthead { padding: 20px 16px 16px 22px; }
+ body #side-nav .menu-search { padding-left: 22px; padding-right: 22px; }
+ body #side-nav > ul { padding-left: 18px; padding-right: 18px; }
+}
+@media(prefers-reduced-motion: reduce) { body #side-nav details[open] > ul { animation: none; } body #side-nav details > summary::after { transition: none; } }

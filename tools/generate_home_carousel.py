@@ -71,17 +71,19 @@ def category(filename: str, title: str) -> str:
         return "Canto de Entrada"
     if "tempo-comum" in value or "tempo comum" in value:
         return "Tempo Comum"
-    if "advento" in value:
+    if "advento" in value or "veni-veni" in value:
         return "Advento"
     if "quaresma" in value:
         return "Quaresma"
     if "pascoa" in value or "páscoa" in value:
         return "Páscoa"
-    return "Conteúdo novo"
+    return "Ordinário da Missa"
 
 
 def background(filename: str) -> str:
     value = filename.lower()
+    if "veni-veni" in value:
+        value = "advento-"
     seasonal_images = {
         "tempo-comum-": "Carrossel - Tempo Comum.png",
         "advento-": "Carrrosel - Tempo do Advento.png",
@@ -104,18 +106,31 @@ def background(filename: str) -> str:
 
 def main() -> None:
     records = []
-    for path in PAGES.glob("*.html"):
+    seen = set()
+    for path in sorted(PAGES.glob("*.html")):
         if path.name in IGNORED or path.name.endswith(".bak") or LANDING_PAGE.match(path.name):
             continue
         source = path.read_text(encoding="utf-8", errors="replace")
-        title = text_tag(source, "title") or text_tag(source, "h1") or path.stem.replace("-", " ").title()
+        if not re.search(r'<body[^>]*class="[^"]*liturgical-song', source):
+            continue
+        group = "pater-noster" if "pater-noster" in path.stem else path.stem
+        if group in seen:
+            continue
+        seen.add(group)
+        title = text_tag(source, "h1") or text_tag(source, "title")
         description = meta_value(source, "description") or f"Novo conteúdo disponível: {title}."
+        subtitle = re.search(r'<p class="page-subheading">(.*?)</p>', source, re.S)
+        if subtitle:
+            description = unescape(re.sub(r'<[^>]+>', '', subtitle.group(1))).strip()
+        if group == "pater-noster":
+            title = "Pater noster / Pai-Nosso"
+            description = "Partituras em latim e português, em notação moderna e quadrada."
         timestamp = last_updated_timestamp(path)
         records.append({
             "title": title,
             "description": description,
             "category": category(path.name, title),
-            "url": f"pages/{path.name}",
+            "url": "pages/pater-noster.html" if group == "pater-noster" else f"pages/{path.name}",
             "image": background(path.name),
             "published": datetime.fromtimestamp(timestamp, timezone.utc).date().isoformat(),
             "_timestamp": timestamp,

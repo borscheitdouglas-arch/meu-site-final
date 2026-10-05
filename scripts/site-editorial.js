@@ -18,7 +18,7 @@
   new MutationObserver(syncMenu).observe(nav, { attributes: true, attributeFilter: ['class'] });
   nav.addEventListener('keydown', event => {
     if (event.key !== 'Tab') return;
-    const items = [...nav.querySelectorAll('a[href], button, summary')].filter(el => {
+    const items = [...nav.querySelectorAll('a[href], button, input, summary')].filter(el => {
       if (!el.getClientRects().length) return false;
       // A closed <details> can still expose layout rects for its hidden links.
       for (let parent = el.parentElement; parent && parent !== nav; parent = parent.parentElement) {

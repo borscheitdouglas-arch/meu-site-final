@@ -8,221 +8,11 @@
 <link href="assets/img/icone.png" rel="icon" sizes="192x192"/>
 <link href="assets/img/icone.png" rel="shortcut icon"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&amp;family=EB+Garamond:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="styles/style.css?v=20261001-carousel" rel="stylesheet"/>
-<style>
-    /* CAROUSEL ANÚNCIOS */
-    .announcement-carousel {
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      position: relative;
-      overflow: hidden;
-      padding: 0;
-      margin: 0;
-    }
+<link href="styles/style.css?v=menu-elegante-2" rel="stylesheet"/>
 
-    .carousel-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 280px;
-      position: relative;
-    }
-
-    .carousel-slide {
-      display: none;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 0.8s ease-in-out;
-      padding: clamp(28px, 3vw, 48px);
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-start;
-      border-radius: 32px;
-      overflow: hidden;
-      background-image: var(--slide-image, linear-gradient(135deg,#1f1f1f,#0f0f0f));
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
-    }
-
-    .carousel-slide::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.1) 100%);
-      z-index: 1;
-    }
-
-    .slide-content {
-      position: relative;
-      z-index: 2;
-      max-width: 520px;
-      background: rgba(8,8,8,0.55);
-      border: 1px solid rgba(212,175,55,0.35);
-      padding: clamp(24px,3vw,42px);
-      border-radius: 22px;
-      box-shadow: 0 18px 45px rgba(0,0,0,0.35);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .slide-eyebrow {
-      font-size: 13px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.78);
-      margin-bottom: 4px;
-    }
-
-    .carousel-slide.active {
-      display: flex !important;
-      opacity: 1;
-      position: relative;
-      z-index: 2;
-    }
-
-    .carousel-slide h2 {
-      font-family: 'Cinzel', Georgia, serif;
-      font-size: 42px;
-      font-weight: 900;
-      color: #d4af37;
-      letter-spacing: 2px;
-      margin: 0 0 20px 0;
-      text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
-      text-transform: uppercase;
-      line-height: 1.2;
-    }
-
-    .carousel-slide p {
-      font-family: 'Inter', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #ffffff;
-      margin: 0 0 32px 0;
-      max-width: 620px;
-      letter-spacing: 0.5px;
-      line-height: 1.6;
-    }
-
-    .carousel-slide .btn {
-      display: inline-block;
-      padding: 14px 32px;
-      background: #d4af37;
-      color: #1a1a1a;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      border: 2px solid #d4af37;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .carousel-slide .btn:hover {
-      background: transparent;
-      color: #d4af37;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.25);
-    }
-
-    /* Botões Navigation */
-    .carousel-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(212, 175, 55, 0.8);
-      color: #1a1a1a;
-      border: none;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 24px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 10;
-    }
-
-    .carousel-nav:hover {
-      background: #d4af37;
-      transform: translateY(-50%) scale(1.1);
-      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
-    }
-
-    .carousel-nav.prev {
-      left: 20px;
-    }
-
-    .carousel-nav.next {
-      right: 20px;
-    }
-
-    /* Indicadores (dots) */
-    .carousel-indicators {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 12px;
-      z-index: 10;
-    }
-
-    .carousel-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(212, 175, 55, 0.4);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-    }
-
-    .carousel-dot.active {
-      background: #d4af37;
-      transform: scale(1.3);
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
-    }
-
-    .carousel-dot:hover {
-      background: rgba(212, 175, 55, 0.7);
-    }
-
-    /* Responsivo */
-    @media (max-width: 768px) {
-      .carousel-slide {
-        align-items: center;
-      }
-
-      .slide-content {
-        max-width: 100%;
-        text-align: center;
-        align-items: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .carousel-slide h2 {
-        font-size: 24px;
-      }
-
-      .carousel-slide p {
-        font-size: 14px;
-      }
-    }
-  </style>
 <script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/><link href="styles/site-editorial.css" rel="stylesheet"/></head>
-<body class="site-editorial"><a class="editorial-skip" href="#destaques">Pular para o conteúdo</a>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/><link href="styles/site-editorial.css" rel="stylesheet"/><link rel="stylesheet" href="styles/home.css?v=20261005-controles-suaves"/></head>
+<body class="site-editorial home-page"><a class="editorial-skip" href="#destaques">Pular para o conteúdo</a>
 <header class="site-header">
 <button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
 <svg aria-hidden="true" focusable="false" height="16" style="display:block" viewbox="0 0 22 16" width="22" xmlns="http://www.w3.org/2000/svg"><rect fill="currentColor" height="2" rx="1" width="22" y="0"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="7"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="14"></rect></svg>
@@ -249,8 +39,8 @@
 </div>
 </div>
 <ul>
-<li><a aria-current="page" class="menu-item inicio active" href="/index.html">Início</a></li>
-<li><a class="menu-item formacoes" href="/pages/formacoes.html">Formações</a></li>
+
+
 <li>
 <details>
 <summary class="menu-item advento">Advento</summary>
@@ -362,7 +152,7 @@
 <!-- BANNER (imagem estática) - mantido conforme solicitado -->
 <section class="hero-banner">
 <div class="hero-inner">
-<img alt="Capa superior" class="capa-superior" src="assets/img/capa-superior.png"/>
+<img alt="Nossa Senhora em uma iluminura: O canto que abre o caminho para o Mistério. Ave Maria." width="3200" height="1792" fetchpriority="high" class="capa-superior" src="assets/img/capa-superior.png"/>
 </div>
 </section>
 <div class="adsense-layout">
@@ -375,13 +165,7 @@
 </aside>
 <main class="container home-centered editorial-main" id="destaques" tabindex="-1"><header class="editorial-heading"><p class="editorial-eyebrow">Douglas Assumpção · Música sacra</p><h1 class="editorial-title">Música sacra para rezar e cantar</h1><div aria-hidden="true" class="editorial-ornament">✦</div></header>
 <section class="articles">
-<h2 style="font-family:'Cinzel',Georgia,serif;color:#d4af37;letter-spacing:1px;text-shadow:0 2px 12px rgba(212,175,55,0.25);margin-bottom:35px;">DESTAQUES DA SEMANA</h2>
-<!-- Linha decorativa -->
-<div style="display:flex;align-items:center;gap:20px;margin:0 0 40px 0;">
-<div style="flex:1;height:1px;background:linear-gradient(to right, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
-<div style="width:8px;height:8px;background:#d4af37;transform:rotate(45deg);box-shadow:0 0 10px rgba(212,175,55,0.5);"></div>
-<div style="flex:1;height:1px;background:linear-gradient(to left, transparent, rgba(212,175,55,0.5), rgba(212,175,55,0.3));"></div>
-</div>
+<div class="home-section-heading"><h2>Explore o repertório</h2><p>Cantos e partituras para acompanhar sua oração.</p></div>
 <div aria-label="Conteúdos mais recentes" class="liturgical-carousel" id="recent-content-carousel">
 <button aria-label="Card anterior" class="lit-carousel-btn prev" type="button">
 <span>❮</span>
@@ -389,8 +173,9 @@
 <button aria-label="Próximo card" class="lit-carousel-btn next" type="button">
 <span>❯</span>
 </button>
-<div aria-busy="true" aria-live="polite" class="lit-carousel-track">
+<div class="lit-carousel-track" tabindex="0" aria-label="Destaques; deslize para explorar">
 <article class="lit-card lit-card-centered" style="--bg-image:url('/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg');">
+<img class="home-card-image" alt="" loading="lazy" src="/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg"/>
 <div class="lit-card-content">
 <span class="lit-eyebrow">Ordinário da Missa</span>
 <h3>Pater noster / Pai nosso</h3>
@@ -405,6 +190,7 @@
 </div>
 </article>
 <article class="lit-card lit-card-centered" style="--bg-image:url('/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png');">
+<img class="home-card-image" alt="" loading="lazy" src="/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png"/>
 <div class="lit-card-content">
 <span class="lit-eyebrow">Momentos livres</span>
 <h3>Ad libitum (À vontade)</h3>
@@ -419,49 +205,14 @@
 </div>
 </article>
 </div>
-<div aria-label="Escolher conteúdo" class="lit-carousel-dots" role="tablist">
+<div aria-label="Escolher conteúdo" class="lit-carousel-dots">
 <button aria-label="Pater noster" class="lit-dot active" type="button"></button>
 <button aria-label="Ad libitum" class="lit-dot" type="button"></button>
 </div>
 </div>
-<div aria-label="Outros cantos do Ordinário" class="liturgical-carousel Carrossel-de-Anúncios1">
-<button aria-label="Card anterior" class="lit-carousel-btn prev" type="button">
-<span>❮</span>
-</button>
-<button aria-label="Próximo card" class="lit-carousel-btn next" type="button">
-<span>❯</span>
-</button>
-<div class="lit-carousel-track">
-<article class="lit-card lit-card-promo-left" style="--bg-image:url('/assets/img/Anuncie/Anuncie4.png');">
-<div class="lit-card-content lit-card-promo-content">
-<div class="lit-card-top">
-<span class="lit-eyebrow">ANUNCIE AQUI</span>
-<h3>Espaço disponível para anúncios.</h3>
-</div>
-<div class="lit-card-spacer"></div>
-<div class="lit-card-bottom">
-<p>Se você viu, seus clientes também podem ver.</p>
-<div class="lit-card-actions">
-<a class="btn" href="pages/contato.html">QUERO ANUNCIAR NO SITE</a>
-</div>
-</div>
-</div>
-</article>
-<article class="lit-card" style="--bg-image:url('/assets/img/Anuncie/Doacoes1.png');">
-<div class="lit-card-content">
-<span class="lit-eyebrow">PARTICIPE</span>
-<h3>APOIE NOSSA MISSÃO</h3>
-<p>Contribua para manter viva a tradição do Canto Gregoriano e nos ajude a oferecer novas partituras e conteúdos gratuitos.</p>
-<div class="lit-card-actions">
-<a class="btn" href="pages/doacao.html">FAZER DOAÇÃO</a>
-</div>
-</div>
-</article>
-</div>
-<div class="lit-carousel-dots" role="tablist">
-<button aria-label="Kyrie" class="lit-dot active" type="button"></button>
-<button aria-label="Gloria" class="lit-dot" type="button"></button>
-</div>
+<div class="home-support">
+<article><span class="lit-eyebrow">Compartilhe sua missão</span><h3>Anuncie neste espaço</h3><p>Apresente seu trabalho aos visitantes do site.</p><a href="pages/contato.html">Conversar sobre anúncios <span aria-hidden="true">→</span></a></article>
+<article><span class="lit-eyebrow">Participe</span><h3>Apoie a música sacra</h3><p>Sua contribuição ajuda a oferecer novas partituras e conteúdos gratuitos.</p><a href="pages/doacao.html">Conhecer as formas de apoiar <span aria-hidden="true">→</span></a></article>
 </div>
 </section>
 </main>
@@ -499,10 +250,10 @@
 <p class="qrcode-instruction">Escaneie com seu app bancário</p>
 </div>
 <div class="pix-key-section">
-<label class="pix-key-label">Chave PIX:</label>
+<label class="pix-key-label" for="pix-key">Chave PIX:</label>
 <div class="pix-key-container">
 <input class="pix-key-input" id="pix-key" readonly="" type="text" value="douglas.assumpcao@hotmail.com"/>
-<button class="pix-copy-btn" onclick="copyPixKey()" title="Copiar chave PIX">
+<button class="pix-copy-btn" onclick="copyPixKey()" title="Copiar chave PIX" aria-label="Copiar chave PIX">
 <span class="copy-icon">📋</span>
 </button>
 </div>
@@ -530,7 +281,7 @@
 <footer class="site-footer" style="border-top:none;">
 <p>© 2025 Meu Site. Todos os direitos reservados.</p>
 </footer>
-<script src="scripts/script.js"></script>
+<script src="scripts/script.js?v=menu-elegante-2"></script>
 <script>
     // Função para copiar a chave PIX
     function copyPixKey() {
@@ -549,91 +300,11 @@
           btn.style.background = '';
         }, 2000);
       }).catch(err => {
-        alert('Chave PIX copiada: ' + pixKey.value);
+        alert('Não foi possível copiar automaticamente. Selecione e copie a chave PIX exibida.');
       });
     }
 
-    // ===== CARROSSEL ORDINÁRIO =====
-    (async function(){
-      const recentCarousel = document.getElementById('recent-content-carousel');
-      if(recentCarousel){
-        try {
-          const response = await fetch('content/home-carousel.json', { cache: 'no-cache' });
-          if(!response.ok) throw new Error(`HTTP ${response.status}`);
-          const items = await response.json();
-          if(Array.isArray(items) && items.length){
-            const track = recentCarousel.querySelector('.lit-carousel-track');
-            const dots = recentCarousel.querySelector('.lit-carousel-dots');
-            const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({
-              '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-            })[character]);
-            track.innerHTML = items.map(item => `
-              <article class="lit-card lit-card-centered" style="--bg-image:url('${escapeHTML(item.image)}');">
-                <div class="lit-card-content">
-                  <span class="lit-eyebrow">${escapeHTML(item.category)}</span>
-                  <h3>${escapeHTML(item.title)}</h3>
-                  <p>${escapeHTML(item.description)}</p>
-                  <div class="lit-card-actions">
-                    <a class="btn" href="${escapeHTML(item.url)}">Acessar página</a>
-                  </div>
-                </div>
-              </article>
-            `).join('');
-            dots.innerHTML = items.map((item, index) => `
-              <button class="lit-dot${index === 0 ? ' active' : ''}" type="button" aria-label="${escapeHTML(item.title)}"></button>
-            `).join('');
-          }
-        } catch(error) {
-          console.warn('Não foi possível carregar os conteúdos recentes; mantendo os destaques padrão.', error);
-        } finally {
-          recentCarousel.querySelector('.lit-carousel-track')?.setAttribute('aria-busy', 'false');
-        }
-      }
-
-      const carousels = document.querySelectorAll('.liturgical-carousel');
-      if(!carousels.length) return;
-
-      carousels.forEach(litCarousel => {
-        const track = litCarousel.querySelector('.lit-carousel-track');
-        const litCards = track ? Array.from(track.querySelectorAll('.lit-card')) : [];
-        if(!track || !litCards.length) return;
-
-        const prevBtn = litCarousel.querySelector('.lit-carousel-btn.prev');
-        const nextBtn = litCarousel.querySelector('.lit-carousel-btn.next');
-        const dots = Array.from(litCarousel.querySelectorAll('.lit-dot'));
-        let litIndex = 0;
-        let litInterval;
-
-        function updateLitCarousel(){
-          track.style.transform = `translateX(-${litIndex * 100}%)`;
-          dots.forEach((dot, idx) => {
-            dot.classList.toggle('active', idx === litIndex);
-          });
-        }
-
-        function goToLitSlide(idx){
-          litIndex = (idx + litCards.length) % litCards.length;
-          updateLitCarousel();
-          restartLitAutoplay();
-        }
-
-        function restartLitAutoplay(){
-          if(litInterval) clearInterval(litInterval);
-          if(litCards.length > 1){
-            litInterval = setInterval(() => goToLitSlide(litIndex + 1), 9000);
-          }
-        }
-
-        if(prevBtn) prevBtn.addEventListener('click', () => goToLitSlide(litIndex - 1));
-        if(nextBtn) nextBtn.addEventListener('click', () => goToLitSlide(litIndex + 1));
-        dots.forEach((dot, idx) => dot.addEventListener('click', () => goToLitSlide(idx)));
-        litCarousel.addEventListener('mouseenter', () => litInterval && clearInterval(litInterval));
-        litCarousel.addEventListener('mouseleave', restartLitAutoplay);
-
-        updateLitCarousel();
-        restartLitAutoplay();
-      });
-    })();
   </script>
-<script src="scripts/site-editorial.js"></script></body>
+<script src="scripts/home.js?v=20261005-controles-suaves"></script>
+<script src="scripts/site-editorial.js?v=menu-elegante-2"></script></body>
 </html>

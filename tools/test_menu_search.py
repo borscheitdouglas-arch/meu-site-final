@@ -1,0 +1,30 @@
+"""Prévia local na porta 8765; busca, teclado e menu em dois motores."""
+from playwright.sync_api import sync_playwright, expect
+with sync_playwright() as p:
+ for engine in ['chromium','webkit']:
+  b=getattr(p,engine).launch(**({'channel':'chromium'} if engine=='chromium' else {}))
+  for width,path in [(1440,'/'),(390,'/pages/tempo-comum-29-comunhao.html'),(320,'/pages/formacoes.html')]:
+   page=b.new_page(viewport={'width':width,'height':800})
+   page.route('**/*',lambda r:r.continue_() if '127.0.0.1' in r.request.url else r.abort())
+   page.goto('http://127.0.0.1:8765'+path,wait_until='networkidle')
+   page.locator('#menu-btn').click()
+   expect(page.locator('#menu-query')).to_be_visible()
+   page.locator('#menu-query').fill('29 comunhao')
+   expect(page.locator('.menu-search-results a')).to_have_count(1)
+   assert '29' in page.locator('.menu-search-results a').get_attribute('href')
+   page.locator('#menu-query').fill('xyzsemresultado')
+   expect(page.locator('.menu-search-status')).to_contain_text('Nenhum resultado')
+   page.locator('[aria-label="Limpar busca"]').click()
+   expect(page.locator('#menu-query')).to_be_focused()
+   expect(page.locator('#side-nav summary').first).to_be_visible()
+   page.locator('#menu-query').fill('veni')
+   expect(page.locator('.menu-search-results a')).to_have_count(1)
+   page.locator('.menu-search-results a').focus()
+   page.keyboard.press('Tab')
+   expect(page.locator('#close-nav')).to_be_focused()
+   page.keyboard.press('Escape')
+   expect(page.locator('#menu-btn')).to_be_focused()
+   assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+   print(engine,width,path,'OK')
+   page.close()
+  b.close()

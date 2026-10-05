@@ -1,66 +1,66 @@
 [
   {
-    "title": "Veni Veni Emmanuel — Hino do Advento | Douglas Assumpção",
-    "description": "Veni Veni Emmanuel - Uma celebração litúrgica com vídeos, partituras em PDF e reflexões devotas. Acesso a músicas gregorianas e conteúdo espiritual completo.",
+    "title": "Veni Veni Emmanuel",
+    "description": "Hino do Advento",
     "category": "Advento",
     "url": "pages/veni-veni-emmanuel.html",
-    "image": "/assets/img/cabeçalho4.png",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
     "published": "2026-10-05"
   },
   {
-    "title": "São Pedro e São Paulo | Douglas Assumpção",
-    "description": "Novo conteúdo disponível: São Pedro e São Paulo | Douglas Assumpção.",
-    "category": "Conteúdo novo",
-    "url": "pages/sao-pedro-e-sao-paulo.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
-    "published": "2026-10-05"
-  },
-  {
-    "title": "Sanctus | Douglas Assumpção",
-    "description": "Novo conteúdo disponível: Sanctus | Douglas Assumpção.",
-    "category": "Conteúdo novo",
-    "url": "pages/sanctus.html",
-    "image": "/assets/img/cabeçalho4.png",
-    "published": "2026-10-05"
-  },
-  {
-    "title": "Pater noster / Pai nosso",
-    "description": "Selecione o formato de partitura do Pater noster: notação quadrada ou moderna, versões cifradas e para coralistas.",
-    "category": "Conteúdo novo",
+    "title": "Pater noster / Pai-Nosso",
+    "description": "Partituras em latim e português, em notação moderna e quadrada.",
+    "category": "Ordinário da Missa",
     "url": "pages/pater-noster.html",
     "image": "/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg",
     "published": "2026-10-05"
   },
   {
-    "title": "Pater Noster (Canto Gregoriano) — Notação quadrada para coralistas | Douglas Assumpção",
-    "description": "Arranjo contemporâneo do Pai Nosso com melodia em pentagrama e cifras funcionais para banda litúrgica e grupos jovens.",
-    "category": "Conteúdo novo",
-    "url": "pages/pater-noster-notacao-quadrada-coralista.html",
-    "image": "/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg",
+    "title": "Sanctus I (Graduale Simplex)",
+    "description": "Graduale Simplex · Ordinário da Missa",
+    "category": "Ordinário da Missa",
+    "url": "pages/ad-libitum-sanctus-i.html",
+    "image": "/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png",
     "published": "2026-10-05"
   },
   {
-    "title": "Pater Noster (Canto Gregoriano) — Notação quadrada com cifras | Douglas Assumpção",
-    "description": "Arranjo contemporâneo do Pai Nosso com melodia em pentagrama e cifras funcionais para banda litúrgica e grupos jovens.",
-    "category": "Conteúdo novo",
-    "url": "pages/pater-noster-notacao-quadrada-cifrada.html",
-    "image": "/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg",
+    "title": "Kyrie I (Graduale Simplex)",
+    "description": "Graduale Simplex · Ordinário da Missa",
+    "category": "Ordinário da Missa",
+    "url": "pages/ad-libitum-kyrie-i.html",
+    "image": "/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png",
     "published": "2026-10-05"
   },
   {
-    "title": "Pater Noster (Canto Gregoriano) — Notação moderna para coralistas | Douglas Assumpção",
-    "description": "Arranjo contemporâneo do Pai Nosso com melodia em pentagrama e cifras funcionais para banda litúrgica e grupos jovens.",
-    "category": "Conteúdo novo",
-    "url": "pages/pater-noster-notacao-moderna-coralista.html",
-    "image": "/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg",
+    "title": "Agnus Dei I — Graduale Simplex (Ad libitum)",
+    "description": "Graduale Simplex · Ordinário da Missa",
+    "category": "Ordinário da Missa",
+    "url": "pages/ad-libitum-agnus-dei-i.html",
+    "image": "/assets/img/Imagens-religiosas-devocionais/Ad-libitum.png",
     "published": "2026-10-05"
   },
   {
-    "title": "Pater Noster (Canto Gregoriano) — Notação moderna com cifras | Douglas Assumpção",
-    "description": "Arranjo contemporâneo do Pai Nosso com melodia em pentagrama e cifras funcionais para banda litúrgica e grupos jovens.",
-    "category": "Conteúdo novo",
-    "url": "pages/pater-noster-notacao-moderna-cifrada.html",
-    "image": "/assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg",
-    "published": "2026-10-05"
+    "title": "O Filho do homem",
+    "description": "29º Domingo do Tempo Comum · Mc 10,45",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-29-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-03"
+  },
+  {
+    "title": "Quando o Senhor se manifestar",
+    "description": "28º Domingo do Tempo Comum · 1Jo 3,2",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-28-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-03"
+  },
+  {
+    "title": "Nisto conhecemos o amor",
+    "description": "26º Domingo do Tempo Comum",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-26-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-03"
   }
 ]

@@ -175,6 +175,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await ensureSideNav();
   await ensureHeader();
+  enhanceSacredMenu(sideNav);
   await loadAutoHighlights();
 
   // (re)obter referências a elementos que podem ter sido inseridos/substituídos
@@ -654,3 +655,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     close: closeContributionModal
   });
 })();
+
+// Acabamento e busca compartilhados por todas as páginas que usam o menu.
+function enhanceSacredMenu(nav) {
+  if (!nav || nav.dataset.enhanced) return;
+  nav.dataset.enhanced = 'true';
+  const close = nav.querySelector('.close-nav'), list = nav.querySelector(':scope > ul');
+  if (!close || !list) return;
+  const header = document.createElement('div'); header.className = 'menu-masthead';
+  const brand = document.createElement('div'); brand.className = 'menu-brand';
+  brand.innerHTML = '<strong>Douglas Assumpção</strong><span>Música sacra</span>';
+  nav.prepend(header); header.append(brand, close);
+  close.innerHTML = '<span aria-hidden="true">×</span>'; close.title = 'Fechar menu';
+  const search = document.createElement('div'); search.className = 'menu-search';
+  search.innerHTML = '<label for="menu-query">Buscar no repertório</label><div class="menu-search-field"><input id="menu-query" type="search" placeholder="Domingo, canto ou tempo litúrgico" autocomplete="off"/><button type="button" aria-label="Limpar busca" hidden>×</button></div><p class="menu-search-status" role="status" aria-live="polite"></p>';
+  header.after(search);
+  const input = search.querySelector('input'), clear = search.querySelector('button'), status = search.querySelector('[role="status"]');
+  const results = document.createElement('ul'); results.className = 'menu-search-results'; results.hidden = true; list.after(results);
+  const section = (text, before) => { const item = document.createElement('li'); item.className = 'menu-section-label'; item.textContent = text; list.insertBefore(item,before); };
+  const firstSeason = [...list.children].find(li => li.querySelector('details'));
+  if (firstSeason) section('Ano litúrgico', firstSeason);
+  const ordinary = list.querySelector('.menu-ordinario');
+  if (ordinary) { section('Repertório da Missa',ordinary); const summary = ordinary.querySelector('summary'); if (summary) summary.textContent = 'Ordinário da Missa'; }
+  const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[ºª°]/g,'');
+  let catalog = [...list.querySelectorAll('a[href]')].map(a => ({title:a.textContent.trim(),url:a.getAttribute('href'),keywords:''}));
+  let loaded = false;
+  function render() {
+    const terms = normalize(input.value.trim()).split(/\s+/).filter(Boolean);
+    list.hidden = !!terms.length; results.hidden = !terms.length; clear.hidden = !terms.length;
+    results.replaceChildren();
+    if (!terms.length) { status.textContent = ''; return; }
+    const matches = catalog.filter(item => terms.every(term => normalize(item.title+' '+item.keywords).includes(term)));
+    status.textContent = matches.length ? `${matches.length} resultado${matches.length === 1 ? '' : 's'}` : 'Nenhum resultado. Tente outro canto ou domingo.';
+    matches.forEach(item => { const li = document.createElement('li'), link = document.createElement('a'); link.href = item.url; link.textContent = item.title; li.append(link); results.append(li); });
+  }
+  input.addEventListener('focus', async () => {
+    if (loaded) return;
+    loaded = true;
+    try {
+      const response = await fetch('/content/menu-search.json');
+      if (!response.ok) throw new Error('Índice indisponível');
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error('Índice inválido');
+      catalog = data.filter(item => typeof item.title === 'string' && /^\/pages\/[\w-]+\.html$/.test(item.url));
+      render();
+    } catch (_) { loaded = false; /* Mantém a busca pelos links do menu. */ }
+  });
+  input.addEventListener('input',render);
+  clear.addEventListener('click', () => { input.value = ''; render(); input.focus(); });
+}
