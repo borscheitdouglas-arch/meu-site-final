@@ -2228,3 +2228,39 @@ body #side-nav a.active, body #side-nav a[aria-current="page"] { background: #ea
  body #side-nav > ul { padding-left: 18px; padding-right: 18px; }
 }
 @media(prefers-reduced-motion: reduce) { body #side-nav details[open] > ul { animation: none; } body #side-nav details > summary::after { transition: none; } }
+
+/* Navegação de celular: as regras não se aplicam ao layout de computador. */
+@media (max-width: 767px) {
+  body .site-header { min-height: 60px; padding: 4px 12px; }
+  body .site-header .menu-btn { min-width: 84px; height: 48px; padding: 8px 10px; box-shadow: none; touch-action: manipulation; }
+  body .site-header .menu-btn::after { display: inline-block; margin-left: 7px; font-size: 11px; letter-spacing: .06em; }
+  body .site-header .logo a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+  body .site-header .header-actions .icon-btn { min-width: 52px; width: 60px; height: 48px; padding: 2px; }
+  body .site-header .icon-btn .icon-label { font-size: 10px; }
+  body #side-nav { width: min(400px, calc(100vw - 44px)); height: 100vh; height: 100dvh; max-height: 100dvh; padding-top: env(safe-area-inset-top, 0px); box-sizing: border-box; }
+  body #side-nav .menu-masthead { padding: 16px 12px 14px 18px; gap: 6px; }
+  body #side-nav .menu-brand strong { font-size: 21px; }
+  body #side-nav .menu-masthead .close-nav { width: 48px; min-height: 48px; }
+  body #side-nav .menu-search { padding: 12px 18px 6px; }
+  body #side-nav .menu-search label { font-size: 13px; }
+  body #side-nav .menu-search input { height: 48px; }
+  body #side-nav .menu-search input::placeholder { font-size: 13px; }
+  body #side-nav > ul { padding: 0 14px max(24px, env(safe-area-inset-bottom)); overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; scroll-padding-block: 12px; }
+  body #side-nav :is(a,summary) { min-height: 52px; touch-action: manipulation; }
+  body #side-nav details ul a, body #side-nav .menu-search-results a { font-size: 16px; min-height: 48px; line-height: 1.5; padding: 12px 10px; }
+  body #side-nav details > ul { margin-left: 6px; padding-left: 8px; }
+  body #side-nav details > summary::after { top: 21px; }
+  body #side-nav details[open] > summary::after { top: 21px; }
+  body #side-nav .menu-section-label { margin-top: 16px; }
+  body #side-nav .menu-search-results a { overflow-wrap: anywhere; }
+  body.liturgical-song .chant-quick-nav { gap: 8px; }
+  body.liturgical-song .chant-quick-nav a { justify-content: center; min-height: 48px; padding: 10px 14px; border: 1px solid #d2b57555; border-radius: 6px; background: #1d211e; font-size: 14px; }
+  html { scroll-padding-top: 76px; }
+}
+/* Mantém a lista utilizável em celulares deitados e com pouca altura disponível. */
+@media (max-width: 767px) and (max-height: 500px) {
+  body #side-nav .menu-masthead { padding-block: 6px; }
+  body #side-nav .menu-brand span { display: none; }
+  body #side-nav .menu-search { padding-top: 6px; }
+  body #side-nav .menu-search label { margin-bottom: 4px; }
+}
