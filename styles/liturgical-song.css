@@ -276,3 +276,18 @@ html.liturgical-song-root { font-size: 16px; scroll-padding-top: 80px; }
   html.liturgical-song-root { scroll-behavior: auto; }
   .liturgical-song *, .liturgical-song *::before, .liturgical-song *::after { animation: none !important; transition: none !important; }
 }
+
+/* Variações do repertório: Pai-Nosso, Graduale Simplex e hinos. */
+.liturgical-song .chant-two-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.liturgical-song .support-qr { max-width: 360px; margin: 32px auto; padding: 24px; border: 1px solid var(--chant-line); border-radius: 8px; background: var(--chant-panel); text-align: center; }
+.liturgical-song .support-qr h3 { font: 600 25px/1.4 'Spectral', Georgia, serif; margin-bottom: 12px; }
+.liturgical-song .support-qr :is(.support-label, .support-note) { color: var(--chant-muted); font: 13px/1.7 'Inter', sans-serif; }
+.liturgical-song .support-qr-code { margin: 20px auto; }
+.liturgical-song .support-qr-code img { display: block; width: 168px; max-width: 100%; height: auto; margin: auto; }
+.liturgical-song .social-share { display: flex; justify-content: center; flex-wrap: wrap; align-items: center; gap: 12px; margin: 32px auto; font: 14px/1.6 'Inter', sans-serif; }
+.liturgical-song .social-share :is(a, button) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 8px 12px; border: 1px solid #8f846b; border-radius: 5px; background: var(--chant-panel); color: var(--chant-gold); }
+.liturgical-song .social-share svg { width: 18px; height: 18px; }
+.liturgical-song .chant-download-content .left { margin-top: 16px; color: var(--chant-muted); font: 14px/1.7 'Inter', sans-serif; }
+.liturgical-song .score-preview:fullscreen { box-sizing: border-box; width: 100%; max-width: none; height: 100%; margin: 0; padding: 24px; overflow: auto; }
+.liturgical-song .score-preview:fullscreen .score-preview-embed { height: calc(100vh - 240px); }
+.liturgical-song pre.liturgical-text { white-space: pre-wrap; overflow-wrap: anywhere; }

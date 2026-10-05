@@ -9,11 +9,14 @@ from playwright.sync_api import sync_playwright,expect
 ROOT=Path(__file__).resolve().parents[1]
 class QuietHandler(SimpleHTTPRequestHandler):
  def log_message(self, *_args): pass
+ def handle(self):
+  try: super().handle()
+  except (BrokenPipeError, ConnectionResetError): pass
 server=ThreadingHTTPServer(('127.0.0.1',0),partial(QuietHandler,directory=str(ROOT)))
 threading.Thread(target=server.serve_forever,daemon=True).start()
 BASE=f'http://127.0.0.1:{server.server_port}'
 OUT=Path(tempfile.mkdtemp(prefix='chant-review-'))
-files=sorted([*ROOT.glob('pages/*-entrada.html'),*ROOT.glob('pages/*-comunhao.html')])
+files=sorted(p for p in ROOT.glob('pages/*.html') if 'class="liturgical-song"' in p.read_text())
 errors=[]; metrics=[]
 with sync_playwright() as pw:
  browser=pw.chromium.launch(channel='chromium')

@@ -1,1055 +1,224 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+
+<html class="editorial-root" lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Formações e cursos espirituais sobre liturgia, música sacra e espiritualidade cristã.">
-  <meta name="keywords" content="formação, cursos, liturgia, música, espiritualidade">
-  <title>Formações - Douglas Assumpção</title>
-  <link rel="icon" href="/assets/img/icone.png" sizes="192x192">
-  <link rel="shortcut icon" href="/assets/img/icone.png">
-  <link rel="stylesheet" href="../styles/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"
-     crossorigin="anonymous"></script>
-  <style>
-    /* Tema escuro */
-    :root {
-      --bg: #151515;
-      --panel: #1f1f1f;
-      --muted: #9a9a9a;
-      --accent: #e6e6e6;
-      --accent-2: #c9a56a;
-      --gold-light: #d4af37;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: Georgia, 'Times New Roman', serif;
-      background: var(--bg);
-      color: var(--accent);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    main.container {
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Breadcrumb */
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin: 28px 0;
-      max-width: 980px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .breadcrumb a {
-      color: var(--accent-2);
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .breadcrumb a:hover {
-      color: var(--gold-light);
-    }
-
-    /* Hero Section */
-    .hero-section {
-      text-align: center;
-      margin: 0;
-      padding: 140px 20px 100px;
-      max-width: 100%;
-      background: linear-gradient(180deg, rgba(21, 21, 21, 0.8) 0%, rgba(21, 21, 21, 0) 100%);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-section::before {
-      content: '';
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
-    }
-
-    .hero-section h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.6rem;
-      color: var(--accent);
-      margin: 40px 0 32px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-    }
-
-    .hero-section p {
-      color: var(--muted);
-      font-size: 1.16rem;
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 2;
-      font-style: italic;
-    }
-
-    /* Card Grid */
-    .formacoes-grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 28px;
-      margin: 60px 0;
-      width: 100%;
-      padding: 0 20px;
-      min-height: auto;
-    }
-
-    .formacoes-grid .meditation-card {
-      width: 100%;
-      max-width: 480px;
-    }
-
-    .formacao-card {
-      border: 1px solid rgba(202, 167, 90, 0.2);
-      border-radius: 16px;
-      padding: 40px 32px;
-      background: linear-gradient(135deg, rgba(31, 31, 31, 0.5) 0%, rgba(21, 21, 21, 0.2) 100%);
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .formacao-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(202, 167, 90, 0.5), transparent);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .formacao-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 20%, rgba(202, 167, 90, 0.08), transparent 50%);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .formacao-card:hover {
-      border-color: rgba(212, 175, 55, 0.5);
-      background: linear-gradient(135deg, rgba(31, 31, 31, 0.7) 0%, rgba(21, 21, 21, 0.4) 100%);
-      transform: translateY(-8px);
-      box-shadow: 0 16px 48px rgba(202, 167, 90, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
-
-    .formacao-card:hover::before {
-      opacity: 1;
-    }
-
-    .formacao-card:hover::after {
-      opacity: 1;
-    }
-
-    /* Meditation Card Special Styling */
-    .meditation-card {
-      padding: 22px 28px !important;
-      border: 1.5px solid rgba(202, 167, 90, 0.25);
-      background: linear-gradient(90deg, rgba(202, 167, 90, 0.06) 0%, rgba(21, 21, 21, 0.25) 100%) !important;
-      box-shadow: 0 6px 20px rgba(202, 167, 90, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      display: flex !important;
-      flex-direction: row !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      text-align: left !important;
-      max-width: 700px !important;
-      border-radius: 18px;
-      gap: 24px;
-    }
-
-    .meditation-card:hover {
-      border-color: rgba(212, 175, 55, 0.5) !important;
-      box-shadow: 0 8px 28px rgba(202, 167, 90, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-      transform: translateY(-2px);
-      background: linear-gradient(90deg, rgba(202, 167, 90, 0.1) 0%, rgba(21, 21, 21, 0.35) 100%) !important;
-    }
-
-    .card-icon {
-      width: 68px;
-      height: 68px;
-      background: linear-gradient(135deg, var(--accent-2) 0%, var(--gold-light) 100%);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0 !important;
-      box-shadow: 0 10px 24px rgba(202, 167, 90, 0.25);
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      flex-shrink: 0;
-      position: relative;
-    }
-
-    .card-icon::after {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .meditation-card .card-icon {
-      width: 66px;
-      height: 66px;
-      margin-bottom: 0 !important;
-      box-shadow: 0 10px 26px rgba(202, 167, 90, 0.22);
-    }
-
-    .formacao-card:hover .card-icon {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 12px 28px rgba(202, 167, 90, 0.35);
-    }
-
-    .formacao-card:hover .card-icon::after {
-      opacity: 1;
-    }
-
-    .meditation-card:hover .card-icon {
-      transform: scale(1.12) rotate(-5deg) translateY(-2px);
-      box-shadow: 0 12px 32px rgba(202, 167, 90, 0.32);
-    }
-
-    .meditation-card:hover .card-icon::after {
-      opacity: 1;
-    }
-
-    .card-icon svg {
-      width: 34px;
-      height: 34px;
-      color: var(--bg);
-      stroke-width: 2;
-      position: relative;
-      z-index: 1;
-    }
-
-    .meditation-card .card-icon svg {
-      width: 36px;
-      height: 36px;
-    }
-
-    .meditation-card-content {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .formacao-card h3 {
-      font-size: 1.5rem;
-      color: var(--accent);
-      margin: 0 0 12px;
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .meditation-card h3 {
-      font-size: 1.25rem;
-      margin: 0 !important;
-      font-family: 'Playfair Display', serif;
-      letter-spacing: 0.4px;
-      color: var(--accent);
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .formacao-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      margin: 0 0 20px;
-    }
-
-    .meditation-card p {
-      font-size: 0.88rem;
-      line-height: 1.55;
-      color: #a8a8a8;
-      margin: 0 !important;
-      letter-spacing: 0.2px;
-      font-weight: 400;
-    }
-
-    /* Card Features */
-    .card-features {
-      display: flex;
-      flex-direction: row;
-      gap: 12px;
-      margin: 0 !important;
-      padding: 0 !important;
-      border: none !important;
-      width: auto;
-      align-items: center;
-    }
-
-    .feature {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      text-align: center;
-      white-space: nowrap;
-      padding: 6px 10px;
-      border-radius: 8px;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      background: rgba(202, 167, 90, 0.05);
-    }
-
-    .meditation-card .feature:hover {
-      background: rgba(202, 167, 90, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .feature-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    .feature-text {
-      font-size: 0.8rem;
-      color: #9a9a9a;
-      font-weight: 600;
-      letter-spacing: 0.15px;
-    }
-
-    .card-btn {
-      display: inline-block;
-      padding: 12px 28px;
-      border: 1.5px solid var(--accent-2);
-      color: var(--accent-2);
-      text-decoration: none;
-      border-radius: 8px;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 0.3px;
-    }
-
-    .card-btn:hover {
-      background: var(--accent-2);
-      color: var(--bg);
-      box-shadow: 0 8px 20px rgba(202, 167, 90, 0.25);
-      transform: translateY(-2px);
-    }
-
-    .card-btn.btn-primary {
-      padding: 12px 32px !important;
-      background: linear-gradient(135deg, var(--accent-2), var(--gold-light)) !important;
-      color: var(--bg) !important;
-      border: none !important;
-      font-size: 0.9rem !important;
-      box-shadow: 0 8px 20px rgba(202, 167, 90, 0.24) !important;
-      letter-spacing: 0.3px !important;
-      font-weight: 700 !important;
-      border-radius: 10px !important;
-      flex-shrink: 0;
-      white-space: nowrap;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-    }
-
-    .card-btn.btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 0;
-    }
-
-    .card-btn.btn-primary > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-btn.btn-primary:hover {
-      background: linear-gradient(135deg, var(--gold-light), var(--accent-2)) !important;
-      transform: translateY(-3px) !important;
-      box-shadow: 0 12px 28px rgba(202, 167, 90, 0.32) !important;
-    }
-
-    .card-btn.btn-primary:hover::before {
-      opacity: 1;
-    }
-
-    /* CTA Section */
-    .cta-section {
-      max-width: 920px;
-      margin: 140px auto 100px;
-      padding: 72px 56px;
-      background: linear-gradient(135deg, rgba(202, 167, 90, 0.18) 0%, rgba(202, 167, 90, 0.1) 100%);
-      border: 2px solid rgba(202, 167, 90, 0.4);
-      border-radius: 16px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 20% 50%, rgba(202, 167, 90, 0.12), transparent),
-                  radial-gradient(circle at 80% 80%, rgba(202, 167, 90, 0.08), transparent);
-      pointer-events: none;
-    }
-
-    .cta-section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.6rem;
-      color: var(--accent);
-      margin: 0 0 24px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-section p {
-      color: #b8b8b8;
-      font-size: 1.12rem;
-      margin: 0 0 40px;
-      line-height: 1.85;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      padding: 18px 56px;
-      background: linear-gradient(135deg, var(--accent-2), var(--gold-light));
-      color: var(--bg);
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 700;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      border: none;
-      cursor: pointer;
-      font-size: 1.05rem;
-      letter-spacing: 0.6px;
-      box-shadow: 0 12px 32px rgba(202, 167, 90, 0.3);
-      position: relative;
-      z-index: 1;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 28px rgba(202, 167, 90, 0.3);
-    }
-
-    /* PIX Section */
-    /* Seção de encerramento e PIX */
-    .closing-section {
-      background: linear-gradient(180deg, rgba(21,21,21,0), rgba(21,21,21,0.5));
-      padding: 64px 20px;
-      margin-top: 80px;
-      border-top: 1px solid rgba(202,167,90,0.15);
-    }
-
-    .closing-container {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .closing-divider {
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(202,167,90,0.5), transparent);
-      margin: 0 auto 32px;
-    }
-
-    /* QRCode Section */
-    .qrcode-section {
-      margin-top: 20px;
-      padding-top: 32px;
-      border-top: 1px solid rgba(202,167,90,0.1);
-      animation: fadeInUp 0.6s ease 0.3s both;
-    }
-
-    .qrcode-message {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      color: #e6e6e6;
-      margin: 0 0 8px 0;
-      font-weight: 400;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .pix-icon {
-      width: 32px;
-      height: 32px;
-      color: #caa75a;
-      flex-shrink: 0;
-      filter: drop-shadow(0 2px 4px rgba(202,167,90,0.2));
-      transition: all 0.3s ease;
-    }
-
-    .qrcode-section:hover .pix-icon {
-      transform: scale(1.1) rotate(5deg);
-      filter: drop-shadow(0 4px 8px rgba(202,167,90,0.35));
-    }
-
-    .qrcode-subtitle {
-      font-size: 0.85rem;
-      color: #9a9a9a;
-      margin: 0 0 24px 0;
-      letter-spacing: 0.5px;
-      font-weight: 500;
-    }
-
-    .qrcode-container {
-      display: inline-block;
-      padding: 24px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.05), rgba(202,167,90,0.02));
-      border: 1.5px solid rgba(202,167,90,0.25);
-      border-radius: 16px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(202,167,90,0.08);
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .qrcode-container::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.4), transparent, rgba(202,167,90,0.2));
-      border-radius: 16px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: -1;
-    }
-
-    .qrcode-container:hover {
-      border-color: rgba(202,167,90,0.5);
-      box-shadow: 0 15px 50px rgba(202,167,90,0.15), 0 0 30px rgba(202,167,90,0.12);
-      transform: translateY(-6px);
-      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.03));
-    }
-
-    .qrcode-container:hover::before {
-      opacity: 1;
-    }
-
-    .qrcode-image {
-      display: block;
-      width: 260px;
-      height: 260px;
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 8px;
-      image-rendering: pixelated;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-    }
-
-    /* PIX Key Section */
-    .pix-key-section {
-      margin-top: 32px;
-      padding-top: 32px;
-      border-top: 1px solid rgba(202,167,90,0.15);
-      animation: fadeInUp 0.6s ease 0.5s both;
-    }
-
-    .pix-key-label {
-      font-size: 0.9rem;
-      color: #9a9a9a;
-      margin: 0 0 16px 0;
-      letter-spacing: 0.5px;
-      font-weight: 500;
-    }
-
-    .pix-key-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 20px 24px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.08), rgba(202,167,90,0.02));
-      border: 1.5px solid rgba(202,167,90,0.25);
-      border-radius: 12px;
-      backdrop-filter: blur(12px);
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pix-key-container::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, rgba(202,167,90,0.3), transparent);
-      border-radius: 12px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: -1;
-    }
-
-    .pix-key-container:hover {
-      border-color: rgba(202,167,90,0.4);
-      background: linear-gradient(135deg, rgba(202,167,90,0.12), rgba(202,167,90,0.04));
-    }
-
-    .pix-key-container:hover::before {
-      opacity: 1;
-    }
-
-    .pix-key-text {
-      font-family: 'Courier New', monospace;
-      font-size: 0.95rem;
-      color: #caa75a;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      flex: 1;
-    }
-
-    .copy-button {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: linear-gradient(135deg, #caa75a, #d4af37);
-      border: none;
-      border-radius: 8px;
-      color: #151515;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-      box-shadow: 0 4px 12px rgba(202,167,90,0.2);
-      flex-shrink: 0;
-    }
-
-    .copy-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(202,167,90,0.3);
-      background: linear-gradient(135deg, #d4af37, #e6c355);
-    }
-
-    .copy-button:active {
-      transform: translateY(0);
-    }
-
-    .copy-button svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-    }
-
-    .copy-button.copied {
-      background: linear-gradient(135deg, #4caf50, #66bb6a);
-      box-shadow: 0 4px 12px rgba(76,175,80,0.3);
-    }
-
-    .copy-text {
-      font-size: 0.85rem;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .formacao-card {
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-
-    .formacao-card:nth-child(1) { animation-delay: 0.1s; }
-    .formacao-card:nth-child(2) { animation-delay: 0.2s; }
-    .formacao-card:nth-child(3) { animation-delay: 0.3s; }
-    .formacao-card:nth-child(4) { animation-delay: 0.4s; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      main.container {
-        padding: 16px;
-      }
-
-      .hero-section {
-        margin: 40px 0 36px;
-        padding: 30px 16px;
-      }
-
-      .hero-section h1 {
-        font-size: 1.8rem;
-      }
-
-      .formacoes-grid {
-        gap: 16px;
-        margin: 48px 0;
-      }
-
-      .formacao-card {
-        padding: 24px 20px;
-      }
-
-      .meditation-card {
-        padding: 18px 20px !important;
-        flex-direction: row;
-        max-width: 100% !important;
-      }
-
-      .meditation-card .card-icon {
-        width: 56px;
-        height: 56px;
-        margin-bottom: 0;
-      }
-
-      .card-icon svg {
-        width: 30px;
-        height: 30px;
-      }
-
-      .meditation-card .card-icon svg {
-        width: 32px;
-        height: 32px;
-      }
-
-      .meditation-card h3 {
-        font-size: 1.1rem;
-      }
-
-      .meditation-card p {
-        font-size: 0.8rem;
-      }
-
-      .card-features {
-        gap: 10px;
-      }
-
-      .feature-icon {
-        font-size: 1.2rem;
-      }
-
-      .feature-text {
-        font-size: 0.7rem;
-      }
-
-      .card-btn.btn-primary {
-        padding: 9px 20px !important;
-        font-size: 0.8rem !important;
-      }
-
-      .cta-section {
-        padding: 56px 32px;
-        margin: 100px auto 60px;
-      }
-
-      .cta-section h2 {
-        font-size: 2.2rem;
-      }
-
-      .pix-container {
-        padding: 32px;
-      }
-
-      .pix-input-group {
-        flex-direction: column;
-      }
-
-      .pix-copy-btn {
-        width: 100%;
-      }
-
-      .pix-label {
-        text-align: left;
-        margin-top: 4px;
-        margin-left: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-section {
-        padding: 80px 16px 60px;
-      }
-
-      .hero-section h1 {
-        font-size: 2.2rem;
-        margin-bottom: 20px;
-      }
-
-      .hero-section p {
-        font-size: 1rem;
-      }
-
-      .formacoes-grid {
-        margin: 60px 0 50px;
-        padding: 0 12px;
-        gap: 12px;
-      }
-
-      .meditation-card {
-        padding: 16px 16px !important;
-        flex-direction: column !important;
-        text-align: center !important;
-        max-width: 100% !important;
-      }
-
-      .meditation-card .card-icon {
-        width: 52px;
-        height: 52px;
-        margin-bottom: 12px;
-        margin-right: 0;
-      }
-
-      .card-icon svg {
-        width: 28px;
-        height: 28px;
-      }
-
-      .meditation-card .card-icon svg {
-        width: 30px;
-        height: 30px;
-      }
-
-      .card-features {
-        flex-direction: row;
-        gap: 8px;
-        justify-content: center;
-        margin-bottom: 12px;
-      }
-
-      .feature-icon {
-        font-size: 1.2rem;
-      }
-
-      .feature-text {
-        font-size: 0.7rem;
-      }
-
-      .meditation-card h3 {
-        font-size: 1rem;
-        margin-bottom: 8px;
-      }
-
-      .meditation-card p {
-        font-size: 0.78rem;
-        margin-bottom: 12px;
-        line-height: 1.5;
-      }
-
-      .card-btn.btn-primary {
-        padding: 9px 20px !important;
-        font-size: 0.8rem !important;
-      }
-
-      .cta-section {
-        padding: 40px 20px;
-        margin: 80px auto 40px;
-      }
-
-      .cta-section h2 {
-        font-size: 1.8rem;
-        margin-bottom: 16px;
-      }
-
-      .cta-section p {
-        font-size: 1rem;
-        margin-bottom: 28px;
-      }
-
-      .cta-btn {
-        padding: 14px 40px;
-        font-size: 0.95rem;
-      }
-    }
-    @media (max-width: 600px) {
-      .meditation-card-content { min-width: 0; width: 100%; }
-      .card-features, .social-share { flex-wrap: wrap; }
-    }
-  </style>
-</head>
-<body>
-  <header class="site-header">
-    <button id="menu-btn" class="menu-btn" aria-label="Abrir menu">
-      <svg width="22" height="16" viewBox="0 0 22 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block"><rect y="0" width="22" height="2" rx="1" fill="currentColor"/><rect y="7" width="22" height="2" rx="1" fill="currentColor"/><rect y="14" width="22" height="2" rx="1" fill="currentColor"/></svg>
-    </button>
-    <div class="logo"><a href="/index.html"><img src="/assets/img/icone.png" alt="CNP" id="site-logo"></a></div>
-    <div class="header-actions">
-      <a class="icon-btn" href="/pages/loja.html" title="Loja">
-        <img src="/assets/img/icone1.png" alt="Loja" class="icon-img">
-        <span class="icon-label">LOJA</span>
-      </a>
-      <a class="icon-btn" href="/pages/contato.html" title="Contato">
-        <img src="/assets/img/icone2.png" alt="Contato" class="icon-img">
-        <span class="icon-label">CONTATO</span>
-      </a>
-      <input id="search" type="search" placeholder="Buscar..." />
-    </div>
-  </header>
-
-  <!-- Hero Section (TOPO) -->
-  <section class="hero-section">
-    <h1>Meditações Espirituais</h1>
-    <p>Encontre paz e transcendência através de meditações contemplativas desenvolvidas para aprofundar sua conexão espiritual. Uma jornada de autodescoberta e comunhão com o sagrado.</p>
-  </section>
-
-  <main class="container">
-
-    <!-- Grid de Formações -->
-    <section class="formacoes-grid">
-      
-      <!-- Meditação -->
-      <article class="formacao-card meditation-card">
-        <div class="card-icon">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M12 16c1.5 0 2.5-1 3-2"/></svg>
-        </div>
-        <div class="meditation-card-content">
-          <h3>Meditações Espirituais</h3>
-          <p>Mergulhe em meditações contemplativas para aprofundar sua conexão espiritual.</p>
-          <div class="card-features">
-            <div class="feature">
-              <span class="feature-icon">🕯️</span>
-              <span class="feature-text">Guiadas</span>
-            </div>
-            <div class="feature">
-              <span class="feature-icon">🙏</span>
-              <span class="feature-text">Profundas</span>
-            </div>
-            <div class="feature">
-              <span class="feature-icon">✨</span>
-              <span class="feature-text">Transformativas</span>
-            </div>
-          </div>
-        </div>
-        <a href="materia-nova.html" class="card-btn btn-primary">Começar →</a>
-      </article>
-
-    </section>
-
-  </main>
-
-  <!-- Seção de Apoio: PIX -->
-  <section class="closing-section">
-    <div class="closing-container">
-      <div class="closing-divider"></div>
-      
-      <div class="qrcode-section">
-        <h3 class="qrcode-message">
-          <svg class="pix-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <rect x="15" y="2" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <rect x="2" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <rect x="15" y="15" width="7" height="7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.8"/>
-          </svg>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Formações e cursos espirituais sobre liturgia, música sacra e espiritualidade cristã." name="description"/>
+<meta content="formação, cursos, liturgia, música, espiritualidade" name="keywords"/>
+<title>Formações - Douglas Assumpção</title>
+<link href="/assets/img/icone.png" rel="icon" sizes="192x192"/>
+<link href="/assets/img/icone.png" rel="shortcut icon"/>
+<link href="../styles/style.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/><link href="../styles/site-editorial.css" rel="stylesheet"/></head>
+<body class="site-editorial"><a class="editorial-skip" href="#conteudo">Pular para o conteúdo</a><div class="nav-overlay" hidden="" id="nav-overlay"></div><nav aria-hidden="true" aria-label="Navegação principal" class="side-nav" id="side-nav" inert="">
+<button aria-label="Fechar menu" class="close-nav" id="close-nav"><span aria-hidden="true">×</span> Fechar menu</button>
+<!-- Imagem do menu (campo superior) -->
+<div aria-hidden="true" class="side-nav-hero">
+<div class="menu-frame">
+<img alt="Imagem do menu" src="/assets/img/1.jpg"/>
+</div>
+</div>
+<ul>
+<li><a class="menu-item inicio" href="/index.html">Início</a></li>
+<li><a aria-current="page" class="menu-item formacoes active" href="/pages/formacoes.html">Formações</a></li>
+<li>
+<details>
+<summary class="menu-item advento">Advento</summary>
+<ul>
+<li><a class="" href="/pages/advento-1.html">1º Domingo do Advento</a></li>
+<li><a class="" href="/pages/advento-2.html">2º Domingo do Advento</a></li>
+<li><a class="" href="/pages/advento-3.html">3º Domingo do Advento</a></li>
+<li><a class="" href="/pages/advento-4.html">4º Domingo do Advento</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item natal">Natal</summary>
+<ul>
+<li><a class="" href="/pages/natal-noite.html">Missa da Noite</a></li>
+<li><a class="" href="/pages/natal-aurora.html">Missa da Aurora</a></li>
+<li><a class="" href="/pages/natal-dia.html">Missa do Dia</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item quaresma">Quaresma</summary>
+<ul>
+<li><a class="" href="/pages/quaresma-1.html">1º Domingo da Quaresma</a></li>
+<li><a class="" href="/pages/quaresma-2.html">2º Domingo da Quaresma</a></li>
+<li><a class="" href="/pages/quaresma-3.html">3º Domingo da Quaresma</a></li>
+<li><a class="" href="/pages/quaresma-4.html">4º Domingo da Quaresma</a></li>
+<li><a class="" href="/pages/quaresma-5.html">5º Domingo da Quaresma</a></li>
+<li><a class="" href="/pages/quaresma-ramos.html">Domingo de Ramos</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item pascoa">Páscoa</summary>
+<ul>
+<li><a class="" href="/pages/pascoa-vigilia.html">Vigília Pascal</a></li>
+<li><a class="" href="/pages/pascoa-1.html">Domingo da Páscoa</a></li>
+<li><a class="" href="/pages/pascoa-2.html">2º Domingo da Páscoa</a></li>
+<li><a class="" href="/pages/pascoa-3.html">3º Domingo da Páscoa</a></li>
+<li><a class="" href="/pages/pascoa-4.html">4º Domingo da Páscoa</a></li>
+<li><a class="" href="/pages/pascoa-5.html">5º Domingo da Páscoa</a></li>
+<li><a class="" href="/pages/pascoa-6.html">6º Domingo da Páscoa</a></li>
+<li><a class="" href="/pages/pascoa-ascensao.html">Ascensão do Senhor</a></li>
+<li><a class="" href="/pages/pascoa-pentecostes.html">Pentecostes</a></li>
+</ul>
+</details>
+</li>
+<li>
+<details>
+<summary class="menu-item tempo-comum">Tempo Comum</summary>
+<ul>
+<li><a class="" href="/pages/tempo-comum-1.html">1º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-2.html">2º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-3.html">3º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-4.html">4º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-5.html">5º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-6.html">6º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-7.html">7º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-8.html">8º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-9.html">9º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-10.html">10º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-11.html">11º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-12.html">12º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-13.html">13º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-14.html">14º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-15.html">15º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-16.html">16º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-17.html">17º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-18.html">18º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-19.html">19º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-20.html">20º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-21.html">21º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-22.html">22º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-23.html">23º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-24.html">24º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-25.html">25º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-26.html">26º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-27.html">27º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-28.html">28º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-29.html">29º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-30.html">30º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-31.html">31º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-32.html">32º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-33.html">33º Domingo do Tempo Comum</a></li>
+<li><a class="" href="/pages/tempo-comum-34.html">34º Domingo do Tempo Comum</a></li>
+</ul>
+</details>
+</li>
+<!-- Ordinário da missa (separado abaixo dos demais tépicos) -->
+<li class="menu-ordinario">
+<details>
+<summary class="menu-item ordinario">Ordinário da missa</summary>
+<ul>
+<li><a class="" href="/pages/kyrie.html">Kyrie</a></li>
+<li><a class="" href="/pages/gloria.html">Gloria</a></li>
+<li><a class="" href="/pages/sanctus.html">Sanctus</a></li>
+<li><a class="" href="/pages/agnus-dei.html">Agnus Dei</a></li>
+<li><a class="" href="/pages/pater-noster.html">Pater noster / Pai nosso</a></li>
+<li><a class="" href="/pages/ad-libitum.html">Ad libitum (<em>À vontade</em>)</a></li>
+</ul>
+</details>
+</li>
+</ul>
+</nav>
+<header class="site-header">
+<button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
+<svg aria-hidden="true" focusable="false" height="16" style="display:block" viewbox="0 0 22 16" width="22" xmlns="http://www.w3.org/2000/svg"><rect fill="currentColor" height="2" rx="1" width="22" y="0"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="7"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="14"></rect></svg>
+</button>
+<div class="logo"><a href="/index.html"><img alt="Douglas Assumpção — início" id="site-logo" src="/assets/img/icone.png"/></a></div>
+<div class="header-actions">
+<a class="icon-btn" href="/pages/loja.html" title="Loja">
+<img alt="Loja" class="icon-img" src="/assets/img/icone1.png"/>
+<span class="icon-label">LOJA</span>
+</a>
+<a class="icon-btn" href="/pages/contato.html" title="Contato">
+<img alt="Contato" class="icon-img" src="/assets/img/icone2.png"/>
+<span class="icon-label">CONTATO</span>
+</a>
+</div>
+</header>
+<!-- Hero Section (TOPO) -->
+
+<main class="container editorial-main" id="conteudo" tabindex="-1"><nav aria-label="Navegação" class="editorial-breadcrumb"><a href="/index.html">← Início</a></nav><header class="editorial-heading"><p class="editorial-eyebrow">Douglas Assumpção · Música sacra</p><h1 class="editorial-title">Formações</h1><p class="editorial-description">Encontre paz e transcendência através de meditações contemplativas desenvolvidas para aprofundar sua conexão espiritual. Uma jornada de autodescoberta e comunhão com o sagrado.</p><div aria-hidden="true" class="editorial-ornament">✦</div></header>
+<!-- Grid de Formações -->
+<section class="formacoes-grid">
+<!-- Meditação -->
+<article class="formacao-card meditation-card">
+<div class="card-icon">
+<svg fill="none" height="36" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="36"><circle cx="12" cy="12" r="10"></circle><path d="M9 9h.01"></path><path d="M15 9h.01"></path><path d="M12 16c1.5 0 2.5-1 3-2"></path></svg>
+</div>
+<div class="meditation-card-content">
+<h3>Meditações Espirituais</h3>
+<p>Mergulhe em meditações contemplativas para aprofundar sua conexão espiritual.</p>
+<div class="card-features">
+<div class="feature">
+<span class="feature-icon">🕯️</span>
+<span class="feature-text">Guiadas</span>
+</div>
+<div class="feature">
+<span class="feature-icon">🙏</span>
+<span class="feature-text">Profundas</span>
+</div>
+<div class="feature">
+<span class="feature-icon">✨</span>
+<span class="feature-text">Transformativas</span>
+</div>
+</div>
+</div>
+<a class="card-btn btn-primary" href="materia-nova.html">Começar →</a>
+</article>
+</section>
+</main>
+<!-- Seção de Apoio: PIX -->
+<section class="closing-section">
+<div class="closing-container">
+<div class="closing-divider"></div>
+<div class="qrcode-section">
+<h3 class="qrcode-message">
+<svg class="pix-icon" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="2" y="2"></rect>
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="15" y="2"></rect>
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="2" y="15"></rect>
+<rect height="7" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" width="7" x="15" y="15"></rect>
+<circle cx="12" cy="12" fill="currentColor" opacity="0.8" r="3"></circle>
+</svg>
           Apoie nossa missão
         </h3>
-        <p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
-        
-        <div class="qrcode-container">
-          <img src="../assets/img/qrcode-pix-oficial.png" alt="QRCode para meditações espirituais" class="qrcode-image">
-        </div>
-
-        <!-- PIX Key Section -->
-        <div class="pix-key-section">
-          <p class="pix-key-label">Ou copie a chave PIX:</p>
-          <div class="pix-key-container">
-            <span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
-            <button class="copy-button" onclick="copyPixKey(this)" title="Copiar chave PIX">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="9" y="9" width="13" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              <span class="copy-text">Copiar</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="site-footer">
-    <p>© 2025 Douglas Assumpção. Todos os direitos reservados.</p>
-  </footer>
-
-  <script src="../scripts/script.js"></script>
-  
-  <script>
-
-
-    // Fade in animations on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.formacao-card, .qrcode-section').forEach(el => {
-      el.style.opacity = '0';
-      observer.observe(el);
-    });
-  </script>
-</body>
+<p class="qrcode-subtitle">Escaneie para fazer um PIX</p>
+<div class="qrcode-container">
+<img alt="QRCode para meditações espirituais" class="qrcode-image" src="../assets/img/qrcode-pix-oficial.png"/>
+</div>
+<!-- PIX Key Section -->
+<div class="pix-key-section">
+<p class="pix-key-label">Ou copie a chave PIX:</p>
+<div class="pix-key-container">
+<span class="pix-key-text">douglas.assumpcao@hotmail.com</span>
+<button class="copy-button" onclick="copyPixKey(this)" title="Copiar chave PIX">
+<svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<rect height="13" rx="1" stroke="currentColor" stroke-width="1.5" width="13" x="9" y="9"></rect>
+<path d="M15 9V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+</svg>
+<span class="copy-text">Copiar</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="site-footer">
+<p>© 2025 Douglas Assumpção. Todos os direitos reservados.</p>
+</footer>
+<script src="../scripts/script.js"></script>
+<script src="../scripts/site-editorial.js"></script></body>
 </html>
-
-
-
-
-
-
-

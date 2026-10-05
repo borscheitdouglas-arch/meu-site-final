@@ -51,6 +51,24 @@
     toggle.addEventListener('click', () => showPreview(preview.hidden));
     closePreview.addEventListener('click', () => showPreview(false));
     preview.addEventListener('keydown', event => { if (event.key === 'Escape') showPreview(false); });
+    const fullscreen = preview.querySelector('.chant-fullscreen-preview');
+    if (fullscreen && document.fullscreenEnabled) {
+      fullscreen.hidden = false;
+      fullscreen.addEventListener('click', async () => {
+        try {
+          if (document.fullscreenElement === preview) await document.exitFullscreen();
+          else await preview.requestFullscreen();
+        } catch (_) {
+          // O PDF continua disponível na prévia e no link para abrir em nova aba.
+          fullscreen.hidden = true;
+        }
+      });
+      document.addEventListener('fullscreenchange', () => {
+        const expanded = document.fullscreenElement === preview;
+        fullscreen.textContent = expanded ? 'Sair da tela cheia' : 'Tela cheia';
+        fullscreen.setAttribute('aria-pressed', String(expanded));
+      });
+    }
   }
 
   // O vídeo e a partitura são independentes; um recurso pode ainda estar pendente.
