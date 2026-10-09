@@ -1,0 +1,8 @@
+Tool: built-in image_gen (edit).
+Source: capa-superior-pergaminho-v2.png
+Output: capa-superior-pergaminho-v3.png
+
+Use case: precise-object-edit.
+Input image: edit target, the supplied Marian illuminated manuscript website banner.
+Change ONLY the crown on the Virgin Mary's head. Replace the existing indistinct filigree crown with an exquisitely painted, clearly recognizable QUEEN'S ROYAL CROWN in gold: a substantial jeweled circlet, elegant fleur-de-lis points, gracefully curved golden arches rising to a small central orb surmounted by a SMALL CLEARLY VISIBLE CHRISTIAN LATIN CROSS. The cross must have one vertical stroke and one horizontal bar, upright, distinct and readable against its background. Rich but restrained red and blue gemstones, tiny pearls and beautifully articulated goldsmith details. A queenly closed arched crown, dignified and proportionate, seated naturally on the blue veil at the same location, matching head perspective. Fit the crown and cross within the existing space above her head without colliding with the ornamental pointed arch. The crown should feel regal and dimensional, with refined highlights, in the same hand-painted sacred art and medieval illumination style as the picture, not a photographic insert or cartoon.
+STRICT INVARIANTS: keep Mary's refined face, expression, gaze, head tilt, hands, body and clothing EXACTLY as in the input. Keep halo, all surrounding ornamentation, parchment scroll, colors, framing, wide aspect ratio, dark vignette and entire composition unchanged. Preserve existing scroll lettering verbatim: "O canto que abre o caminho para o Mistério." Preserve the lower "Ave Maria" inscription. Do not add any other text or objects, do not crop or zoom, do not redesign any part outside the crown.

@@ -1,0 +1,10 @@
+Tool: built-in image_gen (edit).
+Source: capa-superior copy.png
+Output: capa-superior-pergaminho.png
+
+Use case: precise-object-edit.
+Edit target: the provided existing wide devotional illuminated manuscript image, 3200 x 1792.
+Change ONLY the modern rounded brown rectangular text box across the lower-middle and the lettering inside it. Replace it with a beautifully integrated horizontal ivory parchment scroll/cartouche, inspired by medieval illuminated Gregorian chant manuscripts. The parchment should have softly irregular edges, subtly rolled ends, delicate aged fibers, restrained gold and vermilion flourishes that harmonize with the existing blue, red, green and gold illumination. Keep the band at approximately the original position and size, with enough pale writing area. No large shadow, no modern border.
+Exact text, spelled verbatim with correct accents and period: "O canto que abre o caminho para o Mistério."
+Make the entire phrase prominent, large, sharply legible, centered on one line, with deep brown-black lettering against light cream parchment, inspired by elegant readable medieval calligraphy (humanist/uncial manuscript hand, not dense hard-to-read blackletter). A slightly illuminated red and gold initial O is welcome but all letters must read together naturally. Prioritize readability over decoration. No texture crossing the letter strokes.
+Preserve the original Virgin Mary face, crown, halo, hands, blue and red clothing, all surrounding illumination, the large Ave Maria inscription beneath, original dark edge vignette, original framing and original wide aspect ratio. Do not crop or redesign the rest of the art. The result must look like the scroll was painted as part of the same manuscript rather than a modern UI overlay.

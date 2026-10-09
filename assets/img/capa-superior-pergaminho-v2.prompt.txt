@@ -1,0 +1,8 @@
+Tool: built-in image_gen (edit).
+Source: capa-superior-pergaminho.png
+Output: capa-superior-pergaminho-v2.png
+
+Use case: precise-object-edit.
+Input image: edit target, existing wide illuminated Marian devotional artwork with a parchment scroll.
+Primary request: carefully improve the depiction of the Virgin Mary, especially her FACE. Make a visible refinement of facial anatomy and painterly craftsmanship: graceful naturally proportioned adult face, beautifully drawn coherent eyes and eyelids with a soft downward contemplative gaze, delicate natural nose and lips, gently modeled cheeks and chin, serene tender maternal expression. Subtle warm luminous skin tones, refined soft chiaroscuro and fine painted detail appropriate to traditional sacred painting integrated into an illuminated medieval manuscript. Keep her recognizable appearance, head tilt, placement, scale and modest devotional character. Avoid doll-like plastic skin, makeup, glamour, exaggerated eyes, photographic pasted-in face, cartoon rendering, harsh sharpening or a broad smile. Very subtly refine her visible hands if necessary while preserving their pose.
+STRICT INVARIANTS: preserve the entire existing composition and wide aspect ratio, crown, golden halo, blue veil with gold edging, red robe, original colors, ornate medieval foliage, parchment scroll, lettering, lower Ave Maria inscription and dark vignette. Do not enlarge or reposition Mary. Change primarily her face and its modeling, not the surrounding artwork. Keep all scroll ornamentation and the EXACT existing text unchanged and sharply readable: "O canto que abre o caminho para o Mistério." Preserve "Ave Maria" below. No additional elements, text or cropping. Render at the highest practical resolution.
