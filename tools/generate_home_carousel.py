@@ -65,8 +65,12 @@ def text_tag(source: str, tag: str) -> str:
 
 def category(filename: str, title: str) -> str:
     value = f"{filename} {title}".lower()
+    if filename == "nossa-senhora-aparecida-cantos.html":
+        return "Formação espiritual"
     if "comunhao" in value or "comunhão" in value:
         return "Canto de Comunhão"
+    if "aparecida" in value or "viva-a-mae-de-deus-e-nossa" in value:
+        return "Festas e Solenidades"
     if "entrada" in value:
         return "Canto de Entrada"
     if "tempo-comum" in value or "tempo comum" in value:
@@ -93,6 +97,8 @@ def background(filename: str) -> str:
         "sao-pedro-e-sao-paulo": "Carrrosel - Festas e solenidades.png",
         "festa-": "Carrrosel - Festas e solenidades.png",
         "solenidade-": "Carrrosel - Festas e solenidades.png",
+        "nossa-senhora-aparecida-": "Carrrosel - Festas e solenidades.png",
+        "viva-a-mae-de-deus-e-nossa": "Carrrosel - Festas e solenidades.png",
     }
     for prefix, image in seasonal_images.items():
         if value.startswith(prefix):

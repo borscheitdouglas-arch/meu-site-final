@@ -48,3 +48,7 @@ Os links de YouTube existentes foram mantidos. Não houve verificação da dispo
 ## Pendências editoriais anteriores ao novo visual
 
 Os títulos das páginas de Entrada do 2º e 3º Domingo do Advento divergem dos títulos nos PDFs vinculados: respectivamente “A Vós Senhor elevo a minha alma” / “Povo de Sião” e “Eis que o Senhor vem” / “Alegrai-vos sempre no Senhor”. Os títulos e os arquivos originais foram preservados para evitar alterar a seleção litúrgica nesta padronização visual. As três páginas de Comunhão do Advento também compartilham o mesmo identificador de vídeo já existente. Essas associações merecem uma revisão editorial separada.
+
+## Novas matérias e meditações
+
+Seguir também o [padrão editorial das matérias sacras](padrao-materias-sacras.md), definido pelo usuário em 11 de outubro de 2026: escritos autênticos de santos em domínio público, fontes verificáveis e distinção entre citação, paráfrase e aplicação espiritual.

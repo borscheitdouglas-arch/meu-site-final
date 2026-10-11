@@ -1,5 +1,13 @@
 [
   {
+    "title": "Os cantos de Nossa Senhora Aparecida à luz dos santos",
+    "description": "A maternidade de Maria, a Comunhão e a caridade em escritos autênticos dos santos.",
+    "category": "Formação espiritual",
+    "url": "pages/nossa-senhora-aparecida-cantos.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
+    "published": "2026-10-11"
+  },
+  {
     "title": "O Filho do homem",
     "description": "29º Domingo do Tempo Comum · Mc 10,45",
     "category": "Canto de Comunhão",
@@ -53,14 +61,6 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-10-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
-  },
-  {
-    "title": "Seus filhos",
-    "description": "Comunhão · Solenidade de Nossa Senhora Aparecida",
-    "category": "Canto de Comunhão",
-    "url": "pages/solenidade-nossa-senhora-aparecida-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
     "published": "2026-10-11"
   }
 ]
