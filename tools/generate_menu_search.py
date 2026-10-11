@@ -14,7 +14,7 @@ class Titles(HTMLParser):
     def handle_data(self, data):
         if self.tag: self.parts[self.tag].append(data)
 
-excluded = {'A-pagina-mestre','materia-nova','produto','produto-1','produto-2','loja','pagamento','carrinho','cart','agradecimento','404','template'}
+excluded = {'nossa-senhora-aparecida-cantos','A-pagina-mestre','materia-nova','produto','produto-1','produto-2','loja','pagamento','carrinho','cart','agradecimento','404','template'}
 records = []
 for path in sorted((ROOT / 'pages').glob('*.html')):
     if path.stem in excluded: continue
