@@ -15,7 +15,7 @@ Orientação expressa do usuário em 11 de outubro de 2026, aplicável às próx
 
 ## Matéria de Nossa Senhora Aparecida
 
-As matérias ficam diretamente em `pages/solenidade-nossa-senhora-aparecida-comunhao.html#meditacao` e `pages/viva-a-mae-de-deus-e-nossa.html#meditacao`, com as fontes pertinentes em cada página. O endereço separado anteriormente publicado apenas redireciona os leitores.
+As matérias ficam diretamente em `pages/solenidade-nossa-senhora-aparecida-comunhao.html#meditacao` e `pages/viva-a-mae-de-deus-e-nossa.html#meditacao`, com as fontes pertinentes em cada página. Não há página separada nem redirecionamento: cada matéria integra o HTML da própria página do canto.
 
 Fontes conferidas: Agostinho, *De sancta virginitate*, 3 e 6; *In Ioannis Evangelium tractatus*, XXVI, 11 e 13; Irineu, *Adversus haereses*, III, 22, 1 e 4; Tomás de Aquino, *Suma Teológica*, III, q. 35, a. 4; q. 79, a. 1; q. 25, a. 5; Pio X, *Ad diem illum laetissimum*, texto latino de 2 de fevereiro de 1904, parágrafo inicial e parágrafos iniciados por *Quae cum ita sint* e *Nam ea demum*.
 
