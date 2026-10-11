@@ -1,5 +1,21 @@
 [
   {
+    "title": "Seus filhos",
+    "description": "Comunhão · Solenidade de Nossa Senhora Aparecida",
+    "category": "Canto de Comunhão",
+    "url": "pages/solenidade-nossa-senhora-aparecida-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
+    "published": "2026-10-11"
+  },
+  {
+    "title": "Viva a Mãe de Deus e Nossa!",
+    "description": "Canto mariano · Solenidade de Nossa Senhora Aparecida",
+    "category": "Festas e Solenidades",
+    "url": "pages/viva-a-mae-de-deus-e-nossa.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
+    "published": "2026-10-11"
+  },
+  {
     "title": "Os cantos de Nossa Senhora Aparecida à luz dos santos",
     "description": "A maternidade de Maria, a Comunhão e a caridade em escritos autênticos dos santos.",
     "category": "Formação espiritual",
@@ -44,22 +60,6 @@
     "description": "22º Domingo do Tempo Comum",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-22-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
-  },
-  {
-    "title": "Canto de Comunhão (12º Domingo)",
-    "description": "12º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-12-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
-  },
-  {
-    "title": "Canto de Comunhão (10º Domingo)",
-    "description": "10º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-10-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
     "published": "2026-10-11"
   }
