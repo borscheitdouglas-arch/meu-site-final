@@ -260,6 +260,16 @@
     "url": "/pages/sao-pedro-e-sao-paulo.html"
   },
   {
+    "title": "Seus filhos",
+    "keywords": "Seus filhos solenidade nossa senhora aparecida comunhao",
+    "url": "/pages/solenidade-nossa-senhora-aparecida-comunhao.html"
+  },
+  {
+    "title": "Solenidade de Nossa Senhora Aparecida",
+    "keywords": "Solenidade de Nossa Senhora Aparecida solenidade nossa senhora aparecida",
+    "url": "/pages/solenidade-nossa-senhora-aparecida.html"
+  },
+  {
     "title": "1º Domingo do Tempo Comum",
     "keywords": "1º Domingo do Tempo Comum tempo comum 1",
     "url": "/pages/tempo-comum-1.html"
@@ -468,5 +478,10 @@
     "title": "Veni Veni Emmanuel — Hino do Advento",
     "keywords": "Veni Veni Emmanuel veni veni emmanuel",
     "url": "/pages/veni-veni-emmanuel.html"
+  },
+  {
+    "title": "Viva a Mãe de Deus e Nossa!",
+    "keywords": "Viva a Mãe de Deus e Nossa! viva a mae de deus e nossa",
+    "url": "/pages/viva-a-mae-de-deus-e-nossa.html"
   }
 ]
