@@ -4,7 +4,7 @@
     "description": "Solenidade de Todos os Santos · Mt 5,3.8.10",
     "category": "Canto de Comunhão",
     "url": "pages/solenidade-todos-os-santos-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
+    "image": "/assets/img/Carrossel da página inicial/Cristo na comunhão dos santos.png",
     "published": "2026-10-14"
   },
   {
@@ -16,28 +16,12 @@
     "published": "2026-10-14"
   },
   {
-    "title": "Seus filhos",
-    "description": "Comunhão · Solenidade de Nossa Senhora Aparecida",
-    "category": "Canto de Comunhão",
-    "url": "pages/solenidade-nossa-senhora-aparecida-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
-    "published": "2026-10-11"
-  },
-  {
-    "title": "Viva a Mãe de Deus e Nossa!",
-    "description": "Canto mariano · Solenidade de Nossa Senhora Aparecida",
-    "category": "Festas e Solenidades",
-    "url": "pages/viva-a-mae-de-deus-e-nossa.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
-    "published": "2026-10-11"
-  },
-  {
     "title": "O Filho do homem",
     "description": "29º Domingo do Tempo Comum · Mc 10,45",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-29-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
+    "published": "2026-10-14"
   },
   {
     "title": "Quando o Senhor se manifestar",
@@ -45,7 +29,7 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-28-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
+    "published": "2026-10-14"
   },
   {
     "title": "Nisto conhecemos o amor",
@@ -53,7 +37,7 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-26-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
+    "published": "2026-10-14"
   },
   {
     "title": "Canto de Comunhão (23º Domingo)",
@@ -61,6 +45,22 @@
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-23-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
+    "published": "2026-10-14"
+  },
+  {
+    "title": "Canto de Comunhão (22º Domingo)",
+    "description": "22º Domingo do Tempo Comum",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-22-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-14"
+  },
+  {
+    "title": "Canto de Comunhão (12º Domingo)",
+    "description": "12º Domingo do Tempo Comum",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-12-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-14"
   }
 ]
