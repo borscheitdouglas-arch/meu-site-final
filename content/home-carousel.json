@@ -1,5 +1,13 @@
 [
   {
+    "title": "Nós nos alegraremos",
+    "description": "30º Domingo do Tempo Comum · Sl 19,6",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-30-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-14"
+  },
+  {
     "title": "Seus filhos",
     "description": "Comunhão · Solenidade de Nossa Senhora Aparecida",
     "category": "Canto de Comunhão",
@@ -52,14 +60,6 @@
     "description": "22º Domingo do Tempo Comum",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-22-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-11"
-  },
-  {
-    "title": "Canto de Comunhão (12º Domingo)",
-    "description": "12º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-12-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
     "published": "2026-10-11"
   }

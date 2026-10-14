@@ -1,0 +1,64 @@
+/* Card de repertório com a mesma composição dos demais domingos. */
+.site-editorial .communion-repertoire .carousel-head {
+  margin-bottom: 12px;
+}
+.site-editorial .communion-repertoire .carousel-title {
+  margin: 0;
+  color: var(--accent-2);
+  font: 700 1.4rem/1.4 'Cinzel', Georgia, serif;
+}
+.site-editorial .communion-repertoire .carousel-track {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 24px;
+}
+.site-editorial .communion-repertoire .card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 380px;
+  width: 100%;
+  max-width: 380px;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  text-align: left;
+  cursor: default;
+}
+.site-editorial .communion-repertoire .card-header {
+  padding: 20px 24px 14px;
+}
+.site-editorial .communion-repertoire .card-icon {
+  display: flex;
+  margin-bottom: 12px;
+}
+.site-editorial .communion-repertoire .card-icon img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+.site-editorial .communion-repertoire .card-title {
+  margin: 0 0 2px;
+}
+.site-editorial .communion-repertoire .card-subtitle {
+  margin: 0;
+  font-style: italic;
+}
+.site-editorial .communion-repertoire .card-body {
+  flex: 1;
+  padding: 0 24px 16px;
+}
+.site-editorial .communion-repertoire .card-description {
+  margin: 0;
+  padding-bottom: 10px;
+}
+.site-editorial .communion-repertoire .card-footer {
+  padding: 0 24px 20px;
+}
+.site-editorial .communion-repertoire .card-link {
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+}
