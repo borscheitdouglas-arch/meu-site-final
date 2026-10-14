@@ -84,6 +84,8 @@ def category(filename: str, title: str) -> str:
 
 def background(filename: str) -> str:
     value = filename.lower()
+    if value.startswith("solenidade-todos-os-santos"):
+        return "/assets/img/Carrossel da página inicial/Cristo na comunhão dos santos.png"
     if "veni-veni" in value:
         value = "advento-"
     seasonal_images = {
