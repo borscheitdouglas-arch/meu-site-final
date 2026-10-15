@@ -159,3 +159,18 @@ body.site-editorial {
   .site-editorial .meditation-card { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .site-editorial .meditation-card .card-btn { grid-column: 1; }
 }
+
+/* Repertório do 32º Domingo: card único, sem dependência do carrossel. */
+.site-editorial .communion-repertoire-32 .carousel-head { text-align: center; margin-bottom: 24px; }
+.site-editorial .communion-repertoire-32 .carousel-window { overflow: visible; }
+.site-editorial .communion-repertoire-32 .carousel-track { display: grid; grid-template-columns: minmax(0, 420px); justify-content: center; padding: 4px 0; margin: 0; }
+.site-editorial .communion-repertoire-32 .card { display: flex; flex-direction: column; width: 100%; margin: 0; padding: 0; overflow: hidden; text-align: left; }
+.site-editorial .communion-repertoire-32 .card-header { padding: 28px 24px 16px; }
+.site-editorial .communion-repertoire-32 .card-icon { margin: 0 0 18px; }
+.site-editorial .communion-repertoire-32 .card-icon img { display: block; width: 60px; height: 60px; object-fit: contain; }
+.site-editorial .communion-repertoire-32 .card-title { margin: 0 0 10px; }
+.site-editorial .communion-repertoire-32 .card-subtitle { margin: 0; }
+.site-editorial .communion-repertoire-32 .card-body { flex: 1; padding: 0 24px 24px; }
+.site-editorial .communion-repertoire-32 .card-description { margin: 0; }
+.site-editorial .communion-repertoire-32 .card-footer { padding: 0 24px 28px; }
+.site-editorial .communion-repertoire-32 .card-link { width: 100%; box-sizing: border-box; }
