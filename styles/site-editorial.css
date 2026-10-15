@@ -160,17 +160,36 @@ body.site-editorial {
   .site-editorial .meditation-card .card-btn { grid-column: 1; }
 }
 
-/* Repertório do 32º Domingo: card único, sem dependência do carrossel. */
-.site-editorial .communion-repertoire-32 .carousel-head { text-align: center; margin-bottom: 24px; }
-.site-editorial .communion-repertoire-32 .carousel-window { overflow: visible; }
-.site-editorial .communion-repertoire-32 .carousel-track { display: grid; grid-template-columns: minmax(0, 420px); justify-content: center; padding: 4px 0; margin: 0; }
-.site-editorial .communion-repertoire-32 .card { display: flex; flex-direction: column; width: 100%; margin: 0; padding: 0; overflow: hidden; text-align: left; }
-.site-editorial .communion-repertoire-32 .card-header { padding: 28px 24px 16px; }
-.site-editorial .communion-repertoire-32 .card-icon { margin: 0 0 18px; }
-.site-editorial .communion-repertoire-32 .card-icon img { display: block; width: 60px; height: 60px; object-fit: contain; }
-.site-editorial .communion-repertoire-32 .card-title { margin: 0 0 10px; }
-.site-editorial .communion-repertoire-32 .card-subtitle { margin: 0; }
-.site-editorial .communion-repertoire-32 .card-body { flex: 1; padding: 0 24px 24px; }
-.site-editorial .communion-repertoire-32 .card-description { margin: 0; }
-.site-editorial .communion-repertoire-32 .card-footer { padding: 0 24px 28px; }
-.site-editorial .communion-repertoire-32 .card-link { width: 100%; box-sizing: border-box; }
+/* Cards de repertório: composição compartilhada entre domingos e solenidades. */
+.site-editorial :is(.carousel-section, .cards-container) .card {
+  box-sizing: border-box; display: flex; flex-direction: column; gap: 0;
+  min-width: 0; min-height: 0; width: 100%; max-width: 420px;
+  margin: 0; padding: 0; overflow: hidden; text-align: left;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-header { padding: 28px 24px 16px; }
+.site-editorial :is(.carousel-section, .cards-container) .card-icon { display: flex; margin: 0 0 18px; }
+.site-editorial :is(.carousel-section, .cards-container) .card-icon :is(img, svg) { display: block; width: 60px; height: 60px; object-fit: contain; flex: none; }
+.site-editorial :is(.carousel-section, .cards-container) .card-title { margin: 0 0 10px; overflow-wrap: anywhere; }
+.site-editorial :is(.carousel-section, .cards-container) .card-subtitle { margin: 0; }
+.site-editorial :is(.carousel-section, .cards-container) .card-body { flex: 1; padding: 0 24px 24px; }
+.site-editorial :is(.carousel-section, .cards-container) .card-description { margin: 0; padding: 0; }
+.site-editorial :is(.carousel-section, .cards-container) .card-footer { padding: 0 24px 28px; }
+.site-editorial :is(.carousel-section, .cards-container) .card-link { width: 100%; box-sizing: border-box; text-align: center; white-space: normal; overflow-wrap: anywhere; }
+.site-editorial .carousel-section .carousel-head { margin-bottom: 24px; }
+.site-editorial .carousel-section .carousel-title { margin: 0; }
+/* Sem setas de navegação, todos os cards ficam visíveis em uma grade. */
+.site-editorial .carousel-section:not(:has(.carousel-controls)) .carousel-head { justify-content: center; text-align: center; }
+.site-editorial .carousel-section:not(:has(.carousel-controls)) .carousel-window { overflow: visible; padding: 0; }
+.site-editorial .carousel-section:not(:has(.carousel-controls)) .carousel-track,
+.site-editorial .cards-container {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 420px));
+  justify-content: center; gap: 24px; padding: 4px 0; margin: 0 auto; overflow: visible;
+}
+/* Carrosséis com controles mantêm rolagem e cards dentro da largura disponível. */
+.site-editorial .carousel-section:has(.carousel-controls) .card { flex: 0 0 min(380px, 100%); }
+.site-editorial .cards-track .card { margin-bottom: 0; }
+/* A grade de produtos acompanha o espaço real ao lado das categorias. */
+.site-editorial .store-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.site-editorial .store-card-content { min-width: 0; }
+.site-editorial .store-card h3 { overflow-wrap: anywhere; }
+.site-editorial .store-buy-button { box-sizing: border-box; max-width: 100%; white-space: normal; text-align: center; }
