@@ -1,5 +1,13 @@
 [
   {
+    "title": "O Senhor é o Pastor",
+    "description": "32º Domingo do Tempo Comum",
+    "category": "Canto de Comunhão",
+    "url": "pages/tempo-comum-32-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
+    "published": "2026-10-15"
+  },
+  {
     "title": "Bem-aventurados",
     "description": "Solenidade de Todos os Santos · Mt 5,3.8.10",
     "category": "Canto de Comunhão",
@@ -52,14 +60,6 @@
     "description": "22º Domingo do Tempo Comum",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-22-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-14"
-  },
-  {
-    "title": "Canto de Comunhão (12º Domingo)",
-    "description": "12º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-12-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
     "published": "2026-10-14"
   }
