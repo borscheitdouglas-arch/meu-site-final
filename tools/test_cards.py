@@ -39,14 +39,14 @@ def main():
                 for width in [1440, 768, 390, 320]:
                     page.set_viewport_size({'width': width, 'height': 1000})
                     page.goto(f'{base}/pages/{name}', wait_until='load')
-                    expect(page.locator('main .card, main .store-card').first).to_be_visible()
+                    expect(page.locator('main .card, main .store-card, main .atelier-product').first).to_be_visible()
                     failures = page.evaluate('''() => {
                       const issues = [];
                       if (document.documentElement.scrollWidth > innerWidth + 1) issues.push('page overflow');
-                      for (const card of document.querySelectorAll('main .card, main .store-card')) {
+                      for (const card of document.querySelectorAll('main .card, main .store-card, main .atelier-product')) {
                         if (card.scrollWidth > card.clientWidth + 2) issues.push('card content clipped');
                         const box = card.getBoundingClientRect();
-                        for (const el of card.querySelectorAll('.card-link, .store-buy-button, h2, h3')) {
+                        for (const el of card.querySelectorAll('.card-link, .store-buy-button, .atelier-buy, h2, h3')) {
                           const r = el.getBoundingClientRect();
                           if (r.left < box.left - 1 || r.right > box.right + 1) issues.push('title or button outside card');
                         }
@@ -69,13 +69,16 @@ def main():
             page.locator('#carousel-prev').click()
             page.wait_for_function("initial => document.querySelector('#carousel-track').scrollLeft <= initial + 5", arg=initial_scroll)
             page.goto(f'{base}/pages/loja.html')
-            page.locator('#store-search').fill('Introdução')
-            expect(page.locator('.store-card:visible')).to_have_count(1)
+            expect(page.locator('.atelier-product')).to_have_count(1)
+            expect(page.locator('.atelier-buy')).to_have_count(2)
+            for link in page.locator('.atelier-buy').all():
+                expect(link).to_be_visible()
+                assert link.get_attribute('href').startswith('https://')
             assert not errors, errors
             browser.close()
     finally:
         server.shutdown()
-    print('Cards aprovados em quatro larguras; carrossel e busca funcionando.')
+    print('Cards aprovados em quatro larguras; carrossel e compra externa funcionando.')
 
 if __name__ == '__main__':
     main()

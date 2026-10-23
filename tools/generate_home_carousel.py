@@ -147,9 +147,11 @@ def main() -> None:
     )
     for item in records:
         item.pop("_timestamp", None)
+    featured = json.loads((ROOT / "content" / "home-featured.json").read_text(encoding="utf-8"))
+    records = featured + records
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(records[:MAX_ITEMS], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Catálogo atualizado com {min(len(records), MAX_ITEMS)} páginas: {OUTPUT.relative_to(ROOT)}")
+    OUTPUT.write_text(json.dumps(records[:MAX_ITEMS + len(featured)], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Catálogo atualizado com {min(len(records), MAX_ITEMS + len(featured))} páginas: {OUTPUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

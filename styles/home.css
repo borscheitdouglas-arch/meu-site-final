@@ -113,3 +113,30 @@ body.home-page { background: #151715; }
 @media(prefers-reduced-motion: reduce) {
  .home-page #recent-content-carousel .home-card-image { scale: 1 !important; transition: none; }
 }
+
+/* O livro usa a mesma altura dos demais slides; a arte não dimensiona o carrossel. */
+.home-page #recent-content-carousel .lit-card-book { position: relative; overflow: hidden; background: #101a22; container-type: inline-size; }
+.home-page #recent-content-carousel .lit-card-book::after { display: none; }
+.home-page #recent-content-carousel .book-banner-stage { position: absolute; inset: 0; display: grid; place-items: center; container-type: size; isolation: isolate; }
+.home-page #recent-content-carousel .lit-card-book .home-card-image { position: absolute; inset: 0; z-index: auto; width: 100%; height: 100%; object-fit: contain; animation: none; transform: none; scale: 1; }
+.home-page #recent-content-carousel .lit-card-book .lit-card-content { display: none; }
+.home-page #recent-content-carousel .book-banner-button:focus-visible { outline: 3px solid #e7d4a6; outline-offset: -4px; }
+@media (max-width: 650px) {
+ .home-page #recent-content-carousel .book-banner-stage { inset: 0 0 auto; aspect-ratio: 3 / 1; }
+ .home-page #recent-content-carousel .lit-card-book .lit-card-content,
+ .home-page #recent-content-carousel .lit-card-book .lit-card-content:focus-within { display: flex; position: absolute; inset: calc(100cqw / 3 + 20px) 0 142px; width: auto; height: auto; margin: 0; padding: 12px 24px; overflow: visible; clip-path: none; max-width: 100%; align-self: stretch; }
+ .home-page #recent-content-carousel .lit-card-book h3 { margin: 8px 0; font-size: 24px; }
+ .home-page #recent-content-carousel .lit-card-book p { margin-bottom: 12px; font-size: 14px; line-height: 1.4; }
+}
+
+/* O quadro acompanha a proporção 3:1 da arte para manter o botão alinhado. */
+.home-page #recent-content-carousel .book-banner-frame { position: relative; width: min(100cqw, 300cqh); aspect-ratio: 3 / 1; container-type: inline-size; }
+.home-page #recent-content-carousel .book-banner-button { position: absolute; z-index: 1; left: 77.6%; top: 73.6%; width: 19%; height: 13%; display: flex; align-items: center; justify-content: center; box-sizing: border-box; border: 2px solid #b08436; border-radius: 999px; background: linear-gradient(180deg, #f8df9a, #e7bd68 55%, #d5a24d); color: #24180a; box-shadow: inset 0 0 0 2px #ffe6a4, 0 2px 8px #0008; font: 700 clamp(8px, 1.6cqw, 24px)/1 'Cinzel', Georgia, serif; text-transform: uppercase; text-decoration: none; letter-spacing: .03em; transition: filter .2s ease, box-shadow .2s ease; }
+.home-page #recent-content-carousel .book-banner-button:hover { filter: brightness(1.08); box-shadow: inset 0 0 0 2px #fff0c6, 0 3px 14px #d6ad4755; }
+
+/* Preenche as margens com a própria paleta da arte, sem reduzir o banner. */
+.home-page #recent-content-carousel .book-banner-stage::before { content: ''; position: absolute; inset: -20px; z-index: -1; background: linear-gradient(#08121b77, #08121baa), url("/assets/img/Produtos/o-canto-como-mistica-banner-sem-botao.png") center / cover; filter: blur(18px); }
+.home-page #recent-content-carousel .book-banner-frame { flex-shrink: 0; }
+@media (max-width: 650px) {
+ .home-page #recent-content-carousel .book-banner-stage::before { display: none; }
+}

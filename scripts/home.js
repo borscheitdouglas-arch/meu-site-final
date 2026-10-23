@@ -13,7 +13,7 @@
       typeof item.image === 'string' && item.image.startsWith('/assets/img/'))) throw new Error('Catálogo inválido');
     const cards = items.map(item => {
       const card = document.createElement('article');
-      card.className = 'lit-card';
+      card.className = item.layout === 'book' ? 'lit-card lit-card-book' : 'lit-card';
       const img = document.createElement('img');
       img.className = 'home-card-image'; img.src = item.image; img.alt = ''; img.loading = 'lazy';
       const content = document.createElement('div'); content.className = 'lit-card-content';
@@ -21,8 +21,17 @@
         const el = document.createElement(tag); el.textContent = value; el.className = className; content.append(el);
       }
       const actions = document.createElement('div'); actions.className = 'lit-card-actions';
-      const link = document.createElement('a'); link.href = item.url; link.className = 'btn'; link.textContent = 'Conhecer o canto';
-      actions.append(link); content.append(actions); card.append(img,content); return card;
+      const link = document.createElement('a'); link.href = item.url; link.className = 'btn'; link.textContent = item.cta || 'Conhecer o canto';
+      actions.append(link); content.append(actions);
+      if (item.layout === 'book') {
+        const stage = document.createElement('div'); stage.className = 'book-banner-stage';
+        const frame = document.createElement('div'); frame.className = 'book-banner-frame';
+        const bannerLink = document.createElement('a'); bannerLink.href = item.url; bannerLink.className = 'book-banner-button';
+        bannerLink.textContent = 'Saiba Mais'; bannerLink.setAttribute('aria-label', `Saiba mais sobre o livro ${item.title}`);
+        img.alt = `Banner do livro ${item.title}, de Douglas Assumpção`; img.loading = 'eager';
+        frame.append(img, bannerLink); stage.append(frame); card.append(stage, content);
+      } else { card.append(img,content); }
+      return card;
     });
     track.replaceChildren(...cards);
   } catch (_) {

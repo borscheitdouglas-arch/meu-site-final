@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "products": [
+    {
+      "id": "o-canto-como-mistica",
+      "status": "published",
+      "title": "O Canto Como Mística",
+      "subtitle": "O nascimento interior do canto — Do silêncio à humildade",
+      "author": "Douglas Assumpção",
+      "description": "Uma obra para quem deseja contemplar a música sacra como caminho interior.",
+      "category": "Música sacra e espiritualidade",
+      "format": "Livro físico",
+      "image": "/assets/img/Produtos/o-canto-como-mistica-card.png",
+      "image_alt": "Arte de divulgação de O Canto Como Mística: livro azul-escuro com ornamentos dourados, à luz de velas.",
+      "retailers": [
+        {
+          "name": "UICLAP",
+          "url": "https://loja.uiclap.com/titulo/ua191854?srsltid=AYCX9vICzPtPtP0GdmBZhGPxlYWI1G6g4KP4Lqd_doafgZUSwGTN8f4Y"
+        },
+        {
+          "name": "Amazon",
+          "url": "https://www.amazon.com.br/canto-como-mística-nascimento-Portuguese/dp/650227983X"
+        }
+      ]
+    }
+  ]
+}

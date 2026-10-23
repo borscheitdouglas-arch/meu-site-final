@@ -2084,29 +2084,7 @@ body.dark{ --bg:#121213; --text:#e9e9e9; --card:#161617; --muted:#bbbbbb; }
   }
 }
 
-/* ============================================================
-   LOJA TEMPORARIAMENTE DESATIVADA
-   Para reativar o botão "Loja" no header, remova ou comente
-   todo este bloco (do início até "FIM DO BLOQUEIO").
-   ============================================================ */
-header.site-header .header-actions a.icon-btn[href="loja.html"],
-header.site-header .header-actions a.icon-btn[href$="loja.html"],
-.header-actions a.icon-btn[title="Loja"],
-.header-actions a[href="loja.html"],
-.header-actions a[href$="/loja.html"],
-header.site-header .header-actions a[href$="loja.html"] {
-  display: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  overflow: hidden !important;
-  pointer-events: none !important;
-}
-/* ============================================================
-   FIM DO BLOQUEIO TEMPORÁRIO DA LOJA
-   ============================================================ */
+
 
 /* Menu único para todo o site: preserva a iluminura original da Visitação. */
 body.nav-open { overflow: hidden; }

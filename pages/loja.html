@@ -4,500 +4,31 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Loja com livros, partituras, acessórios e materiais para canto litúrgico e música sacra." name="description"/>
+<meta content="Conheça O Canto Como Mística, de Douglas Assumpção. Um convite à contemplação da música sacra. Compre na Amazon ou na UICLAP." name="description"/>
 <meta content="index,follow" name="robots"/>
 <title>Loja | Douglas Assumpção</title>
-<meta content="#111111" name="theme-color"/>
+<meta content="#151715" name="theme-color"/>
 <meta content="Loja | Douglas Assumpção" property="og:title"/>
-<meta content="Materiais para estudo, prática e aprofundamento do canto litúrgico e da música sacra." property="og:description"/>
+<meta content="O Canto Como Mística, de Douglas Assumpção. O nascimento interior do canto — Do silêncio à humildade." property="og:description"/>
 <meta content="website" property="og:type"/>
 <link href="../assets/img/icone.png" rel="icon" sizes="192x192"/>
 <link href="../assets/img/icone.png" rel="shortcut icon"/>
-<!-- Substituir o link atual das fontes por este, que inclui Cinzel. -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600;700&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
 <link href="../styles/style.css?v=20261005-menu-adornos" rel="stylesheet"/>
-<style>
-    /* Loja */
-    .store-page {
-      width: min(1320px, calc(100% - 48px));
-      margin: 0 auto;
-      padding: 64px 0 96px;
-    }
 
-    .store-hero {
-      margin-bottom: 36px;
-      text-align: left;
-    }
-
-    .store-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0 0 10px;
-      color: rgba(212, 175, 55, .85);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2.2px;
-      text-transform: uppercase;
-    }
-
-    .store-eyebrow::before {
-      content: '';
-      width: 22px;
-      height: 1px;
-      background: rgba(212, 175, 55, .6);
-    }
-
-    .store-title,
-    .store-section-title,
-    .store-card h3 {
-      font-family: 'Cinzel', Georgia, serif;
-    }
-
-    .store-title {
-      margin: 0;
-      color: #f1e2ad;
-      font-size: clamp(32px, 4vw, 46px);
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      text-shadow: 0 2px 18px rgba(212, 175, 55, .18);
-    }
-
-    .store-description {
-      max-width: 720px;
-      margin: 14px 0 0;
-      color: rgba(255, 255, 255, .68);
-      font-size: 15.5px;
-      line-height: 1.7;
-    }
-
-    .store-divider {
-      justify-content: flex-start;
-      max-width: 140px;
-      height: 2px;
-      margin: 26px 0 0;
-      background: linear-gradient(90deg, #d4af37, transparent);
-      border-radius: 2px;
-    }
-
-    .store-divider span { display: none; }
-
-    .store-layout {
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-      gap: 42px;
-      padding-top: 34px;
-      border-top: 1px solid rgba(212, 175, 55, .18);
-    }
-
-    .store-sidebar {
-      padding: 22px 18px;
-      border: 1px solid rgba(212, 175, 55, .16);
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(212, 175, 55, .05), rgba(255, 255, 255, .015));
-      box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
-    }
-
-    .store-sidebar-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0 0 20px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(212, 175, 55, .18);
-      color: #d4af37;
-      font: 700 15px 'Cinzel', Georgia, serif;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-    }
-
-    .store-sidebar-title::before {
-      content: '◆';
-      font-size: 10px;
-      color: rgba(212, 175, 55, .7);
-    }
-
-    .store-filter-list {
-      display: grid;
-      gap: 3px;
-      margin: 0 0 26px;
-    }
-
-    .store-filter {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 11px 13px;
-      border: 0;
-      border-radius: 8px;
-      background: transparent;
-      color: rgba(255, 255, 255, .66);
-      cursor: pointer;
-      font: inherit;
-      font-size: 13.5px;
-      text-align: left;
-      transition: background-color .22s ease, color .22s ease, transform .22s ease;
-    }
-
-    .store-filter:hover {
-      background: rgba(212, 175, 55, .09);
-      color: #f1d98b;
-      transform: translateX(3px);
-    }
-
-    .store-filter[aria-pressed="true"] {
-      background: rgba(212, 175, 55, .16);
-      color: #eecf7a;
-      font-weight: 700;
-      box-shadow: inset 3px 0 0 #d4af37;
-    }
-
-    .store-filter-static-title {
-      margin: 0 0 14px;
-      padding: 10px 13px;
-      border-radius: 8px;
-      background: rgba(212, 175, 55, .08);
-      color: #f1e2ad;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: .4px;
-    }
-
-    .store-filter-group-title {
-      padding: 10px 13px;
-      border-radius: 8px;
-      color: rgba(255, 255, 255, .88);
-      font-size: 13.5px;
-      font-weight: 700;
-      letter-spacing: .3px;
-    }
-
-    .store-filter-group-title:hover {
-      background: rgba(212, 175, 55, .09);
-    }
-
-    .store-filter-group-title[aria-pressed="true"] {
-      background: rgba(212, 175, 55, .16);
-    }
-
-    .store-filter-count {
-      flex: 0 0 auto;
-      min-width: 24px;
-      margin-left: 12px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .04);
-      color: rgba(255, 255, 255, .32);
-      font-size: 10.5px;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    .store-filter[aria-pressed="true"] .store-filter-count {
-      background: rgba(212, 175, 55, .28);
-      color: #f1e2ad;
-      font-weight: 700;
-    }
-
-    .store-filter-group {
-      margin: 0 0 22px;
-    }
-
-    .store-filter-group:last-child {
-      margin-bottom: 8px;
-    }
-
-    .store-filter-list--nested {
-      margin: 8px 0 0 6px;
-      padding-left: 14px;
-      border-left: 1px dashed rgba(212, 175, 55, .2);
-    }
-
-    .store-filter-list--nested .store-filter {
-      padding: 7px 12px;
-      font-size: 12.5px;
-      color: rgba(255, 255, 255, .5);
-    }
-
-    .store-filter-list--nested .store-filter:hover {
-      transform: translateX(3px);
-    }
-
-    .store-filter-list--nested .store-filter[aria-pressed="true"] {
-      color: #eecf7a;
-    }
-
-    .store-catalog-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 8px;
-    }
-
-    .store-section-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0;
-      color: #fff;
-      font-size: clamp(22px, 2.6vw, 28px);
-      letter-spacing: .4px;
-    }
-
-    .store-section-title::before {
-      content: '♬';
-      color: #d4af37;
-      font-family: Georgia, serif;
-    }
-
-    .store-search-wrap {
-      position: relative;
-      width: min(300px, 100%);
-    }
-
-    .store-search-wrap::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 14px;
-      width: 15px;
-      height: 15px;
-      transform: translateY(-50%);
-      border: 2px solid rgba(212, 175, 55, .55);
-      border-radius: 50%;
-    }
-
-    .store-search-wrap::after {
-      content: '';
-      position: absolute;
-      top: 62%;
-      left: 27px;
-      width: 6px;
-      height: 2px;
-      background: rgba(212, 175, 55, .55);
-      transform: rotate(45deg);
-    }
-
-    .store-search {
-      width: 100%;
-      min-height: 44px;
-      padding: 0 16px 0 38px;
-      border: 1px solid rgba(212, 175, 55, .3);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, .035);
-      color: #fff;
-      font: inherit;
-      font-size: 13.5px;
-      transition: border-color .2s ease, background-color .2s ease;
-    }
-
-    .store-search::placeholder {
-      color: rgba(255, 255, 255, .4);
-    }
-
-    .store-search:hover {
-      border-color: rgba(212, 175, 55, .48);
-    }
-
-    .store-search:focus-visible,
-    .store-filter:focus-visible,
-    .store-buy-button:focus-visible {
-      outline: 2px solid #d4af37;
-      outline-offset: 3px;
-    }
-
-    .store-results-summary {
-      margin: 6px 0 24px;
-      color: rgba(255, 255, 255, .48);
-      font-size: 12.5px;
-      letter-spacing: .3px;
-    }
-
-    .store-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 28px 20px;
-    }
-
-    .store-card {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      border: 1px solid transparent;
-      border-radius: 12px;
-      background: transparent;
-      transition: transform .25s ease, border-color .25s ease;
-    }
-
-    .store-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(212, 175, 55, .22);
-    }
-
-    .store-card[hidden] {
-      display: none;
-    }
-
-    .store-card-image-wrap {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-    }
-
-    .store-card-image {
-      display: block;
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      border: 1px solid rgba(212, 175, 55, .22);
-      border-radius: 10px;
-      object-fit: cover;
-      background: #171717;
-      transition: transform .4s ease;
-    }
-
-    .store-card:hover .store-card-image {
-      transform: scale(1.045);
-    }
-
-    .store-card-content {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      padding: 16px 3px 0;
-    }
-
-    .store-card h3 {
-      margin: 0;
-      min-height: 2.7em;
-      color: #fff;
-      font-size: 16.5px;
-      line-height: 1.35;
-      letter-spacing: .2px;
-    }
-
-    .store-subtitle {
-      margin: 6px 0 10px;
-      min-height: 2.6em;
-      color: rgba(255, 255, 255, .5);
-      font-size: 12.5px;
-      line-height: 1.3;
-    }
-
-    .store-rating {
-      margin: 0 0 10px;
-      color: #d4af37;
-      font-size: 14px;
-      letter-spacing: 1px;
-    }
-
-    .store-price {
-      margin: 0 0 14px;
-      color: #f1e2ad;
-      font-size: 15.5px;
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
-
-    .store-buy-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: fit-content;
-      min-height: 40px;
-      margin-top: auto;
-      padding: 9px 18px;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #e6c563, #c79c2e);
-      color: #171717;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .3px;
-      text-transform: uppercase;
-      transition: filter .2s ease, transform .2s ease;
-    }
-
-    .store-empty {
-      grid-column: 1 / -1;
-      padding: 40px 26px;
-      border: 1px dashed rgba(212, 175, 55, .3);
-      border-radius: 12px;
-      background: rgba(212, 175, 55, .03);
-      color: rgba(255, 255, 255, .6);
-      font-size: 14px;
-      text-align: center;
-    }
-
-    @media (max-width: 980px) {
-      .store-layout {
-        grid-template-columns: 220px minmax(0, 1fr);
-      }
-
-      .store-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 720px) {
-      .store-page {
-        width: min(100% - 32px, 1320px);
-        padding-top: 44px;
-      }
-
-      .store-layout {
-        grid-template-columns: 1fr;
-        gap: 26px;
-      }
-
-      .store-sidebar {
-        padding: 18px 16px;
-      }
-
-      .store-filter-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .store-layout > *, .store-filter-list > * { min-width: 0; }
-      .store-filter-list--nested { grid-template-columns: minmax(0, 1fr); }
-      .store-filter { overflow-wrap: anywhere; gap: 6px; }
-
-      .store-catalog-header {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 14px;
-      }
-
-      .store-search-wrap {
-        width: 100%;
-      }
-
-      .store-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 26px 16px;
-      }
-    }
-
-    @media (max-width: 460px) {
-      .store-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Store",
       "name": "Loja Douglas Assumpção",
-      "description": "Produtos e materiais para canto litúrgico e música sacra."
+      "description": "O Canto Como Mística, de Douglas Assumpção, disponível na Amazon e na UICLAP."
     }
   </script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/><link href="../styles/site-editorial.css" rel="stylesheet"/></head>
-<body class="site-editorial"><a class="editorial-skip" href="#conteudo">Pular para o conteúdo</a>
+<link href="../styles/site-editorial.css" rel="stylesheet"/><link href="../styles/store-book.css?v=20261022-vitrine-refinada" rel="stylesheet"/></head>
+<body class="site-editorial bookshop-page"><a class="editorial-skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
 <button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
 <svg aria-hidden="true" focusable="false" height="16" style="display:block" viewbox="0 0 22 16" width="22" xmlns="http://www.w3.org/2000/svg"><rect fill="currentColor" height="2" rx="1" width="22" y="0"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="7"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="14"></rect></svg>
@@ -505,11 +36,11 @@
 <div class="logo"><a href="/index.html"><img alt="Douglas Assumpção — início" id="site-logo" src="/assets/img/icone.png"/></a></div>
 <div class="header-actions">
 <a class="icon-btn" href="/pages/loja.html" title="Loja">
-<img alt="Loja" class="icon-img" src="/assets/img/icone1.png"/>
+<img alt="Loja" class="icon-img" src="/assets/img/Icones/LOJA%201.png"/>
 <span class="icon-label">LOJA</span>
 </a>
 <a class="icon-btn" href="/pages/contato.html" title="Contato">
-<img alt="Contato" class="icon-img" src="/assets/img/icone2.png"/>
+<img alt="Contato" class="icon-img" src="/assets/img/Icones/CONTATO%201.png"/>
 <span class="icon-label">CONTATO</span>
 </a>
 </div>
@@ -642,186 +173,51 @@
 </ul>
 </nav>
 <div class="nav-overlay" hidden="" id="nav-overlay"></div>
-<main class="store-page editorial-main" id="conteudo" tabindex="-1"><nav aria-label="Navegação" class="editorial-breadcrumb"><a href="/index.html">← Início</a></nav>
-<section aria-labelledby="store-title" class="store-hero">
-<p class="store-eyebrow">Douglas Assumpção</p>
-<h1 class="store-title editorial-title" id="store-title">Loja</h1>
-<p class="store-description">Livros, partituras e materiais selecionados para a formação litúrgica e a beleza da música sacra.</p>
-<div aria-hidden="true" class="store-divider"></div>
-</section>
-<section aria-labelledby="store-catalog-title" class="store-layout">
-<aside aria-label="Filtros do catálogo" class="store-sidebar">
-<h2 class="store-sidebar-title">Categoria</h2>
-<div aria-label="Filtrar produtos por categoria" class="store-filter-list" role="group">
-<h3 class="store-filter-static-title">✨ Obras Douglas Assumpção</h3>
-<div class="store-filter-group">
-<button aria-pressed="false" class="store-filter store-filter-group-title" data-category="livros" type="button">
-<span>📖 Livros</span>
-<span aria-hidden="true" class="store-filter-count"></span>
-</button>
-<div class="store-filter-list store-filter-list--nested">
-<button aria-pressed="false" class="store-filter" data-category="meditacoes-musica-sacra" type="button">
-<span>Meditações sobre Música Sacra</span>
-<span aria-hidden="true" class="store-filter-count"></span>
-</button>
+<main class="atelier editorial-main" id="conteudo" tabindex="-1">
+<header class="sacred-hero">
+<div class="sacred-hero-inner"><div class="sacred-hero-copy">
+<p class="atelier-eyebrow">Livraria · Douglas Assumpção</p>
+<h1>Música e conhecimento<br/><em>a serviço do sagrado</em></h1>
+<img class="sacred-ornament" src="/assets/img/loja/ornamento.svg" alt="" aria-hidden="true" width="220" height="32"/>
+<p class="sacred-hero-description">Uma leitura para contemplar a música sacra<br/>com profundidade e beleza.</p>
+<a class="sacred-cta" href="#colecao">Explorar os livros <span aria-hidden="true">›</span></a>
+</div></div>
+</header>
+<!-- STORE_CATALOG_START -->
+<section class="atelier-catalog" id="colecao" aria-labelledby="catalog-title">
+<div class="atelier-catalog-heading"><div><p class="atelier-eyebrow">A coleção</p><h2 id="catalog-title">Leituras para a vida interior</h2></div><span class="atelier-count">01 obra</span></div>
+<div class="atelier-grid atelier-grid-single">
+<article class="atelier-product" aria-labelledby="product-o-canto-como-mistica-title">
+<figure class="atelier-product-art">
+<img src="/assets/img/Produtos/o-canto-como-mistica-card.png" alt="Arte de divulgação de O Canto Como Mística: livro azul-escuro com ornamentos dourados, à luz de velas." width="1122" height="1402" loading="eager" fetchpriority="high" decoding="async"/>
+<figcaption>Arte de divulgação</figcaption>
+</figure>
+<div class="atelier-product-copy">
+<div class="atelier-product-meta"><p class="atelier-product-kind">Música sacra e espiritualidade</p><span class="atelier-product-format">Livro físico</span></div>
+<h3 id="product-o-canto-como-mistica-title">O Canto Como Mística</h3>
+<p class="atelier-product-subtitle">O nascimento interior do canto — Do silêncio à humildade</p>
+<p class="atelier-product-author">Por Douglas Assumpção</p>
+<p class="atelier-product-description">Uma obra para quem deseja contemplar a música sacra como caminho interior.</p>
+<div class="atelier-product-purchase">
+<p class="atelier-purchase-label">Adquira seu exemplar</p>
+<div class="atelier-retailers">
+<a class="atelier-buy atelier-buy-primary" href="https://loja.uiclap.com/titulo/ua191854?srsltid=AYCX9vICzPtPtP0GdmBZhGPxlYWI1G6g4KP4Lqd_doafgZUSwGTN8f4Y" target="_blank" rel="noopener noreferrer"><span>Comprar na UICLAP</span><span aria-hidden="true">↗</span><span class="atelier-sr"> (abre em nova aba)</span></a>
+<a class="atelier-buy atelier-buy-secondary" href="https://www.amazon.com.br/canto-como-mística-nascimento-Portuguese/dp/650227983X" target="_blank" rel="noopener noreferrer"><span>Comprar na Amazon</span><span aria-hidden="true">↗</span><span class="atelier-sr"> (abre em nova aba)</span></a>
 </div>
+<p class="atelier-purchase-note">Preço, frete e prazo de entrega são informados na loja escolhida.</p>
 </div>
-<div class="store-filter-group">
-<h3 class="store-filter-static-title">🖨️ Criações em Impressão 3D</h3>
-<div class="store-filter-list store-filter-list--nested">
-<button aria-pressed="false" class="store-filter" data-category="decoracao-design" type="button"><span>Decoração e Design</span><span aria-hidden="true" class="store-filter-count"></span></button>
-<button aria-pressed="false" class="store-filter" data-category="arte-colecionaveis" type="button"><span>Arte e Colecionáveis</span><span aria-hidden="true" class="store-filter-count"></span></button>
-<button aria-pressed="false" class="store-filter" data-category="casa-organizacao" type="button"><span>Casa e Organização</span><span aria-hidden="true" class="store-filter-count"></span></button>
-<button aria-pressed="false" class="store-filter" data-category="presentes-personalizados" type="button"><span>Presentes e Personalizados</span><span aria-hidden="true" class="store-filter-count"></span></button>
-<button aria-pressed="false" class="store-filter" data-category="utilidades-acessorios" type="button"><span>Utilidades e Acessórios</span><span aria-hidden="true" class="store-filter-count"></span></button>
-<button aria-pressed="false" class="store-filter" data-category="arte-sacra-religiosa" type="button"><span>Arte Sacra e Religiosa</span><span aria-hidden="true" class="store-filter-count"></span></button>
-</div>
-</div>
-</div>
-</aside>
-<div class="store-catalog">
-<div class="store-catalog-header">
-<h2 class="store-section-title" id="store-catalog-title">Livros e partituras</h2>
-<div class="store-search-wrap">
-<label class="visually-hidden" for="store-search">Buscar produtos</label>
-<input autocomplete="off" class="store-search" id="store-search" placeholder="Buscar na loja..." type="search"/>
-</div>
-</div>
-<p aria-live="polite" class="store-results-summary" id="store-results-summary" role="status"></p>
-<p class="store-empty" hidden="" id="store-empty" role="status">Nenhum produto encontrado. Tente outro termo ou categoria.</p>
-<div class="store-grid" id="store-products">
-<article class="store-card" data-category="livros">
-<div class="store-card-image-wrap">
-<img alt="Capa ilustrativa do livro Introdução ao Canto Gregoriano" class="store-card-image" decoding="async" loading="lazy" src="../assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg"/>
-</div>
-<div class="store-card-content">
-<span class="store-category">Livro</span>
-<h3>Introdução ao Canto Gregoriano</h3>
-<div class="store-subtitle">Estudo e espiritualidade</div>
-<div aria-label="Avaliação 5 de 5" class="store-rating">★★★★★ <span>/ 5,0</span></div>
-<p class="store-price">R$ 49,90 <del>R$ 59,90</del></p>
-<a class="store-buy-button" href="https://exemplo.com/livro-canto-gregoriano" rel="noopener noreferrer sponsored" target="_blank">Comprar</a>
 </div>
 </article>
-<article class="store-card" data-category="partituras">
-<div class="store-card-image-wrap">
-<img alt="Capa ilustrativa das Partituras para a Missa" class="store-card-image" decoding="async" loading="lazy" src="../assets/img/Imagens-religiosas-devocionais/Ad-libitum.png"/>
-</div>
-<div class="store-card-content">
-<span class="store-category">Partituras</span>
-<h3>Partituras para a Missa</h3>
-<div class="store-subtitle">Ordinário da Missa</div>
-<div aria-label="Avaliação 5 de 5" class="store-rating">★★★★★ <span>/ 5,0</span></div>
-<p class="store-price">R$ 29,90</p>
-<a class="store-buy-button" href="https://exemplo.com/partituras-missa" rel="noopener noreferrer sponsored" target="_blank">Comprar</a>
-</div>
-</article>
-<article class="store-card" data-category="acessorios">
-<div class="store-card-image-wrap">
-<img alt="Estante para partituras" class="store-card-image" decoding="async" loading="lazy" src="../assets/img/Imagens-religiosas-devocionais/Pater-noster.jpg"/>
-</div>
-<div class="store-card-content">
-<span class="store-category">Acessório</span>
-<h3>Estante para Partituras</h3>
-<div class="store-subtitle">Para músicos e corais</div>
-<div aria-label="Avaliação 5 de 5" class="store-rating">★★★★★ <span>/ 5,0</span></div>
-<p class="store-price">R$ 127,90 <del>R$ 159,90</del></p>
-<a class="store-buy-button" href="https://exemplo.com/estante-partituras" rel="noopener noreferrer sponsored" target="_blank">Comprar</a>
-</div>
-</article>
-<article class="store-card" data-category="livros">
-<div class="store-card-image-wrap">
-<img alt="Capa ilustrativa do livro Formação Litúrgica" class="store-card-image" decoding="async" loading="lazy" src="../assets/img/Imagens-religiosas-devocionais/Ad-libitum.png"/>
-</div>
-<div class="store-card-content">
-<span class="store-category">Livro</span>
-<h3>Formação Litúrgica</h3>
-<div class="store-subtitle">Celebração e música</div>
-<div aria-label="Avaliação 5 de 5" class="store-rating">★★★★★ <span>/ 5,0</span></div>
-<p class="store-price">R$ 39,90</p>
-<a class="store-buy-button" href="https://exemplo.com/formacao-liturgica" rel="noopener noreferrer sponsored" target="_blank">Comprar</a>
-</div>
-</article>
-</div>
 </div>
 </section>
+<!-- STORE_CATALOG_END -->
+<img class="sacred-ornament shop-closing-ornament" src="/assets/img/loja/ornamento.svg" alt="" aria-hidden="true" width="220" height="32"/>
+<section class="sacred-help" id="como-comprar" aria-labelledby="help-title"><div><p class="atelier-eyebrow">Da escolha à leitura</p><h2 id="help-title">Como adquirir seu exemplar</h2><p>Escolha Amazon ou UICLAP no produto. Na página da livraria, confira preço, frete e prazo de entrega e finalize sua compra.</p></div><a href="/pages/contato.html">Entre em contato <span aria-hidden="true">↗</span></a></section>
 </main>
 <footer class="site-footer">
-<p>© 2025 Douglas Assumpção. Todos os direitos reservados.</p>
+<p>© 2026 Douglas Assumpção. Todos os direitos reservados.</p>
 </footer>
 <script src="../scripts/script.js?v=20261005-menu-adornos"></script>
-<script>
-    (() => {
-      const search = document.getElementById('store-search');
-      const filters = [...document.querySelectorAll('.store-filter')];
-      const products = [...document.querySelectorAll('.store-card')];
-      const empty = document.getElementById('store-empty');
-      const summary = document.getElementById('store-results-summary');
-      let category = 'todos';
 
-      const categoryGroups = {
-        livros: ['livros', 'meditacoes-musica-sacra'],
-        'meditacoes-musica-sacra': ['livros'],
-        'impressoes-3d': [
-          'decoracao-design',
-          'arte-colecionaveis',
-          'casa-organizacao',
-          'presentes-personalizados',
-          'utilidades-acessorios',
-          'arte-sacra-religiosa'
-        ]
-      };
-
-      const normalize = (value) =>
-        value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-
-      function belongsToCategory(product, selectedCategory) {
-        return selectedCategory === 'todos' ||
-          (categoryGroups[selectedCategory] || [selectedCategory]).includes(product.dataset.category);
-      }
-
-      function updateCounts() {
-        filters.forEach((filter) => {
-          const count = products.filter((product) =>
-            belongsToCategory(product, filter.dataset.category)
-          ).length;
-
-          filter.querySelector('.store-filter-count').textContent = `(${count})`;
-        });
-      }
-
-      function updateProducts() {
-        const query = normalize(search.value.trim());
-        let visible = 0;
-
-        products.forEach((product) => {
-          const matchesCategory = belongsToCategory(product, category);
-          const matchesQuery = !query || normalize(product.textContent).includes(query);
-          product.hidden = !(matchesCategory && matchesQuery);
-
-          if (!product.hidden) visible += 1;
-        });
-
-        empty.hidden = visible > 0;
-        summary.textContent = `${visible} ${visible === 1 ? 'produto encontrado' : 'produtos encontrados'}`;
-      }
-
-      filters.forEach((filter) => {
-        filter.addEventListener('click', () => {
-          category = filter.dataset.category;
-
-          filters.forEach((button) => {
-            button.setAttribute('aria-pressed', String(button === filter));
-          });
-
-          updateProducts();
-        });
-      });
-
-      search.addEventListener('input', updateProducts);
-      updateCounts();
-      updateProducts();
-    })();
-  </script>
 <script src="../scripts/site-editorial.js?v=menu-elegante-2"></script></body>
 </html>
