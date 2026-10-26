@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /editor/
+Disallow: /tools/
+Disallow: /prompt/
+Disallow: /*.bak$
+
+Sitemap: https://www.douglasassumpcao.com.br/sitemap.xml
