@@ -4,35 +4,87 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="theme-color" content="#151715">
-  <title>Produtos personalizados — Prévia | Douglas Assumpção</title>
-  <meta name="description" content="Prévia em desenvolvimento da coleção de produtos personalizados Douglas Assumpção.">
+  <meta name="theme-color" content="#111710">
+  <meta name="description" content="Coleção de produtos personalizados Douglas Assumpção — prévia em desenvolvimento.">
+  <title>Coleção autoral — Prévia | Douglas Assumpção</title>
   <link href="../assets/img/icone.png" rel="icon">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Spectral:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="../styles/vavi-vitrine.css" rel="stylesheet">
   <script src="../scripts/vavi-vitrine.js" defer></script>
 </head>
 <body>
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+  <div class="preview-banner" role="status">Prévia em desenvolvimento · compras e pagamentos desativados</div>
   <header class="header">
-    <a class="brand" href="../index.html"><img src="../assets/img/icone.png" alt="" width="40" height="40"><span>Douglas Assumpção</span></a>
-    <a class="back" href="./loja.html">← Voltar à livraria</a>
+    <a class="brand" href="../index.html" aria-label="Douglas Assumpção — início"><img src="../assets/img/icone.png" alt="" width="40" height="40"><span>Douglas Assumpção</span></a>
+    <nav class="header-nav" aria-label="Navegação da coleção">
+      <a href="./loja.html">Livraria</a>
+      <a href="#colecao">Coleção</a>
+      <button id="open-cart" class="cart-trigger" type="button" aria-controls="cart-panel" aria-expanded="false">
+        Sacola <span id="cart-count" class="cart-badge">0</span>
+      </button>
+    </nav>
   </header>
-  <main>
-    <section class="intro">
-      <p class="eyebrow">Coleção autoral · Prévia interna</p>
-      <h1>Arte que acompanha<br><em>a vida cotidiana.</em></h1>
-      <p>Uma futura coleção de peças personalizadas, criadas com cuidado e enviadas sob demanda.</p>
-      <span class="notice" role="status">Esta página está em desenvolvimento. Compras desativadas.</span>
-    </section>
-    <section class="collection" aria-labelledby="collection-title">
-      <div class="collection-heading"><div><p class="eyebrow">Produtos sob demanda</p><h2 id="collection-title">Peças da coleção</h2></div><span id="count" aria-live="polite"></span></div>
-      <div id="products" class="products" aria-live="polite"></div>
-      <div id="empty" class="empty" hidden>
-        <h3>Em preparação</h3>
-        <p>Estamos selecionando produtos, tecidos, cores e artes. Nenhum item será anunciado antes da confirmação dos preços e opções com a VAVI.</p>
+  <main id="conteudo">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <p class="eyebrow"><span class="eyebrow-line"></span> Uma coleção em formação</p>
+        <h1 id="hero-title">Beleza que se <em>leva consigo.</em></h1>
+        <div class="hero-divider" aria-hidden="true">✦</div>
+        <p class="hero-description">Peças autorais pensadas para fazer parte da vida cotidiana. Uma coleção que nasce do encontro entre a arte, a tradição e o cuidado em cada detalhe.</p>
+        <a class="primary-link" href="#colecao">Explorar a coleção <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-visual-frame"><div class="arch">
+          <span class="arch-star">✧</span>
+          <span class="arch-initials">DA</span>
+          <span class="arch-rule"></span>
+          <span class="arch-caption">DOUGLAS<br>ASSUMPÇÃO</span>
+        </div></div>
+        <span class="hero-visual-note">Coleção · Edição inaugural</span>
       </div>
     </section>
+
+    <section class="values" aria-label="Nossa proposta">
+      <div><span class="value-index">I</span><p><strong>Criação autoral</strong><span>Uma identidade visual com sentido</span></p></div>
+      <div><span class="value-index">II</span><p><strong>Feito sob demanda</strong><span>Produção após a confirmação do pedido</span></p></div>
+      <div><span class="value-index">III</span><p><strong>Atenção aos detalhes</strong><span>Da escolha da peça à arte final</span></p></div>
+    </section>
+
+    <section class="collection" id="colecao" aria-labelledby="collection-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">A coleção</p><h2 id="collection-title">Escolhas com significado.</h2></div>
+        <span id="count" class="collection-count" aria-live="polite">Preparando catálogo</span>
+      </div>
+      <div id="products" class="products" aria-live="polite"></div>
+      <div id="empty" class="empty" hidden>
+        <div class="empty-symbol" aria-hidden="true">✦</div>
+        <p class="eyebrow">Lançamento em preparação</p>
+        <h3>O primeiro capítulo está sendo criado.</h3>
+        <p>Estamos selecionando as peças, verificando as opções da VAVI e preparando as artes. Os produtos só serão exibidos depois da confirmação de tamanhos, cores e preços.</p>
+        <span class="empty-note">Nenhuma compra está disponível nesta prévia.</span>
+      </div>
+    </section>
+
+    <section class="process" aria-labelledby="process-title">
+      <div><p class="eyebrow">Como funcionará</p><h2 id="process-title">Do ateliê à sua casa.</h2></div>
+      <ol class="process-grid">
+        <li><span>01</span><h3>Escolha</h3><p>Selecione a peça e a variação desejada.</p></li>
+        <li><span>02</span><h3>Confirmação</h3><p>Depois do pagamento aprovado, o pedido será encaminhado para conferência.</p></li>
+        <li><span>03</span><h3>Produção</h3><p>Após a revisão, a VAVI produzirá e enviará a encomenda.</p></li>
+      </ol>
+      <p class="process-disclaimer">Fluxo planejado. Esta página ainda não recebe pedidos.</p>
+    </section>
   </main>
-  <footer>© 2026 Douglas Assumpção · Prévia da loja — sem pedidos ou pagamentos.</footer>
+
+  <div id="cart-backdrop" class="cart-backdrop" hidden></div>
+  <aside id="cart-panel" class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title" tabindex="-1" hidden>
+    <div class="cart-header"><div><p class="eyebrow">Sua seleção</p><h2 id="cart-title">Sacola</h2></div><button id="close-cart" class="icon-button" type="button" aria-label="Fechar sacola">×</button></div>
+    <div class="cart-scroll"><div id="cart-items" class="cart-items"></div><p id="cart-empty" class="cart-empty">Sua sacola está vazia.</p></div>
+    <div class="cart-footer"><div class="cart-total"><span>Subtotal dos produtos</span><strong id="cart-total">R$ 0,00</strong></div><p>Frete e taxas não incluídos. Valores serão confirmados no checkout quando a loja estiver ativa.</p><button class="checkout-disabled" type="button" disabled>Finalizar compra · Em breve</button></div>
+  </aside>
+  <footer class="footer"><span>Douglas Assumpção · Coleção autoral</span><span>Prévia — sem pedidos nem pagamentos</span></footer>
 </body>
 </html>
