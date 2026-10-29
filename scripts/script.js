@@ -367,6 +367,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   const get = selector => dialog.querySelector(selector);
 
+  function youtubeForScore(link){
+    // Nunca usa vídeos do rodapé, de outras músicas ou de recomendações.
+    const scope = link.closest('.chant-hero, .list-card, .white-inner, article, .product-detail') || link.closest('main');
+    if (!scope) return null;
+    const downloads = new Set([...scope.querySelectorAll('a[download]')].map(anchor => anchor.href));
+    if (downloads.size > 1) return null;
+    const videos = new Map();
+    for (const element of scope.querySelectorAll('a[href], [data-video-src], iframe[src]')) {
+      let url;
+      try { url = new URL(element.dataset.videoSrc || element.getAttribute('href') || element.getAttribute('src')); } catch (_) { continue; }
+      if (!/^https?:$/.test(url.protocol)) continue;
+      let id;
+      if (url.hostname === 'youtu.be') id = url.pathname.slice(1);
+      else if (['youtube.com', 'www.youtube.com', 'm.youtube.com', 'www.youtube-nocookie.com'].includes(url.hostname)) {
+        id = url.pathname === '/watch' ? url.searchParams.get('v') : url.pathname.match(/^\/(?:embed|shorts|live)\/([^/]+)$/)?.[1];
+      }
+      if (!/^[\w-]{11}$/.test(id || '')) continue;
+      videos.set(id, `https://www.youtube.com/watch?v=${id}`);
+    }
+    return videos.size === 1 ? videos.values().next().value : null;
+  }
+
   function scoreFromLink(link){
     if (!link || link.closest('[data-score-contribution="off"]') || link.dataset.freeScore === 'false') return null;
     const raw = link.getAttribute('href');
@@ -387,6 +409,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       id: link.dataset.scoreId || url.pathname,
       name: link.dataset.scoreTitle || heading?.textContent.trim() || document.title,
       url: url.href,
+      youtubeUrl: youtubeForScore(link),
       filename: link.getAttribute('download'),
       target: link.getAttribute('target'),
       rel: link.getAttribute('rel'),
@@ -452,6 +475,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="sc-separator"><span>ou</span></div>
           <button type="button" class="sc-button sc-free">Continuar gratuitamente</button>
           <p id="sc-voluntary"><strong>A contribuição é totalmente voluntária.</strong><br>Você pode baixar gratuitamente mesmo sem doar.</p>
+          <section class="sc-youtube" aria-labelledby="sc-youtube-title" hidden>
+            <h3 id="sc-youtube-title">Você também pode ajudar gratuitamente!</h3>
+            <p>Um simples gostei no vídeo ajuda esta música a alcançar mais pessoas e contribui para a continuidade deste apostolado.</p>
+            <a class="sc-youtube-link" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 10v11H3V10h4Zm0 0 5-7a3 3 0 0 1 2 3l-1 4h6a2 2 0 0 1 2 2l-2 7a3 3 0 0 1-3 2H7"/></svg>
+              <span>Deixar um gostei no YouTube <span aria-hidden="true">↗</span></span>
+            </a>
+          </section>
         </div>
       </div>`;
     document.body.appendChild(dialog);
@@ -482,7 +513,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Impede atalhos do carrossel/menu por trás do dialog. Mantém setas dos radios.
       event.stopPropagation();
       if (event.key !== 'Tab') return;
-      const controls = [...dialog.querySelectorAll('button, input, [tabindex="0"]')]
+      const controls = [...dialog.querySelectorAll('button, input, a[href], [tabindex="0"]')]
         .filter(el => !el.disabled && el.getClientRects().length && (el.type !== 'radio' || el.checked));
       const first = controls[0], last = controls[controls.length - 1];
       if (event.shiftKey && (document.activeElement === first || !controls.includes(document.activeElement))) {
@@ -524,6 +555,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     selectedScore = score;
     returnFocus = trigger || document.activeElement;
     get('.sc-score-name').textContent = score.name;
+    get('.sc-youtube').hidden = !score.youtubeUrl;
+    if (score.youtubeUrl) get('.sc-youtube-link').href = score.youtubeUrl;
+    else get('.sc-youtube-link').removeAttribute('href');
     get('.sc-form').reset();
     get('.sc-form').hidden = false;
     get('.sc-pix').hidden = true;

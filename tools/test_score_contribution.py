@@ -79,6 +79,12 @@ def desktop_checks(browser, base):
     errors = []
     page.on("pageerror", lambda error: errors.append(str(error)))
     href = open_score(page, base)
+    youtube = page.locator('.sc-youtube-link')
+    expect(youtube).to_have_attribute('href', 'https://www.youtube.com/watch?v=JjGXATuQobQ')
+    with page.expect_popup() as popup:
+        youtube.click()
+    popup.value.close()
+    expect(page.get_by_role('dialog')).to_be_visible()
     assert page.evaluate("document.body.style.position") == "fixed"
     page.screenshot(path=str(ARTIFACTS / "desktop.png"), animations="disabled")
     finish_download(page, href)
@@ -132,7 +138,7 @@ def desktop_checks(browser, base):
         page.locator("a[download]").first.click()
         expect(page.get_by_role("dialog")).to_be_visible()
         page.keyboard.press("Shift+Tab")
-        expect(page.get_by_role("button", name="Continuar gratuitamente", exact=True)).to_be_focused()
+        expect(page.locator('.sc-youtube-link')).to_be_focused()
         page.keyboard.press("Tab")
         expect(page.get_by_role("button", name="Fechar contribuição")).to_be_focused()
         if close == "escape":
@@ -147,6 +153,7 @@ def desktop_checks(browser, base):
     print("PASS: outro valor, validação, gratuidade independente do valor, X/ESC/fundo e teclado", flush=True)
 
     href_b = open_score(page, base, SCORE_B)
+    expect(page.locator('.sc-youtube-link')).to_have_attribute('href', 'https://www.youtube.com/watch?v=wpuVCqCPEJg')
     assert href_b != href
     finish_download(page, href_b)
     # Outra URL na mesma página, inserida após o carregamento, com nome de arquivo.
@@ -156,11 +163,17 @@ def desktop_checks(browser, base):
       a.textContent = 'Baixar partitura nova'; document.querySelector('main').prepend(a);
     }""", href)
     page.locator("#new-score").click()
+    expect(page.locator('.sc-youtube')).to_be_hidden()
     # Alterar o link depois do clique não pode trocar o arquivo já escolhido.
     page.locator("#new-score").evaluate("(el, href) => el.href = href", href_b)
     result = finish_download(page, href)
     assert result.suggested_filename == "nova-partitura.pdf"
     page.locator("#new-score").click()
+    finish_download(page, href_b)
+    page.locator('.chant-media').evaluate('el => el.remove()')
+    page.locator('.chant-download a[download]').click()
+    expect(page.locator('.sc-youtube')).to_be_hidden()
+    assert page.locator('.sc-youtube-link').get_attribute('href') is None
     finish_download(page, href_b)
     assert not errors, errors
     print("PASS: partituras consecutivas, link dinâmico e preservação do arquivo selecionado", flush=True)
@@ -210,7 +223,7 @@ def inventory_checks(browser, base):
         parser.feed(path.read_text(encoding="utf-8-sig"))
         if not parser.downloads or path.name == "template.html":
             continue
-        assert any(src.endswith("/scripts/script.js") for src in parser.scripts), path
+        assert any(urlsplit(src).path.endswith("/scripts/script.js") for src in parser.scripts), path
         page.goto(base + "pages/" + path.name, wait_until="domcontentloaded")
         page.wait_for_function("Boolean(window.ScoreContribution)")
         # Captura a retomada, evitando navegação para os PDFs que já estão ausentes.
@@ -254,6 +267,7 @@ def responsive_checks(browser, base, name):
         assert dialog.evaluate("el => el.scrollWidth <= el.clientWidth")
         assert page.locator(".sc-content").evaluate("el => el.scrollWidth <= el.clientWidth")
         expect(page.get_by_role("button", name="Continuar gratuitamente", exact=True)).to_be_in_viewport(ratio=1)
+        expect(page.locator('.sc-youtube-link')).to_be_in_viewport(ratio=1)
         page.screenshot(path=str(ARTIFACTS / f"{name}-{width}.png"), animations="disabled")
         page.get_by_role("radio", name="Outro valor").check()
         page.get_by_label("Qual valor deseja oferecer?").fill("8,50")

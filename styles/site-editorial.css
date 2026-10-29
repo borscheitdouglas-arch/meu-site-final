@@ -193,3 +193,12 @@ body.site-editorial {
 .site-editorial .store-card-content { min-width: 0; }
 .site-editorial .store-card h3 { overflow-wrap: anywhere; }
 .site-editorial .store-buy-button { box-sizing: border-box; max-width: 100%; white-space: normal; text-align: center; }
+
+/* Advento e Ordinário usam o mesmo card completo dos domingos do Tempo Comum. */
+.site-editorial .repertoire-unified .carousel-track {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  align-items: stretch;
+}
+.site-editorial .repertoire-unified .card { justify-self: center; cursor: default; }
+.site-editorial .repertoire-unified .card-title { font: 600 26px/1.4 'Spectral', Georgia, serif; }
+.site-editorial .repertoire-pairs { max-width: 864px; }

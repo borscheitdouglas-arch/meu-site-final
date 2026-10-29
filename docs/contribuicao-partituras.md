@@ -13,6 +13,8 @@ O site é estático (HTML/CSS/JavaScript), sem build ou backend de pagamentos. A
 
 O sistema está em uma única função isolada, `scoreContributionSystem`, no final de `scripts/script.js`. Um listener delegado em fase de captura identifica os downloads, inclusive links inseridos depois do carregamento. O único `<dialog>` é criado sob demanda e reutilizado. A folha `styles/score-contribution.css` usa seletores próprios e é carregada pelo script, sem alterar as folhas existentes ou dezenas de páginas.
 
+O rodapé do modal oferece também apoio gratuito por meio de um gostei no YouTube. A função `youtubeForScore` identifica o vídeo nos links, `data-video-src` ou iframe do bloco da música (ou em `main`, para o download da prévia). Só exibe a seção quando há um único vídeo identificável e nenhum PDF diferente no mesmo bloco. Não usa links do rodapé nem um vídeo padrão. Sem associação ou em caso de ambiguidade, oculta a seção e remove o endereço anterior. O link abre em nova aba, sem fechar o modal; nenhuma curtida é registrada ou exigida para baixar. O link participa da navegação por teclado e usa o mesmo estilo de foco dos controles existentes.
+
 ## Downloads e novas páginas
 
 Mantenha o padrão existente:

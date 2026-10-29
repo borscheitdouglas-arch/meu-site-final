@@ -1,4 +1,4 @@
-"""Regressões dos cards: largura, conteúdo visível, grades e carrossel com setas.
+"""Regressões dos cards: largura, conteúdo visível, grades e acesso aos repertórios.
 
 Requer Playwright e Chromium instalados. Executar: python3 tools/test_cards.py
 """
@@ -26,7 +26,9 @@ def main():
     base = f'http://127.0.0.1:{server.server_port}'
     paths = ['tempo-comum-10.html', 'tempo-comum-30.html', 'tempo-comum-32.html',
              'solenidade-todos-os-santos.html', 'solenidade-nossa-senhora-aparecida.html',
-             'advento-2.html', 'advento-4.html', 'ad-libitum.html', 'pater-noster.html', 'loja.html']
+             'advento-1.html', 'advento-2.html', 'advento-3.html', 'advento-4.html',
+             'advento-1-video.html', 'advento-2-video.html', 'kyrie.html', 'gloria.html',
+             'sanctus.html', 'agnus-dei.html', 'ad-libitum.html', 'pater-noster.html', 'loja.html']
     errors = []
     try:
         with sync_playwright() as pw:
@@ -61,13 +63,18 @@ def main():
                     }''')
                     assert not failures, (name, width, failures)
                 print('OK', name, flush=True)
-            page.goto(f'{base}/pages/ad-libitum.html')
-            track = page.locator('#carousel-track')
-            initial_scroll = track.evaluate('(el) => el.scrollLeft')
-            page.locator('#carousel-next').click()
-            page.wait_for_function("document.querySelector('#carousel-track').scrollLeft > 200")
-            page.locator('#carousel-prev').click()
-            page.wait_for_function("initial => document.querySelector('#carousel-track').scrollLeft <= initial + 5", arg=initial_scroll)
+            # Repertoire links must also work without JavaScript.
+            plain = browser.new_context(java_script_enabled=False)
+            plain.route('**/*', lambda r: r.continue_() if r.request.url.startswith(base) else r.abort())
+            static = plain.new_page()
+            for name, count in [('advento-1', 3), ('advento-2', 3), ('advento-3', 3),
+                                ('advento-4', 2), ('ad-libitum', 3), ('pater-noster', 4)]:
+                static.goto(f'{base}/pages/{name}.html')
+                expect(static.locator('main')).to_have_count(1)
+                expect(static.locator('.card-link')).to_have_count(count)
+                for link in static.locator('.card-link').all():
+                    expect(link).to_be_visible()
+            plain.close()
             page.goto(f'{base}/pages/loja.html')
             expect(page.locator('.atelier-product')).to_have_count(1)
             expect(page.locator('.atelier-buy')).to_have_count(2)
@@ -78,7 +85,7 @@ def main():
             browser.close()
     finally:
         server.shutdown()
-    print('Cards aprovados em quatro larguras; carrossel e compra externa funcionando.')
+    print('Cards aprovados em quatro larguras; repertórios sem JavaScript e compra externa funcionando.')
 
 if __name__ == '__main__':
     main()

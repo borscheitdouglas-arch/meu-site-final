@@ -9,50 +9,7 @@
 <link href="../styles/style.css?v=20261005-menu-adornos" rel="stylesheet"/>
 <script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4057076422969683"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=Playfair+Display:wght@400;600&amp;display=swap" rel="stylesheet"/>
-<style>
-    :root{--bg:#151515;--panel:#1f1f1f;--muted:#a4a4a4;--accent:#f4f1ea;--accent-2:#d4af37;--border:rgba(212,175,55,0.35)}
-    html,body{height:100%;margin:0;font-family:'Playfair Display',Georgia,serif;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-    .wrap{max-width:1100px;margin:0 auto;padding:60px 20px 140px}
-    h1.page-title{font-family:'Cinzel',Georgia,serif;font-size:2.4rem;margin:0;color:var(--accent);text-align:center;letter-spacing:0.4px}
-    .page-subtitle{font-size:1.1rem;color:var(--muted);text-align:center;margin:18px auto 44px;max-width:780px;line-height:1.6}
-    .cards-carousel{position:relative;margin:28px auto 70px;padding:0 4px}
-    .cards-carousel::before,.cards-carousel::after{content:"";position:absolute;top:0;bottom:0;width:60px;pointer-events:none;background:linear-gradient(90deg,var(--bg),rgba(21,21,21,0));z-index:1}
-    .cards-carousel::after{right:0;left:auto;transform:scaleX(-1)}
-    .cards-carousel::before{left:0}
-    .cards-track{display:flex;gap:20px;overflow-x:auto;padding:8px 10px 24px;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scroll-padding:0 60px}
-    .cards-track:focus-visible{outline:2px solid var(--accent-2);outline-offset:6px}
-    .cards-track::-webkit-scrollbar{height:6px}
-    .cards-track::-webkit-scrollbar-track{background:rgba(255,255,255,0.07);border-radius:999px}
-    .cards-track::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.6);border-radius:999px}
-    .card{flex:0 0 clamp(240px,26vw,300px);min-height:210px;background:radial-gradient(circle at top,rgba(255,255,255,0.08),rgba(0,0,0,0.65));border:1px solid rgba(212,175,55,0.45);border-radius:16px;padding:18px 18px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;scroll-snap-align:start;box-shadow:0 20px 40px rgba(0,0,0,0.38);transition:transform .25s ease,box-shadow .25s ease}
-    .card::before{content:"";position:absolute;inset:-25% auto auto -25%;width:180px;height:180px;background:radial-gradient(circle,rgba(212,175,55,0.28),transparent 60%);opacity:0.6}
-    .card:hover{transform:translateY(-6px);box-shadow:0 24px 54px rgba(0,0,0,0.45),0 0 28px rgba(212,175,55,0.18)}
-    .card>*{position:relative;z-index:1}
-    .card h2{font-family:'Cinzel',Georgia,serif;font-size:1.18rem;margin:0;color:var(--accent-2)}
-    .card-subtitle{margin:1px 0 0;font-size:0.86rem;color:rgba(244,241,234,0.78);letter-spacing:0.15px}
-    .card-description{margin:4px 0 2px;font-size:0.88rem;color:var(--accent);line-height:1.3}
-    .card-section{margin-top:2px;padding-top:8px;border-top:1px solid rgba(244,241,234,0.18)}
-    .card-section-title{margin:0;font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,241,234,0.7)}
-    .card-list{list-style:none;padding:4px 0 0;margin:0;color:rgba(244,241,234,0.85);font-size:0.8rem;line-height:1.24}
-    .card-list li+li{margin-top:1px}
-    .card-list-check li{position:relative;padding-left:14px}
-    .card-list-check li::before{content:"";position:absolute;left:0;top:3px;width:8px;height:8px;border-radius:3px;border:1px solid rgba(212,175,55,0.7);background:rgba(212,175,55,0.15);box-shadow:0 0 6px rgba(212,175,55,0.3)}
-    .card-cta{margin-top:auto}
-    .tag{display:inline-flex;align-items:center;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(212,175,55,0.4);padding:4px 10px;border-radius:999px;margin-bottom:4px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#d6a84f 0%,#b98f2b 100%);color:#111;padding:11px 20px;border-radius:999px;font-weight:700;font-size:0.9rem;text-decoration:none;letter-spacing:0.4px;box-shadow:0 10px 24px rgba(0,0,0,0.35);transition:transform .2s ease,box-shadow .2s ease}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(0,0,0,0.45)}
-    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(244,241,234,0.25)}
-    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:64px 0 48px}
-    .detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px}
-    .detail-card{background:var(--panel);border-radius:18px;border:1px solid rgba(255,255,255,0.04);padding:26px 24px;display:flex;flex-direction:column;gap:16px}
-    .detail-card h3{margin:0;font-size:1.2rem;font-family:'Cinzel',Georgia,serif;color:var(--accent-2)}
-    .detail-copy{margin:0;color:rgba(244,241,234,0.85);line-height:1.55;font-size:0.94rem}
-    .detail-meta{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{padding:6px 12px;border-radius:999px;border:1px solid var(--border);font-size:0.82rem;color:var(--accent)}
-    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:auto}
-    .resources-note{color:var(--muted);font-size:0.88rem;margin-top:28px;text-align:center}
-    @media(max-width:540px){.wrap{padding:40px 16px 100px}.card{padding:22px 20px}.detail-card{padding:22px 20px}}
-  </style>
+
 <meta content="Selecione o formato de partitura do Pater noster: notação quadrada ou moderna, versões cifradas e para coralistas." name="description"/>
 <meta content="Pater noster / Pai nosso" property="og:title"/>
 <meta content="Quatro cartas com os formatos principais para estudar e executar o Pai Nosso." property="og:description"/>
@@ -63,7 +20,7 @@
 <meta content="Pater noster / Pai nosso" name="twitter:title"/>
 <meta content="Escolha a notação ideal e acesse notas pastorais para o Pai Nosso." name="twitter:description"/>
 <meta content="https://seu-dominio.com/assets/img/capa-superior.png" name="twitter:image"/>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/><link href="../styles/site-editorial.css" rel="stylesheet"/></head>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/><link href="../styles/site-editorial.css?v=20261015-advento-ordinario" rel="stylesheet"/></head>
 <body class="site-editorial"><a class="editorial-skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
 <button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
@@ -209,41 +166,38 @@
 </ul>
 </nav>
 <div class="nav-overlay" hidden="" id="nav-overlay"></div>
-<main class="wrap editorial-main" id="conteudo" tabindex="-1"><nav aria-label="Navegação" class="editorial-breadcrumb"><a href="/index.html">← Início</a></nav>
-<h1 class="page-title editorial-title">Pater noster / Pai nosso</h1>
-<p class="page-subtitle">Escolha rapidamente o formato de partitura: mantenha a melodia gregoriana com cifras discretas, prepare coralistas em notação quadrada ou integre formações modernas com arranjos cifrados.</p>
-<div aria-label="Formatos disponíveis do Pai Nosso" class="cards-carousel">
-<div class="cards-track" tabindex="0">
+<main class="editorial-main" id="conteudo" tabindex="-1">
+<nav aria-label="Você está em" class="editorial-breadcrumb"><a href="/index.html">Início</a><span aria-hidden="true">/</span><span>Ordinário da Missa</span></nav>
+<header class="editorial-heading"><p class="editorial-eyebrow">Ordinário da Missa</p><h1>Pater noster / Pai nosso</h1><div aria-hidden="true" class="editorial-ornament">✦</div></header>
+<section aria-labelledby="repertoire-title" class="carousel-section repertoire-unified repertoire-pairs">
+<div class="carousel-head"><h2 class="carousel-title" id="repertoire-title">Música Litúrgica</h2></div>
+<div class="carousel-window"><div class="carousel-track">
 <article class="card">
-<span class="tag">Salmista · organista</span>
-<h2>Notação Quadrada com Cifras</h2>
-<p class="card-subtitle">Organistas e regentes que sustentam o coro</p>
-<p class="card-description">Tetragrama fiel ao Graduale Simplex com cifras encaixadas nos incisos para apoiar a harmonia sem quebrar o fraseado gregoriano.</p>
-<a class="btn card-cta" href="pater-noster-notacao-quadrada-cifrada.html">👉 Ver partituras</a>
+<div class="card-header"><div class="card-icon"><img src="../assets/img/Acessar-partitura.png" alt="" width="60" height="60"/></div>
+<h3 class="card-title">Notação Quadrada com Cifras</h3><p class="card-subtitle">Organistas e regentes que sustentam o coro</p></div>
+<div class="card-body"><p class="card-description">Tetragrama fiel ao Graduale Simplex com cifras encaixadas nos incisos para apoiar a harmonia sem quebrar o fraseado gregoriano.</p></div>
+<div class="card-footer"><a class="card-link" href="pater-noster-notacao-quadrada-cifrada.html">ACESSAR PARTITURA</a></div>
 </article>
 <article class="card">
-<span class="tag">Schola · assembleia</span>
-<h2>Notação Quadrada para Coralistas</h2>
-<p class="card-subtitle">Para memorizar texto e acentos</p>
-<p class="card-description">Versão limpa, sem cifras, com tradução espelhada e respirações marcadas à maneira de Solesmes para formar assembleias e schola cantorum.</p>
-<a class="btn card-cta" href="pater-noster-notacao-quadrada-coralista.html">👉 Acessar partituras</a>
+<div class="card-header"><div class="card-icon"><img src="../assets/img/Acessar-partitura.png" alt="" width="60" height="60"/></div>
+<h3 class="card-title">Notação Quadrada para Coralistas</h3><p class="card-subtitle">Para memorizar texto e acentos</p></div>
+<div class="card-body"><p class="card-description">Versão limpa, sem cifras, com tradução espelhada e respirações marcadas à maneira de Solesmes para formar assembleias e schola cantorum.</p></div>
+<div class="card-footer"><a class="card-link" href="pater-noster-notacao-quadrada-coralista.html">ACESSAR PARTITURA</a></div>
 </article>
 <article class="card">
-<span class="tag">Violão · teclado</span>
-<h2>Notação Moderna com Cifras</h2>
-<p class="card-subtitle">Arranjo contemporâneo para bandas paroquiais</p>
-<p class="card-description">Pentagrama completo com compassos guiados, cifras funcionais e QR para metrônomo em 68 BPM para integrar violão, teclado e sopros leves.</p>
-<a class="btn card-cta" href="pater-noster-notacao-moderna-cifrada.html">👉 Ver partituras</a>
+<div class="card-header"><div class="card-icon"><img src="../assets/img/Acessar-partitura.png" alt="" width="60" height="60"/></div>
+<h3 class="card-title">Notação Moderna com Cifras</h3><p class="card-subtitle">Arranjo contemporâneo para bandas paroquiais</p></div>
+<div class="card-body"><p class="card-description">Pentagrama completo com compassos guiados, cifras funcionais e QR para metrônomo em 68 BPM para integrar violão, teclado e sopros leves.</p></div>
+<div class="card-footer"><a class="card-link" href="pater-noster-notacao-moderna-cifrada.html">ACESSAR PARTITURA</a></div>
 </article>
 <article class="card">
-<span class="tag">Coral misto</span>
-<h2>Notação Moderna para Coral</h2>
-<p class="card-subtitle">Notação moderna para coralista (sem acordes)</p>
-<p class="card-description">Distribuição clara para soprano/alto e apoio para tenores/baixos, ideal para alternar coro e assembleia mantendo entradas precisas.</p>
-<a class="btn card-cta" href="pater-noster-notacao-moderna-coralista.html">👉 Acessar partituras</a>
+<div class="card-header"><div class="card-icon"><img src="../assets/img/Acessar-partitura.png" alt="" width="60" height="60"/></div>
+<h3 class="card-title">Notação Moderna para Coral</h3><p class="card-subtitle">Notação moderna para coralista (sem acordes)</p></div>
+<div class="card-body"><p class="card-description">Distribuição clara para soprano/alto e apoio para tenores/baixos, ideal para alternar coro e assembleia mantendo entradas precisas.</p></div>
+<div class="card-footer"><a class="card-link" href="pater-noster-notacao-moderna-coralista.html">ACESSAR PARTITURA</a></div>
 </article>
-</div>
-</div>
+</div></div>
+</section>
 </main>
 <script src="../scripts/script.js?v=20261005-menu-adornos"></script>
 <script src="../scripts/site-editorial.js?v=menu-elegante-2"></script></body>
