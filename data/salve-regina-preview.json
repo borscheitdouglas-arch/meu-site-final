@@ -1,0 +1,42 @@
+{
+  "collection": "Salve Regina",
+  "status": "prelaunch",
+  "items": [
+    {
+      "id": "camiseta-salve-regina",
+      "name": "Camiseta Salve Regina",
+      "image": "/assets/img/Produtos/salve-regina/camiseta-preview.svg",
+      "color": "Preto",
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "note": "Modelo e preço pendentes"
+    },
+    {
+      "id": "moletom-salve-regina",
+      "name": "Moletom Salve Regina",
+      "image": "/assets/img/Produtos/salve-regina/moletom-preview.svg",
+      "color": "Preto",
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "note": "Modelo e preço pendentes"
+    },
+    {
+      "id": "caneca-salve-regina",
+      "name": "Caneca Salve Regina",
+      "image": "/assets/img/Produtos/salve-regina/caneca-preview.svg",
+      "color": "Branca",
+      "sizes": [
+        "350 ml"
+      ],
+      "note": "Cor preta ainda não confirmada"
+    }
+  ]
+}
