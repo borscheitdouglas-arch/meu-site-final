@@ -32,3 +32,6 @@ A configuração `integrations/vavi-worker/wrangler.toml` fornece o **mesmo nome
 O GitHub Pages continuará publicando apenas os arquivos estáticos do site. O Cloudflare Builds executará código de Worker a partir da subpasta indicada. **Nunca configure a raiz do repositório como raiz de Worker**.
 
 NÃO ativar endpoints de checkout ou de webhooks até persistência de pedidos, frete validado e revisões de segurança.
+## Primeira implantação após conectar GitHub
+
+Conexão confirmada no painel em 29/10/2026: repositório `borscheitdouglas-arch/meu-site-final`, ramo `main`, diretório `integrations/vavi-worker`, compilação `npm install`, publicação `npx wrangler deploy`. Este registro também dispara a primeira build automática do Worker. Verificar a conclusão em Cloudflare > Workers & Pages > douglas-loja-api > Deployments/Builds antes de considerar a API implantada. O checkout segue desativado.
