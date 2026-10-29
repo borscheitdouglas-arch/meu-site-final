@@ -1,7 +1,23 @@
 {
-  "version": 1,
+  "version": 2,
   "mode": "draft",
   "currency": "BRL",
   "products": [],
-  "notes": "Cadastre apenas produtos e preços verificados na VAVI. Não publique produtos de exemplo ou preços fictícios."
+  "previews": [
+    {
+      "id": "camiseta-salve-regina",
+      "name": "Camiseta Salve Regina",
+      "available": false
+    },
+    {
+      "id": "moletom-salve-regina",
+      "name": "Moletom Salve Regina",
+      "available": false
+    },
+    {
+      "id": "caneca-salve-regina",
+      "name": "Caneca Salve Regina",
+      "available": false
+    }
+  ]
 }
