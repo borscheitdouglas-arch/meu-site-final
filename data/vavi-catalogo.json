@@ -8,7 +8,8 @@
       "id": "camiseta-salve-regina",
       "name": "Camiseta Salve Regina",
       "available": false,
-      "status": "draft"
+      "status": "draft",
+      "description": "Produto de pré-lançamento."
     },
     {
       "id": "moletom-salve-regina",
