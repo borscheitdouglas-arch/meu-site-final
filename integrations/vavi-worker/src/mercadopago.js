@@ -154,7 +154,8 @@ export async function verifyPayment({paymentId, order, env, fetcher = fetch}) {
   }
   requireOrderReady(order);
   if (typeof env?.MP_ACCESS_TOKEN !== 'string' || env.MP_ACCESS_TOKEN.length < 10 ||
-      !/^\d+$/.test(String(env.MP_SELLER_ID ?? ''))) {
+      !/^\d+$/.test(String(env.MP_SELLER_ID ?? '')) ||
+      !['test','production'].includes(env.MP_ENVIRONMENT)) {
     throw new PaymentError('missing_credentials','Credenciais de verificação não configuradas.');
   }
   const response = await fetcher(API + '/v1/payments/' + String(paymentId), {
