@@ -64,3 +64,28 @@
 ## Política de publicação
 
 Toda alteração deve ser proposta em branch e pull request para revisão. **Não publicar no branch `main` nem habilitar pagamentos reais sem revisão e testes.**
+
+## Vitrine e sacola — versão de testes
+
+- Página: `pages/produtos-personalizados.html`; estilos: `styles/vavi-vitrine.css`; interação: `scripts/vavi-vitrine.js`.
+- O catálogo `data/vavi-catalogo.json` permanece vazio: **nenhum produto fictício ou preço inventado foi publicado**.
+- A vitrine só exibe produtos marcados simultaneamente como `enabled: true` e `verified: true`, com imagem local, identificador, nome e pelo menos uma variação disponível e com preço numérico positivo.
+- A sacola funciona localmente no navegador (armazenamento `localStorage`), com seleção de variação e quantidade de 1 a 10, alteração de quantidades e remoção.
+- **Este código não configura checkout, não calcula frete e não envia pedidos à VAVI.** O botão de compra está desativado.
+- O subtotal é apenas uma visualização: antes de cobrar, o backend deverá validar de novo os preços, disponibilidade e opções.
+
+### Estrutura de cadastro de um produto real
+
+Cada entrada de `products` terá, após revisão do preço e da arte:
+
+- `id`: identificador interno estável (texto).
+- `name`: nome público.
+- `description`: descrição da peça.
+- `image`: caminho de imagem no próprio repositório, começando com `../assets/`.
+- `enabled`: ativo/inativo.
+- `verified`: indicação de revisão dos dados reais.
+- `variants`: lista de opções com `sku`, `label`, `price` (número em BRL) e `available`.
+
+O valor `sku` deve identificar a combinação real de produto, cor, tamanho e arte, de modo que possa ser mapeada manualmente ao catálogo VAVI.
+
+**Antes da venda real:** preparar registros persistentes de pedidos e pagamentos no backend; preço e frete não podem ser decididos nem confirmados pelo JavaScript da página. Não guardar dados do comprador em `localStorage`.
