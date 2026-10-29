@@ -10,6 +10,38 @@
     "cta": "Saiba Mais"
   },
   {
+    "title": "Veni Veni Emmanuel",
+    "description": "Hino do Advento",
+    "category": "Advento",
+    "url": "pages/veni-veni-emmanuel.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-10-26"
+  },
+  {
+    "title": "Rorate Caeli — Orvalhai, Ó Céus",
+    "description": "4º Domingo do Advento · Is 45,8",
+    "category": "Canto de Entrada",
+    "url": "pages/advento-4-entrada.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-10-26"
+  },
+  {
+    "title": "Eis que o Senhor vem",
+    "description": "3º Domingo do Advento",
+    "category": "Canto de Entrada",
+    "url": "pages/advento-3-entrada.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-10-26"
+  },
+  {
+    "title": "A Vós Senhor elevo a minha alma",
+    "description": "1º Domingo do Advento · Sl 24,1–4",
+    "category": "Canto de Entrada",
+    "url": "pages/advento-1-entrada.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-10-26"
+  },
+  {
     "title": "O Senhor é o Pastor",
     "description": "32º Domingo do Tempo Comum",
     "category": "Canto de Comunhão",
@@ -38,38 +70,6 @@
     "description": "28º Domingo do Tempo Comum · 1Jo 3,2",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-28-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-23"
-  },
-  {
-    "title": "Nisto conhecemos o amor",
-    "description": "26º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-26-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-23"
-  },
-  {
-    "title": "Canto de Comunhão (23º Domingo)",
-    "description": "23º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-23-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-23"
-  },
-  {
-    "title": "Canto de Comunhão (22º Domingo)",
-    "description": "22º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-22-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-23"
-  },
-  {
-    "title": "Canto de Comunhão (12º Domingo)",
-    "description": "12º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-12-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
     "published": "2026-10-23"
   }
