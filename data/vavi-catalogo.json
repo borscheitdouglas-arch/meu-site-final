@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "mode": "draft",
+  "currency": "BRL",
+  "products": [],
+  "previews": [
+    {
+      "id": "camiseta-salve-regina",
+      "name": "Camiseta Salve Regina",
+      "available": false,
+      "status": "draft",
+      "description": "Camiseta Salve Regina com duas estampas."
+    },
+    {
+      "id": "moletom-salve-regina",
+      "name": "Moletom Salve Regina",
+      "available": false
+    },
+    {
+      "id": "caneca-salve-regina",
+      "name": "Caneca Salve Regina",
+      "available": false
+    }
+  ]
+}
