@@ -1,0 +1,13 @@
+name = "douglas-vavi-preview"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Renomear para wrangler.toml após criar o D1 no painel Cloudflare.
+# Confirmar o database_id real. Nenhuma credencial deve ir para o repositório.
+[vars]
+ALLOWED_ORIGINS = "https://douglasassumpcao.com.br,https://www.douglasassumpcao.com.br"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "douglas-vavi"
+database_id = "REPLACE_WITH_REAL_D1_DATABASE_ID"
