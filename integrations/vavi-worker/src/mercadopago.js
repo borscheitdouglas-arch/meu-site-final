@@ -21,11 +21,11 @@ function requirePositiveCents(value, name) {
     throw new PaymentError('invalid_amount', name + ' inválido.');
   }
 }
-function validHttpsAddress(value) {
+function validHttpsAddress(value, requireRoot = false) {
   try {
     const url = new URL(value);
     return url.protocol === 'https:' && !url.username && !url.password &&
-      !url.hash && !url.search && url.pathname === '/';
+      !url.hash && !url.search && (!requireRoot || url.pathname === '/');
   } catch { return false; }
 }
 const centsToBRL = cents => cents / 100;
@@ -85,7 +85,7 @@ export function requireOrderReady(order) {
 export function buildPreference(order, settings) {
   requireOrderReady(order);
   const {returnBaseUrl, notificationUrl} = settings || {};
-  if (!validHttpsAddress(returnBaseUrl) || !validHttpsAddress(notificationUrl)) {
+  if (!validHttpsAddress(returnBaseUrl, true) || !validHttpsAddress(notificationUrl)) {
     throw new PaymentError('invalid_urls', 'URLs HTTPS do checkout não configuradas.');
   }
   const base = returnBaseUrl.replace(/\/$/, '');
@@ -117,6 +117,10 @@ export function buildPreference(order, settings) {
 export async function createPreference({order, env, fetcher = fetch}) {
   if (typeof env?.MP_ACCESS_TOKEN !== 'string' || env.MP_ACCESS_TOKEN.length < 10) {
     throw new PaymentError('missing_credentials', 'Access Token do Mercado Pago não configurado.');
+  }
+  if (!['test','production'].includes(env.MP_ENVIRONMENT) ||
+      (env.MP_ENVIRONMENT === 'production' && env.MP_PRODUCTION_APPROVED !== 'true')) {
+    throw new PaymentError('environment_not_approved', 'Ambiente de cobrança não habilitado.');
   }
   const body = buildPreference(order, {
     returnBaseUrl: env.MP_RETURN_BASE_URL,
