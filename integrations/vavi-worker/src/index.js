@@ -2,6 +2,7 @@ import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js
 import {normalizeZip, simulateVaviShipping} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
+import {createOrdersSandbox} from './mp-orders-sandbox.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -61,6 +62,36 @@ export default {
     if (request.method === 'OPTIONS') {
       if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
+    }
+    // Single-use private compatibility test. No shipping address, no D1 store
+    // order, no payment and no supplier fulfillment is initiated here.
+    if (url.pathname==='/api/internal/mp/orders-compat-1cd6b24b429f3d82a9e4d9e7' &&
+        request.method==='POST') {
+      if(env.MP_ORDERS_COMPAT_PROBE!=='true' ||
+         !env.MERCADOPAGO_TEST_ACCESS_TOKEN || !env.DB)
+        return json({error:'not_found'},404);
+      const claim=await env.DB.prepare(`INSERT OR IGNORE INTO store_mp_orders_compat_probe
+        (id,status) VALUES ('orders-compat-20261030','started')`).run();
+      if(claim?.meta?.changes!==1)return json({ok:true,alreadyRan:true});
+      try {
+        const orderId='ord_80bdf12907a3c5652727dfa5d683da73';
+        const response=await createOrdersSandbox({
+          order:{id:orderId,totalCents:13010,shippingCents:2020},
+          items:[{sku:'salve-regina-preta-g',quantity:1,
+            unitPriceCents:10990,totalCents:10990}],
+          accessToken:env.MERCADOPAGO_TEST_ACCESS_TOKEN
+        });
+        await env.DB.prepare(`UPDATE store_mp_orders_compat_probe
+          SET status='success',provider_id=?,checkout_url=? WHERE id='orders-compat-20261030'`)
+          .bind(response.providerOrderId,response.checkoutUrl).run();
+        return json({ok:true,providerAccepted:true});
+      }catch(e) {
+        const code=e instanceof CatalogError?e.code:'orders_compat_unknown';
+        await env.DB.prepare(`UPDATE store_mp_orders_compat_probe
+          SET status='failed',error_code=? WHERE id='orders-compat-20261030'`)
+          .bind(code).run();
+        return json({ok:false,error:code},503);
+      }
     }
     if (url.pathname === '/health' && request.method === 'GET') {
       return json({ok:true, mode:'preview', payments:false, vaviOrders:false},200,cors.headers);
