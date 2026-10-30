@@ -41,18 +41,29 @@ def published_products(data: dict) -> list[dict]:
         local_image = (ROOT / image.lstrip('/')).resolve()
         if not local_image.is_relative_to((ROOT / 'assets').resolve()) or not local_image.is_file():
             raise ValueError(f'{slug}: arquivo de imagem não encontrado.')
-        retailers = product.get('retailers')
-        if not isinstance(retailers, list) or not retailers:
-            raise ValueError(f'{slug}: informe ao menos um link de compra.')
-        for retailer in retailers:
-            if not isinstance(retailer, dict) or not isinstance(retailer.get('name'), str) or not retailer['name'].strip():
-                raise ValueError(f'{slug}: nome de loja inválido.')
-            url = retailer.get('url')
-            if not isinstance(url, str) or any(c.isspace() or ord(c) < 32 for c in url):
-                raise ValueError(f'{slug}: URL inválida.')
-            parsed = urlsplit(url)
-            if parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password or '\\' in url:
-                raise ValueError(f'{slug}: use um link HTTPS sem credenciais.')
+        product_type = product.get('product_type', 'book')
+        if product_type not in ('book', 'apparel', 'digital', '3d', 'partner', 'other'):
+            raise ValueError(f'{slug}: tipo de produto desconhecido.')
+        purchase_mode = product.get('purchase_mode', 'external')
+        if purchase_mode not in ('external', 'contact'):
+            raise ValueError(f'{slug}: checkout direto ainda indisponível; use external ou contact.')
+        if purchase_mode == 'contact':
+            # A confirmação de preço, frete e pagamento não é feita na vitrine.
+            if product.get('contact_url', '/pages/contato.html') != '/pages/contato.html':
+                raise ValueError(f'{slug}: página de contato não autorizada.')
+        else:
+            retailers = product.get('retailers')
+            if not isinstance(retailers, list) or not retailers:
+                raise ValueError(f'{slug}: informe ao menos um link de compra.')
+            for retailer in retailers:
+                if not isinstance(retailer, dict) or not isinstance(retailer.get('name'), str) or not retailer['name'].strip():
+                    raise ValueError(f'{slug}: nome de loja inválido.')
+                url = retailer.get('url')
+                if not isinstance(url, str) or any(c.isspace() or ord(c) < 32 for c in url):
+                    raise ValueError(f'{slug}: URL inválida.')
+                parsed = urlsplit(url)
+                if parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password or '\\' in url:
+                    raise ValueError(f'{slug}: use um link HTTPS sem credenciais.')
         products.append(product)
     return products
 
@@ -60,13 +71,26 @@ def published_products(data: dict) -> list[dict]:
 def render_product(product: dict, first: bool) -> str:
     p = {key: escape(product[key], quote=True) for key in TEXT_FIELDS + ('id', 'image')}
     buttons = []
-    for i, retailer in enumerate(product['retailers']):
-        kind = 'primary' if i == 0 else 'secondary'
+    mode = product.get('purchase_mode', 'external')
+    if mode == 'contact':
         buttons.append(
-            f'<a class="atelier-buy atelier-buy-{kind}" href="{escape(retailer["url"], quote=True)}" target="_blank" rel="noopener noreferrer">'
-            f'<span>Comprar na {escape(retailer["name"])}</span><span aria-hidden="true">↗</span>'
-            '<span class="atelier-sr"> (abre em nova aba)</span></a>'
+            '<a class="atelier-buy atelier-buy-primary" href="/pages/contato.html">'
+            '<span>Consultar disponibilidade</span><span aria-hidden="true">↗</span></a>'
         )
+    else:
+        for i, retailer in enumerate(product['retailers']):
+            kind = 'primary' if i == 0 else 'secondary'
+            buttons.append(
+                f'<a class="atelier-buy atelier-buy-{kind}" href="{escape(retailer["url"], quote=True)}" target="_blank" rel="noopener noreferrer">'
+                f'<span>Comprar na {escape(retailer["name"])}</span><span aria-hidden="true">↗</span>'
+                '<span class="atelier-sr"> (abre em nova aba)</span></a>'
+            )
+    purchase_label = 'Adquira seu exemplar' if product.get('product_type', 'book') == 'book' else 'Como adquirir'
+    purchase_note = (
+        'Preço, frete e prazo de entrega são informados na loja escolhida.'
+        if mode == 'external'
+        else 'Não há compra online nesta etapa: disponibilidade, frete e valores são confirmados no atendimento.'
+    )
     loading = 'loading="eager" fetchpriority="high"' if first else 'loading="lazy"'
     return f'''<article class="atelier-product" aria-labelledby="product-{p['id']}-title">
 <figure class="atelier-product-art">
@@ -80,11 +104,11 @@ def render_product(product: dict, first: bool) -> str:
 <p class="atelier-product-author">Por {p['author']}</p>
 <p class="atelier-product-description">{p['description']}</p>
 <div class="atelier-product-purchase">
-<p class="atelier-purchase-label">Adquira seu exemplar</p>
+<p class="atelier-purchase-label">{purchase_label}</p>
 <div class="atelier-retailers">
 {chr(10).join(buttons)}
 </div>
-<p class="atelier-purchase-note">Preço, frete e prazo de entrega são informados na loja escolhida.</p>
+<p class="atelier-purchase-note">{purchase_note}</p>
 </div>
 </div>
 </article>'''
@@ -93,13 +117,13 @@ def render_product(product: dict, first: bool) -> str:
 def render_catalog(data: dict) -> str:
     products = published_products(data)
     count = len(products)
-    label = 'obra' if count == 1 else 'obras'
+    label = 'produto' if count == 1 else 'produtos'
     grid_class = 'atelier-grid atelier-grid-single' if count == 1 else 'atelier-grid'
     cards = '\n'.join(render_product(product, i == 0) for i, product in enumerate(products))
     if not products:
-        cards = '<p class="atelier-empty">Nenhuma obra disponível no momento.</p>'
+        cards = '<p class="atelier-empty">Nenhum produto disponível no momento.</p>'
     return f'''<section class="atelier-catalog" id="colecao" aria-labelledby="catalog-title">
-<div class="atelier-catalog-heading"><div><p class="atelier-eyebrow">A coleção</p><h2 id="catalog-title">Leituras para a vida interior</h2></div><span class="atelier-count">{count:02d} {label}</span></div>
+<div class="atelier-catalog-heading"><div><p class="atelier-eyebrow">A coleção</p><h2 id="catalog-title">Livros, música e criações</h2></div><span class="atelier-count">{count:02d} {label}</span></div>
 <div class="{grid_class}">
 {cards}
 </div>
