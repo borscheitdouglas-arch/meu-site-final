@@ -12,9 +12,9 @@ test('sondagem não executa novamente após registro existente',async()=>{
  const env={MP_ONE_TIME_PREFERENCE_PROBE:'true',
    CHECKOUT_TEST_ENABLED:'true',DELIVERY_PERSISTENCE_ENABLED:'true',
    WEBHOOK_PROCESSING_ENABLED:'true',CHECKOUT_TEST_CATALOG_OVERRIDE:'true',
-   MERCADOPAGO_WEBHOOK_SECRET:'mock',DB:{prepare(){return {bind(){return {
+   MERCADOPAGO_WEBHOOK_SECRET:'mock',DB:{prepare(){return {
      run:async()=>{hits++;return {meta:{changes:0}}}
-   }}}}}};
+   }}}};
  const response=await worker.fetch(new Request(URL,{method:'POST'}),env);
  assert.equal(response.status,200);
  assert.equal((await response.json()).alreadyRan,true);
