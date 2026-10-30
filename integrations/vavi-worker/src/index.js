@@ -62,46 +62,6 @@ export default {
       if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
-    // One-time temporary checkout preference probe. No buyer or sales UI;
-    // only a synthetic test buyer and no supplier fulfillment.
-    if (url.pathname === '/api/internal/mp/test-once-910d8fa2852ee1c649afda44' &&
-        request.method === 'POST') {
-      if (env.MP_ONE_TIME_PREFERENCE_PROBE!=='true' ||
-          env.CHECKOUT_TEST_ENABLED!=='true' ||
-          env.DELIVERY_PERSISTENCE_ENABLED!=='true' ||
-          env.WEBHOOK_PROCESSING_ENABLED!=='true' ||
-          env.CHECKOUT_TEST_CATALOG_OVERRIDE!=='true' ||
-          !env.MERCADOPAGO_WEBHOOK_SECRET || !env.DB) {
-        return json({error:'not_found'},404);
-      }
-      // Atomic claim: only one call can ever create a preference.
-      const claim=await env.DB.prepare(`INSERT OR IGNORE INTO store_checkout_test_probe
-        (id,status) VALUES ('mp-checkout-20261030','started')`).run();
-      if(claim?.meta?.changes!==1)return json({ok:true,alreadyRan:true},200);
-      try {
-        const result=await createCheckoutTest(env,{
-          items:[{sku:'salve-regina-preta-g',quantity:1}],
-          zipCode:'01001000',shippingOptionId:'33',
-          buyer:{name:'Comprador Homologacao',email:'homologacao@example.com',
-            phone:'11999990000',taxId:'12345678909',zipCode:'01001000',
-            street:'Endereco de Teste',number:'1',complement:'',
-            neighborhood:'Centro',city:'Sao Paulo',state:'SP'}
-        });
-        await env.DB.prepare(`UPDATE store_checkout_test_probe
-          SET status='success',order_id=?,amount_cents=?,checkout_url=?,
-          finished_at=strftime('%Y-%m-%dT%H:%M:%fZ','now')
-          WHERE id='mp-checkout-20261030'`)
-          .bind(result.orderId,result.amountCents,result.checkoutUrl).run();
-        return json({ok:true,createdPreference:true,createsSupplierOrder:false},200);
-      }catch(error) {
-        const errorCode=error instanceof CatalogError?error.code:'probe_unexpected';
-        await env.DB.prepare(`UPDATE store_checkout_test_probe
-          SET status='failed',error_code=?,
-          finished_at=strftime('%Y-%m-%dT%H:%M:%fZ','now')
-          WHERE id='mp-checkout-20261030'`).bind(errorCode).run();
-        return json({ok:false,error:errorCode},503);
-      }
-    }
     if (url.pathname === '/health' && request.method === 'GET') {
       return json({ok:true, mode:'preview', payments:false, vaviOrders:false},200,cors.headers);
     }
