@@ -3,7 +3,21 @@ import {normalizeZip, simulateVaviShipping} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
 
-/** API inicial, sem checkout, dados pessoais, autenticação VAVI ou pedidos reais. */
+/** Private test checkout only: never enable public or production charges by default. */
+async function authorizedTestCheckout(request, env) {
+  const secret=env.CHECKOUT_TEST_API_KEY;
+  const header=request.headers.get('Authorization')||'';
+  if(typeof secret!=='string' || secret.length<32 ||
+      !header.startsWith('Bearer ') || header.length>512) return false;
+  const given=header.slice(7);
+  const h=async value=>new Uint8Array(await crypto.subtle.digest('SHA-256',
+    new TextEncoder().encode(value)));
+  const a=await h(secret),b=await h(given);
+  let diff=0;
+  for(let i=0;i<a.length;i++)diff|=a[i]^b[i];
+  return diff===0;
+}
+
 function json(body, status = 200, extra = {}) {
   return new Response(JSON.stringify(body), {
     status,
@@ -89,15 +103,25 @@ export default {
       if (url.pathname === '/api/checkout/test' && request.method === 'POST') {
         if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
           return json({error:'unsupported_media_type'},415,cors.headers);
-        // Deliberately unavailable on the public Worker until webhook processing,
-        // delivery storage and signed-in test authorization are implemented.
-        // Never let a browser set flags or claim a delivery was persisted.
+        // Only an authorized operator can run a sandbox transaction.
+        // Do not expose this key in HTML, browsers, or GitHub.
         if (env.CHECKOUT_TEST_ENABLED!=='true' ||
             env.WEBHOOK_PROCESSING_ENABLED!=='true' ||
-            env.DELIVERY_PERSISTENCE_ENABLED!=='true') {
+            env.DELIVERY_PERSISTENCE_ENABLED!=='true' ||
+            !env.MERCADOPAGO_WEBHOOK_SECRET ||
+            !env.CHECKOUT_TEST_API_KEY) {
           return json({error:'checkout_not_ready'},503,cors.headers);
         }
-        return json({error:'checkout_private_authorization_missing'},503,cors.headers);
+        if (!(await authorizedTestCheckout(request,env))) {
+          return json({error:'checkout_unauthorized'},401);
+        }
+        const bodyText=await request.text();
+        if(bodyText.length>12000)return json({error:'request_too_large'},413);
+        let body;
+        try {body=JSON.parse(bodyText);}
+        catch{return json({error:'invalid_json'},400);}
+        const result=await createCheckoutTest(env,body);
+        return json(result,201);
       }
       if (url.pathname === '/api/catalog' && request.method === 'GET') {
         return json({mode:'preview', currency:'BRL', products:await getCatalog(env.DB)},200,cors.headers);
