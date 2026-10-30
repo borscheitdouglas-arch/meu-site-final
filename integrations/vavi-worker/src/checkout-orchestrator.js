@@ -2,6 +2,7 @@ import {CatalogError,normalizeCart,quoteCart} from './catalog.js';
 import {normalizeZip,simulateVaviShipping} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
+import {validateBuyerDetails,encryptDelivery,storeEncryptedDelivery} from './delivery-repository.js';
 
 const PRICE_TO_CENTS=x=>Number.isFinite(x)?Math.round(x*100):NaN;
 
@@ -20,16 +21,19 @@ export async function createCheckoutTest(env,body,deps={}) {
       'Checkout indisponível até finalizar notificações e entrega.',503);
   }
   if (!env.DB || !env.MERCADOPAGO_TEST_ACCESS_TOKEN ||
-      !env.VAVI_SHIPPING_PRODUCTS_JSON) {
+      !env.VAVI_SHIPPING_PRODUCTS_JSON || !env.DELIVERY_ENCRYPTION_KEY_B64) {
     throw new CatalogError('checkout_not_configured',
       'Pagamento de teste ou frete não configurado.',503);
   }
+  const buyer=validateBuyerDetails(body?.buyer);
   const cart=normalizeCart(body);
   if(cart.length!==1 || cart[0].quantity!==1) {
     throw new CatalogError('checkout_quantity_not_supported',
       'No lançamento, uma camiseta por pedido.',422);
   }
   const zip=normalizeZip(body.zipCode);
+  if (buyer.zipCode!==zip) throw new CatalogError('delivery_zip_mismatch',
+    'O CEP da cotação não confere com o endereço.',422);
   const load=deps.loadVariant || (async sku=>env.DB.prepare(
     `SELECT v.sku,v.label,v.price_cents,v.available,p.name,
      p.enabled AS product_enabled,p.verified AS product_verified
@@ -53,19 +57,18 @@ export async function createCheckoutTest(env,body,deps={}) {
   if(!Number.isSafeInteger(freightCents) || freightCents<0)
     throw new CatalogError('shipping_option_invalid','Frete inválido.',422);
 
-  // Delivery details must already be validated and durably saved by caller.
-  // Until implemented, the production endpoint remains disabled by flags.
-  if (!deps.deliveryPersisted || deps.deliveryPersisted.zipCode!==zip) {
-    throw new CatalogError('delivery_not_persisted',
-      'Endereço do comprador ainda não está armazenado com segurança.',503);
-  }
+  // Encrypt before inserting anything; never send PII to Mercado Pago
+  // preference or log buyer data. Persistence must precede payment.
   const orderId=newOrderId();
+  const envelope=await (deps.encryptBuyer||encryptDelivery)(
+    orderId,buyer,env.DELIVERY_ENCRYPTION_KEY_B64);
   const draft=prepareDraftOrder({
     orderId,lines:quote.lines,subtotalCents:quote.subtotalCents,
     shippingCents:freightCents,shippingOptionId:String(selected.id),
     destinationZip:zip
   });
   await (deps.insertDraft||insertDraftOrder)(env.DB,draft);
+  await (deps.storeDelivery||storeEncryptedDelivery)(env.DB,envelope);
   const preference=await (deps.createPreference||createTestPreference)({
     order:draft,lines:quote.lines,shippingCents:freightCents,
     accessToken:env.MERCADOPAGO_TEST_ACCESS_TOKEN,
