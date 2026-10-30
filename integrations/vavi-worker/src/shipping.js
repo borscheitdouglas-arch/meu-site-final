@@ -21,6 +21,12 @@ export function shippingPayload(zipCode, lines, rawConfig) {
   if (!config || typeof config !== 'object' || Array.isArray(config)) {
     throw new CatalogError('shipping_not_configured', 'Logística ainda não configurada.', 503);
   }
+  // Até confirmar a regra do pacote com a VAVI, somente 1 peça pode ser cotada.
+  // Não somar dimensões por conta própria: a transportadora usa o pacote real.
+  if (lines.length !== 1 || lines[0]?.quantity !== 1) {
+    throw new CatalogError('shipping_package_unverified',
+      'Cotação de múltiplas peças ainda precisa de validação da embalagem VAVI.',503);
+  }
   let amount = 0, weight = 0, height = 0, width = 0, length = 0;
   const compositions = [];
   for (const line of lines) {
@@ -38,7 +44,7 @@ export function shippingPayload(zipCode, lines, rawConfig) {
     weight += item.weight * units;
     height = Math.max(height,item.height);
     width = Math.max(width,item.width);
-    length += item.length * units; // estimativa conservadora: exige conferência de embalagem real
+    length = item.length; // pacote de uma única peça; nenhuma dimensão agregada manualmente
   }
   return {zipCode,amount:Number(amount.toFixed(2)),weight:Number(weight.toFixed(3)),
     height,width,length,compositions};
