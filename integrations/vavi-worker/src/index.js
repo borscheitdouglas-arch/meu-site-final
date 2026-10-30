@@ -1,6 +1,6 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
 import {normalizeZip, simulateVaviShipping} from './shipping.js';
-import {verifyWebhookSignature} from './payment-verification.js';
+import {processPaymentWebhook} from './payment-webhook-service.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
 
 /** API inicial, sem checkout, dados pessoais, autenticação VAVI ou pedidos reais. */
@@ -70,28 +70,19 @@ export default {
       };
       return json({mode:'preview',ready:false,checks},200,cors.headers);
     }
-    // Endpoint reservado para notificações Mercado Pago. Até que exista
-    // persistência idempotente e consulta ao pagamento, nunca responder 2xx:
-    // isso evita que notificações sejam consideradas processadas e perdidas.
+    // Mercado Pago: verify HMAC, fetch the payment independently and
+    // record an approved order idempotently. Disabled until operator
+    // provisions the secret and explicitly enables webhook processing.
     if (url.pathname === '/api/payments/webhook' && request.method === 'POST') {
-      if (!env.MERCADOPAGO_WEBHOOK_SECRET) {
-        return json({error:'webhook_not_configured'},503);
-      }
-      const requestId=request.headers.get('x-request-id');
-      const signature=request.headers.get('x-signature');
-      const dataId=url.searchParams.get('data.id') || url.searchParams.get('id');
-      if (!dataId) return json({error:'invalid_notification'},400);
       try {
-        await verifyWebhookSignature({
-          signature, requestId, dataId, secret:env.MERCADOPAGO_WEBHOOK_SECRET
-        });
+        const result=await processPaymentWebhook({request,env});
+        return json({ok:true,processed:result.processed!==false},200);
       } catch(error) {
-        if (error instanceof CatalogError) {
+        if(error instanceof CatalogError)
           return json({error:error.code},error.status);
-        }
-        return json({error:'invalid_notification'},401);
+        console.error('Falha ao processar notificação:',error?.name||'unknown');
+        return json({error:'webhook_processing_failed'},503);
       }
-      return json({error:'webhook_processing_not_enabled'},503);
     }
     if (!env.DB) return json({error:'database_not_configured'},503,cors.headers);
     try {
