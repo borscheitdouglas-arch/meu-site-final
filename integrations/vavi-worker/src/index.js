@@ -59,7 +59,7 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/checkout/test'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
+      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
     if (url.pathname === '/health' && request.method === 'GET') {
@@ -96,6 +96,29 @@ export default {
           return json({error:error.code},error.status);
         console.error('Falha ao processar notificação:',error?.name||'unknown');
         return json({error:'webhook_processing_failed'},503);
+      }
+    }
+    // Operator-only, read-only VAVI shipping diagnostic. It never creates a
+    // checkout preference, D1 order or supplier order, and does not enable stock.
+    if (url.pathname === '/api/internal/vavi/shipping-check' && request.method === 'POST') {
+      if (!env.CHECKOUT_TEST_API_KEY || !(await authorizedTestCheckout(request,env)))
+        return json({error:'unauthorized'},401);
+      if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+        return json({error:'unsupported_media_type'},415);
+      const payload=await request.text();
+      if(payload.length>1000)return json({error:'request_too_large'},413);
+      try {
+        const body=JSON.parse(payload);
+        const zipCode=normalizeZip(body?.zipCode);
+        const lines=[{sku:'salve-regina-preta-g',quantity:1}];
+        const options=await simulateVaviShipping(env,zipCode,lines);
+        return json({mode:'diagnostic',sku:'salve-regina-preta-g',zipCode,
+          options,createsOrder:false,createsPayment:false},200);
+      } catch(e) {
+        if(e instanceof CatalogError)return json({error:e.code},e.status);
+        if(e instanceof SyntaxError)return json({error:'invalid_json'},400);
+        console.error('VAVI diagnostic error:',e?.name||'unknown');
+        return json({error:'shipping_diagnostic_failed'},503);
       }
     }
     if (!env.DB) return json({error:'database_not_configured'},503,cors.headers);
