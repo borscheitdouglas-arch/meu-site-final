@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {normalizeZip, shippingPayload} from './shipping.js';
+import {normalizeZip, shippingPayload, simulateVaviShipping} from './shipping.js';
 
 test('CEP aceito em formato digitado ou com hífen',()=>{
   assert.equal(normalizeZip('13201-000'),'13201000');
@@ -22,4 +22,43 @@ test('payload da VAVI usa somente custo e dimensões configurados no servidor',(
   assert.equal(p.weight,0.25);
   assert.equal(p.compositions[0].sku,'VAVI-P-TESTE');
   assert.equal(p.compositions[0].quantity,1);
+});
+
+const config=JSON.stringify({shirt:{id:'497f6eca-6276-4993-bfeb-53cbbbba6f08',
+  sku:'VAVI-P-TESTE',amount:66.83,weight:0.25,height:10,width:250,length:300}});
+const env={VAVI_CLIENT_ID:'fake',VAVI_CLIENT_SECRET:'fake',
+  VAVI_SHIPPING_PRODUCTS_JSON:config};
+async function withMockVavi(data,callback) {
+  const saved=globalThis.fetch;
+  globalThis.fetch=async(url)=>({
+    ok:true,
+    json:async()=>url.includes('/Auth/Token')
+      ? {data:{access_token:'fake-test'}} : {data}
+  });
+  try {return await callback();} finally {globalThis.fetch=saved;}
+}
+test('frete ativo com valor monetário exato passa',async()=>{
+  await withMockVavi([{id:'carrier-01',name:'Entrega teste',
+    shippingCost:19.5,deliveryTime:6,isActive:true}],async()=>{
+    const result=await simulateVaviShipping(env,'13201000',[{sku:'shirt',quantity:1}]);
+    assert.equal(result.length,1);
+    assert.equal(result[0].shippingCost,19.5);
+  });
+});
+test('cotação com frações de centavo é ignorada',async()=>{
+  await withMockVavi([{id:'carrier-01',name:'Entrega teste',
+    shippingCost:19.999,deliveryTime:6,isActive:true}],async()=>{
+    const result=await simulateVaviShipping(env,'13201000',[{sku:'shirt',quantity:1}]);
+    assert.deepEqual(result,[]);
+  });
+});
+test('opções de frete com ID repetido são rejeitadas',async()=>{
+  const data=[{id:'carrier-01',name:'Entrega teste',
+    shippingCost:19.5,deliveryTime:6,isActive:true},
+    {id:'carrier-01',name:'Entrega teste',
+    shippingCost:29.5,deliveryTime:3,isActive:true}];
+  await withMockVavi(data,async()=>{
+    await assert.rejects(()=>simulateVaviShipping(env,'13201000',
+      [{sku:'shirt',quantity:1}]),{code:'shipping_provider_unavailable'});
+  });
 });
