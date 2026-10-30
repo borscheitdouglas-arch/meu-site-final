@@ -37,36 +37,6 @@ function corsHeaders(request, env) {
     'Vary': 'Origin'
   }};
 }
-async function runOneShotVaviProbe(env) {
-    if(env.VAVI_ONE_TIME_PROBE!=='true' || !env.DB) return;
-    let claimed;
-    try {
-      claimed=await env.DB.prepare(`INSERT OR IGNORE INTO store_vavi_diagnostic
-        (id,status) VALUES ('vavi-freight-20261030','started')`).run();
-    } catch {return;}
-    if(claimed?.meta?.changes!==1)return;
-    let status='failed',errorCode='unknown',options=null;
-    try {
-      const quote=await simulateVaviShipping(env,'01001000',
-        [{sku:'salve-regina-preta-g',quantity:1}]);
-      options=JSON.stringify(quote.slice(0,12).map(x=>({
-        id:x.id,name:x.name,shippingCost:x.shippingCost,
-        deliveryTime:x.deliveryTime,isActive:x.isActive
-      })));
-      status=quote.length?'success':'no_options';
-      errorCode=null;
-    }catch(error) {
-      errorCode=error instanceof CatalogError?error.code:'unexpected_provider_error';
-    }
-    try {
-      await env.DB.prepare(`UPDATE store_vavi_diagnostic SET
-        status=?,error_code=?,options_json=?,
-        finished_at=strftime('%Y-%m-%dT%H:%M:%fZ','now')
-        WHERE id='vavi-freight-20261030' AND status='started'`)
-        .bind(status,errorCode,options).run();
-    }catch {}
-}
-
 async function getCatalog(db) {
   const result = await db.prepare(
     `SELECT p.id,p.name,p.description,p.image,v.sku,v.label,v.price_cents
@@ -89,15 +59,8 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
+      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
-    }
-    // Temporary, random-path one-shot diagnostic. No PII, order or payment.
-    // This branch is removed once a real provider result is captured.
-    if (url.pathname === '/api/internal/vavi/probe-6f820e5c4feca7c988cf5a12d163ae60' && request.method === 'GET') {
-      if (env.VAVI_ONE_TIME_PROBE!=='true') return json({error:'not_found'},404);
-      await runOneShotVaviProbe(env);
-      return json({ok:true,diagnostic:true,createsOrders:false,createsPayments:false});
     }
     if (url.pathname === '/health' && request.method === 'GET') {
       return json({ok:true, mode:'preview', payments:false, vaviOrders:false},200,cors.headers);
@@ -158,6 +121,33 @@ export default {
         return json({error:'shipping_diagnostic_failed'},503);
       }
     }
+    // Public, CEP-only freight estimate for the single launch T-shirt.
+    // Never exposes credentials or enables product/payment/order operations.
+    if (url.pathname === '/api/shipping/preview' && request.method === 'POST') {
+      const origin=request.headers.get('Origin');
+      const allowed=(env.ALLOWED_ORIGINS||'').split(',').map(x=>x.trim());
+      if(!origin || !allowed.includes(origin))
+        return json({error:'origin_not_allowed'},403);
+      if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+        return json({error:'unsupported_media_type'},415,cors.headers);
+      const textBody=await request.text();
+      if(textBody.length>200)return json({error:'request_too_large'},413,cors.headers);
+      try {
+        const body=JSON.parse(textBody);
+        const zipCode=normalizeZip(body?.zipCode);
+        const options=await simulateVaviShipping(env,zipCode,
+          [{sku:'salve-regina-preta-g',quantity:1}]);
+        // Factory pickup is not a shipping option to the buyer's CEP.
+        const delivery=options.filter(x=>!(/retirada|retire|pickup/i.test(x.name)));
+        return json({mode:'preview',sku:'salve-regina-preta-g',zipCode,
+          currency:'BRL',options:delivery,checkoutEnabled:false},200,cors.headers);
+      }catch(error) {
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status,cors.headers);
+        if(error instanceof SyntaxError)return json({error:'invalid_json'},400,cors.headers);
+        return json({error:'shipping_provider_unavailable'},503,cors.headers);
+      }
+    }
     if (!env.DB) return json({error:'database_not_configured'},503,cors.headers);
     try {
       if (url.pathname === '/api/checkout/test' && request.method === 'POST') {
@@ -209,8 +199,5 @@ export default {
       console.error('Falha ao consultar catálogo ou calcular prévia:',error?.name || 'unknown');
       return json({error:'internal_error'},500,cors.headers);
     }
-  },
-  async scheduled(_event,env,_ctx) {
-    await runOneShotVaviProbe(env);
   }
 };
