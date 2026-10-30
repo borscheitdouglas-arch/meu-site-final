@@ -10,6 +10,17 @@
 <link rel="icon" href="/assets/img/icone.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles/salve-regina-colecao.css">
+<style>
+.salve-quote{margin-top:1.3rem;padding:1.2rem;border:1px solid #8a7754;border-radius:12px;background:#10150f;color:#ece4d3}
+.salve-quote h4{margin:0 0 .6rem;font-family:Cinzel,serif;font-size:1.05rem}
+.salve-quote p{font-size:.88rem;line-height:1.5}
+.salve-quote label{display:block;margin:.8rem 0 .4rem}
+.salve-quote-fields{display:flex;gap:.5rem;flex-wrap:wrap}
+.salve-quote input{flex:1;min-width:125px;padding:.7rem;border-radius:6px;border:1px solid #ad9b78;background:#f8f5ef;color:#161616}
+.salve-quote button{padding:.7rem 1rem;background:#ba9b5f;color:#14140f;border:0;border-radius:6px;font-weight:700;cursor:pointer}
+.salve-quote button:disabled{opacity:.5;cursor:not-allowed}
+.salve-quote ul{padding-left:1.4rem;line-height:1.8}
+</style>
 </head>
 <body>
 <a class="skip" href="#colecao">Ir para a coleção</a>
@@ -27,7 +38,20 @@
 <section class="catalog" id="colecao" aria-labelledby="collection-title">
  <div class="catalog-head"><div><p class="kicker">Coleção inaugural</p><h2 id="collection-title">Três maneiras de levar a beleza consigo.</h2></div><p>Imagens ilustrativas, não fotografias do produto final. A personalização da camiseta já foi definida; as vendas aguardam a validação técnica do checkout e do frete.</p></div>
  <div class="cards">
- <article class="product"><img src="/assets/img/Produtos/salve-regina/camiseta-preview.svg" loading="lazy" width="720" height="820" alt="Ilustração provisória de camiseta preta com o tema Salve Regina"><div class="product-content"><p class="index">01 · VESTUÁRIO</p><h3>Camiseta Salve Regina</h3><p>Algodão penteado 30.1, na cor preta, com partitura gregoriana na frente e Nossa Senhora nas costas. Impressão DTF nas duas faces.</p><p class="variant"><strong>Cor:</strong> preta<br><strong>Tamanho G:</strong> configurado na VAVI; demais tamanhos ainda em validação</p><span class="prelaunch">Preço previsto: R$ 109,90 + frete · Vendas ainda indisponíveis</span></div></article>
+ <article class="product"><img src="/assets/img/Produtos/salve-regina/camiseta-preview.svg" loading="lazy" width="720" height="820" alt="Ilustração provisória de camiseta preta com o tema Salve Regina"><div class="product-content"><p class="index">01 · VESTUÁRIO</p><h3>Camiseta Salve Regina</h3><p>Algodão penteado 30.1, na cor preta, com partitura gregoriana na frente e Nossa Senhora nas costas. Impressão DTF nas duas faces.</p><p class="variant"><strong>Cor:</strong> preta<br><strong>Tamanho G:</strong> configurado na VAVI; demais tamanhos ainda em validação</p><span class="prelaunch">Preço previsto: R$ 109,90 + frete · Vendas ainda indisponíveis</span>
+<div class="salve-quote" aria-labelledby="salve-quote-title">
+  <h4 id="salve-quote-title">Consultar o frete da camiseta G</h4>
+  <p>Consulta preparatória, sem compra ou cobrança. O formulário só será habilitado quando os dados do produto forem validados.</p>
+  <form id="salve-shipping-form">
+    <label for="salve-zip">CEP de entrega</label>
+    <div class="salve-quote-fields">
+      <input id="salve-zip" name="zipCode" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" required aria-describedby="salve-shipping-status">
+      <button type="submit" disabled>Consultar frete</button>
+    </div>
+  </form>
+  <p id="salve-shipping-status" role="status" aria-live="polite">Verificando disponibilidade…</p>
+  <div id="salve-shipping-result" aria-live="polite"></div>
+</div></div></article>
  <article class="product"><img src="/assets/img/Produtos/salve-regina/moletom-preview.svg" loading="lazy" width="720" height="820" alt="Ilustração provisória de moletom preto com o tema Salve Regina"><div class="product-content"><p class="index">02 · VESTUÁRIO</p><h3>Moletom Salve Regina</h3><p>Conforto e identidade: uma peça escura com imagem sacra frontal e partitura gregoriana no verso.</p><p class="variant"><strong>Cor planejada:</strong> preta<br><strong>Tamanhos a validar:</strong> P, M, G e GG</p><span class="prelaunch">Em preparação · preço a definir</span></div></article>
  <article class="product"><img src="/assets/img/Produtos/salve-regina/caneca-preview.svg" loading="lazy" width="720" height="820" alt="Ilustração provisória de caneca clara com o tema Salve Regina"><div class="product-content"><p class="index">03 · CASA E PRESENTES</p><h3>Caneca Salve Regina</h3><p>Imagem devocional de um lado, canto gregoriano do outro, para recordar a beleza da oração nos pequenos momentos.</p><p class="variant"><strong>Modelo previsto:</strong> porcelana 350 ml<br><strong>Cor:</strong> branca; preta sob confirmação</p><span class="prelaunch">Em preparação · preço a definir</span></div></article>
  </div>
@@ -35,5 +59,6 @@
 <section class="last-note"><p class="kicker">Feito com cuidado</p><h2>Uma coleção em construção.</h2><p>A camiseta já está personalizada na VAVI. Antes de receber pagamentos, precisamos concluir a validação de frete, checkout e encaminhamento do pedido. Assim, a peça recebida poderá corresponder à apresentação.</p><a href="/pages/contato.html">Fale conosco <span aria-hidden="true">↗</span></a></section>
 </main>
 <footer><span>© 2026 Douglas Assumpção</span><span>Coleção Salve Regina · Pré-lançamento</span></footer>
+<script src="/scripts/salve-regina-shipping.js" defer></script>
 </body>
 </html>
