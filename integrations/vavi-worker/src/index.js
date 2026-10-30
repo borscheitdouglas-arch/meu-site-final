@@ -1,4 +1,5 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
+import {normalizeZip, simulateVaviShipping} from './shipping.js';
 
 /** API inicial, sem checkout, dados pessoais, autenticação VAVI ou pedidos reais. */
 function json(body, status = 200, extra = {}) {
@@ -42,7 +43,7 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      if (!['/api/catalog','/api/quote'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
+      if (!['/api/catalog','/api/quote','/api/shipping/quote'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
     if (url.pathname === '/health' && request.method === 'GET') {
@@ -53,7 +54,7 @@ export default {
       if (url.pathname === '/api/catalog' && request.method === 'GET') {
         return json({mode:'preview', currency:'BRL', products:await getCatalog(env.DB)},200,cors.headers);
       }
-      if (url.pathname === '/api/quote' && request.method === 'POST') {
+      if (['/api/quote','/api/shipping/quote'].includes(url.pathname) && request.method === 'POST') {
         if (!(request.headers.get('Content-Type') || '').toLowerCase().startsWith('application/json')) {
           return json({error:'unsupported_media_type'},415,cors.headers);
         }
@@ -63,7 +64,12 @@ export default {
         try { body = JSON.parse(bodyText); }
         catch { return json({error:'invalid_json'},400,cors.headers); }
         const cart = normalizeCart(body);
-        return json(await quoteCart(cart, sku => loadVariant(env.DB,sku)),200,cors.headers);
+        const preview = await quoteCart(cart, sku => loadVariant(env.DB,sku));
+        if (url.pathname === '/api/quote') return json(preview,200,cors.headers);
+        const zipCode = normalizeZip(body.zipCode);
+        const shipping = await simulateVaviShipping(env,zipCode,preview.lines);
+        return json({mode:'preview',currency:'BRL',zipCode,
+          options:shipping,checkoutEnabled:false},200,cors.headers);
       }
       return json({error:'not_found'},404,cors.headers);
     } catch (error) {
