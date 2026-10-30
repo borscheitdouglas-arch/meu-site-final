@@ -50,6 +50,25 @@ export default {
     if (url.pathname === '/health' && request.method === 'GET') {
       return json({ok:true, mode:'preview', payments:false, vaviOrders:false},200,cors.headers);
     }
+    // Operator-facing readiness report without revealing any secret values.
+    // A missing webhook secret or verified catalogue keeps the public shop off.
+    if (url.pathname === '/api/store/readiness' && request.method === 'GET') {
+      if (!env.DB) return json({mode:'preview',ready:false,
+        checks:{database:false,product:false,freight:false,payments:false,webhook:false}},503,cors.headers);
+      const count=await env.DB.prepare(`SELECT COUNT(*) AS n FROM products p
+        JOIN variants v ON v.product_id=p.id
+        WHERE p.enabled=1 AND p.verified=1 AND v.available=1
+        AND v.price_cents>0`).first();
+      const checks={
+        database:true,
+        product:Number(count?.n||0)>0,
+        freight:Boolean(env.VAVI_SHIPPING_PRODUCTS_JSON &&
+          env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET),
+        payments:false, // not enabled until complete end-to-end tests
+        webhook:false // the route is still guarded, not consuming notifications
+      };
+      return json({mode:'preview',ready:false,checks},200,cors.headers);
+    }
     // Endpoint reservado para notificações Mercado Pago. Até que exista
     // persistência idempotente e consulta ao pagamento, nunca responder 2xx:
     // isso evita que notificações sejam consideradas processadas e perdidas.
