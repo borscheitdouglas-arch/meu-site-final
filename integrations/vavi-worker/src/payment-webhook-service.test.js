@@ -57,17 +57,17 @@ test('pendente não grava nem inicia produção',async()=>{
   assert.equal(database.count,0);
 });
 test('rejeita aviso falso e ausência de configuração',async()=>{
-  await assert.rejects(()=>processPaymentWebhook({
+  await assert.rejects(async()=>processPaymentWebhook({
     request:await signedRequest(),env:{}
   }),{code:'webhook_not_configured'});
   const bad=new Request(`https://api.example.test/api/payments/webhook?data.id=${dataId}`,{
     method:'POST',headers:{'x-request-id':requestId,'x-signature':'ts=123,v1=bad'}});
-  await assert.rejects(()=>processPaymentWebhook({request:bad,env:env(db())}),
+  await assert.rejects(async()=>processPaymentWebhook({request:bad,env:env(db())}),
     {code:'invalid_notification'});
 });
 test('valor diferente impede registrar pagamento',async()=>{
   const database=db();
-  await assert.rejects(()=>processPaymentWebhook({request:await signedRequest(),
+  await assert.rejects(async()=>processPaymentWebhook({request:await signedRequest(),
     env:env(database),fetchImpl:async()=>({ok:true,json:async()=>({
       id:Number(dataId),external_reference:orderId,status:'approved',
       currency_id:'BRL',transaction_amount:1
