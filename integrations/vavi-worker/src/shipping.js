@@ -65,9 +65,14 @@ async function postVavi(path, payload, token, timeoutMs=8000) {
 
 function safeQuote(option) {
   if (!option || typeof option !== 'object' ||
-      typeof option.id !== 'string' || typeof option.name !== 'string' ||
+      typeof option.id !== 'string' || !/^[A-Za-z0-9_.:-]{1,120}$/.test(option.id) ||
+      typeof option.name !== 'string' || !option.name.trim() || option.name.length>120 ||
+      typeof option.shippingCost !== 'number' ||
       !Number.isFinite(option.shippingCost) || option.shippingCost < 0 ||
-      !Number.isInteger(option.deliveryTime) || option.deliveryTime < 0) return null;
+      option.shippingCost > 10000 ||
+      Math.abs(option.shippingCost * 100 - Math.round(option.shippingCost * 100)) > 0.000001 ||
+      !Number.isInteger(option.deliveryTime) ||
+      option.deliveryTime < 0 || option.deliveryTime > 365) return null;
   return {id:option.id,name:option.name,companyName:option.companyName || '',
     shippingCost:option.shippingCost,deliveryTime:option.deliveryTime,
     estimatedDeliveryDate:option.estimatedDeliveryDate || null,
@@ -100,5 +105,10 @@ export async function simulateVaviShipping(env,zipCode,lines) {
   }
   if (!Array.isArray(response?.data)) throw new CatalogError('shipping_provider_unavailable',
     'Resposta de frete inesperada.',503);
-  return response.data.map(safeQuote).filter(Boolean).filter(x=>x.isActive);
+  // Duplicate identifiers make customer selection ambiguous: fail closed.
+  const options=response.data.map(safeQuote).filter(Boolean).filter(x=>x.isActive);
+  const ids=new Set(options.map(x=>x.id));
+  if(ids.size!==options.length)throw new CatalogError('shipping_provider_unavailable',
+    'Cotações conflitantes da transportadora.',503);
+  return options;
 }
