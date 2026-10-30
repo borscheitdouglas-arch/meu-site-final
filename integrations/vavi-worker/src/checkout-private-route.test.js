@@ -27,3 +27,11 @@ test('segredo aceito ainda valida JSON e nunca expõe sua chave',async()=>{
   const data=await result.text();
   assert.equal(data.includes(secret),false);
 });
+
+test('sem chave privada configurada a operação sempre falha de forma segura',async()=>{
+  const result=await worker.fetch(req('Bearer '+secret),{
+    ...env,CHECKOUT_TEST_API_KEY:undefined
+  });
+  assert.equal(result.status,503);
+  assert.equal((await result.json()).error,'checkout_not_ready');
+});
