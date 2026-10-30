@@ -1,6 +1,7 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
 import {normalizeZip, simulateVaviShipping} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
+import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
@@ -89,7 +90,9 @@ export default {
     // provisions the secret and explicitly enables webhook processing.
     if (url.pathname === '/api/payments/webhook' && request.method === 'POST') {
       try {
-        const result=await processPaymentWebhook({request,env});
+        const result=new URL(request.url).searchParams.get('type')==='order'
+          ? await processOrdersWebhook({request,env})
+          : await processPaymentWebhook({request,env});
         return json({ok:true,processed:result.processed!==false},200);
       } catch(error) {
         if(error instanceof CatalogError)

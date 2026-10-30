@@ -2,6 +2,8 @@ import {CatalogError,normalizeCart,quoteCart} from './catalog.js';
 import {normalizeZip,simulateVaviShipping} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
+import {createOrdersSandbox} from './mp-orders-sandbox.js';
+import {saveOrdersLink} from './mp-orders-webhook.js';
 import {validateBuyerDetails,encryptDelivery,storeEncryptedDelivery} from './delivery-repository.js';
 
 const PRICE_TO_CENTS=x=>Number.isFinite(x)?Math.round(x*100):NaN;
@@ -85,6 +87,28 @@ export async function createCheckoutTest(env,body,deps={}) {
   });
   await (deps.insertDraft||insertDraftOrder)(env.DB,draft);
   await (deps.storeDelivery||storeEncryptedDelivery)(env.DB,envelope);
+  // Only a PRIVATE Worker variable can switch sandbox mode.
+  // This path never enables public checkout nor sends a supplier order.
+  if(env.CHECKOUT_TEST_PAYMENT_MODE==='orders'){
+    if(env.MP_ORDERS_WEBHOOK_ENABLED!=='true'){
+      throw new CatalogError('orders_webhook_disabled',
+        'Confirmação Orders ainda não está habilitada.',503);
+    }
+    const provider=await (deps.createOrders||createOrdersSandbox)({
+      order:draft,items:quote.lines,
+      accessToken:env.MERCADOPAGO_TEST_ACCESS_TOKEN
+    });
+    const update=await env.DB.prepare(`UPDATE store_orders
+      SET status='awaiting_payment',
+        updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now')
+      WHERE id=? AND status='draft' AND mp_preference_id IS NULL`)
+      .bind(orderId).run();
+    if(update?.meta?.changes!==1)throw new CatalogError('checkout_persistence_failed',
+      'Pedido não confirmado para Orders.',503);
+    await (deps.saveOrdersLink||saveOrdersLink)(env.DB,provider.providerOrderId,orderId);
+    return {mode:'test_orders',orderId,amountCents:draft.totalCents,
+      checkoutUrl:provider.checkoutUrl};
+  }
   const preference=await (deps.createPreference||createTestPreference)({
     order:draft,lines:quote.lines,shippingCents:freightCents,
     accessToken:env.MERCADOPAGO_TEST_ACCESS_TOKEN,
