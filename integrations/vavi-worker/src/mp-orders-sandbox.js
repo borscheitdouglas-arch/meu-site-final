@@ -107,8 +107,11 @@ export function validateOrdersPaymentStatus(provider,dbOrder,providerOrderId) {
       throw new CatalogError('orders_payment_mismatch','Valor inválido.',409);
     return Number(value.replace('.',''));
   };
-  if(parseCents(provider.total_amount)!==dbOrder.total_cents ||
-     parseCents(provider.total_paid_amount||'0.00')!==dbOrder.total_cents ||
+  if(parseCents(provider.total_amount)!==dbOrder.total_cents) {
+    throw new CatalogError('orders_payment_mismatch',
+      'Valor da Order diverge do pedido.',409);
+  }
+  if(parseCents(provider.total_paid_amount||'0.00')!==dbOrder.total_cents ||
      provider.status!=='processed' || provider.status_detail!=='accredited') {
     throw new CatalogError('orders_not_approved',
       'Order ainda não está aprovada.',409);
