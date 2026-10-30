@@ -172,5 +172,36 @@ export default {
       console.error('Falha ao consultar catálogo ou calcular prévia:',error?.name || 'unknown');
       return json({error:'internal_error'},500,cors.headers);
     }
+  },
+  // One-time internal VAVI API probe. Cron can fire repeatedly, but D1
+  // allows only the first invocation to contact VAVI; no payment or order.
+  async scheduled(_event,env,_ctx) {
+    if(env.VAVI_ONE_TIME_PROBE!=='true' || !env.DB) return;
+    let claimed;
+    try {
+      claimed=await env.DB.prepare(`INSERT OR IGNORE INTO store_vavi_diagnostic
+        (id,status) VALUES ('vavi-freight-20261030','started')`).run();
+    } catch {return;}
+    if(claimed?.meta?.changes!==1)return;
+    let status='failed',errorCode='unknown',options=null;
+    try {
+      const quote=await simulateVaviShipping(env,'01001000',
+        [{sku:'salve-regina-preta-g',quantity:1}]);
+      options=JSON.stringify(quote.slice(0,12).map(x=>({
+        id:x.id,name:x.name,shippingCost:x.shippingCost,
+        deliveryTime:x.deliveryTime,isActive:x.isActive
+      })));
+      status=quote.length?'success':'no_options';
+      errorCode=null;
+    }catch(error) {
+      errorCode=error instanceof CatalogError?error.code:'unexpected_provider_error';
+    }
+    try {
+      await env.DB.prepare(`UPDATE store_vavi_diagnostic SET
+        status=?,error_code=?,options_json=?,
+        finished_at=strftime('%Y-%m-%dT%H:%M:%fZ','now')
+        WHERE id='vavi-freight-20261030' AND status='started'`)
+        .bind(status,errorCode,options).run();
+    }catch {}
   }
 };
