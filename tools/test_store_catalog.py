@@ -26,7 +26,7 @@ class StoreCatalogTest(unittest.TestCase):
         tags = Tags(html).tags
         self.assertEqual(sum(t == 'article' for t, _ in tags), 1)
         self.assertIn('atelier-grid-single', html)
-        self.assertIn('01 obra', html)
+        self.assertIn('01 produto', html)
         links = [a for t, a in tags if t == 'a']
         self.assertEqual({a['href'] for a in links}, {r['url'] for r in self.data['products'][0]['retailers']})
         self.assertTrue(all(a['target'] == '_blank' and 'noopener' in a['rel'] for a in links))
@@ -42,7 +42,7 @@ class StoreCatalogTest(unittest.TestCase):
             product.update(id=f'livro-{i}', title=f'Livro {i}')
             self.data['products'].append(product)
         html = render_catalog(self.data)
-        self.assertIn('04 obras', html)
+        self.assertIn('04 produtos', html)
         self.assertNotIn('atelier-grid-single', html)
         tags = Tags(html).tags
         ids = [a['id'] for _, a in tags if 'id' in a]
@@ -68,6 +68,35 @@ class StoreCatalogTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     render_catalog(data)
 
+
+    def test_contact_product_does_not_create_fake_checkout(self):
+        product = copy.deepcopy(self.data['products'][0])
+        product.update(
+            id='camiseta-exemplo', title='Camiseta de exemplo',
+            product_type='apparel', purchase_mode='contact',
+            contact_url='/pages/contato.html'
+        )
+        product.pop('retailers')
+        product['status'] = 'published'
+        self.data['products'].append(product)
+        html = render_catalog(self.data)
+        self.assertIn('02 produtos', html)
+        self.assertIn('Consultar disponibilidade', html)
+        self.assertIn('Não há compra online nesta etapa', html)
+        self.assertIn('https://loja.uiclap.com/', html)
+
+    def test_direct_checkout_is_blocked_until_approved(self):
+        self.data['products'][0]['purchase_mode'] = 'checkout'
+        with self.assertRaisesRegex(ValueError, 'checkout direto ainda indisponível'):
+            render_catalog(self.data)
+
+    def test_invalid_contact_destination_fails_closed(self):
+        self.data['products'][0].update(
+            purchase_mode='contact', contact_url='javascript:alert(1)'
+        )
+        with self.assertRaisesRegex(ValueError, 'página de contato não autorizada'):
+            render_catalog(self.data)
+
     def test_duplicate_product_id_rejected(self):
         self.data['products'].append(copy.deepcopy(self.data['products'][0]))
         with self.assertRaises(ValueError):
@@ -82,8 +111,8 @@ class StoreCatalogTest(unittest.TestCase):
     def test_no_published_products_has_empty_state(self):
         self.data['products'][0]['status'] = 'draft'
         html = render_catalog(self.data)
-        self.assertIn('00 obras', html)
-        self.assertIn('Nenhuma obra disponível', html)
+        self.assertIn('00 produtos', html)
+        self.assertIn('Nenhum produto disponível', html)
         self.assertNotIn('<article', html)
 
     def test_update_preserves_content_outside_markers_and_is_idempotent(self):

@@ -1,0 +1,33 @@
+name: Validar catálogo da loja
+
+on:
+  pull_request:
+    paths:
+      - 'content/store-products.json'
+      - 'pages/loja.html'
+      - 'tools/generate_store.py'
+      - 'tools/test_store_catalog.py'
+      - '.github/workflows/loja-catalogo-check.yml'
+  push:
+    paths:
+      - 'content/store-products.json'
+      - 'pages/loja.html'
+      - 'tools/generate_store.py'
+      - 'tools/test_store_catalog.py'
+      - '.github/workflows/loja-catalogo-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  catalogo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verificar HTML gerado
+        run: python3 tools/generate_store.py --check
+      - name: Validar catálogo e segurança dos links
+        run: python3 -m unittest discover -s tools -p test_store_catalog.py
