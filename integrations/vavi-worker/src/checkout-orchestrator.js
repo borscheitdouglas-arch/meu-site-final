@@ -62,7 +62,8 @@ export async function createCheckoutTest(env,body,deps={}) {
     throw new CatalogError('shipping_unavailable','Frete indisponível.',409);
   }
   // Never accept freight price from a browser, only a provider option.
-  const selected=freight.find(x=>String(x.id)===body.shippingOptionId);
+  const selected=freight.find(x=>String(x.id)===body.shippingOptionId &&
+    !/retirada|retire|pickup/i.test(String(x.name||'')));
   if (!selected || selected.isActive!==true ||
       typeof selected.shippingCost!=='number' || selected.shippingCost<0) {
     throw new CatalogError('shipping_option_invalid',
