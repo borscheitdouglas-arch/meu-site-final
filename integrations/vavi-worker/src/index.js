@@ -59,7 +59,7 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
+      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
     if (url.pathname === '/health' && request.method === 'GET') {
@@ -119,6 +119,33 @@ export default {
         if(e instanceof SyntaxError)return json({error:'invalid_json'},400);
         console.error('VAVI diagnostic error:',e?.name||'unknown');
         return json({error:'shipping_diagnostic_failed'},503);
+      }
+    }
+    // Public, CEP-only freight estimate for the single launch T-shirt.
+    // Never exposes credentials or enables product/payment/order operations.
+    if (url.pathname === '/api/shipping/preview' && request.method === 'POST') {
+      const origin=request.headers.get('Origin');
+      const allowed=(env.ALLOWED_ORIGINS||'').split(',').map(x=>x.trim());
+      if(!origin || !allowed.includes(origin))
+        return json({error:'origin_not_allowed'},403);
+      if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+        return json({error:'unsupported_media_type'},415,cors.headers);
+      const textBody=await request.text();
+      if(textBody.length>200)return json({error:'request_too_large'},413,cors.headers);
+      try {
+        const body=JSON.parse(textBody);
+        const zipCode=normalizeZip(body?.zipCode);
+        const options=await simulateVaviShipping(env,zipCode,
+          [{sku:'salve-regina-preta-g',quantity:1}]);
+        // Factory pickup is not a shipping option to the buyer's CEP.
+        const delivery=options.filter(x=>!(/retirada|retire|pickup/i.test(x.name)));
+        return json({mode:'preview',sku:'salve-regina-preta-g',zipCode,
+          currency:'BRL',options:delivery,checkoutEnabled:false},200,cors.headers);
+      }catch(error) {
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status,cors.headers);
+        if(error instanceof SyntaxError)return json({error:'invalid_json'},400,cors.headers);
+        return json({error:'shipping_provider_unavailable'},503,cors.headers);
       }
     }
     if (!env.DB) return json({error:'database_not_configured'},503,cors.headers);
