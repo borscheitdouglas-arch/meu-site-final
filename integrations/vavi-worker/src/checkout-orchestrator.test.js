@@ -56,7 +56,7 @@ test('rota pública permanece indisponível mesmo se flags forem forçadas',asyn
       body:JSON.stringify(body)});
   const r=await worker.fetch(req,env);
   assert.equal(r.status,503);
-  assert.equal((await r.json()).error,'checkout_private_authorization_missing');
+  assert.equal((await r.json()).error,'checkout_not_ready');
 });
 
 test('se entrega não é persistida, preferência MP jamais é criada',async()=>{
