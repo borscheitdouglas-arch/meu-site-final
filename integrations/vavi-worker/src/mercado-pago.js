@@ -40,9 +40,9 @@ export function buildPreference({lines, shippingCents, orderId, siteBaseUrl, not
   return {
     items,external_reference:orderId,
     back_urls:{
-      success:base+'/loja.html?pagamento=sucesso',
-      pending:base+'/loja.html?pagamento=pendente',
-      failure:base+'/loja.html?pagamento=falha'
+      success:base+'/pages/loja.html?pagamento=sucesso',
+      pending:base+'/pages/loja.html?pagamento=pendente',
+      failure:base+'/pages/loja.html?pagamento=falha'
     },
     notification_url:notification.toString(),
     auto_return:'approved'

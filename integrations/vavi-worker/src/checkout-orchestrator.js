@@ -34,11 +34,26 @@ export async function createCheckoutTest(env,body,deps={}) {
   const zip=normalizeZip(body.zipCode);
   if (buyer.zipCode!==zip) throw new CatalogError('delivery_zip_mismatch',
     'O CEP da cotação não confere com o endereço.',422);
-  const load=deps.loadVariant || (async sku=>env.DB.prepare(
-    `SELECT v.sku,v.label,v.price_cents,v.available,p.name,
-     p.enabled AS product_enabled,p.verified AS product_verified
-     FROM variants v JOIN products p ON p.id=v.product_id
-     WHERE v.sku=? LIMIT 1`).bind(sku).first());
+  // Private sandbox allows exactly one known SKU while PUBLIC availability
+  // remains disabled. Values always come from D1, never from buyer input.
+  if (!deps.loadVariant && cart[0].sku!=='salve-regina-preta-g') {
+    throw new CatalogError('checkout_test_sku_restricted',
+      'Somente a camiseta G pode ser testada.',409);
+  }
+  const load=deps.loadVariant || (async sku=>{
+    const variant=await env.DB.prepare(
+      `SELECT v.sku,v.label,v.price_cents,v.available,p.name,
+       p.enabled AS product_enabled,p.verified AS product_verified
+       FROM variants v JOIN products p ON p.id=v.product_id
+       WHERE v.sku=? LIMIT 1`).bind(sku).first();
+    if (!variant || variant.sku!=='salve-regina-preta-g' ||
+      variant.price_cents!==10990 ||
+      env.CHECKOUT_TEST_CATALOG_OVERRIDE!=='true') {
+      throw new CatalogError('checkout_test_product_unverified',
+        'Produto de homologação não conferido.',409);
+    }
+    return {...variant,product_enabled:1,product_verified:1,available:1};
+  });
   const quote=await quoteCart(cart,load);
   const freight=await (deps.simulateShipping||simulateVaviShipping)(
     env,zip,quote.lines
@@ -47,7 +62,8 @@ export async function createCheckoutTest(env,body,deps={}) {
     throw new CatalogError('shipping_unavailable','Frete indisponível.',409);
   }
   // Never accept freight price from a browser, only a provider option.
-  const selected=freight.find(x=>String(x.id)===body.shippingOptionId);
+  const selected=freight.find(x=>String(x.id)===body.shippingOptionId &&
+    !/retirada|retire|pickup/i.test(String(x.name||'')));
   if (!selected || selected.isActive!==true ||
       typeof selected.shippingCost!=='number' || selected.shippingCost<0) {
     throw new CatalogError('shipping_option_invalid',
