@@ -2,7 +2,7 @@
 
 Esta etapa adiciona a migração `0001_store_orders.sql`, regras puras de estado e testes.
 
-**Não cria cobranças, não executa migração no banco remoto e não envia pedidos à VAVI.** Não foi adicionada nenhuma rota pública de pagamento ou webhook. A API segue em `mode=preview`.
+**Não cria cobranças nem envia pedidos à VAVI.** A estrutura SQL foi aplicada com sucesso ao banco remoto em 30/10/2026 por conexão autorizada ao Cloudflare. Não foi adicionada nenhuma rota pública de pagamento ou webhook. A API segue em `mode=preview`.
 
 ## Esquema previsto
 
@@ -29,8 +29,8 @@ Esta etapa adiciona a migração `0001_store_orders.sql`, regras puras de estado
 
 ## Operação futura
 
-Migration prevista no repositório, **não executar agora**. Aplicação remota de migration exige janela de implantação e backup. Fluxo orientativo, após revisão:
+**Migração aplicada no D1 remoto em 30/10/2026** por API Cloudflare, após conferir tabelas existentes. Foram criadas e confirmadas: `store_orders`, `store_order_items`, `store_payment_events`. Não executar manualmente os comandos abaixo como uma nova migração: Fluxo orientativo, após revisão:
 
 `cd integrations/vavi-worker && npx wrangler d1 migrations apply douglas-loja-db --remote`
 
-Antes de aplicar, validar nomenclatura e diretório conforme Wrangler atual. O schema SQL não foi aplicado pelo workflow de CI.
+O schema SQL não foi aplicado pelo workflow de CI. Foi aplicado diretamente ao D1 remoto e validado por consulta a `sqlite_master`; não há cobranças habilitadas.
