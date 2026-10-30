@@ -1,5 +1,6 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
 import {normalizeZip, simulateVaviShipping} from './shipping.js';
+import {verifyWebhookSignature} from './payment-verification.js';
 
 /** API inicial, sem checkout, dados pessoais, autenticação VAVI ou pedidos reais. */
 function json(body, status = 200, extra = {}) {
@@ -48,6 +49,29 @@ export default {
     }
     if (url.pathname === '/health' && request.method === 'GET') {
       return json({ok:true, mode:'preview', payments:false, vaviOrders:false},200,cors.headers);
+    }
+    // Endpoint reservado para notificações Mercado Pago. Até que exista
+    // persistência idempotente e consulta ao pagamento, nunca responder 2xx:
+    // isso evita que notificações sejam consideradas processadas e perdidas.
+    if (url.pathname === '/api/payments/webhook' && request.method === 'POST') {
+      if (!env.MERCADOPAGO_WEBHOOK_SECRET) {
+        return json({error:'webhook_not_configured'},503);
+      }
+      const requestId=request.headers.get('x-request-id');
+      const signature=request.headers.get('x-signature');
+      const dataId=url.searchParams.get('data.id') || url.searchParams.get('id');
+      if (!dataId) return json({error:'invalid_notification'},400);
+      try {
+        await verifyWebhookSignature({
+          signature, requestId, dataId, secret:env.MERCADOPAGO_WEBHOOK_SECRET
+        });
+      } catch(error) {
+        if (error instanceof CatalogError) {
+          return json({error:error.code},error.status);
+        }
+        return json({error:'invalid_notification'},401);
+      }
+      return json({error:'webhook_processing_not_enabled'},503);
     }
     if (!env.DB) return json({error:'database_not_configured'},503,cors.headers);
     try {
