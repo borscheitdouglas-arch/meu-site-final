@@ -21,7 +21,22 @@
           "name": "Amazon",
           "url": "https://www.amazon.com.br/canto-como-mística-nascimento-Portuguese/dp/650227983X"
         }
-      ]
+      ],
+      "product_type": "book",
+      "purchase_mode": "external"
+    },
+    {
+      "id": "camiseta-salve-regina",
+      "status": "draft",
+      "product_type": "apparel",
+      "purchase_mode": "contact",
+      "title": "Camiseta Salve Regina",
+      "subtitle": "Arte sacra inspirada na antífona mariana e no canto gregoriano",
+      "author": "Douglas Assumpção",
+      "description": "Camiseta em preparação. Estampa, tamanhos, preço e prazo de fabricação serão confirmados antes da venda.",
+      "category": "Vestuário e artigos autorais",
+      "format": "Camiseta sob demanda",
+      "contact_url": "/pages/contato.html"
     }
   ]
 }
