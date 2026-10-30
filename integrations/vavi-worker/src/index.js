@@ -1,6 +1,7 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
 import {normalizeZip, simulateVaviShipping} from './shipping.js';
 import {verifyWebhookSignature} from './payment-verification.js';
+import {createCheckoutTest} from './checkout-orchestrator.js';
 
 /** API inicial, sem checkout, dados pessoais, autenticação VAVI ou pedidos reais. */
 function json(body, status = 200, extra = {}) {
@@ -44,7 +45,7 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      if (!['/api/catalog','/api/quote','/api/shipping/quote'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
+      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/checkout/test'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
     if (url.pathname === '/health' && request.method === 'GET') {
@@ -94,6 +95,19 @@ export default {
     }
     if (!env.DB) return json({error:'database_not_configured'},503,cors.headers);
     try {
+      if (url.pathname === '/api/checkout/test' && request.method === 'POST') {
+        if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+          return json({error:'unsupported_media_type'},415,cors.headers);
+        // Deliberately unavailable on the public Worker until webhook processing,
+        // delivery storage and signed-in test authorization are implemented.
+        // Never let a browser set flags or claim a delivery was persisted.
+        if (env.CHECKOUT_TEST_ENABLED!=='true' ||
+            env.WEBHOOK_PROCESSING_ENABLED!=='true' ||
+            env.DELIVERY_PERSISTENCE_ENABLED!=='true') {
+          return json({error:'checkout_not_ready'},503,cors.headers);
+        }
+        return json({error:'checkout_private_authorization_missing'},503,cors.headers);
+      }
       if (url.pathname === '/api/catalog' && request.method === 'GET') {
         return json({mode:'preview', currency:'BRL', products:await getCatalog(env.DB)},200,cors.headers);
       }
