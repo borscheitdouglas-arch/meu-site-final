@@ -56,7 +56,7 @@ test('assina HMAC, consulta Order independentemente e só então confirma pagame
 });
 test('assinatura incorreta é rejeitada antes de consultar provedor',async()=>{
  let called=false;
- await assert.rejects(()=>processOrdersWebhook({
+ await assert.rejects(async()=>processOrdersWebhook({
   request:await request(mpId,'outro-segredo'),env:env(db()),
   fetchImpl:async()=>{called=true;return {ok:true,json:async()=>provider}}
  }),{code:'invalid_notification'});
@@ -73,14 +73,14 @@ test('valores divergentes e referências falsas bloqueiam baixa financeira',asyn
  for(const fake of [{...provider,total_amount:'130.11'},
   {...provider,external_reference:'ord_ffffffffffffffffffffffffffffffff'}]){
   const database=db();
-  await assert.rejects(()=>processOrdersWebhook({request:await request(),
+  await assert.rejects(async()=>processOrdersWebhook({request:await request(),
    env:env(database),fetchImpl:async()=>({ok:true,json:async()=>fake})}),
    {code:'orders_payment_mismatch'});
   assert.equal(database.batches,0);
  }
 });
 test('webhook Orders permanece bloqueado por padrão',async()=>{
- await assert.rejects(()=>processOrdersWebhook({
+ await assert.rejects(async()=>processOrdersWebhook({
   request:await request(),env:{}
  }),{code:'orders_webhook_disabled'});
 });
