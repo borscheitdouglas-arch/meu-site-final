@@ -58,6 +58,6 @@ export async function processPaymentWebhook({request,env,fetchImpl=fetch}) {
   // an independently fetched payment has status approved.
   if(payment.status!=='approved')return {processed:false,status:'not_approved'};
   const verified=validateConfirmedPayment(order,payment);
-  const eventId=`mp:${id}:${requestId}`;
+  const eventId=`mp:payment:${id}`;
   return await recordVerifiedPayment(env.DB,verified,eventId);
 }
