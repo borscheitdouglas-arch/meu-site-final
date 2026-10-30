@@ -98,3 +98,26 @@ body.bookshop-page .site-footer { background: #151715b3; }
  .atelier .atelier-catalog-heading h2 { font-size: 25px; }
 }
 @media (prefers-reduced-motion: reduce) { .atelier :is(a.sacred-cta, a.atelier-buy) { transition: none; } }
+
+
+/* Coleção Salve Regina integrada à vitrine da loja: pré-lançamento sem cobranças. */
+.atelier-vavi-catalog { padding: 45px 0 40px; border-top: 1px solid #d2b57538; scroll-margin-top: 100px; }
+.atelier-vavi-heading { margin-bottom: 26px; max-width: 780px; }
+.atelier .atelier-vavi-heading h2 { margin: 7px 0 11px; color: #e8d9b6; font: 500 clamp(27px, 2.8vw, 34px)/1.22 'Spectral', Georgia, serif; }
+.atelier-vavi-heading > p:last-child { color: #cfc7b8; font: 17px/1.65 'Spectral', Georgia, serif; }
+.atelier-vavi-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; align-items: stretch; }
+.atelier-vavi-card { min-width: 0; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #8e794f70; border-radius: 9px; background: linear-gradient(160deg,#20241d,#161b16); box-shadow: 0 13px 34px #0004; }
+.atelier-vavi-image { background: #111810; overflow: hidden; border-bottom: 1px solid #8e794f5c; }
+.atelier-vavi-image img { width: 100%; height: auto; aspect-ratio: 4 / 4.2; object-fit: contain; display: block; }
+.atelier-vavi-content { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 21px 20px 22px; gap: 12px; }
+.atelier .atelier-vavi-category { color: #d2b575; font: 600 10px/1.55 'Inter', sans-serif; letter-spacing: .13em; }
+.atelier .atelier-vavi-content h3 { margin: 0; font: 500 27px/1.18 'Spectral', Georgia, serif; color: #f0e6d2; }
+.atelier .atelier-vavi-content p:not(.atelier-vavi-category) { color: #dfd8c9; font: 16px/1.55 'Spectral', Georgia, serif; }
+.atelier .atelier-vavi-content .atelier-vavi-details { color: #bdbbac; font-size: 14px; }
+.atelier .atelier-vavi-price { margin-top: auto; color: #e9d9b6; font: 600 13px/1.6 'Inter', sans-serif; }
+.atelier .atelier-vavi-status { display: inline-block; align-self: flex-start; border: 1px solid #8b815a80; border-radius: 4px; padding: 7px 10px; color: #dacda8; background: #302e226b; font: 600 11px/1.55 'Inter', sans-serif; }
+.atelier a.atelier-vavi-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 5px; padding: 12px 0 3px; border-top: 1px solid #d2b57530; font: 600 13px/1.5 'Inter', sans-serif; color: #dfc28a; text-decoration: none; }
+.atelier a.atelier-vavi-link:hover { color: #f2dfb5; }
+.atelier .atelier-vavi-footnote { color: #bab9ae; margin-top: 18px; font: 12px/1.65 'Inter', sans-serif; }
+@media (max-width: 960px) { .atelier-vavi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 650px) { .atelier-vavi-grid { grid-template-columns: 1fr; } .atelier-vavi-card { max-width: 450px; width: 100%; margin-inline: auto; } .atelier-vavi-image img { aspect-ratio: 4 / 3.3; } .atelier-vavi-content { padding: 18px; } }
