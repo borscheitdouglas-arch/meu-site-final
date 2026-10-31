@@ -10,6 +10,8 @@ on:
       - "pages/admin-pedidos-loja.html"
       - "scripts/salve-regina-inquiry.js"
       - "pages/checkout-salve-regina.html"
+      - "pages/resultado-pagamento.html"
+      - "scripts/resultado-pagamento.js"
       - "styles/checkout-salve-regina.css"
       - ".github/workflows/vavi-preview-tests.yml"
   push:
@@ -37,6 +39,7 @@ jobs:
           node --check integrations/vavi-worker/src/index.js
           node --check integrations/vavi-worker/src/catalog.js
           node --check scripts/checkout-salve-regina.js
+          node --check scripts/resultado-pagamento.js
           node --check scripts/admin-pedidos-loja.js
           node --check scripts/salve-regina-inquiry.js
       - name: Conferir segurança da página de checkout
@@ -54,6 +57,12 @@ jobs:
           assert 'mercadopago.com.br' in client
           assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in page+client+store
           assert 'MERCADOPAGO_LIVE_WEBHOOK_SECRET' not in page+client+store
+          result_page=Path('pages/resultado-pagamento.html').read_text(encoding='utf-8')
+          result_js=Path('scripts/resultado-pagamento.js').read_text(encoding='utf-8')
+          assert 'não comprova pagamento aprovado' in result_page
+          assert 'Pagamento enviado para conferência' in result_js
+          assert 'localStorage' not in result_js
+          assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in result_page+result_js
           admin=Path('scripts/admin-pedidos-loja.js').read_text(encoding='utf-8')
           assert "localStorage" not in admin
           assert "sessionStorage" not in admin
