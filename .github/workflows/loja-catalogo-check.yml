@@ -5,6 +5,9 @@ on:
     paths:
       - 'content/store-products.json'
       - 'pages/loja.html'
+      - 'pages/colecao-salve-regina.html'
+      - 'scripts/salve-regina-inquiry.js'
+      - 'styles/store-book.css'
       - 'tools/generate_store.py'
       - 'tools/test_store_catalog.py'
       - '.github/workflows/loja-catalogo-check.yml'
@@ -12,6 +15,9 @@ on:
     paths:
       - 'content/store-products.json'
       - 'pages/loja.html'
+      - 'pages/colecao-salve-regina.html'
+      - 'scripts/salve-regina-inquiry.js'
+      - 'styles/store-book.css'
       - 'tools/generate_store.py'
       - 'tools/test_store_catalog.py'
       - '.github/workflows/loja-catalogo-check.yml'
@@ -31,3 +37,5 @@ jobs:
         run: python3 tools/generate_store.py --check
       - name: Validar catálogo e segurança dos links
         run: python3 -m unittest discover -s tools -p test_store_catalog.py
+      - name: Validar JavaScript da solicitação assistida
+        run: node --check scripts/salve-regina-inquiry.js
