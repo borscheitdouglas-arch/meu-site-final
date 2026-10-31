@@ -10,6 +10,8 @@ on:
       - 'styles/store-book.css'
       - 'tools/generate_store.py'
       - 'tools/test_store_catalog.py'
+      - 'tools/test_salve_regina_inquiry.cjs'
+      - 'tools/test_storefront.py'
       - '.github/workflows/loja-catalogo-check.yml'
   push:
     paths:
@@ -20,6 +22,8 @@ on:
       - 'styles/store-book.css'
       - 'tools/generate_store.py'
       - 'tools/test_store_catalog.py'
+      - 'tools/test_salve_regina_inquiry.cjs'
+      - 'tools/test_storefront.py'
       - '.github/workflows/loja-catalogo-check.yml'
 
 permissions:
@@ -28,14 +32,26 @@ permissions:
 jobs:
   catalogo:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Verificar HTML gerado
         run: python3 tools/generate_store.py --check
       - name: Validar catálogo e segurança dos links
         run: python3 -m unittest discover -s tools -p test_store_catalog.py
       - name: Validar JavaScript da solicitação assistida
         run: node --check scripts/salve-regina-inquiry.js
+      - name: Testar comportamento da consulta de frete sem serviços externos
+        run: node --test tools/test_salve_regina_inquiry.cjs
+      - name: Preparar navegador de teste
+        run: |
+          python3 -m pip install playwright==1.60.0
+          python3 -m playwright install --with-deps chromium
+      - name: Conferir loja responsiva e fluxo de consulta simulado
+        run: python3 tools/test_storefront.py

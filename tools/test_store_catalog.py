@@ -27,6 +27,7 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertEqual(sum(t == 'article' for t, _ in tags), 1)
         self.assertIn('atelier-grid-single', html)
         self.assertIn('01 produto', html)
+        self.assertTrue(all(a.get('loading') == 'lazy' and 'fetchpriority' not in a for t, a in tags if t == 'img'))
         links = [a for t, a in tags if t == 'a']
         self.assertEqual({a['href'] for a in links}, {r['url'] for r in self.data['products'][0]['retailers']})
         self.assertTrue(all(a['target'] == '_blank' and 'noopener' in a['rel'] for a in links))
@@ -48,7 +49,7 @@ class StoreCatalogTest(unittest.TestCase):
         ids = [a['id'] for _, a in tags if 'id' in a]
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual(sum(t == 'article' for t, _ in tags), 4)
-        self.assertEqual(sum(t == 'img' and a.get('loading') == 'lazy' for t, a in tags), 3)
+        self.assertEqual(sum(t == 'img' and a.get('loading') == 'lazy' for t, a in tags), 4)
 
     def test_unsafe_or_missing_inputs_fail_before_page_write(self):
         bad_values = [
