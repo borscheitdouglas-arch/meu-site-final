@@ -4,7 +4,7 @@ Atualização: 30/10/2026 (horário do Brasil).
 
 ## O que está disponível no site
 
-A Camiseta Salve Regina **preta, tamanho G, uma unidade** pode receber consultas de clientes por e-mail, através de `/pages/loja.html`. O formulário **não cria pedido, não efetua cobrança, não grava CEP no site, não cadastra cliente em D1**. Ele prepara uma mensagem para envio manual a `magister.douglas@gmail.com`, e permite copiar a mensagem quando o cliente não tem aplicativo de e-mail configurado.
+A Camiseta Salve Regina **preta, tamanho G, uma unidade** pode receber consultas de clientes por e-mail, através de `/pages/loja.html`. O formulário **não cria pedido, não efetua cobrança, não grava CEP no site, não cadastra cliente em D1**. Ele prepara uma mensagem para envio manual a `douglas.assumpcao27@gmail.com`, e permite copiar a mensagem quando o cliente não tem aplicativo de e-mail configurado.
 
 O preço de R$ 109,90 é **preliminar**. Frete e custo VAVI não estão travados. A venda só deve ser oferecida quando o lojista confirmar custo, prazo, viabilidade e aceitar as condições com o comprador.
 
