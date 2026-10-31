@@ -110,6 +110,7 @@
       }
       currentZip = zip;
       currentSize = sizeInput.value;
+      const requestedSize=currentSize;
       clearQuote();
       submit.disabled = true;
       status.textContent = 'Consultando as opções de frete na VAVI…';
@@ -117,14 +118,14 @@
         const response = await fetch(api + '/api/shipping/preview', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({zipCode: zip,sku:skuForSize(currentSize)}),
+          body: JSON.stringify({zipCode: zip,sku:skuForSize(requestedSize)}),
           cache: 'no-store',
           mode: 'cors',
           signal: AbortSignal.timeout(16000)
         });
         if (!response.ok) throw new Error('shipping_unavailable');
         const data = await response.json();
-        if (zipInput.value.replace(/\D/g, '') !== zip) return;
+        if (zipInput.value.replace(/\D/g, '') !== zip || sizeInput.value!==requestedSize) return;
         if (data?.zipCode !== zip || !Array.isArray(data.options)) {
           throw new Error('shipping_invalid');
         }
@@ -165,7 +166,7 @@
       } catch {
         status.textContent = 'Frete automático indisponível no momento. A solicitação será enviada para cotação manual, sem cobrança.';
       } finally {
-        if (zipInput.value.replace(/\D/g, '') === zip) {
+        if (zipInput.value.replace(/\D/g, '') === zip && sizeInput.value===requestedSize) {
           buildMessage();
           result.hidden = false;
         }
