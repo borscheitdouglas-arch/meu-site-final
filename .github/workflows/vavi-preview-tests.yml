@@ -65,7 +65,9 @@ jobs:
           assert 'magister.douglas@gmail.com' in policies
           assert 'id="trocas-devolucoes"' in policies
           assert 'id="privacidade"' in policies
-          assert 'antes de habilitar o checkout de produção' in policies
+          assert 'Identificação fiscal em conferência' in policies
+          assert 'Endereço comercial cadastrado no MEI' in policies
+          assert 'Não há ponto de venda ou atendimento presencial' in policies
           assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in policies
 
           result_page=Path('pages/resultado-pagamento.html').read_text(encoding='utf-8')
