@@ -8,6 +8,7 @@ import {processLivePaymentWebhook} from './live-payment-webhook.js';
 import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManualVaviOrder} from './live-order-admin.js';
 import {getPrivateLaunchReadiness} from './launch-readiness.js';
 import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.js';
+import {processVaviWebhook} from './vavi-webhook.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -201,6 +202,18 @@ export default {
           return json({error:error.code},error.status);
         console.error('Live webhook unavailable:',error?.name||'unknown');
         return json({error:'webhook_processing_failed'},503);
+      }
+    }
+    // Eventos assinados da VAVI: rascunho convertido, falha e rastreio.
+    // Secret específico do fornecedor; nunca compartilhar com Mercado Pago.
+    if(url.pathname==='/api/webhooks/vavi' && request.method==='POST'){
+      try{
+        const outcome=await processVaviWebhook({request,env});
+        return json(outcome,200);
+      }catch(error){
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status);
+        return json({error:'vavi_webhook_unavailable'},503);
       }
     }
     // Mercado Pago: verify HMAC, fetch the payment independently and

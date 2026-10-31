@@ -40,5 +40,16 @@ export async function createVaviDraft({payload,accessToken,approvedPayment,
     throw new CatalogError('vavi_invalid_response',
       'Não foi possível confirmar o rascunho.',503);
   }
+  // HTTP 202 também pode indicar falha de normalização (status Failed).
+  // Somente um rascunho identificável e não reprovado é considerado recebido.
+  const result=data?.data;
+  const allowed=new Set(['Pending','Reviewing','Ready','Converted']);
+  if(data?.code!==202 || !result ||
+      typeof result.draftId!=='string' ||
+      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(result.draftId) ||
+      !allowed.has(result.status)){
+    throw new CatalogError('vavi_draft_requires_review',
+      'Rascunho não foi confirmado como utilizável na VAVI.',503);
+  }
   return {status:'vavi_draft',response:data};
 }
