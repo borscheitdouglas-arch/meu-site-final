@@ -3,6 +3,9 @@ import {normalizeZip, simulateVaviShipping} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
 import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
+import {createCheckoutLive,liveCheckoutReady} from './checkout-live.js';
+import {processLivePaymentWebhook} from './live-payment-webhook.js';
+import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery} from './live-order-admin.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -34,7 +37,7 @@ function corsHeaders(request, env) {
   return {allowed: true, headers: {
     'Access-Control-Allow-Origin': origin,
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Vary': 'Origin'
   }};
 }
@@ -60,11 +63,40 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
+      if (!['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/checkout/live','/api/internal/vavi/shipping-check'].includes(url.pathname)) return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
     if (url.pathname === '/health' && request.method === 'GET') {
       return json({ok:true, mode:'preview', payments:false, vaviOrders:false},200,cors.headers);
+    }
+    // Readiness is public, but exposes no credential or private order data.
+    if (url.pathname === '/api/checkout/live/readiness' && request.method === 'GET') {
+      if (!liveCheckoutReady(env)) return json({checkoutEnabled:false},200,cors.headers);
+      try {
+        const p=await loadVariant(env.DB,'salve-regina-preta-g');
+        const enabled=Boolean(p && p.product_enabled===1 &&
+          p.product_verified===1 && p.available===1 && p.price_cents===10990);
+        return json({checkoutEnabled:enabled},200,cors.headers);
+      } catch {
+        return json({checkoutEnabled:false},200,cors.headers);
+      }
+    }
+    // Administrative fulfillment: authenticated only; addresses are decrypted on
+    // demand for a verified PAID production order, not from browser callbacks.
+    if ((url.pathname === '/api/internal/live-orders' ||
+      /^\\/api\\/internal\\/live-orders\\/ord_[a-f0-9]{32}$/.test(url.pathname)) &&
+      request.method === 'GET') {
+      if (!(await authorizedLiveAdmin(request,env)))
+        return json({error:'unauthorized'},401);
+      try {
+        const result=url.pathname === '/api/internal/live-orders'
+          ? await listLivePaidOrders(env)
+          : await getLivePaidDelivery(env,url.pathname.slice('/api/internal/live-orders/'.length));
+        return json(result,200,cors.headers);
+      } catch(error) {
+        if(error instanceof CatalogError) return json({error:error.code},error.status);
+        return json({error:'admin_orders_unavailable'},503);
+      }
     }
     // Operator-facing readiness report without revealing any secret values.
     // A missing webhook secret or verified catalogue keeps the public shop off.
@@ -84,6 +116,18 @@ export default {
         webhook:false // the route is still guarded, not consuming notifications
       };
       return json({mode:'preview',ready:false,checks},200,cors.headers);
+    }
+    // Independent PROD endpoint: accepts no sandbox key and never pays test orders.
+    if (url.pathname === '/api/payments/live-webhook' && request.method === 'POST') {
+      try {
+        const outcome=await processLivePaymentWebhook({request,env});
+        return json({ok:true,processed:outcome.processed!==false},200);
+      } catch(error) {
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status);
+        console.error('Live webhook unavailable:',error?.name||'unknown');
+        return json({error:'webhook_processing_failed'},503);
+      }
     }
     // Mercado Pago: verify HMAC, fetch the payment independently and
     // record an approved order idempotently. Disabled until operator
@@ -153,6 +197,20 @@ export default {
     }
     if (!env.DB) return json({error:'database_not_configured'},503,cors.headers);
     try {
+      if (url.pathname === '/api/checkout/live' && request.method === 'POST') {
+        if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+          return json({error:'unsupported_media_type'},415,cors.headers);
+        if (!liveCheckoutReady(env))
+          return json({error:'live_checkout_disabled'},503,cors.headers);
+        const bodyText=await request.text();
+        if (bodyText.length>12000)
+          return json({error:'request_too_large'},413,cors.headers);
+        let body;
+        try {body=JSON.parse(bodyText)}
+        catch {return json({error:'invalid_json'},400,cors.headers)}
+        const payment=await createCheckoutLive(env,body);
+        return json(payment,201,cors.headers);
+      }
       if (url.pathname === '/api/checkout/test' && request.method === 'POST') {
         if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
           return json({error:'unsupported_media_type'},415,cors.headers);
