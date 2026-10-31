@@ -24,7 +24,7 @@ test('202 significa rascunho recebido, nunca produção iniciada',async()=>{
     assert.equal(url,'https://api.printbee.com.br/api/Customers/Integrations/Orders');
     assert.equal(opt.headers.Authorization,'Bearer fake-jwt-for-test');
     assert.equal(JSON.parse(opt.body).code,orderId);
-    return {status:202,json:async()=>({code:0,data:{id:'draft-demo',status:'Pending'}})};
+    return {status:202,json:async()=>({code:202,data:{draftId:'5819a1c4-1ebd-4375-880b-6762d427262b',status:'Pending',deduplicated:false}})};
   }});
   assert.equal(called,true);
   assert.equal(r.status,'vavi_draft');
@@ -32,4 +32,31 @@ test('202 significa rascunho recebido, nunca produção iniciada',async()=>{
 test('não marca pedido como rascunho se a VAVI não retornar 202',async()=>{
   await assert.rejects(()=>createVaviDraft({...args,
     fetchImpl:async()=>({status:400})}),{code:'vavi_draft_rejected'});
+});
+
+test('202 Failed exige revisão: recebimento não comprova rascunho válido',async()=>{
+  await assert.rejects(()=>createVaviDraft({...args,
+    fetchImpl:async()=>({status:202,json:async()=>({
+      code:202,data:{draftId:'5819a1c4-1ebd-4375-880b-6762d427262b',
+        status:'Failed',deduplicated:false}
+    })})
+  }),{code:'vavi_draft_requires_review'});
+});
+
+test('202 sem draftId também não marca pedido como enviado',async()=>{
+  await assert.rejects(()=>createVaviDraft({...args,
+    fetchImpl:async()=>({status:202,json:async()=>({
+      code:202,data:{status:'Pending'}
+    })})
+  }),{code:'vavi_draft_requires_review'});
+});
+
+test('202 deduplicated verdadeiro aceita rascunho existente válido',async()=>{
+  const result=await createVaviDraft({...args,
+    fetchImpl:async()=>({status:202,json:async()=>({
+      code:202,data:{draftId:'5819a1c4-1ebd-4375-880b-6762d427262b',
+        status:'Pending',deduplicated:true}
+    })})
+  });
+  assert.equal(result.response.data.deduplicated,true);
 });
