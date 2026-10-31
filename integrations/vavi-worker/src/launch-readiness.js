@@ -49,6 +49,15 @@ export async function getPrivateLaunchReadiness(env,loadProduct) {
       detail:env.LIVE_PRODUCT_APPROVED==='true'?'Liberação registrada':'Confirmar produto efetivamente vendável na VAVI'},
     {id:'webhook',label:'Confirmação de pagamentos reais habilitada',ok:env.LIVE_WEBHOOK_ENABLED==='true',
       detail:env.LIVE_WEBHOOK_ENABLED==='true'?'Processamento habilitado; conferir testes':'Testar assinatura, pagamento e registro no banco antes de habilitar'},
+    {id:'vaviAutoDraft',label:'Envio automático do rascunho pago à VAVI',
+      ok:env.VAVI_AUTO_DRAFT_ENABLED==='true' &&
+        typeof env.VAVI_INTEGRATION_API_KEY==='string' &&
+        env.VAVI_INTEGRATION_API_KEY.length>=20,
+      detail:env.VAVI_AUTO_DRAFT_ENABLED==='true' &&
+        typeof env.VAVI_INTEGRATION_API_KEY==='string' &&
+        env.VAVI_INTEGRATION_API_KEY.length>=20
+        ? 'Envio de rascunhos habilitado; vinculação da arte e pagamento VAVI continuam manuais'
+        : 'Configurar chave de integração API própria, testar homologação e habilitar envio de rascunhos'},
     {id:'checkout',label:'Checkout de produção habilitado',ok:env.LIVE_CHECKOUT_ENABLED==='true',
       detail:env.LIVE_CHECKOUT_ENABLED==='true'?'Chave de liberação ligada':'Habilitar somente depois dos demais testes'}
   ];
