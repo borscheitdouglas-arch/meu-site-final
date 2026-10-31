@@ -36,7 +36,8 @@ export async function enqueuePaidVaviDraft(env,orderId) {
 }
 
 /** Cada pedido tem uma única tentativa automática. Sem retry cego após timeout. */
-export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft) {
+export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft,
+  authenticate=obtainVaviAccessToken) {
   if(!vaviAutoDraftReady(env))return {sent:false,reason:'disabled'};
   if(!ID.test(orderId||''))throw new CatalogError('invalid_order_id','Pedido inválido.',400);
   const claim=await env.DB.prepare(`UPDATE store_vavi_draft_dispatch
@@ -76,8 +77,7 @@ export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft) {
     });
     // O token é obtido apenas no backend usando as credenciais já presentes.
     // Em testes, a credencial também é simulada; nunca expor esse valor.
-    const accessToken=await obtainVaviAccessToken(env,
-      env.VAVI_AUTH_TEST_FETCH || fetch);
+    const accessToken=await authenticate(env);
     const accepted=await sendDraft({
       payload,accessToken,
       approvedPayment:{orderId,status:'paid'}
