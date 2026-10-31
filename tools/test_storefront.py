@@ -73,7 +73,7 @@ def main():
                 route.fulfill(status=503, json={'error': 'shipping_unavailable'}, headers=headers)
                 return
             body = route.request.post_data_json
-            assert body == {'zipCode': '01001000'}, body
+            assert body == {'zipCode': '01001000', 'sku': 'salve-regina-preta-g'}, body
             route.fulfill(json={
                 'zipCode': body['zipCode'],
                 'options': [
@@ -108,6 +108,14 @@ def main():
                 expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
                 expect(page.locator('.shop-product-card[data-availability="preparation"]')).to_have_count(3)
                 assert_no_overflow(page)
+                # As cinco categorias circulares permanecem visíveis, inclusive no celular.
+                categories = page.locator('.shop-category-art')
+                expect(categories).to_have_count(5)
+                for category_art in categories.all():
+                    box = category_art.bounding_box()
+                    assert abs(box['width'] - box['height']) < 1, box
+                    assert box['x'] >= 0 and box['x'] + box['width'] <= width
+                    assert category_art.evaluate('el => getComputedStyle(el).borderRadius') == '50%'
                 expect(page.locator('.shop-product-card a[href*="checkout"]')).to_have_count(0)
                 boxes = [card.bounding_box() for card in page.locator('.shop-product-card').all()]
                 columns = 4 if width > 1000 else 2 if width > 540 else 1
@@ -127,6 +135,7 @@ def main():
                         product_image.scroll_into_view_if_needed()
                         product_image.evaluate('image => image.decode()')
                     page.evaluate('window.scrollTo(0, 0)')
+                    page.locator('.shop-category-grid').evaluate('el => el.scrollLeft = 0')
                     name = 'loja-mobile.png' if width == 390 else 'loja-desktop.png'
                     page.screenshot(path=str(Path(screenshots) / name), full_page=True)
                     if width == 1440:
@@ -237,11 +246,23 @@ def main():
             # Exercita somente o contrato existente, com resposta local simulada.
             state['checkout_enabled'] = True
             page.goto(shop_url + '#produto-camiseta', wait_until='networkidle')
+            page.reload(wait_until='networkidle')
             expect(page.locator('#produto-camiseta .atelier-vavi-live-link')).to_have_count(1)
             state['checkout_enabled'] = False
             page.reload(wait_until='networkidle')
             expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
             print('PASS: detalhes por URL e controle de disponibilidade preservado', flush=True)
+
+            # A navegação para o carrinho existente preserva seus dados locais.
+            cart = [{'id': 'qa-local-only', 'title': 'Item fictício de teste local',
+                     'price': 'R$ 10,00', 'qty': 2}]
+            page.evaluate('(cart) => localStorage.setItem("shopCart_v1", JSON.stringify(cart))', cart)
+            page.locator('.shop-cart-link').click()
+            expect(page).to_have_url(base + '/pages/cart.html')
+            expect(page.locator('#cart-root')).to_contain_text('Total: R$ 20,00')
+            assert page.evaluate('JSON.parse(localStorage.getItem("shopCart_v1"))') == cart
+            page.evaluate('localStorage.removeItem("shopCart_v1")')
+            print('PASS: acesso ao carrinho existente sem alterar seus dados', flush=True)
 
             for name, path in [('Condições da loja', '/pages/condicoes-da-loja.html'),
                                ('Privacidade', '/politica-de-privacidade.html')]:

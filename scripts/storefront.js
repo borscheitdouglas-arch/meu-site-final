@@ -76,7 +76,7 @@
         event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     openDetail(link.getAttribute('href'), true);
   });
-  window.addEventListener('hashchange', () => openDetail(location.hash));
+  window.addEventListener('hashchange', () => openDetail(location.hash, true));
   search.hidden = false;
   root.querySelector('[data-shop-tools]').hidden = false;
   render();

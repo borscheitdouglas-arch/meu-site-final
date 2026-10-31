@@ -48,10 +48,9 @@
     const shippingPanel = form.querySelector('[data-vavi-shipping-panel]');
     const optionsContainer = form.querySelector('[data-vavi-shipping-options]');
     const estimatedTotal = form.querySelector('[data-vavi-total]');
-    if (![status, result, message, emailLink, copyButton, zipInput, submit,
+    if (![status, result, message, emailLink, copyButton, zipInput, sizeInput, submit,
       shippingPanel, optionsContainer, estimatedTotal].every(Boolean)) return;
     let currentZip = '';
-    let currentSize = 'G';
     let choices = [];
     let requestVersion = 0;
     let pendingRequest = null;
@@ -122,7 +121,11 @@
     }
     optionsContainer.addEventListener('change', buildMessage);
     sizeInput.addEventListener('change',()=>{
+      requestVersion += 1;
+      pendingRequest?.abort();
+      pendingRequest = null;
       clearQuote();
+      setLoading(false);
       status.textContent='Tamanho alterado. Consulte o frete novamente.';
     });
     zipInput.addEventListener('input', () => {
@@ -153,8 +156,9 @@
       }
       zipInput.removeAttribute('aria-invalid');
       currentZip = zip;
+      const requestedSize = sizeInput.value;
       pendingRequest = new AbortController();
-      const isCurrent = () => version === requestVersion && zipInput.value.replace(/\D/g, '') === zip;
+      const isCurrent = () => version === requestVersion && zipInput.value.replace(/\D/g, '') === zip && sizeInput.value === requestedSize;
       setLoading(true);
       status.textContent = 'Consultando as opções de entrega para o seu CEP…';
       try {

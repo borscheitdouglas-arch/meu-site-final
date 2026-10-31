@@ -53,7 +53,7 @@ function setup(readiness = {checkoutEnabled: false}) {
   const selectors = {
     status: '[data-vavi-inquiry-status]', result: '[data-vavi-inquiry-result]',
     message: '[data-vavi-inquiry-message]', email: '[data-vavi-inquiry-email]',
-    copy: '[data-vavi-inquiry-copy]', zip: 'input[name="zipCode"]',
+    copy: '[data-vavi-inquiry-copy]', zip: 'input[name="zipCode"]', size: 'select[name="size"]',
     submit: 'button[type="submit"]', panel: '[data-vavi-shipping-panel]',
     options: '[data-vavi-shipping-options]', total: '[data-vavi-total]'
   };
@@ -63,6 +63,7 @@ function setup(readiness = {checkoutEnabled: false}) {
     form.selectors.set(selector, elements[key]);
   }
   elements.submit.textContent = 'Consultar frete';
+  elements.size.value = 'G';
   elements.copy.textContent = 'Copiar mensagem';
   elements.result.hidden = elements.panel.hidden = true;
   elements.zip.setAttribute('aria-describedby', 'cep-hint');
@@ -124,7 +125,7 @@ test('valid quote sorts options, keeps price and updates totals on selection', a
   const pending = ui.form.emit('submit');
   assert.equal(ui.submit.disabled, true);
   assert.equal(ui.options.getAttribute('aria-busy'), 'true');
-  assert.deepEqual(JSON.parse(ui.requests[0].options.body), {zipCode: '01310100'});
+  assert.deepEqual(JSON.parse(ui.requests[0].options.body), {zipCode: '01310100', sku: 'salve-regina-preta-g'});
   ui.reply(ui.requests[0], {zipCode: '01310100', options: [quote('a', 25), quote('b', 18.50)]});
   await pending;
   assert.equal(ui.panel.hidden, false);
@@ -243,4 +244,32 @@ test('editing CEP clears the old private message, mailto and copy state', async 
   assert.equal(ui.message.value, '');
   assert.equal(ui.email.href, 'mailto:douglas.assumpcao27@gmail.com');
   assert.equal(ui.copy.textContent, 'Copiar mensagem');
+});
+
+test('XG preserves its configured price and requests the matching SKU', async () => {
+  const ui = setup();
+  ui.size.value = 'XG';
+  ui.zip.value = '01310-100';
+  const pending = ui.form.emit('submit');
+  assert.deepEqual(JSON.parse(ui.requests[0].options.body), {zipCode: '01310100', sku: 'salve-regina-preta-xg'});
+  ui.reply(ui.requests[0], {zipCode: '01310100', options: [quote('a', 18.50)]});
+  await pending;
+  assert.match(ui.message.value, /Tamanho: XG/);
+  assert.match(ui.message.value, /Total estimado: R\$\s138,40/);
+});
+
+test('changing size away and back discards the previous pending quote', async () => {
+  const ui = setup();
+  ui.zip.value = '01310-100';
+  const pending = ui.form.emit('submit');
+  ui.size.value = 'XG';
+  ui.size.emit('change');
+  assert.equal(ui.requests[0].options.signal.aborted, true);
+  ui.size.value = 'G';
+  ui.size.emit('change');
+  ui.reply(ui.requests[0], {zipCode: '01310100', options: [quote('a', 18.50)]});
+  await pending;
+  assert.equal(ui.result.hidden, true);
+  assert.equal(ui.message.value, '');
+  assert.equal(ui.submit.disabled, false);
 });
