@@ -81,6 +81,10 @@ jobs:
           assert "sessionStorage" not in admin
           assert "SHOP_ADMIN_API_KEY" not in admin
           assert "Authorization" in admin
+          assert '/fulfillment' in admin
+          assert 'registr' in admin
+          assert 'document.getElementById' in admin
+          assert "window.confirm" in admin
           assert "textContent" in admin
           PY
       - name: Validar JSON do catálogo
