@@ -11,7 +11,8 @@ const NOTIFY='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payme
 /** Todos os bloqueios ficam no servidor. Nenhum campo do navegador libera cobranças. */
 export function liveCheckoutReady(env) {
   return Boolean(env.DB && env.LIVE_CHECKOUT_ENABLED==='true' &&
-    env.LIVE_PRODUCT_APPROVED==='true' && env.LIVE_WEBHOOK_ENABLED==='true' &&
+    env.LIVE_PRODUCT_APPROVED==='true' && env.LIVE_POLICY_APPROVED==='true' &&
+    env.LIVE_WEBHOOK_ENABLED==='true' &&
     env.DELIVERY_PERSISTENCE_ENABLED==='true' &&
     env.MERCADOPAGO_LIVE_ACCESS_TOKEN &&
     env.MERCADOPAGO_LIVE_WEBHOOK_SECRET &&
