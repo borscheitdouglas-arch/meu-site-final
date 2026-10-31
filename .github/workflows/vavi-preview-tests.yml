@@ -76,7 +76,10 @@ jobs:
           assert 'magister.douglas@gmail.com' not in policies
           assert 'id="trocas-devolucoes"' in policies
           assert 'id="privacidade"' in policies
-          assert 'Identificação fiscal em conferência' in policies
+          assert '47.114.592 DOUGLAS BORSCHEIT RODRIGUES ASSUMPCAO' in policies
+          assert '47.114.592/0001-36' in policies
+          assert 'Identificação fiscal em conferência' not in policies
+          assert 'publicação destes dados não ativa cobranças' in policies
           assert 'Endereço comercial cadastrado no MEI' in policies
           assert 'Não há ponto de venda ou atendimento presencial' in policies
           assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in policies
