@@ -238,6 +238,9 @@ def main():
             # Exercita somente o contrato existente, com resposta local simulada.
             state['checkout_enabled'] = True
             page.goto(shop_url + '#produto-camiseta', wait_until='networkidle')
+            # Alterar apenas o hash é navegação no mesmo documento. Recarregar
+            # para que o readiness de checkout seja consultado novamente.
+            page.reload(wait_until='networkidle')
             expect(page.locator('#produto-camiseta .atelier-vavi-live-link')).to_have_count(1)
             state['checkout_enabled'] = False
             page.reload(wait_until='networkidle')
