@@ -21,7 +21,7 @@
  .address{white-space:pre-wrap;overflow-wrap:anywhere;background:#202820;border:1px solid #a28b5b44;border-radius:5px;padding:18px;margin:12px 0}
  .warning{color:#eac596}.hidden,[hidden]{display:none!important}
  </style>
- <script src="/scripts/admin-pedidos-loja.js?v=20261031b" defer></script>
+ <script src="/scripts/admin-pedidos-loja.js?v=20261031c" defer></script>
 </head>
 <body>
 <header><a href="/pages/loja.html">← Loja Douglas Assumpção</a></header>
@@ -46,6 +46,14 @@
   <div id="launch-checks" aria-live="polite"></div>
   <h3>Conferências antes da primeira cobrança</h3>
   <div id="launch-validation"></div>
+  <h3>Testar cotação da VAVI</h3>
+  <p class="muted">Informe um CEP de teste. O sistema consulta um frete real para uma camiseta Salve Regina preta G, sem gerar compra ou pedido na fábrica. Valores e disponibilidade poderão mudar.</p>
+  <form id="launch-shipping-form" autocomplete="off">
+   <label for="launch-zip">CEP para testar o frete</label>
+   <input id="launch-zip" name="zipCode" maxlength="9" inputmode="numeric" placeholder="00000-000" required>
+   <button type="submit">Consultar frete da VAVI</button>
+  </form>
+  <div id="launch-shipping-result" role="status" aria-live="polite"></div>
   <button type="button" id="refresh-launch">Atualizar conferência</button>
  </section>
  <section id="orders-panel" hidden>

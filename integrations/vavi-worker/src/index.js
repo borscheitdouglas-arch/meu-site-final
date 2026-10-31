@@ -64,7 +64,8 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      const adminOptions=url.pathname==='/api/internal/launch-readiness' ||
+      const adminOptions=url.pathname==='/api/internal/launch/shipping-check' ||
+        url.pathname==='/api/internal/launch-readiness' ||
         url.pathname==='/api/internal/live-orders' ||
         (url.pathname.startsWith('/api/internal/live-orders/') &&
          /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length))) ||
@@ -99,6 +100,31 @@ export default {
         if(error instanceof CatalogError)
           return json({error:error.code},error.status,cors.headers);
         return json({error:'launch_readiness_unavailable'},503,cors.headers);
+      }
+    }
+    // Admin-only read-only VAVI quote. No payment, DB writes or factory orders.
+    if(url.pathname==='/api/internal/launch/shipping-check' && request.method==='POST'){
+      if(!(await authorizedLiveAdmin(request,env)))
+        return json({error:'unauthorized'},401,cors.headers);
+      if(!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+        return json({error:'unsupported_media_type'},415,cors.headers);
+      const textBody=await request.text();
+      if(textBody.length>200)
+        return json({error:'request_too_large'},413,cors.headers);
+      try{
+        const body=JSON.parse(textBody);
+        const zipCode=normalizeZip(body?.zipCode);
+        const options=await simulateVaviShipping(env,zipCode,
+          [{sku:'salve-regina-preta-g',quantity:1}]);
+        return json({mode:'diagnostic',zipCode,currency:'BRL',
+          options:options.filter(x=>!/retirada|retire|pickup/i.test(x.name)),
+          checkoutEnabled:false,createsPayment:false,createsVaviOrder:false},200,cors.headers);
+      }catch(error){
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status,cors.headers);
+        if(error instanceof SyntaxError)
+          return json({error:'invalid_json'},400,cors.headers);
+        return json({error:'vavi_shipping_unavailable'},503,cors.headers);
       }
     }
     // Administrative fulfillment: authenticated only; addresses are decrypted on

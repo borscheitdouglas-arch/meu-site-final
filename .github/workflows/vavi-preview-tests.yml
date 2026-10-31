@@ -98,6 +98,8 @@ jobs:
           assert "window.confirm" in admin
           assert "textContent" in admin
           assert '/api/internal/launch-readiness' in admin
+          assert '/api/internal/launch/shipping-check' in admin
+          assert 'id="launch-shipping-form"' in Path('pages/admin-pedidos-loja.html').read_text(encoding='utf-8')
           assert 'renderLaunch' in admin
           assert 'id="launch-panel"' in Path('pages/admin-pedidos-loja.html').read_text(encoding='utf-8')
           PY
