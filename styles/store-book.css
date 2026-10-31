@@ -1,155 +1,247 @@
-/* Livraria integrada ao site: cenário sacro e apresentação editorial sem caixas externas. */
+/* Loja Douglas Assumpção. Reutiliza a identidade e os controles do site. */
 body.bookshop-page {
+  --shop-bg: #151b17;
+  --shop-panel: #1d251f;
+  --shop-line: #a9936447;
+  --shop-gold: #ddc38f;
+  --shop-text: #f1eadc;
+  --shop-muted: #bfc3b7;
   padding-top: var(--header-height, 48px);
-  background: linear-gradient(180deg, #151715f5, #151715df 48%, #151715f2), url('../assets/img/loja/cenario-livraria-sacra.png') center / cover fixed, #151715;
+  background: var(--shop-bg);
+  color: var(--shop-text);
 }
 .atelier, .atelier * { box-sizing: border-box; }
-.site-editorial .atelier.editorial-main { width: min(1168px, 100%); margin: 0 auto; padding: 20px 32px 48px; }
+.site-editorial .atelier.editorial-main { width: min(1280px, 100%); max-width: 1280px; margin: 0 auto; padding: 24px 40px 0; }
 .atelier :is(p, h1, h2, h3, figure) { margin: 0; }
 .atelier a { text-decoration: none; }
-.atelier a:focus-visible { outline: 3px solid #f2dfb5; outline-offset: 5px; }
-.atelier .atelier-eyebrow { color: var(--accent-2); font: 500 11px/1.7 'Inter', sans-serif; letter-spacing: .14em; text-transform: uppercase; }
-.atelier :is(#colecao, #como-comprar) { scroll-margin-top: 100px; }
-
-/* A abertura é o único título principal da página. */
-.sacred-hero { position: relative; isolation: isolate; overflow: hidden; border: 1px solid #d2b57540; border-radius: 12px; background: linear-gradient(90deg, #10150fe0, #10150f70 51%, #10150f0a 80%), url('../assets/img/loja/cenario-livraria-sacra.png') center / cover; }
-.sacred-hero-inner { display: flex; align-items: center; min-height: 390px; padding: 48px clamp(24px, 4vw, 52px); }
-.sacred-hero-copy { width: 56%; max-width: 560px; text-align: left; }
-.atelier .sacred-hero h1 { margin: 18px 0 10px; color: #f2eadb; font: 500 clamp(30px, 3.5vw, 44px)/1.15 'Spectral', Georgia, serif; letter-spacing: -.025em; text-transform: none; text-shadow: 0 2px 12px #0006; }
-.sacred-hero h1 em { color: #e0c58c; font-weight: 400; }
-.sacred-ornament { display: block; width: 150px; height: 25px; margin: 18px auto; object-fit: contain; opacity: .85; }
-.sacred-hero .sacred-ornament { margin: 14px 0 18px; }
-.sacred-hero-description { color: #e1d9c9; font: 18px/1.6 'Spectral', Georgia, serif; }
-.atelier a.sacred-cta, .atelier a.atelier-buy { display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 48px; padding: 13px 22px; border: 1px solid #d2b575; border-radius: 6px; background: linear-gradient(135deg, #e7d4a6, #cdb276); color: #1b201b; font: 600 14px/1.5 'Inter', sans-serif; text-decoration: none; text-shadow: none; letter-spacing: 0; box-shadow: none; transition: background .2s ease, border-color .2s ease; }
-.atelier a.sacred-cta { margin-top: 24px; }
-.atelier a.sacred-cta:hover, .atelier a.atelier-buy:hover { background: #eed8a8; color: #1b201b; }
-
-.atelier-catalog { width: 100%; padding: 52px 0 26px; }
-.atelier-catalog-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 42px; padding-bottom: 22px; border-bottom: 1px solid #d2b57538; }
-.atelier .atelier-catalog-heading h2 { margin-top: 8px; color: #e8d9b6; font: 500 clamp(25px, 2.6vw, 32px)/1.3 'Spectral', Georgia, serif; letter-spacing: -.015em; }
-.atelier-count { padding-bottom: 3px; color: var(--muted); white-space: nowrap; font: 12px/1.6 'Inter', sans-serif; }
-.atelier-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 40px; align-items: stretch; }
-.atelier-product { display: flex; flex-direction: column; gap: 28px; min-width: 0; padding: 0 0 28px; border-bottom: 1px solid var(--editorial-line); color: var(--text); }
-.atelier .atelier-product-art { position: relative; isolation: isolate; align-self: center; width: 100%; max-width: 380px; min-width: 0; margin-inline: auto; }
-.atelier-product-art::before { content: ''; position: absolute; z-index: -1; inset: 8% -8%; background: radial-gradient(ellipse, #bc964927, transparent 68%); pointer-events: none; }
-.atelier-product-art img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid #b49c6866; border-radius: 8px; box-shadow: 0 18px 42px #0004; }
-.atelier-product-art figcaption { margin-top: 12px; text-align: center; color: var(--muted); font: 11px/1.6 'Inter', sans-serif; }
-.atelier-product-copy { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 0; }
-.atelier-product-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.atelier .atelier-product-kind { color: var(--accent-2); font: 500 11px/1.7 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; }
-.atelier-product-format { display: inline-block; padding: 4px 10px; border: 1px solid #d2b57538; border-radius: 4px; color: #d7cfba; font: 12px/1.5 'Inter', sans-serif; }
-.atelier .atelier-product h3 { margin: 18px 0 16px; color: #eee4ce; font: 500 34px/1.1 'Spectral', Georgia, serif; letter-spacing: -.025em; overflow-wrap: break-word; }
-.atelier-product-subtitle { color: #d4d1c4; font: 20px/1.5 'Spectral', Georgia, serif; }
-.atelier .atelier-product-author { margin-top: 18px; color: var(--muted); font: 13px/1.6 'Inter', sans-serif; }
-.atelier .atelier-product-description { margin: 24px 0 28px; color: var(--muted); font: 18px/1.75 'Spectral', Georgia, serif; }
-.atelier-product-purchase { margin-top: auto; padding-top: 22px; border-top: 1px solid #d2b57538; }
-.atelier .atelier-purchase-label { margin-bottom: 14px; color: var(--text); font: 500 14px/1.5 'Inter', sans-serif; }
-.atelier-retailers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.atelier a.atelier-buy { justify-content: space-between; padding: 13px 16px; font-size: 13px; }
-.atelier a.atelier-buy-secondary { color: #e7d4a6; background: #252b2380; border-color: #8b805f; }
-.atelier a.atelier-buy-secondary:hover { background: #343b2f; border-color: #d2b575; }
-.atelier-buy > span[aria-hidden] { font-size: 18px; }
-.atelier .atelier-purchase-note { margin-top: 14px; color: var(--muted); font: 12px/1.7 'Inter', sans-serif; }
-.atelier-grid-single { grid-template-columns: 1fr; }
-.atelier-grid-single .atelier-product { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); align-items: center; gap: clamp(32px, 5vw, 68px); padding: 0 12px 16px; border: 0; }
-.atelier-grid-single .atelier-product-art { max-width: 410px; }
-.atelier .atelier-grid-single .atelier-product h3 { max-width: 480px; font-size: clamp(36px, 4vw, 50px); }
-.atelier-grid-single .atelier-product-subtitle { font-size: 22px; }
-.atelier-grid-single .atelier-product-copy { justify-content: center; }
-
-.shop-closing-ornament { margin: 24px auto 34px; }
-.sacred-help { display: flex; align-items: center; justify-content: space-between; gap: 36px; width: 100%; padding: 28px 0 0; border-top: 1px solid var(--editorial-line); }
-.atelier .sacred-help h2 { margin-top: 8px; color: #e8d9b6; font: 500 26px/1.4 'Spectral', Georgia, serif; }
-.sacred-help p:not(.atelier-eyebrow) { max-width: 680px; margin-top: 10px; color: var(--muted); font: 17px/1.7 'Spectral', Georgia, serif; }
-.sacred-help a { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; flex-shrink: 0; color: var(--accent-2); font: 13px/1.5 'Inter', sans-serif; }
+.atelier :is(a, button, input, textarea, summary):focus-visible { outline: 3px solid #f2dfb5; outline-offset: 5px; }
+.atelier :is(section[id], details[id]) { scroll-margin-top: 90px; }
+.atelier .atelier-eyebrow { color: var(--shop-gold); font: 500 11px/1.8 'Inter', sans-serif; letter-spacing: .16em; text-transform: uppercase; }
 .atelier-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-body.bookshop-page .site-footer { background: #151715b3; }
-@media (max-width: 1000px) {
- .atelier-retailers { grid-template-columns: 1fr; }
- .atelier-grid-single .atelier-product { gap: 30px; padding-inline: 0; }
- .sacred-hero-copy { width: 62%; }
+
+/* Abertura com imagem existente, contraste estável e texto independente da imagem. */
+.sacred-hero { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(90deg, #111811f5, #111811bc 46%, #11181118), url('../assets/img/loja/cenario-livraria-sacra.png') 66% center / cover; border: 1px solid var(--shop-line); border-radius: 3px; }
+.sacred-hero-inner { display: flex; align-items: center; min-height: 510px; padding: 64px clamp(24px, 4.5vw, 64px); }
+.sacred-hero-copy { width: 75%; max-width: 760px; text-align: left; }
+.atelier .sacred-hero h1 { margin: 22px 0 18px; color: #f7efde; font: 400 clamp(36px, 4.8vw, 64px)/1.12 'Spectral', Georgia, serif; letter-spacing: -.045em; text-transform: none; text-shadow: 0 2px 20px #0005; }
+.sacred-hero h1 em, .atelier-vavi-heading h2 em, .atelier-vavi-content h3 em { color: var(--shop-gold); font-weight: 400; }
+.sacred-ornament { display: block; width: 150px; height: 25px; margin: 20px auto; object-fit: contain; opacity: .85; }
+.sacred-hero .sacred-ornament { margin: 22px 0; }
+.sacred-hero-description { max-width: 490px; color: #e1ded1; font: 20px/1.6 'Spectral', Georgia, serif; }
+.atelier-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 28px; }
+.atelier a.sacred-cta, .atelier a.atelier-buy { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 50px; padding: 14px 22px; border: 1px solid #d6bb83; border-radius: 3px; background: #ddc38f; color: #182019; font: 600 13px/1.5 'Inter', sans-serif; text-decoration: none; text-shadow: none; letter-spacing: 0; box-shadow: none; transition: background .18s ease, border-color .18s ease; }
+.atelier a.sacred-cta:hover, .atelier a.atelier-buy:hover { background: #f0dbaf; color: #182019; }
+.atelier a.atelier-hero-secondary { display: inline-flex; align-items: center; gap: 18px; min-height: 48px; color: #f0dec0; border-bottom: 1px solid #d6bb8370; font: 500 13px/1.5 'Inter', sans-serif; }
+.atelier .sacred-hero-note { margin-top: 22px; color: #d0c9b7; font: 11px/1.7 'Inter', sans-serif; }
+.shop-nav { display: flex; align-items: center; gap: 12px 32px; padding: 16px 0; border-bottom: 1px solid var(--shop-line); font: 500 12px/1.5 'Inter', sans-serif; }
+.shop-nav-label { margin-right: auto; color: var(--shop-muted); }
+.atelier .shop-nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--shop-text); }
+.atelier .shop-nav a:hover { color: var(--shop-gold); text-decoration: underline; text-underline-offset: 6px; }
+
+/* A camiseta em consulta ocupa uma ficha completa; os próximos produtos, dois cards. */
+.atelier-vavi-catalog { padding: 68px 0 56px; }
+.atelier-vavi-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 36px; margin-bottom: 32px; }
+.atelier .atelier-vavi-heading h2, .atelier .atelier-catalog-heading h2, .atelier .shop-section-heading h2 { margin-top: 10px; color: var(--shop-text); font: 400 clamp(30px, 3.5vw, 46px)/1.2 'Spectral', Georgia, serif; letter-spacing: -.035em; }
+.atelier-vavi-heading > p { max-width: 355px; color: var(--shop-muted); font: 16px/1.7 'Spectral', Georgia, serif; }
+.atelier-vavi-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+.atelier-vavi-card { min-width: 0; display: flex; flex-direction: column; border: 1px solid var(--shop-line); border-radius: 4px; background: var(--shop-panel); }
+.atelier-vavi-image { min-width: 0; background: #182018; border-radius: 4px 4px 0 0; overflow: hidden; }
+.atelier-vavi-image img { width: 100%; height: auto; aspect-ratio: 720 / 820; object-fit: contain; display: block; }
+.atelier-vavi-content { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 28px; gap: 14px; }
+.atelier .atelier-vavi-category { color: var(--shop-gold); font: 600 10px/1.6 'Inter', sans-serif; letter-spacing: .15em; }
+.atelier .atelier-vavi-content h3 { color: var(--shop-text); font: 400 30px/1.15 'Spectral', Georgia, serif; letter-spacing: -.025em; }
+.atelier .atelier-vavi-content p:not(.atelier-vavi-category) { color: #d8dace; font: 16px/1.65 'Spectral', Georgia, serif; }
+.atelier .atelier-vavi-content p.atelier-vavi-details { color: var(--shop-muted); font: 12px/1.75 'Inter', sans-serif; }
+.atelier .atelier-vavi-price { color: var(--shop-gold); font: 600 14px/1.6 'Inter', sans-serif; margin-top: auto; }
+.atelier .atelier-vavi-status { display: inline-block; align-self: flex-start; padding: 8px 11px; border: 1px solid #a993645c; border-radius: 3px; color: #e3d5b2; background: #d5b87709; font: 500 11px/1.65 'Inter', sans-serif; }
+.atelier a.atelier-vavi-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--shop-line); color: var(--shop-gold); font: 500 12px/1.6 'Inter', sans-serif; }
+.atelier a.atelier-vavi-link:hover { color: #fff0ce; }
+.atelier-vavi-card-featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+.atelier-vavi-card-featured .atelier-vavi-content { padding: clamp(26px, 4vw, 52px); justify-content: center; gap: 20px; }
+.atelier .atelier-vavi-card-featured h3 { font-size: clamp(38px, 4.2vw, 56px); line-height: 1.04; }
+.atelier-vavi-card-featured .atelier-vavi-price { margin-top: 4px; font-size: 18px; }
+.atelier-featured-image { display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--shop-line); background: #1b241b; }
+.atelier-featured-image > a { display: block; margin: 20px auto 0; max-width: 460px; width: 100%; }
+.atelier-featured-image img { max-height: 530px; }
+.atelier-featured-image figcaption { padding: 12px 18px 22px; color: var(--shop-muted); text-align: center; font: 11px/1.7 'Inter', sans-serif; }
+.atelier-featured-image figcaption a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 5px; color: var(--shop-gold); }
+.atelier-product-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; margin: 0; padding: 20px 0; border-block: 1px solid var(--shop-line); font: 13px/1.5 'Inter', sans-serif; }
+.atelier-product-specs div:last-child { grid-column: 1 / -1; }
+.atelier-product-specs dt { margin-bottom: 8px; color: var(--shop-muted); font-size: 11px; }
+.atelier-product-specs dd { display: flex; align-items: center; gap: 9px; margin: 0; color: var(--shop-text); }
+.atelier-color-swatch { display: inline-block; width: 17px; height: 17px; border: 1px solid #aaa99b; border-radius: 50%; background: #080a09; }
+.atelier-vavi-card-upcoming { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); }
+.atelier-vavi-card-upcoming .atelier-vavi-image { display: grid; align-items: center; }
+.atelier-vavi-card-upcoming .atelier-vavi-content { padding: 24px 22px; gap: 12px; }
+.atelier .atelier-vavi-card-upcoming h3 { font-size: 27px; }
+.atelier .atelier-vavi-card-upcoming p:not(.atelier-vavi-category) { font-size: 14px; }
+.atelier .atelier-vavi-card-upcoming .atelier-vavi-details { font-size: 11px; }
+.atelier .atelier-vavi-footnote { max-width: 920px; margin-top: 20px; color: var(--shop-muted); font: 12px/1.8 'Inter', sans-serif; }
+
+/* A consulta preserva seus atributos e fluxo assistido, com espaço para resultados. */
+.atelier-vavi-inquiry { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 40px; margin: 0; padding: 32px 36px; border-top: 1px solid var(--shop-line); background: #111a14; }
+.atelier .atelier-vavi-inquiry h4 { margin: 10px 0 16px; color: var(--shop-text); font: 400 30px/1.2 'Spectral', Georgia, serif; letter-spacing: -.025em; }
+.atelier .atelier-vavi-inquiry p { margin-bottom: 12px; color: #c5cbbc; font: 13px/1.75 'Inter', sans-serif; }
+.atelier .atelier-vavi-inquiry .atelier-eyebrow { font-size: 10px; color: var(--shop-gold); letter-spacing: .1em; }
+.atelier .atelier-vavi-inquiry .atelier-inquiry-assurance { margin-top: 22px; color: var(--shop-gold); font: italic 17px/1.6 'Spectral', Georgia, serif; }
+.atelier-inquiry-fields { min-width: 0; }
+.atelier .atelier-vavi-inquiry label { display: block; margin: 0 0 8px; color: var(--shop-text); font: 500 12px/1.6 'Inter', sans-serif; }
+.atelier-vavi-inquiry-line { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.atelier .atelier-vavi-inquiry input { flex: 1 1 140px; min-width: 0; min-height: 50px; padding: 12px 14px; border: 1px solid #8c967f; border-radius: 3px; background: #202c22; color: #fff; font: 16px/1.5 'Inter', sans-serif; }
+.atelier .atelier-vavi-inquiry input::placeholder { color: #b5bdaf; opacity: 1; }
+.atelier .atelier-vavi-inquiry input[aria-invalid="true"] { border-color: #edac91; }
+.atelier .atelier-vavi-inquiry button, .atelier .atelier-vavi-inquiry-actions a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 18px; border: 1px solid #d6bb83; border-radius: 3px; color: #182019; background: #ddc38f; text-decoration: none; font: 600 12px/1.5 'Inter', sans-serif; cursor: pointer; transition: background .18s ease; }
+.atelier .atelier-vavi-inquiry button:hover { background: #f0dbaf; }
+.atelier .atelier-vavi-inquiry button:disabled { cursor: wait; opacity: .65; }
+.atelier .atelier-vavi-inquiry .atelier-vavi-hint { margin: 12px 0; color: var(--shop-muted); font-size: 11px; }
+.atelier [data-vavi-inquiry-status]:empty { margin: 0; padding: 0; border: 0; }
+.atelier [data-vavi-inquiry-status]:not(:empty) { padding-left: 12px; border-left: 2px solid var(--shop-gold); }
+.atelier-vavi-inquiry-result { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--shop-line); }
+.atelier .atelier-vavi-inquiry-result textarea { width: 100%; min-height: 175px; resize: vertical; padding: 14px; color: #e9e5dc; background: #1c281f; border: 1px solid #7e8975; border-radius: 3px; font: 13px/1.7 'Inter', sans-serif; }
+.atelier-vavi-inquiry-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+.atelier .atelier-vavi-inquiry-actions button { background: transparent; color: var(--shop-gold); }
+.atelier .atelier-vavi-inquiry-actions button:hover { background: #283327; }
+.atelier .atelier-vavi-inquiry-result p { overflow-wrap: anywhere; font-size: 12px; }
+.atelier-vavi-shipping-panel { padding: 18px; margin-top: 18px; border: 1px solid var(--shop-line); border-radius: 3px; background: #233024; }
+.atelier .atelier-vavi-shipping-choice { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 12px 4px; border-top: 1px solid var(--shop-line); cursor: pointer; }
+.atelier .atelier-vavi-shipping-choice input { min-height: 20px; min-width: 20px; width: 20px; height: 20px; flex: none; margin: 0; padding: 0; accent-color: #ddc38f; }
+.atelier .atelier-vavi-shipping-choice span { font: 12px/1.7 'Inter', sans-serif; }
+.atelier .atelier-vavi-shipping-panel .atelier-vavi-total { color: #f4ddb0; font-weight: 600; margin: 16px 0 0; }
+.atelier .atelier-vavi-live-link { grid-column: 1 / -1; margin: 24px 36px; }
+
+/* O catálogo gerado mantém sua estrutura, conteúdo e links para as lojas parceiras. */
+.atelier-catalog { padding: 56px 0 64px; border-top: 1px solid var(--shop-line); }
+.atelier-catalog-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
+.atelier-count { color: var(--shop-muted); white-space: nowrap; font: 12px/1.6 'Inter', sans-serif; }
+.atelier-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
+.atelier-product { display: flex; flex-direction: column; min-width: 0; gap: 28px; }
+.atelier .atelier-product-art { align-self: center; width: 100%; max-width: 380px; min-width: 0; margin-inline: auto; }
+.atelier-product-art img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--shop-line); border-radius: 3px; }
+.atelier-product-art figcaption { margin-top: 12px; color: var(--shop-muted); text-align: center; font: 11px/1.6 'Inter', sans-serif; }
+.atelier-product-copy { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.atelier-product-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.atelier .atelier-product-kind { color: var(--shop-gold); font: 500 10px/1.8 'Inter', sans-serif; letter-spacing: .09em; text-transform: uppercase; }
+.atelier-product-format { padding: 4px 9px; border: 1px solid var(--shop-line); color: #d8dace; font: 11px/1.6 'Inter', sans-serif; }
+.atelier .atelier-product h3 { margin: 22px 0 16px; color: var(--shop-text); font: 400 36px/1.12 'Spectral', Georgia, serif; letter-spacing: -.03em; }
+.atelier-product-subtitle { color: #d7dacd; font: 21px/1.5 'Spectral', Georgia, serif; }
+.atelier .atelier-product-author { margin-top: 18px; color: var(--shop-muted); font: 12px/1.7 'Inter', sans-serif; }
+.atelier .atelier-product-description { margin: 24px 0 28px; color: var(--shop-muted); font: 18px/1.7 'Spectral', Georgia, serif; }
+.atelier-product-purchase { margin-top: auto; padding-top: 24px; border-top: 1px solid var(--shop-line); }
+.atelier .atelier-purchase-label { margin-bottom: 14px; color: var(--shop-text); font: 500 13px/1.5 'Inter', sans-serif; }
+.atelier-retailers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.atelier a.atelier-buy { padding: 14px 16px; font-size: 12px; }
+.atelier a.atelier-buy-secondary { color: var(--shop-gold); background: transparent; border-color: #a99364; }
+.atelier a.atelier-buy-secondary:hover { background: #2a3528; }
+.atelier .atelier-purchase-note { margin-top: 14px; color: var(--shop-muted); font: 11px/1.8 'Inter', sans-serif; }
+.atelier-grid-single { grid-template-columns: 1fr; }
+.atelier-grid-single .atelier-product { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); align-items: center; gap: clamp(32px, 6vw, 90px); padding: 36px; background: #1a221c; border: 1px solid var(--shop-line); border-radius: 4px; }
+.atelier .atelier-grid-single .atelier-product h3 { font-size: clamp(36px, 3.8vw, 50px); }
+
+/* Guia de compra e dúvidas: controles nativos, disponíveis sem JavaScript. */
+.sacred-help { padding: 56px 0 64px; border-top: 1px solid var(--shop-line); }
+.shop-section-heading > p:not(.atelier-eyebrow) { max-width: 600px; margin-top: 16px; color: var(--shop-muted); font: 17px/1.7 'Spectral', Georgia, serif; }
+.shop-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; list-style: none; margin: 36px 0 0; padding: 0; }
+.shop-steps li { display: flex; gap: 16px; padding-top: 24px; border-top: 1px solid var(--shop-line); }
+.shop-steps li > span { color: var(--shop-gold); font: 400 24px/1.3 'Spectral', Georgia, serif; }
+.atelier .shop-steps h3 { margin: 0 0 12px; color: var(--shop-text); font: 400 23px/1.3 'Spectral', Georgia, serif; }
+.atelier .shop-steps p { color: var(--shop-muted); font: 12px/1.85 'Inter', sans-serif; }
+.shop-faq { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 60px; padding: 56px 0 64px; border-top: 1px solid var(--shop-line); }
+.atelier a.shop-contact { display: inline-flex; align-items: center; gap: 28px; min-height: 44px; margin-top: 22px; color: var(--shop-gold); font: 500 13px/1.6 'Inter', sans-serif; border-bottom: 1px solid var(--shop-line); }
+.shop-faq details { padding: 0; border-bottom: 1px solid var(--shop-line); }
+.shop-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 64px; padding: 18px 0; list-style: none; cursor: pointer; color: var(--shop-text); font: 500 14px/1.6 'Inter', sans-serif; }
+.shop-faq summary::-webkit-details-marker { display: none; }
+.shop-faq summary::after { content: '+'; flex-shrink: 0; color: var(--shop-gold); font: 400 24px/1 Georgia, serif; }
+.shop-faq details[open] summary::after { content: '−'; }
+.atelier .shop-faq details p { padding-bottom: 22px; color: var(--shop-muted); font: 14px/1.8 'Inter', sans-serif; overflow-wrap: anywhere; }
+.atelier .shop-faq details a { text-decoration: underline; }
+.shop-closing { padding: 16px 0 32px; text-align: center; }
+.atelier .shop-closing p { color: #d7c9a8; font: italic 24px/1.5 'Spectral', Georgia, serif; }
+.atelier .shop-closing a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 18px; color: var(--shop-muted); font: 11px/1.6 'Inter', sans-serif; }
+body.bookshop-page .site-footer { margin-top: 0; padding: 24px 20px; border-color: var(--shop-line); background: #121913; font-size: 12px; }
+.bookshop-page .site-footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin-top: 8px; }
+.bookshop-page .site-footer nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--shop-gold); }
+
+@media (max-width: 1100px) {
+  .atelier-vavi-card-upcoming { display: flex; }
+  .atelier-vavi-card-upcoming .atelier-vavi-image img { max-height: 330px; }
+  .atelier-vavi-inquiry { gap: 28px; padding: 28px; }
+  .atelier-vavi-inquiry-line { flex-direction: column; }
+  .atelier .atelier-vavi-inquiry-line input { flex: auto; }
+  .atelier-retailers { grid-template-columns: 1fr; }
+  .atelier-grid-single .atelier-product { gap: 36px; padding: 28px; }
 }
-@media (max-width: 767px) { body.bookshop-page { padding-top: max(var(--header-height, 48px), 60px); } }
-@media (max-width: 700px) {
- body.bookshop-page { background-attachment: scroll; }
- .site-editorial .atelier.editorial-main { padding: 14px 16px 32px; }
- .sacred-hero { background-position: 64% center; }
- .sacred-hero::before { content: ''; position: absolute; z-index: -1; inset: 0; background: #10140ebf; }
- .sacred-hero-inner { min-height: 360px; padding: 32px 22px; }
- .sacred-hero-copy { width: 100%; max-width: 480px; }
- .atelier .sacred-hero h1 { font-size: clamp(28px, 6.5vw, 38px); }
- .sacred-hero-description { font-size: 17px; }
- .sacred-hero-description br { display: none; }
- .atelier-catalog { padding: 34px 0 18px; }
- .atelier-catalog-heading { margin-bottom: 28px; gap: 16px; }
- .atelier-grid { grid-template-columns: 1fr; }
- .atelier-grid-single .atelier-product { grid-template-columns: minmax(0, 1fr); gap: 30px; }
- .atelier .atelier-product-art { max-width: 340px; }
- .atelier .atelier-grid-single .atelier-product h3 { font-size: 38px; }
- .atelier-grid-single .atelier-product-subtitle { font-size: 20px; }
- .atelier-retailers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
- .sacred-help { flex-direction: column; align-items: flex-start; gap: 16px; }
- .shop-closing-ornament { margin-top: 16px; margin-bottom: 24px; }
+@media (max-width: 767px) {
+  body.bookshop-page { padding-top: max(var(--header-height, 48px), 60px); }
+  .site-editorial .atelier.editorial-main { padding: 16px 20px 0; }
+  .sacred-hero-inner { min-height: 440px; padding: 40px 26px; }
+  .sacred-hero { background-position: 60% center; }
+  .sacred-hero-copy { width: 100%; }
+  .sacred-hero::before { content: ''; position: absolute; z-index: -1; inset: 0; background: #10180f55; }
+  .atelier .sacred-hero h1 { font-size: clamp(34px, 7vw, 50px); }
+  .sacred-hero-description { font-size: 18px; }
+  .sacred-hero-description br { display: none; }
+  .shop-nav { flex-wrap: wrap; justify-content: space-between; gap: 0 18px; padding: 12px 0; }
+  .shop-nav-label { display: none; }
+  .atelier-vavi-catalog { padding-top: 42px; }
+  .atelier-vavi-heading { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .atelier-vavi-heading > p { max-width: 560px; }
+  .atelier-vavi-card-featured { grid-template-columns: 1fr; }
+  .atelier-featured-image { border-right: 0; border-bottom: 1px solid var(--shop-line); }
+  .atelier-featured-image > a { max-width: 380px; margin-top: 0; }
+  .atelier-featured-image figcaption { padding-block: 0 10px; }
+  .atelier-vavi-card-featured .atelier-vavi-content { padding: 28px; }
+  .atelier-vavi-inquiry { grid-template-columns: 1fr; gap: 20px; }
+  .atelier .atelier-vavi-inquiry .atelier-inquiry-assurance { display: none; }
+  .atelier-vavi-inquiry-line { flex-direction: row; }
+  .atelier .atelier-vavi-inquiry-line input { flex: 1 1 140px; }
+  .atelier-grid-single .atelier-product { grid-template-columns: 1fr; padding: 28px; gap: 30px; }
+  .atelier .atelier-product-art { max-width: 320px; }
+  .atelier-grid { grid-template-columns: 1fr; }
+  .atelier-retailers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .atelier-catalog, .sacred-help, .shop-faq { padding-block: 40px; }
+  .shop-steps { grid-template-columns: 1fr; gap: 24px; }
+  .shop-steps p { max-width: 520px; }
+  .shop-faq { grid-template-columns: 1fr; gap: 24px; }
 }
-@media (max-width: 430px) {
- .atelier-retailers { grid-template-columns: 1fr; }
- .atelier-catalog-heading { align-items: flex-start; }
- .atelier-count { padding-top: 3px; }
- .atelier .atelier-catalog-heading h2 { font-size: 25px; }
+@media (max-width: 520px) {
+  .site-editorial .atelier.editorial-main { padding-inline: 16px; }
+  .sacred-hero-inner { padding: 34px 22px; }
+  .atelier .sacred-hero h1 { font-size: clamp(31px, 8.2vw, 42px); }
+  .atelier-hero-actions { align-items: stretch; flex-direction: column; gap: 8px; }
+  .atelier .atelier-hero-secondary { align-self: flex-start; }
+  .sacred-hero-note { max-width: 240px; }
+  .shop-nav { gap: 0 20px; font-size: 11px; justify-content: flex-start; }
+  .atelier-vavi-grid { grid-template-columns: 1fr; gap: 20px; }
+  .atelier-vavi-card-upcoming .atelier-vavi-image img { max-height: 310px; }
+  .atelier-vavi-card-featured .atelier-vavi-content, .atelier-vavi-inquiry, .atelier-grid-single .atelier-product { padding: 24px 20px; }
+  .atelier-vavi-card-featured .atelier-vavi-price { font-size: 16px; }
+  .atelier-vavi-inquiry-line { flex-direction: column; }
+  .atelier .atelier-vavi-inquiry-line input { flex: auto; }
+  .atelier-vavi-inquiry-actions { flex-direction: column; }
+  .atelier-catalog-heading { align-items: flex-start; gap: 16px; }
+  .atelier-count { padding-top: 6px; }
+  .atelier-retailers { grid-template-columns: 1fr; }
+  .atelier .atelier-grid-single .atelier-product h3 { font-size: 36px; }
+  .atelier .atelier-vavi-inquiry-result textarea { font-size: 16px; }
 }
-@media (prefers-reduced-motion: reduce) { .atelier :is(a.sacred-cta, a.atelier-buy) { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html.editorial-root { scroll-behavior: auto; }
+  .atelier *, .atelier *::before, .atelier *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
 
-
-/* Coleção Salve Regina integrada à vitrine da loja: pré-lançamento sem cobranças. */
-.atelier-vavi-catalog { padding: 45px 0 40px; border-top: 1px solid #d2b57538; scroll-margin-top: 100px; }
-.atelier-vavi-heading { margin-bottom: 26px; max-width: 780px; }
-.atelier .atelier-vavi-heading h2 { margin: 7px 0 11px; color: #e8d9b6; font: 500 clamp(27px, 2.8vw, 34px)/1.22 'Spectral', Georgia, serif; }
-.atelier-vavi-heading > p:last-child { color: #cfc7b8; font: 17px/1.65 'Spectral', Georgia, serif; }
-.atelier-vavi-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; align-items: stretch; }
-.atelier-vavi-card { min-width: 0; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #8e794f70; border-radius: 9px; background: linear-gradient(160deg,#20241d,#161b16); box-shadow: 0 13px 34px #0004; }
-.atelier-vavi-image { background: #111810; overflow: hidden; border-bottom: 1px solid #8e794f5c; }
-.atelier-vavi-image img { width: 100%; height: auto; aspect-ratio: 4 / 4.2; object-fit: contain; display: block; }
-.atelier-vavi-content { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 21px 20px 22px; gap: 12px; }
-.atelier .atelier-vavi-category { color: #d2b575; font: 600 10px/1.55 'Inter', sans-serif; letter-spacing: .13em; }
-.atelier .atelier-vavi-content h3 { margin: 0; font: 500 27px/1.18 'Spectral', Georgia, serif; color: #f0e6d2; }
-.atelier .atelier-vavi-content p:not(.atelier-vavi-category) { color: #dfd8c9; font: 16px/1.55 'Spectral', Georgia, serif; }
-.atelier .atelier-vavi-content .atelier-vavi-details { color: #bdbbac; font-size: 14px; }
-.atelier .atelier-vavi-price { margin-top: auto; color: #e9d9b6; font: 600 13px/1.6 'Inter', sans-serif; }
-.atelier .atelier-vavi-status { display: inline-block; align-self: flex-start; border: 1px solid #8b815a80; border-radius: 4px; padding: 7px 10px; color: #dacda8; background: #302e226b; font: 600 11px/1.55 'Inter', sans-serif; }
-.atelier a.atelier-vavi-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 5px; padding: 12px 0 3px; border-top: 1px solid #d2b57530; font: 600 13px/1.5 'Inter', sans-serif; color: #dfc28a; text-decoration: none; }
-.atelier a.atelier-vavi-link:hover { color: #f2dfb5; }
-.atelier .atelier-vavi-footnote { color: #bab9ae; margin-top: 18px; font: 12px/1.65 'Inter', sans-serif; }
-@media (max-width: 960px) { .atelier-vavi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
-@media (max-width: 650px) { .atelier-vavi-grid { grid-template-columns: 1fr; } .atelier-vavi-card { max-width: 450px; width: 100%; margin-inline: auto; } .atelier-vavi-image img { aspect-ratio: 4 / 3.3; } .atelier-vavi-content { padding: 18px; } }
-
-/* Consulta de compra assistida: sem checkout, sem coleta/armazenamento no servidor. */
-.atelier-vavi-inquiry { margin-top: 12px; border: 1px solid #d2b57555; border-radius: 8px; padding: 18px 15px; background: #141b15; }
-.atelier .atelier-vavi-inquiry h4 { margin: 0 0 9px; color: #e8d9b6; font: 500 20px/1.3 'Spectral', Georgia, serif; }
-.atelier .atelier-vavi-inquiry p { margin: 0 0 12px; color: #d6d3c8; font: 13px/1.6 'Inter', sans-serif; }
-.atelier .atelier-vavi-inquiry label { display: block; margin: 0 0 7px; color: #e6d3aa; font: 600 12px/1.5 'Inter', sans-serif; }
-.atelier-vavi-inquiry-line { display: flex; flex-wrap: wrap; gap: 9px; align-items: stretch; }
-.atelier .atelier-vavi-inquiry input { flex: 1 1 118px; min-width: 0; min-height: 44px; padding: 8px 11px; background: #242b23; border: 1px solid #9f906d; border-radius: 5px; color: #fff; font: 15px/1.4 'Inter', sans-serif; }
-.atelier .atelier-vavi-inquiry button, .atelier .atelier-vavi-inquiry-actions a { display: inline-flex; align-items: center; justify-content: center; padding: 10px 12px; min-height: 44px; border: 1px solid #d2b575; border-radius: 5px; color: #201d14; background: #e7d4a6; text-decoration: none; font: 600 12px/1.35 'Inter', sans-serif; cursor: pointer; }
-.atelier .atelier-vavi-inquiry .atelier-vavi-hint { margin: 9px 0 10px; color: #bdb5a4; font-size: 11px; }
-.atelier .atelier-vavi-inquiry-result { margin-top: 12px; padding-top: 15px; border-top: 1px solid #d2b57536; }
-.atelier .atelier-vavi-inquiry-result[hidden] { display: none; }
-.atelier .atelier-vavi-inquiry-result textarea { width: 100%; min-height: 155px; resize: vertical; padding: 10px; color: #e9e5dc; background: #222a22; border: 1px solid #85795c; border-radius: 5px; font: 12px/1.5 monospace; }
-.atelier-vavi-inquiry-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-.atelier .atelier-vavi-inquiry-actions button { background: transparent; color: #e7d4a6; }
-.atelier .atelier-vavi-inquiry button:focus-visible, .atelier .atelier-vavi-inquiry input:focus-visible, .atelier .atelier-vavi-inquiry a:focus-visible { outline: 2px solid #fff5c9; outline-offset: 2px; }
-@media(max-width: 400px) { .atelier-vavi-inquiry-line { flex-direction: column; } .atelier-vavi-inquiry-line > * { width: 100%; } }
-
-/* Opções de frete da VAVI para uma unidade de camiseta G; consulta, não cobrança. */
-.atelier .atelier-vavi-shipping-panel { padding: 13px 10px; margin: 12px 0; border: 1px solid #b8a0736b; border-radius: 7px; background: #242d22; }
-.atelier .atelier-vavi-shipping-panel[hidden] { display: none; }
-.atelier .atelier-vavi-shipping-panel p { margin: 0 0 10px; font: 13px/1.5 'Inter', sans-serif; color: #e8dcc0; }
-.atelier-vavi-shipping-choice { display: flex !important; align-items: center; gap: 10px; padding: 11px 3px; border-top: 1px solid #b8a0734a; cursor: pointer; }
-.atelier .atelier-vavi-shipping-choice input { min-height: initial; min-width: initial; flex: none; margin: 0; width: 17px; height: 17px; accent-color: #d2b575; }
-.atelier .atelier-vavi-shipping-choice span { flex:1; font: 12px/1.6 'Inter', sans-serif; color: #e9e5dc; }
-.atelier .atelier-vavi-shipping-panel .atelier-vavi-total { color: #ecd8a3; font-weight: 700; margin: 10px 0 0; }
-
-/* A camiseta aparece primeiro na chamada da loja; livros preservados na mesma página. */
-.atelier-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 19px; }
-.atelier .atelier-hero-actions .atelier-hero-secondary { margin-top: 24px; color: #ead6ad; font: 600 13px/1.5 'Inter', sans-serif; border-bottom: 1px solid #cdb27680; padding: 12px 0; text-decoration: none; }
-.atelier .atelier-hero-actions .atelier-hero-secondary:hover { color: #fff5db; border-color: #fff5db; }
-@media(max-width: 700px) { .atelier-hero-actions { align-items: stretch; flex-direction: column; gap: 8px; } .atelier .atelier-hero-actions .atelier-hero-secondary { align-self: flex-start; margin-top: 4px; } }
+/* Apresentações fornecidas pelo autor: imagens completas, sem cortar as estampas. */
+.atelier-collection-banner { margin-bottom: 32px !important; }
+.atelier-banner-link, .atelier-vavi-image .product-image-link { display: block; }
+.atelier-banner-link img { display: block; width: 100%; height: auto; aspect-ratio: 1672 / 941; border: 1px solid var(--shop-line); border-radius: 4px; }
+.atelier-collection-banner figcaption { margin-top: 10px; color: var(--shop-muted); font: 11px/1.7 'Inter', sans-serif; }
+.atelier-vavi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.atelier-featured-image > a { width: 100%; max-width: none; margin: 0; }
+.atelier-featured-image img { aspect-ratio: 1; max-height: none; height: auto; object-fit: contain; }
+.atelier-featured-image figcaption { padding: 12px 16px; }
+.atelier-vavi-card-upcoming { display: flex; }
+.atelier-vavi-card-upcoming .atelier-vavi-image img { aspect-ratio: 1; max-height: none; object-fit: contain; }
+.atelier-vavi-image > a:focus-visible, .atelier-banner-link:focus-visible { outline-offset: -5px; }
+@media (max-width: 767px) {
+ .atelier-vavi-grid { grid-template-columns: 1fr; }
+ .atelier-vavi-card-upcoming .atelier-vavi-image img { max-height: 440px; }
+}

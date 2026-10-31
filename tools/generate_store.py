@@ -91,7 +91,8 @@ def render_product(product: dict, first: bool) -> str:
         if mode == 'external'
         else 'Não há compra online nesta etapa: disponibilidade, frete e valores são confirmados no atendimento.'
     )
-    loading = 'loading="eager" fetchpriority="high"' if first else 'loading="lazy"'
+    # O catálogo fica abaixo da coleção: capas não devem competir com a abertura.
+    loading = 'loading="lazy"'
     return f'''<article class="atelier-product" aria-labelledby="product-{p['id']}-title">
 <figure class="atelier-product-art">
 <img src="{p['image']}" alt="{p['image_alt']}" width="1122" height="1402" {loading} decoding="async"/>
