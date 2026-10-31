@@ -51,7 +51,7 @@ test('token test nunca é suficiente para liberar checkout real',()=>{
 test('checkout real: servidor calcula total e armazena entrega antes de criar preferência',async()=>{
   const seq=[];
   const db={prepare(sql){return {bind(){return {
-    run:async()=>{seq.push(sql.includes("payment_environment='live'")?'mode':'awaiting');
+    run:async()=>{seq.push(sql.includes("SET payment_environment='live'")?'mode':'awaiting');
       return {meta:{changes:1}};}
   };}}}};
   const result=await createCheckoutLive({...enabled,DB:db},
