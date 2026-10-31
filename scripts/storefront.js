@@ -74,7 +74,12 @@
     const link = event.target.closest('a[href^="#produto-"]');
     if (!link || link.hasAttribute('data-shop-category') || event.button !== 0 ||
         event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    openDetail(link.getAttribute('href'), true);
+    // A navegação nativa da âncora pode roubar o foco do <summary>.
+    // Atualiza a URL sem acionar o salto padrão, depois abre e foca o detalhe.
+    const hash = link.getAttribute('href');
+    event.preventDefault();
+    if (window.location.hash !== hash) window.history.pushState(null, '', hash);
+    openDetail(hash, true);
   });
   window.addEventListener('hashchange', () => openDetail(location.hash));
   search.hidden = false;
