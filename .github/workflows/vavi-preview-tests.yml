@@ -5,6 +5,10 @@ on:
       - "integrations/vavi-worker/**"
       - "data/vavi-catalogo.json"
       - "scripts/vavi-vitrine.js"
+      - "scripts/checkout-salve-regina.js"
+      - "scripts/salve-regina-inquiry.js"
+      - "pages/checkout-salve-regina.html"
+      - "styles/checkout-salve-regina.css"
       - ".github/workflows/vavi-preview-tests.yml"
   push:
     branches:
@@ -30,6 +34,24 @@ jobs:
           node --check scripts/vavi-vitrine.js
           node --check integrations/vavi-worker/src/index.js
           node --check integrations/vavi-worker/src/catalog.js
+          node --check scripts/checkout-salve-regina.js
+          node --check scripts/salve-regina-inquiry.js
+      - name: Conferir segurança da página de checkout
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          page=Path('pages/checkout-salve-regina.html').read_text(encoding='utf-8')
+          client=Path('scripts/checkout-salve-regina.js').read_text(encoding='utf-8')
+          store=Path('scripts/salve-regina-inquiry.js').read_text(encoding='utf-8')
+          assert 'id="checkout-container" hidden' in page
+          assert "readiness?.checkoutEnabled!==true" in client
+          assert "data?.checkoutEnabled!==true" in store
+          assert '/api/checkout/live' in client
+          assert 'window.location.assign' in client
+          assert 'mercadopago.com.br' in client
+          assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in page+client+store
+          assert 'MERCADOPAGO_LIVE_WEBHOOK_SECRET' not in page+client+store
+          PY
       - name: Validar JSON do catálogo
         run: python3 -m json.tool data/vavi-catalogo.json > /dev/null
       - name: Executar testes da sacola e preços
