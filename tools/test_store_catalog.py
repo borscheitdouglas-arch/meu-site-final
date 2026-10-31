@@ -140,6 +140,23 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertEqual(source.count('Em preparação · Compra indisponível'), 2)
         self.assertIn('Preço preliminar: R$ 109,90 + frete', source)
 
+
+    def test_salve_regina_shipping_preview_requires_no_checkout(self):
+        source = PAGE.read_text(encoding='utf-8')
+        from pathlib import Path
+        js = (PAGE.parents[1] / 'scripts/salve-regina-inquiry.js').read_text(encoding='utf-8')
+        self.assertEqual(source.count('data-vavi-shipping-panel'), 1)
+        self.assertIn('Consultar frete e preparar pedido', source)
+        self.assertIn('/api/shipping/preview', js)
+        self.assertIn('shippingCost', js)
+        self.assertIn('Total estimado:', js)
+        self.assertIn('Nenhum pedido ou pagamento foi realizado.', js)
+        self.assertIn('mailto:', js)
+        self.assertNotIn('/api/checkout/test', js)
+        self.assertNotIn('MERCADOPAGO_', js)
+        self.assertNotIn('VAVI_CLIENT_SECRET', js)
+        self.assertEqual(source.count('data-vavi-inquiry aria-label='), 1)
+
     def test_checked_in_page_matches_source(self):
         source = PAGE.read_text(encoding='utf-8')
         self.assertEqual(update_page(source, render_catalog(self.data)), source)
