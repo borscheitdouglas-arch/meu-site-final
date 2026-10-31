@@ -10,6 +10,7 @@ on:
       - "pages/admin-pedidos-loja.html"
       - "scripts/salve-regina-inquiry.js"
       - "pages/checkout-salve-regina.html"
+      - "pages/condicoes-da-loja.html"
       - "pages/resultado-pagamento.html"
       - "scripts/resultado-pagamento.js"
       - "styles/checkout-salve-regina.css"
@@ -57,6 +58,16 @@ jobs:
           assert 'mercadopago.com.br' in client
           assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in page+client+store
           assert 'MERCADOPAGO_LIVE_WEBHOOK_SECRET' not in page+client+store
+          policies=Path('pages/condicoes-da-loja.html').read_text(encoding='utf-8')
+          catalog=Path('pages/loja.html').read_text(encoding='utf-8')
+          assert '/pages/condicoes-da-loja.html' in catalog
+          assert '/pages/condicoes-da-loja.html' in page
+          assert 'magister.douglas@gmail.com' in policies
+          assert 'id="trocas-devolucoes"' in policies
+          assert 'id="privacidade"' in policies
+          assert 'antes de habilitar o checkout de produção' in policies
+          assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in policies
+
           result_page=Path('pages/resultado-pagamento.html').read_text(encoding='utf-8')
           result_js=Path('scripts/resultado-pagamento.js').read_text(encoding='utf-8')
           assert 'não comprova pagamento aprovado' in result_page
