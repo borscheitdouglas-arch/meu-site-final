@@ -9,6 +9,7 @@ import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManua
 import {getPrivateLaunchReadiness} from './launch-readiness.js';
 import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.js';
 import {processVaviWebhook} from './vavi-webhook.js';
+import {SALVE_REGINA_VARIANTS,approvedVariant,SALVE_REGINA_SKUS} from './salve-regina-variants.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -83,10 +84,13 @@ export default {
     if (url.pathname === '/api/checkout/live/readiness' && request.method === 'GET') {
       if (!liveCheckoutReady(env)) return json({checkoutEnabled:false},200,cors.headers);
       try {
-        const p=await loadVariant(env.DB,'salve-regina-preta-g');
-        const enabled=Boolean(p && p.product_enabled===1 &&
-          p.product_verified===1 && p.available===1 && p.price_cents===10990);
-        return json({checkoutEnabled:enabled},200,cors.headers);
+        const checked=await Promise.all(SALVE_REGINA_SKUS.map(async sku=>{
+          const p=await loadVariant(env.DB,sku);
+          return p && p.product_enabled===1 && p.product_verified===1 &&
+            p.available===1 && approvedVariant(sku,p.price_cents);
+        }));
+        // Sem todas as 5 variantes aprovadas, não oferecer checkout parcial.
+        return json({checkoutEnabled:checked.every(Boolean)},200,cors.headers);
       } catch {
         return json({checkoutEnabled:false},200,cors.headers);
       }
@@ -269,11 +273,14 @@ export default {
       try {
         const body=JSON.parse(textBody);
         const zipCode=normalizeZip(body?.zipCode);
+        const sku=body?.sku||'salve-regina-preta-g';
+        if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku))
+          throw new CatalogError('invalid_sku','Tamanho da camiseta inválido.',422);
         const options=await simulateVaviShipping(env,zipCode,
-          [{sku:'salve-regina-preta-g',quantity:1}]);
+          [{sku,quantity:1}]);
         // Factory pickup is not a shipping option to the buyer's CEP.
         const delivery=options.filter(x=>!(/retirada|retire|pickup/i.test(x.name)));
-        return json({mode:'preview',sku:'salve-regina-preta-g',zipCode,
+        return json({mode:'preview',sku,zipCode,
           currency:'BRL',options:delivery,checkoutEnabled:false},200,cors.headers);
       }catch(error) {
         if(error instanceof CatalogError)
