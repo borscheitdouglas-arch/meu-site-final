@@ -139,3 +139,37 @@ test('navegador pode fazer preflight do painel sem acessar pedidos sem autoriza�
   const denied=await worker.fetch(new Request('https://example.test/api/internal/live-orders'),env);
   assert.equal(denied.status,401);
 });
+
+test('XG custa R$ 119,90 e o total é calculado no servidor',async()=>{
+  const db={prepare(){return {bind(){return {run:async()=>({meta:{changes:1}})};}}}};
+  const result=await createCheckoutLive({...enabled,DB:db},{
+    ...payload,items:[{sku:'salve-regina-preta-xg',quantity:1}],
+    subtotalCents:1
+  },{
+    loadVariant:async()=>({...variant,sku:'salve-regina-preta-xg',price_cents:11990}),
+    simulateShipping:async()=>quote,
+    encryptDelivery:async()=>({encryptedPayload:'encrypted',iv:'x'.repeat(24)}),
+    insertDraftOrder:async()=>{},
+    storeEncryptedDelivery:async()=>{},
+    createPreference:async input=>{
+      assert.equal(input.order.subtotalCents,11990);
+      assert.equal(input.order.totalCents,13544);
+      return {preferenceId:'fake',checkoutUrl:'https://www.mercadopago.com.br/checkout/start'};
+    }
+  });
+  assert.equal(result.totalCents,13544);
+});
+
+test('XG não pode custar R$ 109,90 no banco durante checkout',async()=>{
+  await assert.rejects(()=>createCheckoutLive(enabled,{
+    ...payload,items:[{sku:'salve-regina-preta-xg',quantity:1}]
+  },{
+    loadVariant:async()=>({...variant,sku:'salve-regina-preta-xg',price_cents:10990})
+  }),{code:'live_price_unapproved'});
+});
+
+test('tamanho não cadastrado é rejeitado antes de cobrar',async()=>{
+  await assert.rejects(()=>createCheckoutLive(enabled,{
+    ...payload,items:[{sku:'salve-regina-preta-xxg',quantity:1}]
+  }),{code:'live_product_unavailable'});
+});
