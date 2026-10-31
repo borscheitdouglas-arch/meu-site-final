@@ -62,7 +62,18 @@ jobs:
           catalog=Path('pages/loja.html').read_text(encoding='utf-8')
           assert '/pages/condicoes-da-loja.html' in catalog
           assert '/pages/condicoes-da-loja.html' in page
-          assert 'magister.douglas@gmail.com' in policies
+          assert 'douglas.assumpcao27@gmail.com' in policies
+          for contact_file in [
+              'pages/contato.html',
+              'pages/loja.html',
+              'pages/condicoes-da-loja.html',
+              'politica-de-privacidade.html',
+              'scripts/salve-regina-inquiry.js',
+          ]:
+              contact_text=Path(contact_file).read_text(encoding='utf-8')
+              assert 'magister.douglas@gmail.com' not in contact_text
+              assert 'douglas.assumpcao27@gmail.com' in contact_text
+          assert 'magister.douglas@gmail.com' not in policies
           assert 'id="trocas-devolucoes"' in policies
           assert 'id="privacidade"' in policies
           assert 'Identificação fiscal em conferência' in policies
