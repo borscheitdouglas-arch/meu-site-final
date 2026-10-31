@@ -7,6 +7,7 @@ on:
       - 'pages/loja.html'
       - 'pages/colecao-salve-regina.html'
       - 'scripts/salve-regina-inquiry.js'
+      - 'scripts/storefront.js'
       - 'styles/store-book.css'
       - 'styles/salve-regina-colecao.css'
       - 'assets/img/loja/Salve-Regina/**'
@@ -22,6 +23,7 @@ on:
       - 'pages/loja.html'
       - 'pages/colecao-salve-regina.html'
       - 'scripts/salve-regina-inquiry.js'
+      - 'scripts/storefront.js'
       - 'styles/store-book.css'
       - 'styles/salve-regina-colecao.css'
       - 'assets/img/loja/Salve-Regina/**'
@@ -37,7 +39,8 @@ permissions:
 
 jobs:
   catalogo:
-    runs-on: ubuntu-latest
+    # Playwright 1.60 não instala Chromium no ubuntu-26.04 (ubuntu-latest atual).
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
