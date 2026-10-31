@@ -34,7 +34,7 @@ def assert_no_overflow(page):
       const issues = [];
       if (document.documentElement.scrollWidth > innerWidth + 1)
         issues.push('page overflow');
-      for (const card of document.querySelectorAll('.atelier-vavi-card, .atelier-product, .product')) {
+      for (const card of document.querySelectorAll('.shop-product-card, .atelier-vavi-card, .atelier-product, .product')) {
         if (card.scrollWidth > card.clientWidth + 2)
           issues.push('clipped product card');
       }
@@ -50,7 +50,7 @@ def main():
     shop_url = base + '/pages/loja.html'
     errors = []
     api_calls = []
-    state = {'shipping_failure': False}
+    state = {'shipping_failure': False, 'checkout_enabled': False}
     screenshots = os.environ.get('STOREFRONT_SCREENSHOT_DIR')
     if screenshots:
         Path(screenshots).mkdir(parents=True, exist_ok=True)
@@ -66,7 +66,7 @@ def main():
         api_calls.append((route.request.method, url.path))
         headers = {'Access-Control-Allow-Origin': '*'}
         if url.path == '/api/checkout/live/readiness':
-            route.fulfill(json={'checkoutEnabled': False}, headers=headers)
+            route.fulfill(json={'checkoutEnabled': state['checkout_enabled']}, headers=headers)
             return
         if url.path == '/api/shipping/preview':
             if state['shipping_failure']:
@@ -104,28 +104,57 @@ def main():
                 page.set_viewport_size({'width': width, 'height': 1000})
                 page.goto(shop_url, wait_until='networkidle')
                 expect(page.get_by_role('heading', level=1)).to_be_visible()
-                expect(page.locator('.atelier-vavi-card')).to_have_count(4)
+                expect(page.locator('.shop-product-card')).to_have_count(4)
                 expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
-                expect(page.locator('.atelier-vavi-card-upcoming')).to_have_count(3)
+                expect(page.locator('.shop-product-card[data-availability="preparation"]')).to_have_count(3)
                 assert_no_overflow(page)
-                expect(page.locator('.atelier-vavi-card-upcoming button')).to_have_count(0)
-                for asset in page.locator('img[srcset]').all():
+                expect(page.locator('.shop-product-card a[href*="checkout"]')).to_have_count(0)
+                boxes = [card.bounding_box() for card in page.locator('.shop-product-card').all()]
+                columns = 4 if width > 1000 else 2 if width > 540 else 1
+                assert sum(abs(box['y'] - boxes[0]['y']) < 2 for box in boxes) == columns
+                if width == 1440:
+                    assert max(box['height'] for box in boxes) - min(box['height'] for box in boxes) < 2
+                    assert page.locator('.shop-hero').bounding_box()['height'] < 470
+                    assert boxes[0]['y'] < 1100, boxes[0]
+                for asset in page.locator('img[srcset]:visible').all():
                     asset.scroll_into_view_if_needed()
                     asset.evaluate('image => image.decode()')
                     assert '/Salve-Regina/web/' in asset.evaluate('image => image.currentSrc')
                     assert asset.evaluate('image => image.naturalWidth > 0')
                 if screenshots and width in [390, 1440]:
                     page.evaluate("document.querySelectorAll('img[loading=lazy]').forEach(img => img.loading='eager')")
-                    for product_image in page.locator('main img').all():
+                    for product_image in page.locator('main img:visible').all():
                         product_image.scroll_into_view_if_needed()
                         product_image.evaluate('image => image.decode()')
                     page.evaluate('window.scrollTo(0, 0)')
-                    page.wait_for_function("[...document.querySelectorAll('main img')].every(img => img.complete && img.naturalWidth > 0)")
                     name = 'loja-mobile.png' if width == 390 else 'loja-desktop.png'
                     page.screenshot(path=str(Path(screenshots) / name), full_page=True)
                     if width == 1440:
                         page.screenshot(path=str(Path(screenshots) / 'loja-hero.png'))
                 print(f'PASS: loja sem overflow em {width}px', flush=True)
+
+            # Busca e filtros locais não substituem preços nem consultam APIs comerciais.
+            page.locator('[data-shop-category="canecas"]').click()
+            expect(page.locator('.shop-product-card:visible')).to_have_count(1)
+            expect(page.locator('#shop-results')).to_have_text('1 produto encontrado')
+            expect(page.locator('#shop-catalog-title')).to_be_focused()
+            expect(page.locator('.atelier-catalog')).to_be_hidden()
+            page.locator('[data-shop-reset]').first.click()
+            page.locator('#shop-query').fill('mistica')
+            page.locator('#shop-query').press('Enter')
+            expect(page.locator('.shop-product-card:visible')).to_have_count(0)
+            expect(page.locator('.atelier-catalog')).to_be_visible()
+            page.locator('#shop-query').fill('inexistente')
+            expect(page.locator('[data-shop-empty]')).to_be_visible()
+            page.locator('[data-shop-empty] [data-shop-reset]').click()
+            page.locator('#shop-availability').select_option('preparation')
+            expect(page.locator('.shop-product-card:visible')).to_have_count(3)
+            page.locator('#shop-availability').select_option('consultation')
+            expect(page.locator('.shop-product-card:visible')).to_have_count(1)
+            expect(page.locator('.shop-price').filter(has_text='R$ 109,90')).to_be_visible()
+            page.locator('[data-shop-reset]').first.click()
+            expect(page.locator('#shop-results')).to_have_text('5 produtos encontrados')
+            print('PASS: categorias, busca sem acentos, filtros e estado vazio', flush=True)
 
             # A compra do livro permanece externa, com preço e entrega da loja parceira.
             retailers = page.locator('.atelier-product .atelier-buy')
@@ -154,6 +183,11 @@ def main():
             expect(faq).not_to_have_attribute('open', '')
 
             # Fluxo de consulta com frete simulado: não gera pedido nem cobrança.
+            action = page.locator('[data-category="camisetas"] .shop-product-action')
+            action.focus()
+            page.keyboard.press('Enter')
+            expect(page.locator('#produto-camiseta')).to_have_attribute('open', '')
+            expect(page.locator('#produto-camiseta summary')).to_be_focused()
             zip_input = page.get_by_label('CEP de entrega', exact=True)
             zip_input.fill('01001-000')
             page.get_by_role('button', name='Consultar frete e preparar pedido').click()
@@ -173,6 +207,9 @@ def main():
             for width in [320, 390, 768, 1440]:
                 page.set_viewport_size({'width': width, 'height': 1000})
                 assert_no_overflow(page)
+                if screenshots and width in [390, 1440]:
+                    page.locator('#produto-camiseta').screenshot(path=str(
+                        Path(screenshots) / f'consulta-{width}.png'))
 
             # Editar o CEP invalida preço, opções e mensagem anteriores.
             zip_input.fill('20040-020')
@@ -194,6 +231,18 @@ def main():
             expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
             print('PASS: frete, total, seleção, e-mail e fallback sem cobrança', flush=True)
 
+            page.goto(shop_url + '#produto-caneca', wait_until='networkidle')
+            expect(page.locator('#produto-caneca')).to_have_attribute('open', '')
+            expect(page.locator('#produto-caneca')).to_contain_text('Compra indisponível')
+            # Exercita somente o contrato existente, com resposta local simulada.
+            state['checkout_enabled'] = True
+            page.goto(shop_url + '#produto-camiseta', wait_until='networkidle')
+            expect(page.locator('#produto-camiseta .atelier-vavi-live-link')).to_have_count(1)
+            state['checkout_enabled'] = False
+            page.reload(wait_until='networkidle')
+            expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
+            print('PASS: detalhes por URL e controle de disponibilidade preservado', flush=True)
+
             for name, path in [('Condições da loja', '/pages/condicoes-da-loja.html'),
                                ('Privacidade', '/politica-de-privacidade.html')]:
                 page.goto(shop_url, wait_until='networkidle')
@@ -208,6 +257,9 @@ def main():
             plain_context.route('**/*', route_request)
             plain = plain_context.new_page()
             plain.goto(shop_url, wait_until='networkidle')
+            expect(plain.locator('[data-shop-search]')).to_be_hidden()
+            expect(plain.locator('.shop-product-card:visible')).to_have_count(4)
+            plain.locator('#produto-camiseta summary').click()
             expect(plain.get_by_role('button', name='Consultar frete e preparar pedido')).to_be_disabled()
             expect(plain.locator('noscript a')).to_be_visible()
             expect(plain.locator('noscript a')).to_have_attribute('href', 'mailto:' + EMAIL)
