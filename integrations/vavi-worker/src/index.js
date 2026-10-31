@@ -84,7 +84,9 @@ export default {
     // Administrative fulfillment: authenticated only; addresses are decrypted on
     // demand for a verified PAID production order, not from browser callbacks.
     if ((url.pathname === '/api/internal/live-orders' ||
-      /^\\/api\\/internal\\/live-orders\\/ord_[a-f0-9]{32}$/.test(url.pathname)) &&
+      (url.pathname.startsWith('/api/internal/live-orders/') &&
+        /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length)))) &&
+
       request.method === 'GET') {
       if (!(await authorizedLiveAdmin(request,env)))
         return json({error:'unauthorized'},401);
