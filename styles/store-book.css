@@ -138,3 +138,12 @@ body.bookshop-page .site-footer { background: #151715b3; }
 .atelier .atelier-vavi-inquiry-actions button { background: transparent; color: #e7d4a6; }
 .atelier .atelier-vavi-inquiry button:focus-visible, .atelier .atelier-vavi-inquiry input:focus-visible, .atelier .atelier-vavi-inquiry a:focus-visible { outline: 2px solid #fff5c9; outline-offset: 2px; }
 @media(max-width: 400px) { .atelier-vavi-inquiry-line { flex-direction: column; } .atelier-vavi-inquiry-line > * { width: 100%; } }
+
+/* Opções de frete da VAVI para uma unidade de camiseta G; consulta, não cobrança. */
+.atelier .atelier-vavi-shipping-panel { padding: 13px 10px; margin: 12px 0; border: 1px solid #b8a0736b; border-radius: 7px; background: #242d22; }
+.atelier .atelier-vavi-shipping-panel[hidden] { display: none; }
+.atelier .atelier-vavi-shipping-panel p { margin: 0 0 10px; font: 13px/1.5 'Inter', sans-serif; color: #e8dcc0; }
+.atelier-vavi-shipping-choice { display: flex !important; align-items: center; gap: 10px; padding: 11px 3px; border-top: 1px solid #b8a0734a; cursor: pointer; }
+.atelier .atelier-vavi-shipping-choice input { min-height: initial; min-width: initial; flex: none; margin: 0; width: 17px; height: 17px; accent-color: #d2b575; }
+.atelier .atelier-vavi-shipping-choice span { flex:1; font: 12px/1.6 'Inter', sans-serif; color: #e9e5dc; }
+.atelier .atelier-vavi-shipping-panel .atelier-vavi-total { color: #ecd8a3; font-weight: 700; margin: 10px 0 0; }
