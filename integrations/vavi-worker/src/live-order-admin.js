@@ -16,19 +16,25 @@ export async function authorizedLiveAdmin(request,env) {
 }
 export async function listLivePaidOrders(env) {
   if(!env.DB)throw new CatalogError('database_not_configured','Banco indisponível.',503);
-  const res=await env.DB.prepare(`SELECT id,status,subtotal_cents,shipping_cents,
-    total_cents,shipping_option_id,destination_zip,vavi_order_id,created_at,updated_at
-    FROM store_orders WHERE payment_environment='live' AND
-    status IN ('paid','manual_review','vavi_draft','in_production','shipped')
-    ORDER BY created_at DESC LIMIT 50`).all();
+  const res=await env.DB.prepare(`SELECT o.id,o.status,o.subtotal_cents,o.shipping_cents,
+    o.total_cents,o.shipping_option_id,o.destination_zip,o.vavi_order_id,
+    o.created_at,o.updated_at,
+    q.state AS vavi_draft_state,q.vavi_draft_id
+    FROM store_orders o
+    LEFT JOIN store_vavi_draft_dispatch q ON q.order_id=o.id
+    WHERE o.payment_environment='live' AND
+    o.status IN ('paid','manual_review','vavi_draft','in_production','shipped')
+    ORDER BY o.created_at DESC LIMIT 50`).all();
   return {orders:res.results||[]};
 }
 export async function getLivePaidDelivery(env,id) {
   if(!/^ord_[a-f0-9]{32}$/.test(id||''))
     throw new CatalogError('invalid_order_id','Pedido inválido.',400);
-  const order=await env.DB.prepare(`SELECT id,status,shipping_option_id,total_cents,vavi_order_id,
-    destination_zip FROM store_orders WHERE id=? AND payment_environment='live'
-    AND status IN ('paid','manual_review','vavi_draft','in_production','shipped')`)
+  const order=await env.DB.prepare(`SELECT o.id,o.status,o.shipping_option_id,o.total_cents,o.vavi_order_id,
+    o.destination_zip,q.state AS vavi_draft_state,q.vavi_draft_id
+    FROM store_orders o LEFT JOIN store_vavi_draft_dispatch q ON q.order_id=o.id
+    WHERE o.id=? AND o.payment_environment='live'
+    AND o.status IN ('paid','manual_review','vavi_draft','in_production','shipped')`)
     .bind(id).first();
   if(!order)throw new CatalogError('order_not_found','Pedido pago não encontrado.',404);
   const encrypted=await env.DB.prepare(`SELECT encrypted_payload,iv
