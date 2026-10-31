@@ -69,6 +69,7 @@
       optionsContainer.replaceChildren();
       estimatedTotal.textContent = '';
     }
+    optionsContainer.addEventListener('change', buildMessage);
     zipInput.addEventListener('input', () => {
       clearQuote();
       status.textContent = '';
@@ -98,6 +99,7 @@
         });
         if (!response.ok) throw new Error('shipping_unavailable');
         const data = await response.json();
+        if (zipInput.value.replace(/\\D/g, '') !== zip) return;
         if (data?.zipCode !== zip || !Array.isArray(data.options)) {
           throw new Error('shipping_invalid');
         }
@@ -130,7 +132,7 @@
             optionsContainer.append(label);
           }
           shippingPanel.hidden = false;
-          optionsContainer.addEventListener('change', buildMessage, {once:false});
+
           status.textContent = 'Cotação exibida. A fabricação acrescenta normalmente 3 a 5 dias úteis. O valor final será confirmado antes de cobrar.';
         } else {
           status.textContent = 'Sem opções de frete para este CEP. Você ainda pode solicitar a cotação manualmente.';
@@ -138,8 +140,10 @@
       } catch {
         status.textContent = 'Frete automático indisponível no momento. A solicitação será enviada para cotação manual, sem cobrança.';
       } finally {
-        buildMessage();
-        result.hidden = false;
+        if (zipInput.value.replace(/\\D/g, '') === zip) {
+          buildMessage();
+          result.hidden = false;
+        }
         submit.disabled = false;
       }
     });
