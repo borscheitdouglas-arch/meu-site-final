@@ -30,14 +30,17 @@
 ## Pré-requisitos ANTES de habilitar
 
 1. Aplicar a migração `0009_vavi_draft_dispatch.sql` no D1 remoto.
-2. Confirmar pela documentação oficial que a credencial de integração
-   `pb_...` utiliza autenticação Bearer no endpoint
-   `POST https://api.printbee.com.br/api/Customers/Integrations/Orders`,
-   com resposta HTTP 202 e `data.draftId`, e possui deduplicação por `code`.
-   Não confundir com `VAVI_CLIENT_ID` / `VAVI_CLIENT_SECRET`, usados no frete.
-3. Armazenar a credencial apropriada **somente** como secret privado
-   `VAVI_INTEGRATION_API_KEY` no Cloudflare. Não inserir chave no GitHub,
-   VS Code compartilhado ou navegador público.
+2. Autenticação conferida no arquivo OpenAPI oficial da VAVI fornecido pelo
+   proprietário: o Client ID `pb_...` e o Client Secret solicitam o token
+   Bearer via `POST /api/Auth/Token` com `grantType=client_credentials`
+   e `expires=1`. O sistema reutiliza os secrets privados existentes
+   `VAVI_CLIENT_ID` e `VAVI_CLIENT_SECRET` para esse processo.
+3. **Não** criar o secret `VAVI_INTEGRATION_API_KEY`: esse nome era baseado
+   em uma interpretação equivocada; o `pb_...` não é um access token.
+   O Worker deve obter o JWT de curta duração e usá-lo no endpoint de
+   pedidos. Ainda é necessário conferir na documentação separada de pedidos
+   que `POST /api/Customers/Integrations/Orders` aceita o mesmo tipo de token
+   e que o Client ID possui autorização para criar rascunhos.
 4. Confirmar o contrato específico do produto/estampa na VAVI e o processo
    financeiro para pagar a produção. Validar em homologação, se disponível,
    antes de envio de cliente real.
@@ -53,7 +56,7 @@
 
 - Código e testes preparados.
 - Migração criada, mas ativação da integração **não efetuada**.
-- `VAVI_INTEGRATION_API_KEY` e `VAVI_AUTO_DRAFT_ENABLED` não são configurados
-  por este PR, nem pelo processo de publicação.
+- O Client ID e o Client Secret já existiam como secrets privados do Worker;
+  seus valores não foram acessados. `VAVI_AUTO_DRAFT_ENABLED` continua ausente/false.
 - Não há teste real ponta a ponta com Mercado Pago e VAVI.
 - O checkout real permanece desativado.

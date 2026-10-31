@@ -13,7 +13,8 @@ const buyer={name:'Cliente Teste',email:'cliente@example.test',
 const active={
   VAVI_AUTO_DRAFT_ENABLED:'true',LIVE_WEBHOOK_ENABLED:'true',
   LIVE_PRODUCT_APPROVED:'true',LIVE_POLICY_APPROVED:'true',
-  VAVI_INTEGRATION_API_KEY:'pb_fake-api-key-for-tests',
+  VAVI_CLIENT_ID:'pb_fake-client-id',
+  VAVI_CLIENT_SECRET:'fake-client-secret',
   DELIVERY_ENCRYPTION_KEY_B64:key
 };
 function setup(encrypted) {
@@ -83,7 +84,7 @@ test('pagamento previamente aprovado cria um único rascunho e registra ID',asyn
   const m=setup({encrypted_payload:encrypted.encryptedPayload,iv:encrypted.iv});
   const env={...active,DB:m.db};
   assert.equal((await enqueuePaidVaviDraft(env,ID)).queued,true);
-  const first=await dispatchVaviDraft(env,ID,m.send);
+  const first=await dispatchVaviDraft(env,ID,m.send,async()=> 'fake-short-lived-jwt');
   assert.deepEqual(first,{sent:true,orderId:ID,draftId:'DRAFT-001'});
   assert.equal(m.state(),'submitted');
   assert.equal(m.vaviId(),'DRAFT-001');
@@ -96,15 +97,17 @@ test('timeout de VAVI gera revisão manual, sem repetição automática',async()
   const encrypted=await encryptDelivery(ID,buyer,key);
   const m=setup({encrypted_payload:encrypted.encryptedPayload,iv:encrypted.iv});
   const env={...active,DB:m.db};
-  const first=await dispatchVaviDraft(env,ID,async()=>{throw Error('network timeout')});
+  const first=await dispatchVaviDraft(env,ID,async()=>{throw Error('network timeout')},
+    async()=> 'fake-short-lived-jwt');
   assert.equal(first.reason,'needs_review');
   assert.equal(m.state(),'needs_review');
-  assert.equal((await dispatchVaviDraft(env,ID,m.send)).reason,'already_claimed');
+  assert.equal((await dispatchVaviDraft(env,ID,m.send,
+    async()=> 'fake-short-lived-jwt')).reason,'already_claimed');
   assert.equal(m.sends(),0);
 });
 
 test('pedido inválido é recusado antes do envio',async()=>{
   const env={...active,DB:{prepare(){throw Error('should not query')}}};
   await assert.rejects(()=>enqueuePaidVaviDraft(env,'bad'),{code:'invalid_order_id'});
-  await assert.rejects(()=>dispatchVaviDraft(env,'bad'),{code:'invalid_order_id'});
+  await assert.rejects(()=>dispatchVaviDraft(env,'bad',undefined,async()=> 'fake-short-lived-jwt'),{code:'invalid_order_id'});
 });

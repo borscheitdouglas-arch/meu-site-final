@@ -2,6 +2,7 @@ import {CatalogError} from './catalog.js';
 import {decryptDelivery} from './delivery-repository.js';
 import {buildVaviIntegrationOrder} from './vavi-order-contract.js';
 import {createVaviDraft} from './vavi-draft-client.js';
+import {obtainVaviAccessToken} from './vavi-auth.js';
 
 const ID=/^ord_[a-f0-9]{32}$/;
 const LIMIT=3;
@@ -17,8 +18,8 @@ export function vaviAutoDraftReady(env) {
     env?.LIVE_WEBHOOK_ENABLED==='true' &&
     env?.LIVE_PRODUCT_APPROVED==='true' &&
     env?.LIVE_POLICY_APPROVED==='true' &&
-    typeof env?.VAVI_INTEGRATION_API_KEY==='string' &&
-    env.VAVI_INTEGRATION_API_KEY.length>=20 &&
+    typeof env?.VAVI_CLIENT_ID==='string' && env.VAVI_CLIENT_ID.length>0 &&
+    typeof env?.VAVI_CLIENT_SECRET==='string' && env.VAVI_CLIENT_SECRET.length>0 &&
     Boolean(env.DB?.prepare && env.DELIVERY_ENCRYPTION_KEY_B64);
 }
 
@@ -35,7 +36,8 @@ export async function enqueuePaidVaviDraft(env,orderId) {
 }
 
 /** Cada pedido tem uma única tentativa automática. Sem retry cego após timeout. */
-export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft) {
+export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft,
+  authenticate=obtainVaviAccessToken) {
   if(!vaviAutoDraftReady(env))return {sent:false,reason:'disabled'};
   if(!ID.test(orderId||''))throw new CatalogError('invalid_order_id','Pedido inválido.',400);
   const claim=await env.DB.prepare(`UPDATE store_vavi_draft_dispatch
@@ -73,8 +75,11 @@ export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft) {
         mpPaymentId:order.mp_payment_id,destinationZip:order.destination_zip},
       buyer,items
     });
+    // O token é obtido apenas no backend usando as credenciais já presentes.
+    // Em testes, a credencial também é simulada; nunca expor esse valor.
+    const accessToken=await authenticate(env);
     const accepted=await sendDraft({
-      payload,accessToken:env.VAVI_INTEGRATION_API_KEY,
+      payload,accessToken,
       approvedPayment:{orderId,status:'paid'}
     });
     const returned=accepted?.response?.data;
