@@ -20,9 +20,13 @@
   const launchChecks=document.getElementById('launch-checks');
   const launchValidation=document.getElementById('launch-validation');
   const refreshLaunch=document.getElementById('refresh-launch');
+  const launchShippingForm=document.getElementById('launch-shipping-form');
+  const launchZip=document.getElementById('launch-zip');
+  const launchShippingResult=document.getElementById('launch-shipping-result');
   if(![form,input,status,listPanel,list,detailPanel,detail,copy,hide,clear,
       registerPanel,registerForm,vaviIdInput,registerStatus,
-      launchPanel,launchChecks,launchValidation,refreshLaunch].every(Boolean))return;
+      launchPanel,launchChecks,launchValidation,refreshLaunch,
+      launchShippingForm,launchZip,launchShippingResult].every(Boolean))return;
 
   let adminKey='';
   let currentAddress='';
@@ -44,6 +48,8 @@
     launchChecks.replaceChildren();
     launchValidation.replaceChildren();
     launchPanel.hidden=true;
+    launchZip.value='';
+    launchShippingResult.replaceChildren();
     clearDetails();
     status.textContent='Acesso local encerrado.';
   }
@@ -110,6 +116,43 @@
     }finally{refreshLaunch.disabled=false;}
   }
   refreshLaunch.addEventListener('click',reloadLaunch);
+  launchShippingForm.addEventListener('submit',async event=>{
+    event.preventDefault();
+    const zip=launchZip.value.replace(/\D/g,'');
+    launchShippingResult.replaceChildren();
+    if(!/^\d{8}$/.test(zip)){
+      launchShippingResult.append(text('p','Informe oito dígitos de CEP.'));
+      return;
+    }
+    const button=launchShippingForm.querySelector('button[type="submit"]');
+    button.disabled=true;
+    launchShippingResult.append(text('p','Consultando a transportadora VAVI...'));
+    try{
+      const data=await request('/api/internal/launch/shipping-check',{
+        method:'POST',body:{zipCode:zip}
+      });
+      launchShippingResult.replaceChildren();
+      if(!Array.isArray(data.options)||data.checkoutEnabled!==false||
+          data.createsPayment!==false||data.createsVaviOrder!==false)
+        throw new Error('invalid_diagnostic');
+      if(!data.options.length){
+        launchShippingResult.append(text('p','Nenhuma opção de entrega disponível para esse CEP.'));
+        return;
+      }
+      launchShippingResult.append(text('p','Resultado de frete para uma camiseta G. Nenhuma compra foi criada.'));
+      for(const option of data.options){
+        if(typeof option.name!=='string'||!Number.isFinite(option.shippingCost)||
+            !Number.isInteger(option.deliveryTime))continue;
+        const line=option.name+' — '+money(Math.round(option.shippingCost*100))+
+          ' · transporte '+option.deliveryTime+' dia(s) (sem fabricação)';
+        launchShippingResult.append(text('p',line));
+      }
+    }catch{
+      launchShippingResult.replaceChildren();
+      launchShippingResult.append(text('p','Cotação não confirmada. Verifique o produto e a configuração da VAVI antes de liberar vendas.','warning'));
+    }finally{button.disabled=false;}
+  });
+
   function formatAddress(data){
     const b=data?.buyer, o=data?.order;
     if(!b||!o||!/^ord_[0-9a-f]{32}$/.test(o.id||''))throw new Error('invalid_order');
