@@ -8,7 +8,7 @@
   const format=cents=>new Intl.NumberFormat('pt-BR',{
     style:'currency',currency:'BRL'
   }).format(cents/100);
-  const normalize=value=>String(value||'').replace(/\\D/g,'');
+  const normalize=value=>String(value||'').replace(/\D/g,'');
   const prices={P:10990,M:10990,G:10990,GG:10990,XG:11990};
   const skuForSize=size=>'salve-regina-preta-'+size.toLowerCase();
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
