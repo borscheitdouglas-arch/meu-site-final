@@ -99,7 +99,7 @@
         });
         if (!response.ok) throw new Error('shipping_unavailable');
         const data = await response.json();
-        if (zipInput.value.replace(/\\D/g, '') !== zip) return;
+        if (zipInput.value.replace(/\D/g, '') !== zip) return;
         if (data?.zipCode !== zip || !Array.isArray(data.options)) {
           throw new Error('shipping_invalid');
         }
@@ -140,7 +140,7 @@
       } catch {
         status.textContent = 'Frete automático indisponível no momento. A solicitação será enviada para cotação manual, sem cobrança.';
       } finally {
-        if (zipInput.value.replace(/\\D/g, '') === zip) {
+        if (zipInput.value.replace(/\D/g, '') === zip) {
           buildMessage();
           result.hidden = false;
         }
