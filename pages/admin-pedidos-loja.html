@@ -21,7 +21,7 @@
  .address{white-space:pre-wrap;overflow-wrap:anywhere;background:#202820;border:1px solid #a28b5b44;border-radius:5px;padding:18px;margin:12px 0}
  .warning{color:#eac596}.hidden,[hidden]{display:none!important}
  </style>
- <script src="/scripts/admin-pedidos-loja.js?v=20261031" defer></script>
+ <script src="/scripts/admin-pedidos-loja.js?v=20261031b" defer></script>
 </head>
 <body>
 <header><a href="/pages/loja.html">← Loja Douglas Assumpção</a></header>
@@ -39,6 +39,14 @@
    <button type="button" id="clear-admin">Limpar acesso</button>
   </form>
   <p id="admin-status" role="status" aria-live="polite"></p>
+ </section>
+ <section id="launch-panel" hidden>
+  <h2>Preparação para abrir as vendas</h2>
+  <p class="muted">Esta verificação é somente informativa e não habilita pagamentos. Credenciais configuradas não comprovam cotação nem compra testada.</p>
+  <div id="launch-checks" aria-live="polite"></div>
+  <h3>Conferências antes da primeira cobrança</h3>
+  <div id="launch-validation"></div>
+  <button type="button" id="refresh-launch">Atualizar conferência</button>
  </section>
  <section id="orders-panel" hidden>
   <h2>Pedidos aguardando atendimento</h2>

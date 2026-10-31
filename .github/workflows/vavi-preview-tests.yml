@@ -97,6 +97,9 @@ jobs:
           assert 'document.getElementById' in admin
           assert "window.confirm" in admin
           assert "textContent" in admin
+          assert '/api/internal/launch-readiness' in admin
+          assert 'renderLaunch' in admin
+          assert 'id="launch-panel"' in Path('pages/admin-pedidos-loja.html').read_text(encoding='utf-8')
           PY
       - name: Validar JSON do catálogo
         run: python3 -m json.tool data/vavi-catalogo.json > /dev/null
