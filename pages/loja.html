@@ -27,7 +27,7 @@
       "description": "Livros, partituras e peças autorais de Douglas Assumpção."
     }
   </script>
-<link href="../styles/site-editorial.css" rel="stylesheet"/><link href="../styles/store-book.css?v=20261030-consulta-assistida" rel="stylesheet"/></head>
+<link href="../styles/site-editorial.css" rel="stylesheet"/><link href="../styles/store-book.css?v=20261030-frete" rel="stylesheet"/></head>
 <body class="site-editorial bookshop-page"><a class="editorial-skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
 <button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
@@ -227,14 +227,18 @@
 
    <form class="atelier-vavi-inquiry" data-vavi-inquiry aria-label="Solicitar Camiseta Salve Regina tamanho G">
     <h4>Solicite a camiseta tamanho G</h4>
-    <p>Informe seu CEP para consultar disponibilidade e frete. Confirmaremos a produção, o prazo e o valor total <strong>antes</strong> de enviar um link de pagamento do Mercado Pago. Nenhuma cobrança ocorre aqui.</p>
+    <p>Informe seu CEP para conferir as opções de frete disponíveis. Confirmaremos a produção, o prazo e o valor total <strong>antes</strong> de enviar um link de pagamento do Mercado Pago. Nenhuma cobrança ocorre aqui.</p>
     <label for="vavi-inquiry-zip">CEP de entrega</label>
     <div class="atelier-vavi-inquiry-line">
      <input id="vavi-inquiry-zip" name="zipCode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" required pattern="[0-9]{5}-?[0-9]{3}" aria-describedby="vavi-inquiry-hint">
-     <button type="submit">Preparar solicitação</button>
+     <button type="submit">Consultar frete e preparar pedido</button>
     </div>
     <p class="atelier-vavi-hint" id="vavi-inquiry-hint">1 camiseta preta, tamanho G. Não informe endereço completo nesta etapa.</p>
     <p data-vavi-inquiry-status role="status" aria-live="polite"></p>
+    <div data-vavi-shipping-panel class="atelier-vavi-shipping-panel" hidden>
+      <div data-vavi-shipping-options></div>
+      <p data-vavi-total class="atelier-vavi-total"></p>
+    </div>
     <div class="atelier-vavi-inquiry-result" data-vavi-inquiry-result hidden>
      <label for="vavi-inquiry-message">Mensagem para enviar</label>
      <textarea id="vavi-inquiry-message" data-vavi-inquiry-message readonly rows="8"></textarea>
@@ -283,6 +287,6 @@
 </footer>
 <script src="../scripts/script.js?v=20261005-menu-adornos"></script>
 
-<script src="../scripts/salve-regina-inquiry.js?v=20261030-assistido" defer></script>
+<script src="../scripts/salve-regina-inquiry.js?v=20261030-frete" defer></script>
 <script src="../scripts/site-editorial.js?v=menu-elegante-2"></script></body>
 </html>
