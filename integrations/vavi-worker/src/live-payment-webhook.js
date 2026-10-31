@@ -2,6 +2,7 @@ import {CatalogError} from './catalog.js';
 import {verifyWebhookSignature} from './payment-verification.js';
 import {validateConfirmedPayment} from './order-state.js';
 import {recordVerifiedPayment} from './payment-repository.js';
+import {enqueuePaidVaviDraft} from './vavi-auto-draft.js';
 
 const MP_API='https://api.mercadopago.com';
 const PAYMENT_ID=/^\d{1,30}$/;
@@ -50,5 +51,9 @@ export async function processLivePaymentWebhook({request,env,fetchImpl=fetch}) {
     throw new CatalogError('payment_order_conflict','Pedido de produção não encontrado.',409);
   if(payment.status!=='approved')return {processed:false,status:'not_approved'};
   const verified=validateConfirmedPayment(order,payment);
-  return recordVerifiedPayment(env.DB,verified,'mp:live:payment:'+id);
+  const result=await recordVerifiedPayment(env.DB,verified,'mp:live:payment:'+id);
+  // Apenas depois do pagamento persistido. Operação idempotente na D1.
+  const queue=await enqueuePaidVaviDraft(env,result.orderId);
+  return {...result,vaviQueued:queue.queued};
+
 }
