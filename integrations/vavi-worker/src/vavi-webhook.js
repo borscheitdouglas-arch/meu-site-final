@@ -96,8 +96,11 @@ export async function processVaviWebhook({request,env,now=Date.now()}) {
       WHERE vavi_draft_id=? AND state='submitted'`).bind(draftId));
   } else {
     const details=type==='order.tracking'?data.tracking||{}:{};
-    const status=sanitizedText(data.newStatus||data.status,50);
-    const nsu=sanitizedText(data.orderNSU,40);
+    // VAVI uses PascalCase for status_changed and uppercase for tracking.
+    const status=sanitizedText(type==='order.tracking'
+      ? (details.orderStatus || data.status)
+      : data.newStatus,50);
+    const nsu=sanitizedText(data.orderNSU || details.orderNSU,40);
     const code=sanitizedText(details.trackingCode,120);
     const url=sanitizedText(details.trackingUrl,400);
     // Reject unsafe links rather than store untrusted arbitrary URLs.
