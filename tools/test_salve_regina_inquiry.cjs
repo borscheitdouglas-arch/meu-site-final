@@ -124,12 +124,15 @@ test('valid quote sorts options, keeps price and updates totals on selection', a
   const pending = ui.form.emit('submit');
   assert.equal(ui.submit.disabled, true);
   assert.equal(ui.options.getAttribute('aria-busy'), 'true');
-  assert.deepEqual(JSON.parse(ui.requests[0].options.body), {zipCode: '01310100'});
+  assert.deepEqual(JSON.parse(ui.requests[0].options.body), {
+    zipCode: '01310100', sku: 'salve-regina-preta-g'
+  });
   ui.reply(ui.requests[0], {zipCode: '01310100', options: [quote('a', 25), quote('b', 18.50)]});
   await pending;
   assert.equal(ui.panel.hidden, false);
   assert.equal(ui.options.getAttribute('role'), 'radiogroup');
   assert.match(ui.message.value, /Total estimado: R\$\s128,40/);
+  assert.match(ui.message.value, /Tamanho: G/);
   assert.match(ui.message.value, /Nenhum pedido ou pagamento foi realizado/);
   assert.ok(ui.email.href.startsWith('mailto:douglas.assumpcao27@gmail.com?'));
   const radios = ui.options.children.flatMap(element => element.children).filter(element => element.type === 'radio');
