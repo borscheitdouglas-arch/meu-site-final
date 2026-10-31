@@ -147,3 +147,9 @@ body.bookshop-page .site-footer { background: #151715b3; }
 .atelier .atelier-vavi-shipping-choice input { min-height: initial; min-width: initial; flex: none; margin: 0; width: 17px; height: 17px; accent-color: #d2b575; }
 .atelier .atelier-vavi-shipping-choice span { flex:1; font: 12px/1.6 'Inter', sans-serif; color: #e9e5dc; }
 .atelier .atelier-vavi-shipping-panel .atelier-vavi-total { color: #ecd8a3; font-weight: 700; margin: 10px 0 0; }
+
+/* A camiseta aparece primeiro na chamada da loja; livros preservados na mesma página. */
+.atelier-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 19px; }
+.atelier .atelier-hero-actions .atelier-hero-secondary { margin-top: 24px; color: #ead6ad; font: 600 13px/1.5 'Inter', sans-serif; border-bottom: 1px solid #cdb27680; padding: 12px 0; text-decoration: none; }
+.atelier .atelier-hero-actions .atelier-hero-secondary:hover { color: #fff5db; border-color: #fff5db; }
+@media(max-width: 700px) { .atelier-hero-actions { align-items: stretch; flex-direction: column; gap: 8px; } .atelier .atelier-hero-actions .atelier-hero-secondary { align-self: flex-start; margin-top: 4px; } }
