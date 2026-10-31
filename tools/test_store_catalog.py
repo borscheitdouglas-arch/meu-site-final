@@ -138,7 +138,7 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertNotIn('MERCADOPAGO_TEST_ACCESS_TOKEN', source)
         self.assertNotIn('CHECKOUT_TEST_API_KEY', source)
         self.assertNotIn('/api/checkout/test', source)
-        self.assertEqual(source.count('Em preparação · Compra indisponível'), 2)
+        self.assertEqual(source.count('Em preparação · Compra indisponível'), 3)
         self.assertIn('Preço preliminar: R$ 109,90 + frete', source)
 
 

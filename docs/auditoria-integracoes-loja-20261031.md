@@ -111,3 +111,22 @@ As capas do catálogo passam a carregar sob demanda, pois agora aparecem abaixo 
 - `git diff --check`: aprovado.
 
 Node 22.18.0 já disponível no computador; Playwright 1.60.0 e Chromium instalados somente em diretório temporário para QA. O workflow declara suas próprias dependências de teste. Não foram executados pagamento real, API privada de produção, deploy, migração de banco ou publicação na `main`. Homologação externa e testes em outros motores de navegador continuam pendentes.
+
+## Atualização: imagens fornecidas para a coleção
+
+As quatro imagens em `assets/img/loja/Salve-Regina/` foram integradas à loja e à página da coleção, com ampliação em nova aba e identificação de apresentação ilustrativa. Os PNGs originais foram preservados. O banner apresenta a coleção; camiseta mostra frente/costas; caneca mostra as duas faces; ecobag aparece apenas como futura peça, sem SKU, preço, frete próprio ou compra habilitada. O moletom existente foi mantido.
+
+Foram exportadas **12 cópias WebP** em `assets/img/loja/Salve-Regina/web/`: três larguras por imagem, sem recorte ou alteração criativa. `srcset`/`sizes` permitem escolher a resolução conforme a tela. O banner da página da coleção tem prioridade de carregamento; as imagens abaixo da abertura usam lazy loading.
+
+A soma dos quatro PNGs é **9.714.024 bytes**; as quatro versões WebP nas dimensões originais somam **1.016.672 bytes** (**89,5% menores**). Esses números se referem aos arquivos, não ao peso total da página. Versões menores variam de aproximadamente 38 a 159 KB. A exportação é reproduzível com `python3 tools/optimize_salve_regina_images.py`, usando o Playwright/Chromium dos testes, sem acesso à rede.
+
+Arquivos desta atualização:
+
+- `pages/loja.html` e `pages/colecao-salve-regina.html`: imagens, ampliação, ecobag em preparação e links legais na coleção.
+- `styles/store-book.css` e `styles/salve-regina-colecao.css`: proporções integrais e distribuição responsiva dos produtos.
+- `tools/optimize_salve_regina_images.py`: exportação das imagens para WebP.
+- `tools/test_store_catalog.py` e `tools/test_storefront.py`: regressão dos quatro cards, imagens responsivas e bloqueio de compras dos três produtos em preparação.
+- `.github/workflows/loja-catalogo-check.yml`: inclui alterações nas imagens e no CSS da coleção nos gatilhos.
+- Esta documentação e os quatro PNGs fornecidos com suas 12 cópias WebP.
+
+Validações desta etapa: 14 testes de catálogo, 11 testes de consulta assistida, 8 testes de sitemap, geradores `--check`, loja/coleção em Chromium nas larguras 320/390/768/1440, imagens decodificadas e capturas inspecionadas. A suíte existente de cards também foi executada nas 19 páginas/quatro larguras. Frete e serviços externos foram simulados/bloqueados. Nenhuma mudança em backend, credenciais, preço da camiseta, dados do catálogo comercial, produção ou pagamentos. Homologação comercial e publicação continuam pendentes conforme as restrições do projeto.

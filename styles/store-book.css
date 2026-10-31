@@ -228,3 +228,20 @@ body.bookshop-page .site-footer { margin-top: 0; padding: 24px 20px; border-colo
   html.editorial-root { scroll-behavior: auto; }
   .atelier *, .atelier *::before, .atelier *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Apresentações fornecidas pelo autor: imagens completas, sem cortar as estampas. */
+.atelier-collection-banner { margin-bottom: 32px !important; }
+.atelier-banner-link, .atelier-vavi-image .product-image-link { display: block; }
+.atelier-banner-link img { display: block; width: 100%; height: auto; aspect-ratio: 1672 / 941; border: 1px solid var(--shop-line); border-radius: 4px; }
+.atelier-collection-banner figcaption { margin-top: 10px; color: var(--shop-muted); font: 11px/1.7 'Inter', sans-serif; }
+.atelier-vavi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.atelier-featured-image > a { width: 100%; max-width: none; margin: 0; }
+.atelier-featured-image img { aspect-ratio: 1; max-height: none; height: auto; object-fit: contain; }
+.atelier-featured-image figcaption { padding: 12px 16px; }
+.atelier-vavi-card-upcoming { display: flex; }
+.atelier-vavi-card-upcoming .atelier-vavi-image img { aspect-ratio: 1; max-height: none; object-fit: contain; }
+.atelier-vavi-image > a:focus-visible, .atelier-banner-link:focus-visible { outline-offset: -5px; }
+@media (max-width: 767px) {
+ .atelier-vavi-grid { grid-template-columns: 1fr; }
+ .atelier-vavi-card-upcoming .atelier-vavi-image img { max-height: 440px; }
+}

@@ -34,7 +34,7 @@ def assert_no_overflow(page):
       const issues = [];
       if (document.documentElement.scrollWidth > innerWidth + 1)
         issues.push('page overflow');
-      for (const card of document.querySelectorAll('.atelier-vavi-card, .atelier-product')) {
+      for (const card of document.querySelectorAll('.atelier-vavi-card, .atelier-product, .product')) {
         if (card.scrollWidth > card.clientWidth + 2)
           issues.push('clipped product card');
       }
@@ -104,10 +104,16 @@ def main():
                 page.set_viewport_size({'width': width, 'height': 1000})
                 page.goto(shop_url, wait_until='networkidle')
                 expect(page.get_by_role('heading', level=1)).to_be_visible()
-                expect(page.locator('.atelier-vavi-card')).to_have_count(3)
+                expect(page.locator('.atelier-vavi-card')).to_have_count(4)
                 expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
-                expect(page.locator('.atelier-vavi-card-upcoming')).to_have_count(2)
+                expect(page.locator('.atelier-vavi-card-upcoming')).to_have_count(3)
                 assert_no_overflow(page)
+                expect(page.locator('.atelier-vavi-card-upcoming button')).to_have_count(0)
+                for asset in page.locator('img[srcset]').all():
+                    asset.scroll_into_view_if_needed()
+                    asset.evaluate('image => image.decode()')
+                    assert '/Salve-Regina/web/' in asset.evaluate('image => image.currentSrc')
+                    assert asset.evaluate('image => image.naturalWidth > 0')
                 if screenshots and width in [390, 1440]:
                     page.evaluate("document.querySelectorAll('img[loading=lazy]').forEach(img => img.loading='eager')")
                     for product_image in page.locator('main img').all():
@@ -210,6 +216,30 @@ def main():
             expect(plain.locator('#acompanhar-pedido p')).to_be_visible()
             expect(plain.locator('.atelier-vavi-live-link')).to_have_count(0)
             plain_context.close()
+            # A coleção usa as mesmas imagens, sem habilitar produtos em preparação.
+            for width in [320, 390, 768, 1440]:
+                page.set_viewport_size({'width': width, 'height': 1000})
+                page.goto(base + '/pages/colecao-salve-regina.html', wait_until='networkidle')
+                expect(page.locator('.product')).to_have_count(4)
+                expect(page.locator('.product-featured')).to_have_count(1)
+                expect(page.locator('.product:not(.product-featured) button')).to_have_count(0)
+                expect(page.locator('.product:not(.product-featured) a[href*="checkout"]')).to_have_count(0)
+                expect(page.locator('.product-featured .prelaunch')).to_contain_text('R$ 109,90')
+                expect(page.locator('.product:not(.product-featured) .prelaunch')).to_have_count(3)
+                for asset in page.locator('main img').all():
+                    asset.scroll_into_view_if_needed()
+                    asset.evaluate('image => image.decode()')
+                assert_no_overflow(page)
+                # Ampliação abre somente o arquivo de apresentação, sem fluxo de compra.
+                for link in page.locator('main .product-image-link').all():
+                    assert link.get_attribute('href').endswith('.webp')
+                    assert link.get_attribute('target') == '_blank'
+                    assert 'noopener' in link.get_attribute('rel')
+                if screenshots and width in [390, 1440]:
+                    page.evaluate('window.scrollTo(0, 0)')
+                    name = 'colecao-mobile.png' if width == 390 else 'colecao-desktop.png'
+                    page.screenshot(path=str(Path(screenshots) / name), full_page=True)
+                print(f'PASS: coleção e imagens responsivas em {width}px', flush=True)
             assert not errors, errors
             assert api_calls and all(path in {
                 '/api/checkout/live/readiness', '/api/shipping/preview'} for _, path in api_calls)
