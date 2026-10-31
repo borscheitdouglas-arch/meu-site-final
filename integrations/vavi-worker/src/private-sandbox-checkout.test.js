@@ -52,7 +52,7 @@ test('recusa retirada na fábrica no checkout do endereço',async()=>{
   {...body,shippingOptionId:'0'},dependencies()),
   {code:'shipping_option_invalid'});
 });
-test('URLs de retorno apontam para a loja realmente publicada',()=>{
+test('URLs de retorno apontam para o acompanhamento de pagamento',()=>{
  const pref=buildPreference({
   lines:[{sku:'salve-regina-preta-g',name:'Camiseta Salve Regina',
    unitPriceCents:10990,quantity:1}],
@@ -60,5 +60,5 @@ test('URLs de retorno apontam para a loja realmente publicada',()=>{
   siteBaseUrl:'https://www.douglasassumpcao.com.br',
   notificationUrl:'https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/webhook'
  });
- assert.match(pref.back_urls.success,/\/pages\/loja.html\?pagamento=sucesso$/);
+ assert.match(pref.back_urls.success,/\/pages\/resultado-pagamento\.html\?pagamento=sucesso$/);
 });
