@@ -51,13 +51,11 @@ export async function getPrivateLaunchReadiness(env,loadProduct) {
       detail:env.LIVE_WEBHOOK_ENABLED==='true'?'Processamento habilitado; conferir testes':'Testar assinatura, pagamento e registro no banco antes de habilitar'},
     {id:'vaviAutoDraft',label:'Envio automático do rascunho pago à VAVI',
       ok:env.VAVI_AUTO_DRAFT_ENABLED==='true' &&
-        typeof env.VAVI_INTEGRATION_API_KEY==='string' &&
-        env.VAVI_INTEGRATION_API_KEY.length>=20,
+        Boolean(env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET),
       detail:env.VAVI_AUTO_DRAFT_ENABLED==='true' &&
-        typeof env.VAVI_INTEGRATION_API_KEY==='string' &&
-        env.VAVI_INTEGRATION_API_KEY.length>=20
-        ? 'Envio de rascunhos habilitado; vinculação da arte e pagamento VAVI continuam manuais'
-        : 'Configurar chave de integração API própria, testar homologação e habilitar envio de rascunhos'},
+        Boolean(env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET)
+        ? 'Envio de rascunhos habilitado via Client ID/Secret; produção e pagamento VAVI continuam manuais'
+        : 'Credenciais Client ID/Secret já podem ser reutilizadas; testar criação de rascunhos e ativar com segurança'},
     {id:'checkout',label:'Checkout de produção habilitado',ok:env.LIVE_CHECKOUT_ENABLED==='true',
       detail:env.LIVE_CHECKOUT_ENABLED==='true'?'Chave de liberação ligada':'Habilitar somente depois dos demais testes'}
   ];
