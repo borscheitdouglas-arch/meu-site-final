@@ -65,7 +65,7 @@
           ' (produto + frete, sujeito a confirmação).';
         lines.push('Transportadora consultada: ' + option.name);
         lines.push('Frete estimado: ' + money(freightCents));
-        lines.push('Total estimado: ' + money(productPriceCents + freightCents));
+        lines.push('Total estimado: ' + money(productPriceCents() + freightCents));
         lines.push('Prazo de transporte informado pela VAVI: ' +
           option.deliveryTime + ' dia(s), além do tempo de produção.');
       } else {
