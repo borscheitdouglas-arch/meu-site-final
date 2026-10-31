@@ -58,7 +58,7 @@
           <p>Frete: <strong id="freight-amount">Selecione uma opção</strong></p>
           <p>Total: <strong id="checkout-total">A calcular</strong></p>
         </div>
-        <label class="confirm"><input name="confirm" type="checkbox" required> Concordo com os dados da compra e estou ciente da fabricação sob demanda e do prazo de transporte.</label>
+        <label class="confirm"><input name="confirm" type="checkbox" required> Li as condições de compra, entrega, trocas e privacidade antes de prosseguir.</label>
         <p class="hint">O endereço será protegido no servidor e utilizado para o envio. Dados de cartão são informados apenas no Mercado Pago.</p>
         <button type="submit" class="pay" id="pay-now" disabled>Ir para pagamento seguro</button>
         <p id="payment-feedback" role="status"></p>
