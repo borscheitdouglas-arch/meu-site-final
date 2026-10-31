@@ -8,7 +8,9 @@
   const format=cents=>new Intl.NumberFormat('pt-BR',{
     style:'currency',currency:'BRL'
   }).format(cents/100);
-  const normalize=value=>String(value||'').replace(/\D/g,'');
+  const normalize=value=>String(value||'').replace(/\\D/g,'');
+  const prices={P:10990,M:10990,G:10990,GG:10990,XG:11990};
+  const skuForSize=size=>'salve-regina-preta-'+size.toLowerCase();
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
   const fallback=document.createElement('a');
   fallback.href='/pages/loja.html#colecao-salve-regina';
@@ -30,6 +32,19 @@
     container.hidden=false;
     container.innerHTML=`
       <form id="sale-checkout">
+        <fieldset>
+          <legend>Camiseta Salve Regina · preta</legend>
+          <label>Tamanho
+            <select name="size" required>
+              <option value="P">P — R$ 109,90</option>
+              <option value="M">M — R$ 109,90</option>
+              <option value="G" selected>G — R$ 109,90</option>
+              <option value="GG">GG — R$ 109,90</option>
+              <option value="XG">XG — R$ 119,90</option>
+            </select>
+          </label>
+          <p class="hint">Uma camiseta por pedido. Frete calculado para o tamanho escolhido.</p>
+        </fieldset>
         <fieldset>
           <legend>Entrega</legend>
           <label>CEP <input name="zipCode" autocomplete="postal-code" inputmode="numeric" maxlength="9" placeholder="00000-000" required></label>
@@ -54,7 +69,7 @@
           <label>Estado (UF) <input name="state" maxlength="2" autocomplete="address-level1" required></label>
         </fieldset>
         <div class="total">
-          <p>Produto: <strong>R$ 109,90</strong></p>
+          <p>Produto: <strong id="product-amount">R$ 109,90</strong></p>
           <p>Frete: <strong id="freight-amount">Selecione uma opção</strong></p>
           <p>Total: <strong id="checkout-total">A calcular</strong></p>
         </div>
@@ -64,17 +79,26 @@
         <p id="payment-feedback" role="status"></p>
       </form>`;
     const form=container.querySelector('form');
+    const size=form.elements.size;
+    const productAmount=form.querySelector('#product-amount');
+    const price=()=>prices[size.value];
+    const sku=()=>skuForSize(size.value);
     const zip=form.elements.zipCode,quoteButton=form.querySelector('#ship-quote');
     const choices=form.querySelector('#ship-choices'),shipFeedback=form.querySelector('#ship-feedback');
     const freightAmount=form.querySelector('#freight-amount'),total=form.querySelector('#checkout-total');
     const pay=form.querySelector('#pay-now'),payStatus=form.querySelector('#payment-feedback');
-    let options=[],quotedZip='';
+    let options=[],quotedZip='',quotedSku='';
     function resetQuote(){
-      options=[];quotedZip='';choices.hidden=true;choices.replaceChildren();
+      options=[];quotedZip='';quotedSku='';choices.hidden=true;choices.replaceChildren();
       freightAmount.textContent='Selecione uma opção';total.textContent='A calcular';
       pay.disabled=true;
     }
     zip.addEventListener('input',resetQuote);
+    size.addEventListener('change',()=>{
+      productAmount.textContent=format(price());
+      resetQuote();
+      shipFeedback.textContent='Tamanho alterado. Consulte novamente o frete.';
+    });
     function selected(){
       const radio=choices.querySelector('input[name="shippingOption"]:checked');
       return options.find(o=>o.id===radio?.value);
@@ -84,20 +108,21 @@
       if(!o)return;
       const cents=Math.round(o.shippingCost*100);
       freightAmount.textContent=format(cents);
-      total.textContent=format(10990+cents);
+      total.textContent=format(price()+cents);
       pay.disabled=false;
     });
     quoteButton.addEventListener('click',async()=>{
       const code=normalize(zip.value);
       resetQuote();
       if(!/^\d{8}$/.test(code)){shipFeedback.textContent='Informe um CEP com 8 números.';zip.focus();return;}
+      const requestedSku=sku();
       quoteButton.disabled=true;shipFeedback.textContent='Consultando frete...';
       try {
         const data=await getJson(API+'/api/shipping/preview',{
           method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({zipCode:code})
+          body:JSON.stringify({zipCode:code,sku:sku()})
         });
-        if(normalize(zip.value)!==code)return;
+        if(normalize(zip.value)!==code || sku()!==requestedSku)return;
         options=(Array.isArray(data.options)?data.options:[]).filter(o=>
           o && o.isActive===true && typeof o.id==='string' &&
           typeof o.name==='string' && Number.isFinite(o.shippingCost) &&
@@ -105,7 +130,7 @@
           !/retirada|retire|pickup/i.test(o.name)
         );
         if(!options.length){shipFeedback.textContent='Não há frete disponível para este CEP.';return;}
-        quotedZip=code;
+        quotedZip=code;quotedSku=requestedSku;
         options.forEach((o,i)=>{
           const label=document.createElement('label');
           label.className='shipping-choice';
@@ -125,7 +150,7 @@
     form.addEventListener('submit',async event=>{
       event.preventDefault();
       if(!form.reportValidity())return;
-      if(normalize(zip.value)!==quotedZip||!selected()){
+      if(normalize(zip.value)!==quotedZip||quotedSku!==sku()||!selected()){
         payStatus.textContent='Consulte o frete para o CEP informado antes de pagar.';return;
       }
       pay.disabled=true;quoteButton.disabled=true;
@@ -142,7 +167,7 @@
           method:'POST',headers:{'Content-Type':'application/json'},
           body:JSON.stringify({
             zipCode:quotedZip,shippingOptionId:selected().id,
-            items:[{sku:'salve-regina-preta-g',quantity:1}],buyer
+            items:[{sku:sku(),quantity:1}],buyer
           })
         });
         const u=new URL(data.checkoutUrl);
