@@ -6,6 +6,7 @@ import {createCheckoutTest} from './checkout-orchestrator.js';
 import {createCheckoutLive,liveCheckoutReady} from './checkout-live.js';
 import {processLivePaymentWebhook} from './live-payment-webhook.js';
 import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManualVaviOrder} from './live-order-admin.js';
+import {getPrivateLaunchReadiness} from './launch-readiness.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -63,7 +64,8 @@ export default {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
-      const adminOptions=url.pathname==='/api/internal/live-orders' ||
+      const adminOptions=url.pathname==='/api/internal/launch-readiness' ||
+        url.pathname==='/api/internal/live-orders' ||
         (url.pathname.startsWith('/api/internal/live-orders/') &&
          /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length))) ||
         /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
@@ -84,6 +86,19 @@ export default {
         return json({checkoutEnabled:enabled},200,cors.headers);
       } catch {
         return json({checkoutEnabled:false},200,cors.headers);
+      }
+    }
+    // Read-only launch report, private and no secret values. Does not charge.
+    if(url.pathname==='/api/internal/launch-readiness' && request.method==='GET'){
+      if(!(await authorizedLiveAdmin(request,env)))
+        return json({error:'unauthorized'},401,cors.headers);
+      try{
+        const report=await getPrivateLaunchReadiness(env);
+        return json(report,200,cors.headers);
+      }catch(error){
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status,cors.headers);
+        return json({error:'launch_readiness_unavailable'},503,cors.headers);
       }
     }
     // Administrative fulfillment: authenticated only; addresses are decrypted on
