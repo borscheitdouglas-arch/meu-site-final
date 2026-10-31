@@ -190,8 +190,12 @@
       currentOrderId=id;
       registerPanel.hidden=order.status!=='paid'||Boolean(order.vavi_order_id);
       registerStatus.textContent=order.vavi_order_id
-        ? 'Já registrado na VAVI: '+String(order.vavi_order_id)
-        : 'Crie o pedido na VAVI antes de registrá-lo aqui.';
+        ? 'Pedido de produção VAVI já registrado: '+String(order.vavi_order_id)
+        : order.vavi_draft_state==='submitted'
+          ? 'Rascunho recebido pela VAVI: '+String(order.vavi_draft_id)+'. Abra a VAVI para vincular a arte e pagar a produção.'
+          : order.vavi_draft_state==='needs_review'||order.vavi_draft_state==='sending'
+            ? 'Envio do rascunho requer conferência na VAVI antes de qualquer nova tentativa.'
+            : 'Crie o pedido na VAVI antes de registrá-lo aqui.';
       status.textContent='Dados carregados. Confira o pedido e o endereço.';
       detailPanel.scrollIntoView({block:'start',behavior:'smooth'});
     } catch {
@@ -214,7 +218,9 @@
       item.append(text('p','Status: '+String(order.status||'')+
         ' · Total: '+money(order.total_cents)+' · CEP: '+String(order.destination_zip||'')));
       item.append(text('p','Criado em: '+String(order.created_at||'')+
-        (order.vavi_order_id?' · VAVI: '+String(order.vavi_order_id):''),'muted'));
+        (order.vavi_order_id?' · Produção VAVI: '+String(order.vavi_order_id):'')+
+        (order.vavi_draft_state?' · Integração VAVI: '+String(order.vavi_draft_state):'')+
+        (order.vavi_draft_id?' · Rascunho: '+String(order.vavi_draft_id):''),'muted'));
       const action=document.createElement('button');action.type='button';
       action.textContent='Consultar dados da entrega';
       action.addEventListener('click',()=>showOrder(order.id,action));

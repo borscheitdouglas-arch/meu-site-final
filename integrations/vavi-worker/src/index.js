@@ -7,6 +7,7 @@ import {createCheckoutLive,liveCheckoutReady} from './checkout-live.js';
 import {processLivePaymentWebhook} from './live-payment-webhook.js';
 import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManualVaviOrder} from './live-order-admin.js';
 import {getPrivateLaunchReadiness} from './launch-readiness.js';
+import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -59,7 +60,7 @@ async function loadVariant(db, sku) {
   ).bind(sku).first();
 }
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
@@ -190,6 +191,10 @@ export default {
     if (url.pathname === '/api/payments/live-webhook' && request.method === 'POST') {
       try {
         const outcome=await processLivePaymentWebhook({request,env});
+        // Responder ao MP apenas após pagamento e outbox persistidos.
+        // A fila agendada recupera pendências se a execução assíncrona falhar.
+        if(outcome.vaviQueued===true && typeof ctx?.waitUntil==='function')
+          ctx.waitUntil(dispatchVaviDraft(env,outcome.orderId));
         return json({ok:true,processed:outcome.processed!==false},200);
       } catch(error) {
         if(error instanceof CatalogError)
@@ -329,5 +334,13 @@ export default {
       console.error('Falha ao consultar catálogo ou calcular prévia:',error?.name || 'unknown');
       return json({error:'internal_error'},500,cors.headers);
     }
+  },
+  // Executa uma pequena fila com recuperação para pagamentos já confirmados.
+  // Não cria rascunhos nem ordens enquanto o operador não ativar o recurso.
+  async scheduled(_event,env,ctx) {
+    if(typeof ctx?.waitUntil==='function')
+      ctx.waitUntil(processPendingPaidVaviDrafts(env));
+    else
+      await processPendingPaidVaviDrafts(env);
   }
 };

@@ -2,7 +2,7 @@ name = "douglas-loja-api"
 main = "src/index.js"
 compatibility_date = "2026-10-01"
 
-# Apenas catálogo e simulação de subtotal. Sem cobranças nem pedidos VAVI.
+# Integração VAVI protegida por flags do servidor; checkout e envios desativados por padrão.
 # Domínio douglasassumpcao.com.br continua no GitHub Pages.
 [vars]
 ALLOWED_ORIGINS = "https://douglasassumpcao.com.br,https://www.douglasassumpcao.com.br"
@@ -11,3 +11,7 @@ ALLOWED_ORIGINS = "https://douglasassumpcao.com.br,https://www.douglasassumpcao.
 binding = "DB"
 database_name = "douglas-loja-db"
 database_id = "42d755c2-5eef-4265-9e09-992906b49500"
+
+# Retoma envios de rascunhos somente após a ativação explícita da flag privada.
+[triggers]
+crons = ["*/5 * * * *"]
