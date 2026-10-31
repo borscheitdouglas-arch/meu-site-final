@@ -16,8 +16,13 @@
   const registerForm=document.getElementById('vavi-registration-form');
   const vaviIdInput=document.getElementById('vavi-order-id');
   const registerStatus=document.getElementById('vavi-registration-status');
+  const launchPanel=document.getElementById('launch-panel');
+  const launchChecks=document.getElementById('launch-checks');
+  const launchValidation=document.getElementById('launch-validation');
+  const refreshLaunch=document.getElementById('refresh-launch');
   if(![form,input,status,listPanel,list,detailPanel,detail,copy,hide,clear,
-      registerPanel,registerForm,vaviIdInput,registerStatus].every(Boolean))return;
+      registerPanel,registerForm,vaviIdInput,registerStatus,
+      launchPanel,launchChecks,launchValidation,refreshLaunch].every(Boolean))return;
 
   let adminKey='';
   let currentAddress='';
@@ -36,6 +41,9 @@
     adminKey='';input.value='';
     list.replaceChildren();
     listPanel.hidden=true;
+    launchChecks.replaceChildren();
+    launchValidation.replaceChildren();
+    launchPanel.hidden=true;
     clearDetails();
     status.textContent='Acesso local encerrado.';
   }
@@ -65,6 +73,43 @@
     if(!response.ok)throw new Error('http_'+response.status);
     return response.json();
   }
+  function renderLaunch(report){
+    launchChecks.replaceChildren();
+    launchValidation.replaceChildren();
+    launchPanel.hidden=false;
+    const overview=report?.checkoutEnabled===true
+      ? 'Checkout habilitado no servidor. Confira também os testes operacionais.'
+      : 'Checkout ainda bloqueado. Confira os itens pendentes abaixo.';
+    launchChecks.append(text('p',overview,report?.checkoutEnabled===true?'':'warning'));
+    if(!Array.isArray(report?.checks)||!Array.isArray(report.operationalValidations)){
+      launchChecks.append(text('p','Não foi possível interpretar o diagnóstico.'));return;
+    }
+    for(const check of report.checks){
+      if(typeof check.label!=='string'||typeof check.detail!=='string')continue;
+      const item=document.createElement('p');
+      item.append(text('strong',(check.ok===true?'✓ ':'○ ')+check.label+' — '));
+      item.append(text('span',check.detail));
+      launchChecks.append(item);
+    }
+    const ul=document.createElement('ul');
+    for(const validation of report.operationalValidations){
+      if(typeof validation!=='string')continue;
+      ul.append(text('li',validation));
+    }
+    launchValidation.append(ul);
+  }
+  async function reloadLaunch(){
+    if(!adminKey)return;
+    refreshLaunch.disabled=true;
+    try{
+      const report=await request('/api/internal/launch-readiness');
+      renderLaunch(report);
+    }catch{
+      launchPanel.hidden=false;
+      launchChecks.replaceChildren(text('p','Diagnóstico de lançamento indisponível. O checkout continua protegido.'));
+    }finally{refreshLaunch.disabled=false;}
+  }
+  refreshLaunch.addEventListener('click',reloadLaunch);
   function formatAddress(data){
     const b=data?.buyer, o=data?.order;
     if(!b||!o||!/^ord_[0-9a-f]{32}$/.test(o.id||''))throw new Error('invalid_order');
@@ -146,6 +191,7 @@
     try {
       const data=await request('/api/internal/live-orders');
       showList(data.orders);
+      await reloadLaunch();
       status.textContent='Consulta realizada. Nenhuma informação foi salva no navegador.';
     } catch {
       clearSession();
