@@ -3,7 +3,8 @@
   'use strict';
   const merchantEmail = 'douglas.assumpcao27@gmail.com';
   const api = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
-  const productPriceCents = 10990; // Preço preliminar exibido na vitrine, nunca um valor de cobrança.
+  const prices={P:10990,M:10990,G:10990,GG:10990,XG:11990}; // Consulta: não é cobrança.
+  const skuForSize=size=>'salve-regina-preta-'+size.toLowerCase();
   const money = cents => new Intl.NumberFormat('pt-BR', {
     style: 'currency', currency: 'BRL'
   }).format(cents / 100);
@@ -30,6 +31,8 @@
     const emailLink = form.querySelector('[data-vavi-inquiry-email]');
     const copyButton = form.querySelector('[data-vavi-inquiry-copy]');
     const zipInput = form.querySelector('input[name="zipCode"]');
+    const sizeInput = form.querySelector('select[name="size"]');
+    const productPriceCents=()=>prices[sizeInput?.value]||10990;
     const submit = form.querySelector('button[type="submit"]');
     const shippingPanel = form.querySelector('[data-vavi-shipping-panel]');
     const optionsContainer = form.querySelector('[data-vavi-shipping-options]');
@@ -37,31 +40,32 @@
     if (![status, result, message, emailLink, copyButton, zipInput, submit,
       shippingPanel, optionsContainer, estimatedTotal].every(Boolean)) return;
     let currentZip = '';
+    let currentSize = 'G';
     let choices = [];
 
     function buildMessage() {
       const selected = optionsContainer.querySelector('input[name="vaviShipping"]:checked');
       const option = selected && choices.find(x => x.id === selected.value);
       const formattedZip = currentZip.slice(0, 5) + '-' + currentZip.slice(5);
-      const subject = 'Consulta de compra | Camiseta Salve Regina preta G';
+      const subject = 'Consulta de compra | Camiseta Salve Regina preta '+sizeInput.value;
       const lines = [
         'Olá! Gostaria de consultar a compra da Camiseta Salve Regina.',
         '',
         'Produto: Camiseta Salve Regina, preta',
-        'Tamanho: G',
+        'Tamanho: ' + sizeInput.value,
         'Quantidade: 1 unidade',
         'CEP para cotação de frete: ' + formattedZip,
         '',
-        'Preço anunciado: ' + money(productPriceCents) + ' (preliminar).'
+        'Preço anunciado: ' + money(productPriceCents()) + ' (preliminar).'
       ];
       if (option) {
         const freightCents = Math.round(option.shippingCost * 100);
         estimatedTotal.textContent = 'Total estimado: ' +
-          money(productPriceCents + freightCents) +
+          money(productPriceCents() + freightCents) +
           ' (produto + frete, sujeito a confirmação).';
         lines.push('Transportadora consultada: ' + option.name);
         lines.push('Frete estimado: ' + money(freightCents));
-        lines.push('Total estimado: ' + money(productPriceCents + freightCents));
+        lines.push('Total estimado: ' + money(productPriceCents() + freightCents));
         lines.push('Prazo de transporte informado pela VAVI: ' +
           option.deliveryTime + ' dia(s), além do tempo de produção.');
       } else {
@@ -86,6 +90,10 @@
       estimatedTotal.textContent = '';
     }
     optionsContainer.addEventListener('change', buildMessage);
+    sizeInput.addEventListener('change',()=>{
+      clearQuote();
+      status.textContent='Tamanho alterado. Consulte o frete novamente.';
+    });
     zipInput.addEventListener('input', () => {
       clearQuote();
       status.textContent = '';
@@ -101,6 +109,8 @@
         return;
       }
       currentZip = zip;
+      currentSize = sizeInput.value;
+      const requestedSize=currentSize;
       clearQuote();
       submit.disabled = true;
       status.textContent = 'Consultando as opções de frete na VAVI…';
@@ -108,14 +118,14 @@
         const response = await fetch(api + '/api/shipping/preview', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({zipCode: zip}),
+          body: JSON.stringify({zipCode: zip,sku:skuForSize(requestedSize)}),
           cache: 'no-store',
           mode: 'cors',
           signal: AbortSignal.timeout(16000)
         });
         if (!response.ok) throw new Error('shipping_unavailable');
         const data = await response.json();
-        if (zipInput.value.replace(/\D/g, '') !== zip) return;
+        if (zipInput.value.replace(/\D/g, '') !== zip || sizeInput.value!==requestedSize) return;
         if (data?.zipCode !== zip || !Array.isArray(data.options)) {
           throw new Error('shipping_invalid');
         }
@@ -156,7 +166,7 @@
       } catch {
         status.textContent = 'Frete automático indisponível no momento. A solicitação será enviada para cotação manual, sem cobrança.';
       } finally {
-        if (zipInput.value.replace(/\D/g, '') === zip) {
+        if (zipInput.value.replace(/\D/g, '') === zip && sizeInput.value===requestedSize) {
           buildMessage();
           result.hidden = false;
         }

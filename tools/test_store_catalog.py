@@ -138,7 +138,9 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertNotIn('CHECKOUT_TEST_API_KEY', source)
         self.assertNotIn('/api/checkout/test', source)
         self.assertEqual(source.count('Em preparação · Compra indisponível'), 2)
-        self.assertIn('Preço preliminar: R$ 109,90 + frete', source)
+        self.assertIn('Preços planejados: P a GG R$ 109,90 · XG R$ 119,90 + frete', source)
+        self.assertIn('name="size"', source)
+        self.assertIn('value="XG"', source)
 
 
     def test_salve_regina_shipping_preview_requires_no_checkout(self):
