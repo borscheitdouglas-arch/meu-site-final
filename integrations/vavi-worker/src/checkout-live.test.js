@@ -7,7 +7,7 @@ import worker from './index.js';
 import {webhookManifest} from './payment-verification.js';
 
 const flags={
-  LIVE_CHECKOUT_ENABLED:'true',LIVE_PRODUCT_APPROVED:'true',
+  LIVE_CHECKOUT_ENABLED:'true',LIVE_PRODUCT_APPROVED:'true',LIVE_POLICY_APPROVED:'true',
   LIVE_WEBHOOK_ENABLED:'true',DELIVERY_PERSISTENCE_ENABLED:'true',
   MERCADOPAGO_LIVE_ACCESS_TOKEN:'APP_USR_FAKE_LIVE_TOKEN',
   MERCADOPAGO_LIVE_WEBHOOK_SECRET:'FAKE-LIVE-SECRET',
