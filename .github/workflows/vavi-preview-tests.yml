@@ -6,6 +6,8 @@ on:
       - "data/vavi-catalogo.json"
       - "scripts/vavi-vitrine.js"
       - "scripts/checkout-salve-regina.js"
+      - "scripts/admin-pedidos-loja.js"
+      - "pages/admin-pedidos-loja.html"
       - "scripts/salve-regina-inquiry.js"
       - "pages/checkout-salve-regina.html"
       - "styles/checkout-salve-regina.css"
@@ -35,6 +37,7 @@ jobs:
           node --check integrations/vavi-worker/src/index.js
           node --check integrations/vavi-worker/src/catalog.js
           node --check scripts/checkout-salve-regina.js
+          node --check scripts/admin-pedidos-loja.js
           node --check scripts/salve-regina-inquiry.js
       - name: Conferir segurança da página de checkout
         run: |
@@ -51,6 +54,12 @@ jobs:
           assert 'mercadopago.com.br' in client
           assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in page+client+store
           assert 'MERCADOPAGO_LIVE_WEBHOOK_SECRET' not in page+client+store
+          admin=Path('scripts/admin-pedidos-loja.js').read_text(encoding='utf-8')
+          assert "localStorage" not in admin
+          assert "sessionStorage" not in admin
+          assert "SHOP_ADMIN_API_KEY" not in admin
+          assert "Authorization" in admin
+          assert "textContent" in admin
           PY
       - name: Validar JSON do catálogo
         run: python3 -m json.tool data/vavi-catalogo.json > /dev/null

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="robots" content="noindex,nofollow,noarchive">
+ <meta name="referrer" content="no-referrer">
+ <title>Pedidos da loja | Área administrativa</title>
+ <style>
+ :root{color-scheme:dark;background:#111711;color:#eae2cd;font-family:system-ui,sans-serif}
+ *{box-sizing:border-box}body{margin:0}main{max-width:930px;margin:auto;padding:42px 18px}
+ header{padding:20px;border-bottom:1px solid #a28b5b6b}a{color:#e6ca90}
+ h1,h2{font-family:Georgia,serif;font-weight:400}h1{font-size:clamp(27px,5vw,42px)}
+ p{line-height:1.6}.muted{color:#bdb9a9;font-size:13px}
+ section{border:1px solid #a28b5b60;background:#1a2119;border-radius:9px;padding:22px;margin:20px 0}
+ label{display:block;margin:15px 0 10px}input{font:16px system-ui;padding:13px;background:#2a3129;color:white;border:1px solid #a28b5b;border-radius:5px;width:100%}
+ button{padding:11px 16px;background:#d8bd84;border:1px solid #e4c889;color:#191f17;border-radius:5px;font-weight:700;cursor:pointer;margin:6px 8px 6px 0}
+ button:disabled{opacity:.5;cursor:not-allowed}
+ .order{border-top:1px solid #a28b5b50;padding:15px 0}
+ .order strong{display:block;overflow-wrap:anywhere}
+ .address{white-space:pre-wrap;overflow-wrap:anywhere;background:#202820;border:1px solid #a28b5b44;border-radius:5px;padding:18px;margin:12px 0}
+ .warning{color:#eac596}.hidden,[hidden]{display:none!important}
+ </style>
+ <script src="/scripts/admin-pedidos-loja.js?v=20261031" defer></script>
+</head>
+<body>
+<header><a href="/pages/loja.html">← Loja Douglas Assumpção</a></header>
+<main>
+ <p class="muted">Acesso restrito · Ferramenta administrativa</p>
+ <h1>Pedidos pagos da loja</h1>
+ <p>Consulte apenas os pedidos de produção com pagamento aprovado. A fabricação e a entrega pela VAVI continuam manuais.</p>
+ <section>
+  <h2>Autenticação</h2>
+  <p class="muted">Informe sua chave administrativa privada. Ela será usada apenas nesta sessão; não será salva no navegador. Não utilize tokens do Mercado Pago neste campo.</p>
+  <form id="admin-form" autocomplete="off">
+   <label for="admin-key">Chave de administração da loja</label>
+   <input id="admin-key" type="password" minlength="32" autocomplete="off" required>
+   <button type="submit">Consultar pedidos pagos</button>
+   <button type="button" id="clear-admin">Limpar acesso</button>
+  </form>
+  <p id="admin-status" role="status" aria-live="polite"></p>
+ </section>
+ <section id="orders-panel" hidden>
+  <h2>Pedidos aguardando atendimento</h2>
+  <div id="order-list"></div>
+ </section>
+ <section id="order-detail-panel" hidden>
+  <h2>Dados para cadastrar o envio</h2>
+  <p class="warning">Use estes dados somente para providenciar a entrega ao comprador. Não salve uma cópia pública.</p>
+  <div id="order-detail" class="address"></div>
+  <button id="copy-address" type="button">Copiar endereço</button>
+  <button id="hide-details" type="button">Ocultar dados</button>
+ </section>
+</main>
+</body>
+</html>

@@ -122,3 +122,20 @@ test('admin só aceita segredo privado e não oferece dados de clientes sem ele'
   assert.equal(await authorizedLiveAdmin(new Request('https://api.test/',{
     headers:{Authorization:'Bearer '+'x'.repeat(40)}}),enabled),true);
 });
+
+
+test('navegador pode fazer preflight do painel sem acessar pedidos sem autorização',async()=>{
+  const origin='https://www.douglasassumpcao.com.br';
+  const env={...disabled,ALLOWED_ORIGINS:origin};
+  for(const pathname of ['/api/internal/live-orders','/api/internal/live-orders/ord_'+'a'.repeat(32)]){
+    const preflight=await worker.fetch(new Request('https://example.test'+pathname,{
+      method:'OPTIONS',headers:{Origin:origin,
+        'Access-Control-Request-Method':'GET','Access-Control-Request-Headers':'Authorization'}
+    }),env);
+    assert.equal(preflight.status,204);
+    assert.equal(preflight.headers.get('Access-Control-Allow-Origin'),origin);
+    assert.match(preflight.headers.get('Access-Control-Allow-Headers')||'',/Authorization/);
+  }
+  const denied=await worker.fetch(new Request('https://example.test/api/internal/live-orders'),env);
+  assert.equal(denied.status,401);
+});
