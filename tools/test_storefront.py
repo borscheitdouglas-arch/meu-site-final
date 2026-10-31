@@ -197,6 +197,7 @@ def main():
             page.keyboard.press('Enter')
             expect(page.locator('#produto-camiseta')).to_have_attribute('open', '')
             expect(page.locator('#produto-camiseta summary')).to_be_focused()
+            expect(page).to_have_url(shop_url + '#produto-camiseta')
             zip_input = page.get_by_label('CEP de entrega', exact=True)
             zip_input.fill('01001-000')
             page.get_by_role('button', name='Consultar frete e preparar pedido').click()
@@ -246,6 +247,10 @@ def main():
             # Exercita somente o contrato existente, com resposta local simulada.
             state['checkout_enabled'] = True
             page.goto(shop_url + '#produto-camiseta', wait_until='networkidle')
+
+            # Alterar apenas o hash é navegação no mesmo documento. Recarregar
+            # para que o readiness de checkout seja consultado novamente.
+
             page.reload(wait_until='networkidle')
             expect(page.locator('#produto-camiseta .atelier-vavi-live-link')).to_have_count(1)
             state['checkout_enabled'] = False

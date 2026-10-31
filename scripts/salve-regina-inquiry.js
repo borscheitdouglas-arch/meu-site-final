@@ -3,8 +3,11 @@
   'use strict';
   const merchantEmail = 'douglas.assumpcao27@gmail.com';
   const api = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
-  const prices={P:10990,M:10990,G:10990,GG:10990,XG:11990}; // Consulta: não é cobrança.
-  const skuForSize=size=>'salve-regina-preta-'+size.toLowerCase();
+  // A vitrine pública oferece apenas a camiseta G nesta etapa de consulta.
+  // Não enviar variantes ainda não disponibilizadas neste formulário.
+  const productSize = 'G';
+  const productSku = 'salve-regina-preta-g';
+  const productPriceCents = 10990; // Preço preliminar, não é cobrança.
   const money = cents => new Intl.NumberFormat('pt-BR', {
     style: 'currency', currency: 'BRL'
   }).format(cents / 100);
@@ -42,8 +45,6 @@
     const emailLink = form.querySelector('[data-vavi-inquiry-email]');
     const copyButton = form.querySelector('[data-vavi-inquiry-copy]');
     const zipInput = form.querySelector('input[name="zipCode"]');
-    const sizeInput = form.querySelector('select[name="size"]');
-    const productPriceCents=()=>prices[sizeInput?.value]||10990;
     const submit = form.querySelector('button[type="submit"]');
     const shippingPanel = form.querySelector('[data-vavi-shipping-panel]');
     const optionsContainer = form.querySelector('[data-vavi-shipping-options]');
@@ -73,25 +74,25 @@
       const selected = optionsContainer.querySelector('input[name="vaviShipping"]:checked');
       const option = selected && choices.find(x => x.id === selected.value);
       const formattedZip = currentZip.slice(0, 5) + '-' + currentZip.slice(5);
-      const subject = 'Consulta de compra | Camiseta Salve Regina preta '+sizeInput.value;
+      const subject = 'Consulta de compra | Camiseta Salve Regina preta ' + productSize;
       const lines = [
         'Olá! Gostaria de consultar a compra da Camiseta Salve Regina.',
         '',
         'Produto: Camiseta Salve Regina, preta',
-        'Tamanho: ' + sizeInput.value,
+        'Tamanho: ' + productSize,
         'Quantidade: 1 unidade',
         'CEP para cotação de frete: ' + formattedZip,
         '',
-        'Preço anunciado: ' + money(productPriceCents()) + ' (preliminar).'
+        'Preço anunciado: ' + money(productPriceCents) + ' (preliminar).'
       ];
       if (option) {
         const freightCents = Math.round(option.shippingCost * 100);
         estimatedTotal.textContent = 'Total estimado: ' +
-          money(productPriceCents() + freightCents) +
+          money(productPriceCents + freightCents) +
           ' (produto + frete, sujeito a confirmação).';
         lines.push('Transportadora consultada: ' + option.name);
         lines.push('Frete estimado: ' + money(freightCents));
-        lines.push('Total estimado: ' + money(productPriceCents() + freightCents));
+        lines.push('Total estimado: ' + money(productPriceCents + freightCents));
         lines.push('Prazo de transporte informado pela VAVI: ' +
           option.deliveryTime + ' dia(s), além do tempo de produção.');
       } else {
@@ -120,6 +121,7 @@
       copyButton.textContent = copyLabel;
     }
     optionsContainer.addEventListener('change', buildMessage);
+
     sizeInput.addEventListener('change',()=>{
       requestVersion += 1;
       pendingRequest?.abort();
@@ -128,6 +130,7 @@
       setLoading(false);
       status.textContent='Tamanho alterado. Consulte o frete novamente.';
     });
+
     zipInput.addEventListener('input', () => {
       requestVersion += 1;
       pendingRequest?.abort();
@@ -165,7 +168,7 @@
         const data = await requestJSON(api + '/api/shipping/preview', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({zipCode: zip,sku:skuForSize(requestedSize)}),
+          body: JSON.stringify({zipCode: zip, sku: productSku}),
           cache: 'no-store',
           mode: 'cors'
         }, 16000, pendingRequest);
