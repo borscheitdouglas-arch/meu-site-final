@@ -5,7 +5,7 @@ import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
 import {createCheckoutLive,liveCheckoutReady} from './checkout-live.js';
 import {processLivePaymentWebhook} from './live-payment-webhook.js';
-import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery} from './live-order-admin.js';
+import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManualVaviOrder} from './live-order-admin.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -65,7 +65,8 @@ export default {
     if (request.method === 'OPTIONS') {
       const adminOptions=url.pathname==='/api/internal/live-orders' ||
         (url.pathname.startsWith('/api/internal/live-orders/') &&
-         /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length)));
+         /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length))) ||
+        /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
       if (!adminOptions && !['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/checkout/live','/api/internal/vavi/shipping-check'].includes(url.pathname))
         return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
@@ -102,6 +103,27 @@ export default {
       } catch(error) {
         if(error instanceof CatalogError) return json({error:error.code},error.status);
         return json({error:'admin_orders_unavailable'},503);
+      }
+    }
+    // Idempotent manual fulfillment bookkeeping; NEVER creates a VAVI order.
+    // Only a confirmed paid live order can be registered with a supplier ID.
+    const fulfillmentMatch=url.pathname.match(
+      /^\/api\/internal\/live-orders\/(ord_[a-f0-9]{32})\/fulfillment$/);
+    if(fulfillmentMatch && request.method==='POST'){
+      if(!(await authorizedLiveAdmin(request,env)))
+        return json({error:'unauthorized'},401,cors.headers);
+      if(!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+        return json({error:'unsupported_media_type'},415,cors.headers);
+      const raw=await request.text();
+      if(raw.length>350)return json({error:'request_too_large'},413,cors.headers);
+      try{
+        const data=JSON.parse(raw);
+        const result=await registerManualVaviOrder(env,fulfillmentMatch[1],data?.vaviOrderId);
+        return json(result,200,cors.headers);
+      }catch(error){
+        if(error instanceof CatalogError)return json({error:error.code},error.status,cors.headers);
+        if(error instanceof SyntaxError)return json({error:'invalid_json'},400,cors.headers);
+        return json({error:'fulfillment_unavailable'},503,cors.headers);
       }
     }
     // Operator-facing readiness report without revealing any secret values.

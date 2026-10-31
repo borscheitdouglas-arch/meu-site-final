@@ -50,6 +50,16 @@
   <div id="order-detail" class="address"></div>
   <button id="copy-address" type="button">Copiar endereço</button>
   <button id="hide-details" type="button">Ocultar dados</button>
+  <div id="vavi-registration-panel" hidden>
+   <h3>Registro da produção VAVI</h3>
+   <p class="muted">Primeiro crie e confira o pedido MANUALMENTE na VAVI. Depois registre aqui o identificador fornecido pela VAVI. Este botão não compra nem envia produtos à fábrica.</p>
+   <form id="vavi-registration-form" autocomplete="off">
+    <label for="vavi-order-id">Número ou identificador do pedido criado na VAVI</label>
+    <input id="vavi-order-id" name="vaviOrderId" maxlength="120" required autocomplete="off">
+    <button type="submit" id="vavi-register-button">Registrar pedido já criado na VAVI</button>
+   </form>
+  </div>
+  <p id="vavi-registration-status" role="status" aria-live="polite"></p>
  </section>
 </main>
 </body>
