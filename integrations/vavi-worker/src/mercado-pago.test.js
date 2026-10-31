@@ -15,7 +15,7 @@ test('preferência usa apenas preços do servidor e frete separado',()=>{
   assert.equal(p.items[1].unit_price,15.60);
   assert.equal(p.external_reference,order.orderId);
   assert.equal(p.items[0].quantity,2);
-  assert.equal(p.back_urls.success,'https://www.douglasassumpcao.com.br/pages/loja.html?pagamento=sucesso');
+  assert.equal(p.back_urls.success,'https://www.douglasassumpcao.com.br/pages/resultado-pagamento.html?pagamento=sucesso');
 });
 test('frete ainda não confirmado impede gerar preferência',()=>{
   assert.throws(()=>buildPreference({...order,shippingCents:null}),
