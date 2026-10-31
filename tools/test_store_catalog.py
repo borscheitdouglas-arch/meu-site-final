@@ -126,6 +126,20 @@ class StoreCatalogTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 update_page(bad_source, catalog)
 
+
+    def test_salve_regina_inquiry_is_request_only(self):
+        source = PAGE.read_text(encoding='utf-8')
+        self.assertEqual(source.count('data-vavi-inquiry aria-label='), 1)
+        self.assertIn('Camiseta Salve Regina', source)
+        self.assertIn('Pedido sob consulta · Sem cobrança neste site', source)
+        self.assertIn('Enviar por e-mail', source)
+        self.assertIn('salve-regina-inquiry.js', source)
+        self.assertNotIn('MERCADOPAGO_TEST_ACCESS_TOKEN', source)
+        self.assertNotIn('CHECKOUT_TEST_API_KEY', source)
+        self.assertNotIn('/api/checkout/test', source)
+        self.assertEqual(source.count('Em preparação · Compra indisponível'), 2)
+        self.assertIn('Preço preliminar: R$ 109,90 + frete', source)
+
     def test_checked_in_page_matches_source(self):
         source = PAGE.read_text(encoding='utf-8')
         self.assertEqual(update_page(source, render_catalog(self.data)), source)

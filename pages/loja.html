@@ -27,7 +27,7 @@
       "description": "Livros, partituras e peças autorais de Douglas Assumpção."
     }
   </script>
-<link href="../styles/site-editorial.css" rel="stylesheet"/><link href="../styles/store-book.css?v=20261030-colecao-vavi" rel="stylesheet"/></head>
+<link href="../styles/site-editorial.css" rel="stylesheet"/><link href="../styles/store-book.css?v=20261030-consulta-assistida" rel="stylesheet"/></head>
 <body class="site-editorial bookshop-page"><a class="editorial-skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
 <button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
@@ -223,7 +223,28 @@
    <p>Algodão penteado 30.1, cor preta, com partitura gregoriana na frente e Nossa Senhora nas costas.</p>
    <p class="atelier-vavi-details">Tamanho G em preparação. Outros tamanhos e custos ainda precisam de confirmação.</p>
    <strong class="atelier-vavi-price">Preço preliminar: R$ 109,90 + frete</strong>
-   <span class="atelier-vavi-status">Em preparação · Compra indisponível</span>
+   <span class="atelier-vavi-status">Pedido sob consulta · Sem cobrança neste site</span>
+
+   <form class="atelier-vavi-inquiry" data-vavi-inquiry aria-label="Solicitar Camiseta Salve Regina tamanho G">
+    <h4>Solicite a camiseta tamanho G</h4>
+    <p>Informe seu CEP para consultar disponibilidade e frete. Confirmaremos a produção, o prazo e o valor total <strong>antes</strong> de enviar um link de pagamento do Mercado Pago. Nenhuma cobrança ocorre aqui.</p>
+    <label for="vavi-inquiry-zip">CEP de entrega</label>
+    <div class="atelier-vavi-inquiry-line">
+     <input id="vavi-inquiry-zip" name="zipCode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" required pattern="[0-9]{5}-?[0-9]{3}" aria-describedby="vavi-inquiry-hint">
+     <button type="submit">Preparar solicitação</button>
+    </div>
+    <p class="atelier-vavi-hint" id="vavi-inquiry-hint">1 camiseta preta, tamanho G. Não informe endereço completo nesta etapa.</p>
+    <p data-vavi-inquiry-status role="status" aria-live="polite"></p>
+    <div class="atelier-vavi-inquiry-result" data-vavi-inquiry-result hidden>
+     <label for="vavi-inquiry-message">Mensagem para enviar</label>
+     <textarea id="vavi-inquiry-message" data-vavi-inquiry-message readonly rows="8"></textarea>
+     <div class="atelier-vavi-inquiry-actions">
+      <a data-vavi-inquiry-email href="mailto:magister.douglas@gmail.com">Enviar por e-mail</a>
+      <button type="button" data-vavi-inquiry-copy>Copiar mensagem</button>
+     </div>
+     <p>Se o aplicativo de e-mail não abrir, copie a mensagem e envie para <strong>magister.douglas@gmail.com</strong>.</p>
+    </div>
+   </form>
    <a class="atelier-vavi-link" href="/pages/colecao-salve-regina.html">Conhecer a coleção <span aria-hidden="true">↗</span></a>
   </div>
  </article>
@@ -252,15 +273,16 @@
   </div>
  </article>
  </div>
- <p class="atelier-vavi-footnote">As imagens são ilustrativas e não representam o produto final. A venda será liberada somente após confirmação de produção, frete e pagamento.</p>
+ <p class="atelier-vavi-footnote">As imagens são ilustrativas. Para a camiseta G, é possível solicitar uma cotação assistida, sem pagamento neste formulário. Moletom e caneca continuam em preparação.</p>
  </section>
 <img class="sacred-ornament shop-closing-ornament" src="/assets/img/loja/ornamento.svg" alt="" aria-hidden="true" width="220" height="32"/>
-<section class="sacred-help" id="como-comprar" aria-labelledby="help-title"><div><p class="atelier-eyebrow">Da escolha à entrega</p><h2 id="help-title">Como comprar</h2><p>Os livros de parceiros são vendidos diretamente nas lojas indicadas. As demais peças terão disponibilidade, frete e pagamento informados em cada produto, quando as vendas forem liberadas.</p></div><a href="/pages/contato.html">Entre em contato <span aria-hidden="true">↗</span></a></section>
+<section class="sacred-help" id="como-comprar" aria-labelledby="help-title"><div><p class="atelier-eyebrow">Da escolha à entrega</p><h2 id="help-title">Como comprar</h2><p>Os livros são comprados nas lojas parceiras. Para a camiseta Salve Regina G, solicite disponibilidade e frete nesta página. O link oficial de pagamento é enviado depois de confirmar os valores. Moletom e caneca ainda estão em preparação.</p></div><a href="/pages/contato.html">Entre em contato <span aria-hidden="true">↗</span></a></section>
 </main>
 <footer class="site-footer">
 <p>© 2026 Douglas Assumpção. Todos os direitos reservados.</p>
 </footer>
 <script src="../scripts/script.js?v=20261005-menu-adornos"></script>
 
+<script src="../scripts/salve-regina-inquiry.js?v=20261030-assistido" defer></script>
 <script src="../scripts/site-editorial.js?v=menu-elegante-2"></script></body>
 </html>
