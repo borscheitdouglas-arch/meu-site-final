@@ -1,7 +1,7 @@
 /* Pré-cotação assistida, sem pagamento: preços são indicativos até confirmação pelo vendedor. */
 (() => {
   'use strict';
-  const merchantEmail = 'magister.douglas@gmail.com';
+  const merchantEmail = 'douglas.assumpcao27@gmail.com';
   const api = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const productPriceCents = 10990; // Preço preliminar exibido na vitrine, nunca um valor de cobrança.
   const money = cents => new Intl.NumberFormat('pt-BR', {
