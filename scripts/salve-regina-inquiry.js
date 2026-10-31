@@ -7,6 +7,22 @@
   const money = cents => new Intl.NumberFormat('pt-BR', {
     style: 'currency', currency: 'BRL'
   }).format(cents / 100);
+  // O checkout não aparece na loja até o servidor declarar a liberação.
+  fetch(api + '/api/checkout/live/readiness', {
+    method:'GET',mode:'cors',cache:'no-store',signal:AbortSignal.timeout(6000)
+  }).then(response=>response.ok?response.json():null).then(data=>{
+    if(data?.checkoutEnabled!==true)return;
+    const form=document.querySelector('[data-vavi-inquiry]');
+    if(!form)return;
+    const article=form.closest('.atelier-vavi-card');
+    const status=article?.querySelector('.atelier-vavi-status');
+    if(status)status.textContent='Compra segura disponível';
+    const link=document.createElement('a');
+    link.href='/pages/checkout-salve-regina.html';
+    link.className='atelier-buy atelier-buy-primary atelier-vavi-live-link';
+    link.textContent='Comprar agora · Mercado Pago';
+    form.parentElement.insertBefore(link,form);
+  }).catch(()=>{});
   document.querySelectorAll('[data-vavi-inquiry]').forEach(form => {
     const status = form.querySelector('[data-vavi-inquiry-status]');
     const result = form.querySelector('[data-vavi-inquiry-result]');
