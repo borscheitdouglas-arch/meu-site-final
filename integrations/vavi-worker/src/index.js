@@ -334,5 +334,13 @@ export default {
       console.error('Falha ao consultar catálogo ou calcular prévia:',error?.name || 'unknown');
       return json({error:'internal_error'},500,cors.headers);
     }
+  },
+  // Executa uma pequena fila com recuperação para pagamentos já confirmados.
+  // Não cria rascunhos nem ordens enquanto o operador não ativar o recurso.
+  async scheduled(_event,env,ctx) {
+    if(typeof ctx?.waitUntil==='function')
+      ctx.waitUntil(processPendingPaidVaviDrafts(env));
+    else
+      await processPendingPaidVaviDrafts(env);
   }
 };
