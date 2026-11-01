@@ -294,6 +294,37 @@
 </section>
 <section class="shop-about" id="sobre-loja" aria-labelledby="about-title"><div class="shop-about-mark" aria-hidden="true"><img src="/assets/img/arabesco-medieval-medallion-plain.svg" width="120" height="120" alt=""/><span>DA</span></div><div><p class="shop-kicker">Sobre a nossa loja</p><h2 id="about-title">Arte que nasce da fé.</h2><p>Um encontro entre música sacra, arte e tradição. Livros e criações de Douglas Assumpção para levar a beleza ao cotidiano.</p><a href="/pages/contato.html">Conheça o trabalho · Entre em contato ↗</a></div><ul><li>Inspirada na música sacra</li><li>Beleza que convida à contemplação</li><li>Respeito à tradição católica</li></ul></section>
 <section class="sacred-help" id="como-comprar" aria-labelledby="help-title"><div class="shop-section-heading"><p class="shop-kicker">Da escolha à entrega</p><h2 id="help-title">Como comprar</h2></div><ol class="shop-steps"><li><span aria-hidden="true">01</span><div><h3>Escolha e conheça</h3><p>Confira os modelos e os preços sugeridos da coleção. Camiseta, canecas e ecobags estão sob consulta; o moletom segue em preparação.</p></div></li><li><span aria-hidden="true">02</span><div><h3>Consulte o frete</h3><p>Informe seu CEP na ficha da camiseta e envie a mensagem preparada. Produção, prazo e valor total são confirmados no atendimento.</p></div></li><li><span aria-hidden="true">03</span><div><h3>Confirme com segurança</h3><p>O pagamento é orientado após a confirmação. Livros são comprados nas lojas parceiras. Nenhuma cobrança ocorre no formulário de consulta.</p></div></li></ol></section>
+<section class="shop-shipping-calculator" id="calcular-frete" data-shipping-calculator aria-labelledby="shipping-calc-heading">
+  <div class="shop-shipping-copy"><p class="shop-shipping-kicker">Entrega · Consulte seu CEP</p>
+  <h2 id="shipping-calc-heading">Calcular frete</h2>
+  <p>Veja as opções reais de transporte da VAVI para uma camiseta Salve Regina. O prazo de produção é informado separadamente.</p></div>
+  <form class="shop-shipping-form">
+    <label>Produto e tamanho
+      <select name="product" required>
+        <optgroup label="Camiseta Salve Regina, preta">
+          <option value="salve-regina-preta-p">Camiseta P</option>
+          <option value="salve-regina-preta-m">Camiseta M</option>
+          <option value="salve-regina-preta-g" selected>Camiseta G</option>
+          <option value="salve-regina-preta-gg">Camiseta GG</option>
+          <option value="salve-regina-preta-xg">Camiseta XG</option>
+        </optgroup>
+        <optgroup label="Em validação logística">
+          <option value="caneca-salve-regina-preta">Caneca preta · Partitura</option>
+          <option value="caneca-salve-regina-pb">Caneca P&amp;B · Nossa Senhora</option>
+          <option value="ecobag-salve-regina-m">Ecobag M</option>
+          <option value="ecobag-salve-regina-g">Ecobag G</option>
+        </optgroup>
+      </select>
+    </label>
+    <label>CEP de entrega
+      <input name="zipCode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="9" pattern="[0-9]{5}-?[0-9]{3}" placeholder="00000-000" required/>
+    </label>
+    <button type="submit">Consultar frete</button>
+  </form>
+  <p class="shop-shipping-status" data-shipping-status role="status" aria-live="polite"></p>
+  <div class="shop-shipping-results" data-shipping-results hidden></div>
+  <p class="shop-shipping-small">Consulta sem compromisso, para 1 unidade. Sem cobrança. Modelos sem pacote validado exigem cotação assistida.</p>
+</section>
 <section class="shop-faq" id="duvidas" aria-labelledby="faq-title">
  <div class="shop-section-heading"><p class="atelier-eyebrow">Estamos por perto</p><h2 id="faq-title">Antes de escolher.</h2><p>Informações para comprar com confiança.</p><a class="shop-contact" href="mailto:douglas.assumpcao27@gmail.com">Fale com Douglas <span aria-hidden="true">↗</span></a></div>
  <div class="shop-faq-items">
@@ -314,6 +345,7 @@
 <script src="../scripts/script.js?v=20261005-menu-adornos"></script>
 
 <script src="../scripts/salve-regina-inquiry.js?v=20261031-premium" defer></script>
+<script src="../scripts/store-shipping-calculator.js?v=20261101-cotacao" defer></script>
 <script src="../scripts/storefront.js?v=20261031-redesign" defer></script><script src="../scripts/cart.js?v=20261101-v2" defer></script>
 <script src="../scripts/site-editorial.js?v=menu-elegante-2"></script></body>
 </html>
