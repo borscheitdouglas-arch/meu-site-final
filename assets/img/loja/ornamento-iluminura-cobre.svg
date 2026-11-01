@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 94" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="goldInk" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f7d496" stop-opacity=".18"/>
+      <stop offset=".4" stop-color="#edc47b" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#8e542f" stop-opacity=".48"/>
+    </linearGradient>
+    <g id="folio-vine" fill="none" stroke="url(#goldInk)" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke-width="1.7" d="M-6 72 C38 83 78 55 70 27 C64 8 41 15 45 31 C49 47 68 36 63 27 M70 52 C105 56 126 29 124 13 C123 2 107 3 107 17 C107 34 128 40 149 30 C177 17 182 44 167 50 C148 58 148 35 166 37"/>
+      <path stroke-width="1.25" d="M12 45 C34 25 57 24 79 38 M82 58 C98 76 132 77 159 65 C186 52 197 40 211 42"/>
+      <path stroke-width="1.15" d="M31 63 C23 75 30 87 50 86 M137 20 C145 8 162 7 174 16 M177 59 C188 72 210 75 225 66"/>
+      <path fill="#ecc584" fill-opacity=".24" stroke-width="1" d="M82 37 Q91 19 105 20 Q102 39 82 37Z M88 54 Q102 48 115 58 Q100 67 88 54Z M154 22 Q165 5 177 8 Q174 23 154 22Z M171 62 Q190 50 196 57 Q190 70 171 62Z M27 65 Q11 56 12 47 Q30 46 27 65Z"/>
+      <path stroke-width=".95" d="M192 35 l8 -8 8 8 -8 8Z M217 38 l4 -4 4 4 -4 4Z"/>
+      <circle cx="200" cy="35" r="2" fill="#e6c37f"/>
+      <circle cx="106" cy="20" r="2" fill="#e6c37f"/>
+      <path stroke-width=".9" d="M19 10H73 M19 14H66 M19 18H60 M19 22H55"/>
+      <path stroke-width="1.2" d="M232 47 C254 41 271 43 284 48"/>
+      <path stroke-width="1" d="M270 44 l5 -5 5 5 -5 5Z"/>
+    </g>
+  </defs>
+  <g opacity=".66">
+    <path d="M0 3H1440 M0 91H1440" stroke="#f3ca82" stroke-width=".9" stroke-opacity=".60"/>
+    <path d="M0 7H1440 M0 87H1440" stroke="#f3ca82" stroke-width=".65" stroke-opacity=".22"/>
+    <use href="#folio-vine"/>
+    <use href="#folio-vine" transform="translate(1440 0) scale(-1 1)"/>
+  </g>
+  <g opacity=".35" stroke="#e9c17b" fill="none">
+    <path d="M670 10H707 M733 10H770 M670 84H707 M733 84H770" stroke-width=".9"/>
+    <path d="M720 9l6 8-6 8-6-8Z M720 69l6 8-6 8-6-8Z" fill="#c58b56" fill-opacity=".42"/>
+    <circle cx="720" cy="47" r="5" stroke-width="1"/>
+    <path d="M720 31v11m0 10v11m-16-16h11m10 0h11" stroke-width=".8"/>
+  </g>
+</svg>
