@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 52" preserveAspectRatio="none" aria-hidden="true">
+<defs>
+ <linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#f6db99"/><stop offset=".3" stop-color="#bd894d"/><stop offset=".65" stop-color="#ecc17b"/><stop offset="1" stop-color="#885628"/></linearGradient>
+ <g id="acanto" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M5 27Q26 5 44 24T80 23Q100 6 122 22T162 27Q184 12 202 25" stroke="#a36b37" stroke-width="2.8"/>
+   <path d="M5 27Q26 5 44 24T80 23Q100 6 122 22T162 27Q184 12 202 25" stroke="#e6bc7d" stroke-width=".9"/>
+   <path d="M28 20Q16 11 21 8Q34 9 38 20Z M62 24Q54 36 43 36Q43 26 62 24Z M105 20Q106 6 117 8Q121 20 105 20Z M145 25Q150 37 165 35Q162 23 145 25Z" fill="#183f55" stroke="#d5a967" stroke-width=".8"/>
+   <path d="M50 23Q46 11 54 8Q68 16 50 23Z M130 21Q128 10 134 8Q151 14 130 21Z M180 25Q180 14 190 12Q203 21 180 25Z" fill="#813b2c" stroke="#d5a967" stroke-width=".8"/>
+   <path d="M42 26L48 17M113 22L115 14M159 28L151 24" stroke="#edd38d" stroke-width=".65"/>
+   <path d="M214 26H295" stroke="#f0ce8c" stroke-width=".7" opacity=".7"/>
+   <path d="M214 23H275M214 29H275" stroke="#d39e5f" stroke-width=".45" opacity=".58"/>
+   <path d="M297 26l4-4 4 4-4 4Z" fill="#d7aa63" stroke="#f4d38c" stroke-width=".6"/>
+ </g>
+</defs>
+<path d="M0 1H1600M0 4H1600M0 48H1600M0 51H1600" stroke="url(#g)" stroke-width=".9"/>
+<path d="M0 6H1600M0 46H1600" stroke="#d2a466" stroke-opacity=".22" stroke-width=".7"/>
+<g opacity=".82"><use href="#acanto"/><use href="#acanto" transform="translate(1600 0) scale(-1 1)"/></g>
+<g opacity=".75"><circle cx="313" cy="26" r="2.3" fill="#e1b476"/><circle cx="1287" cy="26" r="2.3" fill="#e1b476"/></g>
+</svg>

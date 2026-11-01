@@ -258,3 +258,71 @@ body.shop-redesign .site-header .menu-btn:hover { background: #e4a66e24; }
 @media (prefers-reduced-motion: reduce) {
   .shop-redesign .shop-search button { transition: none; }
 }
+
+/* FRISO GREGORIANO — ornamento apenas nas bordas, preservando os controles.
+   Ouro antigo, azul lápis-lazúli e vermelho-vinho derivados das referências.
+   Não aplicar filigranas ao centro do cabeçalho atrás de textos. */
+.shop-redesign .site-header {
+  background-color: #b76436;
+  background-image:
+    url('../assets/img/loja/friso-iluminado-gregoriano.svg'),
+    linear-gradient(90deg, #382119 0%, #6b3b27 22%, #87492c 53%, #623721 79%, #352017 100%);
+  background-repeat: repeat-x, no-repeat;
+  background-position: left top, center;
+  background-size: 240px 16px, cover;
+  border-top: 0;
+  border-bottom: 2px solid #deb77c;
+  box-shadow: 0 6px 17px #0007, inset 0 -4px 0 #2b1a1460;
+}
+/* O logo deve permanecer estático: tornar seu position relativo reativaria
+   left:50% herdado do CSS global e o colocaria sobre os links. */
+.shop-redesign .site-header > :is(.menu-btn, .shop-header-links, .shop-search, .shop-cart-link) {
+  position: relative;
+  z-index: 2;
+}
+.shop-redesign .site-header .logo {
+  position: static;
+  left: auto;
+  transform: none;
+  z-index: 2;
+}
+.shop-redesign .shop-ribbon {
+  background-image:
+    url('../assets/img/loja/faixa-iluminada-gregoriana.svg'),
+    linear-gradient(90deg, #44271c 0%, #874827 23%, #a55a2c 50%, #854725 77%, #44271c 100%);
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, cover;
+  border-block: 0;
+  box-shadow: 0 2px 0 #bb8d50, inset 0 -2px 0 #d5ac6e7b;
+}
+.shop-redesign .shop-ribbon::before,
+.shop-redesign .shop-ribbon::after {
+  display: none;
+}
+/* Título com respiro e acabamento discreto, sem mudar proporções. */
+.shop-redesign .shop-brand {
+  color: #f6e4c4;
+  text-shadow: 0 1px 1px #2b190e;
+}
+.shop-redesign .shop-brand small { color: #e7cd9f; }
+.shop-redesign .shop-header-links a[aria-current] { text-decoration-color: #f4cf8b; }
+.shop-redesign .shop-search { border-color: #e5c48e; }
+@media (max-width: 760px) {
+  .shop-redesign .site-header {
+    background-size: 240px 13px, cover;
+    background-position: left top, center;
+  }
+  .shop-redesign .shop-ribbon {
+    /* Em telas pequenas, o centro da filigrana fica livre para a chamada. */
+    background-image: linear-gradient(90deg, #44271c, #9a532f 50%, #44271c);
+  }
+}
+@media (prefers-contrast: more) {
+  .shop-redesign .site-header {
+    background-image: linear-gradient(90deg, #382119, #6b3b27 50%, #382119);
+  }
+  .shop-redesign .shop-ribbon {
+    background-image: linear-gradient(90deg, #44271c, #894522 50%, #44271c);
+  }
+}

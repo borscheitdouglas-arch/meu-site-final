@@ -119,10 +119,25 @@ def main():
                     'el => getComputedStyle(el).backgroundColor') == 'rgb(183, 100, 54)'
                 assert page.locator('.site-header').evaluate(
                     'el => getComputedStyle(el).backdropFilter') == 'none'
-                assert 'ornamento-iluminura-cobre.svg' in page.locator('.site-header').evaluate(
+                assert 'friso-iluminado-gregoriano.svg' in page.locator('.site-header').evaluate(
                     'el => getComputedStyle(el).backgroundImage')
+                if width > 760:
+                    assert 'faixa-iluminada-gregoriana.svg' in page.locator('.shop-ribbon').evaluate(
+                        'el => getComputedStyle(el).backgroundImage')
                 assert page.locator('.shop-search').evaluate(
                     'el => getComputedStyle(el).backgroundColor') == 'rgb(244, 234, 217)'
+                # Cabeçalho iluminado deve manter os elementos separados:
+                # a versão rejeitada deslocava a marca e sobrepunha a navegação.
+                brand_box = page.locator('.site-header .logo').bounding_box()
+                menu_box = page.locator('.site-header .menu-btn').bounding_box()
+                cart_box = page.locator('.site-header .shop-cart-link').bounding_box()
+                assert menu_box['x'] + menu_box['width'] < brand_box['x'], (width, menu_box, brand_box)
+                assert brand_box['x'] + brand_box['width'] < cart_box['x'], (width, brand_box, cart_box)
+                if width == 1440:
+                    links_box = page.locator('.shop-header-links').bounding_box()
+                    search_box = page.locator('.shop-search').bounding_box()
+                    assert brand_box['x'] + brand_box['width'] < links_box['x'], (brand_box, links_box)
+                    assert links_box['x'] + links_box['width'] < search_box['x'], (links_box, search_box)
                 # Cinco categorias agora compactas e retangulares, sem sair da tela.
                 categories = page.locator('.shop-category-art')
                 expect(categories).to_have_count(5)
