@@ -185,3 +185,30 @@
  .shop-shipping-calculator .shop-shipping-form{grid-template-columns:1fr}
  .shop-shipping-calculator button{width:100%}
 }
+
+/* Ações do carrinho e compra segura: só aparecem quando o Worker autoriza. */
+.shop-redesign .shop-cart-feedback-link {
+  display:inline-block; margin-left:12px; padding:4px 8px;
+  border-radius:3px; color:#ffe1a6; font-weight:700;
+  text-decoration:underline; text-underline-offset:3px;
+}
+.shop-redesign .shop-cart-feedback-link:focus-visible {
+  outline:2px solid #f8db9c; outline-offset:2px;
+}
+.shop-redesign .shop-cart-buy-now {
+  display:block; margin-top:7px; padding:10px 12px; text-align:center;
+  background:#264b35; color:#fff2dc; border:1px solid #bbad78;
+  border-radius:3px; font:700 11px/1.5 'Inter',Arial,sans-serif;
+  text-decoration:none;
+}
+.shop-redesign .shop-cart-buy-now:hover,
+.shop-redesign .shop-cart-buy-now:focus-visible { background:#306341; outline-offset:2px; }
+.shop-cart-page .cart-action-disabled {
+  width:100%; opacity:.58; background:#4b4739; color:#f0ddbd;
+  border-color:#75674d; cursor:not-allowed; font-family:inherit;
+}
+.shop-cart-page .cart-action-disabled:hover { background:#4b4739; }
+.shop-cart-page .cart-continue-shopping {
+  display:inline-block; padding:10px 0; margin-top:12px; color:#ead0a1;
+  font:600 12px/1.5 'Inter',Arial,sans-serif;
+}
