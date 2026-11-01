@@ -7,16 +7,27 @@
   <meta name="theme-color" content="#b76436">
   <title>Finalizar compra | Camiseta Salve Regina</title>
   <link rel="stylesheet" href="/styles/checkout-salve-regina.css?v=20261101-safari">
-  <script src="/scripts/checkout-salve-regina.js" defer></script>
+  <link rel="stylesheet" href="/styles/store-cart-pro.css?v=20261101-v1">
+  <link rel="stylesheet" href="/styles/checkout-salve-regina-pro.css?v=20261101-v1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Spectral:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="/scripts/checkout-salve-regina.js?v=20261101-compra-completa" defer></script>
 </head>
 <body>
-  <header><a href="/pages/loja.html#colecao-salve-regina">Voltar para a loja</a><span>Douglas Assumpção</span></header>
+  <header><a href="/pages/cart.html">← Voltar ao carrinho</a><span>Douglas Assumpção · Arte & tradição</span></header>
   <main>
     <p class="eyebrow">Coleção Salve Regina</p>
+    <ol class="shop-steps checkout-steps" aria-label="Etapas da compra">
+      <li><span class="step-number">1</span> Carrinho</li>
+      <li aria-current="step"><span class="step-number">2</span> Entrega e dados</li>
+      <li><span class="step-number">3</span> Pagamento</li>
+    </ol>
     <h1>Finalizar compra</h1>
     <p id="checkout-selection">Camiseta preta, 1 unidade — valor conforme tamanho + frete</p>
     <p id="checkout-readiness" role="status">Conferindo a disponibilidade de compra...</p>
     <section id="checkout-container" hidden></section>
+    <div class="checkout-info-note"><strong>Como funciona:</strong> os valores e prazos são conferidos com o fornecedor e o pagamento, quando liberado, acontece no ambiente seguro do Mercado Pago. A aprovação do pagamento é confirmada no servidor. O prazo de fabricação não está incluído no prazo de transporte.</div>
     <p class="hint">Os pagamentos são processados pelo Mercado Pago. Nenhuma cobrança é feita antes da confirmação no ambiente oficial.</p>
     <p class="hint"><a href="/pages/condicoes-da-loja.html" target="_blank" rel="noopener">Informações de compra: prazo de fabricação, frete, devoluções e privacidade</a>.</p>
   </main>
