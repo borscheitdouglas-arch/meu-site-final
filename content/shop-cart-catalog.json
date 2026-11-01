@@ -1,7 +1,7 @@
 {
   "version": 1,
   "currency": "BRL",
-  "pricingNotice": "Os valores do fornecedor não são preços de venda. A compra depende de confirmação de produção, preço e frete.",
+  "pricingNotice": "Preços de venda sugeridos, sujeitos à validação antes de cobranças. Frete calculado por CEP quando o fornecedor disponibilizar cotação.",
   "products": [
     {
       "id": "camiseta-salve-regina",
@@ -47,15 +47,15 @@
       "id": "caneca-salve-regina-preta",
       "title": "Caneca Preta Salve Regina — Partitura",
       "category": "canecas",
-      "status": "preparation",
+      "status": "consultation",
       "vaviDesign": "D000002",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
-      "priceStatus": "pending",
+      "priceStatus": "preliminary",
       "variants": [
         {
           "code": "unico",
           "label": "Preta · partitura gregoriana",
-          "priceCents": null
+          "priceCents": 4990
         }
       ]
     },
@@ -63,15 +63,15 @@
       "id": "caneca-salve-regina-pb",
       "title": "Caneca P&B Salve Regina — Nossa Senhora",
       "category": "canecas",
-      "status": "preparation",
+      "status": "consultation",
       "vaviDesign": "D000003",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
-      "priceStatus": "pending",
+      "priceStatus": "preliminary",
       "variants": [
         {
           "code": "unico",
           "label": "P&B · arte de Nossa Senhora",
-          "priceCents": null
+          "priceCents": 4990
         }
       ]
     },
@@ -79,15 +79,15 @@
       "id": "ecobag-salve-regina-m",
       "title": "Ecobag Salve Regina — Algodão Cru M",
       "category": "ecobags",
-      "status": "preparation",
+      "status": "consultation",
       "vaviDesign": "D000004",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
-      "priceStatus": "pending",
+      "priceStatus": "preliminary",
       "variants": [
         {
           "code": "unico",
           "label": "Algodão cru · M · 1 área",
-          "priceCents": null
+          "priceCents": 3990
         }
       ]
     },
@@ -95,15 +95,15 @@
       "id": "ecobag-salve-regina-g",
       "title": "Ecobag Salve Regina — Algodão Cru G",
       "category": "ecobags",
-      "status": "preparation",
+      "status": "consultation",
       "vaviDesign": "D000005",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
-      "priceStatus": "pending",
+      "priceStatus": "preliminary",
       "variants": [
         {
           "code": "unico",
           "label": "Algodão cru · G · 1 área",
-          "priceCents": null
+          "priceCents": 3990
         }
       ]
     },
