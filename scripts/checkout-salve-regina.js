@@ -129,7 +129,7 @@
     let cartDelivery=null;
     try {
       const saved=previewOnly?null:sessionStorage.getItem('douglasCheckoutDeliveryDraft_v1');
-      sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
+      if(!previewOnly) sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
       if(saved){
         const draft=JSON.parse(saved);
         if(draft?.size===size.value && /^\d{8}$/.test(draft.zipCode) &&
