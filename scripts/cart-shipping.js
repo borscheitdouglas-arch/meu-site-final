@@ -41,7 +41,9 @@
     const key = keyFor(cart);
     if (state && state.key !== key) invalidate();
 
-    root.append(make('h3','cart-shipping-title','Calcular frete da compra'));
+    root.append(make('h3','cart-shipping-title','Forma de entrega'));
+    root.append(make('p','cart-shipping-description',
+      'Informe o CEP e compare transportadoras, valores e prazos antes de pagar.'));
     const eligible = cart.length === 1 &&
       cart[0].id === 'camiseta-salve-regina' &&
       cart[0].qty === 1 && ['P','M','G','GG','XG'].includes(cart[0].variant);
@@ -73,7 +75,7 @@
     const optionsRoot=make('fieldset','cart-shipping-options');
     optionsRoot.hidden=true;
     const fineprint=make('p','cart-shipping-help',
-      'Valores da transportadora para uma camiseta. Prazo de fabricação à parte. O preço do frete será reconferido no checkout antes de qualquer cobrança.');
+      'Prazos informados pela transportadora não incluem a fabricação. A disponibilidade e o valor serão conferidos novamente antes do pagamento.');
     root.append(form,status,optionsRoot,fineprint);
 
     function draw() {
@@ -85,24 +87,36 @@
         return;
       }
       optionsRoot.hidden=false;
-      optionsRoot.append(make('legend','','Escolha a entrega'));
+      optionsRoot.append(make('legend','','Opções disponíveis'));
+      const cheapest=Math.min(...local.options.map(x=>x.shippingCost));
+      const fastest=Math.min(...local.options.map(x=>x.deliveryTime));
+      const estimate=make('p','cart-shipping-estimate');
       for (const option of local.options) {
         const line=make('label','cart-shipping-choice');
         const radio=make('input');
         radio.type='radio'; radio.name='shippingOption'; radio.value=option.id;
         radio.checked=option.id===local.selected;
+        const data=make('span','cart-shipping-choice-info');
+        const heading=make('strong','',option.name);
+        data.append(heading);
+        if(option.shippingCost===cheapest) data.append(make('small','cart-shipping-best','Menor valor'));
+        else if(option.deliveryTime===fastest) data.append(make('small','cart-shipping-fast','Menor prazo de transporte'));
+        data.append(make('small','',option.deliveryTime+' dia(s) estimados de transporte'));
+        const amount=make('span','cart-shipping-choice-price',
+          option.shippingCost===0?'Grátis':money(Math.round(option.shippingCost*100)));
         radio.addEventListener('change',()=>{
           if(!radio.checked)return;
           local.selected=option.id;
-          draw();
+          optionsRoot.querySelectorAll('.cart-shipping-choice').forEach(el=>
+            el.classList.toggle('is-selected',el.querySelector('input')?.checked===true));
+          estimate.textContent='Produtos + frete: '+money(subtotalCents+Math.round(option.shippingCost*100));
+          onUpdate?.();
         });
-        const name=make('span','',
-          option.name+' — '+money(Math.round(option.shippingCost*100))+
-          ' · transporte em '+option.deliveryTime+' dia(s)');
-        line.append(radio,name);optionsRoot.append(line);
+        line.classList.toggle('is-selected',radio.checked);
+        line.append(radio,data,amount);optionsRoot.append(line);
       }
-      optionsRoot.append(make('p','cart-shipping-estimate',
-        'Total estimado da compra: '+money(subtotalCents+quote.shippingCents)));
+      estimate.textContent='Produtos + frete: '+money(subtotalCents+quote.shippingCents);
+      optionsRoot.append(estimate);
       onUpdate?.();
     }
     input.addEventListener('input',()=>{
