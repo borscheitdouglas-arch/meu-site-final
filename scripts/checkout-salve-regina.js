@@ -84,6 +84,19 @@
     // SKU e preço antes de criar qualquer preferência de pagamento.
     const requestedSize=new URLSearchParams(location.search).get('size');
     if(requestedSize && Object.hasOwn(prices,requestedSize)) size.value=requestedSize;
+    // Aproveita somente CEP e preferência de frete escolhidos no carrinho.
+    // Não confia no valor antigo: a VAVI será consultada novamente aqui.
+    let cartDelivery=null;
+    try {
+      const saved=sessionStorage.getItem('douglasCheckoutDeliveryDraft_v1');
+      sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
+      if(saved){
+        const draft=JSON.parse(saved);
+        if(draft?.size===size.value && /^\\d{8}$/.test(draft.zipCode) &&
+          typeof draft.shippingOptionId==='string')
+          cartDelivery=draft;
+      }
+    } catch { cartDelivery=null; }
     const selection=document.getElementById('checkout-selection');
     if(selection) selection.textContent='Camiseta preta · tamanho '+size.value+
       ' · 1 unidade — '+format(prices[size.value])+' + frete';
@@ -92,6 +105,7 @@
     const sku=()=>skuForSize(size.value);
     productAmount.textContent=format(price());
     const zip=form.elements.zipCode,quoteButton=form.querySelector('#ship-quote');
+    if(cartDelivery) zip.value=cartDelivery.zipCode.slice(0,5)+'-'+cartDelivery.zipCode.slice(5);
     const choices=form.querySelector('#ship-choices'),shipFeedback=form.querySelector('#ship-feedback');
     const freightAmount=form.querySelector('#freight-amount'),total=form.querySelector('#checkout-total');
     const pay=form.querySelector('#pay-now'),payStatus=form.querySelector('#payment-feedback');
@@ -145,7 +159,11 @@
           const label=document.createElement('label');
           label.className='shipping-choice';
           const input=document.createElement('input');
-          input.name='shippingOption';input.type='radio';input.value=o.id;input.checked=i===0;
+          input.name='shippingOption';input.type='radio';input.value=o.id;
+          input.checked=cartDelivery
+            ? (options.some(candidate=>candidate.id===cartDelivery.shippingOptionId)
+              ? o.id===cartDelivery.shippingOptionId : i===0)
+            : i===0;
           const caption=document.createElement('span');
           caption.textContent=o.name+' — '+format(Math.round(o.shippingCost*100))+
             ' · Transporte: '+o.deliveryTime+' dia(s)';
@@ -157,6 +175,7 @@
         shipFeedback.textContent='Não foi possível consultar o frete. Volte à loja e solicite uma cotação.';
       }finally{quoteButton.disabled=false;}
     });
+    if(cartDelivery) quoteButton.click();
     form.addEventListener('submit',async event=>{
       event.preventDefault();
       if(!form.reportValidity())return;
