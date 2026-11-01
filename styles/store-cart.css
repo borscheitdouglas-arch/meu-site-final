@@ -133,3 +133,55 @@
  .shop-cart-page .cart-item-content h3 { font-size: 18px; }
  .shop-redesign .shop-cart-add { font-size: 10px; }
 }
+
+/* Calculadora de frete para produto individual, sem simular preços artificiais. */
+.shop-shipping-calculator {
+  width:min(1100px,100%);margin:38px auto 44px;padding:clamp(18px,3vw,34px);
+  border:1px solid #c39e69;border-radius:6px;
+  background:linear-gradient(135deg,#243025,#1b211b);color:#f2e2c4;
+  box-shadow:0 10px 35px #0002;
+}
+.shop-shipping-calculator .shop-shipping-kicker {
+  color:#e4c088;text-transform:uppercase;letter-spacing:.12em;
+  font:600 11px 'Inter',Arial,sans-serif;margin:0 0 8px;
+}
+.shop-shipping-calculator h2 {
+  color:#f5dfb8;font:400 clamp(26px,3.6vw,38px) 'Spectral',Georgia,serif;
+  margin:0 0 8px;
+}
+.shop-shipping-calculator p{color:#e8d7b6;line-height:1.6;font-size:13px}
+.shop-shipping-calculator .shop-shipping-form {
+  display:grid;grid-template-columns:minmax(0,1.4fr) minmax(160px,.7fr) auto;
+  align-items:end;gap:12px;margin:18px 0 12px;
+}
+.shop-shipping-calculator label{
+  display:grid;gap:6px;color:#e6cda8;
+  font:600 12px/1.4 'Inter',Arial,sans-serif;
+}
+.shop-shipping-calculator select,
+.shop-shipping-calculator input {
+  min-width:0;width:100%;min-height:42px;padding:10px 12px;
+  border:1px solid #a98657;border-radius:4px;color:#261f17;
+  background:#fff9ef;font:14px 'Inter',Arial,sans-serif;
+}
+.shop-shipping-calculator button {
+  min-height:42px;padding:10px 17px;border:1px solid #e7be7c;border-radius:4px;
+  background:#e4b776;color:#261a0e;cursor:pointer;font:700 12px 'Inter',Arial,sans-serif;
+}
+.shop-shipping-calculator button:disabled{opacity:.6;cursor:wait}
+.shop-shipping-calculator :is(input,select,button):focus-visible{
+  outline:3px solid #f2d6a1;outline-offset:3px;
+}
+.shop-shipping-calculator .shop-shipping-status:not(:empty){
+  border-left:3px solid #d9af74;padding:9px 12px;background:#ffffff0a;
+}
+.shop-shipping-calculator .shop-shipping-results{padding:14px 16px;margin-top:13px;border:1px solid #947650;border-radius:4px}
+.shop-shipping-calculator .shop-shipping-results[hidden]{display:none}
+.shop-shipping-calculator .shop-shipping-results strong{color:#f4d6a6}
+.shop-shipping-calculator .shop-shipping-results p{margin:8px 0}
+.shop-shipping-calculator .shipping-calculator-fineprint,
+.shop-shipping-calculator .shop-shipping-small{font-size:11px;color:#c3b7a5}
+@media(max-width:730px){
+ .shop-shipping-calculator .shop-shipping-form{grid-template-columns:1fr}
+ .shop-shipping-calculator button{width:100%}
+}

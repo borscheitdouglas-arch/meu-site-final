@@ -75,7 +75,7 @@ def main():
             body = route.request.post_data_json
             assert body == {'zipCode': '01001000', 'sku': 'salve-regina-preta-g'}, body
             route.fulfill(json={
-                'zipCode': body['zipCode'],
+                'zipCode': body['zipCode'], 'sku': body['sku'],
                 'options': [
                     {'id': 'express', 'name': 'Entrega expressa de teste',
                      'shippingCost': 29.90, 'deliveryTime': 2, 'isActive': True},
@@ -106,7 +106,7 @@ def main():
                 expect(page.get_by_role('heading', level=1)).to_be_visible()
                 expect(page.locator('.shop-product-card')).to_have_count(6)
                 expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
-                expect(page.locator('.shop-product-card[data-availability="preparation"]')).to_have_count(5)
+                expect(page.locator('.shop-product-card[data-availability="preparation"]')).to_have_count(1)
                 assert_no_overflow(page)
                 # Identidade cobre/iluminura presente sem sacrificar legibilidade.
                 expect(page.locator('.shop-ribbon')).to_be_visible()
@@ -195,13 +195,28 @@ def main():
             expect(page.locator('[data-shop-empty]')).to_be_visible()
             page.locator('[data-shop-empty] [data-shop-reset]').click()
             page.locator('#shop-availability').select_option('preparation')
-            expect(page.locator('.shop-product-card:visible')).to_have_count(5)
-            page.locator('#shop-availability').select_option('consultation')
             expect(page.locator('.shop-product-card:visible')).to_have_count(1)
+            page.locator('#shop-availability').select_option('consultation')
+            expect(page.locator('.shop-product-card:visible')).to_have_count(5)
             expect(page.locator('.shop-price').filter(has_text='R$ 109,90')).to_be_visible()
             page.locator('[data-shop-reset]').first.click()
             expect(page.locator('#shop-results')).to_have_text('7 produtos encontrados')
             print('PASS: categorias, busca sem acentos, filtros e estado vazio', flush=True)
+            # Calculadora por CEP; respostas do fornecedor simuladas nos testes.
+            calc=page.locator('[data-shipping-calculator]')
+            calc.locator('select[name="product"]').select_option('caneca-salve-regina-preta')
+            calc.locator('input[name="zipCode"]').fill('01001-000')
+            previous_calls=len(api_calls)
+            calc.get_by_role('button',name='Consultar frete').click()
+            expect(calc.locator('[data-shipping-status]')).to_contain_text('não configurado')
+            assert len(api_calls)==previous_calls
+            calc.locator('select[name="product"]').select_option('salve-regina-preta-g')
+            calc.get_by_role('button',name='Consultar frete').click()
+            expect(calc.locator('[data-shipping-results]')).to_contain_text('R$ 128,40')
+            expect(calc.locator('[data-shipping-results]')).not_to_contain_text('Retirada na fábrica')
+            expect(calc.locator('[data-shipping-status]')).to_contain_text('não realiza compra')
+            print('PASS: calculadora de frete, recusa segura e total por CEP',flush=True)
+
 
             # A compra do livro permanece externa, com preço e entrega da loja parceira.
             retailers = page.locator('.atelier-product .atelier-buy')
@@ -281,7 +296,7 @@ def main():
 
             page.goto(shop_url + '#produto-caneca', wait_until='networkidle')
             expect(page.locator('#produto-caneca')).to_have_attribute('open', '')
-            expect(page.locator('#produto-caneca')).to_contain_text('Compra indisponível')
+            expect(page.locator('#produto-caneca')).to_contain_text('compra automática indisponível')
             # Exercita somente o contrato existente, com resposta local simulada.
             state['checkout_enabled'] = True
             page.goto(shop_url + '#produto-camiseta', wait_until='networkidle')
@@ -313,8 +328,8 @@ def main():
             page.locator('.shop-cart-link').click()
             expect(page).to_have_url(base + '/pages/cart.html')
             expect(page.locator('.cart-item')).to_have_count(3)
-            expect(page.locator('.cart-summary')).to_contain_text('R$ 119,90')
-            expect(page.locator('.cart-summary')).to_contain_text('sem preço de venda definido')
+            expect(page.locator('.cart-summary')).to_contain_text('R$ 209,70')
+            expect(page.locator('.cart-summary')).not_to_contain_text('sem preço de venda definido')
             expect(page.locator('.cart-summary a[href^="mailto:"]')).to_have_count(1)
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
             assert 'D000002' in page.locator('.cart-action-primary').get_attribute('href')
