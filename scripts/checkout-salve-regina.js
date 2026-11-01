@@ -92,7 +92,7 @@
       sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
       if(saved){
         const draft=JSON.parse(saved);
-        if(draft?.size===size.value && /^\\d{8}$/.test(draft.zipCode) &&
+        if(draft?.size===size.value && /^\d{8}$/.test(draft.zipCode) &&
           typeof draft.shippingOptionId==='string')
           cartDelivery=draft;
       }
