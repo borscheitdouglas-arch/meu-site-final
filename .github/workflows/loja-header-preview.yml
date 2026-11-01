@@ -7,6 +7,7 @@ on:
       - 'pages/cart.html'
       - 'scripts/cart.js'
       - 'styles/store-cart.css'
+      - 'styles/storefront-cards-dense.css'
       - 'content/shop-cart-catalog.json'
       - 'assets/img/loja/friso-iluminado-gregoriano.svg'
       - 'assets/img/loja/faixa-iluminada-gregoriana.svg'

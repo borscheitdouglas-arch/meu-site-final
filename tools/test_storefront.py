@@ -150,11 +150,18 @@ def main():
                 tiles = page.locator('.shop-product-grid > .shop-product-card, .shop-product-grid > .atelier-catalog')
                 expect(tiles).to_have_count(7)
                 boxes = [tile.bounding_box() for tile in tiles.all()]
-                columns = 5 if width > 1200 else 3 if width > 760 else 2 if width > 360 else 1
+                columns = (6 if width > 1320 else 5 if width > 1080
+                           else 4 if width > 860 else 3 if width > 630 else 2)
                 assert sum(abs(box['y'] - boxes[0]['y']) < 2 for box in boxes) == columns
                 if width == 1440:
                     assert page.locator('.shop-hero').bounding_box()['height'] < 410
                     assert boxes[0]['y'] < 980, boxes[0]
+                    # Cards menores, com fotos completas e ações ainda acessíveis.
+                    assert max(box['height'] for box in boxes[:6]) < 490, boxes
+                    assert page.locator('.shop-product-image img').first.bounding_box()['height'] <= 150
+                expect(page.locator('.shop-product-variation > span')).to_have_count(16)
+                assert all(card.get_attribute('data-availability') in ('consultation','preparation')
+                           for card in page.locator('.shop-product-card').all())
                 for asset in page.locator('img[srcset]:visible').all():
                     asset.scroll_into_view_if_needed()
                     asset.evaluate('image => image.decode()')
