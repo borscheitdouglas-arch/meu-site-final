@@ -8,6 +8,11 @@ on:
       - 'pages/colecao-salve-regina.html'
       - 'scripts/salve-regina-inquiry.js'
       - 'scripts/storefront.js'
+      - 'scripts/cart.js'
+      - 'scripts/checkout-salve-regina.js'
+      - 'content/shop-cart-catalog.json'
+      - 'pages/cart.html'
+      - 'styles/store-cart.css'
       - 'styles/store-book.css'
       - 'styles/salve-regina-colecao.css'
       - 'assets/img/loja/Salve-Regina/**'
@@ -24,6 +29,11 @@ on:
       - 'pages/colecao-salve-regina.html'
       - 'scripts/salve-regina-inquiry.js'
       - 'scripts/storefront.js'
+      - 'scripts/cart.js'
+      - 'scripts/checkout-salve-regina.js'
+      - 'content/shop-cart-catalog.json'
+      - 'pages/cart.html'
+      - 'styles/store-cart.css'
       - 'styles/store-book.css'
       - 'styles/salve-regina-colecao.css'
       - 'assets/img/loja/Salve-Regina/**'
@@ -56,6 +66,11 @@ jobs:
         run: python3 -m unittest discover -s tools -p test_store_catalog.py
       - name: Validar JavaScript da solicitação assistida
         run: node --check scripts/salve-regina-inquiry.js
+      - name: Validar scripts de sacola e checkout sem alterar Worker
+        run: |
+          node --check scripts/cart.js
+          node --check scripts/checkout-salve-regina.js
+          python3 -m json.tool content/shop-cart-catalog.json > /dev/null
       - name: Testar comportamento da consulta de frete sem serviços externos
         run: node --test tools/test_salve_regina_inquiry.cjs
       - name: Preparar navegador de teste
