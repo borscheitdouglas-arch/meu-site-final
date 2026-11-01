@@ -272,6 +272,26 @@
       clear:()=>{persist([]);renderCart();},
     };
     updateCount();renderCart();
+    if (shop) {
+      // A vitrine só mostra compra direta quando o servidor autorizar cobranças.
+      ready=await checkReady();
+      if (ready) {
+        const shirt=shop.querySelector('.shop-product-card[data-category="camisetas"]');
+        const select=shirt?.querySelector('[data-cart-size]');
+        const addButton=shirt?.querySelector('[data-cart-add="camiseta-salve-regina"]');
+        if (select && addButton) {
+          const buy=document.createElement('a');
+          buy.className='shop-cart-buy-now';
+          buy.textContent='Comprar agora com Mercado Pago →';
+          const updateLink=()=>{buy.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value);};
+          select.addEventListener('change',updateLink);
+          updateLink();
+          addButton.insertAdjacentElement('afterend',buy);
+          const state=shirt.querySelector('.shop-product-state');
+          if(state) state.textContent='Compra online liberada · frete e total confirmados no checkout';
+        }
+      }
+    }
     if (document.getElementById('cart-root')) {
       ready=await checkReady();renderCart();
     }
