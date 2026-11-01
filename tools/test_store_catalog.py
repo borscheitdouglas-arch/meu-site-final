@@ -138,7 +138,12 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertNotIn('MERCADOPAGO_TEST_ACCESS_TOKEN', source)
         self.assertNotIn('CHECKOUT_TEST_API_KEY', source)
         self.assertNotIn('/api/checkout/test', source)
-        self.assertEqual(source.count('Em preparação · Compra indisponível'), 3)
+        # Produtos ainda bloqueados para pagamento, porém adicionáveis
+        # à sacola para solicitar cotação (sem habilitar checkout).
+        self.assertEqual(source.count('data-availability="preparation"'), 5)
+        self.assertEqual(source.count('data-cart-add='), 6)
+        self.assertNotIn('data-cart-checkout', source)
+        self.assertIn('Sem cobrança · produção a confirmar', source)
         self.assertIn('Preço preliminar: R$ 109,90 + frete', source)
 
 
