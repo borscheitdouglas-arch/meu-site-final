@@ -154,6 +154,7 @@
         status.textContent='Cotação disponível. Escolha o frete para visualizar o total.';
         draw();
       } catch(error) {
+        if(location.hostname==='127.0.0.1') window.__cartShippingDebug=String(error?.message||'unknown');
         if(id!==sequence || state!==local)return;
         local.quotedZip='';local.options=[];local.selected='';
         status.textContent='Frete indisponível para este CEP neste momento. Solicite uma cotação antes de pagar.';
