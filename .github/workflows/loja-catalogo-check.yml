@@ -9,6 +9,7 @@ on:
       - 'scripts/salve-regina-inquiry.js'
       - 'scripts/storefront.js'
       - 'scripts/cart.js'
+      - 'scripts/cart-shipping.js'
       - 'scripts/checkout-salve-regina.js'
       - 'content/shop-cart-catalog.json'
       - 'pages/cart.html'
@@ -31,6 +32,7 @@ on:
       - 'scripts/salve-regina-inquiry.js'
       - 'scripts/storefront.js'
       - 'scripts/cart.js'
+      - 'scripts/cart-shipping.js'
       - 'scripts/checkout-salve-regina.js'
       - 'content/shop-cart-catalog.json'
       - 'pages/cart.html'
@@ -71,6 +73,7 @@ jobs:
       - name: Validar scripts de sacola e checkout sem alterar Worker
         run: |
           node --check scripts/cart.js
+          node --check scripts/cart-shipping.js
           node --check scripts/checkout-salve-regina.js
           python3 -m json.tool content/shop-cart-catalog.json > /dev/null
       - name: Testar comportamento da consulta de frete sem serviços externos
