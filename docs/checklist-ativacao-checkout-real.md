@@ -27,3 +27,28 @@ As credenciais de produção `MERCADOPAGO_LIVE_ACCESS_TOKEN` e `MERCADOPAGO_LIVE
 `LIVE_CHECKOUT_ENABLED`, `LIVE_PRODUCT_APPROVED`, `LIVE_POLICY_APPROVED` e `SHOP_ADMIN_API_KEY` ainda não estão configurados. Portanto, a loja permanece bloqueada para cobrança automática.
 
 **Não confundir:** publicar o HTML ou o código do Worker não habilita vendas reais. A liberação exige todos os flags e validações acima. Os pedidos VAVI continuam manuais.
+
+
+## Auditoria de 01/11/2026 — estado real conferido nas integrações
+
+Verificação somente leitura no Worker `douglas-loja-api` e no banco D1 `douglas-loja-db`:
+
+- Os cinco SKUs da camiseta estão cadastrados, com R$ 109,90 (P, M, G, GG) e R$ 119,90 (XG).
+- `products.enabled=0`, `products.verified=0` e `variants.available=0`: **nenhuma variante está aprovada para cobrança**.
+- Há segredos cadastrados para Mercado Pago (teste e produção), cifragem do endereço e autenticação da VAVI. Seus valores **não foram consultados nem expostos**; presença do segredo não comprova funcionamento.
+- Tabelas de pedidos, entrega cifrada, pagamentos, fila VAVI e rastreamento existem. Há pedidos de homologação `awaiting_payment` no banco; não foram transformados em vendas ou pedidos de produção.
+- As flags privadas `LIVE_CHECKOUT_ENABLED`, `LIVE_PRODUCT_APPROVED`, `LIVE_POLICY_APPROVED`, `LIVE_WEBHOOK_ENABLED`, `VAVI_AUTO_DRAFT_ENABLED` não estão configuradas. O checkout permanece fechado.
+- A aplicação de produção do Worker não foi alterada durante esta auditoria. O código-fonte do backend agora usa `shipments.cost` e `shipments.mode=not_specified` para exibir o frete separadamente no Mercado Pago, conforme a documentação oficial; é **necessário implantar o Worker** para refletir esta correção em produção.
+
+### Próximas dependências bloqueadoras — não dispensar sem evidência
+
+1. **Fornecedor:** validar fisicamente os SKUs de tamanho/cor, código da estampa (frente e costas), preço de produção, embalagem, prazo e cotação real de frete por CEP. Para vários itens, obter o contrato de pacote e simulação na VAVI; não somar fretes nem pesos arbitrariamente.
+2. **Homologação do pagamento:** testar preferência, redirecionamento e notificação assinada de pagamento, conferir o valor total e idempotência. Não marcar como pago com base apenas na página de retorno.
+3. **Produção e logística:** confirmar que o rascunho VAVI pode ser criado para a arte e o endereço escolhidos, e que o operador conseguirá pagar a produção e oferecer rastreio. A integração não elimina o ato de gerar/pagar o pedido na VAVI.
+4. **Aprovação comercial:** só depois das confirmações acima atualizar as flags e as linhas aprovadas do D1, uma de cada vez, com registro da validação. Não habilitar produtos ainda não homologados.
+
+### Referências atualizadas
+
+- Mercado Pago: https://www.mercadopago.com.br/developers/pt/docs/checkout-pro-preferences/additional-settings/shipping-cost
+- VAVI: https://www.vaviestampas.com.br/guides/integrations
+- VAVI: https://www.vaviestampas.com.br/policies/shipping-policy
