@@ -32,8 +32,8 @@
     let readiness;
     try {readiness=await getJson(API+'/api/checkout/live/readiness');}
     catch {if(!visualPreview){unavailable();return;}}
-    const previewOnly=readiness?.checkoutEnabled!==true;
-    if(previewOnly && !visualPreview){unavailable();return;}
+    const previewOnly=visualPreview;
+    if(readiness?.checkoutEnabled!==true && !visualPreview){unavailable();return;}
     notice.textContent=previewOnly
       ? 'PRÉVIA VISUAL — Este checkout está desativado. Os campos são demonstrativos e não é possível fazer pedidos, cotar frete ou pagar.'
       : 'Confira seus dados e selecione o frete antes de pagar.';
