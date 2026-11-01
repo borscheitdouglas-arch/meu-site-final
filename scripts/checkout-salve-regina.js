@@ -31,52 +31,82 @@
     notice.textContent='Confira seus dados e selecione o frete antes de pagar.';
     container.hidden=false;
     container.innerHTML=`
-      <form id="sale-checkout">
-        <fieldset>
-          <legend>Camiseta Salve Regina · preta</legend>
-          <label>Tamanho
-            <select name="size" required>
-              <option value="P">P — R$ 109,90</option>
-              <option value="M">M — R$ 109,90</option>
-              <option value="G" selected>G — R$ 109,90</option>
-              <option value="GG">GG — R$ 109,90</option>
-              <option value="XG">XG — R$ 119,90</option>
-            </select>
-          </label>
-          <p class="hint">Uma camiseta por pedido. Frete calculado para o tamanho escolhido.</p>
-        </fieldset>
-        <fieldset>
-          <legend>Entrega</legend>
-          <label>CEP <input name="zipCode" autocomplete="postal-code" inputmode="numeric" maxlength="9" placeholder="00000-000" required></label>
-          <button type="button" id="ship-quote" class="secondary">Consultar frete</button>
-          <div id="ship-choices" hidden></div>
-          <p id="ship-feedback" role="status"></p>
-        </fieldset>
-        <fieldset>
-          <legend>Dados do comprador</legend>
-          <label>Nome completo <input name="name" autocomplete="name" maxlength="160" required></label>
-          <label>E-mail <input name="email" type="email" autocomplete="email" maxlength="200" required></label>
-          <label>Telefone com DDD <input name="phone" autocomplete="tel" inputmode="tel" required></label>
-          <label>CPF <input name="taxId" inputmode="numeric" maxlength="14" required></label>
-        </fieldset>
-        <fieldset>
-          <legend>Endereço</legend>
-          <label>Rua/Avenida <input name="street" maxlength="180" autocomplete="address-line1" required></label>
-          <label>Número <input name="number" maxlength="30" required></label>
-          <label>Complemento <input name="complement" maxlength="120" autocomplete="address-line2"></label>
-          <label>Bairro <input name="neighborhood" maxlength="90" required></label>
-          <label>Cidade <input name="city" maxlength="90" autocomplete="address-level2" required></label>
-          <label>Estado (UF) <input name="state" maxlength="2" autocomplete="address-level1" required></label>
-        </fieldset>
-        <div class="total">
-          <p>Produto: <strong id="product-amount">R$ 109,90</strong></p>
-          <p>Frete: <strong id="freight-amount">Selecione uma opção</strong></p>
-          <p>Total: <strong id="checkout-total">A calcular</strong></p>
+      <form id="sale-checkout" class="checkout-grid">
+        <div class="checkout-form-column">
+          <section class="checkout-panel" aria-labelledby="product-heading">
+            <div class="checkout-section-heading"><span class="checkout-step">1</span><div><p class="checkout-eyebrow">Revise seu produto</p><h2 id="product-heading">Produtos do pedido</h2></div></div>
+            <div class="checkout-product">
+              <img src="/assets/img/loja/Salve-Regina/web/camiseta-480.webp" width="92" height="92" alt="Camiseta preta Salve Regina com estampa gregoriana">
+              <div>
+                <strong>Camiseta Salve Regina · Preta</strong>
+                <p>Estampa gregoriana e arte mariana · 1 unidade</p>
+                <label>Tamanho
+                  <select name="size" required>
+                    <option value="P">P — R$ 109,90</option>
+                    <option value="M">M — R$ 109,90</option>
+                    <option value="G" selected>G — R$ 109,90</option>
+                    <option value="GG">GG — R$ 109,90</option>
+                    <option value="XG">XG — R$ 119,90</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <p class="hint">O lançamento admite uma camiseta por pedido. Para combinar outras peças, use a cotação assistida.</p>
+          </section>
+          <section class="checkout-panel" aria-labelledby="shipping-heading">
+            <div class="checkout-section-heading"><span class="checkout-step">2</span><div><p class="checkout-eyebrow">Compare as transportadoras</p><h2 id="shipping-heading">Forma de entrega</h2></div></div>
+            <div class="checkout-ship-form">
+              <label>CEP de entrega <input name="zipCode" autocomplete="postal-code" inputmode="numeric" maxlength="9" pattern="[0-9]{5}-?[0-9]{3}" placeholder="00000-000" required></label>
+              <button type="button" id="ship-quote" class="secondary">Consultar frete</button>
+            </div>
+            <p id="ship-feedback" role="status" aria-live="polite"></p>
+            <div id="ship-choices" hidden aria-label="Transportadoras e prazos"></div>
+            <p class="hint">Os prazos exibidos pela VAVI são estimativas de transporte. O prazo de fabricação é informado separadamente. Retirada na fábrica não é oferecida.</p>
+          </section>
+          <section class="checkout-panel" aria-labelledby="buyer-heading">
+            <div class="checkout-section-heading"><span class="checkout-step">3</span><div><p class="checkout-eyebrow">Para confirmar seu pedido</p><h2 id="buyer-heading">Dados do comprador</h2></div></div>
+            <div class="checkout-field-grid">
+              <label>Nome completo <input name="name" autocomplete="name" maxlength="160" required></label>
+              <label>E-mail <input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+              <label>Telefone com DDD <input name="phone" autocomplete="tel" inputmode="tel" required></label>
+              <label>CPF <input name="taxId" inputmode="numeric" maxlength="14" required></label>
+            </div>
+          </section>
+          <section class="checkout-panel" aria-labelledby="address-heading">
+            <div class="checkout-section-heading"><span class="checkout-step">4</span><div><p class="checkout-eyebrow">Envio pela transportadora escolhida</p><h2 id="address-heading">Endereço de entrega</h2></div></div>
+            <div class="checkout-field-grid">
+              <label class="checkout-field-wide">Rua ou avenida <input name="street" maxlength="180" autocomplete="address-line1" required></label>
+              <label>Número <input name="number" maxlength="30" required></label>
+              <label>Complemento (opcional) <input name="complement" maxlength="120" autocomplete="address-line2"></label>
+              <label>Bairro <input name="neighborhood" maxlength="90" required></label>
+              <label>Cidade <input name="city" maxlength="90" autocomplete="address-level2" required></label>
+              <label>Estado (UF) <input name="state" maxlength="2" autocomplete="address-level1" placeholder="SP" pattern="[A-Za-z]{2}" required></label>
+            </div>
+            <p class="hint">O CEP informado acima deve corresponder ao endereço de entrega.</p>
+          </section>
         </div>
-        <label class="confirm"><input name="confirm" type="checkbox" required> Li as condições de compra, entrega, trocas e privacidade antes de prosseguir.</label>
-        <p class="hint">O endereço será protegido no servidor e utilizado para o envio. Dados de cartão são informados apenas no Mercado Pago.</p>
-        <button type="submit" class="pay" id="pay-now" disabled>Ir para pagamento seguro</button>
-        <p id="payment-feedback" role="status"></p>
+        <aside class="checkout-sidebar" aria-label="Resumo e pagamento">
+          <div class="checkout-summary">
+            <p class="checkout-eyebrow">Sua compra</p>
+            <h2>Resumo do pedido</h2>
+            <div class="total">
+              <p>Produto (1 unidade) <strong id="product-amount">R$ 109,90</strong></p>
+              <p>Frete <strong id="freight-amount">Selecione uma opção</strong></p>
+              <p>Total <strong id="checkout-total">A calcular</strong></p>
+            </div>
+            <div class="checkout-secure">
+              <span aria-hidden="true">✦</span>
+              <div><strong>Pagamento seguro pelo Mercado Pago</strong>
+                <p>Você escolherá os meios de pagamento disponíveis, como Pix e cartões, diretamente no ambiente do Mercado Pago. Parcelamento e condições dependem do provedor.</p>
+              </div>
+            </div>
+            <label class="confirm"><input name="confirm" type="checkbox" required> Li e concordo com as <a href="/pages/condicoes-da-loja.html" target="_blank" rel="noopener noreferrer">condições de compra, entrega, trocas e privacidade</a>.</label>
+            <p class="hint">Seu endereço será protegido no servidor. Dados de cartão não são digitados nesta loja.</p>
+            <button type="submit" class="pay" id="pay-now" disabled>Ir para pagamento seguro →</button>
+            <p id="payment-feedback" role="status" aria-live="polite"></p>
+            <a class="checkout-back-link" href="/pages/cart.html">← Revisar carrinho</a>
+          </div>
+        </aside>
       </form>`;
     const form=container.querySelector('form');
     const size=form.elements.size;
