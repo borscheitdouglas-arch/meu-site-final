@@ -32,13 +32,12 @@ export function buildPreference({lines, shippingCents, orderId, siteBaseUrl, not
     return {id:line.sku,title:line.name,quantity:line.quantity,
       currency_id:'BRL',unit_price:line.unitPriceCents/100};
   });
-  if (shippingCents > 0) {
-    items.push({id:'frete',title:'Frete',quantity:1,currency_id:'BRL',
-      unit_price:shippingCents/100});
-  }
+  // Campos oficiais do Checkout Pro: o frete é exibido como entrega,
+  // não como um segundo produto na preferência de pagamento.
+  const shipments={cost:shippingCents/100,mode:'not_specified'};
   const base = site.origin;
   return {
-    items,external_reference:orderId,
+    items,shipments,external_reference:orderId,
     back_urls:{
       success:base+'/pages/resultado-pagamento.html?pagamento=sucesso',
       pending:base+'/pages/resultado-pagamento.html?pagamento=pendente',
