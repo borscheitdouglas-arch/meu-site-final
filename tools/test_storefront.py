@@ -75,7 +75,7 @@ def main():
             body = route.request.post_data_json
             assert body == {'zipCode': '01001000', 'sku': 'salve-regina-preta-g'}, body
             route.fulfill(json={
-                'zipCode': body['zipCode'],
+                'zipCode': body['zipCode'], 'sku': body['sku'],
                 'options': [
                     {'id': 'express', 'name': 'Entrega expressa de teste',
                      'shippingCost': 29.90, 'deliveryTime': 2, 'isActive': True},
@@ -195,6 +195,22 @@ def main():
             page.locator('[data-shop-reset]').first.click()
             expect(page.locator('#shop-results')).to_have_text('7 produtos encontrados')
             print('PASS: categorias, busca sem acentos, filtros e estado vazio', flush=True)
+            # Calculadora: frete real (simulado somente nos testes), sem
+            # cobrar e sem inventar frete para canecas/ecobags.
+            calc=page.locator('[data-shipping-calculator]')
+            calc.locator('select[name="product"]').select_option('caneca-salve-regina-preta')
+            calc.locator('input[name="zipCode"]').fill('01001-000')
+            previous_calls=len(api_calls)
+            calc.get_by_role('button',name='Consultar frete').click()
+            expect(calc.locator('[data-shipping-status]')).to_contain_text('não configurado')
+            assert len(api_calls)==previous_calls,api_calls
+            calc.locator('select[name="product"]').select_option('salve-regina-preta-g')
+            calc.get_by_role('button',name='Consultar frete').click()
+            expect(calc.locator('[data-shipping-results]')).to_contain_text('R$ 128,40')
+            expect(calc.locator('[data-shipping-results]')).not_to_contain_text('Retirada na fábrica')
+            expect(calc.locator('[data-shipping-status]')).to_contain_text('não realiza compra')
+            print('PASS: calculadora de frete consulta VAVI e recusa produto sem pacote',flush=True)
+
 
             # A compra do livro permanece externa, com preço e entrega da loja parceira.
             retailers = page.locator('.atelier-product .atelier-buy')
