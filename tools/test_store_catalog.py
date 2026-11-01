@@ -149,8 +149,8 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertIn('R$ 39,90', source)
         self.assertEqual(source.count('data-cart-add='), 6)
         self.assertNotIn('data-cart-checkout', source)
-        self.assertIn('Sem cobrança · produção a confirmar', source)
-        self.assertIn('Preço preliminar: R$ 109,90 + frete', source)
+        self.assertIn('Preço em validação · Compra automática ainda indisponível', source)
+        self.assertIn('R$ 109,90', source)
 
 
     def test_salve_regina_shipping_preview_requires_no_checkout(self):
