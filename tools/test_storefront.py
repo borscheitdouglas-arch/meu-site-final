@@ -360,7 +360,6 @@ def main():
             expect(page.locator('.cart-item').first.locator('.cart-quantity-number')).to_have_text('2')
             page.locator('.cart-item').first.get_by_role('button',name='Remover').click()
             expect(page.locator('.cart-item')).to_have_count(2)
-            page.on('dialog', lambda dialog: dialog.accept())
             page.locator('.cart-clear').click()
             expect(page.locator('.cart-empty')).to_be_visible()
             assert page.evaluate('JSON.parse(localStorage.getItem("douglasShopCart_v2"))') == []
