@@ -140,11 +140,17 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertNotIn('/api/checkout/test', source)
         # Produtos ainda bloqueados para pagamento, porém adicionáveis
         # à sacola para solicitar cotação (sem habilitar checkout).
-        self.assertEqual(source.count('data-availability="preparation"'), 5)
+        self.assertEqual(source.count('data-availability="preparation"'), 1)
+        self.assertEqual(source.count('data-availability="consultation"'), 5)
+        self.assertIn('Calcular frete', source)
+        self.assertIn('data-shipping-calculator', source)
+        self.assertIn('store-shipping-calculator.js', source)
+        self.assertIn('R$ 49,90', source)
+        self.assertIn('R$ 39,90', source)
         self.assertEqual(source.count('data-cart-add='), 6)
         self.assertNotIn('data-cart-checkout', source)
-        self.assertIn('Sem cobrança · produção a confirmar', source)
-        self.assertIn('Preço preliminar: R$ 109,90 + frete', source)
+        self.assertIn('Preço em validação · Compra automática ainda indisponível', source)
+        self.assertIn('R$ 109,90', source)
 
 
     def test_salve_regina_shipping_preview_requires_no_checkout(self):
