@@ -1,0 +1,253 @@
+/* ILUMINURA GREGORIANA — identidade âmbar e cobre da loja Douglas Assumpção.
+   Escopo exclusivo da loja. Não modifica arte, preços, pedidos ou integração. */
+body.shop-redesign {
+  --shop-amber: #e7ab61;
+  --shop-copper: #c06a36;
+  --shop-copper-dark: #5a301d;
+  --shop-parchment: #f3e9d8;
+  --shop-gold: #dfbd82;
+  background:
+    radial-gradient(ellipse 1000px 350px at 70% 6%, #7142232b, transparent 78%),
+    #0e1510;
+}
+
+/* Toda a parte superior ganha calor: cobre iluminado, não laranja comercial puro. */
+.shop-redesign .site-header {
+  background-color: #703e26;
+  background-image:
+    linear-gradient(90deg, #241a14bf 0%, #54321bd9 24%, #9b552baf 48%, #97512fba 71%, #251b14c7 100%),
+    url('../assets/img/loja/ornamento-iluminura-cobre.svg'),
+    radial-gradient(ellipse at 48% 20%, #ca773e, #683820 73%);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: center, center, center;
+  background-size: cover, cover, cover;
+  border-bottom: 1px solid #e9bd7d;
+  box-shadow: 0 7px 19px #0508065c;
+}
+.shop-redesign .shop-brand {
+  color: #ffe5b5;
+  text-shadow: 0 1px 1px #24160e99;
+}
+.shop-redesign .shop-brand small { color: #f1d39f; }
+.shop-redesign .shop-header-links a,
+.shop-redesign .shop-cart-link { color: #fff0dc; }
+.shop-redesign .shop-header-links a:hover,
+.shop-redesign .shop-header-links a[aria-current],
+.shop-redesign .shop-cart-link:hover {
+  color: #ffe2a3;
+}
+.shop-redesign .shop-header-links a[aria-current] {
+  text-decoration: underline;
+  text-decoration-color: #edc482;
+  text-underline-offset: 7px;
+}
+body.shop-redesign .site-header .menu-btn {
+  border-color: #f1c88a8c;
+  background: #26190f45;
+  color: #fff0d5;
+}
+body.shop-redesign .site-header .menu-btn:hover { background: #e4a66e24; }
+
+/* Busca em pergaminho claro: referência funcional à leitura rápida da Shopee. */
+.shop-redesign .shop-search {
+  width: clamp(205px, 19vw, 285px);
+  border: 1px solid #f0d7a3;
+  border-radius: 4px;
+  background: #f4ead9;
+  box-shadow: 0 2px 6px #30190f38;
+  overflow: hidden;
+}
+.shop-redesign .shop-search input {
+  height: 42px;
+  color: #35251b;
+  padding-left: 14px;
+  background: #f4ead9;
+  font-size: 12px;
+}
+.shop-redesign .shop-search input::placeholder { color: #706658; opacity: 1; }
+.shop-redesign .shop-search:focus-within {
+  border-color: #fff0bd;
+  box-shadow: 0 0 0 3px #f9d18b78;
+}
+.shop-redesign .shop-search button {
+  min-height: 42px; min-width: 46px;
+  color: #291a0f;
+  background: linear-gradient(140deg, #f1c47d, #d98745);
+  border-left: 1px solid #b5774a;
+  transition: background .2s ease;
+}
+.shop-redesign .shop-search button:hover { background: #ffe0a1; }
+
+/* Faixa viva de edição limitada, terminando a área quente do topo. */
+.shop-redesign .shop-ribbon {
+  min-height: 42px;
+  background-image:
+    linear-gradient(90deg, #422619ed, #975029 24%, #b46735 50%, #8d4929 76%, #422719f0),
+    url('../assets/img/loja/ornamento-iluminura-cobre.svg');
+  background-size: cover, cover;
+  background-position: center;
+  border-top: 1px solid #e5b36b44;
+  border-bottom: 1px solid #f0c181a6;
+  box-shadow: inset 0 1px 0 #f5dc9a28;
+  color: #fff4df;
+}
+.shop-redesign .shop-ribbon strong {
+  color: #ffefc6;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+.shop-redesign .shop-ribbon a {
+  color: #ffebc1;
+  text-decoration-color: #ffdb9b;
+  font-weight: 600;
+}
+.shop-redesign .shop-ribbon a:hover { color: #fff; }
+.shop-redesign .shop-ribbon::before,
+.shop-redesign .shop-ribbon::after {
+  background-image: url('../assets/img/loja/ornamento.svg');
+  opacity: .22;
+}
+
+/* Vitrine aquecida com parcimônia: arte sacra continua sendo o foco. */
+.shop-redesign .shop-hero {
+  border-color: #bf8a568a;
+  background:
+    radial-gradient(ellipse at 79% 39%, #b5743b35, transparent 65%),
+    linear-gradient(108deg, #121b14 0%, #1b241b 49%, #382519 100%);
+}
+.shop-redesign .shop-hero h1 em { color: #edc68a; }
+.shop-redesign .shop-hero-art {
+  background: radial-gradient(ellipse at 65% 51%, #9d642c35, transparent 72%);
+}
+.shop-redesign .shop-hero-copy .shop-kicker { color: #e8b879; }
+.shop-redesign .shop-hero-copy .shop-kicker::before { background: #dfac68; }
+.shop-redesign .shop-hero-art figcaption { color: #f2d59f; }
+.shop-redesign .shop-promises {
+  background: linear-gradient(90deg, #1d2418, #22281b 49%, #1d2418);
+  border-color: #ad8b5b76;
+}
+.shop-redesign .shop-promises svg,
+.shop-redesign .shop-promises > div > span { color: #e3b477; }
+
+/* Uma única assinatura floral pequena para cada seção; sem molduras pesadas. */
+.shop-redesign .shop-categories > .shop-kicker,
+.shop-redesign .shop-catalog-heading .shop-kicker,
+.shop-redesign .shop-collection .shop-kicker { color: #e4b77b; }
+.shop-redesign .shop-categories .shop-section-title::before,
+.shop-redesign .shop-catalog-heading .shop-section-title::before {
+  display: block;
+  flex: 0 0 30px;
+  width: 30px; height: 16px;
+  margin-right: 9px;
+  background: url('../assets/img/loja/ornamento.svg') center/cover no-repeat;
+  opacity: .85;
+}
+.shop-redesign .shop-categories .shop-section-title::after,
+.shop-redesign .shop-catalog-heading .shop-section-title::after { display: none; }
+.shop-redesign .shop-category {
+  border-color: #bd8c5a70;
+  background: linear-gradient(145deg, #282a1d, #172019 68%);
+}
+.shop-redesign .shop-category[aria-current],
+.shop-redesign .shop-category:hover {
+  border-color: #e0b373;
+  background: linear-gradient(145deg, #39301e, #1e271b);
+}
+.shop-redesign .shop-category-art {
+  border: 1px solid #bb89524a;
+  background: radial-gradient(ellipse at 50% 43%, #61462f55, #20291f);
+}
+.shop-redesign .shop-category > span:not(.shop-category-art) { color: #f4e6ce; }
+.shop-redesign .shop-category > span > span { color: #eebf80; }
+
+/* Papel marfim e selos cobre nos produtos compactos. */
+.shop-redesign .shop-product-card,
+.shop-redesign .atelier-catalog {
+  background: #f2e8d8;
+  border-color: #c29a64b9;
+  box-shadow: 0 6px 17px #05070540;
+}
+.shop-redesign .shop-product-image {
+  background: radial-gradient(ellipse at 50% 44%, #584835, #1b251c 77%);
+  border-color: #c19665a8;
+}
+.shop-redesign .shop-product-badge {
+  color: #fff0d8;
+  background: linear-gradient(120deg, #9f4f2a, #b66a3c);
+  border: 1px solid #f3d29d9e;
+  box-shadow: 0 2px 5px #19100b55;
+}
+.shop-redesign .shop-product-info h3 { color: #2d2f25; }
+.shop-redesign .shop-price { border-color: #c69d6a94; }
+.shop-redesign .shop-price strong { color: #7a3f22; }
+.shop-redesign .shop-product-action {
+  color: #ffe8c4;
+  background: linear-gradient(115deg, #5e3522, #804a2b);
+  border: 1px solid #b5804a;
+  font-weight: 600;
+}
+.shop-redesign .shop-product-action:hover {
+  color: #25180f;
+  background: linear-gradient(110deg, #f0c17d, #e29d5a);
+  border-color: #a36b36;
+}
+.shop-redesign .atelier-product-art {
+  background: radial-gradient(ellipse at 50% 38%, #574633, #152019 78%);
+}
+.shop-redesign .atelier .atelier-buy-primary {
+  background: linear-gradient(115deg, #e8b873, #d69156);
+  border-color: #c28f59;
+  color: #261c14;
+}
+.shop-redesign .atelier .atelier-buy-primary:hover { background: #f6d499; }
+
+/* Botões principais e microinterações no mesmo pigmento queimado. */
+.shop-redesign .shop-button {
+  border-color: #f6d399;
+  background: linear-gradient(112deg, #f0c17c, #cf7b40);
+  color: #23180f;
+  box-shadow: 0 4px 13px #20120b25;
+}
+.shop-redesign .shop-button:hover {
+  background: linear-gradient(112deg, #f9d9a0, #e9a265);
+  color: #23180f;
+}
+.shop-redesign .shop-collection {
+  border-color: #bb87518a;
+  background: radial-gradient(ellipse at 87% 25%, #96532a3d, transparent 62%), #182218;
+}
+.shop-redesign .shop-collection h2 { color: #ebc487; }
+.shop-redesign .shop-detail > summary:hover { color: #f2c48b; }
+.shop-redesign .shop-faq summary::after { color: #dba269; }
+.shop-redesign :is(a, button, input, select, summary):focus-visible {
+  outline-color: #ffe0a1; outline-offset: 3px;
+}
+
+@media (max-width: 1150px) {
+  .shop-redesign .shop-search { width: 192px; }
+}
+@media (max-width: 1000px) {
+  .shop-redesign .shop-search { width: min(260px, 35vw); }
+}
+@media (max-width: 760px) {
+  .shop-redesign .site-header {
+    background-position: center, center, center;
+    background-size: cover, auto 92px, cover;
+  }
+  .shop-redesign .shop-search { width: 100%; }
+  .shop-redesign .shop-ribbon { gap: 7px; padding-inline: 10px; }
+  .shop-redesign .shop-ribbon::before,
+  .shop-redesign .shop-ribbon::after { display: none; }
+}
+@media (max-width: 420px) {
+  .shop-redesign .shop-ribbon { min-height: 36px; }
+  .shop-redesign .shop-ribbon strong { font-size: 9px; }
+  .shop-redesign .shop-ribbon a { font-size: 9px; }
+  .shop-redesign .shop-categories .shop-section-title::before,
+  .shop-redesign .shop-catalog-heading .shop-section-title::before {
+    width: 20px; flex-basis: 20px; margin-right: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shop-redesign .shop-search button { transition: none; }
+}

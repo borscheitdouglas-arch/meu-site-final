@@ -108,22 +108,30 @@ def main():
                 expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
                 expect(page.locator('.shop-product-card[data-availability="preparation"]')).to_have_count(3)
                 assert_no_overflow(page)
-                # As cinco categorias circulares permanecem visíveis, inclusive no celular.
+                # Identidade cobre/iluminura presente sem sacrificar legibilidade.
+                expect(page.locator('.shop-ribbon')).to_be_visible()
+                assert page.locator('meta[name="theme-color"]').get_attribute('content') == '#8b4d2d'
+                assert 'ornamento-iluminura-cobre.svg' in page.locator('.site-header').evaluate(
+                    'el => getComputedStyle(el).backgroundImage')
+                assert page.locator('.shop-search').evaluate(
+                    'el => getComputedStyle(el).backgroundColor') == 'rgb(244, 234, 217)'
+                # Cinco categorias agora compactas e retangulares, sem sair da tela.
                 categories = page.locator('.shop-category-art')
                 expect(categories).to_have_count(5)
-                for category_art in categories.all():
-                    box = category_art.bounding_box()
-                    assert abs(box['width'] - box['height']) < 1, box
-                    assert box['x'] >= 0 and box['x'] + box['width'] <= width
-                    assert category_art.evaluate('el => getComputedStyle(el).borderRadius') == '50%'
+                for art in categories.all():
+                    box = art.bounding_box()
+                    assert 28 <= box['width'] <= 75 and 28 <= box['height'] <= 75, box
+                    assert box['x'] >= 0 and box['x'] + box['width'] <= width, box
                 expect(page.locator('.shop-product-card a[href*="checkout"]')).to_have_count(0)
-                boxes = [card.bounding_box() for card in page.locator('.shop-product-card').all()]
-                columns = 4 if width > 1000 else 2 if width > 540 else 1
+                # Quatro peças + um livro lado a lado em até cinco colunas.
+                tiles = page.locator('.shop-product-grid > .shop-product-card, .shop-product-grid > .atelier-catalog')
+                expect(tiles).to_have_count(5)
+                boxes = [tile.bounding_box() for tile in tiles.all()]
+                columns = 5 if width > 1200 else 3 if width > 760 else 2 if width > 360 else 1
                 assert sum(abs(box['y'] - boxes[0]['y']) < 2 for box in boxes) == columns
                 if width == 1440:
-                    assert max(box['height'] for box in boxes) - min(box['height'] for box in boxes) < 2
-                    assert page.locator('.shop-hero').bounding_box()['height'] < 470
-                    assert boxes[0]['y'] < 1100, boxes[0]
+                    assert page.locator('.shop-hero').bounding_box()['height'] < 410
+                    assert boxes[0]['y'] < 980, boxes[0]
                 for asset in page.locator('img[srcset]:visible').all():
                     asset.scroll_into_view_if_needed()
                     asset.evaluate('image => image.decode()')
