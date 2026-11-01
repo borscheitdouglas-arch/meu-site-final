@@ -159,7 +159,7 @@ def main():
                     # Cards menores, com fotos completas e ações ainda acessíveis.
                     assert max(box['height'] for box in boxes[:6]) < 490, boxes
                     assert page.locator('.shop-product-image img').first.bounding_box()['height'] <= 150
-                expect(page.locator('.shop-product-variation > span')).to_have_count(14)
+                expect(page.locator('.shop-product-variation > span')).to_have_count(16)
                 assert all(card.get_attribute('data-availability') in ('consultation','preparation')
                            for card in page.locator('.shop-product-card').all())
                 for asset in page.locator('img[srcset]:visible').all():
