@@ -11,6 +11,8 @@
   const normalize=value=>String(value||'').replace(/\D/g,'');
   const prices={P:10990,M:10990,G:10990,GG:10990,XG:11990};
   const skuForSize=size=>'salve-regina-preta-'+size.toLowerCase();
+  // Prévia visual explícita: nenhum campo ativo, requisição de pedido ou cobrança.
+  const visualPreview=new URLSearchParams(location.search).get('preview')==='visual';
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
   const fallback=document.createElement('a');
   fallback.href='/pages/cart.html';
@@ -29,9 +31,14 @@
   async function init(){
     let readiness;
     try {readiness=await getJson(API+'/api/checkout/live/readiness');}
-    catch {unavailable();return;}
-    if(readiness?.checkoutEnabled!==true){unavailable();return;}
-    notice.textContent='Confira seus dados e selecione o frete antes de pagar.';
+    catch {if(!visualPreview){unavailable();return;}}
+    const previewOnly=readiness?.checkoutEnabled!==true;
+    if(previewOnly && !visualPreview){unavailable();return;}
+    notice.textContent=previewOnly
+      ? 'PRÉVIA VISUAL — Este checkout está desativado. Os campos são demonstrativos e não é possível fazer pedidos, cotar frete ou pagar.'
+      : 'Confira seus dados e selecione o frete antes de pagar.';
+    notice.classList.toggle('warning',previewOnly);
+    document.body.classList.toggle('checkout-preview',previewOnly);
     container.hidden=false;
     container.innerHTML=`
       <form id="sale-checkout" class="checkout-grid">
@@ -121,7 +128,7 @@
     // Não confia no valor antigo: a VAVI será consultada novamente aqui.
     let cartDelivery=null;
     try {
-      const saved=sessionStorage.getItem('douglasCheckoutDeliveryDraft_v1');
+      const saved=previewOnly?null:sessionStorage.getItem('douglasCheckoutDeliveryDraft_v1');
       sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
       if(saved){
         const draft=JSON.parse(saved);
@@ -142,6 +149,16 @@
     const choices=form.querySelector('#ship-choices'),shipFeedback=form.querySelector('#ship-feedback');
     const freightAmount=form.querySelector('#freight-amount'),total=form.querySelector('#checkout-total');
     const pay=form.querySelector('#pay-now'),payStatus=form.querySelector('#payment-feedback');
+    if(previewOnly){
+      container.querySelectorAll('input,select,button').forEach(field=>{field.disabled=true;});
+      const shipping=container.querySelector('#ship-feedback');
+      if(shipping) shipping.textContent='As transportadoras aparecerão aqui após a aprovação da cotação com a VAVI.';
+      const payment=container.querySelector('#payment-feedback');
+      if(payment) payment.textContent='Somente visualização. Nenhuma compra ou cobrança é realizada nesta página.';
+      const total=container.querySelector('#checkout-total');
+      if(total) total.textContent='A confirmar após cotação';
+      return;
+    }
     let options=[],quotedZip='',quotedSku='';
     function resetQuote(){
       options=[];quotedZip='';quotedSku='';choices.hidden=true;choices.replaceChildren();
