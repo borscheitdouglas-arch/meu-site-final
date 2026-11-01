@@ -119,8 +119,11 @@ def main():
                     'el => getComputedStyle(el).backgroundColor') == 'rgb(183, 100, 54)'
                 assert page.locator('.site-header').evaluate(
                     'el => getComputedStyle(el).backdropFilter') == 'none'
-                assert 'ornamento-iluminura-cobre.svg' in page.locator('.site-header').evaluate(
+                assert 'friso-iluminado-gregoriano.svg' in page.locator('.site-header').evaluate(
                     'el => getComputedStyle(el).backgroundImage')
+                if width > 760:
+                    assert 'faixa-iluminada-gregoriana.svg' in page.locator('.shop-ribbon').evaluate(
+                        'el => getComputedStyle(el).backgroundImage')
                 assert page.locator('.shop-search').evaluate(
                     'el => getComputedStyle(el).backgroundColor') == 'rgb(244, 234, 217)'
                 # Cinco categorias agora compactas e retangulares, sem sair da tela.
