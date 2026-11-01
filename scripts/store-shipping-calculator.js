@@ -20,6 +20,7 @@
     let serial=0,abort=null;
     const reset=()=>{
       serial++;abort?.abort();abort=null;
+      button.disabled=false;
       status.textContent='';results.replaceChildren();results.hidden=true;
     };
     product.addEventListener('change',reset);
