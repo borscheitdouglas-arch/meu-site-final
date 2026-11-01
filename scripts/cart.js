@@ -168,6 +168,12 @@
     request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
       '&body='+encodeURIComponent(draftMessage(cart));
     aside.append(request);
+    // Mantém o atendimento via WhatsApp que já existia no carrinho antigo.
+    // Abre apenas uma mensagem pré-preenchida; jamais envia sem ação do cliente.
+    const whatsapp=make('a','cart-action cart-action-secondary','Consultar pelo WhatsApp');
+    whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
+    whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
+    aside.append(whatsapp);
     const exactShirt = cart.length===1 && cart[0].id==='camiseta-salve-regina' && cart[0].qty===1;
     const pay = make('a','cart-action cart-action-secondary','Ir para pagamento seguro');
     if (exactShirt && ready) {
