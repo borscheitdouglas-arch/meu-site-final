@@ -258,7 +258,7 @@ body.shop-redesign {
   .shop-redesign .atelier-grid-single .atelier-product h3 { font-size: 16px; }
   .shop-redesign .shop-collection { grid-template-columns: 1fr; }
 }
-@media (max-width: 420px) {
+@media (max-width: 360px) {
   .shop-redesign .shop-ribbon .shop-ribbon-separator, .shop-redesign .shop-ribbon > span:last-of-type { display: none; }
   .shop-redesign .shop-ribbon { justify-content: center; }
   .shop-redesign .shop-promises > div { padding-inline: 5px; }
