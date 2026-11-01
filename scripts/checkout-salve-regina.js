@@ -80,9 +80,17 @@
       </form>`;
     const form=container.querySelector('form');
     const size=form.elements.size;
+    // Apenas as cinco variações previamente autorizadas. O servidor confirma
+    // SKU e preço antes de criar qualquer preferência de pagamento.
+    const requestedSize=new URLSearchParams(location.search).get('size');
+    if(requestedSize && Object.hasOwn(prices,requestedSize)) size.value=requestedSize;
+    const selection=document.getElementById('checkout-selection');
+    if(selection) selection.textContent='Camiseta preta · tamanho '+size.value+
+      ' · 1 unidade — '+format(prices[size.value])+' + frete';
     const productAmount=form.querySelector('#product-amount');
     const price=()=>prices[size.value];
     const sku=()=>skuForSize(size.value);
+    productAmount.textContent=format(price());
     const zip=form.elements.zipCode,quoteButton=form.querySelector('#ship-quote');
     const choices=form.querySelector('#ship-choices'),shipFeedback=form.querySelector('#ship-feedback');
     const freightAmount=form.querySelector('#freight-amount'),total=form.querySelector('#checkout-total');
@@ -95,6 +103,8 @@
     }
     zip.addEventListener('input',resetQuote);
     size.addEventListener('change',()=>{
+      if(selection) selection.textContent='Camiseta preta · tamanho '+size.value+
+        ' · 1 unidade — '+format(price())+' + frete';
       productAmount.textContent=format(price());
       resetQuote();
       shipFeedback.textContent='Tamanho alterado. Consulte novamente o frete.';
