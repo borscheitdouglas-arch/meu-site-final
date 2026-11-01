@@ -18,6 +18,7 @@ on:
   push:
     branches:
       - "feature/vavi-loja-rascunho"
+      - "main"
     paths:
       - "integrations/vavi-worker/**"
       - "data/vavi-catalogo.json"
