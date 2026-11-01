@@ -1,0 +1,75 @@
+/* Loja Douglas Assumpção — fluxo de compra editorial e responsivo.
+   Estilos complementares; não altera checkout nem preços no servidor. */
+.shop-steps{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+  margin:18px 0 23px;padding:0;font:600 12px/1.4 'Inter',Arial,sans-serif}
+.shop-steps li{display:inline-flex;align-items:center;gap:7px;color:#d7c7a9}
+.shop-steps li+li:before{content:"";height:1px;width:22px;background:#a89974;display:inline-block;margin-right:2px}
+.shop-steps .step-number{display:inline-grid;place-items:center;width:29px;height:29px;border:1px solid #aa9366;
+  border-radius:50%;color:#edd0a1}
+.shop-steps [aria-current="step"]{color:#ffe4b3}
+.shop-steps [aria-current="step"] .step-number{background:#e2b675;color:#252319;border-color:#e2b675}
+.shop-cart-page .cart-checkout-layout{grid-template-columns:minmax(0,1.65fr) minmax(300px,.9fr);gap:clamp(18px,3vw,38px)}
+.shop-cart-page .cart-items-heading{display:flex;justify-content:space-between;align-items:center;
+  gap:10px;border-bottom:1px solid #ad976b75;padding:3px 0 12px}
+.shop-cart-page .cart-items-heading h2{font-size:24px;margin:0}
+.shop-cart-page .cart-items-count{color:#dcc395;font-size:12px}
+.shop-cart-page .cart-item{padding:17px;background:linear-gradient(150deg,#28332c,#172019);
+  box-shadow:0 6px 22px #0001}
+.shop-cart-page .cart-item-content h3{font-size:22px;margin:2px 0 7px}
+.shop-cart-page .cart-product-category{color:#d5b57d;text-transform:uppercase;letter-spacing:.12em;
+  font:700 10px/1.2 'Inter',Arial,sans-serif;margin:0 0 4px}
+.shop-cart-page .cart-item .cart-line-details{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:10px;padding-top:10px;border-top:1px solid #baa07740;
+  color:#bdb7a3;font:12px/1.5 'Inter',Arial,sans-serif}
+.shop-cart-page .cart-line-total{color:#f2d7a6;font-weight:700;text-align:right}
+.shop-cart-page .cart-quantity{margin-top:7px}
+.shop-cart-page .cart-summary{position:sticky;top:16px;background:linear-gradient(150deg,#303729,#18241e);
+  border-color:#bd9859;box-shadow:0 12px 28px #0002}
+.shop-cart-page .cart-summary-overline{font-size:10px!important;color:#cda86f!important;
+  letter-spacing:.17em;text-transform:uppercase;font-weight:700!important;margin:0 0 5px!important}
+.shop-cart-page .cart-summary h2{font-size:28px;margin-bottom:18px}
+.shop-cart-page .cart-summary .cart-total{font-size:15px!important}
+.shop-cart-page .cart-shipping-description{color:#e1d0af;font:12px/1.6 'Inter',Arial,sans-serif;margin:0 0 13px}
+.shop-cart-page .cart-shipping-choice{display:grid;grid-template-columns:20px minmax(0,1fr) auto;
+  gap:9px;align-items:center;margin:6px 0;padding:12px 10px;border:1px solid #9e8f7466;
+  background:#202c23;border-radius:6px;cursor:pointer}
+.shop-cart-page .cart-shipping-choice.is-selected{border-color:#e4b77c;background:#3c3b2b;
+  box-shadow:inset 0 0 0 1px #e4b77c44}
+.shop-cart-page .cart-shipping-choice-info{display:grid;gap:2px;min-width:0;font-size:12px}
+.shop-cart-page .cart-shipping-choice-info strong{color:#fff0d7;font-size:12px}
+.shop-cart-page .cart-shipping-choice-info small{font-size:10px;color:#ded0b9}
+.shop-cart-page .cart-shipping-choice .cart-shipping-best{color:#d6f0d2;font-weight:700}
+.shop-cart-page .cart-shipping-choice .cart-shipping-fast{color:#f3d8a8;font-weight:700}
+.shop-cart-page .cart-shipping-choice-price{color:#fbe0ac;font-size:12px;font-weight:700;white-space:nowrap}
+.shop-cart-page .cart-trust{margin:18px 0;padding:15px 13px;border:1px solid #a38c5d88;
+  border-radius:5px;background:#18241c}
+.shop-cart-page .cart-trust strong{display:block;margin-bottom:9px;color:#f7ddab;font-size:12px}
+.shop-cart-page .cart-trust p{margin:6px 0;color:#d5ccbb;font-size:11px}
+.shop-cart-page .cart-terms-link{display:block;color:#e7ca98;font-size:12px;text-decoration:underline;
+  text-underline-offset:3px}
+.shop-redesign .shop-cart-quick{width:100%;min-height:35px;margin-top:5px;padding:7px 10px;
+  border:1px solid #997955;background:#f4e5cb;color:#35251a;border-radius:3px;
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  cursor:pointer;font:700 10px/1.45 'Inter',Arial,sans-serif}
+.shop-redesign .shop-cart-quick:hover,.shop-redesign .shop-cart-quick:focus-visible{
+  background:#fff4de;border-color:#6f4729;outline-offset:2px}
+.shop-redesign .shop-cart-quick span{font-size:16px}
+.shop-cart-page .cart-preview-notice{display:flex;gap:12px;align-items:flex-start;padding:13px 17px;
+  margin:0 0 15px;border:1px solid #ad915f99;border-radius:5px;color:#f2deb7;background:#293329;
+  font:12px/1.6 'Inter',Arial,sans-serif}
+.shop-cart-page .cart-preview-notice strong{color:#ffe0a9}
+@media(max-width:760px){
+ .shop-cart-page .cart-checkout-layout{grid-template-columns:1fr}
+ .shop-cart-page .cart-summary{position:static}
+ .shop-cart-page .cart-shipping-choice{grid-template-columns:20px minmax(0,1fr) auto}
+ .shop-steps li+li:before{width:10px}
+}
+@media(max-width:390px){
+ .shop-steps{font-size:10px;gap:5px}
+ .shop-steps li{gap:5px}
+ .shop-steps .step-number{width:25px;height:25px}
+ .shop-steps li+li:before{width:7px}
+ .shop-cart-page .cart-shipping-choice{grid-template-columns:18px minmax(0,1fr);gap:5px}
+ .shop-cart-page .cart-shipping-choice-price{grid-column:2}
+ .shop-cart-page .cart-item{gap:9px;padding:12px}
+}
