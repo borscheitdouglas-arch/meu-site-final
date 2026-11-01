@@ -147,6 +147,12 @@
     let knownTotal = 0, hasPending = false;
     const wrap = make('div','cart-checkout-layout');
     const list = make('div','cart-items');
+    const listHeading=make('div','cart-items-heading');
+    listHeading.append(
+      make('h2','','Produtos no carrinho'),
+      make('span','cart-items-count',count(cart)+' '+(count(cart)===1?'unidade':'unidades'))
+    );
+    list.append(listHeading);
     for (const item of cart) {
       const product = catalog.get(item.id);
       const variant = product.variants.find(v => v.code === item.variant);
@@ -154,7 +160,12 @@
       const img = make('img','cart-thumb');img.src = product.image;
       img.alt = product.title;img.loading = 'lazy';img.width=90;img.height=90;
       const content = make('div','cart-item-content');
-      content.append(make('h3','',product.title),make('p','cart-variant',variant.label));
+      const category = make('p','cart-product-category',
+        product.category==='camisetas'?'Camiseta':
+        product.category==='canecas'?'Caneca':
+        product.category==='ecobags'?'Ecobag':'Coleção Salve Regina');
+      content.append(category,make('h3','',product.title),
+        make('p','cart-variant','Variação: '+variant.label));
       if (product.status === 'preparation') content.append(make('p','cart-state','Em preparação · não disponível para compra automática'));
       if (product.status === 'consultation') content.append(make('p','cart-state','Sob consulta · sem cobrança'));
       if (variant.priceCents === null) {
@@ -163,6 +174,13 @@
         knownTotal += variant.priceCents * item.qty;
         content.append(make('p','cart-amount',money(variant.priceCents)+' por unidade · preliminar'));
       }
+      const details=make('div','cart-line-details');
+      details.append(make('span','','Quantidade e opções'));
+      if(Number.isInteger(variant.priceCents)) {
+        details.append(make('strong','cart-line-total',
+          'Subtotal: '+money(variant.priceCents*item.qty)));
+      }
+      content.append(details);
       const qty = make('div','cart-quantity');
       const minus = makeButton('−',()=>updateQty(item.id,item.variant,item.qty-1));
       minus.setAttribute('aria-label','Diminuir quantidade de '+product.title);
@@ -175,7 +193,8 @@
       row.append(img,content);list.append(row);
     }
     const aside = make('aside','cart-summary');
-    aside.append(make('h2','','Resumo da sacola'));
+    aside.append(make('p','cart-summary-overline','Seu pedido'));
+    aside.append(make('h2','','Resumo da compra'));
     aside.append(make('p','','Itens: '+count(cart)));
     aside.append(make('p','cart-estimate',knownTotal>0
       ? 'Subtotal dos produtos: '+money(knownTotal)
@@ -189,7 +208,7 @@
     if (hasPending) aside.append(make('p','cart-disclaimer',
       'Há peças sem preço de venda definido. Nenhum total final pode ser calculado agora.'));
     aside.append(make('p','cart-disclaimer',
-      'Os valores exibidos são estimativas. O frete e o preço final serão validados pelo servidor antes de qualquer pagamento.'));
+      'Preços preliminares. Frete e valor final reconferidos pelo servidor antes de qualquer pagamento.'));
     const exactShirt = cart.length === 1 &&
       cart[0].id === 'camiseta-salve-regina' && cart[0].qty === 1;
     if (exactShirt && ready) {
@@ -242,6 +261,17 @@
         '&body='+encodeURIComponent(draftMessage(cart));
       whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
     }});
+    const explanation=make('div','cart-trust');
+    explanation.append(
+      make('strong','','Como funciona sua compra'),
+      make('p','','1. Revise os produtos e escolha a entrega pelo CEP.'),
+      make('p','','2. Confira o valor total e informe os dados de envio no checkout, quando liberado.'),
+      make('p','','3. O pagamento é feito no ambiente seguro do Mercado Pago. O pedido só é confirmado após validação do pagamento.')
+    );
+    aside.append(explanation);
+    const help=make('a','cart-terms-link','Entregas, trocas e privacidade');
+    help.href='/pages/condicoes-da-loja.html';
+    aside.append(help);
     const shopMore=make('a','cart-continue-shopping','← Continuar comprando');
     shopMore.href='/pages/loja.html#catalogo';
     aside.append(shopMore);
@@ -293,11 +323,13 @@
         updatePrice();
       });
       shop.addEventListener('click', event => {
-        const button=event.target.closest('[data-cart-add]');
+        const button=event.target.closest('[data-cart-add], [data-cart-buy]');
         if (!button) return;
         const variant=button.dataset.cartVariant ||
           button.closest('.shop-product-card')?.querySelector('[data-cart-size]')?.value;
-        add(button.dataset.cartAdd,variant);
+        const goCart=button.hasAttribute('data-cart-buy');
+        const added=add(button.dataset.cartAdd || button.dataset.cartBuy,variant);
+        if(goCart && added) window.location.assign('/pages/cart.html');
       });
     }
     document.addEventListener('douglas-cart-change',()=>{updateCount();renderCart();});
