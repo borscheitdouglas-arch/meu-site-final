@@ -1,4 +1,4 @@
-"""Captura apenas a parte superior da loja para revisão visual do cabeçalho."""
+"""Captura cabeçalho, catálogo e carrinho para revisão visual sem cobrança."""
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -27,6 +27,15 @@ def main():
                 page.wait_for_load_state("networkidle", timeout=10000)
                 page.screenshot(path=str(OUTPUT / f"cabecalho-{width}.png"),
                                 clip={"x": 0, "y": 0, "width": width, "height": 320})
+                page.locator(".shop-product-grid").screenshot(
+                    path=str(OUTPUT / f"catalogo-{width}.png"), animations="disabled")
+                page.locator('[data-cart-add="caneca-salve-regina-preta"]').click()
+                page.goto(f"http://127.0.0.1:{server.server_port}/pages/cart.html",
+                          wait_until="domcontentloaded")
+                page.locator(".cart-item").first.wait_for(timeout=9000)
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), width
+                page.screenshot(path=str(OUTPUT / f"carrinho-{width}.png"),
+                                full_page=True, animations="disabled")
                 page.close()
             browser.close()
     finally:

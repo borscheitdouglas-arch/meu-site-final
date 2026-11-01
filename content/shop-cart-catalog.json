@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "currency": "BRL",
+  "pricingNotice": "Os valores do fornecedor não são preços de venda. A compra depende de confirmação de produção, preço e frete.",
+  "products": [
+    {
+      "id": "camiseta-salve-regina",
+      "title": "Camiseta Salve Regina",
+      "category": "camisetas",
+      "status": "consultation",
+      "image": "/assets/img/loja/Salve-Regina/web/camiseta-800.webp",
+      "priceStatus": "preliminary",
+      "variants": [
+        {
+          "code": "P",
+          "label": "Preta · P",
+          "sku": "salve-regina-preta-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "M",
+          "label": "Preta · M",
+          "sku": "salve-regina-preta-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "G",
+          "label": "Preta · G",
+          "sku": "salve-regina-preta-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "GG",
+          "label": "Preta · GG",
+          "sku": "salve-regina-preta-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "XG",
+          "label": "Preta · XG",
+          "sku": "salve-regina-preta-xg",
+          "priceCents": 11990
+        }
+      ]
+    },
+    {
+      "id": "caneca-salve-regina-preta",
+      "title": "Caneca Preta Salve Regina — Partitura",
+      "category": "canecas",
+      "status": "preparation",
+      "vaviDesign": "D000002",
+      "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
+      "priceStatus": "pending",
+      "variants": [
+        {
+          "code": "unico",
+          "label": "Preta · partitura gregoriana",
+          "priceCents": null
+        }
+      ]
+    },
+    {
+      "id": "caneca-salve-regina-pb",
+      "title": "Caneca P&B Salve Regina — Nossa Senhora",
+      "category": "canecas",
+      "status": "preparation",
+      "vaviDesign": "D000003",
+      "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
+      "priceStatus": "pending",
+      "variants": [
+        {
+          "code": "unico",
+          "label": "P&B · arte de Nossa Senhora",
+          "priceCents": null
+        }
+      ]
+    },
+    {
+      "id": "ecobag-salve-regina-m",
+      "title": "Ecobag Salve Regina — Algodão Cru M",
+      "category": "ecobags",
+      "status": "preparation",
+      "vaviDesign": "D000004",
+      "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
+      "priceStatus": "pending",
+      "variants": [
+        {
+          "code": "unico",
+          "label": "Algodão cru · M · 1 área",
+          "priceCents": null
+        }
+      ]
+    },
+    {
+      "id": "ecobag-salve-regina-g",
+      "title": "Ecobag Salve Regina — Algodão Cru G",
+      "category": "ecobags",
+      "status": "preparation",
+      "vaviDesign": "D000005",
+      "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
+      "priceStatus": "pending",
+      "variants": [
+        {
+          "code": "unico",
+          "label": "Algodão cru · G · 1 área",
+          "priceCents": null
+        }
+      ]
+    },
+    {
+      "id": "moletom-salve-regina",
+      "title": "Moletom Salve Regina",
+      "category": "moletons",
+      "status": "preparation",
+      "image": "/assets/img/Produtos/salve-regina/moletom-preview.svg",
+      "priceStatus": "pending",
+      "variants": [
+        {
+          "code": "unico",
+          "label": "Modelo e tamanhos a confirmar",
+          "priceCents": null
+        }
+      ]
+    }
+  ]
+}

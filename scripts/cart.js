@@ -1,76 +1,244 @@
-﻿(function(){
-  const CART_KEY = 'shopCart_v1';
-  const PROD_KEY = 'shopProducts_v1';
+/* Sacola local da coleção: o servidor (não o navegador) autoriza pagamentos.
+   Produtos sem preço final podem ser adicionados para solicitar uma cotação.
+   Não guarda dados pessoais, não cria pedido nem dispara cobrança. */
+(() => {
+  'use strict';
+  const CART_KEY = 'douglasShopCart_v2';
+  const CATALOG_URL = '/content/shop-cart-catalog.json';
+  const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
+  const MAX_QTY = 10, MAX_TOTAL = 30;
+  const money = cents => new Intl.NumberFormat('pt-BR', {
+    style:'currency', currency:'BRL'
+  }).format(cents / 100);
+  let catalog = new Map();
+  let ready = false;
+  const email = 'douglas.assumpcao27@gmail.com';
 
-  function readCart(){ try{return JSON.parse(localStorage.getItem(CART_KEY)||'[]')}catch(e){return[]} }
-  function writeCart(v){ localStorage.setItem(CART_KEY, JSON.stringify(v)) }
-  function readProducts(){ try{return JSON.parse(localStorage.getItem(PROD_KEY)||'[]')}catch(e){return[]} }
-
-  function findProduct(id){ const p = readProducts().find(x=>x.id===id); return p || null }
-
-  function addToCart(id, qty=1){
-    const p = findProduct(id); if(!p){ alert('Produto não encontrado no catálogo.'); return }
-    const cart = readCart(); const idx = cart.findIndex(i=>i.id===id);
-    if(idx===-1) cart.push({id:id, title:p.title, price:p.price, qty:qty}); else cart[idx].qty += qty;
-    writeCart(cart); showMiniToast('Adicionado ao carrinho');
+  function rawCart() {
+    try {
+      const data = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      return Array.isArray(data) ? data : [];
+    } catch { return []; }
   }
-
-  function removeFromCart(id){ let cart = readCart(); cart = cart.filter(i=>i.id!==id); writeCart(cart); }
-
-  function clearCart(){ localStorage.removeItem(CART_KEY); }
-
-  function priceNumber(value){
-    let amount = String(value || '').replace(/[^0-9,.]/g, '');
-    if(amount.includes(',')) amount = amount.replace(/\./g, '').replace(',', '.');
-    const number = Number(amount);
-    return Number.isFinite(number) ? number : 0;
-  }
-
-  function cartTotal(){ return readCart().reduce((sum, item) => sum + priceNumber(item.price) * (item.qty || 1), 0); }
-
-  function showMiniToast(msg){
-    let t = document.getElementById('mini-toast');
-    if(!t){ t = document.createElement('div'); t.id='mini-toast'; t.style.position='fixed'; t.style.right='18px'; t.style.bottom='18px'; t.style.background='rgba(0,0,0,0.8)'; t.style.color='#fff'; t.style.padding='10px 14px'; t.style.borderRadius='8px'; t.style.zIndex=9999; document.body.appendChild(t); }
-    t.textContent = msg; t.style.opacity=1; setTimeout(()=>{ t.style.transition='opacity .8s'; t.style.opacity=0 },1600);
-  }
-
-  // expose to global for inline onclick
-  window.addToCart = addToCart;
-
-  // cart page rendering
-  function renderCartPage(){
-    const el = document.getElementById('cart-root'); if(!el) return;
-    const cart = readCart(); if(cart.length===0){ el.innerHTML = '<p class="small">Carrinho vazio.</p>'; return }
-    let html = '<div class="cart-list">'; let total = 0;
-    for(const it of cart){ html += `<div class="cart-item" style="display:flex;gap:10px;align-items:center;padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">
-        <div style="flex:1">
-          <strong>${it.title}</strong>
-          <div class="small">Qtd: ${it.qty}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="small">${it.price}</div>
-        </div>
-      </div>`;
-      total += priceNumber(it.price) * (it.qty||1);
+  function rows() {
+    const validated = [], byKey = new Map();
+    for (const item of rawCart().slice(0, 40)) {
+      if (!item || typeof item.id !== 'string' || typeof item.variant !== 'string' ||
+          !Number.isInteger(item.qty) || item.qty < 1) continue;
+      const product = catalog.get(item.id);
+      const variation = product?.variants?.find(v => v.code === item.variant);
+      if (!variation) continue;
+      const key = product.id + ':' + variation.code;
+      const existing = byKey.get(key);
+      if (existing) existing.qty = Math.min(MAX_QTY, existing.qty + Math.min(MAX_QTY,item.qty));
+      else if (validated.length < 15) {
+        const row = {id:product.id, variant:variation.code, qty:Math.min(MAX_QTY,item.qty)};
+        byKey.set(key,row); validated.push(row);
+      }
     }
-    html += '</div>';
-    html += `<div style="margin-top:12px;text-align:right"><strong>Total: R$ ${total.toFixed(2).replace('.',',')}</strong></div>`;
-    html += `<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"><a class="btn" id="whatsCheckout" href="#">Enviar pedido via WhatsApp</a><button class="btn outline" id="clearCartBtn">Limpar carrinho</button></div>`;
-    el.innerHTML = html;
-    document.getElementById('clearCartBtn').addEventListener('click', ()=>{ if(confirm('Limpar carrinho?')){ clearCart(); renderCartPage(); showMiniToast('Carrinho limpo'); } });
-    document.getElementById('whatsCheckout').addEventListener('click', (ev)=>{
-      ev.preventDefault(); const cart = readCart(); if(cart.length===0){ alert('Carrinho vazio'); return }
-      let msg = 'Olá, gostaria de fazer um pedido:\n'; cart.forEach(it=> msg += `- ${it.title} x${it.qty} (${it.price})\n`);
-      msg += `\nTotal: R$ ${cartTotal().toFixed(2).replace('.',',')}\n`;
-      const wa = `https://wa.me/5511979038063?text=${encodeURIComponent(msg)}`; window.open(wa,'_blank');
+    return validated;
+  }
+  function persist(next) {
+    try { localStorage.setItem(CART_KEY, JSON.stringify(next)); }
+    catch { notify('O navegador não conseguiu guardar a sacola.'); return false; }
+    document.dispatchEvent(new Event('douglas-cart-change'));
+    return true;
+  }
+  function count(cart = rows()) { return cart.reduce((sum,item) => sum + item.qty, 0); }
+  function notify(message) {
+    const target = document.getElementById('shop-cart-feedback') ||
+                   document.getElementById('cart-feedback');
+    if (target) target.textContent = message;
+  }
+  function updateCount() {
+    const total = count();
+    document.querySelectorAll('[data-cart-count]').forEach(node => {
+      node.textContent = String(total);
+      node.hidden = total === 0;
     });
   }
-
-  document.addEventListener('DOMContentLoaded', ()=>{
-    // if on cart page
-    renderCartPage();
-    // expose helpers
-    window.Cart = { add: addToCart, remove: removeFromCart, clear: clearCart, get: readCart };
-  });
-
+  function add(id, variantCode, amount = 1) {
+    const product = catalog.get(id);
+    const variant = product?.variants.find(v => v.code === variantCode);
+    if (!product || !variant || !Number.isInteger(amount) || amount < 1) {
+      notify('Escolha uma variação válida.'); return false;
+    }
+    const cart = rows();
+    const found = cart.find(item => item.id === id && item.variant === variantCode);
+    if (found) {
+      if (found.qty + amount > MAX_QTY) {
+        notify('Máximo de 10 unidades por variação.'); return false;
+      }
+      found.qty += amount;
+    } else {
+      if (cart.length >= 15) { notify('A sacola atingiu o limite de modelos.'); return false; }
+      cart.push({id,variant:variantCode,qty:amount});
+    }
+    if (count(cart) > MAX_TOTAL) { notify('Máximo de 30 itens por sacola.'); return false; }
+    if (!persist(cart)) return false;
+    notify(product.title + ' adicionado à sacola. O envio ainda depende de confirmação.');
+    updateCount();
+    return true;
+  }
+  function updateQty(id,variant,qty) {
+    const next = rows().filter(x => !(x.id === id && x.variant === variant && qty <= 0));
+    const row = next.find(x => x.id === id && x.variant === variant);
+    if (row && qty > 0) row.qty = Math.min(MAX_QTY,qty);
+    if (persist(next)) { renderCart(); updateCount(); }
+  }
+  function make(tag, className, textValue) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (textValue !== undefined) node.textContent = textValue;
+    return node;
+  }
+  function makeButton(label, action, disabled = false) {
+    const button = make('button','cart-quantity-button',label);
+    button.type = 'button'; button.disabled = disabled;
+    button.addEventListener('click', action);
+    return button;
+  }
+  function draftMessage(cart) {
+    const lines = ['Olá! Gostaria de consultar a disponibilidade e o valor final dos itens da coleção Salve Regina:', ''];
+    for (const item of cart) {
+      const product = catalog.get(item.id);
+      const variant = product.variants.find(v => v.code === item.variant);
+      lines.push('• ' + product.title + ' — ' + variant.label + ' — ' + item.qty + ' unidade(s)' +
+        (product.vaviDesign ? ' (ref. ' + product.vaviDesign + ')' : ''));
+      lines.push('  ' + (variant.priceCents === null ? 'Preço de venda pendente de confirmação'
+        : 'Preço preliminar: ' + money(variant.priceCents) + ' por unidade'));
+    }
+    lines.push('', 'Favor confirmar disponibilidade, preço de venda, produção e frete antes do pagamento.',
+      'Esta mensagem é uma consulta, não um pedido pago.');
+    return lines.join('\n');
+  }
+  function renderCart() {
+    const target = document.getElementById('cart-root');
+    if (!target) return;
+    target.replaceChildren();
+    const cart = rows();
+    if (!cart.length) {
+      const section = make('div','cart-empty');
+      section.append(make('p','', 'Sua sacola está vazia.'));
+      const link = make('a','cart-action','Conhecer os produtos');
+      link.href = '/pages/loja.html#catalogo';
+      section.append(link);target.append(section);return;
+    }
+    let knownTotal = 0, hasPending = false;
+    const wrap = make('div','cart-checkout-layout');
+    const list = make('div','cart-items');
+    for (const item of cart) {
+      const product = catalog.get(item.id);
+      const variant = product.variants.find(v => v.code === item.variant);
+      const row = make('article','cart-item');
+      const img = make('img','cart-thumb');img.src = product.image;
+      img.alt = product.title;img.loading = 'lazy';img.width=90;img.height=90;
+      const content = make('div','cart-item-content');
+      content.append(make('h3','',product.title),make('p','cart-variant',variant.label));
+      if (product.status === 'preparation') content.append(make('p','cart-state','Em preparação · não disponível para compra automática'));
+      if (product.status === 'consultation') content.append(make('p','cart-state','Sob consulta · sem cobrança'));
+      if (variant.priceCents === null) {
+        hasPending = true;content.append(make('p','cart-amount','Preço final a confirmar'));
+      } else {
+        knownTotal += variant.priceCents * item.qty;
+        content.append(make('p','cart-amount',money(variant.priceCents)+' por unidade · preliminar'));
+      }
+      const qty = make('div','cart-quantity');
+      const minus = makeButton('−',()=>updateQty(item.id,item.variant,item.qty-1));
+      minus.setAttribute('aria-label','Diminuir quantidade de '+product.title);
+      const amount = make('span','cart-quantity-number',String(item.qty));
+      const plus = makeButton('+',()=>updateQty(item.id,item.variant,item.qty+1),item.qty>=MAX_QTY||count(cart)>=MAX_TOTAL);
+      plus.setAttribute('aria-label','Aumentar quantidade de '+product.title);
+      const remove=makeButton('Remover',()=>updateQty(item.id,item.variant,0));
+      remove.className='cart-remove';
+      qty.append(minus,amount,plus,remove);content.append(qty);
+      row.append(img,content);list.append(row);
+    }
+    const aside = make('aside','cart-summary');
+    aside.append(make('h2','','Resumo da sacola'));
+    aside.append(make('p','','Itens: '+count(cart)));
+    aside.append(make('p','cart-estimate',knownTotal>0
+      ? 'Subtotal preliminar dos itens com preço: '+money(knownTotal)
+      : 'Preços finais ainda não definidos'));
+    if (hasPending) aside.append(make('p','cart-disclaimer',
+      'Há peças sem preço de venda definido. Nenhum total final pode ser calculado agora.'));
+    aside.append(make('p','cart-disclaimer',
+      'Frete, produção e disponibilidade dependem de confirmação. A sacola não cria pedidos e não realiza cobranças.'));
+    const request=make('a','cart-action cart-action-primary','Solicitar cotação por e-mail');
+    request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
+      '&body='+encodeURIComponent(draftMessage(cart));
+    aside.append(request);
+    // Mantém o atendimento via WhatsApp que já existia no carrinho antigo.
+    // Abre apenas uma mensagem pré-preenchida; jamais envia sem ação do cliente.
+    const whatsapp=make('a','cart-action cart-action-secondary','Consultar pelo WhatsApp');
+    whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
+    whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
+    aside.append(whatsapp);
+    const exactShirt = cart.length===1 && cart[0].id==='camiseta-salve-regina' && cart[0].qty===1;
+    const pay = make('a','cart-action cart-action-secondary','Ir para pagamento seguro');
+    if (exactShirt && ready) {
+      pay.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(cart[0].variant);
+      aside.append(pay);
+    } else {
+      aside.append(make('p','cart-payment-note',
+        'Pagamento online indisponível para esta seleção. Você pode solicitar uma cotação sem compromisso.'));
+    }
+    const clear=makeButton('Limpar sacola',()=>{
+      if (window.confirm('Remover todos os itens da sacola?')) {
+        persist([]);renderCart();updateCount();
+      }
+    });
+    clear.className='cart-clear';aside.append(clear);
+    wrap.append(list,aside);target.append(wrap);
+  }
+  async function checkReady() {
+    try {
+      const res=await fetch(API+'/api/checkout/live/readiness',{
+        cache:'no-store',mode:'cors',signal:AbortSignal.timeout(8000)
+      });
+      if (!res.ok) return false;
+      const body=await res.json();
+      return body?.checkoutEnabled===true;
+    } catch { return false; }
+  }
+  async function init() {
+    try {
+      const response=await fetch(CATALOG_URL,{cache:'no-store'});
+      if (!response.ok) throw Error('catalog');
+      const body=await response.json();
+      if (!Array.isArray(body.products)) throw Error('catalog');
+      catalog=new Map(body.products.map(p=>[p.id,p]));
+    } catch {
+      notify('A sacola está temporariamente indisponível. Entre em contato pela página de contato.');
+      const root=document.getElementById('cart-root');
+      if (root) root.textContent='Não foi possível carregar o catálogo. Volte à loja e tente novamente.';
+      return;
+    }
+    const shop=document.querySelector('.shop-redesign');
+    if (shop) {
+      shop.addEventListener('click', event => {
+        const button=event.target.closest('[data-cart-add]');
+        if (!button) return;
+        const variant=button.dataset.cartVariant ||
+          button.closest('.shop-product-card')?.querySelector('[data-cart-size]')?.value;
+        add(button.dataset.cartAdd,variant);
+      });
+    }
+    document.addEventListener('douglas-cart-change',()=>{updateCount();renderCart();});
+    window.addEventListener('storage', event=>{
+      if(event.key===CART_KEY){updateCount();renderCart();}
+    });
+    window.Cart = {
+      add:(id,variant='unico',qty=1)=>add(id,variant,qty),
+      get:()=>rows().map(x=>({...x})),
+      remove:(id,variant)=>updateQty(id,variant,0),
+      clear:()=>{persist([]);renderCart();},
+    };
+    updateCount();renderCart();
+    if (document.getElementById('cart-root')) {
+      ready=await checkReady();renderCart();
+    }
+  }
+  if (document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
 })();
