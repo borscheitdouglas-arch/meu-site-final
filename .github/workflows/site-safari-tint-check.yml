@@ -1,0 +1,54 @@
+name: Validar cores do Safari em páginas do site
+
+on:
+  pull_request:
+    paths:
+      - 'styles/style.css'
+      - 'styles/site-editorial.css'
+      - 'styles/liturgical-song.css'
+      - 'styles/home.css'
+      - 'styles/salve-regina-colecao.css'
+      - 'styles/vavi-vitrine.css'
+      - 'styles/checkout-salve-regina.css'
+      - 'pages/colecao-salve-regina.html'
+      - 'pages/produtos-personalizados.html'
+      - 'pages/checkout-salve-regina.html'
+      - 'pages/condicoes-da-loja.html'
+      - 'pages/resultado-pagamento.html'
+      - 'tools/test_safari_tint.py'
+      - '.github/workflows/site-safari-tint-check.yml'
+  push:
+    paths:
+      - 'styles/style.css'
+      - 'styles/site-editorial.css'
+      - 'styles/liturgical-song.css'
+      - 'styles/home.css'
+      - 'styles/salve-regina-colecao.css'
+      - 'styles/vavi-vitrine.css'
+      - 'styles/checkout-salve-regina.css'
+      - 'pages/colecao-salve-regina.html'
+      - 'pages/produtos-personalizados.html'
+      - 'pages/checkout-salve-regina.html'
+      - 'pages/condicoes-da-loja.html'
+      - 'pages/resultado-pagamento.html'
+      - 'tools/test_safari_tint.py'
+      - '.github/workflows/site-safari-tint-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  safari-tint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Preparar navegador de teste
+        run: |
+          python3 -m pip install playwright==1.60.0
+          python3 -m playwright install --with-deps chromium
+      - name: Conferir fundos computados em desktop e celular
+        run: python3 tools/test_safari_tint.py

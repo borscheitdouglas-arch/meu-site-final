@@ -2246,3 +2246,14 @@ body #side-nav :is(a,summary,button):focus-visible { outline: 3px solid #f2dba6;
   body #side-nav .menu-search { padding-top: 6px; }
   body #side-nav .menu-search label { margin-bottom: 4px; }
 }
+
+/* Safari — coloração dourada do navegador nas páginas institucionais e litúrgicas.
+   Um cabeçalho fixo com background-color explícito permite ao Safari 26
+   usar o dourado do site na barra de abas. Não substitui sua imagem de fundo.
+   A loja mantém seu cobre específico na folha storefront-iluminura.css. */
+body:not(.shop-redesign) > .site-header,
+body.nav-open:not(.shop-redesign) > .site-header {
+  background-color: #ac742f;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}

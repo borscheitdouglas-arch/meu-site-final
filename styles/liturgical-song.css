@@ -7,7 +7,9 @@ html.liturgical-song-root { font-size: 16px; scroll-padding-top: 80px; }
   --chant-muted: #bcbcaf;
   --chant-gold: #d2b575;
   --chant-line: #3c4139;
-  background: radial-gradient(ellipse 900px 620px at 50% 250px, #b9a46b0d, transparent), var(--chant-bg);
+  /* Safári amostra o dourado; as camadas opacas preservam o fundo original. */
+  background-color: #ac742f;
+  background-image: radial-gradient(ellipse 900px 620px at 50% 250px, #b9a46b0d, transparent), linear-gradient(var(--chant-bg), var(--chant-bg));
   color: var(--chant-text);
   font: 18px/1.75 'Spectral', Georgia, serif;
 }

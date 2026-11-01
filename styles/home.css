@@ -1,5 +1,6 @@
 /* Ajustes exclusivos da página inicial. */
-body.home-page { background: #151715; }
+/* Cor do Safari independente da arte e do fundo visível da página inicial. */
+body.home-page { background-color: #ac742f; background-image: linear-gradient(#151715, #151715); }
 .home-page .hero-banner { padding: 76px 0 0; background: #151715; }
 .home-page .hero-inner { max-width: 1000px; padding: 0; isolation: isolate; background: #151715; }
 .home-page .capa-superior { height: auto; border-radius: 0; mix-blend-mode: lighten; mask-image: linear-gradient(to bottom, transparent, black 7%, black 83%, transparent); }

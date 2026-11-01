@@ -5,7 +5,9 @@ body.site-editorial {
   --accent: #e9e5dc; --accent-2: #d2b575; --gold: #d2b575; --illum-gold: #d2b575;
   --editorial-line: #3c4139;
   margin: 0; padding: 0; max-width: none; min-height: 100vh; height: auto;
-  background: radial-gradient(ellipse 900px 620px at 50% 250px, #b9a46b0d, transparent), #151715;
+  /* Fundo computado dourado para Safari; o degradê opaco mantém a aparência original. */
+  background-color: #ac742f;
+  background-image: radial-gradient(ellipse 900px 620px at 50% 250px, #b9a46b0d, transparent), linear-gradient(#151715, #151715);
   color: var(--text); font: 18px/1.75 'Spectral', Georgia, serif;
 }
 .site-editorial [hidden] { display: none !important; }
