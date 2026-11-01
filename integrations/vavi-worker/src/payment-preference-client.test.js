@@ -13,9 +13,10 @@ test('cliente prepara preferência de teste com valor gerado no servidor',async(
     assert.equal(options.headers.Authorization,'Bearer TEST-TOKEN');
     assert.equal(options.headers['X-Idempotency-Key'],base.order.id);
     const body=JSON.parse(options.body);
-    assert.equal(body.items.length,2);
+    assert.equal(body.items.length,1);
     assert.equal(body.items[0].unit_price,100);
-    assert.equal(body.items[1].unit_price,15);
+    assert.equal(body.shipments.cost,15);
+    assert.equal(body.shipments.mode,'not_specified');
     assert.equal(body.external_reference,base.order.id);
     return {ok:true,json:async()=>({id:'pref_test_1',
       init_point:'https://www.mercadopago.com.br/checkout/start?pref_id=pref_test_1'})};
