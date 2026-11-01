@@ -369,7 +369,8 @@ def main():
             page.locator('.cart-shipping-form').get_by_role('button',name='Consultar frete').click()
             expect(page.locator('.cart-shipping-status')).not_to_contain_text('Consultando o frete',timeout=10000)
             print('DIAGNOSTICO_FRETE_CARRINHO:',page.locator('.cart-shipping-status').inner_text(),
-                  'últimas chamadas:',api_calls[-3:], 'erros:',errors[-3:],flush=True)
+                  'últimas chamadas:',api_calls[-3:], 'erros:',errors[-3:],
+                  'motivo:',page.evaluate('window.__cartShippingDebug || ""'),flush=True)
             expect(page.locator('.cart-shipping-choice')).to_have_count(2)
             expect(page.locator('.cart-total')).to_contain_text('R$ 149,80')
             expect(page.locator('.cart-freight')).to_contain_text('R$ 29,90')
