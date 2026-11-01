@@ -3,11 +3,12 @@
   'use strict';
   const merchantEmail = 'douglas.assumpcao27@gmail.com';
   const api = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
-  // A vitrine pública oferece apenas a camiseta G nesta etapa de consulta.
-  // Não enviar variantes ainda não disponibilizadas neste formulário.
-  const productSize = 'G';
-  const productSku = 'salve-regina-preta-g';
-  const productPriceCents = 10990; // Preço preliminar, não é cobrança.
+  // Tamanhos e preços preliminares apresentados no próprio formulário.
+  // Cotação não é pedido nem pagamento; a disponibilidade final é confirmada no atendimento.
+  const pricesBySize = Object.freeze({P: 10990, M: 10990, G: 10990, GG: 10990, XG: 11990});
+  const variantFor = size => Object.hasOwn(pricesBySize, size)
+    ? {size, sku: 'salve-regina-preta-' + size.toLowerCase(), priceCents: pricesBySize[size]}
+    : null;
   const money = cents => new Intl.NumberFormat('pt-BR', {
     style: 'currency', currency: 'BRL'
   }).format(cents / 100);
@@ -45,6 +46,7 @@
     const emailLink = form.querySelector('[data-vavi-inquiry-email]');
     const copyButton = form.querySelector('[data-vavi-inquiry-copy]');
     const zipInput = form.querySelector('input[name="zipCode"]');
+    const sizeInput = form.querySelector('select[name="size"]');
     const submit = form.querySelector('button[type="submit"]');
     const shippingPanel = form.querySelector('[data-vavi-shipping-panel]');
     const optionsContainer = form.querySelector('[data-vavi-shipping-options]');
@@ -71,28 +73,30 @@
     }
 
     function buildMessage() {
+      const variant = variantFor(sizeInput.value);
+      if (!variant) return;
       const selected = optionsContainer.querySelector('input[name="vaviShipping"]:checked');
       const option = selected && choices.find(x => x.id === selected.value);
       const formattedZip = currentZip.slice(0, 5) + '-' + currentZip.slice(5);
-      const subject = 'Consulta de compra | Camiseta Salve Regina preta ' + productSize;
+      const subject = 'Consulta de compra | Camiseta Salve Regina preta ' + variant.size;
       const lines = [
         'Olá! Gostaria de consultar a compra da Camiseta Salve Regina.',
         '',
         'Produto: Camiseta Salve Regina, preta',
-        'Tamanho: ' + productSize,
+        'Tamanho: ' + variant.size,
         'Quantidade: 1 unidade',
         'CEP para cotação de frete: ' + formattedZip,
         '',
-        'Preço anunciado: ' + money(productPriceCents) + ' (preliminar).'
+        'Preço anunciado: ' + money(variant.priceCents) + ' (preliminar).'
       ];
       if (option) {
         const freightCents = Math.round(option.shippingCost * 100);
         estimatedTotal.textContent = 'Total estimado: ' +
-          money(productPriceCents + freightCents) +
+          money(variant.priceCents + freightCents) +
           ' (produto + frete, sujeito a confirmação).';
         lines.push('Transportadora consultada: ' + option.name);
         lines.push('Frete estimado: ' + money(freightCents));
-        lines.push('Total estimado: ' + money(productPriceCents + freightCents));
+        lines.push('Total estimado: ' + money(variant.priceCents + freightCents));
         lines.push('Prazo de transporte informado pela VAVI: ' +
           option.deliveryTime + ' dia(s), além do tempo de produção.');
       } else {
@@ -160,6 +164,11 @@
       zipInput.removeAttribute('aria-invalid');
       currentZip = zip;
       const requestedSize = sizeInput.value;
+      const variant = variantFor(requestedSize);
+      if (!variant) {
+        status.textContent = 'Selecione um tamanho válido para consultar o frete.';
+        return;
+      }
       pendingRequest = new AbortController();
       const isCurrent = () => version === requestVersion && zipInput.value.replace(/\D/g, '') === zip && sizeInput.value === requestedSize;
       setLoading(true);
@@ -168,7 +177,7 @@
         const data = await requestJSON(api + '/api/shipping/preview', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({zipCode: zip, sku: productSku}),
+          body: JSON.stringify({zipCode: zip, sku: variant.sku}),
           cache: 'no-store',
           mode: 'cors'
         }, 16000, pendingRequest);
