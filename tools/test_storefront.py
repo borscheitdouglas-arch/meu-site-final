@@ -420,6 +420,15 @@ def main():
             expect(page.locator('#checkout-container')).to_be_hidden()
             expect(page.locator('#checkout-readiness')).to_contain_text('aguarda')
             expect(page.locator('#sale-checkout')).to_have_count(0)
+            calls_before=len(api_calls)
+            page.goto(base+'/pages/checkout-salve-regina.html?preview=visual&size=XG',wait_until='networkidle')
+            expect(page.locator('#checkout-readiness')).to_contain_text('PRÉVIA VISUAL')
+            expect(page.locator('.checkout-panel')).to_have_count(4)
+            expect(page.locator('#product-amount')).to_have_text('R$ 119,90')
+            expect(page.locator('#pay-now')).to_be_disabled()
+            expect(page.locator('#ship-quote')).to_be_disabled()
+            assert page.locator('#sale-checkout input:not([disabled])').count()==0
+            assert all(path!='/api/checkout/live' for _,path in api_calls[calls_before:])
             page.evaluate('localStorage.removeItem("douglasShopCart_v2")')
             print('PASS: sacola, tamanhos, quantidades, cotação e checkout condicionado', flush=True)
 
