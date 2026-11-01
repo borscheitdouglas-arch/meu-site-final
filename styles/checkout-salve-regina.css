@@ -1,5 +1,5 @@
 :root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;color:#f0e9d9;background:#111712}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(155deg,#121b13,#10130f);min-height:100vh}
+*{box-sizing:border-box}body{margin:0;background-color:#b76436;background-image:linear-gradient(155deg,#121b13,#10130f);min-height:100vh}
 a{color:#ead19b}a:hover{color:#fff2cd}
 header{min-height:74px;border-bottom:1px solid #8e794f55;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px clamp(18px,4vw,72px)}
 header span{font-family:Cinzel,serif;letter-spacing:.06em;color:#e0d0aa}header a{text-decoration:none;font-size:13px}
