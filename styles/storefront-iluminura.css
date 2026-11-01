@@ -6,14 +6,21 @@ body.shop-redesign {
   --shop-copper-dark: #5a301d;
   --shop-parchment: #f3e9d8;
   --shop-gold: #dfbd82;
-  background:
+  /* Safari 26 utiliza background-color para tingir a interface do navegador.
+     A camada opaca preserva o fundo verde-escuro que aparece na página. */
+  background-color: #b76436;
+  background-image:
     radial-gradient(ellipse 1000px 350px at 70% 6%, #7142232b, transparent 78%),
-    #0e1510;
+    linear-gradient(#0e1510, #0e1510);
 }
 
 /* Toda a parte superior ganha calor: cobre iluminado, não laranja comercial puro. */
 .shop-redesign .site-header {
-  background-color: #703e26;
+  /* Fundo amostrado pelo Safari ao colorir abas, navegação e endereço. */
+  background-color: #b76436;
+  /* O efeito translúcido anterior fazia o navegador ignorar a cor fixa. */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   background-image:
     linear-gradient(90deg, #241a14bf 0%, #54321bd9 24%, #9b552baf 48%, #97512fba 71%, #251b14c7 100%),
     url('../assets/img/loja/ornamento-iluminura-cobre.svg'),
