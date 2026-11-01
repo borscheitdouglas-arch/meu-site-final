@@ -1,0 +1,46 @@
+name: Preparar Worker da loja para publicação sem Mac
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "integrations/vavi-worker/src/**"
+      - ".github/workflows/build-worker-bundle.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Instalar dependências de testes
+        working-directory: integrations/vavi-worker
+        run: npm install --no-audit --no-fund
+      - name: Testar pagamentos, frete e pedidos
+        working-directory: integrations/vavi-worker
+        run: npm test
+      - name: Compilar uma única versão da API para o Cloudflare
+        working-directory: integrations/vavi-worker
+        run: npx --yes esbuild@0.25.12 src/index.js --bundle --platform=browser --format=esm --target=es2022 --outfile=dist/worker.js
+      - name: Registrar bundle no repositório
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add integrations/vavi-worker/dist/worker.js
+          if ! git diff --cached --quiet; then
+            git commit -m "build(worker): bundle testado para publicacao [skip ci]"
+            git push
+          else
+            echo "Bundle ja esta atualizado."
+          fi
