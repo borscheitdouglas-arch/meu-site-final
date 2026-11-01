@@ -13,9 +13,12 @@
   const skuForSize=size=>'salve-regina-preta-'+size.toLowerCase();
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
   const fallback=document.createElement('a');
-  fallback.href='/pages/loja.html#colecao-salve-regina';
-  fallback.textContent='Solicitar compra por e-mail';
-  const unavailable=()=>{error('Pagamento automático ainda não disponível. Use a consulta assistida na loja.');notice.append(' ',fallback);};
+  fallback.href='/pages/cart.html';
+  fallback.textContent='Voltar ao carrinho e solicitar cotação';
+  const unavailable=()=>{
+    error('O pagamento online ainda aguarda a aprovação comercial e logística da loja. Nenhuma cobrança pode ser iniciada neste momento.');
+    notice.append(' ',fallback);
+  };
   const getJson=async(url,options={})=>{
     const response=await fetch(url,{cache:'no-store',mode:'cors',
       signal:AbortSignal.timeout(18000),...options});
@@ -160,6 +163,8 @@
     choices.addEventListener('change',()=>{
       const o=selected();
       if(!o)return;
+      choices.querySelectorAll('.shipping-choice').forEach(line=>
+        line.classList.toggle('is-selected',line.querySelector('input')?.checked===true));
       const cents=Math.round(o.shippingCost*100);
       freightAmount.textContent=format(cents);
       total.textContent=format(price()+cents);
@@ -177,14 +182,22 @@
           body:JSON.stringify({zipCode:code,sku:sku()})
         });
         if(normalize(zip.value)!==code || sku()!==requestedSku)return;
-        options=(Array.isArray(data.options)?data.options:[]).filter(o=>
-          o && o.isActive===true && typeof o.id==='string' &&
-          typeof o.name==='string' && Number.isFinite(o.shippingCost) &&
-          o.shippingCost>=0 && Number.isInteger(o.deliveryTime) &&
+        options=(data.zipCode===code && data.sku===requestedSku &&
+          Array.isArray(data.options)?data.options:[]).filter(o=>
+          o && o.isActive===true &&
+          typeof o.id==='string' && /^[A-Za-z0-9_.:-]{1,120}$/.test(o.id) &&
+          typeof o.name==='string' && o.name.length>0 && o.name.length<=120 &&
+          Number.isFinite(o.shippingCost) && o.shippingCost>=0 &&
+          o.shippingCost<=10000 &&
+          Math.abs(o.shippingCost*100-Math.round(o.shippingCost*100))<0.000001 &&
+          Number.isInteger(o.deliveryTime) && o.deliveryTime>=0 && o.deliveryTime<=365 &&
           !/retirada|retire|pickup/i.test(o.name)
         );
+        if(new Set(options.map(o=>o.id)).size!==options.length)options=[];
         if(!options.length){shipFeedback.textContent='Não há frete disponível para este CEP.';return;}
         quotedZip=code;quotedSku=requestedSku;
+        const cheapest=Math.min(...options.map(o=>o.shippingCost));
+        const fastest=Math.min(...options.map(o=>o.deliveryTime));
         options.forEach((o,i)=>{
           const label=document.createElement('label');
           label.className='shipping-choice';
@@ -194,10 +207,28 @@
             ? (options.some(candidate=>candidate.id===cartDelivery.shippingOptionId)
               ? o.id===cartDelivery.shippingOptionId : i===0)
             : i===0;
+          label.classList.toggle('is-selected',input.checked);
           const caption=document.createElement('span');
-          caption.textContent=o.name+' — '+format(Math.round(o.shippingCost*100))+
-            ' · Transporte: '+o.deliveryTime+' dia(s)';
-          label.append(input,caption);choices.append(label);
+          caption.className='shipping-choice-info';
+          const title=document.createElement('strong');
+          title.textContent=o.name;
+          const time=document.createElement('small');
+          time.textContent='Transporte estimado: '+o.deliveryTime+' dia(s)';
+          caption.append(title,time);
+          if(o.shippingCost===cheapest){
+            const mark=document.createElement('small');
+            mark.className='shipping-best';
+            mark.textContent='Menor valor';
+            caption.append(mark);
+          }else if(o.deliveryTime===fastest){
+            const mark=document.createElement('small');
+            mark.textContent='Menor prazo de transporte';
+            caption.append(mark);
+          }
+          const value=document.createElement('strong');
+          value.className='shipping-choice-price';
+          value.textContent=o.shippingCost===0?'Grátis':format(Math.round(o.shippingCost*100));
+          label.append(input,caption,value);choices.append(label);
         });
         choices.hidden=false;choices.dispatchEvent(new Event('change'));
         shipFeedback.textContent='Frete consultado; valor e disponibilidade serão reconferidos no servidor ao pagar.';
