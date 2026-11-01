@@ -12,10 +12,21 @@ const order = {
 test('preferência usa apenas preços do servidor e frete separado',()=>{
   const p=buildPreference(order);
   assert.equal(p.items[0].unit_price,99.90);
-  assert.equal(p.items[1].unit_price,15.60);
+  assert.equal(p.items.length,1);
+  assert.equal(p.shipments.cost,15.60);
+  assert.equal(p.shipments.mode,'not_specified');
   assert.equal(p.external_reference,order.orderId);
   assert.equal(p.items[0].quantity,2);
   assert.equal(p.back_urls.success,'https://www.douglasassumpcao.com.br/pages/resultado-pagamento.html?pagamento=sucesso');
+});
+test('frete gratuito permanece identificado sem produto fictício',()=>{
+  const p=buildPreference({...order,shippingCents:0});
+  assert.equal(p.shipments.cost,0);
+  assert.equal(p.items.length,1);
+});
+test('frações de centavo de frete não podem ser encaminhadas ao Mercado Pago',()=>{
+  assert.throws(()=>buildPreference({...order,shippingCents:1.5}),
+    {code:'checkout_invalid_order'});
 });
 test('frete ainda não confirmado impede gerar preferência',()=>{
   assert.throws(()=>buildPreference({...order,shippingCents:null}),
