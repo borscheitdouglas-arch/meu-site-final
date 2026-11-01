@@ -116,6 +116,17 @@
       lines.push('  ' + (variant.priceCents === null ? 'Preço de venda pendente de confirmação'
         : 'Preço preliminar: ' + money(variant.priceCents) + ' por unidade'));
     }
+    const freight=window.CartShipping?.getQuote(cart);
+    if (freight) {
+      const sum=cart.reduce((total,item)=>{
+        const variant=catalog.get(item.id)?.variants.find(v=>v.code===item.variant);
+        return total+(Number.isInteger(variant?.priceCents)?variant.priceCents*item.qty:0);
+      },0);
+      lines.push('', 'CEP: '+freight.zipCode,
+        'Frete estimado ('+freight.shippingName+'): '+money(freight.shippingCents),
+        'Total estimado dos produtos + frete: '+money(sum+freight.shippingCents),
+        'Transporte estimado: '+freight.deliveryDays+' dia(s), além do prazo de produção.');
+    }
     lines.push('', 'Favor confirmar disponibilidade, preço de venda, produção e frete antes do pagamento.',
       'Esta mensagem é uma consulta, não um pedido pago.');
     return lines.join('\n');
@@ -126,6 +137,7 @@
     target.replaceChildren();
     const cart = rows();
     if (!cart.length) {
+      window.CartShipping?.invalidate();
       const section = make('div','cart-empty');
       section.append(make('p','', 'Sua sacola está vazia.'));
       const link = make('a','cart-action','Conhecer os produtos');
@@ -166,18 +178,33 @@
     aside.append(make('h2','','Resumo da sacola'));
     aside.append(make('p','','Itens: '+count(cart)));
     aside.append(make('p','cart-estimate',knownTotal>0
-      ? 'Subtotal preliminar dos itens com preço: '+money(knownTotal)
+      ? 'Subtotal dos produtos: '+money(knownTotal)
       : 'Preços finais ainda não definidos'));
+    const freightLine=make('p','cart-freight','Frete: a calcular');
+    const totalLine=make('p','cart-total','Total com frete: a calcular');
+    aside.append(freightLine,totalLine);
+    const shippingSlot=make('section','cart-shipping-slot');
+    shippingSlot.setAttribute('aria-label','Calcular frete do carrinho');
+    aside.append(shippingSlot);
     if (hasPending) aside.append(make('p','cart-disclaimer',
       'Há peças sem preço de venda definido. Nenhum total final pode ser calculado agora.'));
     aside.append(make('p','cart-disclaimer',
-      'Frete, produção e disponibilidade são validados antes de qualquer pagamento. O subtotal não inclui frete.'));
+      'Os valores exibidos são estimativas. O frete e o preço final serão validados pelo servidor antes de qualquer pagamento.'));
     const exactShirt = cart.length === 1 &&
       cart[0].id === 'camiseta-salve-regina' && cart[0].qty === 1;
     if (exactShirt && ready) {
       const pay = make('a','cart-action cart-action-primary',
         'Finalizar compra com Mercado Pago →');
       pay.href = '/pages/checkout-salve-regina.html?size=' + encodeURIComponent(cart[0].variant);
+      pay.addEventListener('click',()=>{
+        const quote=window.CartShipping?.getQuote(cart);
+        try {
+          if(quote) sessionStorage.setItem('douglasCheckoutDeliveryDraft_v1',
+            JSON.stringify({size:cart[0].variant,zipCode:quote.zipCode,
+              shippingOptionId:quote.shippingOptionId}));
+          else sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
+        } catch {}
+      });
       aside.append(pay, make('p','cart-payment-note',
         'Na próxima etapa você informará o CEP, escolherá o frete, revisará o total e seguirá para o Mercado Pago.'));
     } else {
@@ -203,6 +230,18 @@
     whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
     whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
     aside.append(whatsapp);
+    window.CartShipping?.mount(shippingSlot,{cart,subtotalCents:knownTotal,onUpdate:()=>{
+      const quote=window.CartShipping?.getQuote(cart);
+      freightLine.textContent=quote
+        ? 'Frete estimado ('+quote.shippingName+'): '+money(quote.shippingCents)
+        : 'Frete: a calcular';
+      totalLine.textContent=quote && !hasPending
+        ? 'Total estimado com frete: '+money(knownTotal+quote.shippingCents)
+        : 'Total com frete: a calcular';
+      request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
+        '&body='+encodeURIComponent(draftMessage(cart));
+      whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
+    }});
     const shopMore=make('a','cart-continue-shopping','← Continuar comprando');
     shopMore.href='/pages/loja.html#catalogo';
     aside.append(shopMore);
