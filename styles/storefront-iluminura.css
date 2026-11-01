@@ -274,8 +274,16 @@ body.shop-redesign .site-header .menu-btn:hover { background: #e4a66e24; }
   border-bottom: 2px solid #deb77c;
   box-shadow: 0 6px 17px #0007, inset 0 -4px 0 #2b1a1460;
 }
-.shop-redesign .site-header > :is(.menu-btn, .logo, .shop-header-links, .shop-search, .shop-cart-link) {
+/* O logo deve permanecer estático: tornar seu position relativo reativaria
+   left:50% herdado do CSS global e o colocaria sobre os links. */
+.shop-redesign .site-header > :is(.menu-btn, .shop-header-links, .shop-search, .shop-cart-link) {
   position: relative;
+  z-index: 2;
+}
+.shop-redesign .site-header .logo {
+  position: static;
+  left: auto;
+  transform: none;
   z-index: 2;
 }
 .shop-redesign .shop-ribbon {
