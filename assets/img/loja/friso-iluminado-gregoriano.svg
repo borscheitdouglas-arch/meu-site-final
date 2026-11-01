@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 18" width="240" height="18" aria-hidden="true">
+<defs>
+  <linearGradient id="ouro" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fff0b3"/><stop offset=".42" stop-color="#cfa35e"/><stop offset=".7" stop-color="#86501d"/><stop offset="1" stop-color="#d9b773"/></linearGradient>
+  <g id="flor">
+    <circle r="5.8" fill="#152f43" stroke="#e9c784" stroke-width=".8"/>
+    <path d="M0-5Q3-3 0 0Q-3-3 0-5ZM5 0Q3 3 0 0Q3-3 5 0ZM0 5Q-3 3 0 0Q3 3 0 5ZM-5 0Q-3-3 0 0Q-3 3-5 0Z" fill="#9f372a" stroke="#f4d58e" stroke-width=".65"/>
+    <circle r="1.35" fill="#f4d588"/>
+  </g>
+  <g id="folha">
+    <path d="M0 0Q-3-5-10-5Q-8 0 0 0Z" fill="#667047" stroke="#e3b76b" stroke-width=".6"/>
+    <path d="M0 0Q2-6 8-7Q8-2 0 0Z" fill="#1e526e" stroke="#e3b76b" stroke-width=".6"/>
+    <path d="M0 0Q4 4 10 3Q7-2 0 0Z" fill="#a64331" stroke="#e3b76b" stroke-width=".6"/>
+  </g>
+</defs>
+<path d="M0 1H240M0 3H240M0 15H240M0 17H240" stroke="url(#ouro)" stroke-width=".85" opacity=".95"/>
+<path d="M0 4H240V14H0Z" fill="#101e34" fill-opacity=".82"/>
+<path d="M0 4H240M0 14H240" stroke="#d9ac5c" stroke-width=".65"/>
+<path d="M0 9C10 9 13 6 18 7S28 12 33 9S45 6 48 9S59 12 64 9S76 6 78 9S90 12 95 9S106 6 110 9S123 12 128 9S141 6 145 9S157 12 161 9S173 6 176 9S188 12 192 9S204 6 209 9S220 12 224 9S235 6 240 9" fill="none" stroke="#f2d594" stroke-width=".65" stroke-opacity=".85"/>
+<use href="#flor" transform="translate(30 9) scale(.9)"/>
+<use href="#flor" transform="translate(90 9) scale(.9)"/>
+<use href="#flor" transform="translate(150 9) scale(.9)"/>
+<use href="#flor" transform="translate(210 9) scale(.9)"/>
+<g opacity=".91">
+ <use href="#folha" transform="translate(58 9) scale(.75)"/>
+ <use href="#folha" transform="translate(118 9) scale(.75)"/>
+ <use href="#folha" transform="translate(178 9) scale(.75)"/>
+ <use href="#folha" transform="translate(238 9) scale(.75)"/>
+</g>
+</svg>
