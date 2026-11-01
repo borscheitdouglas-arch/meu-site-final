@@ -99,3 +99,7 @@ main>h1{margin:7px 0;font-family:'Spectral',Georgia,serif}
  .checkout-summary .total p{gap:6px}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+.checkout-preview .checkout-summary .pay{background:#786f5d;color:#eee1c7;cursor:not-allowed}
+.checkout-preview .checkout-panel :is(input,select){opacity:.7;cursor:not-allowed}
+.checkout-preview #checkout-readiness.warning{border-left:4px solid #e8c183}
