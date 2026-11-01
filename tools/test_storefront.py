@@ -306,9 +306,14 @@ def main():
 
             page.reload(wait_until='networkidle')
             expect(page.locator('#produto-camiseta .atelier-vavi-live-link')).to_have_count(1)
+            expect(page.locator('.shop-cart-buy-now')).to_have_count(1)
+            page.locator('[data-category="camisetas"] [data-cart-size]').select_option('XG')
+            expect(page.locator('.shop-cart-buy-now')).to_have_attribute(
+                'href','/pages/checkout-salve-regina.html?size=XG')
             state['checkout_enabled'] = False
             page.reload(wait_until='networkidle')
             expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
+            expect(page.locator('.shop-cart-buy-now')).to_have_count(0)
             print('PASS: detalhes por URL e controle de disponibilidade preservado', flush=True)
 
             # Sacola com variantes reconhecidas: sem preços inventados nem pedidos.
@@ -317,7 +322,9 @@ def main():
             page.locator('[data-cart-add="caneca-salve-regina-preta"]').click()
             page.locator('[data-cart-add="ecobag-salve-regina-m"]').click()
             page.locator('[data-category="camisetas"] [data-cart-size]').select_option('XG')
+            expect(page.locator('[data-category="camisetas"] .shop-price')).to_contain_text('R$ 119,90')
             page.locator('[data-cart-add="camiseta-salve-regina"]').click()
+            expect(page.locator('#shop-cart-feedback a[href="/pages/cart.html"]')).to_be_visible()
             expect(page.locator('[data-cart-count]')).to_have_text('3')
             saved=page.evaluate('JSON.parse(localStorage.getItem("douglasShopCart_v2"))')
             assert saved==[
@@ -332,7 +339,8 @@ def main():
             expect(page.locator('.cart-summary')).not_to_contain_text('sem preço de venda definido')
             expect(page.locator('.cart-summary a[href^="mailto:"]')).to_have_count(1)
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
-            assert 'D000002' in page.locator('.cart-action-primary').get_attribute('href')
+            expect(page.get_by_role('button',name='Finalizar compra',exact=True)).to_be_disabled()
+            assert 'D000002' in page.locator('.cart-action-secondary[href^="mailto:"]').get_attribute('href')
             page.locator('.cart-item').first.get_by_role('button',name='Aumentar quantidade').click()
             expect(page.locator('.cart-item').first.locator('.cart-quantity-number')).to_have_text('2')
             page.locator('.cart-item').first.get_by_role('button',name='Remover').click()
@@ -350,6 +358,7 @@ def main():
             page.goto(base+'/pages/cart.html',wait_until='networkidle')
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_attribute(
                 'href','/pages/checkout-salve-regina.html?size=XG')
+            expect(page.get_by_role('link',name='Finalizar compra com Mercado Pago')).to_be_visible()
             state['checkout_enabled']=False
             page.reload(wait_until='networkidle')
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
