@@ -110,7 +110,15 @@ def main():
                 assert_no_overflow(page)
                 # Identidade cobre/iluminura presente sem sacrificar legibilidade.
                 expect(page.locator('.shop-ribbon')).to_be_visible()
-                assert page.locator('meta[name="theme-color"]').get_attribute('content') == '#8b4d2d'
+                assert page.locator('meta[name="theme-color"]').get_attribute('content') == '#b76436'
+                # Safari 26 amostra o fundo do body/cabeçalho; sem backdrop-filter
+                # e com o tom cobre como background-color, a interface pode acompanhar.
+                assert page.locator('body').evaluate(
+                    'el => getComputedStyle(el).backgroundColor') == 'rgb(183, 100, 54)'
+                assert page.locator('.site-header').evaluate(
+                    'el => getComputedStyle(el).backgroundColor') == 'rgb(183, 100, 54)'
+                assert page.locator('.site-header').evaluate(
+                    'el => getComputedStyle(el).backdropFilter') == 'none'
                 assert 'ornamento-iluminura-cobre.svg' in page.locator('.site-header').evaluate(
                     'el => getComputedStyle(el).backgroundImage')
                 assert page.locator('.shop-search').evaluate(
