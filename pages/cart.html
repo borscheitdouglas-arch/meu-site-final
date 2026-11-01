@@ -164,12 +164,44 @@
 <p class="cart-intro">Escolha quantidades e solicite uma cotação. Para os produtos em preparação, a sacola não cria pedido ou cobrança.</p>
 <p id="cart-feedback" role="status" aria-live="polite"></p>
 <div id="cart-root" aria-live="polite"><p>Carregando sua sacola…</p></div>
+<section class="shop-shipping-calculator" id="calcular-frete" data-shipping-calculator aria-labelledby="shipping-calc-heading">
+  <div class="shop-shipping-copy"><p class="shop-shipping-kicker">Entrega · Consulte seu CEP</p>
+  <h2 id="shipping-calc-heading">Calcular frete</h2>
+  <p>Veja as opções reais de transporte da VAVI para uma camiseta Salve Regina. O prazo de produção é informado separadamente.</p></div>
+  <form class="shop-shipping-form">
+    <label>Produto e tamanho
+      <select name="product" required>
+        <optgroup label="Camiseta Salve Regina, preta">
+          <option value="salve-regina-preta-p">Camiseta P</option>
+          <option value="salve-regina-preta-m">Camiseta M</option>
+          <option value="salve-regina-preta-g" selected>Camiseta G</option>
+          <option value="salve-regina-preta-gg">Camiseta GG</option>
+          <option value="salve-regina-preta-xg">Camiseta XG</option>
+        </optgroup>
+        <optgroup label="Em validação logística">
+          <option value="caneca-salve-regina-preta">Caneca preta · Partitura</option>
+          <option value="caneca-salve-regina-pb">Caneca P&amp;B · Nossa Senhora</option>
+          <option value="ecobag-salve-regina-m">Ecobag M</option>
+          <option value="ecobag-salve-regina-g">Ecobag G</option>
+        </optgroup>
+      </select>
+    </label>
+    <label>CEP para calcular frete
+      <input name="zipCode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="9" pattern="[0-9]{5}-?[0-9]{3}" placeholder="00000-000" required/>
+    </label>
+    <button type="submit">Consultar frete</button>
+  </form>
+  <p class="shop-shipping-status" data-shipping-status role="status" aria-live="polite"></p>
+  <div class="shop-shipping-results" data-shipping-results hidden></div>
+  <p class="shop-shipping-small">Consulta sem compromisso, para 1 unidade. Sem cobrança. Modelos sem pacote validado exigem cotação assistida.</p>
+</section>
 </section>
 </main>
 <footer class="site-footer">
 <p>© 2026 Douglas Assumpção. Todos os direitos reservados.</p>
 </footer>
 <script src="../scripts/cart.js?v=20261101-v2" defer></script>
+<script src="../scripts/store-shipping-calculator.js?v=20261101-cotacao" defer></script>
 <script src="../scripts/script.js?v=20261005-menu-adornos"></script>
 <script src="../scripts/site-editorial.js?v=menu-elegante-2"></script></body>
 </html>
