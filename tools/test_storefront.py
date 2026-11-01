@@ -73,7 +73,8 @@ def main():
                 route.fulfill(status=503, json={'error': 'shipping_unavailable'}, headers=headers)
                 return
             body = route.request.post_data_json
-            assert body == {'zipCode': '01001000', 'sku': 'salve-regina-preta-g'}, body
+            assert body.get('zipCode') == '01001000', body
+            assert body.get('sku') in ('salve-regina-preta-g','salve-regina-preta-xg'), body
             route.fulfill(json={
                 'zipCode': body['zipCode'], 'sku': body['sku'],
                 'options': [
@@ -339,6 +340,8 @@ def main():
             expect(page.locator('.cart-summary')).not_to_contain_text('sem preço de venda definido')
             expect(page.locator('.cart-summary a[href^="mailto:"]')).to_have_count(1)
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
+            expect(page.locator('.cart-shipping-form')).to_have_count(0)
+            expect(page.locator('.cart-shipping-slot')).to_contain_text('pacote')
             expect(page.get_by_role('button',name='Finalizar compra',exact=True)).to_be_disabled()
             assert 'D000002' in page.locator('.cart-action-secondary[href^="mailto:"]').get_attribute('href')
             page.locator('.cart-item').first.get_by_role('button',name='Aumentar quantidade').click()
@@ -359,6 +362,29 @@ def main():
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_attribute(
                 'href','/pages/checkout-salve-regina.html?size=XG')
             expect(page.get_by_role('link',name='Finalizar compra com Mercado Pago')).to_be_visible()
+            expect(page.locator('.cart-shipping-form')).to_be_visible()
+            expect(page.locator('.cart-total')).to_have_text('Total com frete: a calcular')
+            cart_zip=page.locator('.cart-shipping-form input[name="zipCode"]')
+            cart_zip.fill('01001-000')
+            page.locator('.cart-shipping-form').get_by_role('button',name='Consultar frete').click()
+            expect(page.locator('.cart-shipping-choice')).to_have_count(2)
+            expect(page.locator('.cart-total')).to_contain_text('R$ 149,80')
+            expect(page.locator('.cart-freight')).to_contain_text('R$ 29,90')
+            page.locator('.cart-shipping-choice').nth(1).locator('input').check()
+            expect(page.locator('.cart-total')).to_contain_text('R$ 138,40')
+            expect(page.locator('.cart-freight')).to_contain_text('R$ 18,50')
+            assert '138%2C40' in page.locator('.cart-action-secondary[href^="mailto:"]').get_attribute('href')
+            page.get_by_role('link',name='Finalizar compra com Mercado Pago').click()
+            expect(page).to_have_url(base+'/pages/checkout-salve-regina.html?size=XG')
+            expect(page.locator('#sale-checkout input[name="zipCode"]')).to_have_value('01001-000')
+            expect(page.locator('#checkout-total')).to_contain_text('138,40')
+            page.goto(base+'/pages/cart.html',wait_until='networkidle')
+            cart_zip=page.locator('.cart-shipping-form input[name="zipCode"]')
+            cart_zip.fill('01001-000')
+            page.locator('.cart-shipping-form').get_by_role('button',name='Consultar frete').click()
+            expect(page.locator('.cart-total')).to_contain_text('R$ 149,80')
+            cart_zip.fill('20040-020')
+            expect(page.locator('.cart-total')).to_have_text('Total com frete: a calcular')
             state['checkout_enabled']=False
             page.reload(wait_until='networkidle')
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
