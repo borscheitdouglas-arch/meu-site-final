@@ -45,10 +45,18 @@
     return true;
   }
   function count(cart = rows()) { return cart.reduce((sum,item) => sum + item.qty, 0); }
-  function notify(message) {
+  function notify(message, showCartLink = false) {
     const target = document.getElementById('shop-cart-feedback') ||
                    document.getElementById('cart-feedback');
-    if (target) target.textContent = message;
+    if (!target) return;
+    target.textContent = message;
+    if (showCartLink) {
+      const link = document.createElement('a');
+      link.href = '/pages/cart.html';
+      link.className = 'shop-cart-feedback-link';
+      link.textContent = 'Ver carrinho e continuar →';
+      target.append(' ', link);
+    }
   }
   function updateCount() {
     const total = count();
@@ -76,7 +84,7 @@
     }
     if (count(cart) > MAX_TOTAL) { notify('Máximo de 30 itens por sacola.'); return false; }
     if (!persist(cart)) return false;
-    notify(product.title + ' adicionado à sacola. O envio ainda depende de confirmação.');
+    notify(product.title + ' adicionado ao carrinho.', true);
     updateCount();
     return true;
   }
@@ -163,8 +171,29 @@
     if (hasPending) aside.append(make('p','cart-disclaimer',
       'Há peças sem preço de venda definido. Nenhum total final pode ser calculado agora.'));
     aside.append(make('p','cart-disclaimer',
-      'Frete, produção e disponibilidade dependem de confirmação. A sacola não cria pedidos e não realiza cobranças.'));
-    const request=make('a','cart-action cart-action-primary','Solicitar cotação por e-mail');
+      'Frete, produção e disponibilidade são validados antes de qualquer pagamento. O subtotal não inclui frete.'));
+    const exactShirt = cart.length === 1 &&
+      cart[0].id === 'camiseta-salve-regina' && cart[0].qty === 1;
+    if (exactShirt && ready) {
+      const pay = make('a','cart-action cart-action-primary',
+        'Finalizar compra com Mercado Pago →');
+      pay.href = '/pages/checkout-salve-regina.html?size=' + encodeURIComponent(cart[0].variant);
+      aside.append(pay, make('p','cart-payment-note',
+        'Na próxima etapa você informará o CEP, escolherá o frete, revisará o total e seguirá para o Mercado Pago.'));
+    } else {
+      const blocked = make('button','cart-action cart-action-disabled',
+        'Finalizar compra');
+      blocked.type = 'button';
+      blocked.disabled = true;
+      blocked.setAttribute('aria-describedby','cart-payment-explanation');
+      const explanation = make('p','cart-payment-note',
+        exactShirt
+          ? 'Pagamento online aguardando a aprovação final do produto e da loja. Nenhuma cobrança será feita.'
+          : 'Compra online ainda indisponível para esta seleção. Por enquanto, apenas uma camiseta por pedido pode seguir ao checkout após aprovação.');
+      explanation.id = 'cart-payment-explanation';
+      aside.append(blocked, explanation);
+    }
+    const request=make('a','cart-action cart-action-secondary','Solicitar cotação por e-mail');
     request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
       '&body='+encodeURIComponent(draftMessage(cart));
     aside.append(request);
@@ -174,15 +203,9 @@
     whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
     whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
     aside.append(whatsapp);
-    const exactShirt = cart.length===1 && cart[0].id==='camiseta-salve-regina' && cart[0].qty===1;
-    const pay = make('a','cart-action cart-action-secondary','Ir para pagamento seguro');
-    if (exactShirt && ready) {
-      pay.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(cart[0].variant);
-      aside.append(pay);
-    } else {
-      aside.append(make('p','cart-payment-note',
-        'Pagamento online indisponível para esta seleção. Você pode solicitar uma cotação sem compromisso.'));
-    }
+    const shopMore=make('a','cart-continue-shopping','← Continuar comprando');
+    shopMore.href='/pages/loja.html#catalogo';
+    aside.append(shopMore);
     const clear=makeButton('Limpar sacola',()=>{
       if (window.confirm('Remover todos os itens da sacola?')) {
         persist([]);renderCart();updateCount();
@@ -216,6 +239,20 @@
     }
     const shop=document.querySelector('.shop-redesign');
     if (shop) {
+      shop.querySelectorAll('.shop-product-card [data-cart-size]').forEach(select => {
+        const productId = select.closest('.shop-product-card')?.querySelector('[data-cart-add]')?.dataset.cartAdd;
+        const product = catalog.get(productId);
+        const price = select.closest('.shop-product-card')?.querySelector('.shop-price strong');
+        if (!product || !price) return;
+        const updatePrice = () => {
+          const variation = product.variants.find(v => v.code === select.value);
+          if (variation && Number.isInteger(variation.priceCents) && price.firstChild) {
+            price.firstChild.textContent = money(variation.priceCents) + ' ';
+          }
+        };
+        select.addEventListener('change', updatePrice);
+        updatePrice();
+      });
       shop.addEventListener('click', event => {
         const button=event.target.closest('[data-cart-add]');
         if (!button) return;
