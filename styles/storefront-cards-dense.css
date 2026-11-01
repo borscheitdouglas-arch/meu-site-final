@@ -172,8 +172,21 @@
   margin: 3px 0 7px; color: #706a5e; font-size: 10px;
 }
 .shop-redesign .atelier-product-purchase {
+  display: block; width: 100%; min-width: 0;
   margin-top: auto; padding-top: 8px;
   border-top: 1px solid #d6c2a1;
+}
+.shop-redesign .atelier-product-purchase .atelier-purchase-label {
+  display: block; width: 100%; margin: 0 0 7px;
+}
+.shop-redesign .atelier-product-purchase .atelier-retailers {
+  display: grid; width: 100%;
+  grid-template-columns: minmax(0, 1fr); gap: 5px;
+}
+.shop-redesign .atelier-product-purchase a.atelier-buy {
+  display: flex; width: 100%; max-width: 100%;
+  min-width: 0; align-items: center; justify-content: space-between;
+  white-space: normal;
 }
 .shop-redesign .atelier-purchase-label { font-size: 10px; }
 .shop-redesign .atelier a.atelier-buy {
