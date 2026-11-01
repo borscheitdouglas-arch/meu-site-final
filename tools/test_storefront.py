@@ -309,7 +309,7 @@ def main():
             expect(page.locator('.cart-summary')).to_contain_text('R$ 119,90')
             expect(page.locator('.cart-summary')).to_contain_text('sem preço de venda definido')
             expect(page.locator('.cart-summary a[href^="mailto:"]')).to_have_count(1)
-            expect(page.locator('.cart-action-secondary')).to_have_count(0)
+            expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
             assert 'D000002' in page.locator('.cart-action-primary').get_attribute('href')
             page.locator('.cart-item').first.get_by_role('button',name='Aumentar quantidade').click()
             expect(page.locator('.cart-item').first.locator('.cart-quantity-number')).to_have_text('2')
@@ -326,11 +326,11 @@ def main():
             page.locator('[data-cart-add="camiseta-salve-regina"]').click()
             state['checkout_enabled']=True
             page.goto(base+'/pages/cart.html',wait_until='networkidle')
-            expect(page.locator('.cart-action-secondary')).to_have_attribute(
+            expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_attribute(
                 'href','/pages/checkout-salve-regina.html?size=XG')
             state['checkout_enabled']=False
             page.reload(wait_until='networkidle')
-            expect(page.locator('.cart-action-secondary')).to_have_count(0)
+            expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
             page.evaluate('localStorage.removeItem("douglasShopCart_v2")')
             print('PASS: sacola, tamanhos, quantidades, cotação e checkout condicionado', flush=True)
 
