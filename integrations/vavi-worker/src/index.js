@@ -305,8 +305,8 @@ export default {
         return json({error:'shipping_diagnostic_failed'},503);
       }
     }
-    // Public, CEP-only freight estimate for the single launch T-shirt.
-    // Never exposes credentials or enables product/payment/order operations.
+    // Public, CEP-only freight estimate for one registered physical item.
+    // A real shipping quote does not approve the product or enable payments.
     if (url.pathname === '/api/shipping/preview' && request.method === 'POST') {
       const origin=request.headers.get('Origin');
       const allowed=(env.ALLOWED_ORIGINS||'').split(',').map(x=>x.trim());
@@ -322,14 +322,15 @@ export default {
         const sku=body?.sku||'salve-regina-preta-g';
         if(!DIRECT_CHECKOUT_SKUS.includes(sku))
           throw new CatalogError('invalid_sku','Produto inválido.',422);
-        // Produtos adicionais não devem sequer consultar a VAVI antes da
-        // aprovação comercial; esta validação não altera o fluxo da camiseta.
+        // A calculadora é independente da liberação da VENDA. Para peças
+        // adicionais exigimos SKU interno e preço conhecido no D1, mas não
+        // alteramos os indicadores de produto aprovado / disponível.
+        // A API logística ainda exige metadados reais completos por variante.
         if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku)){
-          const approved=env.DB?.prepare && await loadVariant(env.DB,sku);
-          if(!approved || approved.product_enabled!==1 ||
-             approved.product_verified!==1 || approved.available!==1 ||
-             !approvedDirectVariant(sku,approved.price_cents))
-            throw new CatalogError('unavailable_product','Produto ainda não disponível.',409);
+          const registered=env.DB?.prepare && await loadVariant(env.DB,sku);
+          if(!registered ||
+             !approvedDirectVariant(sku,registered.price_cents))
+            throw new CatalogError('unavailable_product','Produto ainda sem cadastro completo.',409);
         }
         const diagnostic=body?.diagnose===true?{}:null;
         const options=await simulateVaviShipping(env,zipCode,
