@@ -5,6 +5,7 @@ import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
 import {createCheckoutLive,liveCheckoutReady} from './checkout-live.js';
 import {processLivePaymentWebhook} from './live-payment-webhook.js';
+import {reconcileLivePayment} from './live-payment-reconcile.js';
 import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManualVaviOrder} from './live-order-admin.js';
 import {getPrivateLaunchReadiness} from './launch-readiness.js';
 import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.js';
@@ -77,6 +78,7 @@ export default {
     if (!cors.allowed) return json({error:'origin_not_allowed'}, 403, cors.headers);
     if (request.method === 'OPTIONS') {
       const adminOptions=url.pathname==='/api/internal/launch/shipping-check' ||
+        url.pathname==='/api/internal/live-payments/reconcile' ||
         url.pathname==='/api/internal/launch-readiness' ||
         url.pathname==='/api/internal/live-orders' ||
         (url.pathname.startsWith('/api/internal/live-orders/') &&
@@ -140,6 +142,28 @@ export default {
         if(error instanceof SyntaxError)
           return json({error:'invalid_json'},400,cors.headers);
         return json({error:'vavi_shipping_unavailable'},503,cors.headers);
+      }
+    }
+    // Recuperação ADMINISTRATIVA quando a notificação MP não chegou.
+    // Consulta a transação diretamente no Mercado Pago, confere valor, moeda,
+    // ambiente real e referência do pedido; nunca permite afirmar que pagou.
+    if(url.pathname==='/api/internal/live-payments/reconcile' && request.method==='POST'){
+      if(!(await authorizedLiveAdmin(request,env)))
+        return json({error:'unauthorized'},401,cors.headers);
+      if(!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+        return json({error:'unsupported_media_type'},415,cors.headers);
+      const raw=await request.text();
+      if(raw.length>150)return json({error:'request_too_large'},413,cors.headers);
+      try{
+        const data=JSON.parse(raw);
+        const result=await reconcileLivePayment(env,data?.paymentId);
+        return json(result,200,cors.headers);
+      }catch(error){
+        if(error instanceof CatalogError)
+          return json({error:error.code,message:error.message},error.status,cors.headers);
+        if(error instanceof SyntaxError)
+          return json({error:'invalid_json'},400,cors.headers);
+        return json({error:'reconciliation_unavailable'},503,cors.headers);
       }
     }
     // Administrative fulfillment: authenticated only; addresses are decrypted on
