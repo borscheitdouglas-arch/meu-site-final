@@ -25,6 +25,11 @@ jobs:
                   print('DOCUMENTO',document,'indisponivel:',type(ex).__name__,flush=True)
                   continue
               print('DOCUMENTO',document,'versao',data.get('info',{}).get('version'),flush=True)
+              if document=='orders':
+                  schemas=data.get('components',{}).get('schemas',{})
+                  for key,schema in schemas.items():
+                      if any(term in key.lower() for term in ['simulat','composition','product']):
+                          print('SCHEMA',key,json.dumps(schema,ensure_ascii=False)[:3500],flush=True)
               paths=data.get('paths',{})
               for path,methods in paths.items():
                   if any(x in path.lower() for x in ['simulate','product','catalog','variant','variation','design']):
