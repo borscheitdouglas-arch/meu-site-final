@@ -342,16 +342,13 @@ def main():
             expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
             expect(page.locator('.shop-cart-buy-now')).to_have_count(0)
             print('PASS: detalhes por URL e controle de disponibilidade preservado', flush=True)
+            state['shipping_failure']=False
             # Mesma calculadora da camiseta nas páginas de canecas e ecobags.
             page.goto(base+'/pages/produto-loja.html?id=caneca-salve-regina-preta',
                       wait_until='networkidle')
             expect(page.locator('.shop-single-shipping form')).to_be_visible()
             page.locator('.shop-single-shipping input[name="zipCode"]').fill('01001-000')
             page.locator('.shop-single-shipping button[type="submit"]').click()
-            page.wait_for_timeout(500)
-            print('DEBUG DETAIL STATUS:',page.locator('.shop-single-shipping [role=status]').inner_text(),flush=True)
-            print('DEBUG DETAIL CALLS:',api_calls[-5:],flush=True)
-            print('DEBUG DETAIL ERRORS:',errors[-6:],flush=True)
             expect(page.locator('.shop-single-quote-results')).to_contain_text('R$ 68,40')
             page.goto(base+'/pages/produto-loja.html?id=ecobag-salve-regina-g',
                       wait_until='networkidle')
