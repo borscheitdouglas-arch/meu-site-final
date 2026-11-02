@@ -1160,6 +1160,19 @@ var SALVE_REGINA_SKUS = Object.keys(SALVE_REGINA_VARIANTS);
 function approvedVariant(sku, priceCents) {
   return Object.hasOwn(SALVE_REGINA_VARIANTS, sku) && SALVE_REGINA_VARIANTS[sku].priceCents === priceCents;
 }
+var EXTRA_DIRECT_PRICES = Object.freeze({
+  "caneca-salve-regina-preta": 4990,
+  "caneca-salve-regina-pb": 4990,
+  "ecobag-salve-regina-m": 3990,
+  "ecobag-salve-regina-g": 3990
+});
+var DIRECT_CHECKOUT_SKUS = Object.freeze([
+  ...SALVE_REGINA_SKUS,
+  ...Object.keys(EXTRA_DIRECT_PRICES)
+]);
+function approvedDirectVariant(sku, priceCents) {
+  return approvedVariant(sku, priceCents) || Object.hasOwn(EXTRA_DIRECT_PRICES, sku) && EXTRA_DIRECT_PRICES[sku] === priceCents;
+}
 
 // src/checkout-live.js
 var SITE = "https://www.douglasassumpcao.com.br";
@@ -1172,10 +1185,10 @@ async function createCheckoutLive(env, body, deps = {}) {
     throw new CatalogError("live_checkout_disabled", "Compra online ainda indispon\xEDvel.", 503);
   const buyer = validateBuyerDetails(body?.buyer);
   const items = normalizeCart(body);
-  if (items.length !== 1 || !Object.hasOwn(SALVE_REGINA_VARIANTS, items[0].sku) || items[0].quantity !== 1)
+  if (items.length !== 1 || !DIRECT_CHECKOUT_SKUS.includes(items[0].sku) || items[0].quantity !== 1)
     throw new CatalogError(
       "live_product_unavailable",
-      "Somente uma camiseta Salve Regina preta por pedido.",
+      "Somente uma pe\xE7a aprovada por pedido.",
       409
     );
   const zip = normalizeZip(body.zipCode);
@@ -1188,8 +1201,8 @@ async function createCheckoutLive(env, body, deps = {}) {
     WHERE v.sku=? LIMIT 1`
   ).bind(sku).first());
   const quote = await quoteCart(items, load);
-  if (!approvedVariant(items[0].sku, quote.lines[0]?.unitPriceCents) || quote.subtotalCents !== SALVE_REGINA_VARIANTS[items[0].sku].priceCents)
-    throw new CatalogError("live_price_unapproved", "Pre\xE7o da camiseta precisa ser revisado.", 503);
+  if (!approvedDirectVariant(items[0].sku, quote.lines[0]?.unitPriceCents) || quote.subtotalCents !== quote.lines[0]?.totalCents)
+    throw new CatalogError("live_price_unapproved", "Pre\xE7o do produto precisa ser revisado.", 503);
   const quotes = await (deps.simulateShipping || simulateVaviShipping)(env, zip, quote.lines);
   const option = Array.isArray(quotes) && quotes.find((x) => x.isActive === true && String(x.id) === body.shippingOptionId && !/retirada|retire|pickup/i.test(String(x.name || "")));
   if (!option || !Number.isFinite(option.shippingCost) || option.shippingCost < 0 || Math.abs(option.shippingCost * 100 - Math.round(option.shippingCost * 100)) > 1e-6)
@@ -2037,7 +2050,17 @@ var index_default = {
           const p = await loadVariant(env.DB, sku);
           return p && p.product_enabled === 1 && p.product_verified === 1 && p.available === 1 && approvedVariant(sku, p.price_cents);
         }));
-        return json({ checkoutEnabled: checked.every(Boolean) }, 200, cors.headers);
+        const availableSkus = [];
+        for (const sku of DIRECT_CHECKOUT_SKUS) {
+          const variant = await loadVariant(env.DB, sku);
+          if (!variant || variant.product_enabled !== 1 || variant.product_verified !== 1 || variant.available !== 1 || !approvedDirectVariant(sku, variant.price_cents)) continue;
+          try {
+            shippingPayload("01001000", [{ sku, quantity: 1 }], env.VAVI_SHIPPING_PRODUCTS_JSON);
+            availableSkus.push(sku);
+          } catch {
+          }
+        }
+        return json({ checkoutEnabled: checked.every(Boolean), availableSkus }, 200, cors.headers);
       } catch {
         return json({ checkoutEnabled: false }, 200, cors.headers);
       }
@@ -2232,8 +2255,13 @@ var index_default = {
         const body = JSON.parse(textBody);
         const zipCode = normalizeZip(body?.zipCode);
         const sku = body?.sku || "salve-regina-preta-g";
-        if (!Object.hasOwn(SALVE_REGINA_VARIANTS, sku))
-          throw new CatalogError("invalid_sku", "Tamanho da camiseta inv\xE1lido.", 422);
+        if (!DIRECT_CHECKOUT_SKUS.includes(sku))
+          throw new CatalogError("invalid_sku", "Produto inv\xE1lido.", 422);
+        if (!Object.hasOwn(SALVE_REGINA_VARIANTS, sku)) {
+          const registered = env.DB?.prepare && await loadVariant(env.DB, sku);
+          if (!registered || !approvedDirectVariant(sku, registered.price_cents))
+            throw new CatalogError("unavailable_product", "Produto ainda sem cadastro completo.", 409);
+        }
         const diagnostic = body?.diagnose === true ? {} : null;
         const options = await simulateVaviShipping(
           env,
