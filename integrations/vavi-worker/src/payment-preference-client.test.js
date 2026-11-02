@@ -26,6 +26,14 @@ test('cliente prepara preferência de teste com valor gerado no servidor',async(
   assert.equal(result.preferenceId,'pref_test_1');
   assert.equal(result.checkoutUrl,'https://sandbox.mercadopago.com.br/checkout/pay?pref_id=pref_test_1');
 });
+test('produção usa somente init_point real, nunca sandbox_init_point',async()=>{
+ const checkout=await createTestPreference({...base,sandbox:false,fetchImpl:async()=>({
+   ok:true,json:async()=>({id:'pref_live',
+     init_point:'https://www.mercadopago.com.br/checkout/start?pref_id=live',
+     sandbox_init_point:'https://sandbox.mercadopago.com.br/checkout/pay?pref_id=test'})
+ })});
+ assert.equal(checkout.checkoutUrl,'https://www.mercadopago.com.br/checkout/start?pref_id=live');
+});
 test('sem total correto não chama o Mercado Pago',async()=>{
   await assert.rejects(()=>createTestPreference({...base,order:{...base.order,totalCents:1},
     fetchImpl:()=>{throw Error('must not call')}}),{code:'checkout_total_mismatch'});
