@@ -332,12 +332,14 @@ export default {
           return json({error:'checkout_unauthorized'},401,cors.headers);
         }
         const bodyText=await request.text();
-        if(bodyText.length>12000)return json({error:'request_too_large'},413);
+        if(bodyText.length>12000)return json({error:'request_too_large'},413,cors.headers);
         let body;
         try {body=JSON.parse(bodyText);}
-        catch{return json({error:'invalid_json'},400);}
+        catch{return json({error:'invalid_json'},400,cors.headers);}
         const result=await createCheckoutTest(env,body);
-        return json(result,201);
+        // A resposta 201 também precisa de CORS: sem isso Safari exibe
+        // "Load failed" embora a preferência tenha sido salva no D1.
+        return json(result,201,cors.headers);
       }
       if (url.pathname === '/api/catalog' && request.method === 'GET') {
         return json({mode:'preview', currency:'BRL', products:await getCatalog(env.DB)},200,cors.headers);
