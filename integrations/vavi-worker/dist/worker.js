@@ -2208,7 +2208,7 @@ var index_default = {
           return json({ error: "checkout_not_ready" }, 503, cors.headers);
         }
         if (!await authorizedTestCheckout(request, env)) {
-          return json({ error: "checkout_unauthorized" }, 401);
+          return json({ error: "checkout_unauthorized" }, 401, cors.headers);
         }
         const bodyText = await request.text();
         if (bodyText.length > 12e3) return json({ error: "request_too_large" }, 413);
