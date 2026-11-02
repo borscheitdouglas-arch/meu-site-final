@@ -245,13 +245,21 @@ def main():
             page.keyboard.press('Space')
             expect(faq).not_to_have_attribute('open', '')
 
-            # Fluxo de consulta com frete simulado: não gera pedido nem cobrança.
+            # A capa e o botão da vitrine abrem uma página própria (não um accordion).
             action = page.locator('[data-category="camisetas"] .shop-product-action')
+            expect(action).to_have_attribute('href', '/pages/produto-loja.html?id=camiseta-salve-regina')
             action.focus()
             page.keyboard.press('Enter')
+            expect(page).to_have_url(base + '/pages/produto-loja.html?id=camiseta-salve-regina')
+            expect(page.locator('.shop-single-summary h1')).to_have_text('Camiseta Salve Regina')
+            expect(page.locator('.shop-single-imagebox img')).to_be_visible()
+            expect(page.locator('.shop-single-actions button')).to_have_count(2)
+            page.locator('.shop-single-form select').select_option('XG')
+            expect(page.locator('.shop-single-price')).to_contain_text('119,90')
+            # Mantém o fluxo de consulta antigo acessível para quem usa seus links diretos.
+            page.goto(shop_url + '#produto-camiseta', wait_until='networkidle')
             expect(page.locator('#produto-camiseta')).to_have_attribute('open', '')
             expect(page.locator('#produto-camiseta summary')).to_be_focused()
-            expect(page).to_have_url(shop_url + '#produto-camiseta')
             zip_input = page.get_by_label('CEP de entrega', exact=True)
             zip_input.fill('01001-000')
             page.get_by_role('button', name='Consultar frete e preparar pedido').click()
