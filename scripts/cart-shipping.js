@@ -149,10 +149,11 @@
           body:JSON.stringify({zipCode,sku}),
           signal:AbortSignal.any([currentController.signal,AbortSignal.timeout(15000)])
         });
-        const data=await response.json();
+        const data=await response.json().catch(()=>({}));
         if (id!==sequence || state!==local || digits(input.value)!==zipCode) return;
-        if (!response.ok || data?.sku!==sku || data?.zipCode!==zipCode ||
-            !Array.isArray(data.options)) throw new Error('shipping_unavailable');
+        if(!response.ok)throw new Error(data?.error||'http_'+response.status);
+        if(data?.sku!==sku || data?.zipCode!==zipCode ||
+            !Array.isArray(data.options))throw new Error('shipping_unavailable');
         const options=data.options.filter(x=>x && x.isActive===true &&
           typeof x.id==='string' && /^[A-Za-z0-9_.:-]{1,120}$/.test(x.id) &&
           typeof x.name==='string' && x.name.length>0 && x.name.length<=120 &&
@@ -170,7 +171,16 @@
       } catch(error) {
         if(id!==sequence || state!==local)return;
         local.quotedZip='';local.options=[];local.selected='';
-        status.textContent='Frete indisponível para este CEP neste momento. Solicite uma cotação antes de pagar.';
+        const message=({
+          shipping_not_configured:'Configuração do frete incompleta.',
+          shipping_product_unverified:'Esta variação ainda não tem embalagem validada na VAVI.',
+          shipping_package_unverified:'A embalagem deste pedido precisa ser validada na VAVI.',
+          shipping_provider_unavailable:'A VAVI ou a transportadora não respondeu.',
+          origin_not_allowed:'O domínio da loja não foi autorizado na API.',
+          http_403:'Acesso à API bloqueado (HTTP 403).'
+        })[String(error?.message||'')] || 'Não foi possível concluir a consulta.';
+        status.textContent='Frete indisponível para este CEP neste momento. '+message+
+          ' Solicite uma cotação antes de pagar.';
         draw();
       } finally {
         if(id===sequence && state===local) {
