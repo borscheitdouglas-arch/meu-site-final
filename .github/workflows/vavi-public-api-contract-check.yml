@@ -1,0 +1,37 @@
+name: VAVI - conferir contrato publico de produto e frete
+on:
+  push:
+    paths:
+      - .github/workflows/vavi-public-api-contract-check.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contrato:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspecionar somente OpenAPI publico
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from urllib.request import Request,urlopen
+          for document in ['auth','orders','products']:
+              url='https://developers.vaviestampas.com.br/openapi/'+document+'.json'
+              try:
+                  req=Request(url,headers={'User-Agent':'DouglasAssumpcao-DocsCheck/1.0','Accept':'application/json'})
+                  with urlopen(req,timeout=15) as res: data=json.load(res)
+              except Exception as ex:
+                  print('DOCUMENTO',document,'indisponivel:',type(ex).__name__,flush=True)
+                  continue
+              print('DOCUMENTO',document,'versao',data.get('info',{}).get('version'),flush=True)
+              paths=data.get('paths',{})
+              for path,methods in paths.items():
+                  if any(x in path.lower() for x in ['simulate','product','catalog','variant','variation','design']):
+                      for method,obj in methods.items():
+                          if not isinstance(obj,dict): continue
+                          print('ROTA',method.upper(),path,'descricao',str(obj.get('summary',''))[:100],flush=True)
+                          body=obj.get('requestBody',{}).get('content',{})
+                          for mime,schema in body.items():
+                              print('CORPO',mime,json.dumps(schema.get('schema',{}),ensure_ascii=False)[:1800],flush=True)
+          PY
