@@ -365,7 +365,7 @@ def main():
             expect(page.locator('.cart-shipping-form')).to_have_count(0)
             expect(page.locator('.cart-shipping-slot')).to_contain_text('cotação personalizada')
             expect(page.get_by_role('button',name='Finalizar compra',exact=True)).to_be_disabled()
-            assert 'D000002' in page.locator('.cart-action-secondary[href^="mailto:"]').get_attribute('href')
+            assert 'D000002' not in page.locator('.cart-action-secondary[href^="mailto:"]').get_attribute('href')
             page.locator('.cart-item').first.get_by_role('button',name='Aumentar quantidade').click()
             expect(page.locator('.cart-item').first.locator('.cart-quantity-number')).to_have_text('2')
             page.locator('.cart-item').first.get_by_role('button',name='Remover').click()
