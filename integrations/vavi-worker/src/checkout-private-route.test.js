@@ -21,6 +21,24 @@ test('rejeita chamadas anônimas e token incorreto antes de gravar pedido',async
     assert.equal((await result.json()).error,'checkout_unauthorized');
   }
 });
+test('chave de homologação temporária expira e não substitui a chave original',async()=>{
+  const temporary='p'.repeat(56);
+  const now=Date.now();
+  const base={...env,CHECKOUT_TEST_PROBE_KEY:temporary,
+    CHECKOUT_TEST_PROBE_EXPIRES_AT:String(now+2*60*1000)};
+  const valid=await worker.fetch(req('Bearer '+temporary,'{'),base);
+  assert.equal(valid.status,400);
+  const expired=await worker.fetch(req('Bearer '+temporary,'{'),{
+    ...base,CHECKOUT_TEST_PROBE_EXPIRES_AT:String(now-1000)
+  });
+  assert.equal(expired.status,401);
+  const original=await worker.fetch(req('Bearer '+secret,'{'),base);
+  assert.equal(original.status,400);
+  const tooLong=await worker.fetch(req('Bearer '+temporary,'{'),{
+    ...base,CHECKOUT_TEST_PROBE_EXPIRES_AT:String(now+3600000)
+  });
+  assert.equal(tooLong.status,401);
+});
 test('resposta de autorização privada respeita CORS da vitrine autorizada',async()=>{
   const signed=req(null);
   const reqWithOrigin=new Request(signed.url,{method:'POST',
