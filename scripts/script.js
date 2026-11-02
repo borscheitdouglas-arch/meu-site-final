@@ -38,10 +38,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     if(darkBtn) darkBtn.parentNode && darkBtn.remove();
   }catch(e){}
 
-  // Insere o cabeçalho padrão a partir do `index.html` caso esteja ausente
+  // Insere o cabeçalho padrão a partir do `index.html` somente quando a página não tem um.
   async function ensureHeader(){
     const existing = document.querySelector('.site-header');
-    if(existing && existing.querySelector('.header-actions') && existing.querySelector('.header-actions').querySelector('.icon-btn')) return;
+    // Preserve cabeçalhos próprios (como o da loja); não os substitua pela navegação do início.
+    if(existing) return;
     const candidates = ['../index.html','/index.html','index.html'];
     for(const path of candidates){
       try{
