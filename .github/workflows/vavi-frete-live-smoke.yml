@@ -1,8 +1,7 @@
 name: VAVI - prova real de frete (sem pedidos)
+# Executar manualmente após completar a configuração dos cinco tamanhos.
+# Não disparar a cada commit: cada teste consulta a API real da VAVI.
 on:
-  push:
-    paths:
-      - .github/workflows/vavi-frete-live-smoke.yml
   workflow_dispatch:
 permissions:
   contents: read
