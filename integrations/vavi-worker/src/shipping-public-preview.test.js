@@ -128,6 +128,7 @@ test('frete por CEP para caneca cadastrada independe da liberação do pagamento
     assert.equal(response.status,200);
     const data=await response.json();
     assert.equal(data.checkoutEnabled,false);
+    assert.equal(data.provisional,false);
     assert.equal(data.options.length,1);
     assert.equal(data.options[0].shippingCost,12.34);
     assert.equal(calls,2);
@@ -143,6 +144,64 @@ test('caneca cadastrada sem ficha de embalagem não produz frete fictício',asyn
   };
   const response=await worker.fetch(req({
     zipCode:'01001000',sku:'caneca-salve-regina-preta'
+  }),localEnv);
+  assert.equal(response.status,409);
+  assert.equal((await response.json()).error,'shipping_product_unverified');
+});
+
+test('ecobag com SKU e custo privado pode simular sem UUID, mas nunca habilita cobrança',async()=>{
+  const calls=[];
+  const localEnv={
+    ...env,
+    DB:{prepare(sql){return {bind(sku){return {first:async()=>{
+      assert.equal(sku,'ecobag-salve-regina-m');
+      if(sql.includes('supplier_variant_cost_observations'))
+        return {observed_total_cents:2500};
+      return {sku,price_cents:3990,available:0,
+        product_verified:0,product_enabled:0};
+    }}}}}
+  };
+  const originalFetch=globalThis.fetch;
+  globalThis.fetch=async(url,init)=>{
+    calls.push(String(url));
+    if(String(url).includes('/Auth/Token'))
+      return {ok:true,json:async()=>({data:{access_token:'test-token'}})};
+    const payload=JSON.parse(init.body);
+    assert.deepEqual(payload,{
+      zipCode:'01001000',amount:25,weight:0.2,
+      height:10,width:250,length:250
+    });
+    return {ok:true,json:async()=>({data:[
+      {id:'transporte-1',name:'Entrega',shippingCost:11.341,
+        deliveryTime:5,isActive:true},
+      {id:'fabrica',name:'Retirada na Fabrica',shippingCost:0,
+        deliveryTime:1,isActive:true}
+    ]})};
+  };
+  try{
+    const response=await worker.fetch(req({
+      zipCode:'01001000',sku:'ecobag-salve-regina-m'
+    }),localEnv);
+    assert.equal(response.status,200);
+    const data=await response.json();
+    assert.equal(data.provisional,true);
+    assert.equal(data.checkoutEnabled,false);
+    assert.equal(data.options.length,1);
+    assert.equal(data.options[0].shippingCost,11.35);
+    assert.equal(calls.length,2);
+    assert.ok(calls.every(x=>!x.includes('checkout')&&!x.includes('/Orders')));
+    assert.ok(!JSON.stringify(data).includes('2500'));
+  }finally{globalThis.fetch=originalFetch;}
+});
+
+test('sem custo privado confirmado, não tenta simulação por SKU incompleto',async()=>{
+  const localEnv={...env,DB:{prepare(sql){return {bind(){return {first:async()=>
+    sql.includes('supplier_variant_cost_observations')?null:
+    {sku:'ecobag-salve-regina-m',price_cents:3990,
+      available:0,product_verified:0,product_enabled:0}
+  }}}}}};
+  const response=await worker.fetch(req({
+    zipCode:'01001000',sku:'ecobag-salve-regina-m'
   }),localEnv);
   assert.equal(response.status,409);
   assert.equal((await response.json()).error,'shipping_product_unverified');
