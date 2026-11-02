@@ -276,12 +276,14 @@ export default {
         const sku=body?.sku||'salve-regina-preta-g';
         if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku))
           throw new CatalogError('invalid_sku','Tamanho da camiseta inválido.',422);
+        const diagnostic=body?.diagnose===true?{}:null;
         const options=await simulateVaviShipping(env,zipCode,
-          [{sku,quantity:1}]);
+          [{sku,quantity:1}],diagnostic);
         // Factory pickup is not a shipping option to the buyer's CEP.
         const delivery=options.filter(x=>!(/retirada|retire|pickup/i.test(x.name)));
         return json({mode:'preview',sku,zipCode,
-          currency:'BRL',options:delivery,checkoutEnabled:false},200,cors.headers);
+          currency:'BRL',options:delivery,checkoutEnabled:false,
+          ...(diagnostic?{diagnostic}:{})},200,cors.headers);
       }catch(error) {
         if(error instanceof CatalogError)
           return json({error:error.code},error.status,cors.headers);
