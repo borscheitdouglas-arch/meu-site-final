@@ -108,7 +108,8 @@ test('homologação bem-sucedida devolve link e cabeçalhos CORS para o Safari',
         shippingCost:13.69,deliveryTime:8,isActive:true}]});
     if(String(url).endsWith('/checkout/preferences'))
       return Response.json({id:'pref-test-only',
-        init_point:'https://www.mercadopago.com.br/checkout/start?pref_id=test'});
+        init_point:'https://www.mercadopago.com.br/checkout/start?pref_id=test',
+        sandbox_init_point:'https://sandbox.mercadopago.com.br/checkout/pay?pref_id=test'});
     throw Error('Unexpected external network request');
   };
   try{
@@ -123,7 +124,7 @@ test('homologação bem-sucedida devolve link e cabeçalhos CORS para o Safari',
     const body=await response.json();
     assert.equal(body.mode,'test');
     assert.equal(body.amountCents,12359);
-    assert.match(body.checkoutUrl,/^https:\/\/www\.mercadopago\.com\.br\//);
+    assert.match(body.checkoutUrl,/^https:\/\/sandbox\.mercadopago\.com\.br\//);
     assert.deepEqual(urls.map(x=>new URL(x).pathname),
       ['/api/Auth/Token','/api/Customers/Simulate','/checkout/preferences']);
   }finally{globalThis.fetch=originalFetch;}
