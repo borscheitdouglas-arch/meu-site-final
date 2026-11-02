@@ -31,6 +31,32 @@ Os dados sensíveis (custos e mapeamento dos SKUs internos para SKUs de forneced
 - **Custo exibido com desconto não é custo futuro garantido:** o painel diz que o desconto é aplicado no fechamento. Revalidar custo e margem antes de cobrar.
 - A imagem do design `D000001` parece apresentar **partitura na frente e Nossa Senhora nas costas**. Confirmar se essa orientação é a pretendida antes de enviar produção; a identidade visual inicialmente discutida para a loja era Nossa Senhora na frente.
 
+## Atualização operacional — calculadora de canecas/ecobags (02/11/2026, 23h16 UTC)
+
+**Código do PR #71 incorporado ao `main`**, bundle testado e publicado no Cloudflare Worker `douglas-loja-api` em 02/11/2026 às 23h15 UTC, com as **27 configurações/segredos preservados**.
+
+- API `POST /api/shipping/preview` funciona também para as quatro variantes de canecas e ecobags.
+- Quando não há ficha logística VAVI completa, o servidor utiliza **somente** os dados de uma peça da ficha pública (peso/dimensões) e custo observado em tabela **privada** D1 para consultar `/api/Customers/Simulate` **sem UUID**.
+- A resposta recebe `provisional:true` e `checkoutEnabled:false`; vitrine, produto e carrinho mostram aviso de simulação orientativa. Os valores de custo internos **não são retornados** à interface.
+- Se a peça estiver cadastrada com ficha logística completa e validada, a consulta normal com UUID tem precedência; camiseta G mantém fluxo já existente.
+- Preço de frete de prévia **não libera** um produto para venda. O checkout permanece sujeito a validações próprias do preço, D1 e cadastro logístico completo. Pedidos com mais de uma peça permanecem sem cotação automática até validar embalagem conjunta.
+
+**Prova real pós-publicação**: https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/41544098194
+
+CEP de teste público `01001000` em São Paulo, menor serviço de transporte obtido:
+
+| Peça | HTTP | Menor frete | Opções válidas | Prévia? |
+|---|---:|---:|---:|---|
+| Camiseta preta G | 200 | R$ 10,78 | 4 | Não, consulta previamente configurada |
+| Ecobag M | 200 | R$ 10,20 | 4 | Sim |
+| Ecobag G | 200 | R$ 10,22 | 4 | Sim |
+| Caneca P&B | 200 | R$ 10,63 | 4 | Sim |
+| Caneca preta | 200 | R$ 10,74 | 4 | Sim |
+
+Nenhum pedido/pagamento criado; taxas variam por CEP, embalagem, valor declarado, transportadora e data. **Ainda falta confirmar** se os dados de embalagem do catálogo representam o volume final; se o `amount` deve refletir custo B2B (observação atual), preço de venda ou valor segurado; e se a caneca unitária pode ser fabricada via integração. Esses itens devem ser validados antes de permitir cobrança.
+
+**Validações automáticas:** testes de API e segurança passaram. O teste geral de vitrine do GitHub continua falhando numa exigência antiga sobre a visibilidade do friso `.shop-ribbon`, anterior à mudança de frete, após a atualização intencional do cabeçalho; não confundir esse resultado com falha de cotação VAVI.
+
 ## Segundo teste real da VAVI: embalagem e valor mudam a tarifa (02/11/2026, 23h05 UTC)
 
 Evidência: https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/41542548293
