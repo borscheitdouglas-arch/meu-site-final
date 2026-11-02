@@ -108,9 +108,10 @@
           body:JSON.stringify({zipCode,sku:variant.sku}),
           signal:AbortSignal.any([controller.signal,AbortSignal.timeout(15000)])
         });
-        const data=await response.json();
+        const data=await response.json().catch(()=>({}));
         if(turn!==serial)return;
-        if(!response.ok||data?.sku!==variant.sku||data?.zipCode!==zipCode||!Array.isArray(data.options))throw Error('cotacao');
+        if(!response.ok)throw Error(data?.error||'http_'+response.status);
+        if(data?.sku!==variant.sku||data?.zipCode!==zipCode||!Array.isArray(data.options))throw Error('cotacao');
         const choices=data.options.filter(item=>item && item.isActive===true &&
           typeof item.name==='string' && item.name.length<=120 &&
           !/retirada|retire|pickup/i.test(item.name) &&
@@ -129,7 +130,16 @@
           'Valores sujeitos a reconferência. O prazo de fabricação não está incluído.'));
       } catch(err) {
         if(turn!==serial)return;
-        status.textContent='Frete indisponível neste momento. Você pode consultar na sacola ou entrar em contato.';
+        const reason=({
+          shipping_product_unverified:'Este tamanho ainda não tem dados logísticos confirmados na VAVI.',
+          shipping_not_configured:'A configuração do frete está incompleta.',
+          shipping_provider_unavailable:'A transportadora não retornou uma cotação.',
+          shipping_package_unverified:'O pacote deste pedido ainda não foi validado.',
+          http_403:'Acesso à API de frete bloqueado (HTTP 403).',
+          origin_not_allowed:'O domínio da loja precisa ser autorizado na API.'
+        })[String(err?.message||'')] || 'Não foi possível completar a consulta.';
+        status.textContent='Frete indisponível neste momento. '+reason+
+          ' Você pode consultar na sacola ou entrar em contato.';
       } finally {
         if(turn===serial){button.disabled=false;controller=null;}
       }
