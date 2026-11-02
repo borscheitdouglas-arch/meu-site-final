@@ -230,7 +230,7 @@
           const title=document.createElement('strong');
           title.textContent=o.name;
           const time=document.createElement('small');
-          time.textContent='Transporte estimado: '+o.deliveryTime+' dia(s)';
+          time.textContent='Transporte estimado: '+o.deliveryTime+' dia(s) úteis';
           caption.append(title,time);
           if(o.shippingCost===cheapest){
             const mark=document.createElement('small');
