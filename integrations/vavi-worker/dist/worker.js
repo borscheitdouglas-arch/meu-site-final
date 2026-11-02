@@ -229,7 +229,13 @@ async function simulateVaviShipping(env, zipCode, lines, diagnostic = null) {
       days: typeof option?.deliveryTime,
       active: typeof option?.isActive,
       activeValue: option?.isActive === true ? "true" : option?.isActive === false ? "false" : "other",
-      pickup: typeof option?.name === "string" && /retirada|retire|pickup/i.test(option.name)
+      pickup: typeof option?.name === "string" && /retirada|retire|pickup/i.test(option.name),
+      idValid: typeof option?.id === "string" && /^[A-Za-z0-9_.:-]{1,120}$/.test(option.id),
+      nameValid: typeof option?.name === "string" && option.name.trim().length > 0 && option.name.length <= 120,
+      costValid: typeof option?.shippingCost === "number" && Number.isFinite(option.shippingCost) && option.shippingCost >= 0 && option.shippingCost <= 1e4,
+      costCents: typeof option?.shippingCost === "number" && Math.abs(option.shippingCost * 100 - Math.round(option.shippingCost * 100)) <= 1e-6,
+      daysInteger: Number.isInteger(option?.deliveryTime),
+      daysValid: Number.isInteger(option?.deliveryTime) && option.deliveryTime >= 0 && option.deliveryTime <= 365
     });
     Object.assign(diagnostic, {
       received: response.data.length,
