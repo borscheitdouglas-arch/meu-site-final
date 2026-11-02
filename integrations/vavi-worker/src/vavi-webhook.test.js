@@ -53,6 +53,54 @@ test('assinatura válida permite correlacionar conversão pelo draftId',async()=
   assert.equal(db.batches[0][1].values[1],draftId);
 });
 
+test('order.created da VAVI é aceito e usa data.status PascalCase sem criar venda',async()=>{
+  const db=dbCalls();
+  const request=await signedRequest({
+    eventType:'order.created',
+    data:{orderId,orderNSU:'BEE00123457',status:'Open',
+      amount:89.9,createdAt:'2026-11-01T23:50:00Z',quantityItems:1}
+  });
+  const result=await processVaviWebhook({request,env:env(db)});
+  assert.equal(result.received,true);
+  assert.equal(db.batches.length,1);
+  assert.match(db.batches[0][0].sql,/INSERT OR IGNORE/);
+  assert.match(db.batches[0][1].sql,/store_vavi_order_tracking/);
+  assert.equal(db.batches[0][1].values[0],orderId);
+  assert.equal(db.batches[0][1].values[1],'Open');
+  assert.equal(db.batches[0][1].values[2],'BEE00123457');
+  assert.match(db.batches[0][1].sql,/WHERE EXISTS/);
+  assert.match(db.batches[0][1].sql,/payment_environment='live'/);
+});
+test('order.status_changed UnderReview é aceito sem depender de previousStatus',async()=>{
+  const db=dbCalls();
+  const request=await signedRequest({
+    eventType:'order.status_changed',
+    data:{orderId,orderNSU:'BEE00123457',previousStatus:null,
+      newStatus:'UnderReview',updatedAt:'2026-11-01T23:55:00Z',amount:89.9}
+  });
+  const result=await processVaviWebhook({request,env:env(db)});
+  assert.equal(result.received,true);
+  assert.equal(db.batches[0][1].values[1],'UnderReview');
+});
+test('timestamp do header diferente da assinatura não é aceito',async()=>{
+  const db=dbCalls(),signed=await signedRequest({eventType:'order.created',data:{
+    orderId,orderNSU:'BEE00123457',status:'Open'}});
+  const headers=new Headers(signed.headers);
+  headers.set('X-Webhook-Timestamp',String(timestamp+1));
+  const modified=new Request(url,{method:'POST',headers,body:await signed.text()});
+  await assert.rejects(()=>processVaviWebhook({request:modified,env:env(db)}),
+    {code:'vavi_webhook_unauthorized'});
+  assert.equal(db.batches.length,0);
+});
+test('order.created com identificador de pedido inválido é recusado',async()=>{
+  const db=dbCalls();
+  const request=await signedRequest({eventType:'order.created',
+    data:{orderId:'not-a-uuid',orderNSU:'BEE00123457',status:'Open'}});
+  await assert.rejects(()=>processVaviWebhook({request,env:env(db)}),
+    {code:'invalid_vavi_webhook'});
+  assert.equal(db.batches.length,0);
+});
+
 test('alteração do corpo após assinatura não pode passar',async()=>{
   const db=dbCalls(),req=await signedRequest();
   const headers=new Headers(req.headers);
