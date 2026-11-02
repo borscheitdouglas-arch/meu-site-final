@@ -2,6 +2,10 @@ name = "douglas-loja-api"
 main = "src/index.js"
 compatibility_date = "2026-10-01"
 
+# Preservar as variáveis definidas no dashboard do Cloudflare durante deploys.
+# Sem isso, o Wrangler remove flags operacionais do checkout de teste e webhooks.
+keep_vars = true
+
 # Integração VAVI protegida por flags do servidor; checkout e envios desativados por padrão.
 # Domínio douglasassumpcao.com.br continua no GitHub Pages.
 [vars]
