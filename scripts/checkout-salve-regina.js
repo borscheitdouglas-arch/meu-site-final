@@ -165,7 +165,10 @@
       if(!previewOnly) sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
       if(saved){
         const draft=JSON.parse(saved);
-        if(draft?.size===size.value && /^\d{8}$/.test(draft.zipCode) &&
+        const matchesProduct=extra
+          ? draft?.sku===requestedSku && draft?.size==='UNICO'
+          : draft?.size===size.value && (!draft?.sku || draft.sku===skuForSize(size.value));
+        if(matchesProduct && /^\d{8}$/.test(draft.zipCode) &&
           typeof draft.shippingOptionId==='string')
           cartDelivery=draft;
       }
