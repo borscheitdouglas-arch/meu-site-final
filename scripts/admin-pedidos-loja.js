@@ -5,6 +5,10 @@
   const form=document.getElementById('admin-form');
   const input=document.getElementById('admin-key');
   const status=document.getElementById('admin-status');
+  const reconcilePanel=document.getElementById('reconcile-panel');
+  const reconcileForm=document.getElementById('reconcile-form');
+  const reconcileInput=document.getElementById('reconcile-id');
+  const reconcileResult=document.getElementById('reconcile-result');
   const listPanel=document.getElementById('orders-panel');
   const list=document.getElementById('order-list');
   const detailPanel=document.getElementById('order-detail-panel');
@@ -23,7 +27,8 @@
   const launchShippingForm=document.getElementById('launch-shipping-form');
   const launchZip=document.getElementById('launch-zip');
   const launchShippingResult=document.getElementById('launch-shipping-result');
-  if(![form,input,status,listPanel,list,detailPanel,detail,copy,hide,clear,
+  if(![form,input,status,reconcilePanel,reconcileForm,reconcileInput,reconcileResult,
+      listPanel,list,detailPanel,detail,copy,hide,clear,
       registerPanel,registerForm,vaviIdInput,registerStatus,
       launchPanel,launchChecks,launchValidation,refreshLaunch,
       launchShippingForm,launchZip,launchShippingResult].every(Boolean))return;
@@ -45,6 +50,7 @@
     adminKey='';input.value='';
     list.replaceChildren();
     listPanel.hidden=true;
+    reconcilePanel.hidden=true;reconcileInput.value='';reconcileResult.textContent='';
     launchChecks.replaceChildren();
     launchValidation.replaceChildren();
     launchPanel.hidden=true;
@@ -240,12 +246,33 @@
     try {
       const data=await request('/api/internal/live-orders');
       showList(data.orders);
+      reconcilePanel.hidden=false;
       await reloadLaunch();
       status.textContent='Consulta realizada. Nenhuma informação foi salva no navegador.';
     } catch {
       clearSession();
       status.textContent='Acesso não autorizado ou servidor indisponível.';
     } finally {button.disabled=false;}
+  });
+  reconcileForm.addEventListener('submit',async event=>{
+    event.preventDefault();
+    const id=reconcileInput.value.trim();
+    if(!/^[0-9]{1,30}$/.test(id)){reconcileResult.textContent='Informe apenas o ID numérico da transação.';return;}
+    const button=reconcileForm.querySelector('button[type="submit"]');
+    button.disabled=true;reconcileResult.textContent='Conferindo a transação diretamente no Mercado Pago...';
+    try {
+      const result=await request('/api/internal/live-payments/reconcile',{
+        method:'POST',body:{paymentId:id}
+      });
+      reconcileResult.textContent='Pagamento aprovado e conferido. Pedido '+result.orderId+
+        ' liberado para atendimento manual na VAVI.';
+      const all=await request('/api/internal/live-orders');
+      showList(all.orders);
+    }catch(err){
+      reconcileResult.textContent=err?.message==='http_409'
+        ? 'O pagamento não está aprovado ou não corresponde a um pedido real desta loja.'
+        : 'Não foi possível conciliar. Confira o ID e a aprovação no Mercado Pago antes de tentar novamente.';
+    }finally{button.disabled=false;}
   });
   registerForm.addEventListener('submit',async event=>{
     event.preventDefault();
