@@ -86,3 +86,11 @@ test('mostra opções reais simuladas, excluindo retirada na fábrica',async()=>
     assert.equal(calls,2);
   }finally{globalThis.fetch=orig;}
 });
+
+test('frete público da caneca exige variante aprovada em D1 antes de chamar fornecedor',async()=>{
+  const response=await worker.fetch(req({
+    zipCode:'01001000',sku:'caneca-salve-regina-preta'
+  }),env);
+  assert.equal(response.status,409);
+  assert.equal((await response.json()).error,'unavailable_product');
+});
