@@ -1,0 +1,63 @@
+name: VAVI - prova real de frete (sem pedidos)
+on:
+  push:
+    paths:
+      - .github/workflows/vavi-frete-live-smoke.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  testar-frete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Consultar a API publicada para os cinco tamanhos
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import sys
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError, URLError
+
+          url = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/shipping/preview'
+          origin = 'https://www.douglasassumpcao.com.br'
+          zip_code = '01001000'  # CEP público de teste; não é dado de cliente.
+          errors = 0
+          for size in ['p', 'm', 'g', 'gg', 'xg']:
+              sku = 'salve-regina-preta-' + size
+              payload = json.dumps({'zipCode': zip_code, 'sku': sku}).encode()
+              req = Request(url, data=payload, method='POST', headers={
+                  'Origin': origin, 'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              })
+              try:
+                  with urlopen(req, timeout=24) as response:
+                      status = response.status
+                      data = json.load(response)
+              except HTTPError as exc:
+                  status = exc.code
+                  try:
+                      data = json.loads(exc.read().decode('utf-8', 'replace'))
+                  except (ValueError, UnicodeError):
+                      data = {}
+              except (URLError, TimeoutError, OSError) as exc:
+                  status = 0
+                  data = {'error': type(exc).__name__}
+              options = data.get('options', [])
+              valid = status == 200 and data.get('sku') == sku and isinstance(options, list) and bool(options)
+              if not valid:
+                  errors += 1
+              safe_options = [
+                  {'name': x.get('name'), 'price': x.get('shippingCost'),
+                   'days': x.get('deliveryTime'), 'active': x.get('isActive')}
+                  for x in options if isinstance(x, dict)
+              ] if isinstance(options, list) else []
+              print(json.dumps({
+                  'size': size.upper(), 'http': status,
+                  'result': 'PASS' if valid else 'FAIL',
+                  'error': data.get('error'), 'options': safe_options
+              }, ensure_ascii=False), flush=True)
+          print('RESUMO: '+str(5-errors)+'/5 tamanhos com cotação real.', flush=True)
+          sys.exit(1 if errors else 0)
+          PY
