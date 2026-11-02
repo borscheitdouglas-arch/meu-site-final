@@ -174,3 +174,48 @@ test('tamanho não cadastrado é rejeitado antes de cobrar',async()=>{
     ...payload,items:[{sku:'salve-regina-preta-xxg',quantity:1}]
   }),{code:'live_product_unavailable'});
 });
+
+test('caneca sem aprovação comercial é rejeitada antes de cotar ou cobrar',async()=>{
+  let shippingCalled=false,paymentCalled=false;
+  await assert.rejects(()=>createCheckoutLive(enabled,{
+    ...payload,items:[{sku:'caneca-salve-regina-preta',quantity:1}]
+  },{
+    loadVariant:async()=>({
+      ...variant,sku:'caneca-salve-regina-preta',
+      price_cents:4990,product_enabled:0,product_verified:0,available:0
+    }),
+    simulateShipping:async()=>{shippingCalled=true;return quote;},
+    createPreference:async()=>{paymentCalled=true;return {};}
+  }),{code:'unavailable_product'});
+  assert.equal(shippingCalled,false);
+  assert.equal(paymentCalled,false);
+});
+
+test('caneca comercialmente aprovada só cria preferência após cotação e persistência',async()=>{
+  const events=[];
+  const db={prepare(){return {bind(){return {
+    run:async()=>({meta:{changes:1}})
+  };}}}};
+  const result=await createCheckoutLive({...enabled,DB:db},{
+    ...payload,items:[{sku:'caneca-salve-regina-preta',quantity:1}],
+    subtotalCents:1
+  },{
+    loadVariant:async()=>({
+      ...variant,sku:'caneca-salve-regina-preta',
+      name:'Caneca Preta Salve Regina',label:'Partitura',
+      price_cents:4990
+    }),
+    simulateShipping:async()=>{events.push('frete');return quote;},
+    encryptDelivery:async()=>({encryptedPayload:'encrypted',iv:'x'.repeat(24)}),
+    insertDraftOrder:async()=>{events.push('pedido');},
+    storeEncryptedDelivery:async()=>{events.push('endereco');},
+    createPreference:async input=>{
+      events.push('pagamento');
+      assert.equal(input.order.subtotalCents,4990);
+      assert.equal(input.order.totalCents,6544);
+      return {preferenceId:'fake',checkoutUrl:'https://www.mercadopago.com.br/checkout/start'};
+    }
+  });
+  assert.equal(result.totalCents,6544);
+  assert.deepEqual(events,['frete','pedido','endereco','pagamento']);
+});

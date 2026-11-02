@@ -1,13 +1,17 @@
-/* Cotação por CEP para UMA peça. Nunca calcula frete fictício nem cobra.
- * Somente variantes de camiseta já liberadas para consulta pela API.
- * Outros produtos aguardam dados logísticos de produção da VAVI. */
+/* Cotação por CEP para UMA peça de cada vez, incluindo canecas e ecobags.
+ * Somente apresenta preços efetivamente retornados pela API do frete;
+ * a aprovação comercial dos produtos ocorre separadamente no checkout. */
 (()=>{
   'use strict';
   const API='https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const PRICES={
     'salve-regina-preta-p':10990,'salve-regina-preta-m':10990,
     'salve-regina-preta-g':10990,'salve-regina-preta-gg':10990,
-    'salve-regina-preta-xg':11990
+    'salve-regina-preta-xg':11990,
+    'caneca-salve-regina-preta':4990,
+    'caneca-salve-regina-pb':4990,
+    'ecobag-salve-regina-m':3990,
+    'ecobag-salve-regina-g':3990
   };
   const money=c=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(c/100);
   const shippingErrorMessage = code => ({
@@ -17,7 +21,8 @@
     'shipping_provider_unavailable':'A transportadora não respondeu à consulta.',
     'origin_not_allowed':'O acesso à API está bloqueado para este endereço da loja.',
     'invalid_zip':'O CEP informado não foi aceito.',
-    'invalid_sku':'Este tamanho não está habilitado para cotação.'
+    'invalid_sku':'Esta variação não está cadastrada para cotação.',
+    'unavailable_product':'Os dados de produção e transporte desta peça ainda estão em validação.'
   }[code] || 'A consulta de frete não pôde ser concluída.');
   const zip=value=>String(value||'').replace(/\D/g,'');
   for(const root of document.querySelectorAll('[data-shipping-calculator]')){
@@ -40,8 +45,8 @@
       if(!/^\d{8}$/.test(code)){
         status.textContent='Informe um CEP válido com 8 números.';cep.focus();return;
       }
-      if(!price){
-        status.textContent='Frete automático ainda indisponível para este produto. Solicite uma cotação pelo atendimento.';
+      if(!Number.isInteger(price)){
+        status.textContent='Preço e dados de envio deste produto ainda estão pendentes. Consulte o atendimento.';
         return;
       }
       const turn=serial,controller=new AbortController();
@@ -61,11 +66,15 @@
         if(data?.sku!==sku||data?.zipCode!==code||
           !Array.isArray(data.options))throw Error('resposta_invalida');
         const options=data.options.filter(o=>o && o.isActive===true &&
-          typeof o.name==='string' && o.name.length<=120 &&
+          typeof o.id==='string' && /^[A-Za-z0-9_.:-]{1,120}$/.test(o.id) &&
+          typeof o.name==='string' && o.name.length>0 && o.name.length<=120 &&
           Number.isFinite(o.shippingCost) && o.shippingCost>=0 &&
-          Number.isInteger(o.deliveryTime) && o.deliveryTime>=0 &&
+          o.shippingCost<=10000 &&
+          Math.abs(o.shippingCost*100-Math.round(o.shippingCost*100))<0.000001 &&
+          Number.isInteger(o.deliveryTime) && o.deliveryTime>=0 && o.deliveryTime<=365 &&
           !/retirada|retire|pickup/i.test(o.name));
-        if(!options.length)throw Error('sem_opcoes');
+        if(!options.length || new Set(options.map(o=>o.id)).size!==options.length)
+          throw Error('sem_opcoes');
         results.hidden=false;
         const title=document.createElement('strong');
         title.textContent='Opções estimadas para 1 unidade';

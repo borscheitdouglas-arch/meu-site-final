@@ -9,10 +9,38 @@
     style:'currency',currency:'BRL'
   }).format(cents/100);
   const normalize=value=>String(value||'').replace(/\D/g,'');
-  const prices={P:10990,M:10990,G:10990,GG:10990,XG:11990};
-  const skuForSize=size=>'salve-regina-preta-'+size.toLowerCase();
+  // Somente produtos cadastrados pela loja. Query string nunca define preço.
+  // Backend valida novamente SKU, preço, aprovação comercial e frete.
+  const extras=Object.freeze({
+    'caneca-salve-regina-preta':{
+      title:'Caneca Preta Salve Regina — Partitura',
+      detail:'Caneca com partitura gregoriana',price:4990,
+      image:'/assets/img/loja/Salve-Regina/web/caneca-480.webp'
+    },
+    'caneca-salve-regina-pb':{
+      title:'Caneca P&B Salve Regina — Nossa Senhora',
+      detail:'Caneca com arte mariana',price:4990,
+      image:'/assets/img/loja/Salve-Regina/web/caneca-480.webp'
+    },
+    'ecobag-salve-regina-m':{
+      title:'Ecobag Salve Regina — Algodão Cru M',
+      detail:'Ecobag tamanho M',price:3990,
+      image:'/assets/img/loja/Salve-Regina/web/ecobag-480.webp'
+    },
+    'ecobag-salve-regina-g':{
+      title:'Ecobag Salve Regina — Algodão Cru G',
+      detail:'Ecobag tamanho G',price:3990,
+      image:'/assets/img/loja/Salve-Regina/web/ecobag-480.webp'
+    }
+  });
+  const params=new URLSearchParams(location.search);
+  const requestedSku=params.get('sku');
+  const extra=requestedSku && Object.hasOwn(extras,requestedSku)?extras[requestedSku]:null;
+  const prices=extra?{UNICO:extra.price}:{P:10990,M:10990,G:10990,GG:10990,XG:11990};
+  const skuForSize=size=>extra?requestedSku:'salve-regina-preta-'+size.toLowerCase();
+  const productLabel=size=>extra?extra.title:'Camiseta preta · tamanho '+size;
   // Prévia visual explícita: nenhum campo ativo, requisição de pedido ou cobrança.
-  const visualPreview=new URLSearchParams(location.search).get('preview')==='visual';
+  const visualPreview=params.get('preview')==='visual';
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
   const fallback=document.createElement('a');
   fallback.href='/pages/cart.html';
@@ -37,7 +65,10 @@
     try {readiness=await getJson(API+'/api/checkout/live/readiness');}
     catch {if(!visualPreview){unavailable();return;}}
     const previewOnly=visualPreview;
-    if(readiness?.checkoutEnabled!==true && !visualPreview){unavailable();return;}
+    if((readiness?.checkoutEnabled!==true ||
+        (requestedSku && !extra) ||
+        (extra && !readiness?.availableSkus?.includes(requestedSku))) &&
+        !visualPreview){unavailable();return;}
     notice.textContent=previewOnly
       ? 'PRÉVIA VISUAL — Este checkout está desativado. Os campos são demonstrativos e não é possível fazer pedidos, cotar frete ou pagar.'
       : 'Confira seus dados e selecione o frete antes de pagar.';
@@ -50,22 +81,20 @@
           <section class="checkout-panel" aria-labelledby="product-heading">
             <div class="checkout-section-heading"><span class="checkout-step">1</span><div><p class="checkout-eyebrow">Revise seu produto</p><h2 id="product-heading">Produtos do pedido</h2></div></div>
             <div class="checkout-product">
-              <img src="/assets/img/loja/Salve-Regina/web/camiseta-480.webp" width="92" height="92" alt="Camiseta preta Salve Regina com estampa gregoriana">
+              <img src="${extra?extra.image:'/assets/img/loja/Salve-Regina/web/camiseta-480.webp'}" width="92" height="92" alt="Produto da coleção Salve Regina">
               <div>
-                <strong>Camiseta Salve Regina · Preta</strong>
-                <p>Estampa gregoriana e arte mariana · 1 unidade</p>
-                <label>Tamanho
+                <strong>${extra?extra.title:'Camiseta Salve Regina · Preta'}</strong>
+                <p>${extra?extra.detail:'Estampa gregoriana e arte mariana'} · 1 unidade</p>
+                <label>${extra?'Modelo':'Tamanho'}
                   <select name="size" required>
-                    <option value="P">P — R$ 109,90</option>
-                    <option value="M">M — R$ 109,90</option>
-                    <option value="G" selected>G — R$ 109,90</option>
-                    <option value="GG">GG — R$ 109,90</option>
-                    <option value="XG">XG — R$ 119,90</option>
+                    ${extra
+                      ?'<option value="UNICO">Único — '+format(extra.price)+'</option>'
+                      :'<option value="P">P — R$ 109,90</option><option value="M">M — R$ 109,90</option><option value="G" selected>G — R$ 109,90</option><option value="GG">GG — R$ 109,90</option><option value="XG">XG — R$ 119,90</option>'}
                   </select>
                 </label>
               </div>
             </div>
-            <p class="hint">O lançamento admite uma camiseta por pedido. Para combinar outras peças, use a cotação assistida.</p>
+            <p class="hint">Nesta etapa é possível comprar uma peça por pedido. Para combinar produtos, use a cotação assistida.</p>
           </section>
           <section class="checkout-panel" aria-labelledby="shipping-heading">
             <div class="checkout-section-heading"><span class="checkout-step">2</span><div><p class="checkout-eyebrow">Compare as transportadoras</p><h2 id="shipping-heading">Forma de entrega</h2></div></div>
@@ -104,7 +133,7 @@
             <p class="checkout-eyebrow">Sua compra</p>
             <h2>Resumo do pedido</h2>
             <div class="total">
-              <p>Produto (1 unidade) <strong id="product-amount">R$ 109,90</strong></p>
+              <p>Produto (1 unidade) <strong id="product-amount">${format(extra?extra.price:10990)}</strong></p>
               <p>Frete <strong id="freight-amount">Selecione uma opção</strong></p>
               <p>Total <strong id="checkout-total">A calcular</strong></p>
             </div>
@@ -124,9 +153,9 @@
       </form>`;
     const form=container.querySelector('form');
     const size=form.elements.size;
-    // Apenas as cinco variações previamente autorizadas. O servidor confirma
-    // SKU e preço antes de criar qualquer preferência de pagamento.
-    const requestedSize=new URLSearchParams(location.search).get('size');
+    // A variante escolhida é somente uma preferência visual.
+    // O Worker confirma SKU, preço, frete e autorização no D1.
+    const requestedSize=params.get('size');
     if(requestedSize && Object.hasOwn(prices,requestedSize)) size.value=requestedSize;
     // Aproveita somente CEP e preferência de frete escolhidos no carrinho.
     // Não confia no valor antigo: a VAVI será consultada novamente aqui.
@@ -136,13 +165,16 @@
       if(!previewOnly) sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
       if(saved){
         const draft=JSON.parse(saved);
-        if(draft?.size===size.value && /^\d{8}$/.test(draft.zipCode) &&
+        const matchesProduct=extra
+          ? draft?.sku===requestedSku && draft?.size==='UNICO'
+          : draft?.size===size.value && (!draft?.sku || draft.sku===skuForSize(size.value));
+        if(matchesProduct && /^\d{8}$/.test(draft.zipCode) &&
           typeof draft.shippingOptionId==='string')
           cartDelivery=draft;
       }
     } catch { cartDelivery=null; }
     const selection=document.getElementById('checkout-selection');
-    if(selection) selection.textContent='Camiseta preta · tamanho '+size.value+
+    if(selection) selection.textContent=productLabel(size.value)+
       ' · 1 unidade — '+format(prices[size.value])+' + frete';
     const productAmount=form.querySelector('#product-amount');
     const price=()=>prices[size.value];
@@ -171,11 +203,11 @@
     }
     zip.addEventListener('input',resetQuote);
     size.addEventListener('change',()=>{
-      if(selection) selection.textContent='Camiseta preta · tamanho '+size.value+
+      if(selection) selection.textContent=productLabel(size.value)+
         ' · 1 unidade — '+format(price())+' + frete';
       productAmount.textContent=format(price());
       resetQuote();
-      shipFeedback.textContent='Tamanho alterado. Consulte novamente o frete.';
+      shipFeedback.textContent='Variação alterada. Consulte novamente o frete.';
     });
     function selected(){
       const radio=choices.querySelector('input[name="shippingOption"]:checked');
@@ -293,8 +325,8 @@
           delivery_zip_mismatch:'O CEP do frete deve ser o mesmo do endereço de entrega.',
           shipping_option_invalid:'Essa opção de frete mudou. Clique em Consultar frete novamente.',
           shipping_provider_unavailable:'Não foi possível confirmar o frete agora. Tente uma nova consulta.',
-          live_price_unapproved:'Este tamanho está temporariamente indisponível. Entre em contato com a loja.',
-          live_product_unavailable:'Esta combinação não está disponível para compra online. Escolha somente uma camiseta.',
+          live_price_unapproved:'Este produto está temporariamente indisponível. Entre em contato com a loja.',
+          live_product_unavailable:'Esta combinação não está aprovada para compra online. Escolha uma peça disponível.',
           payment_provider_unavailable:'O Mercado Pago não iniciou o pagamento. Tente novamente mais tarde.',
           invalid_order:'Não foi possível confirmar o pedido. Revise a quantidade e a entrega.'
         }[code];
@@ -304,5 +336,9 @@
       }
     });
   }
-  init();
+  if(requestedSku && !extra && !visualPreview){
+    unavailable();
+  }else{
+    init();
+  }
 })();

@@ -12,6 +12,7 @@
   }).format(cents / 100);
   let catalog = new Map();
   let ready = false;
+  let readySkus = new Set();
   const email = 'douglas.assumpcao27@gmail.com';
 
   function rawCart() {
@@ -167,7 +168,8 @@
       content.append(category,make('h3','',product.title),
         make('p','cart-variant','Variação: '+variant.label));
       if (product.status === 'preparation') content.append(make('p','cart-state','Em preparação · não disponível para compra automática'));
-      if (product.status === 'consultation') content.append(make('p','cart-state','Sob consulta · sem cobrança'));
+      if (product.status === 'consultation') content.append(make('p','cart-state',
+        readySkus.has(variant.sku)?'Compra online disponível · 1 unidade por pedido':'Sob consulta · sem cobrança'));
       if (variant.priceCents === null) {
         hasPending = true;content.append(make('p','cart-amount','Preço final a confirmar'));
       } else {
@@ -209,18 +211,29 @@
       'Há peças sem preço de venda definido. Nenhum total final pode ser calculado agora.'));
     aside.append(make('p','cart-disclaimer',
       'O frete e o valor total são reconferidos antes do pagamento. Produtos em preparação exigem consulta.'));
-    const exactShirt = cart.length === 1 &&
-      cart[0].id === 'camiseta-salve-regina' && cart[0].qty === 1;
-    if (exactShirt && ready) {
+    const single = cart.length === 1 && cart[0].qty === 1;
+    const exactShirt = single && cart[0].id === 'camiseta-salve-regina';
+    const directSku = single
+      ? catalog.get(cart[0].id)?.variants?.find(v=>v.code===cart[0].variant)?.sku
+      : null;
+    const direct = Boolean(ready && single && directSku &&
+      (exactShirt || readySkus.has(directSku)));
+    if (direct) {
       const pay = make('a','cart-action cart-action-primary',
         'Finalizar compra com Mercado Pago →');
-      pay.href = '/pages/checkout-salve-regina.html?size=' + encodeURIComponent(cart[0].variant);
+      pay.href = exactShirt
+        ? '/pages/checkout-salve-regina.html?size=' + encodeURIComponent(cart[0].variant)
+        : '/pages/checkout-salve-regina.html?sku=' + encodeURIComponent(directSku);
       pay.addEventListener('click',()=>{
         const quote=window.CartShipping?.getQuote(cart);
         try {
           if(quote) sessionStorage.setItem('douglasCheckoutDeliveryDraft_v1',
-            JSON.stringify({size:cart[0].variant,zipCode:quote.zipCode,
-              shippingOptionId:quote.shippingOptionId}));
+            JSON.stringify({
+              size:exactShirt?cart[0].variant:'UNICO',
+              sku:directSku,
+              zipCode:quote.zipCode,
+              shippingOptionId:quote.shippingOptionId
+            }));
           else sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
         } catch {}
       });
@@ -235,7 +248,9 @@
       const explanation = make('p','cart-payment-note',
         exactShirt
           ? 'Pagamento online aguardando a aprovação final do produto e da loja. Nenhuma cobrança será feita.'
-          : 'Compra online indisponível para esta combinação. No momento, apenas uma camiseta por pedido pode ser comprada diretamente.');
+          : single
+            ? 'Esta peça ainda aguarda aprovação comercial e frete verificado. Nenhuma cobrança será feita.'
+            : 'Compra direta disponível apenas para uma peça aprovada por pedido. Para várias peças, solicite uma cotação.');
       explanation.id = 'cart-payment-explanation';
       aside.append(blocked, explanation);
     }
@@ -249,7 +264,8 @@
     whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
     whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
     aside.append(whatsapp);
-    window.CartShipping?.mount(shippingSlot,{cart,subtotalCents:knownTotal,onUpdate:()=>{
+    window.CartShipping?.mount(shippingSlot,{
+      cart,sku:directSku,subtotalCents:knownTotal,onUpdate:()=>{
       const quote=window.CartShipping?.getQuote(cart);
       freightLine.textContent=quote
         ? 'Frete estimado ('+quote.shippingName+'): '+money(quote.shippingCents)
@@ -290,6 +306,8 @@
       });
       if (!res.ok) return false;
       const body=await res.json();
+      readySkus=new Set(Array.isArray(body?.availableSkus)
+        ? body.availableSkus.filter(x=>typeof x==='string'):[]);
       return body?.checkoutEnabled===true;
     } catch { return false; }
   }
@@ -362,6 +380,23 @@
           const state=shirt.querySelector('.shop-product-state');
           if(state) state.textContent='Compra online liberada · frete e total confirmados no checkout';
         }
+      }
+    }
+    if(shop && ready){
+      for(const product of catalog.values()){
+        if(product.id==='camiseta-salve-regina' || !Array.isArray(product.variants))continue;
+        const variant=product.variants[0];
+        if(!readySkus.has(variant?.sku))continue;
+        const button=shop.querySelector('[data-cart-add="'+product.id+'"]');
+        const card=button?.closest('.shop-product-card');
+        if(!button || !card)continue;
+        const buy=document.createElement('a');
+        buy.className='shop-cart-buy-now';
+        buy.href='/pages/checkout-salve-regina.html?sku='+encodeURIComponent(variant.sku);
+        buy.textContent='Comprar agora com Mercado Pago →';
+        button.insertAdjacentElement('afterend',buy);
+        const state=card.querySelector('.shop-product-state');
+        if(state)state.textContent='Compra online liberada · frete e total no checkout';
       }
     }
     if (document.getElementById('cart-root')) {

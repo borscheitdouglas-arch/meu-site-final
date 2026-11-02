@@ -1,5 +1,5 @@
-/* Frete no carrinho: estimativa VAVI apenas para 1 camiseta validada.
-   Nenhum preço de frete enviado pelo navegador autoriza cobrança; o checkout reconfere no servidor. */
+/* Frete no carrinho por SKU para uma peça por pedido.
+   Somente custos recebidos da API são exibidos; checkout confere tudo no servidor. */
 (() => {
   'use strict';
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
@@ -35,7 +35,7 @@
       deliveryDays: option.deliveryTime
     };
   }
-  function mount(root, {cart, subtotalCents, onUpdate}) {
+  function mount(root, {cart, sku, subtotalCents, onUpdate}) {
     if (!root) return;
     root.replaceChildren();
     const key = keyFor(cart);
@@ -44,9 +44,11 @@
     root.append(make('h3','cart-shipping-title','Forma de entrega'));
     root.append(make('p','cart-shipping-description',
       'Informe o CEP e compare transportadoras, valores e prazos antes de pagar.'));
-    const eligible = cart.length === 1 &&
-      cart[0].id === 'camiseta-salve-regina' &&
-      cart[0].qty === 1 && ['P','M','G','GG','XG'].includes(cart[0].variant);
+    const eligible = cart.length === 1 && cart[0].qty === 1 &&
+      typeof sku === 'string' &&
+      (/^salve-regina-preta-(p|m|g|gg|xg)$/.test(sku) ||
+       /^caneca-salve-regina-(preta|pb)$/.test(sku) ||
+       /^ecobag-salve-regina-(m|g)$/.test(sku));
     if (!eligible) {
       root.append(make('p','cart-shipping-help',
         'O frete automático ainda não está disponível para esta combinação de itens. Solicite uma cotação personalizada antes de pagar.'));
@@ -54,7 +56,6 @@
       return;
     }
 
-    const sku = 'salve-regina-preta-' + cart[0].variant.toLowerCase();
     if (!state) state = {key, sku, zip:'', quotedZip:'', options:[], selected:''};
     const local = state;
     const form = make('form','cart-shipping-form');
@@ -173,6 +174,8 @@
         local.quotedZip='';local.options=[];local.selected='';
         const message=({
           shipping_not_configured:'Configuração do frete incompleta.',
+          unavailable_product:'O cadastro logístico desta peça ainda está sendo validado.',
+          invalid_sku:'Esta variação ainda não está preparada para o cálculo automático.',
           shipping_product_unverified:'Ainda não há dados de envio confirmados para esta variação.',
           shipping_package_unverified:'A embalagem do pedido precisa ser confirmada para calcular o frete.',
           shipping_provider_unavailable:'A transportadora não respondeu à consulta.',

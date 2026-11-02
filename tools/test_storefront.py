@@ -50,7 +50,8 @@ def main():
     shop_url = base + '/pages/loja.html'
     errors = []
     api_calls = []
-    state = {'shipping_failure': False, 'checkout_enabled': False}
+    state = {'shipping_failure': False, 'checkout_enabled': False,
+             'extra_shipping_ready': False}
     screenshots = os.environ.get('STOREFRONT_SCREENSHOT_DIR')
     if screenshots:
         Path(screenshots).mkdir(parents=True, exist_ok=True)
@@ -74,7 +75,14 @@ def main():
                 return
             body = route.request.post_data_json
             assert body.get('zipCode') == '01001000', body
-            assert body.get('sku') in ('salve-regina-preta-g','salve-regina-preta-xg'), body
+            assert body.get('sku') in (
+                'salve-regina-preta-g','salve-regina-preta-xg',
+                'caneca-salve-regina-preta','caneca-salve-regina-pb',
+                'ecobag-salve-regina-m','ecobag-salve-regina-g'
+            ), body
+            if body.get('sku', '').startswith(('caneca-', 'ecobag-')) and not state['extra_shipping_ready']:
+                route.fulfill(status=409,json={'error':'shipping_product_unverified'},headers=headers)
+                return
             route.fulfill(json={
                 'zipCode': body['zipCode'], 'sku': body['sku'],
                 'options': [
@@ -211,8 +219,16 @@ def main():
             calc.locator('input[name="zipCode"]').fill('01001-000')
             previous_calls=len(api_calls)
             calc.get_by_role('button',name='Consultar frete').click()
-            expect(calc.locator('[data-shipping-status]')).to_contain_text('indisponível')
-            assert len(api_calls)==previous_calls
+            expect(calc.locator('[data-shipping-status]')).to_contain_text('confirmados')
+            expect(calc.locator('[data-shipping-results]')).to_be_hidden()
+            assert len(api_calls)==previous_calls+1
+            state['extra_shipping_ready']=True
+            calc.get_by_role('button',name='Consultar frete').click()
+            expect(calc.locator('[data-shipping-results]')).to_contain_text('R$ 68,40')
+            expect(calc.locator('[data-shipping-results]')).to_contain_text('R$ 79,80')
+            calc.locator('select[name="product"]').select_option('ecobag-salve-regina-m')
+            calc.get_by_role('button',name='Consultar frete').click()
+            expect(calc.locator('[data-shipping-results]')).to_contain_text('R$ 58,40')
             calc.locator('select[name="product"]').select_option('salve-regina-preta-g')
             calc.get_by_role('button',name='Consultar frete').click()
             expect(calc.locator('[data-shipping-results]')).to_contain_text('R$ 128,40')
@@ -326,6 +342,25 @@ def main():
             expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
             expect(page.locator('.shop-cart-buy-now')).to_have_count(0)
             print('PASS: detalhes por URL e controle de disponibilidade preservado', flush=True)
+            state['shipping_failure']=False
+            # Mesma calculadora da camiseta nas páginas de canecas e ecobags.
+            page.goto(base+'/pages/produto-loja.html?id=caneca-salve-regina-preta',
+                      wait_until='networkidle')
+            expect(page.locator('.shop-single-shipping form')).to_be_visible()
+            page.locator('.shop-single-shipping input[name="zipCode"]').fill('01001-000')
+            page.locator('.shop-single-shipping button[type="submit"]').click()
+            expect(page.locator('.shop-single-quote-results')).to_contain_text('R$ 68,40')
+            page.goto(base+'/pages/produto-loja.html?id=ecobag-salve-regina-g',
+                      wait_until='networkidle')
+            expect(page.locator('.shop-single-shipping form')).to_be_visible()
+            page.locator('.shop-single-shipping input[name="zipCode"]').fill('01001-000')
+            page.locator('.shop-single-shipping button[type="submit"]').click()
+            expect(page.locator('.shop-single-quote-results')).to_contain_text('R$ 58,40')
+            page.goto(base+'/pages/produto-loja.html?id=moletom-salve-regina',
+                      wait_until='networkidle')
+            expect(page.locator('.shop-single-shipping')).to_contain_text('Frete em preparação')
+            expect(page.locator('.shop-single-shipping button')).to_be_disabled()
+            print('PASS: calculadora de frete também nas páginas individuais',flush=True)
 
             # Sacola com variantes reconhecidas: sem preços inventados nem pedidos.
             page.goto(shop_url, wait_until='networkidle')
@@ -334,6 +369,14 @@ def main():
             page.locator('[data-cart-buy="caneca-salve-regina-pb"]').click()
             expect(page).to_have_url(base+'/pages/cart.html')
             expect(page.locator('.cart-item')).to_have_count(1)
+            expect(page.get_by_role('button',name='Finalizar compra',exact=True)).to_be_disabled()
+            # A cotação da caneca pode funcionar independentemente da autorização para cobrar.
+            expect(page.locator('.cart-shipping-form')).to_be_visible()
+            page.locator('.cart-shipping-form input[name="zipCode"]').fill('01001-000')
+            page.locator('.cart-shipping-form button[type="submit"]').click()
+            expect(page.locator('.cart-total')).to_contain_text('R$ 79,80')
+            page.locator('.cart-shipping-choice').nth(1).locator('input').check()
+            expect(page.locator('.cart-total')).to_contain_text('R$ 68,40')
             expect(page.get_by_role('button',name='Finalizar compra',exact=True)).to_be_disabled()
             page.on('dialog', lambda dialog: dialog.accept())
             page.locator('.cart-clear').click()

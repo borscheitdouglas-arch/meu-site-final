@@ -54,7 +54,8 @@
         {
           "code": "unico",
           "label": "Preta · partitura gregoriana",
-          "priceCents": 4990
+          "priceCents": 4990,
+          "sku": "caneca-salve-regina-preta"
         }
       ]
     },
@@ -69,7 +70,8 @@
         {
           "code": "unico",
           "label": "P&B · arte de Nossa Senhora",
-          "priceCents": 4990
+          "priceCents": 4990,
+          "sku": "caneca-salve-regina-pb"
         }
       ]
     },
@@ -84,7 +86,8 @@
         {
           "code": "unico",
           "label": "Algodão cru · M · 1 área",
-          "priceCents": 3990
+          "priceCents": 3990,
+          "sku": "ecobag-salve-regina-m"
         }
       ]
     },
@@ -99,7 +102,8 @@
         {
           "code": "unico",
           "label": "Algodão cru · G · 1 área",
-          "priceCents": 3990
+          "priceCents": 3990,
+          "sku": "ecobag-salve-regina-g"
         }
       ]
     },
