@@ -52,3 +52,14 @@ Verificação somente leitura no Worker `douglas-loja-api` e no banco D1 `dougla
 - Mercado Pago: https://www.mercadopago.com.br/developers/pt/docs/checkout-pro-preferences/additional-settings/shipping-cost
 - VAVI: https://www.vaviestampas.com.br/guides/integrations
 - VAVI: https://www.vaviestampas.com.br/policies/shipping-policy
+
+
+## Correção do frete VAVI em 02/11/2026 (00:09 UTC)
+
+- Relato do cliente: carrinho com camiseta preta G, CEP de teste `13218752`, retornava "Frete indisponível".
+- Reprodução real pela API em produção: HTTP 200 com `options:[]`, embora a VAVI tivesse enviado cinco opções.
+- Diagnóstico sanitizado: quatro modalidades de entrega válidas eram descartadas por custos da VAVI com frações de centavo; a quinta era retirada na fábrica e corretamente excluída do frete ao cliente.
+- Correção em `src/shipping.js`: normalizar o custo recebido com `Math.ceil(valor * 100 - 1e-8) / 100`; preço de frete sempre em centavos, arredondado para cima menos de R$ 0,01. Permanecem bloqueios para preços negativos/inválidos, prazos inválidos, IDs repetidos e retirada na fábrica.
+- Testes do backend (`Vitrine VAVI — validações sem pagamentos`) concluídos com sucesso, bundle testado e publicado no Worker `douglas-loja-api` pelo Cloudflare em `2026-11-02T00:09:15Z`, preservando 21 bindings.
+- Verificação ao vivo via navegador da API e da página do carrinho: **4 modalidades de entrega exibidas** para camiseta G e CEP `13218752`: Correios SEDEX R$ 13,69 (8 dias); Loggi Express R$ 15,54 (5 dias); Jadlog .Com R$ 17,13 (7 dias); JeT Standard R$ 21,34 (4 dias). São estimativas mutáveis; transporte não inclui fabricação.
+- **Esta correção não aprova produtos, não habilita checkout nem confirma automação de produção.**
