@@ -3,7 +3,7 @@ import {CatalogError} from './catalog.js';
 const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const TYPES=new Set([
   'integration_order.converted','integration_order.failed',
-  'order.status_changed','order.tracking'
+  'order.created','order.status_changed','order.tracking'
 ]);
 
 export function vaviWebhookReady(env) {
@@ -18,6 +18,10 @@ export async function verifyVaviWebhook({request,raw,secret,now=Date.now()}) {
   const signature=request.headers.get('X-Webhook-Signature')||'';
   const match=/^t=(\d{9,12}),v1=([a-f0-9]{64})$/.exec(signature);
   if(!match || !/^whsec_[A-Za-z0-9_-]{8,}$/.test(secret||''))
+    throw new CatalogError('vavi_webhook_unauthorized','Assinatura inválida.',401);
+  // A VAVI envia o mesmo timestamp no header próprio e no HMAC.
+  // Header divergente deve ser rejeitado antes de confiar no envelope.
+  if(request.headers.get('X-Webhook-Timestamp')!==match[1])
     throw new CatalogError('vavi_webhook_unauthorized','Assinatura inválida.',401);
   const timestamp=Number(match[1]);
   if(!Number.isSafeInteger(timestamp) ||
@@ -96,10 +100,12 @@ export async function processVaviWebhook({request,env,now=Date.now()}) {
       WHERE vavi_draft_id=? AND state='submitted'`).bind(draftId));
   } else {
     const details=type==='order.tracking'?data.tracking||{}:{};
-    // VAVI uses PascalCase for status_changed and uppercase for tracking.
+    // order.created traz data.status; status_changed usa data.newStatus.
+    // Nomes de enum são PascalCase, enquanto tracking usa MAIÚSCULAS.
+    // Não bloquear status futuros (por exemplo, UnderReview).
     const status=sanitizedText(type==='order.tracking'
       ? (details.orderStatus || data.status)
-      : data.newStatus,50);
+      : type==='order.created' ? data.status : data.newStatus,50);
     const nsu=sanitizedText(data.orderNSU || details.orderNSU,40);
     const code=sanitizedText(details.trackingCode,120);
     const url=sanitizedText(details.trackingUrl,400);
