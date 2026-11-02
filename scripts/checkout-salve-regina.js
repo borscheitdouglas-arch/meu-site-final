@@ -38,7 +38,7 @@
   const extra=requestedSku && Object.hasOwn(extras,requestedSku)?extras[requestedSku]:null;
   const prices=extra?{UNICO:extra.price}:{P:10990,M:10990,G:10990,GG:10990,XG:11990};
   const skuForSize=size=>extra?requestedSku:'salve-regina-preta-'+size.toLowerCase();
-  const productLabel=()=>extra?extra.title:'Camiseta preta · tamanho '+size.value;
+  const productLabel=size=>extra?extra.title:'Camiseta preta · tamanho '+size;
   // Prévia visual explícita: nenhum campo ativo, requisição de pedido ou cobrança.
   const visualPreview=params.get('preview')==='visual';
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
@@ -171,7 +171,7 @@
       }
     } catch { cartDelivery=null; }
     const selection=document.getElementById('checkout-selection');
-    if(selection) selection.textContent=productLabel()+
+    if(selection) selection.textContent=productLabel(size.value)+
       ' · 1 unidade — '+format(prices[size.value])+' + frete';
     const productAmount=form.querySelector('#product-amount');
     const price=()=>prices[size.value];
@@ -200,7 +200,7 @@
     }
     zip.addEventListener('input',resetQuote);
     size.addEventListener('change',()=>{
-      if(selection) selection.textContent=productLabel()+
+      if(selection) selection.textContent=productLabel(size.value)+
         ' · 1 unidade — '+format(price())+' + frete';
       productAmount.textContent=format(price());
       resetQuote();
