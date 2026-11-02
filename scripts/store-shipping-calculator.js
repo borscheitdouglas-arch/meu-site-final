@@ -12,9 +12,9 @@
   const money=c=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(c/100);
   const shippingErrorMessage = code => ({
     'shipping_not_configured':'Configuração de frete da loja incompleta.',
-    'shipping_product_unverified':'Os dados de frete desta variação ainda precisam ser confirmados com a VAVI.',
-    'shipping_package_unverified':'A VAVI ainda não confirmou o pacote para esta quantidade de produtos.',
-    'shipping_provider_unavailable':'A transportadora ou a autenticação da VAVI não respondeu à consulta.',
+    'shipping_product_unverified':'Os dados de frete desta variação ainda precisam ser confirmados.',
+    'shipping_package_unverified':'O pacote deste pedido ainda não está confirmado.',
+    'shipping_provider_unavailable':'A transportadora não respondeu à consulta.',
     'origin_not_allowed':'O acesso à API está bloqueado para este endereço da loja.',
     'invalid_zip':'O CEP informado não foi aceito.',
     'invalid_sku':'Este tamanho não está habilitado para cotação.'
@@ -41,12 +41,12 @@
         status.textContent='Informe um CEP válido com 8 números.';cep.focus();return;
       }
       if(!price){
-        status.textContent='Frete automático deste produto ainda não configurado na VAVI. Você pode solicitar o valor pelo atendimento antes de comprar.';
+        status.textContent='Frete automático ainda indisponível para este produto. Solicite uma cotação pelo atendimento.';
         return;
       }
       const turn=serial,controller=new AbortController();
       abort=controller;button.disabled=true;
-      status.textContent='Consultando a transportadora pela VAVI...';
+      status.textContent='Consultando as transportadoras...';
       try{
         const timer=AbortSignal.timeout(14000);
         const signal=AbortSignal.any([controller.signal,timer]);
