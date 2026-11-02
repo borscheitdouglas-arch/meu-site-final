@@ -188,11 +188,29 @@ function safeQuote(option) {
     isActive: option.isActive === true
   };
 }
+var PROVISIONAL_SINGLE_PACKAGE = Object.freeze({
+  "ecobag-salve-regina-m": { weight: 0.2, height: 10, width: 250, length: 250 },
+  "ecobag-salve-regina-g": { weight: 0.2, height: 10, width: 250, length: 250 },
+  "caneca-salve-regina-pb": { weight: 0.5, height: 100, width: 200, length: 150 },
+  "caneca-salve-regina-preta": { weight: 0.5, height: 100, width: 200, length: 150 }
+});
 async function simulateVaviShipping(env, zipCode, lines, diagnostic = null) {
   if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET || !env.VAVI_SHIPPING_PRODUCTS_JSON) {
     throw new CatalogError("shipping_not_configured", "Cota\xE7\xE3o VAVI ainda n\xE3o configurada.", 503);
   }
   const payload = shippingPayload(zipCode, lines, env.VAVI_SHIPPING_PRODUCTS_JSON);
+  return simulateVaviPayload(env, payload, diagnostic);
+}
+async function simulateVaviShippingProvisional(env, zipCode, sku, amountCents, diagnostic = null) {
+  const packageSpec = Object.hasOwn(PROVISIONAL_SINGLE_PACKAGE, sku) ? PROVISIONAL_SINGLE_PACKAGE[sku] : null;
+  if (!packageSpec || !Number.isSafeInteger(amountCents) || amountCents < 1 || amountCents > 1e7)
+    throw new CatalogError("shipping_product_unverified", "Produto sem pr\xE9via log\xEDstica.", 409);
+  if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET)
+    throw new CatalogError("shipping_not_configured", "Cota\xE7\xE3o n\xE3o configurada.", 503);
+  const payload = { zipCode, amount: amountCents / 100, ...packageSpec };
+  return simulateVaviPayload(env, payload, diagnostic);
+}
+async function simulateVaviPayload(env, payload, diagnostic = null) {
   let auth;
   try {
     auth = await postVavi("/api/Auth/Token", {
@@ -2263,12 +2281,37 @@ var index_default = {
             throw new CatalogError("unavailable_product", "Produto ainda sem cadastro completo.", 409);
         }
         const diagnostic = body?.diagnose === true ? {} : null;
-        const options = await simulateVaviShipping(
-          env,
-          zipCode,
-          [{ sku, quantity: 1 }],
-          diagnostic
-        );
+        let provisional = false;
+        let options;
+        try {
+          options = await simulateVaviShipping(
+            env,
+            zipCode,
+            [{ sku, quantity: 1 }],
+            diagnostic
+          );
+        } catch (error) {
+          if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || Object.hasOwn(SALVE_REGINA_VARIANTS, sku) || !env.DB?.prepare)
+            throw error;
+          let observed;
+          try {
+            observed = await env.DB.prepare(
+              "SELECT observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? AND freight_config_verified=0 LIMIT 1"
+            ).bind(sku).first();
+          } catch {
+            throw error;
+          }
+          if (!Number.isSafeInteger(observed?.observed_total_cents))
+            throw error;
+          options = await simulateVaviShippingProvisional(
+            env,
+            zipCode,
+            sku,
+            observed.observed_total_cents,
+            diagnostic
+          );
+          provisional = true;
+        }
         const delivery = options.filter((x) => !/retirada|retire|pickup/i.test(x.name));
         return json({
           mode: "preview",
@@ -2277,6 +2320,7 @@ var index_default = {
           currency: "BRL",
           options: delivery,
           checkoutEnabled: false,
+          provisional,
           ...diagnostic ? { diagnostic } : {}
         }, 200, cors.headers);
       } catch (error) {
