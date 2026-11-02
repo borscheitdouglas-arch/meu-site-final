@@ -228,8 +228,12 @@
         const quote=window.CartShipping?.getQuote(cart);
         try {
           if(quote) sessionStorage.setItem('douglasCheckoutDeliveryDraft_v1',
-            JSON.stringify({size:cart[0].variant,zipCode:quote.zipCode,
-              shippingOptionId:quote.shippingOptionId}));
+            JSON.stringify({
+              size:exactShirt?cart[0].variant:'UNICO',
+              sku:directSku,
+              zipCode:quote.zipCode,
+              shippingOptionId:quote.shippingOptionId
+            }));
           else sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
         } catch {}
       });
@@ -260,7 +264,8 @@
     whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
     whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
     aside.append(whatsapp);
-    window.CartShipping?.mount(shippingSlot,{cart,subtotalCents:knownTotal,onUpdate:()=>{
+    window.CartShipping?.mount(shippingSlot,{
+      cart,sku:directSku,subtotalCents:knownTotal,onUpdate:()=>{
       const quote=window.CartShipping?.getQuote(cart);
       freightLine.textContent=quote
         ? 'Frete estimado ('+quote.shippingName+'): '+money(quote.shippingCents)
