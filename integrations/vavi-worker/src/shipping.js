@@ -70,11 +70,17 @@ function safeQuote(option) {
       typeof option.shippingCost !== 'number' ||
       !Number.isFinite(option.shippingCost) || option.shippingCost < 0 ||
       option.shippingCost > 10000 ||
-      Math.abs(option.shippingCost * 100 - Math.round(option.shippingCost * 100)) > 0.000001 ||
       !Number.isInteger(option.deliveryTime) ||
       option.deliveryTime < 0 || option.deliveryTime > 365) return null;
+  // A VAVI pode retornar frações de centavo no cálculo da transportadora.
+  // Arredonda PARA CIMA ao centavo: nunca cobramos menos que o fornecedor cotou.
+  // Uma cotação genuína só pode aumentar menos de R$ 0,01 nesta normalização.
+  // Evita também centavos extras por ruído de ponto flutuante.
+  const cents=Math.ceil(option.shippingCost*100-1e-8);
+  if(!Number.isSafeInteger(cents) || cents<0 || cents>1000000)return null;
+  const shippingCost=cents/100;
   return {id:option.id,name:option.name,companyName:option.companyName || '',
-    shippingCost:option.shippingCost,deliveryTime:option.deliveryTime,
+    shippingCost,deliveryTime:option.deliveryTime,
     estimatedDeliveryDate:option.estimatedDeliveryDate || null,
     message:option.message || '',isActive:option.isActive===true};
 }
