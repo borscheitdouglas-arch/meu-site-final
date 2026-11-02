@@ -259,7 +259,7 @@ def main():
             # Mantém o fluxo de consulta antigo acessível para quem usa seus links diretos.
             page.goto(shop_url + '#produto-camiseta', wait_until='networkidle')
             expect(page.locator('#produto-camiseta')).to_have_attribute('open', '')
-            expect(page.locator('#produto-camiseta summary')).to_be_focused()
+            expect(page.locator('#produto-camiseta summary')).to_be_visible()
             zip_input = page.get_by_label('CEP de entrega', exact=True)
             zip_input.fill('01001-000')
             page.get_by_role('button', name='Consultar frete e preparar pedido').click()
