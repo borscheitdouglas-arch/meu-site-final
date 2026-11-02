@@ -85,12 +85,41 @@ function safeQuote(option) {
     message:option.message || '',isActive:option.isActive===true};
 }
 
+// Fichas públicas de PRODUTO-BASE. Usadas exclusivamente na prévia
+// orientativa, nunca na cobrança; embalagens finais ainda exigem confirmação.
+// Dimensões em mm, peso em kg. Nenhum UUID é inventado.
+const PROVISIONAL_SINGLE_PACKAGE=Object.freeze({
+  'ecobag-salve-regina-m':{weight:0.20,height:10,width:250,length:250},
+  'ecobag-salve-regina-g':{weight:0.20,height:10,width:250,length:250},
+  'caneca-salve-regina-pb':{weight:0.50,height:100,width:200,length:150},
+  'caneca-salve-regina-preta':{weight:0.50,height:100,width:200,length:150}
+});
+
 export async function simulateVaviShipping(env,zipCode,lines,diagnostic=null) {
   if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET ||
       !env.VAVI_SHIPPING_PRODUCTS_JSON) {
     throw new CatalogError('shipping_not_configured','Cotação VAVI ainda não configurada.',503);
   }
   const payload = shippingPayload(zipCode,lines,env.VAVI_SHIPPING_PRODUCTS_JSON);
+  return simulateVaviPayload(env,payload,diagnostic);
+}
+
+// Apenas para consulta orientativa de UMA peça que já está cadastrada no D1.
+// 'amount' vem de custo observado no painel privado, NUNCA do navegador.
+// Não serve para validar produção, checkout ou embalagem final.
+export async function simulateVaviShippingProvisional(env,zipCode,sku,amountCents,diagnostic=null) {
+  const packageSpec=Object.hasOwn(PROVISIONAL_SINGLE_PACKAGE,sku)?
+    PROVISIONAL_SINGLE_PACKAGE[sku]:null;
+  if(!packageSpec || !Number.isSafeInteger(amountCents) ||
+     amountCents<1 || amountCents>10000000)
+    throw new CatalogError('shipping_product_unverified','Produto sem prévia logística.',409);
+  if(!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET)
+    throw new CatalogError('shipping_not_configured','Cotação não configurada.',503);
+  const payload={zipCode,amount:amountCents/100,...packageSpec};
+  return simulateVaviPayload(env,payload,diagnostic);
+}
+
+async function simulateVaviPayload(env,payload,diagnostic=null) {
   let auth;
   try {
     auth=await postVavi('/api/Auth/Token',{grantType:'client_credentials',

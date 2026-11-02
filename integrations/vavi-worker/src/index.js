@@ -1,5 +1,5 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
-import {normalizeZip, simulateVaviShipping,shippingPayload} from './shipping.js';
+import {normalizeZip, simulateVaviShipping,simulateVaviShippingProvisional,shippingPayload} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
 import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
@@ -333,12 +333,36 @@ export default {
             throw new CatalogError('unavailable_product','Produto ainda sem cadastro completo.',409);
         }
         const diagnostic=body?.diagnose===true?{}:null;
-        const options=await simulateVaviShipping(env,zipCode,
-          [{sku,quantity:1}],diagnostic);
+        let provisional=false;
+        let options;
+        try {
+          options=await simulateVaviShipping(env,zipCode,
+            [{sku,quantity:1}],diagnostic);
+        }catch(error){
+          // A ficha do fabricante ainda não está pronta. É permitido obter
+          // apenas uma PRÉVIA orientativa com medidas públicas + custo
+          // observado no banco privado; nunca é autorizada cobrança.
+          if(!(error instanceof CatalogError) ||
+             error.code!=='shipping_product_unverified' ||
+             Object.hasOwn(SALVE_REGINA_VARIANTS,sku) || !env.DB?.prepare)
+            throw error;
+          let observed;
+          try{
+            observed=await env.DB.prepare(
+              'SELECT observed_total_cents FROM supplier_variant_cost_observations '+
+              'WHERE internal_sku=? AND freight_config_verified=0 LIMIT 1'
+            ).bind(sku).first();
+          }catch{throw error;}
+          if(!Number.isSafeInteger(observed?.observed_total_cents))
+            throw error;
+          options=await simulateVaviShippingProvisional(env,zipCode,sku,
+            observed.observed_total_cents,diagnostic);
+          provisional=true;
+        }
         // Factory pickup is not a shipping option to the buyer's CEP.
         const delivery=options.filter(x=>!(/retirada|retire|pickup/i.test(x.name)));
         return json({mode:'preview',sku,zipCode,
-          currency:'BRL',options:delivery,checkoutEnabled:false,
+          currency:'BRL',options:delivery,checkoutEnabled:false,provisional,
           ...(diagnostic?{diagnostic}:{})},200,cors.headers);
       }catch(error) {
         if(error instanceof CatalogError)

@@ -126,7 +126,9 @@
           Number.isFinite(item.shippingCost) && item.shippingCost>=0 && item.shippingCost<=10000 &&
           Number.isInteger(item.deliveryTime) && item.deliveryTime>=0 && item.deliveryTime<=365);
         if(!choices.length)throw Error('sem_frete');
-        status.textContent='Opções estimadas para uma unidade:';
+        status.textContent=data.provisional===true?
+          'Simulação orientativa para uma unidade (produto ainda não liberado para compra):':
+          'Opções estimadas para uma unidade:';
         choices.forEach(item=>{
           const quote=el('p','shop-single-quote-line',
             item.name+' · Frete: '+money(Math.round(item.shippingCost*100))+
@@ -135,6 +137,7 @@
           results.append(quote);
         });
         results.append(el('p','',
+          (data.provisional===true?'Embalagem ainda em validação, sem autorização de pagamento. ':'')+
           'Valores sujeitos a reconferência. O prazo de fabricação não está incluído.'));
       } catch(err) {
         if(turn!==serial)return;

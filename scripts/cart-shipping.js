@@ -167,7 +167,12 @@
         local.quotedZip=zipCode;
         local.options=options;
         local.selected=options[0].id;
-        status.textContent='Cotação disponível. Escolha o frete para visualizar o total.';
+        status.textContent=data.provisional===true?
+          'Simulação orientativa: embalagem em validação, sem compra disponível.':
+          'Cotação disponível. Escolha o frete para visualizar o total.';
+        fineprint.textContent=(data.provisional===true?
+          'Produto não liberado para pagamento. O valor é orientativo e depende da embalagem final. ':'')+
+          'Prazos de transporte não incluem fabricação. Valores reconferidos antes de qualquer cobrança.';
         draw();
       } catch(error) {
         if(id!==sequence || state!==local)return;

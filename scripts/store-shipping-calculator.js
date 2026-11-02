@@ -77,7 +77,9 @@
           throw Error('sem_opcoes');
         results.hidden=false;
         const title=document.createElement('strong');
-        title.textContent='Opções estimadas para 1 unidade';
+        title.textContent=data.provisional===true?
+          'Simulação orientativa de frete — 1 unidade':
+          'Opções estimadas para 1 unidade';
         results.append(title);
         for(const option of options){
           const line=document.createElement('p');
@@ -89,9 +91,13 @@
         }
         const notice=document.createElement('p');
         notice.className='shipping-calculator-fineprint';
-        notice.textContent='Prazo de produção não incluído. Valores reconferidos antes de qualquer cobrança. Combinar peças pode mudar o frete.';
+        notice.textContent=(data.provisional===true?
+          'Embalagem ainda em validação; frete ilustrativo e produto indisponível para pagamento. ':'')+
+          'Prazo de produção não incluído. Valores reconferidos antes de qualquer cobrança. Combinar peças pode mudar o frete.';
         results.append(notice);
-        status.textContent='Cotação recebida. Este cálculo não realiza compra nem reserva a produção.';
+        status.textContent=data.provisional===true?
+          'Prévia recebida da transportadora. Este produto ainda não está liberado para compra.':
+          'Cotação recebida. Este cálculo não realiza compra nem reserva a produção.';
       }catch(error){
         if(turn!==serial)return;
         const code=String(error?.message||'');
