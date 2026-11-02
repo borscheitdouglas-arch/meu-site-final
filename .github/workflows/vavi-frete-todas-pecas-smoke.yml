@@ -1,0 +1,65 @@
+name: VAVI - prova real de frete das pecas sem pagamento
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/vavi-frete-todas-pecas-smoke.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validar a API publicada para camiseta, ecobags e canecas
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from urllib.request import Request,urlopen
+          from urllib.error import HTTPError,URLError
+
+          api='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/shipping/preview'
+          origin='https://www.douglasassumpcao.com.br'
+          cases=[
+            ('salve-regina-preta-g',False),
+            ('ecobag-salve-regina-m',True),
+            ('ecobag-salve-regina-g',True),
+            ('caneca-salve-regina-pb',True),
+            ('caneca-salve-regina-preta',True)
+          ]
+          errors=[]
+          for sku,provisional in cases:
+            req=Request(api,method='POST',
+              data=json.dumps({'zipCode':'01001000','sku':sku}).encode(),
+              headers={'Origin':origin,'Content-Type':'application/json',
+                'Accept':'application/json','User-Agent':'DouglasFreight-RealSKU-20261102/1.0'})
+            try:
+              with urlopen(req,timeout=24) as response:
+                status=response.status
+                data=json.load(response)
+            except HTTPError as exc:
+              status=exc.code
+              try: data=json.loads(exc.read())
+              except Exception: data={'error':'invalid_response'}
+            except (URLError,TimeoutError,OSError) as exc:
+              status=0
+              data={'error':type(exc).__name__}
+            opts=data.get('options',[])
+            ok=(status==200 and data.get('sku')==sku and
+              data.get('provisional') is provisional and
+              data.get('checkoutEnabled') is False and
+              isinstance(opts,list) and len(opts)>0 and
+              all(x.get('isActive') is True and x.get('shippingCost',-1)>=0
+                for x in opts))
+            if not ok: errors.append(sku)
+            print(json.dumps({'sku':sku,'http':status,'provisoria':data.get('provisional'),
+              'opcoes':len(opts) if isinstance(opts,list) else 0,
+              'menor_frete':min((x['shippingCost'] for x in opts),default=None)
+                if isinstance(opts,list) else None,
+              'resultado':'PASS' if ok else 'FAIL','erro':data.get('error')},
+              ensure_ascii=False),flush=True)
+          print('Nenhum pedido nem pagamento criado.',flush=True)
+          if errors: raise SystemExit('Falharam: '+','.join(errors))
+          PY
