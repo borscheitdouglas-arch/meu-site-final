@@ -95,12 +95,12 @@ def render_product(product: dict, first: bool) -> str:
     loading = 'loading="lazy"'
     return f'''<article class="atelier-product" aria-labelledby="product-{p['id']}-title">
 <figure class="atelier-product-art">
-<img src="{p['image']}" alt="{p['image_alt']}" width="1122" height="1402" {loading} decoding="async"/>
+<a class="atelier-product-link" href="/pages/produto-loja.html?id={p['id']}" aria-label="Conhecer o livro {p['title']}"><img src="{p['image']}" alt="{p['image_alt']}" width="1122" height="1402" {loading} decoding="async"/></a>
 <figcaption>Arte de divulgação</figcaption>
 </figure>
 <div class="atelier-product-copy">
 <div class="atelier-product-meta"><p class="atelier-product-kind">{p['category']}</p><span class="atelier-product-format">{p['format']}</span></div>
-<h3 id="product-{p['id']}-title">{p['title']}</h3>
+<h3 id="product-{p['id']}-title"><a href="/pages/produto-loja.html?id={p['id']}">{p['title']}</a></h3>
 <p class="atelier-product-subtitle">{p['subtitle']}</p>
 <p class="atelier-product-author">Por {p['author']}</p>
 <p class="atelier-product-description">{p['description']}</p>
