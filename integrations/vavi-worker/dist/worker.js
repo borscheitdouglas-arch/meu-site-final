@@ -185,7 +185,7 @@ function safeQuote(option) {
     isActive: option.isActive === true
   };
 }
-async function simulateVaviShipping(env, zipCode, lines) {
+async function simulateVaviShipping(env, zipCode, lines, diagnostic = null) {
   if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET || !env.VAVI_SHIPPING_PRODUCTS_JSON) {
     throw new CatalogError("shipping_not_configured", "Cota\xE7\xE3o VAVI ainda n\xE3o configurada.", 503);
   }
@@ -218,7 +218,27 @@ async function simulateVaviShipping(env, zipCode, lines) {
     "Resposta de frete inesperada.",
     503
   );
-  const options = response.data.map(safeQuote).filter(Boolean).filter((x) => x.isActive);
+  const parsed = response.data.map(safeQuote);
+  const valid = parsed.filter(Boolean);
+  const options = valid.filter((x) => x.isActive);
+  if (diagnostic && typeof diagnostic === "object") {
+    const types = (option) => ({
+      id: typeof option?.id,
+      name: typeof option?.name,
+      cost: typeof option?.shippingCost,
+      days: typeof option?.deliveryTime,
+      active: typeof option?.isActive,
+      activeValue: option?.isActive === true ? "true" : option?.isActive === false ? "false" : "other",
+      pickup: typeof option?.name === "string" && /retirada|retire|pickup/i.test(option.name)
+    });
+    Object.assign(diagnostic, {
+      received: response.data.length,
+      structurallyValid: valid.length,
+      active: options.length,
+      homeDelivery: options.filter((x) => !/retirada|retire|pickup/i.test(x.name)).length,
+      fieldTypes: response.data.slice(0, 4).map(types)
+    });
+  }
   const ids = new Set(options.map((x) => x.id));
   if (ids.size !== options.length) throw new CatalogError(
     "shipping_provider_unavailable",
@@ -2126,10 +2146,12 @@ var index_default = {
         const sku = body?.sku || "salve-regina-preta-g";
         if (!Object.hasOwn(SALVE_REGINA_VARIANTS, sku))
           throw new CatalogError("invalid_sku", "Tamanho da camiseta inv\xE1lido.", 422);
+        const diagnostic = body?.diagnose === true ? {} : null;
         const options = await simulateVaviShipping(
           env,
           zipCode,
-          [{ sku, quantity: 1 }]
+          [{ sku, quantity: 1 }],
+          diagnostic
         );
         const delivery = options.filter((x) => !/retirada|retire|pickup/i.test(x.name));
         return json({
@@ -2138,7 +2160,8 @@ var index_default = {
           zipCode,
           currency: "BRL",
           options: delivery,
-          checkoutEnabled: false
+          checkoutEnabled: false,
+          ...diagnostic ? { diagnostic } : {}
         }, 200, cors.headers);
       } catch (error) {
         if (error instanceof CatalogError)
