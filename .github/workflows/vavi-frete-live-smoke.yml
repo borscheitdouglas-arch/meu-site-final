@@ -27,7 +27,7 @@ jobs:
           # Diferenciar 403 de origem, WAF ou domínio: verificar rota sem autenticação.
           for probe in ['/health', '/api/store/readiness']:
               probe_url = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev' + probe
-              request = Request(probe_url, headers={'Accept':'application/json','Origin':origin})
+              request = Request(probe_url, headers={'Accept':'application/json','Origin':origin,'User-Agent':'DouglasAssumpcao-Shipping-Check/1.0'})
               try:
                   with urlopen(request, timeout=12) as response:
                       print('DIAGNOSTICO GET', probe, 'HTTP', response.status,
@@ -43,7 +43,7 @@ jobs:
               sku = 'salve-regina-preta-' + size
               payload = json.dumps({'zipCode': zip_code, 'sku': sku}).encode()
               req = Request(url, data=payload, method='POST', headers={
-                  'Origin': origin, 'Content-Type': 'application/json',
+                  'Origin': origin, 'User-Agent':'DouglasAssumpcao-Shipping-Check/1.0', 'Content-Type': 'application/json',
                   'Accept': 'application/json'
               })
               try:
