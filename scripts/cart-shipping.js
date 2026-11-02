@@ -101,7 +101,7 @@
         data.append(heading);
         if(option.shippingCost===cheapest) data.append(make('small','cart-shipping-best','Menor valor'));
         else if(option.deliveryTime===fastest) data.append(make('small','cart-shipping-fast','Menor prazo de transporte'));
-        data.append(make('small','',option.deliveryTime+' dia(s) estimados de transporte'));
+        data.append(make('small','',option.deliveryTime+' dia(s) úteis estimados de transporte'));
         const amount=make('span','cart-shipping-choice-price',
           option.shippingCost===0?'Grátis':money(Math.round(option.shippingCost*100)));
         radio.addEventListener('change',()=>{
