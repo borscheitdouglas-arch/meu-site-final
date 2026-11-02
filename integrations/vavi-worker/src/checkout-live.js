@@ -73,7 +73,7 @@ export async function createCheckoutLive(env,body,deps={}) {
   const preference=await (deps.createPreference||createTestPreference)({
     order:draft,lines:quote.lines,shippingCents,
     accessToken:env.MERCADOPAGO_LIVE_ACCESS_TOKEN,
-    siteBaseUrl:SITE,notificationUrl:NOTIFY
+    siteBaseUrl:SITE,notificationUrl:NOTIFY,sandbox:false
   });
   const update=await env.DB.prepare(`UPDATE store_orders
     SET status='awaiting_payment',mp_preference_id=?,
