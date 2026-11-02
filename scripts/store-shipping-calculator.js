@@ -65,7 +65,7 @@
           const frete=Math.round(option.shippingCost*100);
           line.textContent=option.name+' — Frete '+money(frete)+
             ' · Total estimado '+money(price+frete)+
-            ' · Transporte: '+option.deliveryTime+' dia(s)';
+            ' · Transporte: '+option.deliveryTime+' dia(s) úteis';
           results.append(line);
         }
         const notice=document.createElement('p');
