@@ -16,6 +16,7 @@ EXCLUDED = {
     "pages/template.html": "modelo de página",
     "pages/cart.html": "carrinho",
     "pages/produto.html": "modelo dependente de parâmetro, sem produto publicado",
+    "pages/produto-loja.html": "ficha dinâmica que requer um ID de produto na URL",
     "pages/produto-1.html": "produto removido",
     "pages/produto-2.html": "produto removido",
     "pages/advento-1-video.html": "duplicata de advento-1.html",
