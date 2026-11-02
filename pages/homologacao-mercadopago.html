@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Homologação de pagamento | Loja Douglas Assumpção</title>
+<style>
+:root{color-scheme:dark;--bg:#0f1713;--panel:#1d2921;--border:#766344;--gold:#d8b376;--text:#f7f0e5;--muted:#c5c7bd}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#364734 0,transparent 500px),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--border);padding:19px 22px;text-align:center;background:#1a271e}header a{color:var(--gold);text-decoration:none}main{width:min(830px,calc(100% - 30px));margin:36px auto 70px}
+h1,h2{font-family:Georgia,serif;font-weight:400;line-height:1.2}h1{font-size:clamp(2rem,4vw,3rem);margin:0 0 12px}h2{font-size:1.55rem;margin:0 0 10px;color:var(--gold)}
+p{margin:9px 0 15px}.intro{color:var(--muted)}.panel{background:var(--panel);border:1px solid #59614b;border-radius:14px;padding:24px;margin:20px 0}.muted{color:var(--muted)}code{background:#0f1914;padding:2px 6px;border-radius:4px;overflow-wrap:anywhere}label{display:block;font-weight:650;margin:15px 0 6px}
+input,select{display:block;width:100%;font:inherit;border:1px solid #858b78;border-radius:8px;padding:12px;background:#f7f3e9;color:#17221c}button{font:inherit;font-weight:650;border:1px solid #d8b376;background:#d8b376;color:#152015;padding:10px 14px;border-radius:8px;cursor:pointer;margin:8px 8px 0 0}button:hover{filter:brightness(1.06)}button:disabled{cursor:not-allowed;opacity:.45}.outline{background:transparent;color:var(--gold)}
+.hint{font-size:.9rem;color:var(--muted)}.status{white-space:pre-wrap;overflow-wrap:anywhere;padding:12px;border:1px solid #71806c;border-radius:8px;background:#172218;margin-top:15px}.status[hidden]{display:none}.danger{border-left:4px solid #e0ac80;padding-left:13px;color:#f1d5be}.ok{color:#bfefb2}
+a{color:var(--gold)}a.button{display:inline-block;padding:10px 16px;border-radius:8px;border:1px solid var(--gold);background:var(--gold);color:#152015;font-weight:750;text-decoration:none}
+.order{border-top:1px solid #59614b;margin-top:18px;padding-top:16px}small{color:var(--muted)}
+</style>
+</head>
+<body>
+<header><a href="/pages/loja.html">Loja Douglas Assumpção</a> <span aria-hidden="true">•</span> Homologação técnica</header>
+<main>
+<h1>Teste do Mercado Pago</h1>
+<p class="intro">Área técnica para testar <strong>uma camiseta Salve Regina preta, tamanho G</strong>, sem disponibilizar pagamentos reais no site. Não é uma página de compras.</p>
+<p class="danger"><strong>Atenção:</strong> use somente as credenciais de <strong>teste</strong> e a conta <strong>Buyer Test User</strong> do Mercado Pago. Não insira CPF, nome ou endereço de clientes reais. Não finalize com sua conta pessoal.</p>
+<section class="panel">
+<h2>1. Chave privada de homologação</h2>
+<p>Gere uma chave segura e cadastre-a no Cloudflare, no Worker <code>douglas-loja-api</code>, como Secret com o nome <code>CHECKOUT_TEST_API_KEY</code>. Se já existir, substitua <em>apenas</em> esse segredo de teste. Não envie a chave no chat.</p>
+<label for="key">Chave do teste — armazenada apenas nesta aba</label>
+<input id="key" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Gere ou cole a chave de homologação">
+<button id="generate" type="button">Gerar chave segura</button>
+<button id="copy" class="outline" type="button">Copiar chave para o Cloudflare</button>
+<p class="hint" id="key-message" aria-live="polite">A chave não é gravada em cookies, localStorage, banco ou GitHub.</p>
+</section>
+<section class="panel">
+<h2>2. Frete real da VAVI para homologação</h2>
+<p>Consulta de uma peça, CEP de teste <strong>13218-752</strong>. O endereço fictício deste teste não gera pedido de produção.</p>
+<button type="button" id="quote">Consultar frete de teste</button>
+<div id="quote-message" class="status" hidden role="status"></div>
+<label for="option">Transportadora da cotação</label>
+<select id="option" disabled><option value="">Consulte o frete primeiro</option></select>
+</section>
+<section class="panel">
+<h2>3. Gerar link de pagamento de teste</h2>
+<p>O servidor validará o preço, recalculará o frete na VAVI e solicitará ao Mercado Pago uma preferência de homologação. Esse procedimento registra um <strong>pedido de teste</strong> no banco, não um pedido real na VAVI.</p>
+<label><input id="consent" type="checkbox" style="display:inline;width:auto;vertical-align:middle;margin-right:8px">Confirmo que usarei somente a conta de comprador de teste.</label>
+<button id="run" type="button" disabled>Gerar link de homologação</button>
+<div id="result" class="status" hidden role="status"></div>
+<div id="link-container" class="order" hidden></div>
+</section>
+<p class="hint">A loja pública permanece desabilitada para cobrar clientes. Caso algum teste falhe, compartilhe somente o código de erro exibido — nunca senhas, tokens ou links com parâmetros confidenciais.</p>
+</main>
+<script>
+(() => {
+  'use strict';
+  const ROOT='https://douglas-loja-api.liturgia-gregoriano.workers.dev';
+  const $=id=>document.getElementById(id);
+  const state={options:[],busy:false};
+  const show=(id,msg)=>{const el=$(id);el.hidden=false;el.textContent=String(msg)};
+  const validOption=option=>typeof option?.id==='string'&&
+    typeof option?.name==='string'&&Number.isFinite(option.shippingCost)&&
+    option.shippingCost>=0&&option.isActive===true&&!/retirada|retire|pickup/i.test(option.name);
+  const fmt=x=>Number(x).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  const enable=()=>{$('run').disabled=state.busy||!state.options.length||!$('consent').checked||$('key').value.length<32};
+  $('key').addEventListener('input',enable);$('consent').addEventListener('change',enable);$('option').addEventListener('change',enable);
+  $('generate').addEventListener('click',()=>{
+    const bytes=crypto.getRandomValues(new Uint8Array(32));
+    $('key').value=Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
+    $('key-message').textContent='Chave gerada no navegador. Copie e salve como Secret CHECKOUT_TEST_API_KEY no Cloudflare antes de continuar.';
+    enable();
+  });
+  $('copy').addEventListener('click',async()=>{
+    if($('key').value.length<32){$('key-message').textContent='Gere a chave primeiro.';return;}
+    try{await navigator.clipboard.writeText($('key').value);$('key-message').textContent='Chave copiada. Cole diretamente no Cloudflare, sem mostrar aqui.';}
+    catch{$('key-message').textContent='A cópia automática foi bloqueada. Selecione o campo e copie manualmente.';}
+  });
+  $('quote').addEventListener('click',async()=>{
+    if(state.busy)return;
+    state.busy=true;$('quote').disabled=true;state.options=[];$('option').disabled=true;enable();
+    show('quote-message','Consultando VAVI...');
+    try{
+      const response=await fetch(ROOT+'/api/shipping/preview',{method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({zipCode:'13218752',sku:'salve-regina-preta-g'})});
+      const data=await response.json();
+      if(!response.ok)throw Error(data.error||'shipping_error_'+response.status);
+      state.options=(Array.isArray(data.options)?data.options:[]).filter(validOption).sort((a,b)=>a.shippingCost-b.shippingCost);
+      if(!state.options.length)throw Error('frete_indisponivel');
+      const select=$('option');select.replaceChildren();
+      for(const option of state.options){
+        const el=document.createElement('option');el.value=option.id;
+        el.textContent=option.name+' — '+fmt(option.shippingCost)+' — '+option.deliveryTime+' dias úteis de transporte';
+        select.appendChild(el);
+      }
+      select.disabled=false;
+      show('quote-message',state.options.length+' transportadoras encontradas. Selecione uma e avance.');
+    }catch(e){show('quote-message','Falha de cotação: '+e.message);}
+    finally{state.busy=false;$('quote').disabled=false;enable();}
+  });
+  $('run').addEventListener('click',async()=>{
+    if(state.busy||$('key').value.length<32||!$('consent').checked)return;
+    const option=state.options.find(x=>x.id===$('option').value);
+    if(!option)return;
+    state.busy=true;enable();$('link-container').hidden=true;
+    show('result','Validando pedido e solicitando preferência ao Mercado Pago...');
+    const buyer={name:'Comprador Fictício de Homologação',email:'homologacao@example.invalid',
+      phone:'11999990000',taxId:'12345678909',zipCode:'13218752',
+      street:'Rua Exemplo de Homologação',number:'1',neighborhood:'Centro',city:'Jundiaí',state:'SP'};
+    try{
+      const response=await fetch(ROOT+'/api/checkout/test',{method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+$('key').value},
+        body:JSON.stringify({items:[{sku:'salve-regina-preta-g',quantity:1}],zipCode:'13218752',
+          shippingOptionId:option.id,buyer})});
+      const result=await response.json();
+      if(!response.ok)throw Error(result.error||'checkout_test_'+response.status);
+      const url=new URL(result.checkoutUrl);
+      if(url.protocol!=='https:'||!['www.mercadopago.com.br','www.mercadopago.com','mercadopago.com.br','mercadopago.com'].includes(url.hostname)||result.mode!=='test')
+        throw Error('checkout_url_unexpected');
+      show('result','Preferência de teste gerada! Total com frete: '+fmt(result.amountCents/100)+'.');
+      const container=$('link-container');
+      const anchor=document.createElement('a');anchor.href=url.href;anchor.target='_blank';anchor.rel='noopener noreferrer';anchor.className='button';anchor.textContent='Abrir pagamento de TESTE no Mercado Pago';
+      const notice=document.createElement('p');notice.textContent='Abra o link somente com a conta Buyer Test User. Nenhum envio VAVI será gerado por este teste.';
+      const order=document.createElement('small');order.textContent='Pedido de homologação: '+result.orderId;
+      container.replaceChildren(anchor,notice,order);container.hidden=false;
+    }catch(e){show('result','Não foi possível gerar o pagamento de teste. Código: '+e.message+'. Não houve confirmação de pagamento.');}
+    finally{state.busy=false;enable();}
+  });
+})();
+</script>
+</body>
+</html>
