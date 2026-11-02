@@ -13,17 +13,26 @@ import {SALVE_REGINA_VARIANTS,approvedVariant,SALVE_REGINA_SKUS} from './salve-r
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
-  const secret=env.CHECKOUT_TEST_API_KEY;
   const header=request.headers.get('Authorization')||'';
-  if(typeof secret!=='string' || secret.length<32 ||
-      !header.startsWith('Bearer ') || header.length>512) return false;
+  if(!header.startsWith('Bearer ') || header.length>512) return false;
   const given=header.slice(7);
   const h=async value=>new Uint8Array(await crypto.subtle.digest('SHA-256',
     new TextEncoder().encode(value)));
-  const a=await h(secret),b=await h(given);
-  let diff=0;
-  for(let i=0;i<a.length;i++)diff|=a[i]^b[i];
-  return diff===0;
+  const probeExpiry=Number(env.CHECKOUT_TEST_PROBE_EXPIRES_AT);
+  const probeAllowed=Number.isSafeInteger(probeExpiry) &&
+    probeExpiry>Date.now() && probeExpiry<=Date.now()+15*60*1000;
+  const candidates=[env.CHECKOUT_TEST_API_KEY];
+  if(probeAllowed)candidates.push(env.CHECKOUT_TEST_PROBE_KEY);
+  const provided=await h(given);
+  let valid=false;
+  for(const secret of candidates) {
+    if(typeof secret!=='string'||secret.length<32)continue;
+    const expected=await h(secret);
+    let diff=0;
+    for(let i=0;i<expected.length;i++)diff|=expected[i]^provided[i];
+    valid ||= diff===0;
+  }
+  return valid;
 }
 
 function json(body, status = 200, extra = {}) {
