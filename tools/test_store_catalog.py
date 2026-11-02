@@ -137,16 +137,17 @@ class StoreCatalogTest(unittest.TestCase):
         source = PAGE.read_text(encoding='utf-8')
         self.assertEqual(source.count('data-vavi-inquiry aria-label='), 1)
         self.assertIn('Camiseta Salve Regina', source)
-        self.assertIn('Pedido sob consulta · Sem cobrança neste site', source)
+        self.assertIn('Compra online disponível · produção sob demanda', source)
         self.assertIn('Enviar por e-mail', source)
         self.assertIn('salve-regina-inquiry.js', source)
         self.assertNotIn('MERCADOPAGO_TEST_ACCESS_TOKEN', source)
         self.assertNotIn('CHECKOUT_TEST_API_KEY', source)
         self.assertNotIn('/api/checkout/test', source)
-        # Produtos ainda bloqueados para pagamento, porém adicionáveis
-        # à sacola para solicitar cotação (sem habilitar checkout).
+        # Só a camiseta está disponível para checkout; outras peças
+        # continuam consultáveis e não geram cobrança automática.
         self.assertEqual(source.count('data-availability="preparation"'), 1)
-        self.assertEqual(source.count('data-availability="consultation"'), 5)
+        self.assertEqual(source.count('data-availability="consultation"'), 4)
+        self.assertEqual(source.count('data-availability="available"'), 1)
         self.assertIn('Calcular frete', source)
         self.assertIn('data-shipping-calculator', source)
         self.assertIn('store-shipping-calculator.js', source)
@@ -154,7 +155,7 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertIn('R$ 39,90', source)
         self.assertEqual(source.count('data-cart-add='), 6)
         self.assertNotIn('data-cart-checkout', source)
-        self.assertIn('Preço em validação · Compra automática ainda indisponível', source)
+        self.assertIn('Em preparação · consulte a disponibilidade', source)
         self.assertIn('R$ 109,90', source)
 
 
