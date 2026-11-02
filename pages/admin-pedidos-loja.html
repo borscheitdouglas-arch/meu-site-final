@@ -58,7 +58,7 @@
  </section>
  <section id="reconcile-panel" hidden>
   <h2>Conferir pagamento aprovado no Mercado Pago</h2>
-  <p class="muted">Caso um pagamento apareça aprovado no seu painel do Mercado Pago, mas não apareça aqui, informe o número da transação. Nossa API consulta a cobrança diretamente no Mercado Pago, confirma o valor e libera o pedido correspondente. Não cria encomenda na VAVI.</p>
+  <p class="muted">Caso um pagamento apareça aprovado no seu painel do Mercado Pago, mas não apareça aqui, informe o número da transação. Nossa API consulta a cobrança diretamente no Mercado Pago, confirma o valor e libera o pedido correspondente. Não envia encomenda ao fabricante.</p>
   <form id="reconcile-form" autocomplete="off">
    <label for="reconcile-id">Número da transação (ID do pagamento)</label>
    <input id="reconcile-id" name="paymentId" inputmode="numeric" maxlength="30" pattern="[0-9]{1,30}" placeholder="Somente números" required>
