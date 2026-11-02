@@ -79,7 +79,7 @@ function safeQuote(option) {
     message:option.message || '',isActive:option.isActive===true};
 }
 
-export async function simulateVaviShipping(env,zipCode,lines) {
+export async function simulateVaviShipping(env,zipCode,lines,diagnostic=null) {
   if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET ||
       !env.VAVI_SHIPPING_PRODUCTS_JSON) {
     throw new CatalogError('shipping_not_configured','Cotação VAVI ainda não configurada.',503);
@@ -105,8 +105,31 @@ export async function simulateVaviShipping(env,zipCode,lines) {
   }
   if (!Array.isArray(response?.data)) throw new CatalogError('shipping_provider_unavailable',
     'Resposta de frete inesperada.',503);
+  // Diagnóstico opcional: retorna SOMENTE tipos de campos e contagens.
+  // Não inclui identidade do cliente, preços, tokens, IDs ou fretes individuais.
+  const parsed=response.data.map(safeQuote);
+  const valid=parsed.filter(Boolean);
+  const options=valid.filter(x=>x.isActive);
+  if(diagnostic && typeof diagnostic==='object') {
+    const types=option=>({
+      id:typeof option?.id,
+      name:typeof option?.name,
+      cost:typeof option?.shippingCost,
+      days:typeof option?.deliveryTime,
+      active:typeof option?.isActive,
+      activeValue:option?.isActive===true?'true':option?.isActive===false?'false':'other',
+      pickup:typeof option?.name==='string' &&
+        /retirada|retire|pickup/i.test(option.name)
+    });
+    Object.assign(diagnostic,{
+      received:response.data.length,
+      structurallyValid:valid.length,
+      active:options.length,
+      homeDelivery:options.filter(x=>!/retirada|retire|pickup/i.test(x.name)).length,
+      fieldTypes:response.data.slice(0,4).map(types)
+    });
+  }
   // Duplicate identifiers make customer selection ambiguous: fail closed.
-  const options=response.data.map(safeQuote).filter(Boolean).filter(x=>x.isActive);
   const ids=new Set(options.map(x=>x.id));
   if(ids.size!==options.length)throw new CatalogError('shipping_provider_unavailable',
     'Cotações conflitantes da transportadora.',503);
