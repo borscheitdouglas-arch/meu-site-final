@@ -28,9 +28,14 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertIn('atelier-grid-single', html)
         self.assertIn('01 produto', html)
         self.assertTrue(all(a.get('loading') == 'lazy' and 'fetchpriority' not in a for t, a in tags if t == 'img'))
-        links = [a for t, a in tags if t == 'a']
+        # Links internos abrem a ficha do produto; só os botões de compra
+        # devem direcionar para lojas parceiras em nova aba.
+        links = [a for t, a in tags if t == 'a' and 'atelier-buy' in a.get('class', '').split()]
         self.assertEqual({a['href'] for a in links}, {r['url'] for r in self.data['products'][0]['retailers']})
         self.assertTrue(all(a['target'] == '_blank' and 'noopener' in a['rel'] for a in links))
+        details = [a for t, a in tags if t == 'a' and a.get('href', '').startswith('/pages/produto-loja.html?id=')]
+        self.assertEqual(len(details), 2)
+        self.assertTrue(all(a['href'].endswith('o-canto-como-mistica') for a in details))
 
     def test_incomplete_draft_is_never_exposed(self):
         before = render_catalog(self.data)
