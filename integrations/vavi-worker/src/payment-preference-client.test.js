@@ -19,10 +19,12 @@ test('cliente prepara preferência de teste com valor gerado no servidor',async(
     assert.equal(body.shipments.mode,'not_specified');
     assert.equal(body.external_reference,base.order.id);
     return {ok:true,json:async()=>({id:'pref_test_1',
-      init_point:'https://www.mercadopago.com.br/checkout/start?pref_id=pref_test_1'})};
+      init_point:'https://www.mercadopago.com.br/checkout/start?pref_id=pref_test_1',
+      sandbox_init_point:'https://sandbox.mercadopago.com.br/checkout/pay?pref_id=pref_test_1'})};
   }});
   assert.equal(called,true);
   assert.equal(result.preferenceId,'pref_test_1');
+  assert.equal(result.checkoutUrl,'https://sandbox.mercadopago.com.br/checkout/pay?pref_id=pref_test_1');
 });
 test('sem total correto não chama o Mercado Pago',async()=>{
   await assert.rejects(()=>createTestPreference({...base,order:{...base.order,totalCents:1},
