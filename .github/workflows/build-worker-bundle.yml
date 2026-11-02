@@ -1,4 +1,5 @@
 name: Preparar Worker da loja para publicação sem Mac
+# Compilar a versão atual da homologação (sandbox_init_point) e validar testes.
 on:
   workflow_dispatch:
   push:
