@@ -49,7 +49,7 @@
       cart[0].qty === 1 && ['P','M','G','GG','XG'].includes(cart[0].variant);
     if (!eligible) {
       root.append(make('p','cart-shipping-help',
-        'O frete automático ainda não está validado para esta combinação de itens. A VAVI precisa confirmar o pacote e o custo de envio; solicite uma cotação antes de pagar.'));
+        'O frete automático ainda não está disponível para esta combinação de itens. Solicite uma cotação personalizada antes de pagar.'));
       onUpdate?.();
       return;
     }
@@ -141,7 +141,7 @@
       controller=new AbortController();
       const currentController=controller;
       button.disabled=true;
-      status.textContent='Consultando o frete na VAVI...';
+      status.textContent='Consultando as transportadoras...';
       try {
         const response=await fetch(API+'/api/shipping/preview',{
           method:'POST',mode:'cors',cache:'no-store',
@@ -173,9 +173,9 @@
         local.quotedZip='';local.options=[];local.selected='';
         const message=({
           shipping_not_configured:'Configuração do frete incompleta.',
-          shipping_product_unverified:'Esta variação ainda não tem embalagem validada na VAVI.',
-          shipping_package_unverified:'A embalagem deste pedido precisa ser validada na VAVI.',
-          shipping_provider_unavailable:'A VAVI ou a transportadora não respondeu.',
+          shipping_product_unverified:'Ainda não há dados de envio confirmados para esta variação.',
+          shipping_package_unverified:'A embalagem do pedido precisa ser confirmada para calcular o frete.',
+          shipping_provider_unavailable:'A transportadora não respondeu à consulta.',
           origin_not_allowed:'O domínio da loja não foi autorizado na API.',
           http_403:'Acesso à API bloqueado (HTTP 403).'
         })[String(error?.message||'')] || 'Não foi possível concluir a consulta.';
