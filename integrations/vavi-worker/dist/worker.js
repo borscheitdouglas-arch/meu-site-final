@@ -807,8 +807,8 @@ function buildPreference({ lines, shippingCents, orderId, siteBaseUrl, notificat
     auto_return: "approved"
   };
 }
-function validatePreferenceResponse(body) {
-  const url = body?.init_point;
+function validatePreferenceResponse(body, { sandbox = false } = {}) {
+  const url = sandbox ? body?.sandbox_init_point : body?.init_point;
   if (typeof url !== "string") {
     throw new CatalogError("payment_provider_unavailable", "Checkout indispon\xEDvel.", 503);
   }
@@ -818,12 +818,13 @@ function validatePreferenceResponse(body) {
   } catch {
     throw new CatalogError("payment_provider_unavailable", "Checkout indispon\xEDvel.", 503);
   }
-  if (parsed.protocol !== "https:" || ![
+  const hosts = sandbox ? ["sandbox.mercadopago.com.br", "sandbox.mercadopago.com"] : [
     "www.mercadopago.com.br",
     "www.mercadopago.com",
     "mercadopago.com.br",
     "mercadopago.com"
-  ].includes(parsed.hostname)) {
+  ];
+  if (parsed.protocol !== "https:" || !hosts.includes(parsed.hostname)) {
     throw new CatalogError("payment_provider_unavailable", "Checkout inv\xE1lido.", 503);
   }
   return url;
@@ -878,7 +879,7 @@ async function createTestPreference({
   } catch {
     throw new CatalogError("payment_provider_unavailable", "Resposta de pagamento inv\xE1lida.", 503);
   }
-  const checkoutUrl = validatePreferenceResponse(data);
+  const checkoutUrl = validatePreferenceResponse(data, { sandbox: true });
   if (typeof data.id !== "string" || !data.id) {
     throw new CatalogError("payment_provider_unavailable", "Identificador de prefer\xEAncia ausente.", 503);
   }
