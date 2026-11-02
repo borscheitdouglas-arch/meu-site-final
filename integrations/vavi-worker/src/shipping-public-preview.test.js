@@ -87,10 +87,63 @@ test('mostra opções reais simuladas, excluindo retirada na fábrica',async()=>
   }finally{globalThis.fetch=orig;}
 });
 
-test('frete público da caneca exige variante aprovada em D1 antes de chamar fornecedor',async()=>{
+test('frete público da caneca sem variante cadastrada em D1 não consulta fornecedor',async()=>{
   const response=await worker.fetch(req({
     zipCode:'01001000',sku:'caneca-salve-regina-preta'
   }),env);
   assert.equal(response.status,409);
   assert.equal((await response.json()).error,'unavailable_product');
+});
+
+test('frete por CEP para caneca cadastrada independe da liberação do pagamento',async()=>{
+  const extraConfig={
+    'caneca-salve-regina-preta':{
+      id:'019aa7eb-d437-721a-bc8d-69d5a2754865',
+      sku:'codigo-exclusivo-de-teste',amount:22.2,
+      weight:0.42,height:95,width:125,length:125
+    }
+  };
+  const unavailableForSale={
+    sku:'caneca-salve-regina-preta',price_cents:4990,
+    available:0,product_verified:0,product_enabled:0
+  };
+  const localEnv={
+    ...env,DB:{prepare(){return {bind(){return {first:async()=>unavailableForSale}}}}},
+    VAVI_SHIPPING_PRODUCTS_JSON:JSON.stringify(extraConfig)
+  };
+  const previousFetch=globalThis.fetch;
+  let calls=0;
+  globalThis.fetch=async url=>{
+    calls++;
+    return {ok:true,json:async()=>String(url).includes('/Auth/Token')
+      ?{data:{access_token:'token-de-teste'}}
+      :{data:[{id:'entrega-teste',name:'Entrega domicilio',
+        shippingCost:12.34,deliveryTime:6,isActive:true}]}
+    };
+  };
+  try{
+    const response=await worker.fetch(req({
+      zipCode:'01001000',sku:'caneca-salve-regina-preta'
+    }),localEnv);
+    assert.equal(response.status,200);
+    const data=await response.json();
+    assert.equal(data.checkoutEnabled,false);
+    assert.equal(data.options.length,1);
+    assert.equal(data.options[0].shippingCost,12.34);
+    assert.equal(calls,2);
+  }finally{globalThis.fetch=previousFetch;}
+});
+
+test('caneca cadastrada sem ficha de embalagem não produz frete fictício',async()=>{
+  const localEnv={
+    ...env,DB:{prepare(){return {bind(){return {first:async()=>({
+      sku:'caneca-salve-regina-preta',price_cents:4990,
+      available:0,product_verified:0,product_enabled:0
+    })}}}}}
+  };
+  const response=await worker.fetch(req({
+    zipCode:'01001000',sku:'caneca-salve-regina-preta'
+  }),localEnv);
+  assert.equal(response.status,409);
+  assert.equal((await response.json()).error,'shipping_product_unverified');
 });
