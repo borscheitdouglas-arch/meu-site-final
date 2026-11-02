@@ -31,6 +31,22 @@ Os dados sensíveis (custos e mapeamento dos SKUs internos para SKUs de forneced
 - **Custo exibido com desconto não é custo futuro garantido:** o painel diz que o desconto é aplicado no fechamento. Revalidar custo e margem antes de cobrar.
 - A imagem do design `D000001` parece apresentar **partitura na frente e Nossa Senhora nas costas**. Confirmar se essa orientação é a pretendida antes de enviar produção; a identidade visual inicialmente discutida para a loja era Nossa Senhora na frente.
 
+## Próximo bloqueio identificado após conferir as capturas (02/11/2026, 22h)
+
+**Atenção, modelos diferentes:** o design `D000001` aparece nas capturas como **Camiseta Unissex Algodão 30.1 Penteado — Gola Canelada**, enquanto o UUID `019aa7eb-d437-721a-bc8d-69d5a2754865` anteriormente fornecido foi registrado como **Camiseta Unissex Algodão 30.1 Penteado** sem confirmação do sufixo. O catálogo público VAVI enumera os dois modelos. **Não assumir que o UUID da camiseta antiga é o da gola canelada.** A cotação real da camiseta G que a API retorna não garante que a origem logística é o modelo do design atual.
+
+Os SKUs dos cinco tamanhos e os custos por arte/personalização estão registrados na tabela privada `supplier_variant_cost_observations`. Precisamos confirmar **apenas dados logísticos e contrato da simulação**, sem pedir novamente as mesmas telas.
+
+**Solicitação à VAVI, priorizada:**
+1. Qual é o **UUID do produto base** correto da camiseta Gola Canelada (`D000001` / variantes P `0001587`, M `0001588`, G `0001589`, GG `0001590`, XG `0001591`)? A referência anterior `019aa7eb-d437-721a-bc8d-69d5a2754865` serve para este mesmo modelo?
+2. Quais são os UUIDs dos produtos-base para ecobag algodão cru (`D000004` M `0000564`, `D000005` G `0000565`) e caneca porcelana (`D000003` branca `0002193`, `D000002` preta `0002194`)?
+3. O campo `amount` em `POST /api/Customers/Simulate` deve receber valor de tabela, custo final personalizado com desconto, custo bruto com personalização ou preço da nossa loja? Os descontos das capturas constam como *aplicados no fechamento*, logo não são preço futuro garantido.
+4. As dimensões e pesos das fichas do site representam **a caixa/pacote final expedição**, sobretudo canecas, ecobag e camiseta de gola canelada?
+5. Qual regra/payload do pacote quando há mais de uma peça ou categorias diferentes no mesmo pedido? Como vincular modalidade de frete escolhida à finalização da produção?
+6. **Caneca por sublimação** integra pedidos unitários pela API da conta do lojista? A FAQ pública sugere que a sublimação ocorre em pedidos em quantidade.
+
+Não alterar `VAVI_SHIPPING_PRODUCTS_JSON` sem a resposta confiável e sem preservar a configuração que já gera cotação G. Não habilitar novos pagamentos somente com a existência dos SKUs.
+
 ## Pontos pendentes no catálogo Salve Regina
 
 - **SKUs e custos de referência: obtidos dos screenshots**, mas ainda falta confirmar UUID de produto/variação para o endpoint, significado de `amount` na simulação e embalagem final.
