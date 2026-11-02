@@ -28,7 +28,7 @@
 <main>
  <p class="muted">Acesso restrito · Ferramenta administrativa</p>
  <h1>Pedidos pagos da loja</h1>
- <p>Consulte apenas os pedidos de produção com pagamento aprovado. A fabricação e a entrega pela VAVI continuam manuais.</p>
+ <p>Consulte apenas os pedidos de produção com pagamento aprovado. A fabricação e a entrega são acompanhadas manualmente pela loja.</p>
  <section>
   <h2>Autenticação</h2>
   <p class="muted">Informe sua chave administrativa privada. Ela será usada apenas nesta sessão; não será salva no navegador. Não utilize tokens do Mercado Pago neste campo.</p>
@@ -46,12 +46,12 @@
   <div id="launch-checks" aria-live="polite"></div>
   <h3>Conferências antes da primeira cobrança</h3>
   <div id="launch-validation"></div>
-  <h3>Testar cotação da VAVI</h3>
+  <h3>Testar cotação de frete</h3>
   <p class="muted">Informe um CEP de teste. O sistema consulta um frete real para uma camiseta Salve Regina preta G, sem gerar compra ou pedido na fábrica. Valores e disponibilidade poderão mudar.</p>
   <form id="launch-shipping-form" autocomplete="off">
    <label for="launch-zip">CEP para testar o frete</label>
    <input id="launch-zip" name="zipCode" maxlength="9" inputmode="numeric" placeholder="00000-000" required>
-   <button type="submit">Consultar frete da VAVI</button>
+   <button type="submit">Consultar frete da transportadora</button>
   </form>
   <div id="launch-shipping-result" role="status" aria-live="polite"></div>
   <button type="button" id="refresh-launch">Atualizar conferência</button>
@@ -77,12 +77,12 @@
   <button id="copy-address" type="button">Copiar endereço</button>
   <button id="hide-details" type="button">Ocultar dados</button>
   <div id="vavi-registration-panel" hidden>
-   <h3>Registro da produção VAVI</h3>
-   <p class="muted">Primeiro crie e confira o pedido MANUALMENTE na VAVI. Depois registre aqui o identificador fornecido pela VAVI. Este botão não compra nem envia produtos à fábrica.</p>
+   <h3>Registro da produção</h3>
+   <p class="muted">Primeiro crie e confira o pedido manualmente no portal do fabricante. Depois registre aqui o identificador fornecido. Este botão não compra nem envia produtos à fábrica.</p>
    <form id="vavi-registration-form" autocomplete="off">
-    <label for="vavi-order-id">Número ou identificador do pedido criado na VAVI</label>
+    <label for="vavi-order-id">Número ou identificador do pedido de produção</label>
     <input id="vavi-order-id" name="vaviOrderId" maxlength="120" required autocomplete="off">
-    <button type="submit" id="vavi-register-button">Registrar pedido já criado na VAVI</button>
+    <button type="submit" id="vavi-register-button">Registrar pedido já criado</button>
    </form>
   </div>
   <p id="vavi-registration-status" role="status" aria-live="polite"></p>
