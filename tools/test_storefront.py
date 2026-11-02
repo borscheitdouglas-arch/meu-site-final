@@ -363,7 +363,7 @@ def main():
             expect(page.locator('.cart-summary a[href^="mailto:"]')).to_have_count(1)
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
             expect(page.locator('.cart-shipping-form')).to_have_count(0)
-            expect(page.locator('.cart-shipping-slot')).to_contain_text('pacote')
+            expect(page.locator('.cart-shipping-slot')).to_contain_text('cotação personalizada')
             expect(page.get_by_role('button',name='Finalizar compra',exact=True)).to_be_disabled()
             assert 'D000002' in page.locator('.cart-action-secondary[href^="mailto:"]').get_attribute('href')
             page.locator('.cart-item').first.get_by_role('button',name='Aumentar quantidade').click()
