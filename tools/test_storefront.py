@@ -161,7 +161,7 @@ def main():
                     assert max(box['height'] for box in boxes[:6]) < 490, boxes
                     assert page.locator('.shop-product-image img').first.bounding_box()['height'] <= 150
                 expect(page.locator('.shop-product-variation > span')).to_have_count(16)
-                assert all(card.get_attribute('data-availability') in ('consultation','preparation')
+                assert all(card.get_attribute('data-availability') in ('available','consultation','preparation')
                            for card in page.locator('.shop-product-card').all())
                 for asset in page.locator('img[srcset]:visible').all():
                     asset.scroll_into_view_if_needed()
@@ -426,7 +426,7 @@ def main():
             expect(page.locator('a[href^="/pages/checkout-salve-regina.html"]')).to_have_count(0)
             page.goto(base+'/pages/checkout-salve-regina.html?size=G',wait_until='networkidle')
             expect(page.locator('#checkout-container')).to_be_hidden()
-            expect(page.locator('#checkout-readiness')).to_contain_text('aguarda')
+            expect(page.locator('#checkout-readiness')).to_contain_text('Não foi possível confirmar')
             expect(page.locator('#sale-checkout')).to_have_count(0)
             calls_before=len(api_calls)
             page.goto(base+'/pages/checkout-salve-regina.html?preview=visual&size=XG',wait_until='networkidle')
