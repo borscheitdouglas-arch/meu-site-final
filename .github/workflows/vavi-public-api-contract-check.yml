@@ -52,3 +52,5 @@ jobs:
           except Exception as ex:
               print('PRODUTO PUBLICO INDISPONIVEL',type(ex).__name__,flush=True)
           PY
+
+# Revalidação pontual de documentação pública e endpoints (02/11/2026).
