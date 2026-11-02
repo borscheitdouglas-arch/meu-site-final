@@ -10,6 +10,15 @@
     'salve-regina-preta-xg':11990
   };
   const money=c=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(c/100);
+  const shippingErrorMessage = code => ({
+    'shipping_not_configured':'Configuração de frete da loja incompleta.',
+    'shipping_product_unverified':'Os dados de frete desta variação ainda precisam ser confirmados com a VAVI.',
+    'shipping_package_unverified':'A VAVI ainda não confirmou o pacote para esta quantidade de produtos.',
+    'shipping_provider_unavailable':'A transportadora ou a autenticação da VAVI não respondeu à consulta.',
+    'origin_not_allowed':'O acesso à API está bloqueado para este endereço da loja.',
+    'invalid_zip':'O CEP informado não foi aceito.',
+    'invalid_sku':'Este tamanho não está habilitado para cotação.'
+  }[code] || 'A consulta de frete não pôde ser concluída.');
   const zip=value=>String(value||'').replace(/\D/g,'');
   for(const root of document.querySelectorAll('[data-shipping-calculator]')){
     const form=root.querySelector('form'),product=form?.elements.product,
@@ -46,10 +55,11 @@
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify({zipCode:code,sku})
         });
-        const data=await response.json();
+        const data=await response.json().catch(()=>({}));
         if(turn!==serial)return;
-        if(!response.ok||data?.sku!==sku||data?.zipCode!==code||
-          !Array.isArray(data.options))throw Error('cotacao_indisponivel');
+        if(!response.ok)throw Error(data?.error||'http_'+response.status);
+        if(data?.sku!==sku||data?.zipCode!==code||
+          !Array.isArray(data.options))throw Error('resposta_invalida');
         const options=data.options.filter(o=>o && o.isActive===true &&
           typeof o.name==='string' && o.name.length<=120 &&
           Number.isFinite(o.shippingCost) && o.shippingCost>=0 &&
@@ -75,7 +85,9 @@
         status.textContent='Cotação recebida. Este cálculo não realiza compra nem reserva a produção.';
       }catch(error){
         if(turn!==serial)return;
-        status.textContent='Não foi possível obter uma cotação válida neste momento. Consulte o atendimento antes de efetuar uma compra.';
+        const code=String(error?.message||'');
+        status.textContent='Não foi possível obter uma cotação válida neste momento. '+
+          shippingErrorMessage(code)+' Consulte o atendimento antes de efetuar uma compra.';
       }finally{if(turn===serial){abort=null;button.disabled=false;}}
     });
   }
