@@ -1,15 +1,15 @@
 {
   "version": 1,
   "currency": "BRL",
-  "pricingNotice": "Preços de venda sugeridos, sujeitos à validação antes de cobranças. Frete calculado por CEP quando o fornecedor disponibilizar cotação.",
+  "pricingNotice": "Camiseta com preço de venda confirmado e frete pelo CEP. Demais peças em preparação, com valores sujeitos à confirmação.",
   "products": [
     {
       "id": "camiseta-salve-regina",
       "title": "Camiseta Salve Regina",
       "category": "camisetas",
-      "status": "consultation",
+      "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/camiseta-800.webp",
-      "priceStatus": "preliminary",
+      "priceStatus": "final",
       "variants": [
         {
           "code": "P",
@@ -48,9 +48,8 @@
       "title": "Caneca Preta Salve Regina — Partitura",
       "category": "canecas",
       "status": "consultation",
-      "vaviDesign": "D000002",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
-      "priceStatus": "preliminary",
+      "priceStatus": "final",
       "variants": [
         {
           "code": "unico",
@@ -64,9 +63,8 @@
       "title": "Caneca P&B Salve Regina — Nossa Senhora",
       "category": "canecas",
       "status": "consultation",
-      "vaviDesign": "D000003",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
-      "priceStatus": "preliminary",
+      "priceStatus": "final",
       "variants": [
         {
           "code": "unico",
@@ -80,9 +78,8 @@
       "title": "Ecobag Salve Regina — Algodão Cru M",
       "category": "ecobags",
       "status": "consultation",
-      "vaviDesign": "D000004",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
-      "priceStatus": "preliminary",
+      "priceStatus": "final",
       "variants": [
         {
           "code": "unico",
@@ -96,9 +93,8 @@
       "title": "Ecobag Salve Regina — Algodão Cru G",
       "category": "ecobags",
       "status": "consultation",
-      "vaviDesign": "D000005",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
-      "priceStatus": "preliminary",
+      "priceStatus": "final",
       "variants": [
         {
           "code": "unico",
