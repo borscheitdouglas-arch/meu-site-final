@@ -45,3 +45,16 @@ test('só permite URL de checkout de domínio Mercado Pago seguro',()=>{
   assert.throws(()=>validatePreferenceResponse({init_point:'https://mercadopago.com.br.evil.invalid/'}),
     {code:'payment_provider_unavailable'});
 });
+
+test('checkout de teste usa exclusivamente URL oficial de sandbox',()=>{
+ const example={init_point:'https://www.mercadopago.com.br/checkout/start?pref_id=abc',
+   sandbox_init_point:'https://sandbox.mercadopago.com.br/checkout/pay?pref_id=abc'};
+ assert.equal(validatePreferenceResponse(example,{sandbox:true}),example.sandbox_init_point);
+ assert.equal(validatePreferenceResponse(example),example.init_point);
+ assert.throws(()=>validatePreferenceResponse({init_point:example.init_point},{sandbox:true}),
+   {code:'payment_provider_unavailable'});
+ assert.throws(()=>validatePreferenceResponse({sandbox_init_point:'https://sandbox.mercadopago.com.br.evil.invalid/'},{sandbox:true}),
+   {code:'payment_provider_unavailable'});
+ assert.throws(()=>validatePreferenceResponse({sandbox_init_point:'http://sandbox.mercadopago.com.br/pay'},{sandbox:true}),
+   {code:'payment_provider_unavailable'});
+});
