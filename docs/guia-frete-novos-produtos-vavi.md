@@ -31,6 +31,36 @@ Os dados sensíveis (custos e mapeamento dos SKUs internos para SKUs de forneced
 - **Custo exibido com desconto não é custo futuro garantido:** o painel diz que o desconto é aplicado no fechamento. Revalidar custo e margem antes de cobrar.
 - A imagem do design `D000001` parece apresentar **partitura na frente e Nossa Senhora nas costas**. Confirmar se essa orientação é a pretendida antes de enviar produção; a identidade visual inicialmente discutida para a loja era Nossa Senhora na frente.
 
+## Verificação pública da API de frete — 02/11/2026, 22h32 UTC (documento oficial v1.1.2)
+
+O workflow GitHub `VAVI - conferir contrato publico de produto e frete` conseguiu ler o OpenAPI oficial publicado em:
+`https://developers.vaviestampas.com.br/openapi/orders.json`.
+
+Execução registrada: https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/41538132313
+
+**Contrato `POST /api/Customers/Simulate`:**
+- `SimulateRequest.required = ["zipCode", "amount"]`.
+- `zipCode`: CEP destino.
+- `amount`: **"Valor total das mercadorias em reais"** (descrição literal do esquema oficial).
+- `weight`: peso total (kg), opcional no schema.
+- `height`, `width`, `length`: dimensão do **pacote em mm**, opcionais no schema.
+- `compositions`: lista de itens do pedido, opcional no schema.
+- Cada `SimulateItemModel` permite `id` (UUID, opcional no schema), `sku`, `amount` ("Valor"), `quantity`, `weight` (kg) e dimensões (mm). O esquema não declara propriedades obrigatórias para o item.
+- Resposta `SimulationModel`: `id`, `name`, `companyId`, `companyName`, `shippingCost`, `deliveryTime`, `estimatedDeliveryDate`, `message`, `isActive`.
+
+**Consequência prática:** no contrato publicado, UUID e `compositions` NÃO são obrigatórios para formar a requisição. Isso **não prova** que o serviço real calcula todas as transportadoras com apenas CEP e valor. Uma consulta real segura deve verificar combinações com peso/dimensões e `compositions` omitida antes de alterar as validações existentes no Worker. **Não inventar UUID nem deduzir que pode omitir dados de embalagem de todos os pedidos.**
+
+**Ponto ainda não esclarecido pelo contrato:** a expressão "valor total das mercadorias" não diz se a conta de lojista deve passar preço de produção bruto, preço com descontos de fabricante, ou preço de varejo da nossa loja. O item `amount` é descrito somente como "Valor". Validar o valor correto em contexto de pedido B2B.
+
+O arquivo oficial `openapi/products.json` não foi analisável pelo workflow (resposta não era JSON legível), e a página do produto por UUID anterior não respondeu. Portanto, não foi possível verificar publicamente o UUID da camiseta Gola Canelada ou os de ecobags/canecas.
+
+**Fontes da investigação pública:**
+- https://www.vaviestampas.com.br/products/all — mostra camiseta 30.1 Penteado e camiseta 30.1 Penteado Gola Canelada como dois modelos distintos.
+- https://www.vaviestampas.com.br/products/acessorios/ecobag_algodao_cru — ecobag M/G selecionáveis, SKU-base 0000564, 0,2 kg, pacote 250 × 250 × 10 mm, mínimo 1 peça.
+- https://www.vaviestampas.com.br/products/brindes/caneca_porcelana — SKU-base 0002193, 0,5 kg, pacote 150 × 200 × 100 mm, sublimação e mínimo 1 peça na loja.
+- https://www.vaviestampas.com.br/about/faq — FAQ descreve sublimação como pedidos em quantidade fora do POD DTF/DTG; logo, compra avulsa no site ≠ habilitação de caneca unitária no canal de integração.
+- https://www.vaviestampas.com.br/policies/shipping-policy — frete dinâmico por CEP, peso e dimensões do pacote.
+
 ## Próximo bloqueio identificado após conferir as capturas (02/11/2026, 22h)
 
 **Atenção, modelos diferentes:** o design `D000001` aparece nas capturas como **Camiseta Unissex Algodão 30.1 Penteado — Gola Canelada**, enquanto o UUID `019aa7eb-d437-721a-bc8d-69d5a2754865` anteriormente fornecido foi registrado como **Camiseta Unissex Algodão 30.1 Penteado** sem confirmação do sufixo. O catálogo público VAVI enumera os dois modelos. **Não assumir que o UUID da camiseta antiga é o da gola canelada.** A cotação real da camiseta G que a API retorna não garante que a origem logística é o modelo do design atual.
