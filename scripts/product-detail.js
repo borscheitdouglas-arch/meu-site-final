@@ -160,7 +160,8 @@
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
     const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isShirt?'Compra online disponível · produção sob demanda':'Sob consulta · preço sujeito à confirmação';
-    summary.append(el('span','shop-single-status',statusText));
+    const productStatus=el('span','shop-single-status',statusText);
+    summary.append(productStatus);
     let variant=null,select=null;
     const price=el('p','shop-single-price');
     const priceNote=el('p','shop-single-price-note',
@@ -228,6 +229,35 @@
         proceed.textContent='Adicionar e ver carrinho';
       }else if(!isPreparation){
         proceed.textContent='Consultar disponibilidade no carrinho';
+        const direct=link('Comprar agora · Calcular frete e pagar','#','shop-single-buy');
+        direct.hidden=true;
+        direct.addEventListener('click',event=>{
+          if(Number(quantity.value)!==1){
+            event.preventDefault();
+            feedback.textContent='A compra direta permite uma peça por pedido.';
+          }
+        });
+        actions.append(direct);
+        const approvedSkus=new Set();
+        const sync=()=>{
+          const selected=variants.find(v=>v.code===select.value);
+          const approved=Boolean(selected?.sku && approvedSkus.has(selected.sku));
+          direct.hidden=!approved;
+          if(approved){
+            direct.href='/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku);
+            productStatus.textContent='Compra online disponível · produção sob demanda';
+            priceNote.textContent='Preço de venda aprovado. Frete calculado pelo CEP no checkout.';
+            proceed.textContent='Adicionar e ver carrinho';
+          }
+        };
+        select.addEventListener('change',sync);
+        fetch(API+'/api/checkout/live/readiness',{
+          mode:'cors',cache:'no-store',signal:AbortSignal.timeout(8000)
+        }).then(r=>r.ok?r.json():null).then(data=>{
+          if(data?.checkoutEnabled!==true || !Array.isArray(data.availableSkus))return;
+          data.availableSkus.forEach(s=>{if(typeof s==='string')approvedSkus.add(s)});
+          sync();
+        }).catch(()=>{/* Sem confirmação do servidor não mostrar compra. */});
       }
       form.append(selectLabel,quantityLabel,actions,feedback);
       summary.append(form);
