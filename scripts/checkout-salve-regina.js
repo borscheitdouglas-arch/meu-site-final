@@ -162,6 +162,12 @@
     let cartDelivery=null;
     try {
       const saved=previewOnly?null:sessionStorage.getItem('douglasCheckoutDeliveryDraft_v1');
+      if(location.hostname==='127.0.0.1'){
+        try{
+          localStorage.setItem('_checkout_diag_saved',saved||'NONE');
+          localStorage.setItem('_checkout_diag_size',size.value);
+        }catch{}
+      }
       if(!previewOnly) sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
       if(saved){
         const draft=JSON.parse(saved);
