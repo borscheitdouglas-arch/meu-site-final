@@ -85,9 +85,10 @@ body.shop-manto .site-header .menu-btn { background:transparent; border-color:#a
  .shop-manto .shop-catalog-tools { align-items:flex-start; flex-direction:column; }
 }
 
-/* Cabeçalho reorganizado: marca e utilidades acima; navegação abaixo.
-   A arte enviada é exibida por inteiro, sem máscara ou texto sobreposto. */
+/* Cabeçalho compacto da loja; a arte enviada é exibida por inteiro. */
 body.shop-manto { --shop-header:132px; --header-height:132px; padding-top:88px; }
+/* Os links principais ficam no menu lateral; não mostrar uma segunda faixa no cabeçalho. */
+.shop-manto .site-header .shop-header-links { display:none!important; }
 body.shop-manto .site-header { display:grid; grid-template-columns:44px minmax(230px,1fr) minmax(220px,380px) auto; grid-template-rows:64px; gap:0 24px; height:88px; padding:12px max(24px,calc((100vw - 1280px)/2)) 0; background:linear-gradient(#062c32dd,#062c32ed),url('../assets/img/loja/manto-mariano-cabecalho.webp') center/cover; backdrop-filter:none; }
 .shop-manto .site-header .menu-btn { grid-column:1; grid-row:1; }
 .shop-manto .site-header .logo { grid-column:2; grid-row:1; }
