@@ -173,12 +173,15 @@ async function postVavi(path, payload, token, timeoutMs = 8e3) {
   return res.json();
 }
 function safeQuote(option) {
-  if (!option || typeof option !== "object" || typeof option.id !== "string" || !/^[A-Za-z0-9_.:-]{1,120}$/.test(option.id) || typeof option.name !== "string" || !option.name.trim() || option.name.length > 120 || typeof option.shippingCost !== "number" || !Number.isFinite(option.shippingCost) || option.shippingCost < 0 || option.shippingCost > 1e4 || Math.abs(option.shippingCost * 100 - Math.round(option.shippingCost * 100)) > 1e-6 || !Number.isInteger(option.deliveryTime) || option.deliveryTime < 0 || option.deliveryTime > 365) return null;
+  if (!option || typeof option !== "object" || typeof option.id !== "string" || !/^[A-Za-z0-9_.:-]{1,120}$/.test(option.id) || typeof option.name !== "string" || !option.name.trim() || option.name.length > 120 || typeof option.shippingCost !== "number" || !Number.isFinite(option.shippingCost) || option.shippingCost < 0 || option.shippingCost > 1e4 || !Number.isInteger(option.deliveryTime) || option.deliveryTime < 0 || option.deliveryTime > 365) return null;
+  const cents = Math.ceil(option.shippingCost * 100 - 1e-8);
+  if (!Number.isSafeInteger(cents) || cents < 0 || cents > 1e6) return null;
+  const shippingCost = cents / 100;
   return {
     id: option.id,
     name: option.name,
     companyName: option.companyName || "",
-    shippingCost: option.shippingCost,
+    shippingCost,
     deliveryTime: option.deliveryTime,
     estimatedDeliveryDate: option.estimatedDeliveryDate || null,
     message: option.message || "",
