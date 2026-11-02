@@ -19,9 +19,23 @@ Esses dados são do catálogo e **podem não representar a embalagem final de ex
 7. Testar `POST /api/shipping/preview` para alguns CEPs reais públicos de teste. A API consulta a VAVI por `/api/Customers/Simulate`; mostrar ao comprador somente opções de frete efetivamente retornadas.
 8. Reconfirmar frete, preço de venda, margem e disponibilidade no **servidor** antes de iniciar o pagamento Mercado Pago. Não liberar venda apenas porque o frete foi calculado.
 
+## Atualização: screenshots do painel VAVI em 02/11/2026
+
+O lojista enviou **10 capturas do painel Designs** com os **5 designs e 9 SKUs de variação**, preços-base, custos das personalizações e preços finais sujeitos aos descontos de fechamento.
+
+Os dados sensíveis (custos e mapeamento dos SKUs internos para SKUs de fornecedor) foram registrados em uma tabela **privada do D1**, `supplier_variant_cost_observations`, não nos scripts HTML/JS públicos. A migração estrutural, sem preços, fica em `integrations/vavi-worker/migrations/0013_supplier_variant_cost_observations_private.sql`.
+
+- Camiseta: design `D000001`, tamanhos P/M/G/GG/XG identificados, personalização de 2 áreas.
+- Ecobag M: `D000004` e ecobag G: `D000005`, uma área DTF.
+- Caneca P&B: `D000003` e caneca preta: `D000002`, uma área por sublimação.
+- **Custo exibido com desconto não é custo futuro garantido:** o painel diz que o desconto é aplicado no fechamento. Revalidar custo e margem antes de cobrar.
+- A imagem do design `D000001` parece apresentar **partitura na frente e Nossa Senhora nas costas**. Confirmar se essa orientação é a pretendida antes de enviar produção; a identidade visual inicialmente discutida para a loja era Nossa Senhora na frente.
+
 ## Pontos pendentes no catálogo Salve Regina
 
-- Caneca preta, caneca P&B, ecobag M, ecobag G: confirmar UUID, SKU de variação, custos e embalagem final, além de cotar frete pela API.
+- **SKUs e custos de referência: obtidos dos screenshots**, mas ainda falta confirmar UUID de produto/variação para o endpoint, significado de `amount` na simulação e embalagem final.
+- Camiseta: frete real já funciona para G; P/M/GG/XG ainda exigem suas fichas privadas completas.
+- Caneca preta, caneca P&B, ecobag M, ecobag G: faltam UUID e configuração logística completa, além de testar cotação real pela API.
 - Canecas: confirmar que a personalização aceita produção e expedição unitária pela integração.
 - Pedido com mais de uma peça: consultar a VAVI sobre a composição e a embalagem total. **Não somar manualmente dimensões ou fretes individuais.**
 - O moletom ainda depende de aprovação de produto, variante, preço e logística.
