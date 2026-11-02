@@ -80,7 +80,7 @@
   function shipping(container,product,select) {
     const section=el('section','shop-single-shipping');
     section.append(el('h2','','Calcule o frete pelo CEP'),
-      el('p','','Cotação estimada para 1 camiseta. A produção não está incluída no prazo do transporte.'));
+      el('p','','Consulte o transporte de 1 unidade da variação escolhida. O prazo de produção não está incluído no transporte.'));
     const form=el('form');
     const input=el('input');input.type='text';input.name='zipCode';input.required=true;
     input.inputMode='numeric';input.autocomplete='postal-code';input.maxLength=9;
@@ -90,6 +90,11 @@
     const status=el('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
     const results=el('div','shop-single-quote-results');
     form.append(input,button);section.append(form,status,results);container.append(section);
+    if(!product.variants?.some(v=>v.sku && Number.isInteger(v.priceCents))){
+      button.disabled=true;
+      status.textContent='Frete em preparação: modelo, preço e dados de envio ainda não foram confirmados.';
+      return;
+    }
     let serial=0,controller=null;
     function reset(){serial++;controller?.abort();controller=null;button.disabled=false;status.textContent='';results.replaceChildren();}
     input.addEventListener('input',reset);select.addEventListener('change',reset);
@@ -98,7 +103,10 @@
       const zipCode=input.value.replace(/\D/g,'');
       const variant=product.variants.find(v=>v.code===select.value);
       if(!/^\d{8}$/.test(zipCode)){status.textContent='Informe um CEP válido com 8 números.';return;}
-      if(!variant?.sku){status.textContent='Esta variação ainda não possui cotação automática.';return;}
+      if(!variant?.sku || !Number.isInteger(variant.priceCents)){
+        status.textContent='Esta variação ainda não possui preço e dados de frete confirmados.';
+        return;
+      }
       const turn=serial;controller=new AbortController();button.disabled=true;
       status.textContent='Consultando as opções disponíveis...';
       try {
@@ -131,7 +139,8 @@
       } catch(err) {
         if(turn!==serial)return;
         const reason=({
-          shipping_product_unverified:'Este tamanho ainda não tem dados de frete confirmados.',
+          shipping_product_unverified:'Esta variação ainda não tem dados de transporte confirmados.',
+          unavailable_product:'O cadastro de produção e envio desta peça ainda está em validação.',
           shipping_not_configured:'A configuração do frete está incompleta.',
           shipping_provider_unavailable:'A transportadora não retornou uma cotação.',
           shipping_package_unverified:'O pacote deste pedido ainda não foi validado.',
@@ -284,7 +293,9 @@
       form.addEventListener('submit',event=>{event.preventDefault();putInCart(false);});
       proceed.addEventListener('click',()=>putInCart(true));
       summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
-      if(product.id==='camiseta-salve-regina')shipping(summary,product,select);
+      // Calculadora na página individual de todas as peças físicas, não só camiseta.
+      // Produtos em preparação exibem a pendência sem consultar preço inexistente.
+      shipping(summary,product,select);
     }
     const trust=el('div','shop-single-trust');
     trust.append(el('p','',isBook?
