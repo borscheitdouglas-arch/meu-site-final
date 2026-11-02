@@ -87,8 +87,8 @@ body.shop-manto .site-header .menu-btn { background:transparent; border-color:#a
 
 /* Cabeçalho reorganizado: marca e utilidades acima; navegação abaixo.
    A arte enviada é exibida por inteiro, sem máscara ou texto sobreposto. */
-body.shop-manto { --shop-header:132px; --header-height:132px; padding-top:132px; }
-body.shop-manto .site-header { display:grid; grid-template-columns:44px minmax(230px,1fr) minmax(220px,380px) auto; grid-template-rows:64px 44px; gap:0 24px; height:132px; padding:12px max(24px,calc((100vw - 1280px)/2)) 0; background:linear-gradient(#062c32dd,#062c32ed),url('../assets/img/loja/manto-mariano-cabecalho.webp') center/cover; backdrop-filter:none; }
+body.shop-manto { --shop-header:132px; --header-height:132px; padding-top:88px; }
+body.shop-manto .site-header { display:grid; grid-template-columns:44px minmax(230px,1fr) minmax(220px,380px) auto; grid-template-rows:64px; gap:0 24px; height:88px; padding:12px max(24px,calc((100vw - 1280px)/2)) 0; background:linear-gradient(#062c32dd,#062c32ed),url('../assets/img/loja/manto-mariano-cabecalho.webp') center/cover; backdrop-filter:none; }
 .shop-manto .site-header .menu-btn { grid-column:1; grid-row:1; }
 .shop-manto .site-header .logo { grid-column:2; grid-row:1; }
 .shop-manto .site-header .logo img { width:42px; height:42px; }
@@ -96,8 +96,6 @@ body.shop-manto .site-header { display:grid; grid-template-columns:44px minmax(2
 .shop-manto .site-header .shop-search { grid-column:3; grid-row:1; width:100%; max-width:none; border-radius:4px; }
 .shop-manto .shop-search input { font-size:14px; }
 .shop-manto .site-header .shop-cart-link { grid-column:4; grid-row:1; padding:0 15px; border:1px solid #c2a77380; border-radius:4px; background:#0a3037; }
-.shop-manto .site-header .shop-header-links { grid-column:1/-1; grid-row:2; position:static; width:100%; height:44px; justify-content:center; gap:42px; border-top:1px solid #d2b57535; }
-.shop-manto .shop-header-links a { font-size:12px; letter-spacing:.06em; }
 .shop-manto .atelier.editorial-main { padding-top:24px; }
 .shop-manto .shop-hero { display:flex; flex-direction:column; min-height:0; padding:0; background:#1b2522; border-color:#a68c5570; }
 .shop-manto .shop-mantle-art { position:static; z-index:auto; display:block; width:100%; height:auto; aspect-ratio:2048/682; object-fit:contain; }
@@ -119,8 +117,8 @@ body.shop-manto .site-header { display:grid; grid-template-columns:44px minmax(2
  .shop-manto .shop-hero-copy { gap:10px 24px; padding:24px; }
 }
 @media(max-width:760px) {
- body.shop-manto { --shop-header:178px; --header-height:178px; padding-top:178px; }
- body.shop-manto .site-header { height:178px; grid-template-columns:44px minmax(0,1fr) auto; grid-template-rows:60px 48px 48px; padding:10px 16px 0; gap:0 12px; }
+ body.shop-manto { --shop-header:118px; --header-height:118px; padding-top:118px; }
+ body.shop-manto .site-header { height:118px; grid-template-columns:44px minmax(0,1fr) auto; grid-template-rows:60px 48px; padding:10px 16px 0; gap:0 12px; }
  .shop-manto .site-header .logo { min-width:0; }
  .shop-manto .site-header .logo img { width:32px; height:32px; }
  .shop-manto .shop-brand { font-size:18px; white-space:normal; }
@@ -128,8 +126,6 @@ body.shop-manto .site-header { display:grid; grid-template-columns:44px minmax(2
  .shop-manto .site-header .shop-search { grid-column:1/-1; grid-row:2; width:100%; align-self:center; }
  .shop-manto .site-header .shop-cart-link { grid-column:3; grid-row:1; min-width:44px; padding:0 8px; }
  .shop-manto .shop-cart-link > span:not(.shop-cart-count) { display:none; }
- .shop-manto .site-header .shop-header-links { grid-column:1/-1; grid-row:3; display:flex; justify-content:space-between; gap:12px; border:0; height:48px; }
- .shop-manto .shop-header-links a { font-size:11px; }
  .shop-manto .shop-hero-copy { display:block; padding:24px 20px; text-align:center; }
  .shop-manto .shop-hero-copy .shop-kicker { justify-content:center; margin-bottom:10px; }
  .shop-manto .shop-hero h1 { font-size:34px; }
