@@ -153,13 +153,23 @@ test('ecobag com SKU e custo privado pode simular sem UUID, mas nunca habilita c
   const calls=[];
   const localEnv={
     ...env,
-    DB:{prepare(sql){return {bind(sku){return {first:async()=>{
-      assert.equal(sku,'ecobag-salve-regina-m');
-      if(sql.includes('supplier_variant_cost_observations'))
-        return {observed_total_cents:2500};
-      return {sku,price_cents:3990,available:0,
-        product_verified:0,product_enabled:0};
-    }}}}}
+    DB:{
+      prepare(sql){
+        return {
+          bind(sku){
+            return {
+              first:async()=>{
+                assert.equal(sku,'ecobag-salve-regina-m');
+                if(sql.includes('supplier_variant_cost_observations'))
+                  return {observed_total_cents:2500};
+                return {sku,price_cents:3990,available:0,
+                  product_verified:0,product_enabled:0};
+              }
+            };
+          }
+        };
+      }
+    }
   };
   const originalFetch=globalThis.fetch;
   globalThis.fetch=async(url,init)=>{
@@ -195,11 +205,22 @@ test('ecobag com SKU e custo privado pode simular sem UUID, mas nunca habilita c
 });
 
 test('sem custo privado confirmado, não tenta simulação por SKU incompleto',async()=>{
-  const localEnv={...env,DB:{prepare(sql){return {bind(){return {first:async()=>
-    sql.includes('supplier_variant_cost_observations')?null:
-    {sku:'ecobag-salve-regina-m',price_cents:3990,
-      available:0,product_verified:0,product_enabled:0}
-  }}}}}};
+  const localEnv={
+    ...env,
+    DB:{
+      prepare(sql){
+        return {
+          bind(){
+            return {
+              first:async()=>sql.includes('supplier_variant_cost_observations')?
+                null:{sku:'ecobag-salve-regina-m',price_cents:3990,
+                  available:0,product_verified:0,product_enabled:0}
+            };
+          }
+        };
+      }
+    }
+  };
   const response=await worker.fetch(req({
     zipCode:'01001000',sku:'ecobag-salve-regina-m'
   }),localEnv);
