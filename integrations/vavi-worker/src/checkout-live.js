@@ -1,5 +1,5 @@
 import {CatalogError,normalizeCart,quoteCart} from './catalog.js';
-import {approvedVariant,SALVE_REGINA_VARIANTS} from './salve-regina-variants.js';
+import {approvedDirectVariant,DIRECT_CHECKOUT_SKUS} from './salve-regina-variants.js';
 import {normalizeZip,simulateVaviShipping} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
@@ -27,10 +27,10 @@ export async function createCheckoutLive(env,body,deps={}) {
     throw new CatalogError('live_checkout_disabled','Compra online ainda indisponível.',503);
   const buyer=validateBuyerDetails(body?.buyer);
   const items=normalizeCart(body);
-  if(items.length!==1 || !Object.hasOwn(SALVE_REGINA_VARIANTS,items[0].sku) ||
+  if(items.length!==1 || !DIRECT_CHECKOUT_SKUS.includes(items[0].sku) ||
       items[0].quantity!==1)
     throw new CatalogError('live_product_unavailable',
-      'Somente uma camiseta Salve Regina preta por pedido.',409);
+      'Somente uma peça aprovada por pedido.',409);
   const zip=normalizeZip(body.zipCode);
   if(buyer.zipCode!==zip)
     throw new CatalogError('delivery_zip_mismatch','O CEP do endereço difere do CEP do frete.',422);
@@ -41,10 +41,11 @@ export async function createCheckoutLive(env,body,deps={}) {
     FROM variants v JOIN products p ON p.id=v.product_id
     WHERE v.sku=? LIMIT 1`).bind(sku).first());
   const quote=await quoteCart(items,load);
-  // Apenas preço tabelado por tamanho e conferido no servidor.
-  if(!approvedVariant(items[0].sku,quote.lines[0]?.unitPriceCents) ||
-     quote.subtotalCents!==SALVE_REGINA_VARIANTS[items[0].sku].priceCents)
-    throw new CatalogError('live_price_unapproved','Preço da camiseta precisa ser revisado.',503);
+  // Preço de venda aprovado e conferido no D1; navegador não envia valores.
+  // A lista interna não aprova o fornecedor: quoteCart exige enabled/verified/available.
+  if(!approvedDirectVariant(items[0].sku,quote.lines[0]?.unitPriceCents) ||
+     quote.subtotalCents!==quote.lines[0]?.totalCents)
+    throw new CatalogError('live_price_unapproved','Preço do produto precisa ser revisado.',503);
   const quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
   const option=Array.isArray(quotes) && quotes.find(x=>
     x.isActive===true && String(x.id)===body.shippingOptionId &&
