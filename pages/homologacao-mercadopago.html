@@ -114,12 +114,12 @@ a{color:var(--gold)}a.button{display:inline-block;padding:10px 16px;border-radiu
       const result=await response.json();
       if(!response.ok)throw Error(result.error||'checkout_test_'+response.status);
       const url=new URL(result.checkoutUrl);
-      if(url.protocol!=='https:'||!['www.mercadopago.com.br','www.mercadopago.com','mercadopago.com.br','mercadopago.com'].includes(url.hostname)||result.mode!=='test')
+      if(url.protocol!=='https:'||!['sandbox.mercadopago.com.br','sandbox.mercadopago.com'].includes(url.hostname)||result.mode!=='test')
         throw Error('checkout_url_unexpected');
       show('result','Preferência de teste gerada! Total com frete: '+fmt(result.amountCents/100)+'.');
       const container=$('link-container');
       const anchor=document.createElement('a');anchor.href=url.href;anchor.target='_blank';anchor.rel='noopener noreferrer';anchor.className='button';anchor.textContent='Abrir pagamento de TESTE no Mercado Pago';
-      const notice=document.createElement('p');notice.textContent='Abra o link somente com a conta Buyer Test User. Nenhum envio VAVI será gerado por este teste.';
+      const notice=document.createElement('p');notice.textContent='Abra em janela privativa. Use exclusivamente dados de teste no checkout sandbox; nenhum envio VAVI será gerado.';
       const order=document.createElement('small');order.textContent='Pedido de homologação: '+result.orderId;
       container.replaceChildren(anchor,notice,order);container.hidden=false;
     }catch(e){show('result','Não foi possível gerar o pagamento de teste. Código: '+e.message+'. Não houve confirmação de pagamento.');}
