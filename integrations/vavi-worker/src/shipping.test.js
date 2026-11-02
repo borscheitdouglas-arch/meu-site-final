@@ -45,9 +45,28 @@ test('frete ativo com valor monetário exato passa',async()=>{
     assert.equal(result[0].shippingCost,19.5);
   });
 });
-test('cotação com frações de centavo é ignorada',async()=>{
+test('frações de centavo da VAVI são convertidas de forma conservadora',async()=>{
   await withMockVavi([{id:'carrier-01',name:'Entrega teste',
     shippingCost:19.999,deliveryTime:6,isActive:true}],async()=>{
+    const result=await simulateVaviShipping(env,'13201000',[{sku:'shirt',quantity:1}]);
+    assert.equal(result.length,1);
+    assert.equal(result[0].shippingCost,20);
+  });
+});
+test('ruído de ponto flutuante não cria um centavo indevido',async()=>{
+  await withMockVavi([{id:'carrier-01',name:'Entrega teste',
+    shippingCost:19.500000000000004,deliveryTime:6,isActive:true}],async()=>{
+    const result=await simulateVaviShipping(env,'13201000',[{sku:'shirt',quantity:1}]);
+    assert.equal(result[0].shippingCost,19.5);
+  });
+});
+test('frete negativo, infinito ou com prazo inválido continua bloqueado',async()=>{
+  const invalid=[
+    {id:'a',name:'Negativo',shippingCost:-1,deliveryTime:1,isActive:true},
+    {id:'b',name:'Infinito',shippingCost:Infinity,deliveryTime:1,isActive:true},
+    {id:'c',name:'Prazo incorreto',shippingCost:19,deliveryTime:-1,isActive:true}
+  ];
+  await withMockVavi(invalid,async()=>{
     const result=await simulateVaviShipping(env,'13201000',[{sku:'shirt',quantity:1}]);
     assert.deepEqual(result,[]);
   });
