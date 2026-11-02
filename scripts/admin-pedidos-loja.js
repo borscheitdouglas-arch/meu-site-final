@@ -132,7 +132,7 @@
     }
     const button=launchShippingForm.querySelector('button[type="submit"]');
     button.disabled=true;
-    launchShippingResult.append(text('p','Consultando a transportadora VAVI...'));
+    launchShippingResult.append(text('p','Consultando a transportadora...'));
     try{
       const data=await request('/api/internal/launch/shipping-check',{
         method:'POST',body:{zipCode:zip}
@@ -155,7 +155,7 @@
       }
     }catch{
       launchShippingResult.replaceChildren();
-      launchShippingResult.append(text('p','Cotação não confirmada. Verifique o produto e a configuração da VAVI antes de liberar vendas.','warning'));
+      launchShippingResult.append(text('p','Cotação não confirmada. Verifique o produto e a configuração de frete antes de liberar vendas.','warning'));
     }finally{button.disabled=false;}
   });
 
@@ -196,12 +196,12 @@
       currentOrderId=id;
       registerPanel.hidden=order.status!=='paid'||Boolean(order.vavi_order_id);
       registerStatus.textContent=order.vavi_order_id
-        ? 'Pedido de produção VAVI já registrado: '+String(order.vavi_order_id)
+        ? 'Pedido de produção já registrado: '+String(order.vavi_order_id)
         : order.vavi_draft_state==='submitted'
-          ? 'Rascunho recebido pela VAVI: '+String(order.vavi_draft_id)+'. Abra a VAVI para vincular a arte e pagar a produção.'
+          ? 'Rascunho recebido pelo fabricante: '+String(order.vavi_draft_id)+'. Abra o portal de produção para vincular a arte e pagar a produção.'
           : order.vavi_draft_state==='needs_review'||order.vavi_draft_state==='sending'
-            ? 'Envio do rascunho requer conferência na VAVI antes de qualquer nova tentativa.'
-            : 'Crie o pedido na VAVI antes de registrá-lo aqui.';
+            ? 'Envio do rascunho requer conferência no portal de produção antes de qualquer nova tentativa.'
+            : 'Crie o pedido no portal de produção antes de registrá-lo aqui.';
       status.textContent='Dados carregados. Confira o pedido e o endereço.';
       detailPanel.scrollIntoView({block:'start',behavior:'smooth'});
     } catch {
@@ -225,7 +225,7 @@
         ' · Total: '+money(order.total_cents)+' · CEP: '+String(order.destination_zip||'')));
       item.append(text('p','Criado em: '+String(order.created_at||'')+
         (order.vavi_order_id?' · Produção VAVI: '+String(order.vavi_order_id):'')+
-        (order.vavi_draft_state?' · Integração VAVI: '+String(order.vavi_draft_state):'')+
+        (order.vavi_draft_state?' · Integração de produção: '+String(order.vavi_draft_state):'')+
         (order.vavi_draft_id?' · Rascunho: '+String(order.vavi_draft_id):''),'muted'));
       const action=document.createElement('button');action.type='button';
       action.textContent='Consultar dados da entrega';
@@ -265,7 +265,7 @@
         method:'POST',body:{paymentId:id}
       });
       reconcileResult.textContent='Pagamento aprovado e conferido. Pedido '+result.orderId+
-        ' liberado para atendimento manual na VAVI.';
+        ' liberado para atendimento manual no portal de produção.';
       const all=await request('/api/internal/live-orders');
       showList(all.orders);
     }catch(err){
@@ -281,11 +281,11 @@
       registerStatus.textContent='Entre novamente e escolha um pedido pago.';return;
     }
     if(!/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/.test(vaviOrderId)){
-      registerStatus.textContent='Informe um identificador de pedido VAVI válido.';return;
+      registerStatus.textContent='Informe um identificador de pedido de produção válido.';return;
     }
-    if(!window.confirm('Você já CRIOU o pedido '+vaviOrderId+' na VAVI e conferiu seu pagamento e endereço?'))return;
+    if(!window.confirm('Você já CRIOU o pedido '+vaviOrderId+' no portal de produção e conferiu seu pagamento e endereço?'))return;
     const button=document.getElementById('vavi-register-button');
-    button.disabled=true;registerStatus.textContent='Registrando identificação VAVI...';
+    button.disabled=true;registerStatus.textContent='Registrando identificação de produção...';
     try{
       const recorded=await request('/api/internal/live-orders/'+id+'/fulfillment',{
         method:'POST',body:{vaviOrderId}
@@ -293,8 +293,8 @@
       const data=await request('/api/internal/live-orders');
       showList(data.orders);
       status.textContent=recorded.alreadyRegistered
-        ? 'Pedido já constava como registrado na VAVI.'
-        : 'Identificador VAVI registrado. O pedido não será marcado como novo novamente.';
+        ? 'Pedido já constava como registrado no portal de produção.'
+        : 'Identificador de produção registrado. O pedido não será marcado como novo novamente.';
     }catch{
       registerStatus.textContent='Não foi possível registrar. Confira se o pedido já está registrado ou contate o suporte.';
     }finally{button.disabled=false;}
@@ -303,7 +303,7 @@
     if(!currentAddress)return;
     try{
       await navigator.clipboard.writeText(currentAddress);
-      status.textContent='Endereço copiado. Use-o somente para o pedido correspondente na VAVI.';
+      status.textContent='Endereço copiado. Use-o somente para o pedido correspondente no portal de produção.';
     }catch{
       status.textContent='Seu navegador não permitiu copiar. Selecione o texto manualmente.';
     }
