@@ -48,8 +48,10 @@ export function buildPreference({lines, shippingCents, orderId, siteBaseUrl, not
   };
 }
 
-export function validatePreferenceResponse(body) {
-  const url = body?.init_point;
+export function validatePreferenceResponse(body,{sandbox=false}={}) {
+  // Não entregar o init_point normal em testes: o provedor expõe
+  // uma URL de sandbox separada para preferências.
+  const url = sandbox ? body?.sandbox_init_point : body?.init_point;
   if (typeof url !== 'string') {
     throw new CatalogError('payment_provider_unavailable','Checkout indisponível.',503);
   }
@@ -57,9 +59,11 @@ export function validatePreferenceResponse(body) {
   try { parsed = new URL(url); } catch {
     throw new CatalogError('payment_provider_unavailable','Checkout indisponível.',503);
   }
-  if (parsed.protocol !== 'https:' ||
-      !['www.mercadopago.com.br','www.mercadopago.com','mercadopago.com.br',
-        'mercadopago.com'].includes(parsed.hostname)) {
+  const hosts=sandbox
+    ? ['sandbox.mercadopago.com.br','sandbox.mercadopago.com']
+    : ['www.mercadopago.com.br','www.mercadopago.com',
+       'mercadopago.com.br','mercadopago.com'];
+  if (parsed.protocol !== 'https:' || !hosts.includes(parsed.hostname)) {
     throw new CatalogError('payment_provider_unavailable','Checkout inválido.',503);
   }
   return url;
