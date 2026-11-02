@@ -403,17 +403,8 @@ def main():
             expect(page.locator('.cart-total')).to_contain_text('R$ 138,40')
             expect(page.locator('.cart-freight')).to_contain_text('R$ 18,50')
             assert '138%2C40' in page.locator('.cart-action-secondary[href^="mailto:"]').get_attribute('href')
-            page.evaluate("""() => document.querySelector('.cart-action-primary')?.addEventListener('click', () => {
-              localStorage.setItem('_checkout_diagnostic', sessionStorage.getItem('douglasCheckoutDeliveryDraft_v1') || 'NOT_SET');
-            })""")
             page.get_by_role('link',name='Finalizar compra com Mercado Pago').click()
             expect(page).to_have_url(base+'/pages/checkout-salve-regina.html?size=XG')
-            print('CHECKOUT DIAG CART:',page.evaluate("localStorage.getItem('_checkout_diagnostic')"),flush=True)
-            print('CHECKOUT DIAG SIZE:',page.evaluate("document.querySelector('select[name=size]')?.value"),flush=True)
-            print('CHECKOUT DIAG SAVED:',page.evaluate("localStorage.getItem('_checkout_diag_saved')"),flush=True)
-            print('CHECKOUT DIAG READ SIZE:',page.evaluate("localStorage.getItem('_checkout_diag_size')"),flush=True)
-            print('CHECKOUT DIAG CONDITION:',page.evaluate("localStorage.getItem('_checkout_diag_condition')"),flush=True)
-            print('CHECKOUT DIAG ZIP ASSIGNED:',page.evaluate("localStorage.getItem('_checkout_diag_zip_assigned')"),flush=True)
             expect(page.locator('#sale-checkout input[name="zipCode"]')).to_have_value('01001-000')
             expect(page.locator('#checkout-total')).to_contain_text('138,40')
             expect(page.locator('.checkout-panel')).to_have_count(4)
