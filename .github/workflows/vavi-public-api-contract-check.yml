@@ -39,4 +39,16 @@ jobs:
                           body=obj.get('requestBody',{}).get('content',{})
                           for mime,schema in body.items():
                               print('CORPO',mime,json.dumps(schema.get('schema',{}),ensure_ascii=False)[:1800],flush=True)
+          # Consulta apenas a página pública de um produto-base; sem login.
+          import re
+          from urllib.error import HTTPError,URLError
+          site='https://vaviestampas.com.br/products/019aa7eb-d437-721a-bc8d-69d5a2754865'
+          try:
+              req=Request(site,headers={'User-Agent':'DouglasAssumpcao-DocsCheck/1.0','Accept':'text/html'})
+              with urlopen(req,timeout=16) as res:
+                  html=res.read(2000000).decode('utf-8','replace')
+                  print('PRODUTO SITE',res.status,'chars',len(html),'SKU GG presente',bool(re.search(r'0001590',html)),'SKU XG presente',bool(re.search(r'0001591',html)),flush=True)
+                  print('SKU POSSIVEIS',sorted(set(re.findall(r'(?<![0-9])00015[0-9]{2}(?![0-9])',html)))[:40],flush=True)
+          except Exception as ex:
+              print('PRODUTO PUBLICO INDISPONIVEL',type(ex).__name__,flush=True)
           PY
