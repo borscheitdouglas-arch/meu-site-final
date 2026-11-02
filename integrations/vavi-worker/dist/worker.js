@@ -1560,6 +1560,51 @@ async function processLivePaymentWebhook({ request, env, fetchImpl = fetch }) {
   return { ...result, vaviQueued: queue.queued };
 }
 
+// src/live-payment-reconcile.js
+var ID3 = /^\d{1,30}$/;
+var ORDER2 = /^ord_[a-f0-9]{32}$/;
+async function reconcileLivePayment(env, paymentId, { fetchImpl = fetch } = {}) {
+  if (!env?.DB?.prepare || !env.MERCADOPAGO_LIVE_ACCESS_TOKEN)
+    throw new CatalogError("live_payment_unavailable", "Concilia\xE7\xE3o indispon\xEDvel.", 503);
+  if (typeof paymentId !== "string" || !ID3.test(paymentId))
+    throw new CatalogError("invalid_payment_id", "N\xFAmero da transa\xE7\xE3o inv\xE1lido.", 422);
+  let response;
+  try {
+    response = await fetchImpl("https://api.mercadopago.com/v1/payments/" + paymentId, {
+      headers: { Authorization: "Bearer " + env.MERCADOPAGO_LIVE_ACCESS_TOKEN, Accept: "application/json" },
+      signal: AbortSignal.timeout(8e3)
+    });
+  } catch {
+    throw new CatalogError("payment_provider_unavailable", "Mercado Pago indispon\xEDvel.", 503);
+  }
+  if (!response?.ok)
+    throw new CatalogError("payment_provider_unavailable", "Transa\xE7\xE3o n\xE3o localizada pelo Mercado Pago.", 503);
+  let payment;
+  try {
+    payment = await response.json();
+  } catch {
+    throw new CatalogError("payment_provider_unavailable", "Resposta de pagamento inv\xE1lida.", 503);
+  }
+  if (String(payment?.id) !== paymentId || payment.live_mode !== true || !ORDER2.test(payment.external_reference || ""))
+    throw new CatalogError("payment_mismatch", "Transa\xE7\xE3o n\xE3o \xE9 de produ\xE7\xE3o desta loja.", 409);
+  if (payment.status !== "approved")
+    throw new CatalogError("payment_not_approved", "O Mercado Pago ainda n\xE3o confirmou a aprova\xE7\xE3o.", 409);
+  const order = await env.DB.prepare(`SELECT id,status,currency,total_cents,
+    mp_payment_id,mp_preference_id,payment_environment FROM store_orders WHERE id=? LIMIT 1`).bind(payment.external_reference).first();
+  if (!order || order.payment_environment !== "live" || !order.mp_preference_id || order.currency !== "BRL" || !["awaiting_payment", "paid"].includes(order.status))
+    throw new CatalogError("payment_order_conflict", "Pedido de produ\xE7\xE3o n\xE3o encontrado.", 409);
+  const verified = validateConfirmedPayment(order, payment);
+  const recorded = await recordVerifiedPayment(env.DB, verified, "mp:live:payment:" + paymentId);
+  return {
+    ok: true,
+    processed: true,
+    orderId: recorded.orderId,
+    status: recorded.status,
+    alreadyPaid: recorded.alreadyPaid,
+    vaviOrderCreated: false
+  };
+}
+
 // src/live-order-admin.js
 async function authorizedLiveAdmin(request, env) {
   const expected = env.SHOP_ADMIN_API_KEY;
@@ -1977,7 +2022,7 @@ var index_default = {
     const cors = corsHeaders(request, env);
     if (!cors.allowed) return json({ error: "origin_not_allowed" }, 403, cors.headers);
     if (request.method === "OPTIONS") {
-      const adminOptions = url.pathname === "/api/internal/launch/shipping-check" || url.pathname === "/api/internal/launch-readiness" || url.pathname === "/api/internal/live-orders" || url.pathname.startsWith("/api/internal/live-orders/") && /^ord_[a-f0-9]{32}$/.test(url.pathname.slice("/api/internal/live-orders/".length)) || /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
+      const adminOptions = url.pathname === "/api/internal/launch/shipping-check" || url.pathname === "/api/internal/live-payments/reconcile" || url.pathname === "/api/internal/launch-readiness" || url.pathname === "/api/internal/live-orders" || url.pathname.startsWith("/api/internal/live-orders/") && /^ord_[a-f0-9]{32}$/.test(url.pathname.slice("/api/internal/live-orders/".length)) || /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
       if (!adminOptions && !["/api/catalog", "/api/quote", "/api/shipping/quote", "/api/shipping/preview", "/api/checkout/test", "/api/checkout/live", "/api/internal/vavi/shipping-check"].includes(url.pathname))
         return json({ error: "not_found" }, 404, cors.headers);
       return new Response(null, { status: 204, headers: cors.headers });
@@ -2040,6 +2085,25 @@ var index_default = {
         if (error instanceof SyntaxError)
           return json({ error: "invalid_json" }, 400, cors.headers);
         return json({ error: "vavi_shipping_unavailable" }, 503, cors.headers);
+      }
+    }
+    if (url.pathname === "/api/internal/live-payments/reconcile" && request.method === "POST") {
+      if (!await authorizedLiveAdmin(request, env))
+        return json({ error: "unauthorized" }, 401, cors.headers);
+      if (!(request.headers.get("Content-Type") || "").toLowerCase().startsWith("application/json"))
+        return json({ error: "unsupported_media_type" }, 415, cors.headers);
+      const raw = await request.text();
+      if (raw.length > 150) return json({ error: "request_too_large" }, 413, cors.headers);
+      try {
+        const data = JSON.parse(raw);
+        const result = await reconcileLivePayment(env, data?.paymentId);
+        return json(result, 200, cors.headers);
+      } catch (error) {
+        if (error instanceof CatalogError)
+          return json({ error: error.code, message: error.message }, error.status, cors.headers);
+        if (error instanceof SyntaxError)
+          return json({ error: "invalid_json" }, 400, cors.headers);
+        return json({ error: "reconciliation_unavailable" }, 503, cors.headers);
       }
     }
     if ((url.pathname === "/api/internal/live-orders" || url.pathname.startsWith("/api/internal/live-orders/") && /^ord_[a-f0-9]{32}$/.test(url.pathname.slice("/api/internal/live-orders/".length))) && request.method === "GET") {
