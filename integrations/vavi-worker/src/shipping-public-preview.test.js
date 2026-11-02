@@ -45,6 +45,24 @@ test('diagnóstico opcional do frete mostra apenas tipos e contagens, sem dados 
     assert.ok(!JSON.stringify(body).includes('mock-token'));
   }finally{globalThis.fetch=orig;}
 });
+test('carrinho recebe modalidades VAVI com subcentavos normalizados',async()=>{
+  const orig=globalThis.fetch;
+  globalThis.fetch=async url=>({ok:true,json:async()=>
+    String(url).includes('/Auth/Token')
+      ?{data:{access_token:'fake'}}
+      :{data:[
+        {id:'carrier',name:'Entrega real',shippingCost:18.7392,deliveryTime:7,isActive:true},
+        {id:'pickup',name:'Retirada na Fábrica',shippingCost:0,deliveryTime:0,isActive:true}
+      ]}
+  });
+  try{
+    const response=await worker.fetch(req({zipCode:'13218752',sku:'salve-regina-preta-g'}),env);
+    assert.equal(response.status,200);
+    const body=await response.json();
+    assert.equal(body.options.length,1);
+    assert.equal(body.options[0].shippingCost,18.74);
+  } finally{globalThis.fetch=orig;}
+});
 test('mostra opções reais simuladas, excluindo retirada na fábrica',async()=>{
   const orig=globalThis.fetch;
   let calls=0;
