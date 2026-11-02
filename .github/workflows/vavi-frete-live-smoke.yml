@@ -24,6 +24,21 @@ jobs:
           origin = 'https://www.douglasassumpcao.com.br'
           zip_code = '01001000'  # CEP público de teste; não é dado de cliente.
           errors = 0
+          # Diferenciar 403 de origem, WAF ou domínio: verificar rota sem autenticação.
+          for probe in ['/health', '/api/store/readiness']:
+              probe_url = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev' + probe
+              request = Request(probe_url, headers={'Accept':'application/json','Origin':origin})
+              try:
+                  with urlopen(request, timeout=12) as response:
+                      print('DIAGNOSTICO GET', probe, 'HTTP', response.status,
+                            'TYPE', response.headers.get('Content-Type'),
+                            'BODY', response.read(320).decode('utf-8','replace'), flush=True)
+              except HTTPError as exc:
+                  print('DIAGNOSTICO GET', probe, 'HTTP', exc.code,
+                        'TYPE', exc.headers.get('Content-Type'),
+                        'BODY', exc.read(320).decode('utf-8','replace'), flush=True)
+              except (URLError, TimeoutError, OSError) as exc:
+                  print('DIAGNOSTICO GET', probe, type(exc).__name__, flush=True)
           for size in ['p', 'm', 'g', 'gg', 'xg']:
               sku = 'salve-regina-preta-' + size
               payload = json.dumps({'zipCode': zip_code, 'sku': sku}).encode()
@@ -40,7 +55,7 @@ jobs:
                   try:
                       data = json.loads(exc.read().decode('utf-8', 'replace'))
                   except (ValueError, UnicodeError):
-                      data = {}
+                      data = {'error':'non_json_'+str(exc.headers.get('Content-Type'))} 
               except (URLError, TimeoutError, OSError) as exc:
                   status = 0
                   data = {'error': type(exc).__name__}
