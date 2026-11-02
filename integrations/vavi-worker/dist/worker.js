@@ -1639,6 +1639,7 @@ var UUID2 = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 var TYPES = /* @__PURE__ */ new Set([
   "integration_order.converted",
   "integration_order.failed",
+  "order.created",
   "order.status_changed",
   "order.tracking"
 ]);
@@ -1649,6 +1650,8 @@ async function verifyVaviWebhook({ request, raw, secret, now = Date.now() }) {
   const signature = request.headers.get("X-Webhook-Signature") || "";
   const match = /^t=(\d{9,12}),v1=([a-f0-9]{64})$/.exec(signature);
   if (!match || !/^whsec_[A-Za-z0-9_-]{8,}$/.test(secret || ""))
+    throw new CatalogError("vavi_webhook_unauthorized", "Assinatura inv\xE1lida.", 401);
+  if (request.headers.get("X-Webhook-Timestamp") !== match[1])
     throw new CatalogError("vavi_webhook_unauthorized", "Assinatura inv\xE1lida.", 401);
   const timestamp = Number(match[1]);
   if (!Number.isSafeInteger(timestamp) || Math.abs(now - timestamp * 1e3) > 5 * 60 * 1e3)
@@ -1726,7 +1729,7 @@ async function processVaviWebhook({ request, env, now = Date.now() }) {
       WHERE vavi_draft_id=? AND state='submitted'`).bind(draftId));
   } else {
     const details = type === "order.tracking" ? data.tracking || {} : {};
-    const status = sanitizedText(type === "order.tracking" ? details.orderStatus || data.status : data.newStatus, 50);
+    const status = sanitizedText(type === "order.tracking" ? details.orderStatus || data.status : type === "order.created" ? data.status : data.newStatus, 50);
     const nsu = sanitizedText(data.orderNSU || details.orderNSU, 40);
     const code = sanitizedText(details.trackingCode, 120);
     const url = sanitizedText(details.trackingUrl, 400);
