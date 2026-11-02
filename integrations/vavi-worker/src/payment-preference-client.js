@@ -5,7 +5,7 @@ import {buildPreference,validatePreferenceResponse} from './mercado-pago.js';
  * Only call once D1 order and VAVI shipping quote are stored/verified.
  */
 export async function createTestPreference({order,lines,shippingCents,accessToken,
-  siteBaseUrl,notificationUrl,fetchImpl=fetch}) {
+  siteBaseUrl,notificationUrl,sandbox=true,fetchImpl=fetch}) {
   if (!order || order.status!=='draft' ||
       !Number.isSafeInteger(order.totalCents) ||
       typeof accessToken!=='string' || !accessToken) {
@@ -41,7 +41,7 @@ export async function createTestPreference({order,lines,shippingCents,accessToke
     throw new CatalogError('payment_provider_unavailable','Resposta de pagamento inválida.',503);
   }
   // A preferência de homologação deve sair exclusivamente pela URL sandbox.
-  const checkoutUrl=validatePreferenceResponse(data,{sandbox:true});
+  const checkoutUrl=validatePreferenceResponse(data,{sandbox});
   if (typeof data.id!=='string' || !data.id) {
     throw new CatalogError('payment_provider_unavailable','Identificador de preferência ausente.',503);
   }
