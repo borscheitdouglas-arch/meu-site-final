@@ -61,6 +61,26 @@ O arquivo oficial `openapi/products.json` não foi analisável pelo workflow (re
 - https://www.vaviestampas.com.br/about/faq — FAQ descreve sublimação como pedidos em quantidade fora do POD DTF/DTG; logo, compra avulsa no site ≠ habilitação de caneca unitária no canal de integração.
 - https://www.vaviestampas.com.br/policies/shipping-policy — frete dinâmico por CEP, peso e dimensões do pacote.
 
+## Teste real da API sem UUID — **APROVADO EM TRÊS FORMAS** (02/11/2026, 22h39 UTC)
+
+**Evidência reproduzível do resultado:** https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/41539105729
+
+O teste ocorreu diretamente no Cloudflare Worker da loja, usando credenciais privadas VAVI já configuradas, e executou `POST https://api.printbee.com.br/api/Customers/Simulate` para **CEP público de teste 01001000** (Praça da Sé, São Paulo). Nenhum pedido, pagamento, alteração de design ou produção foi criado.
+
+Foram enviadas três variações de payload para **ecobag M**, usando o valor de mercadoria `R$ 19,50` observado no painel e medidas públicas de `200 g, 250 × 250 × 10 mm`:
+
+1. **CEP + amount apenas** (`zipCode:01001000`, `amount:19.50`): **HTTP 200**, 5 opções brutas, 4 entregas ativas.
+2. **CEP + amount + peso + dimensões, sem UUID e sem compositions**: **HTTP 200**, as mesmas 4 modalidades e preços.
+3. **CEP + amount + peso + dimensões + composition com SKU 0000564, mas sem UUID**: **HTTP 200**, mesmas modalidades e preços.
+
+**Cotações retornadas nas três cargas:** Express R$ 10,20 (4 dias), SEDEX R$ 13,18 (4 dias), Standard R$ 19,53 (4 dias), .Com R$ 17,25 (7 dias). A opção de retirada da fábrica foi excluída da apresentação de entregas.
+
+**Interpretação cuidadosa:** a API REAL aceita consulta de frete sem UUID do produto. **Não foi provado ainda** se ignorou peso/dimensões para esse CEP/serviço, se são tarifas de mínimo, se o valor de `amount` deveria ser preço do fornecedor ou varejo, nem se o preço será idêntico ao frete confirmado ao gerar produção. Portanto, não chamar estes valores de frete garantido para todos os clientes ou assumir que qualquer item tem embalagem intercambiável.
+
+O código temporário de diagnóstico no Cloudflare Worker foi **restaurado ao bundle original** às 22h40 UTC, preservando 27 bindings/segredos. O workflow temporário de disparo foi removido do GitHub e a tabela de bloqueio de execução única apagada; a **evidência do run permanece**. O checkout e as regras de produção existentes não foram alterados.
+
+**Próxima validação necessária:** testar separadamente payloads de caneca (500 g; 150 × 200 × 100 mm; valor atualizado da cor), camiseta e ecobags G, além de um pacote com itens mistos, comparando respostas. Só depois considerar fallback de cotação sem UUID no Worker. Manter a verificação de produto antes de cobrar e reconciliar embalagem/valor com a VAVI.
+
 ## Próximo bloqueio identificado após conferir as capturas (02/11/2026, 22h)
 
 **Atenção, modelos diferentes:** o design `D000001` aparece nas capturas como **Camiseta Unissex Algodão 30.1 Penteado — Gola Canelada**, enquanto o UUID `019aa7eb-d437-721a-bc8d-69d5a2754865` anteriormente fornecido foi registrado como **Camiseta Unissex Algodão 30.1 Penteado** sem confirmação do sufixo. O catálogo público VAVI enumera os dois modelos. **Não assumir que o UUID da camiseta antiga é o da gola canelada.** A cotação real da camiseta G que a API retorna não garante que a origem logística é o modelo do design atual.
