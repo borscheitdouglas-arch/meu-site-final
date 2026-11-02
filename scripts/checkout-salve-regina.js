@@ -24,8 +24,12 @@
   const getJson=async(url,options={})=>{
     const response=await fetch(url,{cache:'no-store',mode:'cors',
       signal:AbortSignal.timeout(18000),...options});
-    const data=await response.json();
-    if(!response.ok)throw new Error(data?.error||'service_unavailable');
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok){
+      const problem=new Error(data?.error||'service_unavailable');
+      problem.httpStatus=response.status;
+      throw problem;
+    }
     return data;
   };
   async function init(){
@@ -282,8 +286,20 @@
           'mercadopago.com','www.mercadopago.com'].includes(u.hostname))
           throw new Error('provider_url_invalid');
         window.location.assign(u.href);
-      }catch{
-        payStatus.textContent='Não foi possível iniciar o pagamento. Nenhuma cobrança foi concluída. Revise os dados ou entre em contato.';
+      }catch(problem){
+        const code=String(problem?.message||'');
+        const helpful={
+          invalid_delivery:'Revise nome, e-mail, telefone com DDD, CPF e endereço de entrega.',
+          delivery_zip_mismatch:'O CEP do frete deve ser o mesmo do endereço de entrega.',
+          shipping_option_invalid:'Essa opção de frete mudou. Clique em Consultar frete novamente.',
+          shipping_provider_unavailable:'Não foi possível confirmar o frete agora. Tente uma nova consulta.',
+          live_price_unapproved:'Este tamanho está temporariamente indisponível. Entre em contato com a loja.',
+          live_product_unavailable:'Esta combinação não está disponível para compra online. Escolha somente uma camiseta.',
+          payment_provider_unavailable:'O Mercado Pago não iniciou o pagamento. Tente novamente mais tarde.',
+          invalid_order:'Não foi possível confirmar o pedido. Revise a quantidade e a entrega.'
+        }[code];
+        payStatus.textContent=helpful||
+          'Não foi possível abrir o pagamento. Se o problema continuar, informe à loja a etapa em que ocorreu.';
         pay.disabled=false;quoteButton.disabled=false;
       }
     });
