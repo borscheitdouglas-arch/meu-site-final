@@ -31,6 +31,28 @@ Os dados sensíveis (custos e mapeamento dos SKUs internos para SKUs de forneced
 - **Custo exibido com desconto não é custo futuro garantido:** o painel diz que o desconto é aplicado no fechamento. Revalidar custo e margem antes de cobrar.
 - A imagem do design `D000001` parece apresentar **partitura na frente e Nossa Senhora nas costas**. Confirmar se essa orientação é a pretendida antes de enviar produção; a identidade visual inicialmente discutida para a loja era Nossa Senhora na frente.
 
+## Segundo teste real da VAVI: embalagem e valor mudam a tarifa (02/11/2026, 23h05 UTC)
+
+Evidência: https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/41542548293
+
+Foram **12 chamadas reais sem UUID e sem compositions** ao endpoint de simulação da VAVI, com dois CEPs públicos de teste: `01001000` (SP) e `20040020` (RJ). Para comparar embalagens em igualdade de condições, todas as primeiras chamadas usaram **R$ 50 de valor declarado apenas para o experimento**. Nenhum pedido ou pagamento foi criado.
+
+| Teste (R$ 50 declarados) | Express SP | Express RJ |
+|---|---:|---:|
+| CEP + valor, sem dimensões | R$ 10,58 | R$ 15,53 |
+| Ecobag 0,2 kg, 250×250×10 mm | R$ 10,58 | R$ 15,53 |
+| Camiseta 0,25 kg, 300×250×10 mm | R$ 10,58 | R$ 15,53 |
+| Caneca 0,5 kg, 150×200×100 mm | R$ 10,88 | R$ 15,54 |
+| Pacote de controle **hipotético** 3 kg, 450×350×300 mm | R$ 46,93 | R$ 50,78 |
+
+Mudando **apenas** o valor declarado de R$ 50 para R$ 300 para a caneca, o Express passou de R$ 10,88 a R$ 13,93 (SP) e de R$ 15,54 a R$ 18,84 (RJ).
+
+**Conclusões comprovadas:** VAVI aceita simulação sem UUID; peso, dimensões e valor total das mercadorias influenciam a cotação (em algumas faixas as tarifas podem coincidir); CEP muda serviços e preços. **Não se comprovou** se valor declarado para lojista é custo B2B, valor de seguro ou preço final de venda e se as embalagens públicas representam a caixa final de expedição.
+
+**Resultado técnico desta revisão:** prévias podem ser emitidas para caneca e ecobag mesmo sem UUID, usando ficha pública e custos observados guardados em D1 **somente como simulação orientativa**. O backend informa `provisional:true` e `checkoutEnabled:false`; a venda continua bloqueada por ausência de aprovação D1 e configuração completa para cobrança. O carrinho e a página individual devem avisar que não é valor garantido.
+
+O teste temporário foi removido após a execução; o bundle normal foi restaurado em 02/11/2026 às 23h06 UTC, com 27 bindings mantidos.
+
 ## Verificação pública da API de frete — 02/11/2026, 22h32 UTC (documento oficial v1.1.2)
 
 O workflow GitHub `VAVI - conferir contrato publico de produto e frete` conseguiu ler o OpenAPI oficial publicado em:
