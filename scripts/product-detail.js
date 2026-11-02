@@ -191,6 +191,7 @@
         if(detail.type?.includes('Camiseta') && variant?.code==='XG')
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
         else priceNote.textContent=isPreparation?'Modelo e preço definitivo ainda não cadastrados.':
+          isShirt?'Preço de venda definido. Calcule o frete pelo CEP antes de pagar.':
           'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
       }
       const form=el('form','shop-single-form');
@@ -210,7 +211,25 @@
       const proceed=el('button','','Ver entrega e compra');proceed.type='button';
       const feedback=el('p','shop-single-feedback');
       feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
-      actions.append(add,proceed);form.append(selectLabel,quantityLabel,actions,feedback);
+      actions.append(add,proceed);
+      if(isShirt){
+        const direct=link('Comprar agora · Calcular frete e pagar',
+          '/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value),'shop-single-buy');
+        direct.addEventListener('click',event=>{
+          if(Number(quantity.value)!==1){
+            event.preventDefault();
+            feedback.textContent='Para compra direta, selecione 1 camiseta por pedido.';
+          }
+        });
+        select.addEventListener('change',()=>{
+          direct.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value);
+        });
+        actions.append(direct);
+        proceed.textContent='Adicionar e ver carrinho';
+      }else if(!isPreparation){
+        proceed.textContent='Consultar disponibilidade no carrinho';
+      }
+      form.append(selectLabel,quantityLabel,actions,feedback);
       summary.append(form);
       const state=()=>{
         add.disabled=isPreparation||!window.Cart;
