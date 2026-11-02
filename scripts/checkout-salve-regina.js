@@ -171,6 +171,13 @@
       if(!previewOnly) sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
       if(saved){
         const draft=JSON.parse(saved);
+        if(location.hostname==='127.0.0.1'){
+          localStorage.setItem('_checkout_diag_condition',JSON.stringify({
+            sameSize:draft?.size===size.value,
+            validZip:/^\d{8}$/.test(draft.zipCode),
+            validOption:typeof draft.shippingOptionId==='string'
+          }));
+        }
         if(draft?.size===size.value && /^\d{8}$/.test(draft.zipCode) &&
           typeof draft.shippingOptionId==='string')
           cartDelivery=draft;
@@ -185,6 +192,9 @@
     productAmount.textContent=format(price());
     const zip=form.elements.zipCode,quoteButton=form.querySelector('#ship-quote');
     if(cartDelivery) zip.value=cartDelivery.zipCode.slice(0,5)+'-'+cartDelivery.zipCode.slice(5);
+    if(location.hostname==='127.0.0.1'){
+      localStorage.setItem('_checkout_diag_zip_assigned',zip.value);
+    }
     const choices=form.querySelector('#ship-choices'),shipFeedback=form.querySelector('#ship-feedback');
     const freightAmount=form.querySelector('#freight-amount'),total=form.querySelector('#checkout-total');
     const pay=form.querySelector('#pay-now'),payStatus=form.querySelector('#payment-feedback');
