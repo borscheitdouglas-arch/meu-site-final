@@ -838,6 +838,7 @@ async function createTestPreference({
   accessToken,
   siteBaseUrl,
   notificationUrl,
+  sandbox = true,
   fetchImpl = fetch
 }) {
   if (!order || order.status !== "draft" || !Number.isSafeInteger(order.totalCents) || typeof accessToken !== "string" || !accessToken) {
@@ -879,7 +880,7 @@ async function createTestPreference({
   } catch {
     throw new CatalogError("payment_provider_unavailable", "Resposta de pagamento inv\xE1lida.", 503);
   }
-  const checkoutUrl = validatePreferenceResponse(data, { sandbox: true });
+  const checkoutUrl = validatePreferenceResponse(data, { sandbox });
   if (typeof data.id !== "string" || !data.id) {
     throw new CatalogError("payment_provider_unavailable", "Identificador de prefer\xEAncia ausente.", 503);
   }
@@ -1222,7 +1223,8 @@ async function createCheckoutLive(env, body, deps = {}) {
     shippingCents,
     accessToken: env.MERCADOPAGO_LIVE_ACCESS_TOKEN,
     siteBaseUrl: SITE,
-    notificationUrl: NOTIFY
+    notificationUrl: NOTIFY,
+    sandbox: false
   });
   const update = await env.DB.prepare(`UPDATE store_orders
     SET status='awaiting_payment',mp_preference_id=?,
