@@ -16,9 +16,9 @@
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
   const fallback=document.createElement('a');
   fallback.href='/pages/cart.html';
-  fallback.textContent='Voltar ao carrinho e solicitar cotação';
+  fallback.textContent='Voltar ao carrinho';
   const unavailable=()=>{
-    error('O pagamento online ainda aguarda a aprovação comercial e logística da loja. Nenhuma cobrança pode ser iniciada neste momento.');
+    error('Não foi possível confirmar a disponibilidade do pagamento agora. Tente novamente mais tarde ou entre em contato com a loja.');
     notice.append(' ',fallback);
   };
   const getJson=async(url,options={})=>{
@@ -71,7 +71,7 @@
             </div>
             <p id="ship-feedback" role="status" aria-live="polite"></p>
             <div id="ship-choices" hidden aria-label="Transportadoras e prazos"></div>
-            <p class="hint">Os prazos exibidos pela VAVI são estimativas de transporte. O prazo de fabricação é informado separadamente. Retirada na fábrica não é oferecida.</p>
+            <p class="hint">Os prazos exibidos são estimativas de transporte. O prazo de fabricação é informado separadamente. Retirada na fábrica não é oferecida.</p>
           </section>
           <section class="checkout-panel" aria-labelledby="buyer-heading">
             <div class="checkout-section-heading"><span class="checkout-step">3</span><div><p class="checkout-eyebrow">Para confirmar seu pedido</p><h2 id="buyer-heading">Dados do comprador</h2></div></div>
@@ -152,7 +152,7 @@
     if(previewOnly){
       container.querySelectorAll('input,select,button').forEach(field=>{field.disabled=true;});
       const shipping=container.querySelector('#ship-feedback');
-      if(shipping) shipping.textContent='As transportadoras aparecerão aqui após a aprovação da cotação com a VAVI.';
+      if(shipping) shipping.textContent='As transportadoras aparecerão aqui após a consulta de frete.';
       const payment=container.querySelector('#payment-feedback');
       if(payment) payment.textContent='Somente visualização. Nenhuma compra ou cobrança é realizada nesta página.';
       const total=container.querySelector('#checkout-total');
