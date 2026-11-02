@@ -342,6 +342,7 @@
       remove:(id,variant)=>updateQty(id,variant,0),
       clear:()=>{persist([]);renderCart();},
     };
+    document.dispatchEvent(new Event('douglas-cart-ready'));
     updateCount();renderCart();
     if (shop) {
       // A vitrine só mostra compra direta quando o servidor autorizar cobranças.
