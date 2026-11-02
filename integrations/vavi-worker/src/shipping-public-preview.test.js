@@ -24,6 +24,27 @@ test('CEP inválido não chega à API VAVI',async()=>{
   assert.equal(response.status,422);
   assert.equal((await response.json()).error,'invalid_zip');
 });
+test('diagnóstico opcional do frete mostra apenas tipos e contagens, sem dados VAVI',async()=>{
+  const orig=globalThis.fetch;
+  globalThis.fetch=async url=>({ok:true,json:async()=>
+    String(url).includes('/Auth/Token')
+      ?{data:{access_token:'mock-token'}}
+      :{data:[{id:33,name:'Transportadora Privada',shippingCost:17,
+         deliveryTime:4,isActive:true}]}
+  });
+  try {
+    const response=await worker.fetch(req({zipCode:'13218752',
+      sku:'salve-regina-preta-g',diagnose:true}),env);
+    assert.equal(response.status,200);
+    const body=await response.json();
+    assert.equal(body.options.length,0);
+    assert.equal(body.diagnostic.received,1);
+    assert.equal(body.diagnostic.structurallyValid,0);
+    assert.equal(body.diagnostic.fieldTypes[0].id,'number');
+    assert.ok(!JSON.stringify(body).includes('Transportadora Privada'));
+    assert.ok(!JSON.stringify(body).includes('mock-token'));
+  }finally{globalThis.fetch=orig;}
+});
 test('mostra opções reais simuladas, excluindo retirada na fábrica',async()=>{
   const orig=globalThis.fetch;
   let calls=0;
