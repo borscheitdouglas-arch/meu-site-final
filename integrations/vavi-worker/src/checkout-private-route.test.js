@@ -21,6 +21,18 @@ test('rejeita chamadas anônimas e token incorreto antes de gravar pedido',async
     assert.equal((await result.json()).error,'checkout_unauthorized');
   }
 });
+test('resposta de autorização privada respeita CORS da vitrine autorizada',async()=>{
+  const signed=req(null);
+  const reqWithOrigin=new Request(signed.url,{method:'POST',
+    headers:{'Content-Type':'application/json','Origin':'https://www.douglasassumpcao.com.br'},
+    body:'{}'});
+  const res=await worker.fetch(reqWithOrigin,{...env,
+    ALLOWED_ORIGINS:'https://www.douglasassumpcao.com.br'});
+  assert.equal(res.status,401);
+  assert.equal(res.headers.get('Access-Control-Allow-Origin'),
+    'https://www.douglasassumpcao.com.br');
+  assert.deepEqual(await res.json(),{error:'checkout_unauthorized'});
+});
 test('segredo aceito ainda valida JSON e nunca expõe sua chave',async()=>{
   const result=await worker.fetch(req('Bearer '+secret,'{'),env);
   assert.equal(result.status,400);
