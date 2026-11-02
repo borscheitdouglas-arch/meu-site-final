@@ -1,0 +1,31 @@
+name: Diagnóstico pontual VAVI — sensibilidade do frete sem pagamentos
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/vavi-freight-sensitivity-once.yml
+permissions:
+  contents: read
+jobs:
+  read-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Consultar simulações de 2 CEPs e embalagens sem pedidos
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from urllib.request import Request,urlopen
+          from urllib.error import HTTPError,URLError
+          url='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/internal/probe-20261102-47d1426ab17fafb9b3538f281e9c8240d7a8708fd968883169d381cfa92b7b2e'
+          req=Request(url,headers={'User-Agent':'DouglasFreight-Research-20261102','Accept':'application/json'})
+          try:
+              with urlopen(req,timeout=115) as res: data=json.load(res)
+          except (HTTPError,URLError,OSError,TimeoutError) as err:
+              raise SystemExit('Diagnóstico indisponível: '+type(err).__name__)
+          print(json.dumps(data,ensure_ascii=False,indent=2),flush=True)
+          if len(data.get('results',[]))!=12:
+              raise SystemExit('Resultado incompleto: sem preços inventados nem conclusões sobre frete')
+          print('Fim da leitura: nenhum pedido ou pagamento criado.')
+          PY
