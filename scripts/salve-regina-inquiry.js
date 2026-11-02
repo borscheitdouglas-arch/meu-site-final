@@ -87,7 +87,7 @@
         'Quantidade: 1 unidade',
         'CEP para cotação de frete: ' + formattedZip,
         '',
-        'Preço anunciado: ' + money(variant.priceCents) + ' (preliminar).'
+        'Preço anunciado: ' + money(variant.priceCents) + '.'
       ];
       if (option) {
         const freightCents = Math.round(option.shippingCost * 100);
@@ -97,7 +97,7 @@
         lines.push('Transportadora consultada: ' + option.name);
         lines.push('Frete estimado: ' + money(freightCents));
         lines.push('Total estimado: ' + money(variant.priceCents + freightCents));
-        lines.push('Prazo de transporte informado pela VAVI: ' +
+        lines.push('Prazo estimado de transporte: ' +
           option.deliveryTime + ' dia(s), além do tempo de produção.');
       } else {
         estimatedTotal.textContent = '';
