@@ -1,0 +1,86 @@
+/* Loja — o manto mariano encontra a identidade editorial do site.
+   Camada restrita a esta página; mantém os contratos do catálogo e carrinho. */
+body.shop-manto { --shop-gold:#d2b575; --shop-copper:#d2b575; background:#151715; color:#e9e5dc; }
+body.shop-manto .site-header { background:#103336; border-bottom:1px solid #a68c55; box-shadow:0 4px 24px #0002; }
+.shop-manto .shop-brand { color:#f3ead8; text-shadow:none; }
+.shop-manto .shop-brand small { color:#c7c9bb; }
+.shop-manto .shop-header-links a,.shop-manto .shop-cart-link { color:#eee8dc; }
+.shop-manto .shop-search { background:#f3eee3; border-color:#a68c55; box-shadow:none; }
+.shop-manto .shop-search button { background:#d2b575; color:#183333; }
+body.shop-manto .site-header .menu-btn { background:transparent; border-color:#a68c5580; color:#f3ead8; }
+.shop-manto .shop-ribbon { background:#1d211e; border-bottom:1px solid #3c4139; box-shadow:none; letter-spacing:.06em; min-height:40px; }
+.shop-manto .shop-ribbon strong,.shop-manto .shop-ribbon a { color:#d2b575; }
+.shop-manto .atelier.editorial-main { max-width:1440px; padding:24px clamp(16px,3.5vw,52px) 0; }
+.shop-manto .shop-hero { position:relative; isolation:isolate; display:grid; grid-template-columns:1fr; min-height:390px; overflow:hidden; border:1px solid #a68c5566; border-radius:3px; background:#073d42; }
+.shop-manto .shop-mantle-art { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.shop-manto .shop-hero::before { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,#032d32e8 0%,#032d3299 35%,#032d3210 68%); pointer-events:none; }
+.shop-manto .shop-hero-copy { padding:48px clamp(26px,5vw,72px); max-width:630px; }
+.shop-manto .shop-hero-copy .shop-kicker { color:#e1c88f; font-size:11px; letter-spacing:.16em; }
+.shop-manto .shop-hero h1 { font-family:'EB Garamond',Georgia,serif; font-size:clamp(42px,4.8vw,68px); font-weight:400; line-height:1.04; letter-spacing:-.025em; margin:20px 0; color:#fff8e9; }
+.shop-manto .shop-hero h1 em { color:#ebd5a6; font-weight:400; }
+.shop-manto .shop-hero-copy > p:not(.shop-kicker) { max-width:350px; color:#ede9df; font:17px/1.6 'Spectral',Georgia,serif; }
+.shop-manto .shop-button { background:#dfc58c; border:1px solid #efdcb1; color:#193234; font-size:12px; min-height:46px; padding:12px 22px; border-radius:3px; box-shadow:none; }
+.shop-manto .shop-button:hover { background:#f1dfb5; color:#193234; }
+.shop-manto .shop-promises { background:transparent; padding:20px 0; border-color:#3c4139; }
+.shop-manto .shop-promises strong { font-size:12px; color:#e9e5dc; }
+.shop-manto .shop-promises small { font-size:12px; color:#bcbcaf; }
+.shop-manto .shop-promises svg,.shop-manto .shop-promises > div > span { color:#d2b575; }
+.shop-manto .shop-categories { padding:34px 0; }
+.shop-manto .shop-kicker,.shop-manto .shop-categories > .shop-kicker,.shop-manto .shop-catalog-heading .shop-kicker { color:#d2b575; font-size:10px; letter-spacing:.14em; }
+.shop-manto .shop-section-title { font:400 clamp(28px,3vw,38px)/1.2 'EB Garamond',Georgia,serif; color:#e9e5dc; }
+.shop-manto .shop-section-title::before { display:none!important; }
+.shop-manto .shop-category { background:#1d211e; border:1px solid #3c4139; border-radius:3px; padding:12px; }
+.shop-manto .shop-category:hover,.shop-manto .shop-category[aria-current] { background:#24302b; border-color:#b49b67; }
+.shop-manto .shop-category-art { background:#151715; border:0; }
+.shop-manto .shop-category > span:not(.shop-category-art) { color:#e9e5dc; }
+.shop-manto .shop-catalog { padding:12px 0 40px; }
+.shop-manto .shop-catalog-heading { margin-bottom:20px; }
+.shop-manto .shop-product-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
+.shop-manto .shop-product-card,.shop-manto .atelier-catalog { border:1px solid #a99b7b; border-radius:4px; background:#f3eee4; box-shadow:none; }
+.shop-manto .shop-product-card:hover,.shop-manto .atelier-catalog:hover { border-color:#d2b575; box-shadow:0 8px 28px #0003; }
+.shop-manto .shop-product-image { padding:0; background:#e9e4d9; border-color:#d5cbb6; }
+.shop-manto .shop-product-image img { width:100%; height:auto; aspect-ratio:1; object-fit:contain; }
+.shop-manto .shop-product-badge { top:12px; left:12px; background:#163f40; color:#f4eddd; border:1px solid #bca36e; border-radius:2px; font-size:10px; padding:6px 9px; box-shadow:none; }
+.shop-manto .shop-product-card[data-availability="preparation"] .shop-product-badge { background:#55594d; }
+.shop-manto .shop-product-info,.shop-manto .atelier-product-copy { padding:18px; background:#f3eee4; }
+.shop-manto .shop-product-info h3,.shop-manto .atelier-grid-single .atelier-product h3 { display:block; max-height:none; min-height:52px; font:500 23px/1.15 'EB Garamond',Georgia,serif; color:#233830; overflow:visible; }
+.shop-manto .shop-product-info h3 a { color:inherit; }
+.shop-manto .shop-product-collection,.shop-manto .atelier-product-kind { font-size:10px; color:#72613f; letter-spacing:.1em; }
+.shop-manto .shop-product-variation { min-height:32px; }
+.shop-manto .shop-product-variation > span { font-size:10px; background:#e9e2d4; }
+.shop-manto .shop-price { padding:12px 0; border-color:#cfc3a9; }
+.shop-manto .shop-price small { font-size:11px; color:#605f52; }
+.shop-manto .shop-price strong { font-size:22px; color:#163f40; }
+.shop-manto .shop-cart-size { font-size:12px; margin:6px 0; }
+.shop-manto .shop-cart-size select { min-height:44px; height:44px; font-size:14px; }
+.shop-manto .shop-product-info .shop-cart-add,.shop-manto .atelier a.atelier-buy-primary { min-height:44px; background:#163f40; border-color:#163f40; color:#fff8e9; font-size:12px; border-radius:3px; }
+.shop-manto .shop-product-info .shop-cart-add:hover { background:#245a58; }
+.shop-manto .shop-product-info .shop-product-action { min-height:36px; font-size:12px; color:#214d49; }
+.shop-manto .shop-cart-quick { min-height:44px; font-size:12px; color:#214d49; border-color:#a99b7b; }
+.shop-manto .shop-product-state { font-size:11px; line-height:1.5; color:#666456; margin-top:8px; }
+.shop-manto .atelier-product-art { height:auto; padding:0; background:#e9e4d9; }
+.shop-manto .atelier-product-art img { height:auto; aspect-ratio:1; object-fit:contain; }
+.shop-manto .atelier a.atelier-buy { min-height:44px; font-size:12px; }
+.shop-manto .atelier-purchase-note { font-size:11px; line-height:1.5; }
+.shop-manto .shop-collection { background:#1d2926; border-color:#6e7157; }
+.shop-manto .shop-collection h2 { color:#dfc58c; }
+.shop-manto :is(a,button,input,select,summary):focus-visible { outline:3px solid #c29d4e; outline-offset:3px; }
+@media(max-width:1100px) { .shop-manto .shop-product-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; } }
+@media(max-width:760px) {
+ .shop-manto .shop-hero { min-height:360px; }
+ .shop-manto .shop-hero-copy { padding:32px 24px; }
+ .shop-manto .shop-hero::before { background:linear-gradient(90deg,#032d32e0,#032d3255); }
+ .shop-manto .shop-product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+ .shop-manto .shop-product-info,.shop-manto .atelier-product-copy { padding:12px; }
+ .shop-manto .shop-product-info h3 { font-size:21px; }
+ .shop-manto .shop-promises { gap:16px 0; }
+}
+@media(max-width:480px) {
+ .shop-manto .shop-product-grid { grid-template-columns:1fr; }
+ .shop-manto .shop-product-image img,.shop-manto .atelier-product-art img { max-height:320px; }
+ .shop-manto .shop-product-info,.shop-manto .atelier-product-copy { padding:20px; }
+ .shop-manto .shop-product-info h3 { min-height:0; font-size:26px; margin-bottom:12px; }
+ .shop-manto .shop-product-variation { min-height:0; }
+ .shop-manto .shop-ribbon { font-size:9px; letter-spacing:0; }
+ .shop-manto .shop-catalog-tools { align-items:flex-start; flex-direction:column; }
+}
