@@ -67,6 +67,7 @@ test('checkout real: servidor calcula total e armazena entrega antes de criar pr
         assert.equal(input.order.totalCents,12544);
         assert.equal(input.accessToken,flags.MERCADOPAGO_LIVE_ACCESS_TOKEN);
         assert.ok(input.notificationUrl.endsWith('/api/payments/live-webhook'));
+        assert.equal(input.sandbox,false);
         return {preferenceId:'pref_live',checkoutUrl:'https://www.mercadopago.com.br/checkout/start'};
       }
     });
