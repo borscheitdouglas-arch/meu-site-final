@@ -148,7 +148,8 @@
           origin_not_allowed:'O domínio da loja precisa ser autorizado na API.'
         })[String(err?.message||'')] || 'Não foi possível completar a consulta.';
         status.textContent='Frete indisponível neste momento. '+reason+
-          ' Você pode consultar na sacola ou entrar em contato.';
+          ' Você pode consultar na sacola ou entrar em contato.'+
+          (location.hostname==='127.0.0.1'?' [debug '+String(err?.message||'')+']':'');
       } finally {
         if(turn===serial){button.disabled=false;controller=null;}
       }
