@@ -112,9 +112,9 @@
       const product = catalog.get(item.id);
       const variant = product.variants.find(v => v.code === item.variant);
       lines.push('• ' + product.title + ' — ' + variant.label + ' — ' + item.qty + ' unidade(s)' +
-        (product.vaviDesign ? ' (ref. ' + product.vaviDesign + ')' : ''));
+        '');
       lines.push('  ' + (variant.priceCents === null ? 'Preço de venda pendente de confirmação'
-        : 'Preço preliminar: ' + money(variant.priceCents) + ' por unidade'));
+        : 'Preço informado: ' + money(variant.priceCents) + ' por unidade'));
     }
     const freight=window.CartShipping?.getQuote(cart);
     if (freight) {
@@ -172,7 +172,7 @@
         hasPending = true;content.append(make('p','cart-amount','Preço final a confirmar'));
       } else {
         knownTotal += variant.priceCents * item.qty;
-        content.append(make('p','cart-amount',money(variant.priceCents)+' por unidade · preliminar'));
+        content.append(make('p','cart-amount',money(variant.priceCents)+' por unidade'+(product.id==='camiseta-salve-regina'?'':' · sujeito a confirmação')));
       }
       const details=make('div','cart-line-details');
       details.append(make('span','','Quantidade e opções'));
@@ -208,7 +208,7 @@
     if (hasPending) aside.append(make('p','cart-disclaimer',
       'Há peças sem preço de venda definido. Nenhum total final pode ser calculado agora.'));
     aside.append(make('p','cart-disclaimer',
-      'Preços preliminares. Frete e valor final reconferidos pelo servidor antes de qualquer pagamento.'));
+      'O frete e o valor total são reconferidos antes do pagamento. Produtos em preparação exigem consulta.'));
     const exactShirt = cart.length === 1 &&
       cart[0].id === 'camiseta-salve-regina' && cart[0].qty === 1;
     if (exactShirt && ready) {
@@ -235,7 +235,7 @@
       const explanation = make('p','cart-payment-note',
         exactShirt
           ? 'Pagamento online aguardando a aprovação final do produto e da loja. Nenhuma cobrança será feita.'
-          : 'Compra online ainda indisponível para esta seleção. Por enquanto, apenas uma camiseta por pedido pode seguir ao checkout após aprovação.');
+          : 'Compra online indisponível para esta combinação. No momento, apenas uma camiseta por pedido pode ser comprada diretamente.');
       explanation.id = 'cart-payment-explanation';
       aside.append(blocked, explanation);
     }
