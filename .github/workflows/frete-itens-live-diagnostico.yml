@@ -1,0 +1,69 @@
+name: Diagnóstico público de frete por peça (sem pagamento)
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/frete-itens-live-diagnostico.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar-skus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Consultar a API publicada sem criar pedidos ou cobranças
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError, URLError
+
+          api='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/shipping/preview'
+          origin='https://www.douglasassumpcao.com.br'
+          sku_list=[
+            'salve-regina-preta-g',
+            'caneca-salve-regina-preta',
+            'caneca-salve-regina-pb',
+            'ecobag-salve-regina-m',
+            'ecobag-salve-regina-g'
+          ]
+          anomalies=[]
+          for sku in sku_list:
+            req=Request(api,method='POST',data=json.dumps({
+              'zipCode':'01001000','sku':sku
+            }).encode(),headers={
+              'Origin':origin,'Content-Type':'application/json',
+              'Accept':'application/json','User-Agent':'DouglasAssumpcao-Frete-SemPedidos/1.0'
+            })
+            try:
+              with urlopen(req,timeout=24) as response:
+                status=response.status
+                data=json.load(response)
+            except HTTPError as err:
+              status=err.code
+              try: data=json.loads(err.read().decode())
+              except Exception: data={'error':'invalid_response'}
+            except (URLError,TimeoutError,OSError) as err:
+              status=0
+              data={'error':type(err).__name__}
+            quotes=data.get('options',[])
+            if status==200 and isinstance(quotes,list) and data.get('sku')==sku:
+              result='COTACAO_RECEBIDA'
+              options=len(quotes)
+            elif status==409 and data.get('error') in ('shipping_product_unverified','unavailable_product'):
+              result='CONFIGURACAO_PENDENTE'
+              options=0
+            else:
+              result='FALHA_INTEGRACAO'
+              options=0
+              anomalies.append(sku)
+            print(json.dumps({'sku':sku,'http':status,'resultado':result,
+              'opcoes':options,'codigo':data.get('error')},ensure_ascii=False),flush=True)
+          print('Este teste nao cria pedidos e nao confirma pagamentos.',flush=True)
+          if anomalies:
+            raise SystemExit('SKUs com falha de integracao: '+','.join(anomalies))
+          PY
