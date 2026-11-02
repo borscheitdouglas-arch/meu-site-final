@@ -11,6 +11,11 @@ on:
 permissions:
   contents: write
 
+# Não compilar dois bundles concorrentes nem publicar build de commit antigo.
+concurrency:
+  group: worker-bundle-main
+  cancel-in-progress: false
+
 jobs:
   bundle:
     runs-on: ubuntu-latest
@@ -37,10 +42,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+            echo "Há um commit mais recente; o build novo produzirá o bundle correto."
+            exit 0
+          fi
           git add integrations/vavi-worker/dist/worker.js
           if ! git diff --cached --quiet; then
             git commit -m "build(worker): bundle testado para publicacao [skip ci]"
-            git push
+            git push origin HEAD:main
           else
             echo "Bundle ja esta atualizado."
           fi
