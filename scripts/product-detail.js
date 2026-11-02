@@ -8,7 +8,7 @@
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const info = {
     'camiseta-salve-regina': {
-      type:'Camiseta · Coleção Salve Regina', material:'Malha de algodão (confirmar ficha VAVI)',
+      type:'Camiseta · Coleção Salve Regina', material:'Malha de algodão penteado 30.1',
       finish:'DTF · estampa autoral', description:'Uma peça que reúne a devoção à Virgem Maria e a tradição do canto gregoriano. A coleção Salve Regina foi concebida com referências à iluminura medieval, combinando a figura de Nossa Senhora com a notação do canto sacro. A versão apresentada é preta, em tamanhos P, M, G, GG e XG.',
       note:'A imagem apresentada é um mockup ilustrativo. Os detalhes de produção e a fidelidade da impressão devem ser confirmados antes da compra.',
       photos:['/assets/img/loja/Salve-Regina/web/camiseta-1254.webp','/assets/img/loja/Salve-Regina/CAMISA-SalveRegina.png']
@@ -16,7 +16,7 @@
     'caneca-salve-regina-preta': {
       type:'Caneca · Coleção Salve Regina', material:'Porcelana (conforme catálogo preliminar)',
       finish:'Personalização por sublimação', description:'Caneca preta da coleção Salve Regina, com proposta de estampa dedicada à partitura gregoriana da antífona mariana. Um objeto cotidiano pensado para quem deseja manter próxima a beleza da oração e da tradição católica.',
-      note:'Imagem ilustrativa da coleção. A apresentação exata desta variante será validada com a VAVI antes da produção.'
+      note:'Imagem ilustrativa da coleção. Os detalhes dessa variante serão confirmados antes da produção.'
     },
     'caneca-salve-regina-pb': {
       type:'Caneca · Coleção Salve Regina', material:'Porcelana (conforme catálogo preliminar)',
@@ -131,7 +131,7 @@
       } catch(err) {
         if(turn!==serial)return;
         const reason=({
-          shipping_product_unverified:'Este tamanho ainda não tem dados logísticos confirmados na VAVI.',
+          shipping_product_unverified:'Este tamanho ainda não tem dados de frete confirmados.',
           shipping_not_configured:'A configuração do frete está incompleta.',
           shipping_provider_unavailable:'A transportadora não retornou uma cotação.',
           shipping_package_unverified:'O pacote deste pedido ainda não foi validado.',
@@ -158,7 +158,8 @@
     summary.append(el('p','shop-single-kicker',isBook?'Livros · Música sacra':detail.type||'Coleção Salve Regina'),
       el('h1','',title));
     const isPreparation=product.status==='preparation';
-    const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':'Sob consulta · preço sujeito à confirmação';
+    const isShirt=product.id==='camiseta-salve-regina';
+    const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isShirt?'Compra online disponível · produção sob demanda':'Sob consulta · preço sujeito à confirmação';
     summary.append(el('span','shop-single-status',statusText));
     let variant=null,select=null;
     const price=el('p','shop-single-price');
@@ -188,7 +189,7 @@
         variant=variants.find(v=>v.code===select.value)||variants[0];
         price.textContent=Number.isInteger(variant?.priceCents)?money(variant.priceCents):'Preço a definir';
         if(detail.type?.includes('Camiseta') && variant?.code==='XG')
-          priceNote.textContent='Tamanho XG · valor sugerido. Frete e preço final sujeitos à confirmação.';
+          priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
         else priceNote.textContent=isPreparation?'Modelo e preço definitivo ainda não cadastrados.':
           'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
       }
@@ -254,7 +255,7 @@
     }:{
       'Coleção':'Salve Regina','Categoria':detail.type||product.category,
       'Material':detail.material||'A confirmar','Acabamento':detail.finish||'A confirmar',
-      'Situação':isPreparation?'Em preparação':'Sob consulta'
+      'Situação':isPreparation?'Em preparação':isShirt?'Compra online disponível':'Sob consulta'
     }));
     details.append(desc,infoBox);root.append(details);
     const related=all.filter(p=>p.id!==product.id && (p.product_type==='book'||Array.isArray(p.variants))).slice(0,3);
