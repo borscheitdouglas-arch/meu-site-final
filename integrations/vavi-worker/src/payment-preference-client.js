@@ -40,7 +40,8 @@ export async function createTestPreference({order,lines,shippingCents,accessToke
   try { data=await response.json(); } catch {
     throw new CatalogError('payment_provider_unavailable','Resposta de pagamento inválida.',503);
   }
-  const checkoutUrl=validatePreferenceResponse(data);
+  // A preferência de homologação deve sair exclusivamente pela URL sandbox.
+  const checkoutUrl=validatePreferenceResponse(data,{sandbox:true});
   if (typeof data.id!=='string' || !data.id) {
     throw new CatalogError('payment_provider_unavailable','Identificador de preferência ausente.',503);
   }
