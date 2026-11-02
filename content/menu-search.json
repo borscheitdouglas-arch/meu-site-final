@@ -150,6 +150,11 @@
     "url": "/pages/gloria.html"
   },
   {
+    "title": "Homologação de pagamento",
+    "keywords": "Teste do Mercado Pago homologacao mercadopago",
+    "url": "/pages/homologacao-mercadopago.html"
+  },
+  {
     "title": "Kyrie eleison",
     "keywords": "Kyrie eleison kyrie",
     "url": "/pages/kyrie.html"
@@ -238,6 +243,11 @@
     "title": "Pater noster / Pai nosso",
     "keywords": "Pater noster / Pai nosso pater noster",
     "url": "/pages/pater-noster.html"
+  },
+  {
+    "title": "Produto",
+    "keywords": " produto loja",
+    "url": "/pages/produto-loja.html"
   },
   {
     "title": "Coleção autoral — Prévia",
