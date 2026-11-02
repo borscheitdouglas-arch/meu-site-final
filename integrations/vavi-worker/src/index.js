@@ -1,5 +1,5 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
-import {normalizeZip, simulateVaviShipping} from './shipping.js';
+import {normalizeZip, simulateVaviShipping,shippingPayload} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
 import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
@@ -10,7 +10,7 @@ import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManua
 import {getPrivateLaunchReadiness} from './launch-readiness.js';
 import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.js';
 import {processVaviWebhook} from './vavi-webhook.js';
-import {SALVE_REGINA_VARIANTS,approvedVariant,SALVE_REGINA_SKUS} from './salve-regina-variants.js';
+import {SALVE_REGINA_VARIANTS,approvedVariant,SALVE_REGINA_SKUS,DIRECT_CHECKOUT_SKUS,approvedDirectVariant} from './salve-regina-variants.js';
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -100,8 +100,21 @@ export default {
           return p && p.product_enabled===1 && p.product_verified===1 &&
             p.available===1 && approvedVariant(sku,p.price_cents);
         }));
-        // Sem todas as 5 variantes aprovadas, não oferecer checkout parcial.
-        return json({checkoutEnabled:checked.every(Boolean)},200,cors.headers);
+        // A liberação global mantém a compatibilidade com a camiseta.
+        // Outras peças só são anunciadas para checkout após D1 verificado,
+        // preço tabelado e configuração logística individual válida.
+        const availableSkus=[];
+        for(const sku of DIRECT_CHECKOUT_SKUS){
+          const variant=await loadVariant(env.DB,sku);
+          if(!variant || variant.product_enabled!==1 ||
+             variant.product_verified!==1 || variant.available!==1 ||
+             !approvedDirectVariant(sku,variant.price_cents))continue;
+          try{
+            shippingPayload('01001000',[{sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
+            availableSkus.push(sku);
+          }catch{/* Nunca anunciar opção com logística incompleta. */}
+        }
+        return json({checkoutEnabled:checked.every(Boolean),availableSkus},200,cors.headers);
       } catch {
         return json({checkoutEnabled:false},200,cors.headers);
       }
@@ -307,8 +320,17 @@ export default {
         const body=JSON.parse(textBody);
         const zipCode=normalizeZip(body?.zipCode);
         const sku=body?.sku||'salve-regina-preta-g';
-        if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku))
-          throw new CatalogError('invalid_sku','Tamanho da camiseta inválido.',422);
+        if(!DIRECT_CHECKOUT_SKUS.includes(sku))
+          throw new CatalogError('invalid_sku','Produto inválido.',422);
+        // Produtos adicionais não devem sequer consultar a VAVI antes da
+        // aprovação comercial; esta validação não altera o fluxo da camiseta.
+        if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku)){
+          const approved=env.DB?.prepare && await loadVariant(env.DB,sku);
+          if(!approved || approved.product_enabled!==1 ||
+             approved.product_verified!==1 || approved.available!==1 ||
+             !approvedDirectVariant(sku,approved.price_cents))
+            throw new CatalogError('unavailable_product','Produto ainda não disponível.',409);
+        }
         const diagnostic=body?.diagnose===true?{}:null;
         const options=await simulateVaviShipping(env,zipCode,
           [{sku,quantity:1}],diagnostic);
