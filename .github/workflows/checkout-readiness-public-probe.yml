@@ -38,7 +38,11 @@ jobs:
           with urllib.request.urlopen(req,timeout=20) as res:state=json.load(res)
           assert state.get('checkoutEnabled') is True,state
           assert state.get('multiCheckoutEnabled') is True,state
-          assert state.get('availableSkus')==['salve-regina-preta-g'],state
+          expected=['salve-regina-preta-p','salve-regina-preta-m',
+            'salve-regina-preta-g','salve-regina-preta-gg','salve-regina-preta-xg',
+            'caneca-salve-regina-preta','caneca-salve-regina-pb',
+            'ecobag-salve-regina-m','ecobag-salve-regina-g']
+          assert state.get('availableSkus')==expected,state
           payload={'zipCode':'01001000','items':[{'sku':'salve-regina-preta-g','quantity':2}]}
           req=urllib.request.Request(api+'/api/shipping/cart-preview',method='POST',
             headers={'Origin':origin,'User-Agent':'Douglas-Checkout-Smoke-20261103',
