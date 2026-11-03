@@ -106,17 +106,8 @@
             <div id="ship-choices" hidden aria-label="Transportadoras e prazos"></div>
             <p class="hint">Os prazos exibidos são estimativas de transporte. O prazo de fabricação é informado separadamente. Retirada na fábrica não é oferecida.</p>
           </section>
-          <section class="checkout-panel" aria-labelledby="buyer-heading">
-            <div class="checkout-section-heading"><span class="checkout-step">3</span><div><p class="checkout-eyebrow">Para confirmar seu pedido</p><h2 id="buyer-heading">Dados do comprador</h2></div></div>
-            <div class="checkout-field-grid">
-              <label>Nome completo <input name="name" autocomplete="name" maxlength="160" required></label>
-              <label>E-mail <input name="email" type="email" autocomplete="email" maxlength="200" required></label>
-              <label>Telefone com DDD <input name="phone" autocomplete="tel" inputmode="tel" required></label>
-              <label>CPF <input name="taxId" inputmode="numeric" maxlength="14" required></label>
-            </div>
-          </section>
           <section class="checkout-panel" aria-labelledby="address-heading">
-            <div class="checkout-section-heading"><span class="checkout-step">4</span><div><p class="checkout-eyebrow">Envio pela transportadora escolhida</p><h2 id="address-heading">Endereço de entrega</h2></div></div>
+            <div class="checkout-section-heading"><span class="checkout-step">3</span><div><p class="checkout-eyebrow">Envio pela transportadora escolhida</p><h2 id="address-heading">Endereço de entrega</h2></div></div>
             <div class="checkout-field-grid">
               <label class="checkout-field-wide">Rua ou avenida <input name="street" maxlength="180" autocomplete="address-line1" required></label>
               <label>Número <input name="number" maxlength="30" required></label>
@@ -126,6 +117,15 @@
               <label>Estado (UF) <input name="state" maxlength="2" autocomplete="address-level1" placeholder="SP" pattern="[A-Za-z]{2}" required></label>
             </div>
             <p class="hint">O CEP informado acima deve corresponder ao endereço de entrega.</p>
+          </section>
+          <section class="checkout-panel" aria-labelledby="buyer-heading">
+            <div class="checkout-section-heading"><span class="checkout-step">4</span><div><p class="checkout-eyebrow">Para confirmar seu pedido</p><h2 id="buyer-heading">Dados do comprador</h2></div></div>
+            <div class="checkout-field-grid">
+              <label>Nome completo <input name="name" autocomplete="name" maxlength="160" required></label>
+              <label>E-mail <input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+              <label>Telefone com DDD <input name="phone" autocomplete="tel" inputmode="tel" required></label>
+              <label>CPF <input name="taxId" inputmode="numeric" maxlength="14" required></label>
+            </div>
           </section>
         </div>
         <aside class="checkout-sidebar" aria-label="Resumo e pagamento">

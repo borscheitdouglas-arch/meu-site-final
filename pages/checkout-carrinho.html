@@ -58,17 +58,8 @@
 <fieldset id="checkout-multi-shipping-options" hidden><legend>Transportadoras</legend></fieldset>
 <p class="hint">O valor é atualizado pela transportadora. O prazo de fabricação não está incluído.</p>
 </section>
-<section class="checkout-panel" aria-labelledby="buyer-heading">
-<div class="checkout-section-heading"><span class="checkout-step">3</span><div><h2 id="buyer-heading">Dados do comprador</h2></div></div>
-<div class="checkout-field-grid">
-<label>Nome completo <input name="name" autocomplete="name" maxlength="160" required></label>
-<label>E-mail <input name="email" type="email" autocomplete="email" maxlength="200" required></label>
-<label>Telefone com DDD <input name="phone" inputmode="tel" autocomplete="tel" required></label>
-<label>CPF <input name="taxId" inputmode="numeric" maxlength="14" required></label>
-</div>
-</section>
 <section class="checkout-panel" aria-labelledby="address-heading">
-<div class="checkout-section-heading"><span class="checkout-step">4</span><div><h2 id="address-heading">Endereço de entrega</h2></div></div>
+<div class="checkout-section-heading"><span class="checkout-step">3</span><div><h2 id="address-heading">Endereço de entrega</h2></div></div>
 <div class="checkout-field-grid">
 <label class="checkout-field-wide">Rua ou avenida <input name="street" autocomplete="address-line1" maxlength="180" required></label>
 <label>Número <input name="number" maxlength="30" required></label>
@@ -78,6 +69,15 @@
 <label>Estado (UF) <input name="state" autocomplete="address-level1" maxlength="2" pattern="[A-Za-z]{2}" placeholder="SP" required></label>
 </div>
 <p class="hint">O CEP informado deve corresponder ao endereço acima.</p>
+</section>
+<section class="checkout-panel" aria-labelledby="buyer-heading">
+<div class="checkout-section-heading"><span class="checkout-step">4</span><div><h2 id="buyer-heading">Dados do comprador</h2></div></div>
+<div class="checkout-field-grid">
+<label>Nome completo <input name="name" autocomplete="name" maxlength="160" required></label>
+<label>E-mail <input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+<label>Telefone com DDD <input name="phone" inputmode="tel" autocomplete="tel" required></label>
+<label>CPF <input name="taxId" inputmode="numeric" maxlength="14" required></label>
+</div>
 </section>
 </div>
 <aside class="checkout-sidebar" aria-label="Resumo e pagamento">
