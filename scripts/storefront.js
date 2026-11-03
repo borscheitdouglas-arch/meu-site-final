@@ -22,7 +22,7 @@
     text: normalize(books.textContent), count: books.querySelectorAll('.atelier-product').length});
   const categories = [...root.querySelectorAll('[data-shop-category]')];
   const names = {all: 'Todo o catálogo', camisetas: 'Camisetas', canecas: 'Canecas',
-    ecobags: 'Ecobags', moletons: 'Moletons', livros: 'Livros'};
+    ecobags: 'Ecobags', livros: 'Livros'};
   let category = 'all';
   function render() {
     const words = normalize(query.value).split(/\s+/).filter(Boolean);
@@ -63,7 +63,7 @@
     category = 'all'; query.value = ''; availability.value = 'all'; render(); showCatalog();
   }));
   function openDetail(hash, focus = false) {
-    if (!/^#produto-(camiseta|caneca|ecobag|moletom)$/.test(hash)) return;
+    if (!/^#produto-(camiseta|caneca|ecobag)$/.test(hash)) return;
     const detail = document.getElementById(hash.slice(1));
     if (!detail) return;
     detail.open = true;
