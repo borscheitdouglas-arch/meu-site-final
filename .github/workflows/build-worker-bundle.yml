@@ -45,8 +45,14 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin main
           if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
-            echo "Há um commit mais recente; o build novo produzirá o bundle correto."
-            exit 0
+            if [ -n "$(git diff --name-only HEAD origin/main -- integrations/vavi-worker/src integrations/vavi-worker/package.json integrations/vavi-worker/package-lock.json)" ]; then
+              echo "A origem da API mudou durante a compilação. Não publicar bundle obsoleto."
+              exit 0
+            fi
+            echo "Atualizações não relacionadas chegaram à main; preservando-as."
+            cp integrations/vavi-worker/dist/worker.js "$RUNNER_TEMP/bundle-da-loja.js"
+            git reset --hard origin/main
+            cp "$RUNNER_TEMP/bundle-da-loja.js" integrations/vavi-worker/dist/worker.js
           fi
           git add integrations/vavi-worker/dist/worker.js
           if ! git diff --cached --quiet; then
