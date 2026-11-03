@@ -212,6 +212,8 @@
       if(total) total.textContent='A confirmar após cotação';
       return;
     }
+    // Preenche endereço a partir do CEP, mantendo os campos editáveis.
+    window.DouglasCheckoutAddress?.mount(form);
     let options=[],quotedZip='',quotedSku='';
     function resetQuote(){
       options=[];quotedZip='';quotedSku='';choices.hidden=true;choices.replaceChildren();
