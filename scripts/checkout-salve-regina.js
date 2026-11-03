@@ -153,10 +153,27 @@
       </form>`;
     const form=container.querySelector('form');
     const size=form.elements.size;
+    if(!extra){
+      // O endpoint já confere somente as variações com frete homologado.
+      // Não permitir selecionar tamanhos cuja compra real falharia depois.
+      const permitted=new Set(Array.isArray(readiness?.availableSkus)?
+        readiness.availableSkus:[]);
+      for(const option of size.options){
+        option.disabled=!permitted.has(skuForSize(option.value));
+      }
+      if(![...size.options].some(option=>!option.disabled)){
+        unavailable();container.hidden=true;return;
+      }
+    }
     // A variante escolhida é somente uma preferência visual.
     // O Worker confirma SKU, preço, frete e autorização no D1.
     const requestedSize=params.get('size');
-    if(requestedSize && Object.hasOwn(prices,requestedSize)) size.value=requestedSize;
+    if(requestedSize && Object.hasOwn(prices,requestedSize) &&
+       [...size.options].some(option=>option.value===requestedSize && !option.disabled)){
+      size.value=requestedSize;
+    }else if(!extra && size.selectedOptions[0]?.disabled){
+      size.value=[...size.options].find(option=>!option.disabled).value;
+    }
     // Aproveita somente CEP e preferência de frete escolhidos no carrinho.
     // Não confia no valor antigo: a VAVI será consultada novamente aqui.
     let cartDelivery=null;
