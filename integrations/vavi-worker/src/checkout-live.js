@@ -7,6 +7,25 @@ import {validateBuyerDetails,encryptDelivery,storeEncryptedDelivery} from './del
 
 const SITE='https://www.douglasassumpcao.com.br';
 const NOTIFY='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/live-webhook';
+const isShirtSku=sku=>/^salve-regina-preta-(p|m|g|gg|xg)$/.test(sku||'');
+const manualShirtApproved=(env,sku)=>
+  env.LIVE_SHIRT_MANUAL_FULFILLMENT_ENABLED==='true' && isShirtSku(sku);
+
+async function supplierLine(db,line){
+  const observation=await db.prepare(
+    'SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations '+
+    'WHERE internal_sku=? LIMIT 1'
+  ).bind(line.sku).first();
+  if(!observation || !/^\d{7}$/.test(observation.supplier_variant_sku||'') ||
+     !Number.isSafeInteger(observation.observed_total_cents) ||
+     observation.observed_total_cents<1)
+    throw new CatalogError('shipping_product_unverified',
+      'Produto sem custo e ficha logística conferidos.',409);
+  return {sku:line.sku,quantity:line.quantity,
+    supplierSku:observation.supplier_variant_sku,
+    unitCostCents:observation.observed_total_cents};
+}
+
 
 /** Todos os bloqueios ficam no servidor. Nenhum campo do navegador libera cobranças. */
 export function liveCheckoutReady(env) {
@@ -50,25 +69,33 @@ export async function createCheckoutLive(env,body,deps={}) {
 
   let quotes;
   if(multiple){
-    // Só autorizar um carrinho de várias peças se CADA variante possuir
-    // ficha individual aprovada. A prévia isolada (sem UUID) não libera vendas.
+    // Todos os produtos passam por validação comercial no D1.
+    // Para camisetas com fabricação manual autorizada, a própria VAVI
+    // fornece cotação via SKU sem UUID. Outras linhas exigem cadastro completo.
     const packed=await Promise.all(quote.lines.map(async line=>{
-      shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
-      const observation=await env.DB.prepare(
-        'SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations '+
-        'WHERE internal_sku=? LIMIT 1'
-      ).bind(line.sku).first();
-      if(!observation || !Number.isSafeInteger(observation.observed_total_cents))
-        throw new CatalogError('shipping_product_unverified','Produto sem custo e ficha logística conferidos.',409);
-      return {sku:line.sku,quantity:line.quantity,
-        supplierSku:observation.supplier_variant_sku,
-        unitCostCents:observation.observed_total_cents};
+      if(!manualShirtApproved(env,line.sku))
+        shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
+      return supplierLine(env.DB,line);
     }));
-    // Cotação real da API, com todas as variações; fabricante pode embalar
-    // de forma diferente. A loja assume a eventual diferença operacional.
     quotes=await (deps.simulateShippingCart||simulateVaviShippingCartProvisional)(env,zip,packed);
   }else{
-    quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+    const line=quote.lines[0];
+    let fullShipping=true;
+    if(manualShirtApproved(env,line.sku)){
+      try {
+        shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
+      }catch(e){
+        if(!(e instanceof CatalogError) || e.code!=='shipping_product_unverified')
+          throw e;
+        fullShipping=false;
+      }
+    }
+    if(!fullShipping && !deps.simulateShipping){
+      const packed=await supplierLine(env.DB,line);
+      quotes=await (deps.simulateShippingCart||simulateVaviShippingCartProvisional)(env,zip,[packed]);
+    }else{
+      quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+    }
   }
   const option=Array.isArray(quotes) && quotes.find(x=>
     x.isActive===true && String(x.id)===body.shippingOptionId &&
