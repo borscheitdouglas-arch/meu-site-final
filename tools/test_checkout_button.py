@@ -39,9 +39,9 @@ def main() -> None:
 
         page.goto(BASE + "/pages/cart.html", wait_until="domcontentloaded")
         cart_with([{"id": "caneca-salve-regina-preta", "variant": "unico", "qty": 1}])
-        assisted = page.get_by_role("link", name=re.compile("Solicitar fechamento do pedido"))
+        assisted = page.get_by_role("link", name=re.compile("Consultar este pedido pelo WhatsApp"))
         expect(assisted).to_be_visible(timeout=12000)
-        assert assisted.get_attribute("href").startswith("https://wa.me/")
+        assert assisted.get_attribute("href").startswith("https://wa.me/5511978038063?text=")
         assert page.get_by_role("button", name="Finalizar compra").count() == 0
         print("PASS: peça pendente apresenta ação de atendimento, sem botão de pagamento morto")
         browser.close()
