@@ -1,7 +1,7 @@
 {
   "version": 1,
   "currency": "BRL",
-  "pricingNotice": "Camiseta com preço de venda confirmado e frete pelo CEP. Demais peças em preparação, com valores sujeitos à confirmação.",
+  "pricingNotice": "Produtos personalizados com preços publicados. O frete é calculado pela transportadora antes do pagamento pelo Mercado Pago; a produção começa após confirmação.",
   "products": [
     {
       "id": "camiseta-salve-regina",
@@ -47,7 +47,7 @@
       "id": "caneca-salve-regina-preta",
       "title": "Caneca Preta Salve Regina — Partitura",
       "category": "canecas",
-      "status": "consultation",
+      "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
       "priceStatus": "final",
       "variants": [
@@ -63,7 +63,7 @@
       "id": "caneca-salve-regina-pb",
       "title": "Caneca P&B Salve Regina — Nossa Senhora",
       "category": "canecas",
-      "status": "consultation",
+      "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
       "priceStatus": "final",
       "variants": [
@@ -79,7 +79,7 @@
       "id": "ecobag-salve-regina-m",
       "title": "Ecobag Salve Regina — Algodão Cru M",
       "category": "ecobags",
-      "status": "consultation",
+      "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
       "priceStatus": "final",
       "variants": [
@@ -95,7 +95,7 @@
       "id": "ecobag-salve-regina-g",
       "title": "Ecobag Salve Regina — Algodão Cru G",
       "category": "ecobags",
-      "status": "consultation",
+      "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
       "priceStatus": "final",
       "variants": [
