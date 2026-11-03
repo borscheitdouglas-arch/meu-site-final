@@ -217,17 +217,85 @@
           'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
       }
       const form=el('form','shop-single-form');
-      const selectLabel=el('label','',variants.length>1?'Escolha o tamanho':'Modelo / variação');
-      select=el('select');select.required=true;select.setAttribute('aria-label','Escolha a variação');
+      const variationGroup=el('fieldset','shop-single-variant-group');
+      variationGroup.append(el('legend','shop-single-field-label',
+        isShirt?'Tamanho':'Modelo'));
+      const hiddenLabel=el('label','shop-single-visually-hidden','Escolha a variação');
+      select=el('select','shop-single-native-select');
+      select.required=true;select.setAttribute('aria-label','Escolha a variação');
+      const chips=el('div','shop-single-variant-chips');
+      const chipButtons=new Map();
       variants.forEach(v=>{
-        const opt=el('option','',v.label+(Number.isInteger(v.priceCents)?' — '+money(v.priceCents):''));
-        opt.value=v.code;select.append(opt);
+        const option=el('option','',v.label+(Number.isInteger(v.priceCents)?' — '+money(v.priceCents):''));
+        option.value=v.code;select.append(option);
+        const chip=el('button','shop-single-variant-chip',isShirt?v.code:v.label);
+        chip.type='button';chip.setAttribute('aria-pressed','false');
+        chip.addEventListener('click',()=>{
+          select.value=v.code;select.dispatchEvent(new Event('change',{bubbles:true}));
+        });
+        chips.append(chip);chipButtons.set(v.code,chip);
       });
-      select.value=variant?.code||'';selectLabel.append(select);
-      const quantityLabel=el('label','','Quantidade');
-      const quantity=el('input');quantity.type='number';quantity.min='1';quantity.max='10';
+      select.value=variant?.code||'';
+      hiddenLabel.append(select);variationGroup.append(hiddenLabel,chips);
+      const updateChips=()=>{
+        chipButtons.forEach((chip,code)=>{
+          const active=select.value===code;
+          chip.classList.toggle('is-selected',active);
+          chip.setAttribute('aria-pressed',String(active));
+        });
+      };
+      select.addEventListener('change',updateChips);updateChips();
+
+      const companionOptions=product.category==='canecas'?[
+        {id:'caneca-salve-regina-preta',label:'Preta'},
+        {id:'caneca-salve-regina-pb',label:'P&B'}
+      ]:product.category==='ecobags'?[
+        {id:'ecobag-salve-regina-m',label:'M'},
+        {id:'ecobag-salve-regina-g',label:'G'}
+      ]:null;
+      if(companionOptions){
+        const companion=el('nav','shop-single-companion-options');
+        companion.setAttribute('aria-label','Outras opções disponíveis');
+        companion.append(el('p','shop-single-field-label',
+          product.category==='canecas'?'Acabamento':'Tamanho'));
+        const buttons=el('div','shop-single-companion-choices');
+        companionOptions.forEach(option=>{
+          const active=option.id===product.id;
+          const choice=link(option.label,
+            '/pages/produto-loja.html?id='+encodeURIComponent(option.id),
+            'shop-single-variant-chip'+(active?' is-selected':''));
+          if(active)choice.setAttribute('aria-current','page');
+          buttons.append(choice);
+        });
+        companion.append(buttons);variationGroup.append(companion);
+      }
+
+      const quantityGroup=el('div','shop-single-quantity-group');
+      quantityGroup.append(el('span','shop-single-field-label','Quantidade'));
+      const stepper=el('div','shop-single-stepper');
+      const minus=el('button','shop-single-stepper-button','−');
+      minus.type='button';minus.setAttribute('aria-label','Diminuir quantidade');
+      const quantity=el('input','shop-single-quantity-input');
+      quantity.type='number';quantity.min='1';quantity.max='10';
       quantity.step='1';quantity.value='1';quantity.required=true;
-      quantityLabel.append(quantity);
+      quantity.setAttribute('aria-label','Quantidade de unidades');
+      const plus=el('button','shop-single-stepper-button','+');
+      plus.type='button';plus.setAttribute('aria-label','Aumentar quantidade');
+      const changeQty=()=>{
+        let value=Number(quantity.value);
+        if(!Number.isInteger(value))value=1;
+        value=Math.min(10,Math.max(1,value));
+        quantity.value=String(value);
+        minus.disabled=value===1;plus.disabled=value===10;
+        quantity.dispatchEvent(new Event('change',{bubbles:true}));
+      };
+      minus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)-1);changeQty();});
+      plus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)+1);changeQty();});
+      quantity.addEventListener('blur',changeQty);
+      minus.disabled=true;
+      stepper.append(minus,quantity,plus);
+      quantityGroup.append(stepper,el('span','shop-single-availability',
+        isPreparation?'Em preparação':'Produção sob demanda'));
       const actions=el('div','shop-single-actions');
       const add=el('button','','Adicionar ao carrinho');add.type='submit';
       const proceed=el('button','','Ver entrega e compra');proceed.type='button';
