@@ -273,17 +273,17 @@
       const names=unavailable.map(({product,variant})=>
         product.title+' ('+variant.label+')').join('; ');
       const assisted=make('a','cart-action cart-action-primary',
-        'Solicitar fechamento do pedido →');
-      assisted.href='https://wa.me/5511979038063?text='+
+        'Consultar este pedido pelo WhatsApp →');
+      assisted.href='https://wa.me/5511978038063?text='+
         encodeURIComponent(draftMessage(cart));
       assisted.target='_blank';assisted.rel='noopener noreferrer';
       const explanation=make('p','cart-payment-note',
         !ready
-          ? 'O pagamento automático está temporariamente indisponível. Você pode solicitar o fechamento deste pedido pelo atendimento, sem cobrança automática.'
+          ? 'O pagamento automático está temporariamente indisponível. O WhatsApp é apenas para atendimento, não é o checkout da loja.'
           : names
             ? 'O pagamento automático ainda não foi liberado para: '+names+
               '. O frete pode ser consultado; para comprar agora, solicite atendimento.'
-            : 'Este carrinho exige conferência comercial antes do pagamento. Solicite atendimento.');
+            : 'Este carrinho exige conferência comercial antes do pagamento. O WhatsApp serve apenas para atendimento.');
       explanation.id='cart-payment-explanation';
       aside.append(assisted,explanation);
     }
@@ -294,9 +294,9 @@
     // Mantém o atendimento via WhatsApp que já existia no carrinho antigo.
     // Abre apenas uma mensagem pré-preenchida; jamais envia sem ação do cliente.
     const whatsapp=make('a','cart-action cart-action-secondary','Consultar pelo WhatsApp');
-    whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
+    whatsapp.href='https://wa.me/5511978038063?text='+encodeURIComponent(draftMessage(cart));
     whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
-    aside.append(whatsapp);
+    if(direct || multiple)aside.append(whatsapp);
     const shippingItems=cart.map(item=>{
       const variant=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant);
       return {sku:variant?.sku,quantity:item.qty};
@@ -316,7 +316,7 @@
       // O botão de checkout não depende da cotação antecipada na sacola.
       request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
         '&body='+encodeURIComponent(draftMessage(cart));
-      whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
+      whatsapp.href='https://wa.me/5511978038063?text='+encodeURIComponent(draftMessage(cart));
     }});
     const explanation=make('div','cart-trust');
     explanation.append(
