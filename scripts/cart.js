@@ -213,90 +213,22 @@
       'Há peças sem preço de venda definido. Nenhum total final pode ser calculado agora.'));
     aside.append(make('p','cart-disclaimer',
       'O frete e o valor total são reconferidos antes do pagamento. Produtos em preparação exigem consulta.'));
-    const single = cart.length === 1 && cart[0].qty === 1;
-    const exactShirt = single && cart[0].id === 'camiseta-salve-regina';
-    const directSku = single
-      ? catalog.get(cart[0].id)?.variants?.find(v=>v.code===cart[0].variant)?.sku
-      : null;
-    const direct = Boolean(ready && single && readySkus.has(directSku));
-    const multiple=Boolean(ready && multiReady && !single && !hasPending &&
-      cart.every(item=>{
-        const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
-        return readySkus.has(sku);
-      }));
-    let multiPayButton=null;
-    if (direct) {
-      const pay = make('a','cart-action cart-action-primary',
-        'Finalizar compra com Mercado Pago →');
-      pay.href = exactShirt
-        ? '/pages/checkout-salve-regina.html?size=' + encodeURIComponent(cart[0].variant)
-        : '/pages/checkout-salve-regina.html?sku=' + encodeURIComponent(directSku);
-      pay.addEventListener('click',()=>{
-        const quote=window.CartShipping?.getQuote(cart);
-        try {
-          if(quote) sessionStorage.setItem('douglasCheckoutDeliveryDraft_v1',
-            JSON.stringify({
-              size:exactShirt?cart[0].variant:'UNICO',
-              sku:directSku,
-              zipCode:quote.zipCode,
-              shippingOptionId:quote.shippingOptionId
-            }));
-          else sessionStorage.removeItem('douglasCheckoutDeliveryDraft_v1');
-        } catch {}
-      });
-      aside.append(pay, make('p','cart-payment-note',
-        'Na próxima etapa você informará o CEP, escolherá o frete, revisará o total e seguirá para o Mercado Pago.'));
-    } else if(multiple){
-      multiPayButton=makeButton('Finalizar compra →',()=>{
-        // O cliente pode avançar mesmo sem consultar frete nesta tela:
-        // a próxima página solicita o CEP e a API recalcula a cotação.
-        const quote=window.CartShipping?.getQuote(cart);
-        try{
-          if(quote)sessionStorage.setItem('douglasMultiCheckoutDeliveryDraft_v1',
-            JSON.stringify({zipCode:quote.zipCode,shippingOptionId:quote.shippingOptionId,
-              items:cart.map(x=>[x.id,x.variant,x.qty])}));
-          else sessionStorage.removeItem('douglasMultiCheckoutDeliveryDraft_v1');
-        }catch{}
-        window.location.assign('/pages/checkout-carrinho.html');
-      },false);
-      multiPayButton.className='cart-action cart-action-primary';
-      aside.append(multiPayButton,make('p','cart-payment-note',
-        'Confira a entrega e o endereço na próxima etapa. O valor será consultado novamente antes da cobrança.'));
-    } else {
-      // Nunca apresentar um botão "Finalizar compra" inerte.
-      // Compras ainda não homologadas seguem para o atendimento sem cobrança.
-      const unavailable=cart.map(item=>{
-        const product=catalog.get(item.id);
-        const variant=product?.variants?.find(v=>v.code===item.variant);
-        return {product,variant};
-      }).filter(({variant})=>!readySkus.has(variant?.sku));
-      const names=unavailable.map(({product,variant})=>
-        product.title+' ('+variant.label+')').join('; ');
-      const assisted=make('a','cart-action cart-action-primary',
-        'Consultar este pedido pelo WhatsApp →');
-      assisted.href='https://wa.me/5511978038063?text='+
-        encodeURIComponent(draftMessage(cart));
-      assisted.target='_blank';assisted.rel='noopener noreferrer';
-      const explanation=make('p','cart-payment-note',
-        !ready
-          ? 'O pagamento automático está temporariamente indisponível. O WhatsApp é apenas para atendimento, não é o checkout da loja.'
-          : names
-            ? 'O pagamento automático ainda não foi liberado para: '+names+
-              '. O frete pode ser consultado; para comprar agora, solicite atendimento.'
-            : 'Este carrinho exige conferência comercial antes do pagamento. O WhatsApp serve apenas para atendimento.');
-      explanation.id='cart-payment-explanation';
-      aside.append(assisted,explanation);
-    }
-    const request=make('a','cart-action cart-action-secondary','Solicitar cotação por e-mail');
-    request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
-      '&body='+encodeURIComponent(draftMessage(cart));
-    aside.append(request);
-    // Mantém o atendimento via WhatsApp que já existia no carrinho antigo.
-    // Abre apenas uma mensagem pré-preenchida; jamais envia sem ação do cliente.
-    const whatsapp=make('a','cart-action cart-action-secondary','Consultar pelo WhatsApp');
-    whatsapp.href='https://wa.me/5511978038063?text='+encodeURIComponent(draftMessage(cart));
-    whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
-    if(direct || multiple)aside.append(whatsapp);
+    // Todos os produtos desta sacola usam o checkout interno:
+    // a API decide quais itens podem criar cobrança no Mercado Pago.
+    // Não encaminhar pedidos ao WhatsApp nem criar pedidos por e-mail.
+    const pay=make('a','cart-action cart-action-primary','Comprar');
+    pay.href='/pages/checkout-carrinho.html';
+    pay.addEventListener('click',()=>{
+      const quote=window.CartShipping?.getQuote(cart);
+      try{
+        if(quote)sessionStorage.setItem('douglasMultiCheckoutDeliveryDraft_v1',
+          JSON.stringify({zipCode:quote.zipCode,shippingOptionId:quote.shippingOptionId,
+            items:cart.map(x=>[x.id,x.variant,x.qty])}));
+        else sessionStorage.removeItem('douglasMultiCheckoutDeliveryDraft_v1');
+      }catch{}
+    });
+    aside.append(pay,make('p','cart-payment-note',
+      'Compra pela loja, com frete calculado pelo CEP e pagamento seguro no Mercado Pago. A disponibilidade é conferida na próxima etapa.'));
     const shippingItems=cart.map(item=>{
       const variant=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant);
       return {sku:variant?.sku,quantity:item.qty};
@@ -314,9 +246,6 @@
           money(knownTotal+quote.shippingCents)
         : 'Total com frete: a calcular';
       // O botão de checkout não depende da cotação antecipada na sacola.
-      request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
-        '&body='+encodeURIComponent(draftMessage(cart));
-      whatsapp.href='https://wa.me/5511978038063?text='+encodeURIComponent(draftMessage(cart));
     }});
     const explanation=make('div','cart-trust');
     explanation.append(
