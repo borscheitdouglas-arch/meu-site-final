@@ -1,6 +1,6 @@
 import {CatalogError,normalizeCart,quoteCart} from './catalog.js';
 import {approvedDirectVariant,DIRECT_CHECKOUT_SKUS} from './salve-regina-variants.js';
-import {normalizeZip,simulateVaviShipping,simulateVaviShippingCartProvisional,shippingPayload} from './shipping.js';
+import {normalizeZip,simulateVaviShipping,simulateVaviShippingCartProvisional,simulateVaviShippingProvisional,shippingPayload,canQuotePublishedPackage} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
 import {validateBuyerDetails,encryptDelivery,storeEncryptedDelivery} from './delivery-repository.js';
@@ -53,7 +53,13 @@ export async function createCheckoutLive(env,body,deps={}) {
     // Só autorizar um carrinho de várias peças se CADA variante possuir
     // ficha individual aprovada. A prévia isolada (sem UUID) não libera vendas.
     const packed=await Promise.all(quote.lines.map(async line=>{
-      shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
+      try{
+        shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
+      }catch(error){
+        if(!(error instanceof CatalogError) ||
+          error.code!=='shipping_product_unverified' ||
+          !canQuotePublishedPackage(line.sku))throw error;
+      }
       const observation=await env.DB.prepare(
         'SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations '+
         'WHERE internal_sku=? LIMIT 1'
@@ -68,7 +74,27 @@ export async function createCheckoutLive(env,body,deps={}) {
     // de forma diferente. A loja assume a eventual diferença operacional.
     quotes=await (deps.simulateShippingCart||simulateVaviShippingCartProvisional)(env,zip,packed);
   }else{
-    quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+    try{
+      quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+    }catch(error){
+      // Quando o fornecedor ainda não cadastrou UUID na ficha logística,
+      // utiliza a própria API de frete VAVI com SKU, custo privado e medidas
+      // divulgadas. A diferença de frete na produção fica a cargo da loja.
+      const sku=quote.lines[0].sku;
+      if(!(error instanceof CatalogError) ||
+        error.code!=='shipping_product_unverified' ||
+        !canQuotePublishedPackage(sku))throw error;
+      const observation=await env.DB.prepare(
+        'SELECT supplier_variant_sku,observed_total_cents '+
+        'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
+      ).bind(sku).first();
+      if(!observation || !/^\d{7}$/.test(String(observation.supplier_variant_sku||'')) ||
+        !Number.isSafeInteger(observation.observed_total_cents) ||
+        observation.observed_total_cents<1)
+        throw new CatalogError('shipping_product_unverified','Produto sem ficha logística válida.',409);
+      quotes=await (deps.simulateShippingProvisional||simulateVaviShippingProvisional)(
+        env,zip,sku,observation.observed_total_cents);
+    }
   }
   const option=Array.isArray(quotes) && quotes.find(x=>
     x.isActive===true && String(x.id)===body.shippingOptionId &&
