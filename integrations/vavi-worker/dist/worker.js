@@ -1713,6 +1713,10 @@ async function listLivePaidOrders(env) {
   const res = await env.DB.prepare(`SELECT o.id,o.status,o.subtotal_cents,o.shipping_cents,
     o.total_cents,o.shipping_option_id,o.destination_zip,o.vavi_order_id,
     o.created_at,o.updated_at,
+    (SELECT GROUP_CONCAT(oi.quantity || '\xD7 ' || oi.label, '; ')
+      FROM store_order_items oi WHERE oi.order_id=o.id) AS items_summary,
+    (SELECT SUM(oi.quantity) FROM store_order_items oi
+      WHERE oi.order_id=o.id) AS items_quantity,
     q.state AS vavi_draft_state,q.vavi_draft_id
     FROM store_orders o
     LEFT JOIN store_vavi_draft_dispatch q ON q.order_id=o.id
@@ -1735,7 +1739,17 @@ async function getLivePaidDelivery(env, id) {
   if (!encrypted)
     throw new CatalogError("delivery_not_found", "Dados de entrega n\xE3o dispon\xEDveis.", 503);
   const buyer = await decryptDelivery(id, encrypted, env.DELIVERY_ENCRYPTION_KEY_B64);
-  return { order, buyer };
+  const purchase = await env.DB.prepare(`SELECT sku,label,quantity,
+    unit_price_cents,line_total_cents
+    FROM store_order_items WHERE order_id=? ORDER BY sku`).bind(id).all();
+  const items = purchase?.results || [];
+  if (!Array.isArray(items) || !items.length)
+    throw new CatalogError(
+      "order_items_unavailable",
+      "Produtos comprados n\xE3o encontrados no pedido.",
+      503
+    );
+  return { order, buyer, items };
 }
 async function registerManualVaviOrder(env, id, vaviOrderId) {
   if (!env.DB?.prepare)
