@@ -8,6 +8,21 @@ import {validateBuyerDetails,encryptDelivery,storeEncryptedDelivery} from './del
 const SITE='https://www.douglasassumpcao.com.br';
 const NOTIFY='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/live-webhook';
 
+async function supplierLine(db,line) {
+  const row=await db.prepare(
+    'SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations '+
+    'WHERE internal_sku=? LIMIT 1'
+  ).bind(line.sku).first();
+  if(!row || !/^\\d{7}$/.test(row.supplier_variant_sku||'') ||
+     !Number.isSafeInteger(row.observed_total_cents) ||
+     row.observed_total_cents<1 || row.observed_total_cents>10000000)
+    throw new CatalogError('shipping_product_unverified',
+      'A ficha de frete do produto está incompleta.',409);
+  return {sku:line.sku,quantity:line.quantity,
+    supplierSku:row.supplier_variant_sku,unitCostCents:row.observed_total_cents};
+}
+
+
 /** Todos os bloqueios ficam no servidor. Nenhum campo do navegador libera cobranças. */
 export function liveCheckoutReady(env) {
   return Boolean(env.DB && env.LIVE_CHECKOUT_ENABLED==='true' &&
@@ -49,26 +64,39 @@ export async function createCheckoutLive(env,body,deps={}) {
     throw new CatalogError('live_price_unapproved','Preço dos produtos precisa ser revisado.',503);
 
   let quotes;
+  const skuOnlyMode=env.LIVE_SKU_ONLY_MANUAL_FULFILLMENT_ENABLED==='true';
   if(multiple){
-    // Só autorizar um carrinho de várias peças se CADA variante possuir
-    // ficha individual aprovada. A prévia isolada (sem UUID) não libera vendas.
+    // Checkout com VÁRIAS peças usa o mesmo método já testado no carrinho.
+    // Sem UUID, consultar a VAVI por SKU só se o lojista habilitou produção manual.
     const packed=await Promise.all(quote.lines.map(async line=>{
-      shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
-      const observation=await env.DB.prepare(
-        'SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations '+
-        'WHERE internal_sku=? LIMIT 1'
-      ).bind(line.sku).first();
-      if(!observation || !Number.isSafeInteger(observation.observed_total_cents))
-        throw new CatalogError('shipping_product_unverified','Produto sem custo e ficha logística conferidos.',409);
-      return {sku:line.sku,quantity:line.quantity,
-        supplierSku:observation.supplier_variant_sku,
-        unitCostCents:observation.observed_total_cents};
+      try{
+        shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
+      }catch(error){
+        if(!skuOnlyMode || !(error instanceof CatalogError) ||
+           error.code!=='shipping_product_unverified')throw error;
+      }
+      return supplierLine(env.DB,line);
     }));
-    // Cotação real da API, com todas as variações; fabricante pode embalar
-    // de forma diferente. A loja assume a eventual diferença operacional.
     quotes=await (deps.simulateShippingCart||simulateVaviShippingCartProvisional)(env,zip,packed);
   }else{
-    quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+    // Preferir o fluxo com UUID já existente; somente quando faltar a ficha
+    // de UUID é permitido usar a cotação real sem UUID, com custo privado.
+    let incomplete=false;
+    if(skuOnlyMode && !deps.simulateShipping){
+      try{
+        shippingPayload(zip,quote.lines,env.VAVI_SHIPPING_PRODUCTS_JSON);
+      }catch(error){
+        if(!(error instanceof CatalogError) ||
+           error.code!=='shipping_product_unverified')throw error;
+        incomplete=true;
+      }
+    }
+    if(incomplete){
+      const line=await supplierLine(env.DB,quote.lines[0]);
+      quotes=await (deps.simulateShippingCart||simulateVaviShippingCartProvisional)(env,zip,[line]);
+    }else{
+      quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+    }
   }
   const option=Array.isArray(quotes) && quotes.find(x=>
     x.isActive===true && String(x.id)===body.shippingOptionId &&
