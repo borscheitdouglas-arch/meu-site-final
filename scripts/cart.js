@@ -14,7 +14,6 @@
   let ready = false;
   let multiReady = false;
   let readySkus = new Set();
-  const email = 'douglas.assumpcao27@gmail.com';
 
   function rawCart() {
     try {
@@ -107,32 +106,6 @@
     button.type = 'button'; button.disabled = disabled;
     button.addEventListener('click', action);
     return button;
-  }
-  function draftMessage(cart) {
-    const lines = ['Olá! Gostaria de consultar a disponibilidade e o valor final dos itens da coleção Salve Regina:', ''];
-    for (const item of cart) {
-      const product = catalog.get(item.id);
-      const variant = product.variants.find(v => v.code === item.variant);
-      lines.push('• ' + product.title + ' — ' + variant.label + ' — ' + item.qty + ' unidade(s)' +
-        '');
-      lines.push('  ' + (variant.priceCents === null ? 'Preço de venda pendente de confirmação'
-        : 'Preço informado: ' + money(variant.priceCents) + ' por unidade'));
-    }
-    const freight=window.CartShipping?.getQuote(cart);
-    if (freight) {
-      const sum=cart.reduce((total,item)=>{
-        const variant=catalog.get(item.id)?.variants.find(v=>v.code===item.variant);
-        return total+(Number.isInteger(variant?.priceCents)?variant.priceCents*item.qty:0);
-      },0);
-      lines.push('', 'CEP: '+freight.zipCode,
-        (freight.provisional?'Frete provisório (':'Frete estimado (')+
-          freight.shippingName+'): '+money(freight.shippingCents),
-        'Total estimado dos produtos + frete: '+money(sum+freight.shippingCents),
-        'Transporte estimado: '+freight.deliveryDays+' dia(s), além do prazo de produção.');
-    }
-    lines.push('', 'Favor confirmar disponibilidade, preço de venda, produção e frete antes do pagamento.',
-      'Esta mensagem é uma consulta, não um pedido pago.');
-    return lines.join('\n');
   }
   function renderCart() {
     const target = document.getElementById('cart-root');
@@ -269,40 +242,25 @@
       aside.append(multiPayButton,make('p','cart-payment-note',
         'Confira a entrega e o endereço na próxima etapa. O valor será consultado novamente antes da cobrança.'));
     } else {
-      // Nunca apresentar um botão "Finalizar compra" inerte.
-      // Compras ainda não homologadas seguem para o atendimento sem cobrança.
-      const unavailable=cart.map(item=>{
-        const product=catalog.get(item.id);
-        const variant=product?.variants?.find(v=>v.code===item.variant);
-        return {product,variant};
-      }).filter(({variant})=>!readySkus.has(variant?.sku));
-      const names=unavailable.map(({product,variant})=>
-        product.title+' ('+variant.label+')').join('; ');
-      const assisted=make('a','cart-action cart-action-primary',
-        'Consultar este pedido pelo WhatsApp →');
-      assisted.href='https://wa.me/5511978038063?text='+
-        encodeURIComponent(draftMessage(cart));
-      assisted.target='_blank';assisted.rel='noopener noreferrer';
-      const explanation=make('p','cart-payment-note',
-        !ready
-          ? 'O pagamento automático está temporariamente indisponível. O WhatsApp é apenas para atendimento, não é o checkout da loja.'
-          : names
-            ? 'O pagamento automático ainda não foi liberado para: '+names+
-              '. O frete pode ser consultado; para comprar agora, solicite atendimento.'
-            : 'Este carrinho exige conferência comercial antes do pagamento. O WhatsApp serve apenas para atendimento.');
+      // A compra só avança pelo Mercado Pago quando o Worker autorizar.
+      // Nenhum produto redireciona o cliente para WhatsApp ou cotação manual.
+      const unavailable=cart.filter(item=>{
+        const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
+        return !readySkus.has(sku);
+      });
+      const checkoutForMultiple=cart.length!==1 || cart[0].qty!==1;
+      const reason=!ready
+        ? 'O pagamento está temporariamente indisponível. Seus produtos permanecem no carrinho; tente novamente mais tarde.'
+        : unavailable.length
+          ? 'Alguns produtos deste carrinho ainda não estão liberados para pagamento. Para comprar os demais, remova temporariamente os itens indicados como sob consulta.'
+          : checkoutForMultiple && !multiReady
+            ? 'O pagamento de várias unidades ou produtos juntos ainda não está habilitado. Ajuste o carrinho para uma unidade por pedido.'
+            : 'Não foi possível liberar o pagamento deste carrinho agora. Revise os itens ou tente novamente.';
+      const explanation=make('p','cart-payment-note cart-payment-blocked',reason);
       explanation.id='cart-payment-explanation';
-      aside.append(assisted,explanation);
+      explanation.setAttribute('role','status');
+      aside.append(explanation);
     }
-    const request=make('a','cart-action cart-action-secondary','Solicitar cotação por e-mail');
-    request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
-      '&body='+encodeURIComponent(draftMessage(cart));
-    aside.append(request);
-    // Mantém o atendimento via WhatsApp que já existia no carrinho antigo.
-    // Abre apenas uma mensagem pré-preenchida; jamais envia sem ação do cliente.
-    const whatsapp=make('a','cart-action cart-action-secondary','Consultar pelo WhatsApp');
-    whatsapp.href='https://wa.me/5511978038063?text='+encodeURIComponent(draftMessage(cart));
-    whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
-    if(direct || multiple)aside.append(whatsapp);
     const shippingItems=cart.map(item=>{
       const variant=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant);
       return {sku:variant?.sku,quantity:item.qty};
@@ -322,9 +280,6 @@
         ? money(knownTotal+quote.shippingCents)
         : 'A calcular';
       // O botão de checkout não depende da cotação antecipada na sacola.
-      request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
-        '&body='+encodeURIComponent(draftMessage(cart));
-      whatsapp.href='https://wa.me/5511978038063?text='+encodeURIComponent(draftMessage(cart));
     }});
     const explanation=make('div','cart-trust');
     explanation.append(
