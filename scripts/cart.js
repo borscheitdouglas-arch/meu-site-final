@@ -199,13 +199,19 @@
     const aside = make('aside','cart-summary');
     aside.append(make('p','cart-summary-overline','Seu pedido'));
     aside.append(make('h2','','Resumo da compra'));
-    aside.append(make('p','','Itens: '+count(cart)));
-    aside.append(make('p','cart-estimate',knownTotal>0
-      ? 'Subtotal dos produtos: '+money(knownTotal)
-      : 'Preços finais ainda não definidos'));
-    const freightLine=make('p','cart-freight','Frete: a calcular');
-    const totalLine=make('p','cart-total','Total com frete: a calcular');
-    aside.append(freightLine,totalLine);
+    const summaryRow=(className,label,value)=>{
+      const line=make('div','cart-summary-row '+className);
+      const caption=make('span','',label);
+      const amount=make('strong','',value);
+      line.append(caption,amount);
+      aside.append(line);
+      return {caption,amount};
+    };
+    summaryRow('cart-items-meta','Itens',String(count(cart)));
+    summaryRow('cart-estimate','Subtotal dos produtos',
+      knownTotal>0 ? money(knownTotal) : 'A confirmar');
+    const freight=summaryRow('cart-freight','Frete','A calcular');
+    const total=summaryRow('cart-total','Total com frete','A calcular');
     const shippingSlot=make('section','cart-shipping-slot');
     shippingSlot.setAttribute('aria-label','Calcular frete do carrinho');
     aside.append(shippingSlot);
@@ -305,14 +311,16 @@
       cart,sku:directSku,items:shippingItems,
       subtotalCents:knownTotal,onUpdate:()=>{
       const quote=window.CartShipping?.getQuote(cart);
-      freightLine.textContent=quote
-        ? (quote.provisional?'Frete provisório (':'Frete estimado (')+
-          quote.shippingName+'): '+money(quote.shippingCents)
-        : 'Frete: a calcular';
-      totalLine.textContent=quote && !hasPending
-        ? (quote.provisional?'Total orientativo com frete: ':'Total estimado com frete: ')+
-          money(knownTotal+quote.shippingCents)
-        : 'Total com frete: a calcular';
+      freight.caption.textContent=quote
+        ? (quote.provisional?'Frete provisório':'Frete estimado')+
+          ' · '+quote.shippingName
+        : 'Frete';
+      freight.amount.textContent=quote ? money(quote.shippingCents) : 'A calcular';
+      total.caption.textContent=quote && quote.provisional
+        ? 'Total orientativo com frete' : 'Total com frete';
+      total.amount.textContent=quote && !hasPending
+        ? money(knownTotal+quote.shippingCents)
+        : 'A calcular';
       // O botão de checkout não depende da cotação antecipada na sacola.
       request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
         '&body='+encodeURIComponent(draftMessage(cart));
