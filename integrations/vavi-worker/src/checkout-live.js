@@ -13,7 +13,7 @@ async function supplierLine(db,line) {
     'SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations '+
     'WHERE internal_sku=? LIMIT 1'
   ).bind(line.sku).first();
-  if(!row || !/^\\d{7}$/.test(row.supplier_variant_sku||'') ||
+  if(!row || !/^\d{7}$/.test(row.supplier_variant_sku||'') ||
      !Number.isSafeInteger(row.observed_total_cents) ||
      row.observed_total_cents<1 || row.observed_total_cents>10000000)
     throw new CatalogError('shipping_product_unverified',
