@@ -194,6 +194,46 @@ var PROVISIONAL_SINGLE_PACKAGE = Object.freeze({
   "caneca-salve-regina-pb": { weight: 0.5, height: 100, width: 200, length: 150 },
   "caneca-salve-regina-preta": { weight: 0.5, height: 100, width: 200, length: 150 }
 });
+var PROVISIONAL_CART_PACKAGES = Object.freeze({
+  "salve-regina-preta-p": { weight: 0.25, height: 10, width: 250, length: 300 },
+  "salve-regina-preta-m": { weight: 0.25, height: 10, width: 250, length: 300 },
+  "salve-regina-preta-g": { weight: 0.25, height: 10, width: 250, length: 300 },
+  "salve-regina-preta-gg": { weight: 0.25, height: 10, width: 250, length: 300 },
+  "salve-regina-preta-xg": { weight: 0.25, height: 10, width: 250, length: 300 },
+  ...PROVISIONAL_SINGLE_PACKAGE
+});
+function provisionalCartPayload(zipCode, lines) {
+  if (!Array.isArray(lines) || lines.length === 0 || lines.length > 15)
+    throw new CatalogError("invalid_cart", "Carrinho inv\xE1lido.", 422);
+  let totalCents = 0, totalWeight = 0, totalQty = 0;
+  const compositions = lines.map((line) => {
+    const pkg = Object.hasOwn(PROVISIONAL_CART_PACKAGES, line.sku) ? PROVISIONAL_CART_PACKAGES[line.sku] : null;
+    if (!pkg || !/^[0-9]{7}$/.test(line.supplierSku || "") || !Number.isSafeInteger(line.unitCostCents) || line.unitCostCents < 1 || line.unitCostCents > 1e7 || !Number.isInteger(line.quantity) || line.quantity < 1 || line.quantity > 10)
+      throw new CatalogError("shipping_product_unverified", "Pe\xE7a sem dados de frete.", 409);
+    totalCents += line.unitCostCents * line.quantity;
+    totalWeight += pkg.weight * line.quantity;
+    totalQty += line.quantity;
+    return {
+      sku: line.supplierSku,
+      amount: line.unitCostCents / 100,
+      quantity: line.quantity,
+      ...pkg
+    };
+  });
+  if (totalQty > 30 || !Number.isSafeInteger(totalCents) || totalCents <= 0 || totalCents > 1e8 || !Number.isFinite(totalWeight) || totalWeight <= 0)
+    throw new CatalogError("invalid_cart", "Carrinho fora dos limites.", 422);
+  return {
+    zipCode,
+    amount: totalCents / 100,
+    weight: Number(totalWeight.toFixed(3)),
+    compositions
+  };
+}
+async function simulateVaviShippingCartProvisional(env, zipCode, lines, diagnostic = null) {
+  if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET)
+    throw new CatalogError("shipping_not_configured", "Cota\xE7\xE3o VAVI n\xE3o configurada.", 503);
+  return simulateVaviPayload(env, provisionalCartPayload(zipCode, lines), diagnostic);
+}
 async function simulateVaviShipping(env, zipCode, lines, diagnostic = null) {
   if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET || !env.VAVI_SHIPPING_PRODUCTS_JSON) {
     throw new CatalogError("shipping_not_configured", "Cota\xE7\xE3o VAVI ainda n\xE3o configurada.", 503);
@@ -2054,7 +2094,7 @@ var index_default = {
     if (!cors.allowed) return json({ error: "origin_not_allowed" }, 403, cors.headers);
     if (request.method === "OPTIONS") {
       const adminOptions = url.pathname === "/api/internal/launch/shipping-check" || url.pathname === "/api/internal/live-payments/reconcile" || url.pathname === "/api/internal/launch-readiness" || url.pathname === "/api/internal/live-orders" || url.pathname.startsWith("/api/internal/live-orders/") && /^ord_[a-f0-9]{32}$/.test(url.pathname.slice("/api/internal/live-orders/".length)) || /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
-      if (!adminOptions && !["/api/catalog", "/api/quote", "/api/shipping/quote", "/api/shipping/preview", "/api/checkout/test", "/api/checkout/live", "/api/internal/vavi/shipping-check"].includes(url.pathname))
+      if (!adminOptions && !["/api/catalog", "/api/quote", "/api/shipping/quote", "/api/shipping/preview", "/api/shipping/cart-preview", "/api/checkout/test", "/api/checkout/live", "/api/internal/vavi/shipping-check"].includes(url.pathname))
         return json({ error: "not_found" }, 404, cors.headers);
       return new Response(null, { status: 204, headers: cors.headers });
     }
@@ -2327,6 +2367,60 @@ var index_default = {
         if (error instanceof CatalogError)
           return json({ error: error.code }, error.status, cors.headers);
         if (error instanceof SyntaxError) return json({ error: "invalid_json" }, 400, cors.headers);
+        return json({ error: "shipping_provider_unavailable" }, 503, cors.headers);
+      }
+    }
+    if (url.pathname === "/api/shipping/cart-preview" && request.method === "POST") {
+      const origin = request.headers.get("Origin");
+      const allowed = (env.ALLOWED_ORIGINS || "").split(",").map((x) => x.trim());
+      if (!origin || !allowed.includes(origin))
+        return json({ error: "origin_not_allowed" }, 403, cors.headers);
+      if (!(request.headers.get("Content-Type") || "").toLowerCase().startsWith("application/json"))
+        return json({ error: "unsupported_media_type" }, 415, cors.headers);
+      const textBody = await request.text();
+      if (textBody.length > 2e3) return json({ error: "request_too_large" }, 413, cors.headers);
+      if (!env.DB?.prepare) return json({ error: "database_not_configured" }, 503, cors.headers);
+      try {
+        const body = JSON.parse(textBody);
+        const zipCode = normalizeZip(body.zipCode);
+        const items = normalizeCart(body);
+        const resolved = [];
+        for (const line of items) {
+          if (!DIRECT_CHECKOUT_SKUS.includes(line.sku))
+            throw new CatalogError("invalid_sku", "Produto inv\xE1lido para o frete.", 422);
+          const variant = await loadVariant(env.DB, line.sku);
+          if (!variant || !approvedDirectVariant(line.sku, variant.price_cents))
+            throw new CatalogError("unavailable_product", "Item sem cadastro v\xE1lido.", 409);
+          const row = await env.DB.prepare(
+            "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
+          ).bind(line.sku).first();
+          if (!row || !Number.isSafeInteger(row.observed_total_cents))
+            throw new CatalogError("shipping_product_unverified", "Item sem ficha log\xEDstica.", 409);
+          resolved.push({
+            sku: line.sku,
+            quantity: line.quantity,
+            supplierSku: row.supplier_variant_sku,
+            unitCostCents: row.observed_total_cents
+          });
+        }
+        const options = await simulateVaviShippingCartProvisional(env, zipCode, resolved);
+        const delivery = options.filter((x) => !/retirada|retire|pickup/i.test(x.name));
+        if (!delivery.length)
+          throw new CatalogError("shipping_provider_unavailable", "Frete indispon\xEDvel.", 503);
+        return json({
+          mode: "preview",
+          zipCode,
+          items,
+          currency: "BRL",
+          options: delivery,
+          provisional: true,
+          packageConfirmed: false,
+          checkoutEnabled: false
+        }, 200, cors.headers);
+      } catch (error) {
+        if (error instanceof CatalogError) return json({ error: error.code }, error.status, cors.headers);
+        if (error instanceof SyntaxError) return json({ error: "invalid_json" }, 400, cors.headers);
+        console.error("Multi-item shipping preview error:", error?.name || "unknown");
         return json({ error: "shipping_provider_unavailable" }, 503, cors.headers);
       }
     }
