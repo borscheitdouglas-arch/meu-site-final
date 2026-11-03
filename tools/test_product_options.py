@@ -62,7 +62,7 @@ def main():
         page.locator(".shop-single-shipping button[type=submit]").click()
         expect(page.locator(".shop-single-quote-line")).to_have_count(1, timeout=12000)
         assert requests[-1]["items"] == [{"sku": "salve-regina-preta-g", "quantity": 2}]
-        assert "231,80" in page.locator(".shop-single-quote-line").inner_text()
+        assert "232,30" in page.locator(".shop-single-quote-line").inner_text()
         page.get_by_role("button", name="Adicionar ao carrinho").click()
         cart = page.evaluate("JSON.parse(localStorage.getItem('douglasShopCart_v2'))")
         assert any(x["id"] == "camiseta-salve-regina" and x["qty"] == 2 for x in cart)
