@@ -1,0 +1,26 @@
+name: Conferir disponibilidade real do checkout sem cobrar
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/checkout-readiness-public-probe.yml"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Consultar estado de pagamento publicado
+        run: |
+          python3 - <<'PY'
+          import json,urllib.request
+          url='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/checkout/live/readiness'
+          with urllib.request.urlopen(url,timeout=20) as r:
+            d=json.load(r)
+          print(json.dumps({
+            'checkoutEnabled':d.get('checkoutEnabled'),
+            'availableSkus':d.get('availableSkus'),
+            'keys':list(d.keys())
+          },ensure_ascii=False,indent=2))
+          PY
