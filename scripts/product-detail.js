@@ -32,11 +32,6 @@
       type:'Ecobag · Coleção Salve Regina', material:'Algodão cru', finish:'Personalização DTF · tamanho G',
       description:'Ecobag em algodão cru, tamanho G, da coleção Salve Regina. Uma peça autoral inspirada na devoção mariana e na beleza dos manuscritos gregorianos.',
       note:'Mockup ilustrativo. As medidas definitivas e a aplicação da estampa serão conferidas com o fornecedor.'
-    },
-    'moletom-salve-regina': {
-      type:'Moletom · Pré-lançamento', material:'A confirmar',finish:'Modelo, estampa e tamanhos ainda não aprovados',
-      description:'Projeto de moletom inspirado na coleção Salve Regina, ainda em fase de preparação. A versão definitiva, os tamanhos, as imagens e o preço não estão disponíveis para venda.',
-      note:'Esta imagem é provisória e não representa um item pronto para compra.'
     }
   };
   const el = (tag,cls,value) => {
