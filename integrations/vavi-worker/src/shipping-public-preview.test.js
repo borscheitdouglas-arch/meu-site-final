@@ -227,3 +227,87 @@ test('sem custo privado confirmado, não tenta simulação por SKU incompleto',a
   assert.equal(response.status,409);
   assert.equal((await response.json()).error,'shipping_product_unverified');
 });
+
+const multiRequest=(payload,originHeader=true)=>new Request(
+  'https://api.example.test/api/shipping/cart-preview',{
+    method:'POST',headers:{'Content-Type':'application/json',
+      ...(originHeader?{Origin:origin}:{})},body:JSON.stringify(payload)
+  });
+
+test('carrinho com camiseta e caneca consulta VAVI uma vez, sem liberar pagamentos',async()=>{
+  const seen=[];
+  const envMulti={
+    ...env,
+    DB:{
+      prepare(sql){
+        return {
+          bind(sku){
+            return {
+              first:async()=>{
+                if(sql.includes('supplier_variant_cost_observations')){
+                  return sku==='salve-regina-preta-g'?
+                    {supplier_variant_sku:'0001589',observed_total_cents:7071}:
+                    {supplier_variant_sku:'0002193',observed_total_cents:2961};
+                }
+                return {sku,price_cents:sku==='salve-regina-preta-g'?10990:4990,
+                  available:0,product_verified:0,product_enabled:0};
+              }
+            };
+          }
+        };
+      }
+    }
+  };
+  const origFetch=globalThis.fetch;
+  globalThis.fetch=async(url,init)=>{
+    seen.push(String(url));
+    if(String(url).includes('/Auth/Token'))
+      return {ok:true,json:async()=>({data:{access_token:'mock-private-token'}})};
+    const payload=JSON.parse(init.body);
+    assert.equal(payload.zipCode,'01001000');
+    assert.equal(payload.amount,100.32);
+    assert.equal(payload.weight,0.75);
+    assert.equal(payload.compositions.length,2);
+    assert.equal(payload.compositions[0].sku,'0001589');
+    assert.equal(payload.compositions[1].sku,'0002193');
+    assert.equal(Object.hasOwn(payload,'height'),false);
+    return {ok:true,json:async()=>({data:[
+      {id:'transportadora-1',name:'Express',shippingCost:12.4125,
+        deliveryTime:4,isActive:true},
+      {id:'retirada',name:'Retirada na Fábrica',shippingCost:0,
+        deliveryTime:0,isActive:true}
+    ]})};
+  };
+  try{
+    const request=multiRequest({zipCode:'01001000',
+      items:[{sku:'salve-regina-preta-g',quantity:1},
+        {sku:'caneca-salve-regina-pb',quantity:1}]});
+    const response=await worker.fetch(request,envMulti);
+    assert.equal(response.status,200);
+    const data=await response.json();
+    assert.equal(data.provisional,true);
+    assert.equal(data.packageConfirmed,false);
+    assert.equal(data.checkoutEnabled,false);
+    assert.equal(data.options.length,1);
+    assert.equal(data.options[0].shippingCost,12.42);
+    assert.equal(seen.length,2); // autenticação + uma simulação do pacote
+    assert.ok(!JSON.stringify(data).includes('0001589'));
+    assert.ok(!JSON.stringify(data).includes('mock-private-token'));
+  }finally{globalThis.fetch=origFetch;}
+});
+
+test('carrinho com produto removido, excesso de quantidade ou origem errada não chama VAVI',async()=>{
+  const envMulti={...env,DB:{prepare(){throw new Error('não deveria consultar DB')}}};
+  const cases=[
+    [multiRequest({zipCode:'01001000',items:[
+      {sku:'moletom-salve-regina',quantity:1}]}),422],
+    [multiRequest({zipCode:'01001000',items:[
+      {sku:'salve-regina-preta-g',quantity:11}]}),422],
+    [multiRequest({zipCode:'01001000',items:[
+      {sku:'salve-regina-preta-g',quantity:2}]},false),403]
+  ];
+  for(const [request,status] of cases){
+    const response=await worker.fetch(request,envMulti);
+    assert.equal(response.status,status);
+  }
+});

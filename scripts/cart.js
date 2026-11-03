@@ -124,7 +124,8 @@
         return total+(Number.isInteger(variant?.priceCents)?variant.priceCents*item.qty:0);
       },0);
       lines.push('', 'CEP: '+freight.zipCode,
-        'Frete estimado ('+freight.shippingName+'): '+money(freight.shippingCents),
+        (freight.provisional?'Frete provisório (':'Frete estimado (')+
+          freight.shippingName+'): '+money(freight.shippingCents),
         'Total estimado dos produtos + frete: '+money(sum+freight.shippingCents),
         'Transporte estimado: '+freight.deliveryDays+' dia(s), além do prazo de produção.');
     }
@@ -250,7 +251,7 @@
           ? 'Pagamento online aguardando a aprovação final do produto e da loja. Nenhuma cobrança será feita.'
           : single
             ? 'Esta peça ainda aguarda aprovação comercial e frete verificado. Nenhuma cobrança será feita.'
-            : 'Compra direta disponível apenas para uma peça aprovada por pedido. Para várias peças, solicite uma cotação.');
+            : 'Para várias peças, o carrinho calcula uma estimativa de frete. A compra online ficará bloqueada até a confirmação da embalagem final.');
       explanation.id = 'cart-payment-explanation';
       aside.append(blocked, explanation);
     }
@@ -264,14 +265,21 @@
     whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
     whatsapp.target='_blank';whatsapp.rel='noopener noreferrer';
     aside.append(whatsapp);
+    const shippingItems=cart.map(item=>{
+      const variant=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant);
+      return {sku:variant?.sku,quantity:item.qty};
+    });
     window.CartShipping?.mount(shippingSlot,{
-      cart,sku:directSku,subtotalCents:knownTotal,onUpdate:()=>{
+      cart,sku:directSku,items:shippingItems,
+      subtotalCents:knownTotal,onUpdate:()=>{
       const quote=window.CartShipping?.getQuote(cart);
       freightLine.textContent=quote
-        ? 'Frete estimado ('+quote.shippingName+'): '+money(quote.shippingCents)
+        ? (quote.provisional?'Frete provisório (':'Frete estimado (')+
+          quote.shippingName+'): '+money(quote.shippingCents)
         : 'Frete: a calcular';
       totalLine.textContent=quote && !hasPending
-        ? 'Total estimado com frete: '+money(knownTotal+quote.shippingCents)
+        ? (quote.provisional?'Total orientativo com frete: ':'Total estimado com frete: ')+
+          money(knownTotal+quote.shippingCents)
         : 'Total com frete: a calcular';
       request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
         '&body='+encodeURIComponent(draftMessage(cart));

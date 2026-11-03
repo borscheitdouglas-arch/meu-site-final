@@ -1,5 +1,5 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
-import {normalizeZip, simulateVaviShipping,simulateVaviShippingProvisional,shippingPayload} from './shipping.js';
+import {normalizeZip, simulateVaviShipping,simulateVaviShippingProvisional,simulateVaviShippingCartProvisional,shippingPayload} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
 import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
@@ -84,7 +84,7 @@ export default {
         (url.pathname.startsWith('/api/internal/live-orders/') &&
          /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length))) ||
         /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
-      if (!adminOptions && !['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/checkout/test','/api/checkout/live','/api/internal/vavi/shipping-check'].includes(url.pathname))
+      if (!adminOptions && !['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/shipping/cart-preview','/api/checkout/test','/api/checkout/live','/api/internal/vavi/shipping-check'].includes(url.pathname))
         return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
@@ -368,6 +368,53 @@ export default {
         if(error instanceof CatalogError)
           return json({error:error.code},error.status,cors.headers);
         if(error instanceof SyntaxError)return json({error:'invalid_json'},400,cors.headers);
+        return json({error:'shipping_provider_unavailable'},503,cors.headers);
+      }
+    }
+    // Cotação orientativa para 1–30 unidades, em até 15 linhas:
+    // medidas de cada item vêm da VAVI e o custo vem do banco PRIVADO.
+    // Não informa nem inventa dimensões da caixa final; não habilita cobrança.
+    if(url.pathname==='/api/shipping/cart-preview' && request.method==='POST'){
+      const origin=request.headers.get('Origin');
+      const allowed=(env.ALLOWED_ORIGINS||'').split(',').map(x=>x.trim());
+      if(!origin || !allowed.includes(origin))
+        return json({error:'origin_not_allowed'},403,cors.headers);
+      if(!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+        return json({error:'unsupported_media_type'},415,cors.headers);
+      const textBody=await request.text();
+      if(textBody.length>2000)return json({error:'request_too_large'},413,cors.headers);
+      if(!env.DB?.prepare)return json({error:'database_not_configured'},503,cors.headers);
+      try{
+        const body=JSON.parse(textBody);
+        const zipCode=normalizeZip(body.zipCode);
+        const items=normalizeCart(body);
+        const resolved=[];
+        for(const line of items){
+          if(!DIRECT_CHECKOUT_SKUS.includes(line.sku))
+            throw new CatalogError('invalid_sku','Produto inválido para o frete.',422);
+          const variant=await loadVariant(env.DB,line.sku);
+          if(!variant || !approvedDirectVariant(line.sku,variant.price_cents))
+            throw new CatalogError('unavailable_product','Item sem cadastro válido.',409);
+          const row=await env.DB.prepare(
+            'SELECT supplier_variant_sku,observed_total_cents '+
+            'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
+          ).bind(line.sku).first();
+          if(!row || !Number.isSafeInteger(row.observed_total_cents))
+            throw new CatalogError('shipping_product_unverified','Item sem ficha logística.',409);
+          resolved.push({sku:line.sku,quantity:line.quantity,
+            supplierSku:row.supplier_variant_sku,unitCostCents:row.observed_total_cents});
+        }
+        const options=await simulateVaviShippingCartProvisional(env,zipCode,resolved);
+        const delivery=options.filter(x=>!/retirada|retire|pickup/i.test(x.name));
+        if(!delivery.length)
+          throw new CatalogError('shipping_provider_unavailable','Frete indisponível.',503);
+        return json({mode:'preview',zipCode,items,currency:'BRL',
+          options:delivery,provisional:true,packageConfirmed:false,
+          checkoutEnabled:false},200,cors.headers);
+      }catch(error){
+        if(error instanceof CatalogError)return json({error:error.code},error.status,cors.headers);
+        if(error instanceof SyntaxError)return json({error:'invalid_json'},400,cors.headers);
+        console.error('Multi-item shipping preview error:',error?.name||'unknown');
         return json({error:'shipping_provider_unavailable'},503,cors.headers);
       }
     }
