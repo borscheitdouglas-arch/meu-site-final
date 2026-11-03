@@ -1,5 +1,5 @@
 import {CatalogError, normalizeCart, quoteCart, groupCatalog} from './catalog.js';
-import {normalizeZip, simulateVaviShipping,simulateVaviShippingProvisional,simulateVaviShippingCartProvisional,shippingPayload} from './shipping.js';
+import {normalizeZip, simulateVaviShipping,simulateVaviShippingProvisional,simulateVaviShippingCartProvisional,shippingPayload,canQuotePublishedPackage} from './shipping.js';
 import {processPaymentWebhook} from './payment-webhook-service.js';
 import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
@@ -112,7 +112,21 @@ export default {
           try{
             shippingPayload('01001000',[{sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
-          }catch{/* Nunca anunciar opção com logística incompleta. */}
+          }catch(error){
+            // Ficha publicada + SKU/custo observados no D1 permitem simulação
+            // via API VAVI, sem inventar identificador ou custo no navegador.
+            if(!(error instanceof CatalogError) ||
+              error.code!=='shipping_product_unverified' ||
+              !canQuotePublishedPackage(sku))continue;
+            const row=await env.DB.prepare(
+              'SELECT supplier_variant_sku,observed_total_cents '+
+              'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
+            ).bind(sku).first();
+            if(/^\\d{7}$/.test(String(row?.supplier_variant_sku||'')) &&
+              Number.isSafeInteger(row?.observed_total_cents) &&
+              row.observed_total_cents>0)
+              availableSkus.push(sku);
+          }
         }
         const checkoutEnabled=checked.every(Boolean);
         return json({checkoutEnabled,availableSkus,
@@ -343,12 +357,11 @@ export default {
           options=await simulateVaviShipping(env,zipCode,
             [{sku,quantity:1}],diagnostic);
         }catch(error){
-          // A ficha do fabricante ainda não está pronta. É permitido obter
-          // apenas uma PRÉVIA orientativa com medidas públicas + custo
-          // observado no banco privado; nunca é autorizada cobrança.
+          // A simulação sem UUID usa medidas publicadas e custo registrado
+          // no banco. O lojista assume eventual diferença de frete na expedição.
           if(!(error instanceof CatalogError) ||
              error.code!=='shipping_product_unverified' ||
-             Object.hasOwn(SALVE_REGINA_VARIANTS,sku) || !env.DB?.prepare)
+             !canQuotePublishedPackage(sku) || !env.DB?.prepare)
             throw error;
           let observed;
           try{
