@@ -21,7 +21,7 @@
       <div class="actions">
         <a class="btn" href="./produto.html?id=${p.id}">Ver detalhes</a>
         <button class="btn add-to-cart" type="button" onclick="addToCart('${p.id}')">Adicionar ao carrinho</button>
-        <a class="btn outline" href="https://wa.me/5511979038063?text=Olá,%20gostaria%20do%20produto%20${encodeURIComponent(p.title)}" target="_blank">Pedir via WhatsApp</a>
+        <a class="btn outline" href="https://wa.me/5511978038063?text=Olá,%20gostaria%20do%20produto%20${encodeURIComponent(p.title)}" target="_blank">Pedir via WhatsApp</a>
       </div>
     `;
     return div;
@@ -51,7 +51,7 @@
           <p class="price" style="font-size:22px;">${p.price||''}</p>
           <p>${p.desc||''}</p>
           <div style="margin-top:16px; display:flex; gap:10px">
-            <a class="btn" href="https://wa.me/5511979038063?text=Olá,%20quero%20mais%20informações%20sobre%20${encodeURIComponent(p.title)}" target="_blank">Pedir via WhatsApp</a>
+            <a class="btn" href="https://wa.me/5511978038063?text=Olá,%20quero%20mais%20informações%20sobre%20${encodeURIComponent(p.title)}" target="_blank">Pedir via WhatsApp</a>
             <a class="btn outline" href="../pages/loja.html">Voltar à loja</a>
           </div>
         </div>
