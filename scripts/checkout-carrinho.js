@@ -163,6 +163,8 @@ async function init(){
     if(draft && /^\d{8}$/.test(draft.zipCode||'') &&
       JSON.stringify(draft.items)===JSON.stringify(raw.map(x=>[x.id,x.variant,x.qty]))){
       zip.value=draft.zipCode.slice(0,5)+'-'+draft.zipCode.slice(5);
+      // CEP herdado do carrinho: iniciar também a busca automática do endereço.
+      zip.dispatchEvent(new Event('change',{bubbles:true}));
       quoteFreight(draft.shippingOptionId).catch(()=>{});
     }
   }catch(e){
