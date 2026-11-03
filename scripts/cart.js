@@ -247,33 +247,45 @@
       aside.append(pay, make('p','cart-payment-note',
         'Na próxima etapa você informará o CEP, escolherá o frete, revisará o total e seguirá para o Mercado Pago.'));
     } else if(multiple){
-      multiPayButton=makeButton('Continuar para pagamento →',()=>{
+      multiPayButton=makeButton('Finalizar compra →',()=>{
+        // O cliente pode avançar mesmo sem consultar frete nesta tela:
+        // a próxima página solicita o CEP e a API recalcula a cotação.
         const quote=window.CartShipping?.getQuote(cart);
-        if(!quote)return;
         try{
-          sessionStorage.setItem('douglasMultiCheckoutDeliveryDraft_v1',
+          if(quote)sessionStorage.setItem('douglasMultiCheckoutDeliveryDraft_v1',
             JSON.stringify({zipCode:quote.zipCode,shippingOptionId:quote.shippingOptionId,
               items:cart.map(x=>[x.id,x.variant,x.qty])}));
+          else sessionStorage.removeItem('douglasMultiCheckoutDeliveryDraft_v1');
         }catch{}
         window.location.assign('/pages/checkout-carrinho.html');
-      },true);
+      },false);
       multiPayButton.className='cart-action cart-action-primary';
       aside.append(multiPayButton,make('p','cart-payment-note',
         'Confira a entrega e o endereço na próxima etapa. O valor será consultado novamente antes da cobrança.'));
     } else {
-      const blocked = make('button','cart-action cart-action-disabled',
-        'Finalizar compra');
-      blocked.type = 'button';
-      blocked.disabled = true;
-      blocked.setAttribute('aria-describedby','cart-payment-explanation');
-      const explanation = make('p','cart-payment-note',
-        exactShirt
-          ? 'Pagamento online aguardando a aprovação final do produto e da loja. Nenhuma cobrança será feita.'
-          : single
-            ? 'Esta peça ainda aguarda aprovação comercial e frete verificado. Nenhuma cobrança será feita.'
-            : 'Para várias peças, o carrinho calcula uma estimativa de frete. A compra online ficará bloqueada até a confirmação da embalagem final.');
-      explanation.id = 'cart-payment-explanation';
-      aside.append(blocked, explanation);
+      // Nunca apresentar um botão "Finalizar compra" inerte.
+      // Compras ainda não homologadas seguem para o atendimento sem cobrança.
+      const unavailable=cart.map(item=>{
+        const product=catalog.get(item.id);
+        const variant=product?.variants?.find(v=>v.code===item.variant);
+        return {product,variant};
+      }).filter(({variant})=>!readySkus.has(variant?.sku));
+      const names=unavailable.map(({product,variant})=>
+        product.title+' ('+variant.label+')').join('; ');
+      const assisted=make('a','cart-action cart-action-primary',
+        'Solicitar fechamento do pedido →');
+      assisted.href='https://wa.me/5511979038063?text='+
+        encodeURIComponent(draftMessage(cart));
+      assisted.target='_blank';assisted.rel='noopener noreferrer';
+      const explanation=make('p','cart-payment-note',
+        !ready
+          ? 'O pagamento automático está temporariamente indisponível. Você pode solicitar o fechamento deste pedido pelo atendimento, sem cobrança automática.'
+          : names
+            ? 'O pagamento automático ainda não foi liberado para: '+names+
+              '. O frete pode ser consultado; para comprar agora, solicite atendimento.'
+            : 'Este carrinho exige conferência comercial antes do pagamento. Solicite atendimento.');
+      explanation.id='cart-payment-explanation';
+      aside.append(assisted,explanation);
     }
     const request=make('a','cart-action cart-action-secondary','Solicitar cotação por e-mail');
     request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
@@ -301,7 +313,7 @@
         ? (quote.provisional?'Total orientativo com frete: ':'Total estimado com frete: ')+
           money(knownTotal+quote.shippingCents)
         : 'Total com frete: a calcular';
-      if(multiPayButton)multiPayButton.disabled=!quote;
+      // O botão de checkout não depende da cotação antecipada na sacola.
       request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
         '&body='+encodeURIComponent(draftMessage(cart));
       whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
