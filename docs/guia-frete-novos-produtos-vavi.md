@@ -1,3 +1,15 @@
+## Frete de vários itens no mesmo carrinho — implementação 03/11/2026
+
+**Mudança:** o carrinho envia `{zipCode,items:[{sku,quantity},...]}` a `POST /api/shipping/cart-preview` (só para SKUs de peças VAVI já cadastradas e com preço conferido no D1). A API valida cada item, quantidade máxima de 10 por variação, até 15 linhas/30 unidades; consulta o custo da VAVI e SKU do fornecedor de uma tabela **privada**, nunca do cliente.
+
+A consulta de frete `POST /api/Customers/Simulate` da VAVI recebe uma lista `compositions[]` contendo cada produto/quantidade e medidas por unidade publicadas, valor total das mercadorias (custo observado, não preço de varejo) e peso total. **Não inventamos as dimensões da caixa final**: o payload conjunto omite `height`, `width` e `length` do pacote completo, pois a VAVI não confirmou a regra de acondicionamento.
+
+**Teste de leitura real** em 03/11/2026: https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/41645789934 — HTTP 200 com opções de entrega para **duas camisetas, camiseta+caneca, duas ecobags e duas canecas** no CEP de teste `01001000`. Comparação de camiseta+caneca enviada com e sem `compositions` retornou preços iguais; isso demonstra que a API aceita a requisição, mas **não comprova embalagem otimizada nem preço final de expedição**. Não somar fretes individuais como se fosse o frete do pacote.
+
+**Regra de segurança:** resultados sempre `provisional:true`, `packageConfirmed:false`, `checkoutEnabled:false`; o carrinho exibe frete estimado para a cesta e subtotal orientativo, com aviso de que não autoriza pagamento. O checkout Mercado Pago continua restrito a uma peça aprovada e revalidada no servidor. Só liberar várias peças quando embalagem, valor declarado e preço final de expedição estiverem homologados. A loja não precisa mostrar o nome VAVI ao comprador.
+
+**Moletom removido a pedido do lojista:** não aparece no catálogo, vitrine, categoria, página individual ou carrinho; nenhuma ficha logística para moletom é autorizada. As artes não foram apagadas.
+
 # Referência permanente — cadastro e frete de novos produtos VAVI
 
 Atualizado em 02/11/2026 para a loja Douglas Assumpção.
