@@ -1,5 +1,5 @@
-/* Frete no carrinho por SKU para uma peça por pedido.
-   Somente custos recebidos da API são exibidos; checkout confere tudo no servidor. */
+/* Frete do carrinho inteiro: combinações e quantidades, somente
+   estimativas consultadas na VAVI. Sem checkout para volumes não homologados. */
 (() => {
   'use strict';
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
@@ -30,12 +30,13 @@
     const option = state.options.find(x => x.id === state.selected);
     if (!option) return null;
     return {
-      zipCode: state.quotedZip, sku: state.sku, shippingOptionId: option.id,
+      zipCode: state.quotedZip, sku: state.sku, provisional:state.provisional===true,
+      shippingOptionId: option.id,
       shippingName: option.name, shippingCents: Math.round(option.shippingCost * 100),
       deliveryDays: option.deliveryTime
     };
   }
-  function mount(root, {cart, sku, subtotalCents, onUpdate}) {
+  function mount(root, {cart, sku, items, subtotalCents, onUpdate}) {
     if (!root) return;
     root.replaceChildren();
     const key = keyFor(cart);
@@ -44,19 +45,26 @@
     root.append(make('h3','cart-shipping-title','Forma de entrega'));
     root.append(make('p','cart-shipping-description',
       'Informe o CEP e compare transportadoras, valores e prazos antes de pagar.'));
-    const eligible = cart.length === 1 && cart[0].qty === 1 &&
-      typeof sku === 'string' &&
-      (/^salve-regina-preta-(p|m|g|gg|xg)$/.test(sku) ||
-       /^caneca-salve-regina-(preta|pb)$/.test(sku) ||
-       /^ecobag-salve-regina-(m|g)$/.test(sku));
+    const multiple=cart.length!==1 || cart[0]?.qty!==1;
+    const validSku = code => typeof code==='string' &&
+      (/^salve-regina-preta-(p|m|g|gg|xg)$/.test(code) ||
+       /^caneca-salve-regina-(preta|pb)$/.test(code) ||
+       /^ecobag-salve-regina-(m|g)$/.test(code));
+    const eligible=Array.isArray(items) && items.length===cart.length &&
+      items.length>=1 && items.length<=15 &&
+      items.reduce((n,x)=>n+x.quantity,0)<=30 &&
+      items.every((x,i)=>validSku(x.sku) &&
+        Number.isInteger(x.quantity) && x.quantity>=1 && x.quantity<=10 &&
+        x.quantity===cart[i].qty) &&
+      (multiple || (typeof sku==='string' && sku===items[0].sku));
     if (!eligible) {
       root.append(make('p','cart-shipping-help',
-        'O frete automático ainda não está disponível para esta combinação de itens. Solicite uma cotação personalizada antes de pagar.'));
+        'Há um produto sem cadastro de frete nesta sacola. Consulte o atendimento para obter uma cotação.'));
       onUpdate?.();
       return;
     }
 
-    if (!state) state = {key, sku, zip:'', quotedZip:'', options:[], selected:''};
+    if (!state) state = {key, sku, zip:'', quotedZip:'', options:[], selected:'',provisional:false};
     const local = state;
     const form = make('form','cart-shipping-form');
     const label = make('label','','CEP de entrega');
@@ -123,7 +131,7 @@
     input.addEventListener('input',()=>{
       stopRequest();
       local.zip=input.value;
-      local.quotedZip='';local.options=[];local.selected='';
+      local.quotedZip='';local.options=[];local.selected='';local.provisional=false;
       status.textContent='';
       button.disabled=false;
       draw();
@@ -132,7 +140,7 @@
       event.preventDefault();
       const zipCode=digits(input.value);
       stopRequest();
-      local.quotedZip='';local.options=[];local.selected='';
+      local.quotedZip='';local.options=[];local.selected='';local.provisional=false;
       draw();
       if (!/^\d{8}$/.test(zipCode)) {
         status.textContent='Informe um CEP válido com 8 números.';
@@ -144,16 +152,23 @@
       button.disabled=true;
       status.textContent='Consultando as transportadoras...';
       try {
-        const response=await fetch(API+'/api/shipping/preview',{
+        const response=await fetch(API+(multiple?
+          '/api/shipping/cart-preview':'/api/shipping/preview'),{
           method:'POST',mode:'cors',cache:'no-store',
           headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({zipCode,sku}),
+          body:JSON.stringify(multiple?{zipCode,items}:{zipCode,sku}),
           signal:AbortSignal.any([currentController.signal,AbortSignal.timeout(15000)])
         });
         const data=await response.json().catch(()=>({}));
         if (id!==sequence || state!==local || digits(input.value)!==zipCode) return;
         if(!response.ok)throw new Error(data?.error||'http_'+response.status);
-        if(data?.sku!==sku || data?.zipCode!==zipCode ||
+        const matchItems=multiple?
+          Array.isArray(data?.items) && data.items.length===items.length &&
+          data.items.every((x,i)=>x.sku===items[i].sku &&
+            x.quantity===items[i].quantity) &&
+          data.provisional===true && data.checkoutEnabled===false:
+          data?.sku===sku;
+        if(!matchItems || data?.zipCode!==zipCode ||
             !Array.isArray(data.options))throw new Error('shipping_unavailable');
         const options=data.options.filter(x=>x && x.isActive===true &&
           typeof x.id==='string' && /^[A-Za-z0-9_.:-]{1,120}$/.test(x.id) &&
@@ -167,16 +182,19 @@
         local.quotedZip=zipCode;
         local.options=options;
         local.selected=options[0].id;
-        status.textContent=data.provisional===true?
+        local.provisional=data.provisional===true;
+        status.textContent=multiple?
+          'Estimativa VAVI para todos os itens juntos. Escolha uma opção; a embalagem final ainda exige confirmação.':
+          data.provisional===true?
           'Simulação orientativa: embalagem em validação, sem compra disponível.':
           'Cotação disponível. Escolha o frete para visualizar o total.';
         fineprint.textContent=(data.provisional===true?
-          'Produto não liberado para pagamento. O valor é orientativo e depende da embalagem final. ':'')+
-          'Prazos de transporte não incluem fabricação. Valores reconferidos antes de qualquer cobrança.';
+          'Estimativa de frete: a caixa final ainda não foi confirmada. Esta cotação NÃO autoriza o pagamento. ':'')+
+          'Prazos de transporte não incluem fabricação. Valor sujeito a atualização antes de qualquer cobrança.';
         draw();
       } catch(error) {
         if(id!==sequence || state!==local)return;
-        local.quotedZip='';local.options=[];local.selected='';
+        local.quotedZip='';local.options=[];local.selected='';local.provisional=false;
         const message=({
           shipping_not_configured:'Configuração do frete incompleta.',
           unavailable_product:'O cadastro logístico desta peça ainda está sendo validado.',
