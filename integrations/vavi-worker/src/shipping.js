@@ -89,6 +89,11 @@ function safeQuote(option) {
 // orientativa, nunca na cobrança; embalagens finais ainda exigem confirmação.
 // Dimensões em mm, peso em kg. Nenhum UUID é inventado.
 const PROVISIONAL_SINGLE_PACKAGE=Object.freeze({
+  'salve-regina-preta-p': {weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-m': {weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-g': {weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-gg':{weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-xg':{weight:0.25,height:10,width:250,length:300},
   'ecobag-salve-regina-m':{weight:0.20,height:10,width:250,length:250},
   'ecobag-salve-regina-g':{weight:0.20,height:10,width:250,length:250},
   'caneca-salve-regina-pb':{weight:0.50,height:100,width:200,length:150},
@@ -98,14 +103,12 @@ const PROVISIONAL_SINGLE_PACKAGE=Object.freeze({
 // Medidas por unidade divulgadas pela VAVI. A embalagem final de um
 // carrinho MISTO não está homologada: estas fichas são apenas para uma
 // consulta orientativa, nunca para pagamento ou geração de pedido.
-const PROVISIONAL_CART_PACKAGES=Object.freeze({
-  'salve-regina-preta-p': {weight:0.25,height:10,width:250,length:300},
-  'salve-regina-preta-m': {weight:0.25,height:10,width:250,length:300},
-  'salve-regina-preta-g': {weight:0.25,height:10,width:250,length:300},
-  'salve-regina-preta-gg':{weight:0.25,height:10,width:250,length:300},
-  'salve-regina-preta-xg':{weight:0.25,height:10,width:250,length:300},
-  ...PROVISIONAL_SINGLE_PACKAGE
-});
+const PROVISIONAL_CART_PACKAGES=PROVISIONAL_SINGLE_PACKAGE;
+
+/** Limita a cotação substituta às nove variações físicas expressamente cadastradas. */
+export function canQuotePublishedPackage(sku){
+  return typeof sku==='string' && Object.hasOwn(PROVISIONAL_SINGLE_PACKAGE,sku);
+}
 
 // O servidor determina custo, SKU da VAVI e medidas. O navegador só pode
 // informar SKU interno e quantidade. As medidas finais do pacote NÃO são
