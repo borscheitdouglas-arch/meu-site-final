@@ -39,11 +39,12 @@ def main() -> None:
 
         page.goto(BASE + "/pages/cart.html", wait_until="domcontentloaded")
         cart_with([{"id": "caneca-salve-regina-preta", "variant": "unico", "qty": 1}])
-        assisted = page.get_by_role("link", name=re.compile("Consultar este pedido pelo WhatsApp"))
-        expect(assisted).to_be_visible(timeout=12000)
-        assert assisted.get_attribute("href").startswith("https://wa.me/5511978038063?text=")
+        explanation = page.locator("#cart-payment-explanation")
+        expect(explanation).to_contain_text("não estão liberados para pagamento", timeout=12000)
+        assert page.locator("#cart-root a[href*='wa.me']").count() == 0
+        assert page.locator("#cart-root a[href^='mailto:']").count() == 0
         assert page.get_by_role("button", name="Finalizar compra").count() == 0
-        print("PASS: peça pendente apresenta ação de atendimento, sem botão de pagamento morto")
+        print("PASS: peça pendente apresenta aviso, sem WhatsApp ou checkout inerte")
         browser.close()
 
 
