@@ -236,17 +236,28 @@ const multiRequest=(payload,originHeader=true)=>new Request(
 
 test('carrinho com camiseta e caneca consulta VAVI uma vez, sem liberar pagamentos',async()=>{
   const seen=[];
-  const envMulti={...env,DB:{
-    prepare(sql){return {bind(sku){return {first:async()=>{
-      if(sql.includes('supplier_variant_cost_observations')){
-        return sku==='salve-regina-preta-g'?
-          {supplier_variant_sku:'0001589',observed_total_cents:7071}:
-          {supplier_variant_sku:'0002193',observed_total_cents:2961};
+  const envMulti={
+    ...env,
+    DB:{
+      prepare(sql){
+        return {
+          bind(sku){
+            return {
+              first:async()=>{
+                if(sql.includes('supplier_variant_cost_observations')){
+                  return sku==='salve-regina-preta-g'?
+                    {supplier_variant_sku:'0001589',observed_total_cents:7071}:
+                    {supplier_variant_sku:'0002193',observed_total_cents:2961};
+                }
+                return {sku,price_cents:sku==='salve-regina-preta-g'?10990:4990,
+                  available:0,product_verified:0,product_enabled:0};
+              }
+            };
+          }
+        };
       }
-      return {sku,price_cents:sku==='salve-regina-preta-g'?10990:4990,
-        available:0,product_verified:0,product_enabled:0};
-    }}}}}}
-  }};
+    }
+  };
   const origFetch=globalThis.fetch;
   globalThis.fetch=async(url,init)=>{
     seen.push(String(url));
