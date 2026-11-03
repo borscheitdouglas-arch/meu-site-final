@@ -106,21 +106,6 @@
           "sku": "ecobag-salve-regina-g"
         }
       ]
-    },
-    {
-      "id": "moletom-salve-regina",
-      "title": "Moletom Salve Regina",
-      "category": "moletons",
-      "status": "preparation",
-      "image": "/assets/img/Produtos/salve-regina/moletom-preview.svg",
-      "priceStatus": "pending",
-      "variants": [
-        {
-          "code": "unico",
-          "label": "Modelo e tamanhos a confirmar",
-          "priceCents": null
-        }
-      ]
     }
   ]
 }
