@@ -1,0 +1,35 @@
+name: Botão Finalizar compra — teste de navegação sem pagamentos
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/cart.js"
+      - "pages/cart.html"
+      - "tools/test_checkout_button.py"
+      - ".github/workflows/checkout-button-e2e.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ui:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validar sintaxe do carrinho
+        run: node --check scripts/cart.js
+      - name: Preparar navegador de teste
+        run: |
+          python3 -m pip install playwright==1.60.0
+          python3 -m playwright install --with-deps chromium
+      - name: Testar botão do carrinho em navegador real
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/shop-smoke.log 2>&1 &
+          sleep 2
+          python3 tools/test_checkout_button.py
