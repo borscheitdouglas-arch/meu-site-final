@@ -283,7 +283,10 @@ test('duas camisetas aprovadas criam preferência única após frete reconferido
 
 test('carrinho múltiplo com frete individual não cadastrado não inicia pagamento',async()=>{
   let paid=false;
-  const db={prepare(){throw Error('does not reach DB')}};
+  const db={prepare(sql){
+    assert.match(sql,/supplier_variant_cost_observations/);
+    return {bind(){return {first:async()=>null};}};
+  }};
   await assert.rejects(()=>createCheckoutLive({
     ...enabled,DB:db,LIVE_MULTICART_CHECKOUT_ENABLED:'true',
     VAVI_SHIPPING_PRODUCTS_JSON:'{}'
