@@ -72,10 +72,10 @@
       const row=el('div');row.append(el('dt','',name),el('dd','',value));list.append(row);
     });return list;
   }
-  function shipping(container,product,select) {
+  function shipping(container,product,select,quantity) {
     const section=el('section','shop-single-shipping');
     section.append(el('h2','','Calcule o frete pelo CEP'),
-      el('p','','Consulte o transporte de 1 unidade da variação escolhida. O prazo de produção não está incluído no transporte.'));
+      el('p','','Consulte o frete conforme tamanho, modelo e quantidade escolhidos. O prazo de produção não está incluído.'));
     const form=el('form');
     const input=el('input');input.type='text';input.name='zipCode';input.required=true;
     input.inputMode='numeric';input.autocomplete='postal-code';input.maxLength=9;
@@ -92,11 +92,17 @@
     }
     let serial=0,controller=null;
     function reset(){serial++;controller?.abort();controller=null;button.disabled=false;status.textContent='';results.replaceChildren();}
-    input.addEventListener('input',reset);select.addEventListener('change',reset);
+    input.addEventListener('input',reset);
+    select.addEventListener('change',reset);
+    quantity.addEventListener('change',reset);
     form.addEventListener('submit',async event=>{
       event.preventDefault();reset();
       const zipCode=input.value.replace(/\D/g,'');
       const variant=product.variants.find(v=>v.code===select.value);
+      const units=Number(quantity.value);
+      if(!Number.isInteger(units)||units<1||units>10){
+        status.textContent='Escolha entre 1 e 10 unidades.';return;
+      }
       if(!/^\d{8}$/.test(zipCode)){status.textContent='Informe um CEP válido com 8 números.';return;}
       if(!variant?.sku || !Number.isInteger(variant.priceCents)){
         status.textContent='Esta variação ainda não possui preço e dados de frete confirmados.';
@@ -105,16 +111,24 @@
       const turn=serial;controller=new AbortController();button.disabled=true;
       status.textContent='Consultando as opções disponíveis...';
       try {
-        const response=await fetch(API+'/api/shipping/preview',{
+        const response=await fetch(API+(units>1?
+          '/api/shipping/cart-preview':'/api/shipping/preview'),{
           method:'POST',mode:'cors',cache:'no-store',
           headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({zipCode,sku:variant.sku}),
+          body:JSON.stringify(units>1?
+            {zipCode,items:[{sku:variant.sku,quantity:units}]}:
+            {zipCode,sku:variant.sku}),
           signal:AbortSignal.any([controller.signal,AbortSignal.timeout(15000)])
         });
         const data=await response.json().catch(()=>({}));
         if(turn!==serial)return;
         if(!response.ok)throw Error(data?.error||'http_'+response.status);
-        if(data?.sku!==variant.sku||data?.zipCode!==zipCode||!Array.isArray(data.options))throw Error('cotacao');
+        const matching=units>1?
+          data?.items?.length===1 && data.items[0].sku===variant.sku &&
+          data.items[0].quantity===units:
+          data?.sku===variant.sku;
+        if(!matching||data?.zipCode!==zipCode||!Array.isArray(data.options))
+          throw Error('cotacao');
         const choices=data.options.filter(item=>item && item.isActive===true &&
           typeof item.name==='string' && item.name.length<=120 &&
           !/retirada|retire|pickup/i.test(item.name) &&
@@ -122,12 +136,12 @@
           Number.isInteger(item.deliveryTime) && item.deliveryTime>=0 && item.deliveryTime<=365);
         if(!choices.length)throw Error('sem_frete');
         status.textContent=data.provisional===true?
-          'Simulação orientativa para uma unidade (produto ainda não liberado para compra):':
-          'Opções estimadas para uma unidade:';
+          'Simulação orientativa para '+units+' unidade(s), sujeita à confirmação da embalagem:':
+          'Opções estimadas para '+units+' unidade(s):';
         choices.forEach(item=>{
           const quote=el('p','shop-single-quote-line',
             item.name+' · Frete: '+money(Math.round(item.shippingCost*100))+
-            ' · Total estimado: '+money(variant.priceCents+Math.round(item.shippingCost*100))+
+            ' · Total estimado: '+money(variant.priceCents*units+Math.round(item.shippingCost*100))+
             ' · Transporte: '+item.deliveryTime+' dia(s) úteis');
           results.append(quote);
         });
@@ -293,7 +307,7 @@
       summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
       // Calculadora na página individual de todas as peças físicas, não só camiseta.
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
-      shipping(summary,product,select);
+      shipping(summary,product,select,quantity);
     }
     const trust=el('div','shop-single-trust');
     trust.append(el('p','',isBook?
