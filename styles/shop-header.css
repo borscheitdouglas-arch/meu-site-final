@@ -1,0 +1,113 @@
+/* Cabeçalho compartilhado das páginas públicas da loja. */
+body.shop-shared-shell { --header-height:88px; --shop-header:88px; padding-top:88px; }
+body.shop-shared-shell .shop-shared-header,
+body.shop-shared-shell .shop-shared-header * { box-sizing:border-box; }
+body.shop-shared-shell .shop-shared-header {
+  position:fixed; inset:0 0 auto; z-index:1000; display:grid;
+  grid-template-columns:44px minmax(230px,1fr) minmax(220px,380px) auto;
+  grid-template-rows:64px; align-items:center; gap:0 24px;
+  width:100%; max-width:none; height:88px; min-height:0; margin:0;
+  padding:12px max(24px,calc((100% - 1280px)/2)) 12px;
+  border:0; border-bottom:1px solid #a68c55; border-radius:0;
+  background:linear-gradient(#062c32e8,#062c32f0),url('/assets/img/loja/manto-mariano-cabecalho.webp') center/cover;
+  color:#f3ead8; box-shadow:0 4px 24px #0002; backdrop-filter:none;
+  font:400 14px/1.4 'Inter',Arial,sans-serif;
+}
+body.shop-shared-shell .shop-shared-header::before,
+body.shop-shared-shell .shop-shared-header::after { display:none; }
+body.shop-shared-shell .shop-shared-header .menu-btn {
+  grid-column:1; grid-row:1; position:static; display:flex; align-items:center;
+  justify-content:center; width:44px; min-width:44px; height:44px; min-height:44px;
+  margin:0; padding:0; border:1px solid #a68c5580; border-radius:3px;
+  background:transparent; color:#f3ead8; box-shadow:none; cursor:pointer;
+}
+body.shop-shared-shell .shop-shared-header .menu-btn::before,
+body.shop-shared-shell .shop-shared-header .menu-btn::after { display:none; }
+body.shop-shared-shell .shop-shared-header .menu-btn svg { display:block; width:22px; height:16px; }
+body.shop-shared-shell .shop-shared-header .logo {
+  grid-column:2; grid-row:1; position:static; min-width:0; width:auto; height:auto; margin:0; padding:0;
+}
+body.shop-shared-shell .shop-shared-header .logo a {
+  display:flex; align-items:center; gap:12px; width:auto; margin:0; padding:0;
+  border:0; background:transparent; color:#f3ead8; text-decoration:none;
+}
+body.shop-shared-shell .shop-shared-header .logo img {
+  display:block; width:42px; height:42px; max-width:none; margin:0; padding:0;
+  object-fit:contain; border:0; border-radius:50%; filter:none; box-shadow:none;
+}
+body.shop-shared-shell .shop-shared-header .shop-brand {
+  display:block; margin:0; color:#f3ead8; text-shadow:none; white-space:nowrap;
+  font:400 24px/1.2 'Spectral',Georgia,serif; letter-spacing:-.02em;
+}
+body.shop-shared-shell .shop-shared-header .shop-brand small {
+  display:block; margin:4px 0 0; padding:0; color:#c7c9bb;
+  font:500 8px/1.5 'Inter',Arial,sans-serif; letter-spacing:.16em; text-transform:uppercase;
+}
+body.shop-shared-shell .shop-shared-header .shop-search {
+  grid-column:3; grid-row:1; position:static; display:flex; align-items:stretch;
+  width:100%; max-width:none; min-width:0; height:44px; margin:0; padding:0;
+  border:1px solid #a68c55; border-radius:4px; overflow:hidden; box-shadow:none;
+  background:#f3eee3; color:#183333; color-scheme:light;
+}
+body.shop-shared-shell .shop-shared-header .shop-search[hidden] { display:none; }
+body.shop-shared-shell .shop-shared-header .shop-search input {
+  display:block; flex:1; width:0; min-width:0; height:42px; min-height:0;
+  margin:0; padding:0 14px; border:0; border-radius:0; outline:0; box-shadow:none;
+  background:transparent; color:#183333; font:400 14px/1.4 'Inter',Arial,sans-serif;
+}
+body.shop-shared-shell .shop-shared-header .shop-search input::placeholder { color:#746d60; opacity:1; }
+body.shop-shared-shell .shop-shared-header .shop-search:focus-within { outline:2px solid #dfc58c; outline-offset:3px; }
+body.shop-shared-shell .shop-shared-header .shop-search button {
+  display:flex; align-items:center; justify-content:center; flex:0 0 46px;
+  width:46px; min-width:46px; height:42px; min-height:0; margin:0; padding:0;
+  border:0; border-left:1px solid #a68c55; border-radius:0;
+  background:#d2b575; color:#183333; box-shadow:none; cursor:pointer;
+}
+body.shop-shared-shell .shop-shared-header .shop-search button svg { width:21px; height:21px; }
+body.shop-shared-shell .shop-shared-header .shop-cart-link {
+  grid-column:4; grid-row:1; position:static; display:flex; align-items:center;
+  justify-content:center; gap:9px; width:auto; min-width:44px; height:44px; min-height:44px;
+  margin:0; padding:0 15px; border:1px solid #c2a77380; border-radius:4px;
+  background:#0a3037; color:#eee8dc; box-shadow:none; text-decoration:none;
+  font:400 14px/1.4 'Inter',Arial,sans-serif; letter-spacing:0;
+}
+body.shop-shared-shell .shop-shared-header .shop-cart-link > span { font:inherit; letter-spacing:0; color:inherit; }
+body.shop-shared-shell .shop-shared-header .shop-cart-link svg { display:block; width:24px; height:24px; }
+body.shop-shared-shell .shop-shared-header .shop-cart-link .shop-cart-count {
+  display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px;
+  padding:0 5px; border-radius:50%; background:#e6c586; color:#183333;
+  font:600 11px/1 'Inter',Arial,sans-serif;
+}
+body.shop-shared-shell .shop-shared-header .shop-cart-count[hidden] { display:none; }
+body.shop-shared-shell .shop-shared-header .shop-header-links,
+body.shop-shared-shell .shop-shared-header .header-actions { display:none!important; }
+body.shop-shared-shell .shop-shared-header a:focus-visible,
+body.shop-shared-shell .shop-shared-header button:focus-visible { outline:2px solid #dfc58c; outline-offset:4px; }
+.shop-header-sr { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+.shop-shell-dialog { position:fixed; inset:0 auto 0 0; width:min(360px,90vw); max-width:90vw; height:100dvh; max-height:100dvh; margin:0; padding:28px; border:0; border-right:1px solid #a68c5580; background:#0a3037; color:#f3ead8; font:400 15px/1.5 'Inter',Arial,sans-serif; box-shadow:10px 0 50px #0005; }
+.shop-shell-dialog::backdrop { background:#0008; }
+.shop-shell-dialog .shop-shell-close { display:block; width:auto; min-height:42px; margin:0 0 30px auto; padding:8px 12px; border:1px solid #a68c5580; border-radius:4px; background:transparent; color:#f3ead8; font:500 13px/1.4 'Inter',Arial,sans-serif; cursor:pointer; }
+.shop-shell-dialog nav { display:block; position:static; margin:0; padding:0; }
+.shop-shell-dialog nav a { display:block; padding:15px 0; border-bottom:1px solid #e7cd9126; color:#f3ead8; text-decoration:none; font:400 16px/1.4 'Inter',Arial,sans-serif; }
+.shop-shell-dialog a:focus-visible,.shop-shell-dialog button:focus-visible { outline:2px solid #dfc58c; outline-offset:4px; }
+@media(max-width:1000px) {
+  body.shop-shared-shell .shop-shared-header { grid-template-columns:44px minmax(190px,1fr) minmax(180px,280px) auto; gap:0 14px; padding-inline:20px; }
+  body.shop-shared-shell .shop-shared-header .shop-brand { font-size:20px; }
+  body.shop-shared-shell .shop-shared-header .shop-brand small { font-size:7px; }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link { padding-inline:10px; }
+}
+@media(max-width:760px) {
+  body.shop-shared-shell { --header-height:118px; --shop-header:118px; padding-top:118px; }
+  body.shop-shared-shell .shop-shared-header { height:118px; grid-template-columns:44px minmax(0,1fr) auto; grid-template-rows:50px 48px; gap:0 12px; padding:10px 16px; }
+  body.shop-shared-shell .shop-shared-header .logo a { gap:9px; }
+  body.shop-shared-shell .shop-shared-header .logo img { width:32px; height:32px; }
+  body.shop-shared-shell .shop-shared-header .shop-brand { font-size:18px; white-space:normal; }
+  body.shop-shared-shell .shop-shared-header .shop-brand small { font-size:7px; letter-spacing:.08em; }
+  body.shop-shared-shell .shop-shared-header .shop-search { grid-column:1/-1; grid-row:2; align-self:center; }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link { grid-column:3; grid-row:1; padding:0 8px; }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link > span:not(.shop-cart-count) { display:none; }
+}
+@media(max-width:370px) {
+  body.shop-shared-shell .shop-shared-header .shop-brand { font-size:16px; }
+  body.shop-shared-shell .shop-shared-header .logo img { display:none; }
+}
