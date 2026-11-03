@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#b76436">
+<title>Finalizar carrinho | Douglas Assumpção</title>
+<link rel="icon" href="/assets/img/icone.png">
+<link rel="stylesheet" href="/styles/checkout-salve-regina.css?v=20261101-safari">
+<link rel="stylesheet" href="/styles/store-cart-pro.css?v=20261101-v1">
+<link rel="stylesheet" href="/styles/checkout-salve-regina-pro.css?v=20261101-v1">
+<script src="/scripts/checkout-carrinho.js?v=20261103-carrinho-pagamento" defer></script>
+</head>
+<body>
+<header><a href="/pages/cart.html">← Voltar ao carrinho</a><span>Douglas Assumpção · Arte & tradição</span></header>
+<main>
+<p class="eyebrow">Loja Douglas Assumpção</p>
+<ol class="shop-steps checkout-steps" aria-label="Etapas da compra">
+<li><span class="step-number">1</span> Carrinho</li>
+<li aria-current="step"><span class="step-number">2</span> Entrega e dados</li>
+<li><span class="step-number">3</span> Pagamento</li>
+</ol>
+<h1>Finalizar compra</h1>
+<p id="checkout-multi-status" role="status">Conferindo disponibilidade do carrinho…</p>
+<section id="checkout-multi-container" hidden>
+<form id="checkout-multi-form" class="checkout-grid">
+<div class="checkout-form-column">
+<section class="checkout-panel" aria-labelledby="items-heading">
+<div class="checkout-section-heading"><span class="checkout-step">1</span><div><h2 id="items-heading">Produtos no pedido</h2></div></div>
+<div id="checkout-multi-items"></div>
+<p class="hint">Quantidades e preços são conferidos novamente no servidor.</p>
+</section>
+<section class="checkout-panel" aria-labelledby="freight-heading">
+<div class="checkout-section-heading"><span class="checkout-step">2</span><div><h2 id="freight-heading">Entrega</h2></div></div>
+<div class="checkout-ship-form">
+<label>CEP de entrega <input name="zipCode" autocomplete="postal-code" inputmode="numeric" maxlength="9" pattern="[0-9]{5}-?[0-9]{3}" required placeholder="00000-000"></label>
+<button type="button" id="checkout-multi-quote" class="secondary">Calcular frete</button>
+</div>
+<p id="checkout-multi-shipping-status" role="status" aria-live="polite"></p>
+<fieldset id="checkout-multi-shipping-options" hidden><legend>Transportadoras</legend></fieldset>
+<p class="hint">O valor é atualizado pela transportadora. O prazo de fabricação não está incluído.</p>
+</section>
+<section class="checkout-panel" aria-labelledby="buyer-heading">
+<div class="checkout-section-heading"><span class="checkout-step">3</span><div><h2 id="buyer-heading">Dados do comprador</h2></div></div>
+<div class="checkout-field-grid">
+<label>Nome completo <input name="name" autocomplete="name" maxlength="160" required></label>
+<label>E-mail <input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+<label>Telefone com DDD <input name="phone" inputmode="tel" autocomplete="tel" required></label>
+<label>CPF <input name="taxId" inputmode="numeric" maxlength="14" required></label>
+</div>
+</section>
+<section class="checkout-panel" aria-labelledby="address-heading">
+<div class="checkout-section-heading"><span class="checkout-step">4</span><div><h2 id="address-heading">Endereço de entrega</h2></div></div>
+<div class="checkout-field-grid">
+<label class="checkout-field-wide">Rua ou avenida <input name="street" autocomplete="address-line1" maxlength="180" required></label>
+<label>Número <input name="number" maxlength="30" required></label>
+<label>Complemento <input name="complement" autocomplete="address-line2" maxlength="120"></label>
+<label>Bairro <input name="neighborhood" maxlength="90" required></label>
+<label>Cidade <input name="city" autocomplete="address-level2" maxlength="90" required></label>
+<label>Estado (UF) <input name="state" autocomplete="address-level1" maxlength="2" pattern="[A-Za-z]{2}" placeholder="SP" required></label>
+</div>
+<p class="hint">O CEP informado deve corresponder ao endereço acima.</p>
+</section>
+</div>
+<aside class="checkout-sidebar" aria-label="Resumo e pagamento">
+<div class="checkout-summary">
+<p class="checkout-eyebrow">Sua compra</p>
+<h2>Resumo do pedido</h2>
+<div class="total">
+<p>Produtos <strong id="checkout-multi-subtotal">—</strong></p>
+<p>Frete <strong id="checkout-multi-freight">A calcular</strong></p>
+<p>Total <strong id="checkout-multi-total">A calcular</strong></p>
+</div>
+<div class="checkout-secure"><span aria-hidden="true">✦</span><div><strong>Pagamento seguro pelo Mercado Pago</strong><p>Pix e cartões são oferecidos no ambiente oficial do Mercado Pago, conforme disponibilidade.</p></div></div>
+<label class="confirm"><input type="checkbox" name="confirm" required> Li e concordo com as <a href="/pages/condicoes-da-loja.html" target="_blank" rel="noopener noreferrer">condições de compra, entrega, trocas e privacidade</a>.</label>
+<p class="hint">O pagamento é solicitado somente após você conferir o total. Os dados de entrega são armazenados de forma protegida.</p>
+<button type="submit" class="pay" id="checkout-multi-pay" disabled>Ir para pagamento seguro →</button>
+<p id="checkout-multi-pay-status" role="status" aria-live="polite"></p>
+<a class="checkout-back-link" href="/pages/cart.html">← Revisar o carrinho</a>
+</div>
+</aside>
+</form>
+</section>
+<p class="hint">A compra é registrada somente após confirmação do pagamento pelo servidor. A produção é acompanhada pela loja.</p>
+</main>
+<footer><a href="/pages/contato.html">Entre em contato</a></footer>
+</body>
+</html>
