@@ -507,3 +507,30 @@ body.cart-polished .shop-cart-page :is(button,a,input):focus-visible {
   body.cart-polished .shop-cart-page .cart-quantity-button { min-width: 32px; }
   body.cart-polished .shop-cart-page .cart-quantity-number { min-width: 29px; }
 }
+/* Topo simplificado: o carrinho vai direto ao conteúdo, sem avisos redundantes. */
+body.cart-polished .shop-cart-page.container.editorial-main {
+  padding-top: clamp(21px, 2.8vw, 34px);
+}
+body.cart-polished .shop-cart-page .editorial-heading {
+  margin: 0 0 18px;
+}
+body.cart-polished .shop-cart-page .shop-steps {
+  margin-bottom: 9px;
+}
+body.cart-polished .shop-cart-page .cart-checkout-layout {
+  margin-top: 13px;
+}
+@media (max-width: 600px) {
+  body.cart-polished .shop-cart-page.container.editorial-main {
+    padding-top: 20px;
+  }
+  body.cart-polished .shop-cart-page .editorial-heading {
+    margin-bottom: 16px;
+  }
+  body.cart-polished .shop-cart-page .shop-steps {
+    margin-bottom: 6px;
+  }
+  body.cart-polished .shop-cart-page .cart-checkout-layout {
+    margin-top: 12px;
+  }
+}
