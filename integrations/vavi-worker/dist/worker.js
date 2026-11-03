@@ -189,19 +189,20 @@ function safeQuote(option) {
   };
 }
 var PROVISIONAL_SINGLE_PACKAGE = Object.freeze({
-  "ecobag-salve-regina-m": { weight: 0.2, height: 10, width: 250, length: 250 },
-  "ecobag-salve-regina-g": { weight: 0.2, height: 10, width: 250, length: 250 },
-  "caneca-salve-regina-pb": { weight: 0.5, height: 100, width: 200, length: 150 },
-  "caneca-salve-regina-preta": { weight: 0.5, height: 100, width: 200, length: 150 }
-});
-var PROVISIONAL_CART_PACKAGES = Object.freeze({
   "salve-regina-preta-p": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-m": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-g": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-gg": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-xg": { weight: 0.25, height: 10, width: 250, length: 300 },
-  ...PROVISIONAL_SINGLE_PACKAGE
+  "ecobag-salve-regina-m": { weight: 0.2, height: 10, width: 250, length: 250 },
+  "ecobag-salve-regina-g": { weight: 0.2, height: 10, width: 250, length: 250 },
+  "caneca-salve-regina-pb": { weight: 0.5, height: 100, width: 200, length: 150 },
+  "caneca-salve-regina-preta": { weight: 0.5, height: 100, width: 200, length: 150 }
 });
+var PROVISIONAL_CART_PACKAGES = PROVISIONAL_SINGLE_PACKAGE;
+function canQuotePublishedPackage(sku) {
+  return typeof sku === "string" && Object.hasOwn(PROVISIONAL_SINGLE_PACKAGE, sku);
+}
 function provisionalCartPayload(zipCode, lines) {
   if (!Array.isArray(lines) || lines.length === 0 || lines.length > 15)
     throw new CatalogError("invalid_cart", "Carrinho inv\xE1lido.", 422);
@@ -1263,7 +1264,11 @@ async function createCheckoutLive(env, body, deps = {}) {
   let quotes;
   if (multiple) {
     const packed = await Promise.all(quote.lines.map(async (line) => {
-      shippingPayload(zip, [{ sku: line.sku, quantity: 1 }], env.VAVI_SHIPPING_PRODUCTS_JSON);
+      try {
+        shippingPayload(zip, [{ sku: line.sku, quantity: 1 }], env.VAVI_SHIPPING_PRODUCTS_JSON);
+      } catch (error) {
+        if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || !canQuotePublishedPackage(line.sku)) throw error;
+      }
       const observation = await env.DB.prepare(
         "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
       ).bind(line.sku).first();
@@ -1278,7 +1283,23 @@ async function createCheckoutLive(env, body, deps = {}) {
     }));
     quotes = await (deps.simulateShippingCart || simulateVaviShippingCartProvisional)(env, zip, packed);
   } else {
-    quotes = await (deps.simulateShipping || simulateVaviShipping)(env, zip, quote.lines);
+    try {
+      quotes = await (deps.simulateShipping || simulateVaviShipping)(env, zip, quote.lines);
+    } catch (error) {
+      const sku = quote.lines[0].sku;
+      if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || !canQuotePublishedPackage(sku)) throw error;
+      const observation = await env.DB.prepare(
+        "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
+      ).bind(sku).first();
+      if (!observation || !/^\d{7}$/.test(String(observation.supplier_variant_sku || "")) || !Number.isSafeInteger(observation.observed_total_cents) || observation.observed_total_cents < 1)
+        throw new CatalogError("shipping_product_unverified", "Produto sem ficha log\xEDstica v\xE1lida.", 409);
+      quotes = await (deps.simulateShippingProvisional || simulateVaviShippingProvisional)(
+        env,
+        zip,
+        sku,
+        observation.observed_total_cents
+      );
+    }
   }
   const option = Array.isArray(quotes) && quotes.find((x) => x.isActive === true && String(x.id) === body.shippingOptionId && !/retirada|retire|pickup/i.test(String(x.name || "")));
   if (!option || !Number.isFinite(option.shippingCost) || option.shippingCost < 0 || Math.abs(option.shippingCost * 100 - Math.round(option.shippingCost * 100)) > 1e-6)
@@ -2147,7 +2168,13 @@ var index_default = {
           try {
             shippingPayload("01001000", [{ sku, quantity: 1 }], env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
-          } catch {
+          } catch (error) {
+            if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || !canQuotePublishedPackage(sku)) continue;
+            const row = await env.DB.prepare(
+              "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
+            ).bind(sku).first();
+            if (/^\d{7}$/.test(String(row?.supplier_variant_sku || "")) && Number.isSafeInteger(row?.observed_total_cents) && row.observed_total_cents > 0)
+              availableSkus.push(sku);
           }
         }
         const checkoutEnabled = checked.every(Boolean);
@@ -2368,7 +2395,7 @@ var index_default = {
             diagnostic
           );
         } catch (error) {
-          if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || Object.hasOwn(SALVE_REGINA_VARIANTS, sku) || !env.DB?.prepare)
+          if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || !canQuotePublishedPackage(sku) || !env.DB?.prepare)
             throw error;
           let observed;
           try {
