@@ -302,53 +302,33 @@
       const feedback=el('p','shop-single-feedback');
       feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
       actions.append(add,proceed);
-      if(isShirt){
-        const direct=link('Comprar agora · Calcular frete e pagar',
-          '/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value),'shop-single-buy');
-        direct.addEventListener('click',event=>{
-          if(Number(quantity.value)!==1){
-            event.preventDefault();
-            feedback.textContent='Para compra direta, selecione 1 camiseta por pedido.';
-          }
-        });
-        select.addEventListener('change',()=>{
-          direct.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value);
-        });
-        actions.append(direct);
-        proceed.textContent='Adicionar e ver carrinho';
-      }else if(!isPreparation){
-        proceed.textContent='Consultar disponibilidade no carrinho';
-        const direct=link('Comprar agora · Calcular frete e pagar','#','shop-single-buy');
-        direct.hidden=true;
-        direct.addEventListener('click',event=>{
-          if(Number(quantity.value)!==1){
-            event.preventDefault();
-            feedback.textContent='A compra direta permite uma peça por pedido.';
-          }
-        });
-        actions.append(direct);
-        const approvedSkus=new Set();
-        const sync=()=>{
-          const selected=variants.find(v=>v.code===select.value);
-          const approved=Boolean(selected?.sku && approvedSkus.has(selected.sku));
-          direct.hidden=!approved;
-          if(approved){
-            direct.href='/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku);
-            productStatus.textContent='Compra online disponível · produção sob demanda';
-            priceNote.textContent='Preço de venda aprovado. Frete calculado pelo CEP no checkout.';
-            proceed.textContent='Adicionar e ver carrinho';
-          }
-        };
-        select.addEventListener('change',sync);
+      const approvedSkus=new Set();
+      const syncCheckout=()=>{
+        const selected=variants.find(v=>v.code===select.value);
+        const approved=Boolean(selected?.sku&&approvedSkus.has(selected.sku));
+        proceed.textContent=approved?'Comprar agora':'Consultar compra';
+        if(!isPreparation){
+          productStatus.textContent=approved?
+            'Compra online disponível · produção sob demanda':
+            'Produção sob demanda · compra sob consulta';
+          if(approved)priceNote.textContent=
+            'Preço aprovado. Frete e total confirmados no checkout.';
+        }
+      };
+      select.addEventListener('change',syncCheckout);
+      if(!isPreparation){
         fetch(API+'/api/checkout/live/readiness',{
           mode:'cors',cache:'no-store',signal:AbortSignal.timeout(8000)
-        }).then(r=>r.ok?r.json():null).then(data=>{
-          if(data?.checkoutEnabled!==true || !Array.isArray(data.availableSkus))return;
-          data.availableSkus.forEach(s=>{if(typeof s==='string')approvedSkus.add(s)});
-          sync();
-        }).catch(()=>{/* Sem confirmação do servidor não mostrar compra. */});
+        }).then(response=>response.ok?response.json():null).then(data=>{
+          if(data?.checkoutEnabled!==true||!Array.isArray(data.availableSkus))return;
+          data.availableSkus.forEach(code=>{
+            if(typeof code==='string')approvedSkus.add(code);
+          });
+          syncCheckout();
+        }).catch(()=>{/* Sem validação no servidor, só consulta assistida. */});
       }
-      form.append(selectLabel,quantityLabel,actions,feedback);
+      syncCheckout();
+      form.append(variationGroup,quantityGroup,actions,feedback);
       summary.append(form);
       const state=()=>{
         add.disabled=isPreparation||!window.Cart;
@@ -371,7 +351,17 @@
         }else feedback.textContent='Não foi possível adicionar. Verifique a quantidade ou a variação.';
       };
       form.addEventListener('submit',event=>{event.preventDefault();putInCart(false);});
-      proceed.addEventListener('click',()=>putInCart(true));
+      proceed.addEventListener('click',()=>{
+        const selected=variants.find(v=>v.code===select.value);
+        const units=Number(quantity.value);
+        if(units===1 && selected?.sku && approvedSkus.has(selected.sku)){
+          window.location.assign(isShirt?
+            '/pages/checkout-salve-regina.html?size='+encodeURIComponent(selected.code):
+            '/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku));
+        }else{
+          putInCart(true);
+        }
+      });
       summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
       // Calculadora na página individual de todas as peças físicas, não só camiseta.
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
