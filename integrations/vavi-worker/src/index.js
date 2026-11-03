@@ -112,7 +112,22 @@ export default {
           try{
             shippingPayload('01001000',[{sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
-          }catch{/* Nunca anunciar opção com logística incompleta. */}
+          }catch(error){
+            // Sem UUID, a loja pode assumir fabricação MANUAL quando autorizada
+            // e quando o SKU/custo já estão no D1 privado. O frete continua
+            // sendo consultado diretamente na API VAVI antes de cobrar.
+            if(env.LIVE_SKU_ONLY_MANUAL_FULFILLMENT_ENABLED!=='true' ||
+               !(error instanceof CatalogError) ||
+               error.code!=='shipping_product_unverified')continue;
+            const item=await env.DB.prepare(
+              'SELECT supplier_variant_sku,observed_total_cents '+
+              'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
+            ).bind(sku).first();
+            if(/^\d{7}$/.test(item?.supplier_variant_sku||'') &&
+               Number.isSafeInteger(item?.observed_total_cents) &&
+               item.observed_total_cents>0 && item.observed_total_cents<=10000000)
+              availableSkus.push(sku);
+          }
         }
         const checkoutEnabled=checked.every(Boolean);
         return json({checkoutEnabled,availableSkus,
