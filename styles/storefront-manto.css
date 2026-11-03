@@ -295,3 +295,59 @@ body.shop-manto #shop-product-grid a.atelier-buy-primary {
   border:1px solid #b49b6780; border-radius:4px; background:#164440; color:#f4ead7;
   font:600 11px/1.35 'Inter',sans-serif; text-decoration:none;
 }
+
+/* Paleta de vitrine: marfim, verde profundo e ouro envelhecido. */
+body.shop-manto #catalogo {
+  margin:24px 0 32px; padding:28px 24px 32px;
+  border:1px solid #dcd2c0; border-radius:8px;
+  background:#f7f3eb; color:#243f38;
+}
+body.shop-manto #catalogo .shop-section-title { color:#183e36; }
+body.shop-manto #catalogo .shop-kicker { color:#80633a; }
+body.shop-manto #catalogo .shop-catalog-tools { border-color:#d9cfbf; }
+body.shop-manto #catalogo #shop-results,
+body.shop-manto #catalogo .shop-active-filter,
+body.shop-manto #catalogo .shop-catalog-tools label,
+body.shop-manto #catalogo .shop-catalog-note { color:#62685f; }
+body.shop-manto #catalogo [data-shop-reset] { color:#36574b; text-decoration-color:#8a9b8b; }
+body.shop-manto #catalogo .shop-catalog-tools select {
+  background:#fffcf6; color:#243f38; border-color:#c5bda9; color-scheme:light;
+}
+body.shop-manto #catalogo .shop-cart-feedback { color:#215449; background:transparent; }
+body.shop-manto #catalogo .shop-cart-feedback a { color:#155449; }
+body.shop-manto #shop-product-grid .shop-product-info h3,
+body.shop-manto #shop-product-grid .atelier-product h3 { color:#183e36; }
+body.shop-manto #shop-product-grid h3 a:hover { color:#796039; }
+body.shop-manto #shop-product-grid .shop-price strong { color:#183e36; }
+body.shop-manto #shop-product-grid .shop-price small,
+body.shop-manto #shop-product-grid .shop-price strong span,
+body.shop-manto #shop-product-grid .atelier-product-author,
+body.shop-manto #shop-product-grid .shop-cart-size { color:#62685f; }
+body.shop-manto #shop-product-grid .shop-product-image,
+body.shop-manto #shop-product-grid .atelier-product-art { background:#e9e2d5; border-color:#d7cebd; }
+body.shop-manto #shop-product-grid .shop-cart-size select {
+  background:#fffcf6; color:#243f38; border-color:#c5bda9; color-scheme:light;
+}
+body.shop-manto #shop-product-grid .shop-cart-add,
+body.shop-manto #shop-product-grid a.atelier-buy-primary {
+  background:#155449; color:#fffdf7; border-color:#155449;
+}
+body.shop-manto #shop-product-grid .shop-cart-add:hover,
+body.shop-manto #shop-product-grid a.atelier-buy-primary:hover { background:#0b3c33; border-color:#0b3c33; color:#fffdf7; }
+body.shop-manto #shop-product-grid .shop-product-action {
+  color:#315547; background:transparent; border-color:#b3bdae;
+}
+body.shop-manto #shop-product-grid .shop-product-action:hover {
+  background:#e9ede3; border-color:#6d8979; color:#183e36;
+}
+body.shop-manto #shop-product-grid a:focus-visible,
+body.shop-manto #shop-product-grid .shop-cart-add:focus-visible,
+body.shop-manto #shop-product-grid .shop-cart-size select:focus-visible {
+  outline:2px solid #80633a; outline-offset:3px;
+}
+body.shop-manto #catalogo .shop-empty { background:#eee8dc; color:#243f38; border-color:#d2c6b1; }
+body.shop-manto #catalogo .shop-empty h3,
+body.shop-manto #catalogo .shop-empty p { color:#243f38; }
+@media(max-width:600px) {
+  body.shop-manto #catalogo { margin-top:18px; padding:22px 12px 26px; border-radius:6px; }
+}
