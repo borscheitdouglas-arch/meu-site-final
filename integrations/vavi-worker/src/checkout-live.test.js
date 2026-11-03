@@ -295,3 +295,65 @@ test('carrinho múltiplo com frete individual não cadastrado não inicia pagame
   }),{code:'shipping_product_unverified'});
   assert.equal(paid,false);
 });
+
+test('P e XG podem utilizar cotação oficial por SKU quando há aprovação de produção manual',async()=>{
+  for(const [size,variantSku,amount,cents] of [
+    ['p','0001587',7071,10990],
+    ['xg','0001591',8235,11990]
+  ]){
+    const steps=[];
+    const db={
+      prepare(sql){return {bind(){
+        return {
+          first:async()=>{
+            if(!sql.includes('supplier_variant_cost_observations'))
+              throw Error('Unexpected lookup');
+            return {supplier_variant_sku:variantSku,observed_total_cents:amount};
+          },
+          run:async()=>({meta:{changes:1}})
+        };
+      }};}
+    };
+    const result=await createCheckoutLive({
+      ...enabled,DB:db,VAVI_SHIPPING_PRODUCTS_JSON:'{}',
+      LIVE_SHIRT_MANUAL_FULFILLMENT_ENABLED:'true'
+    },{
+      ...payload,items:[{sku:'salve-regina-preta-'+size,quantity:1}]
+    },{
+      loadVariant:async()=>({
+        ...variant,sku:'salve-regina-preta-'+size,price_cents:cents
+      }),
+      simulateShippingCart:async(_env,_zip,lines)=>{
+        assert.equal(lines.length,1);
+        assert.equal(lines[0].supplierSku,variantSku);
+        assert.equal(lines[0].quantity,1);
+        steps.push('shipping');
+        return quote;
+      },
+      encryptDelivery:async()=>({encryptedPayload:'encrypted',iv:'f'.repeat(24)}),
+      insertDraftOrder:async()=>{steps.push('order');},
+      storeEncryptedDelivery:async()=>{steps.push('address');},
+      createPreference:async input=>{
+        steps.push('payment');
+        assert.equal(input.order.totalCents,cents+1554);
+        return {preferenceId:'pref_'+size,checkoutUrl:'https://www.mercadopago.com.br/checkout/start'};
+      }
+    });
+    assert.equal(result.totalCents,cents+1554);
+    assert.deepEqual(steps,['shipping','order','address','payment']);
+  }
+});
+
+test('camisetas não configuradas continuam sem cobrança com liberação manual desligada',async()=>{
+  let called=false;
+  await assert.rejects(()=>createCheckoutLive({
+    ...enabled,VAVI_SHIPPING_PRODUCTS_JSON:'{}',
+    LIVE_SHIRT_MANUAL_FULFILLMENT_ENABLED:'false'
+  },{
+    ...payload,items:[{sku:'salve-regina-preta-p',quantity:2}]
+  },{
+    loadVariant:async()=>({...variant,sku:'salve-regina-preta-p'}),
+    createPreference:async()=>{called=true;return {};}
+  }),{code:'shipping_product_unverified'});
+  assert.equal(called,false);
+});
