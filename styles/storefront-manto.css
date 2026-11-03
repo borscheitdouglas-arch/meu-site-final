@@ -171,6 +171,8 @@ body.shop-manto #shop-product-grid .atelier-product-art img {
   aspect-ratio:auto; object-fit:contain; object-position:center;
   padding:0; border:0; border-radius:0; transition:transform .2s ease;
 }
+/* Fotos do catálogo preenchem o cartão; o livro mantém seu enquadramento original. */
+body.shop-manto #shop-product-grid .shop-product-image img { object-fit:cover; object-position:center; }
 body.shop-manto #shop-product-grid .shop-product-image:hover img,
 body.shop-manto #shop-product-grid .atelier-product-link:hover img { transform:scale(1.025); }
 body.shop-manto #shop-product-grid .shop-product-badge {
