@@ -95,6 +95,54 @@ const PROVISIONAL_SINGLE_PACKAGE=Object.freeze({
   'caneca-salve-regina-preta':{weight:0.50,height:100,width:200,length:150}
 });
 
+// Medidas por unidade divulgadas pela VAVI. A embalagem final de um
+// carrinho MISTO não está homologada: estas fichas são apenas para uma
+// consulta orientativa, nunca para pagamento ou geração de pedido.
+const PROVISIONAL_CART_PACKAGES=Object.freeze({
+  'salve-regina-preta-p': {weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-m': {weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-g': {weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-gg':{weight:0.25,height:10,width:250,length:300},
+  'salve-regina-preta-xg':{weight:0.25,height:10,width:250,length:300},
+  ...PROVISIONAL_SINGLE_PACKAGE
+});
+
+// O servidor determina custo, SKU da VAVI e medidas. O navegador só pode
+// informar SKU interno e quantidade. As medidas finais do pacote NÃO são
+// inventadas ou obtidas por soma de medidas individuais.
+export function provisionalCartPayload(zipCode,lines){
+  if(!Array.isArray(lines) || lines.length===0 || lines.length>15)
+    throw new CatalogError('invalid_cart','Carrinho inválido.',422);
+  let totalCents=0, totalWeight=0, totalQty=0;
+  const compositions=lines.map(line=>{
+    const pkg=Object.hasOwn(PROVISIONAL_CART_PACKAGES,line.sku)?
+      PROVISIONAL_CART_PACKAGES[line.sku]:null;
+    if(!pkg || !/^[0-9]{7}$/.test(line.supplierSku||'') ||
+       !Number.isSafeInteger(line.unitCostCents) ||
+       line.unitCostCents<1 || line.unitCostCents>10000000 ||
+       !Number.isInteger(line.quantity) ||
+       line.quantity<1 || line.quantity>10)
+      throw new CatalogError('shipping_product_unverified','Peça sem dados de frete.',409);
+    totalCents += line.unitCostCents*line.quantity;
+    totalWeight += pkg.weight*line.quantity;
+    totalQty += line.quantity;
+    return {sku:line.supplierSku,amount:line.unitCostCents/100,
+      quantity:line.quantity,...pkg};
+  });
+  if(totalQty>30 || !Number.isSafeInteger(totalCents) ||
+      totalCents<=0 || totalCents>100000000 ||
+      !Number.isFinite(totalWeight) || totalWeight<=0)
+    throw new CatalogError('invalid_cart','Carrinho fora dos limites.',422);
+  return {zipCode,amount:totalCents/100,
+    weight:Number(totalWeight.toFixed(3)),compositions};
+}
+
+export async function simulateVaviShippingCartProvisional(env,zipCode,lines,diagnostic=null){
+  if(!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET)
+    throw new CatalogError('shipping_not_configured','Cotação VAVI não configurada.',503);
+  return simulateVaviPayload(env,provisionalCartPayload(zipCode,lines),diagnostic);
+}
+
 export async function simulateVaviShipping(env,zipCode,lines,diagnostic=null) {
   if (!env.VAVI_CLIENT_ID || !env.VAVI_CLIENT_SECRET ||
       !env.VAVI_SHIPPING_PRODUCTS_JSON) {
