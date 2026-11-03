@@ -351,3 +351,84 @@ body.shop-manto #catalogo .shop-empty p { color:#243f38; }
 @media(max-width:600px) {
   body.shop-manto #catalogo { margin-top:18px; padding:22px 12px 26px; border-radius:6px; }
 }
+
+/* Abertura da loja em largura total, com apresentação sobre o manto. */
+body.shop-manto .atelier.editorial-main { width:100%; max-width:none; padding:0; }
+body.shop-manto .shop-store-content {
+  width:100%; max-width:1440px; margin:0 auto;
+  padding:0 clamp(16px,3.5vw,52px);
+}
+body.shop-manto .shop-hero {
+  position:relative; isolation:isolate; display:flex; align-items:center;
+  width:100%; min-height:clamp(460px,calc(100svh - 168px),680px);
+  margin:0; padding:0; overflow:hidden; border:0; border-radius:0;
+  background:#073d42;
+}
+body.shop-manto .shop-mantle-art {
+  position:absolute; inset:0; z-index:0; display:block;
+  width:100%; height:100%; min-height:0; aspect-ratio:auto;
+  object-fit:cover; object-position:center;
+}
+body.shop-manto .shop-hero::before {
+  content:""; display:block; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(90deg,rgba(3,35,39,.94) 0%,rgba(3,41,44,.82) 30%,rgba(3,45,49,.38) 57%,rgba(3,45,49,.04) 85%);
+  pointer-events:none;
+}
+body.shop-manto .shop-hero-copy {
+  position:relative; z-index:2; display:block; width:100%; max-width:1360px;
+  margin:0 auto; padding:76px clamp(24px,4.5vw,72px); text-align:left;
+}
+body.shop-manto .shop-hero-copy .shop-kicker {
+  justify-content:flex-start; margin:0 0 24px; color:#e7cd91;
+  font:600 11px/1.5 'Inter',sans-serif; letter-spacing:.18em;
+}
+body.shop-manto .shop-hero h1 {
+  max-width:720px; margin:0; color:#fff7e7;
+  font:400 clamp(44px,5.6vw,78px)/1.05 'EB Garamond',Georgia,serif;
+  letter-spacing:-.025em; text-wrap:balance;
+}
+body.shop-manto .shop-hero h1 br { display:block; }
+body.shop-manto .shop-hero h1 em { color:#e8ce96; font-weight:400; }
+body.shop-manto .shop-hero h1 em::before { content:none; }
+body.shop-manto .shop-hero-copy > p:not(.shop-kicker) {
+  max-width:510px; width:55%; margin:24px 0 0; color:#eee8da;
+  font:400 18px/1.65 'Spectral',Georgia,serif;
+}
+body.shop-manto .shop-hero-actions {
+  display:flex; flex-direction:row; flex-wrap:wrap; align-items:center;
+  justify-content:flex-start; gap:14px; min-width:0; max-width:none;
+  margin:30px 0 0; grid-column:auto; grid-row:auto;
+}
+body.shop-manto .shop-hero .shop-button {
+  display:inline-flex; align-items:center; justify-content:center; gap:24px;
+  min-height:50px; margin:0; padding:14px 24px; border-radius:4px;
+  background:#e1c58b; border:1px solid #efd9ab; color:#163c36;
+  font:600 11px/1.5 'Inter',sans-serif; letter-spacing:.08em;
+}
+body.shop-manto .shop-hero .shop-button:hover { background:#f1dcad; }
+body.shop-manto .shop-hero-secondary {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:50px; padding:13px 20px; border:1px solid #e7cd9170;
+  border-radius:4px; background:#073d4233; color:#f4e8cc;
+  font:500 11px/1.5 'Inter',sans-serif; text-decoration:none;
+}
+body.shop-manto .shop-hero-secondary:hover { background:#e7cd9115; border-color:#e7cd91; }
+body.shop-manto .shop-hero a:focus-visible { outline:2px solid #fff4d7; outline-offset:5px; }
+@media(max-width:760px) {
+  body.shop-manto .shop-hero { min-height:560px; }
+  body.shop-manto .shop-mantle-art { object-position:62% center; }
+  body.shop-manto .shop-hero::before {
+    background:linear-gradient(90deg,#03272be8,#032d3294 70%,#032d3266);
+  }
+  body.shop-manto .shop-hero-copy { padding:58px 26px; }
+  body.shop-manto .shop-hero-copy .shop-kicker { font-size:10px; letter-spacing:.13em; margin-bottom:20px; }
+  body.shop-manto .shop-hero h1 { max-width:540px; font-size:clamp(43px,8vw,62px); }
+  body.shop-manto .shop-hero-copy > p:not(.shop-kicker) { width:100%; max-width:430px; font-size:17px; margin-top:22px; }
+  body.shop-manto .shop-hero-actions { margin:26px 0 0; gap:10px; }
+}
+@media(max-width:420px) {
+  body.shop-manto .shop-hero { min-height:570px; }
+  body.shop-manto .shop-hero-copy { padding:46px 22px; }
+  body.shop-manto .shop-hero-actions { align-items:stretch; flex-direction:column; max-width:290px; }
+  body.shop-manto .shop-hero h1 { font-size:44px; }
+}
