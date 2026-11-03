@@ -112,7 +112,22 @@ export default {
           try{
             shippingPayload('01001000',[{sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
-          }catch{/* Nunca anunciar opção com logística incompleta. */}
+          }catch(error){
+            // Camisetas já aprovadas comercialmente podem ter produção MANUAL:
+            // só anunciar pagamento com flag operacional e SKU/custo VAVI privado.
+            if(env.LIVE_SHIRT_MANUAL_FULFILLMENT_ENABLED!=='true' ||
+               !SALVE_REGINA_SKUS.includes(sku) ||
+               !(error instanceof CatalogError) ||
+               error.code!=='shipping_product_unverified')continue;
+            const observation=await env.DB.prepare(
+              'SELECT supplier_variant_sku,observed_total_cents '+
+              'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
+            ).bind(sku).first();
+            if(/^\d{7}$/.test(observation?.supplier_variant_sku||'') &&
+               Number.isSafeInteger(observation?.observed_total_cents) &&
+               observation.observed_total_cents>0)
+              availableSkus.push(sku);
+          }
         }
         const checkoutEnabled=checked.every(Boolean);
         return json({checkoutEnabled,availableSkus,
@@ -346,21 +361,31 @@ export default {
           // A ficha do fabricante ainda não está pronta. É permitido obter
           // apenas uma PRÉVIA orientativa com medidas públicas + custo
           // observado no banco privado; nunca é autorizada cobrança.
+          const manualShirt=SALVE_REGINA_SKUS.includes(sku) &&
+            env.LIVE_SHIRT_MANUAL_FULFILLMENT_ENABLED==='true';
           if(!(error instanceof CatalogError) ||
              error.code!=='shipping_product_unverified' ||
-             Object.hasOwn(SALVE_REGINA_VARIANTS,sku) || !env.DB?.prepare)
-            throw error;
+             (Object.hasOwn(SALVE_REGINA_VARIANTS,sku) && !manualShirt) ||
+             !env.DB?.prepare)throw error;
           let observed;
           try{
             observed=await env.DB.prepare(
-              'SELECT observed_total_cents FROM supplier_variant_cost_observations '+
-              'WHERE internal_sku=? AND freight_config_verified=0 LIMIT 1'
+              'SELECT supplier_variant_sku,observed_total_cents '+
+              'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
             ).bind(sku).first();
           }catch{throw error;}
-          if(!Number.isSafeInteger(observed?.observed_total_cents))
-            throw error;
-          options=await simulateVaviShippingProvisional(env,zipCode,sku,
-            observed.observed_total_cents,diagnostic);
+          if(!Number.isSafeInteger(observed?.observed_total_cents) ||
+             observed.observed_total_cents<=0)throw error;
+          if(manualShirt){
+            if(!/^\d{7}$/.test(observed.supplier_variant_sku||''))throw error;
+            options=await simulateVaviShippingCartProvisional(env,zipCode,[{
+              sku,quantity:1,supplierSku:observed.supplier_variant_sku,
+              unitCostCents:observed.observed_total_cents
+            }],diagnostic);
+          }else{
+            options=await simulateVaviShippingProvisional(env,zipCode,sku,
+              observed.observed_total_cents,diagnostic);
+          }
           provisional=true;
         }
         // Factory pickup is not a shipping option to the buyer's CEP.
