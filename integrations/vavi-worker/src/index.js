@@ -114,7 +114,11 @@ export default {
             availableSkus.push(sku);
           }catch{/* Nunca anunciar opção com logística incompleta. */}
         }
-        return json({checkoutEnabled:checked.every(Boolean),availableSkus},200,cors.headers);
+        const checkoutEnabled=checked.every(Boolean);
+        return json({checkoutEnabled,availableSkus,
+          multiCheckoutEnabled:checkoutEnabled &&
+            env.LIVE_MULTICART_CHECKOUT_ENABLED==='true' &&
+            availableSkus.length>0},200,cors.headers);
       } catch {
         return json({checkoutEnabled:false},200,cors.headers);
       }

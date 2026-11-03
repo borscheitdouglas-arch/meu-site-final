@@ -219,3 +219,79 @@ test('caneca comercialmente aprovada só cria preferência após cotação e per
   assert.equal(result.totalCents,6544);
   assert.deepEqual(events,['frete','pedido','endereco','pagamento']);
 });
+
+
+test('carrinho com duas camisetas: flag desligada bloqueia antes de cobrar',async()=>{
+  let queries=0;
+  const db={prepare(){queries++;throw Error('Não consultar dados nem chamar pagamento')}};
+  await assert.rejects(()=>createCheckoutLive({...enabled,DB:db},{
+    ...payload,items:[{sku:'salve-regina-preta-g',quantity:2}]
+  }),{code:'live_multicart_disabled'});
+  assert.equal(queries,0);
+});
+
+test('duas camisetas aprovadas criam preferência única após frete reconferido',async()=>{
+  const events=[];
+  const cfg=JSON.stringify({'salve-regina-preta-g':{
+    id:'019aa7eb-d437-721a-bc8d-69d5a2754865',
+    sku:'0001589',amount:70.71,weight:0.25,height:10,width:250,length:300
+  }});
+  const db={prepare(sql){
+    return {bind(){
+      return {
+        first:async()=>{
+          if(sql.includes('supplier_variant_cost_observations')){
+            events.push('supplier');
+            return {supplier_variant_sku:'0001589',observed_total_cents:7071};
+          }
+          throw Error('unexpected first');
+        },
+        run:async()=>({meta:{changes:1}})
+      };
+    }};
+  }};
+  const result=await createCheckoutLive({
+    ...enabled,DB:db,LIVE_MULTICART_CHECKOUT_ENABLED:'true',
+    VAVI_SHIPPING_PRODUCTS_JSON:cfg
+  },{
+    ...payload,items:[{sku:'salve-regina-preta-g',quantity:2}]
+  },{
+    loadVariant:async()=>variant,
+    simulateShippingCart:async(env,zip,lines)=>{
+      events.push('shipping');
+      assert.equal(zip,'13218752');
+      assert.deepEqual(lines,[{sku:'salve-regina-preta-g',
+        quantity:2,supplierSku:'0001589',unitCostCents:7071}]);
+      return quote;
+    },
+    encryptDelivery:async()=>({encryptedPayload:'cipher',iv:'f'.repeat(24)}),
+    insertDraftOrder:async()=>{events.push('draft');},
+    storeEncryptedDelivery:async()=>{events.push('address');},
+    createPreference:async input=>{
+      events.push('payment');
+      assert.equal(input.order.subtotalCents,21980);
+      assert.equal(input.order.totalCents,23534);
+      assert.equal(input.lines.length,1);
+      assert.equal(input.lines[0].quantity,2);
+      return {preferenceId:'pref_multi',checkoutUrl:'https://www.mercadopago.com.br/checkout/start'};
+    }
+  });
+  assert.equal(result.mode,'live');
+  assert.equal(result.totalCents,23534);
+  assert.deepEqual(events,['supplier','shipping','draft','address','payment']);
+});
+
+test('carrinho múltiplo com frete individual não cadastrado não inicia pagamento',async()=>{
+  let paid=false;
+  const db={prepare(){throw Error('does not reach DB')}};
+  await assert.rejects(()=>createCheckoutLive({
+    ...enabled,DB:db,LIVE_MULTICART_CHECKOUT_ENABLED:'true',
+    VAVI_SHIPPING_PRODUCTS_JSON:'{}'
+  },{
+    ...payload,items:[{sku:'salve-regina-preta-g',quantity:2}]
+  },{
+    loadVariant:async()=>variant,
+    createPreference:async()=>{paid=true;return {};}
+  }),{code:'shipping_product_unverified'});
+  assert.equal(paid,false);
+});

@@ -6,6 +6,8 @@ on:
       - "data/vavi-catalogo.json"
       - "scripts/vavi-vitrine.js"
       - "scripts/checkout-salve-regina.js"
+      - "scripts/checkout-carrinho.js"
+      - "pages/checkout-carrinho.html"
       - "scripts/admin-pedidos-loja.js"
       - "pages/admin-pedidos-loja.html"
       - "scripts/salve-regina-inquiry.js"
@@ -41,6 +43,7 @@ jobs:
           node --check integrations/vavi-worker/src/index.js
           node --check integrations/vavi-worker/src/catalog.js
           node --check scripts/checkout-salve-regina.js
+          node --check scripts/checkout-carrinho.js
           node --check scripts/resultado-pagamento.js
           node --check scripts/admin-pedidos-loja.js
           node --check scripts/salve-regina-inquiry.js

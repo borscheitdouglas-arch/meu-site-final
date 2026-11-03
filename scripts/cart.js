@@ -12,6 +12,7 @@
   }).format(cents / 100);
   let catalog = new Map();
   let ready = false;
+  let multiReady = false;
   let readySkus = new Set();
   const email = 'douglas.assumpcao27@gmail.com';
 
@@ -217,8 +218,13 @@
     const directSku = single
       ? catalog.get(cart[0].id)?.variants?.find(v=>v.code===cart[0].variant)?.sku
       : null;
-    const direct = Boolean(ready && single && directSku &&
-      (exactShirt || readySkus.has(directSku)));
+    const direct = Boolean(ready && single && readySkus.has(directSku));
+    const multiple=Boolean(ready && multiReady && !single && !hasPending &&
+      cart.every(item=>{
+        const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
+        return readySkus.has(sku);
+      }));
+    let multiPayButton=null;
     if (direct) {
       const pay = make('a','cart-action cart-action-primary',
         'Finalizar compra com Mercado Pago →');
@@ -240,6 +246,20 @@
       });
       aside.append(pay, make('p','cart-payment-note',
         'Na próxima etapa você informará o CEP, escolherá o frete, revisará o total e seguirá para o Mercado Pago.'));
+    } else if(multiple){
+      multiPayButton=makeButton('Continuar para pagamento →',()=>{
+        const quote=window.CartShipping?.getQuote(cart);
+        if(!quote)return;
+        try{
+          sessionStorage.setItem('douglasMultiCheckoutDeliveryDraft_v1',
+            JSON.stringify({zipCode:quote.zipCode,shippingOptionId:quote.shippingOptionId,
+              items:cart.map(x=>[x.id,x.variant,x.qty])}));
+        }catch{}
+        window.location.assign('/pages/checkout-carrinho.html');
+      },true);
+      multiPayButton.className='cart-action cart-action-primary';
+      aside.append(multiPayButton,make('p','cart-payment-note',
+        'Confira a entrega e o endereço na próxima etapa. O valor será consultado novamente antes da cobrança.'));
     } else {
       const blocked = make('button','cart-action cart-action-disabled',
         'Finalizar compra');
@@ -281,6 +301,7 @@
         ? (quote.provisional?'Total orientativo com frete: ':'Total estimado com frete: ')+
           money(knownTotal+quote.shippingCents)
         : 'Total com frete: a calcular';
+      if(multiPayButton)multiPayButton.disabled=!quote;
       request.href='mailto:'+email+'?subject='+encodeURIComponent('Consulta de compra — Coleção Salve Regina')+
         '&body='+encodeURIComponent(draftMessage(cart));
       whatsapp.href='https://wa.me/5511979038063?text='+encodeURIComponent(draftMessage(cart));
@@ -316,6 +337,7 @@
       const body=await res.json();
       readySkus=new Set(Array.isArray(body?.availableSkus)
         ? body.availableSkus.filter(x=>typeof x==='string'):[]);
+      multiReady=body?.multiCheckoutEnabled===true;
       return body?.checkoutEnabled===true;
     } catch { return false; }
   }
@@ -381,12 +403,18 @@
           const buy=document.createElement('a');
           buy.className='shop-cart-buy-now';
           buy.textContent='Comprar agora com Mercado Pago →';
-          const updateLink=()=>{buy.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value);};
+          const updateLink=()=>{
+            const allowed=readySkus.has('salve-regina-preta-'+select.value.toLowerCase());
+            buy.hidden=!allowed;
+            if(allowed)buy.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value);
+            if(state)state.textContent=allowed
+              ? 'Compra online liberada · frete e total confirmados no checkout'
+              : 'Frete sob consulta · pagamento deste tamanho ainda não liberado';
+          };
           select.addEventListener('change',updateLink);
-          updateLink();
           addButton.insertAdjacentElement('afterend',buy);
           const state=shirt.querySelector('.shop-product-state');
-          if(state) state.textContent='Compra online liberada · frete e total confirmados no checkout';
+          updateLink();
         }
       }
     }

@@ -1,6 +1,6 @@
 import {CatalogError,normalizeCart,quoteCart} from './catalog.js';
 import {approvedDirectVariant,DIRECT_CHECKOUT_SKUS} from './salve-regina-variants.js';
-import {normalizeZip,simulateVaviShipping} from './shipping.js';
+import {normalizeZip,simulateVaviShipping,simulateVaviShippingCartProvisional,shippingPayload} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
 import {validateBuyerDetails,encryptDelivery,storeEncryptedDelivery} from './delivery-repository.js';
@@ -27,10 +27,11 @@ export async function createCheckoutLive(env,body,deps={}) {
     throw new CatalogError('live_checkout_disabled','Compra online ainda indisponível.',503);
   const buyer=validateBuyerDetails(body?.buyer);
   const items=normalizeCart(body);
-  if(items.length!==1 || !DIRECT_CHECKOUT_SKUS.includes(items[0].sku) ||
-      items[0].quantity!==1)
-    throw new CatalogError('live_product_unavailable',
-      'Somente uma peça aprovada por pedido.',409);
+  if(items.some(line=>!DIRECT_CHECKOUT_SKUS.includes(line.sku)))
+    throw new CatalogError('live_product_unavailable','Produto não aprovado para venda.',409);
+  const multiple=items.length!==1 || items[0].quantity!==1;
+  if(multiple && env.LIVE_MULTICART_CHECKOUT_ENABLED!=='true')
+    throw new CatalogError('live_multicart_disabled','Venda de carrinhos combinados ainda indisponível.',503);
   const zip=normalizeZip(body.zipCode);
   if(buyer.zipCode!==zip)
     throw new CatalogError('delivery_zip_mismatch','O CEP do endereço difere do CEP do frete.',422);
@@ -43,10 +44,32 @@ export async function createCheckoutLive(env,body,deps={}) {
   const quote=await quoteCart(items,load);
   // Preço de venda aprovado e conferido no D1; navegador não envia valores.
   // A lista interna não aprova o fornecedor: quoteCart exige enabled/verified/available.
-  if(!approvedDirectVariant(items[0].sku,quote.lines[0]?.unitPriceCents) ||
-     quote.subtotalCents!==quote.lines[0]?.totalCents)
-    throw new CatalogError('live_price_unapproved','Preço do produto precisa ser revisado.',503);
-  const quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+  if(!quote.lines.every(line=>approvedDirectVariant(line.sku,line.unitPriceCents)) ||
+     quote.subtotalCents!==quote.lines.reduce((sum,line)=>sum+line.totalCents,0))
+    throw new CatalogError('live_price_unapproved','Preço dos produtos precisa ser revisado.',503);
+
+  let quotes;
+  if(multiple){
+    // Só autorizar um carrinho de várias peças se CADA variante possuir
+    // ficha individual aprovada. A prévia isolada (sem UUID) não libera vendas.
+    const packed=await Promise.all(quote.lines.map(async line=>{
+      shippingPayload(zip,[{sku:line.sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
+      const observation=await env.DB.prepare(
+        'SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations '+
+        'WHERE internal_sku=? LIMIT 1'
+      ).bind(line.sku).first();
+      if(!observation || !Number.isSafeInteger(observation.observed_total_cents))
+        throw new CatalogError('shipping_product_unverified','Produto sem custo e ficha logística conferidos.',409);
+      return {sku:line.sku,quantity:line.quantity,
+        supplierSku:observation.supplier_variant_sku,
+        unitCostCents:observation.observed_total_cents};
+    }));
+    // Cotação real da API, com todas as variações; fabricante pode embalar
+    // de forma diferente. A loja assume a eventual diferença operacional.
+    quotes=await (deps.simulateShippingCart||simulateVaviShippingCartProvisional)(env,zip,packed);
+  }else{
+    quotes=await (deps.simulateShipping||simulateVaviShipping)(env,zip,quote.lines);
+  }
   const option=Array.isArray(quotes) && quotes.find(x=>
     x.isActive===true && String(x.id)===body.shippingOptionId &&
     !/retirada|retire|pickup/i.test(String(x.name||'')));
