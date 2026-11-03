@@ -23,7 +23,11 @@ jobs:
           api='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/shipping/preview'
           origin='https://www.douglasassumpcao.com.br'
           cases=[
+            ('salve-regina-preta-p',True),
+            ('salve-regina-preta-m',True),
             ('salve-regina-preta-g',False),
+            ('salve-regina-preta-gg',True),
+            ('salve-regina-preta-xg',True),
             ('ecobag-salve-regina-m',True),
             ('ecobag-salve-regina-g',True),
             ('caneca-salve-regina-pb',True),
