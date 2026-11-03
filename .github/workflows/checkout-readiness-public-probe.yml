@@ -21,7 +21,33 @@ jobs:
             d=json.load(r)
           print(json.dumps({
             'checkoutEnabled':d.get('checkoutEnabled'),
+            'multiCheckoutEnabled':d.get('multiCheckoutEnabled'),
             'availableSkus':d.get('availableSkus'),
             'keys':list(d.keys())
           },ensure_ascii=False,indent=2))
+          PY
+
+      - name: Validar carrinho de duas camisetas G sem criar pedido
+        run: |
+          python3 - <<'PY'
+          import json,urllib.request
+          origin='https://www.douglasassumpcao.com.br'
+          api='https://douglas-loja-api.liturgia-gregoriano.workers.dev'
+          req=urllib.request.Request(api+'/api/checkout/live/readiness',
+            headers={'Origin':origin,'User-Agent':'Douglas-Checkout-Smoke-20261103'})
+          with urllib.request.urlopen(req,timeout=20) as res:state=json.load(res)
+          assert state.get('checkoutEnabled') is True,state
+          assert state.get('multiCheckoutEnabled') is True,state
+          assert state.get('availableSkus')==['salve-regina-preta-g'],state
+          payload={'zipCode':'01001000','items':[{'sku':'salve-regina-preta-g','quantity':2}]}
+          req=urllib.request.Request(api+'/api/shipping/cart-preview',method='POST',
+            headers={'Origin':origin,'User-Agent':'Douglas-Checkout-Smoke-20261103',
+              'Content-Type':'application/json'},data=json.dumps(payload).encode())
+          with urllib.request.urlopen(req,timeout=22) as res:quote=json.load(res)
+          assert quote.get('checkoutEnabled') is False,quote
+          assert quote.get('provisional') is True,quote
+          assert len(quote.get('options',[]))>0,quote
+          print(json.dumps({'multiCheckoutEnabled':True,'eligible':'salve-regina-preta-g',
+            'quantity':2,'carrierOptions':len(quote['options']),
+            'noPaymentCreated':True},ensure_ascii=False))
           PY
