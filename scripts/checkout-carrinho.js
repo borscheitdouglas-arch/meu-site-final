@@ -137,13 +137,21 @@ async function init(){
     subtotalEl.textContent=money(subtotal);
     const display=document.getElementById('checkout-multi-items');
     for(const line of details){
-      const item=document.createElement('p');item.className='checkout-product';
-      const label=document.createElement('strong');
-      label.textContent=line.p.title+' · '+line.v.label+' · '+line.quantity+
-        (line.quantity===1?' unidade':' unidades');
-      const cost=document.createElement('span');
-      cost.textContent=' '+money(line.v.priceCents*line.quantity);
-      item.append(label,cost);display.append(item);
+      // Visual do item; os valores e a elegibilidade continuam validados no servidor.
+      const item=document.createElement('article');item.className='checkout-product';
+      const thumb=document.createElement('img');thumb.className='checkout-item-image';
+      thumb.src=line.p.image;thumb.alt='';thumb.loading='lazy';thumb.width=88;thumb.height=88;
+      const info=document.createElement('div');info.className='checkout-item-details';
+      const title=document.createElement('strong');title.className='checkout-item-name';
+      title.textContent=line.p.title;
+      const variation=document.createElement('span');variation.className='checkout-item-variation';
+      variation.textContent='Variação: '+line.v.label;
+      const quantity=document.createElement('span');quantity.className='checkout-item-quantity';
+      quantity.textContent='Quantidade: '+line.quantity;
+      info.append(title,variation,quantity);
+      const cost=document.createElement('strong');cost.className='checkout-item-price';
+      cost.textContent=money(line.v.priceCents*line.quantity);
+      item.append(thumb,info,cost);display.append(item);
     }
     root.hidden=false;status.textContent='Revise a entrega e os dados antes do pagamento.';
     let draft=null;
