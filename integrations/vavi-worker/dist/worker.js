@@ -1243,12 +1243,11 @@ async function createCheckoutLive(env, body, deps = {}) {
     throw new CatalogError("live_checkout_disabled", "Compra online ainda indispon\xEDvel.", 503);
   const buyer = validateBuyerDetails(body?.buyer);
   const items = normalizeCart(body);
-  if (items.length !== 1 || !DIRECT_CHECKOUT_SKUS.includes(items[0].sku) || items[0].quantity !== 1)
-    throw new CatalogError(
-      "live_product_unavailable",
-      "Somente uma pe\xE7a aprovada por pedido.",
-      409
-    );
+  if (items.some((line) => !DIRECT_CHECKOUT_SKUS.includes(line.sku)))
+    throw new CatalogError("live_product_unavailable", "Produto n\xE3o aprovado para venda.", 409);
+  const multiple = items.length !== 1 || items[0].quantity !== 1;
+  if (multiple && env.LIVE_MULTICART_CHECKOUT_ENABLED !== "true")
+    throw new CatalogError("live_multicart_disabled", "Venda de carrinhos combinados ainda indispon\xEDvel.", 503);
   const zip = normalizeZip(body.zipCode);
   if (buyer.zipCode !== zip)
     throw new CatalogError("delivery_zip_mismatch", "O CEP do endere\xE7o difere do CEP do frete.", 422);
@@ -1259,9 +1258,28 @@ async function createCheckoutLive(env, body, deps = {}) {
     WHERE v.sku=? LIMIT 1`
   ).bind(sku).first());
   const quote = await quoteCart(items, load);
-  if (!approvedDirectVariant(items[0].sku, quote.lines[0]?.unitPriceCents) || quote.subtotalCents !== quote.lines[0]?.totalCents)
-    throw new CatalogError("live_price_unapproved", "Pre\xE7o do produto precisa ser revisado.", 503);
-  const quotes = await (deps.simulateShipping || simulateVaviShipping)(env, zip, quote.lines);
+  if (!quote.lines.every((line) => approvedDirectVariant(line.sku, line.unitPriceCents)) || quote.subtotalCents !== quote.lines.reduce((sum, line) => sum + line.totalCents, 0))
+    throw new CatalogError("live_price_unapproved", "Pre\xE7o dos produtos precisa ser revisado.", 503);
+  let quotes;
+  if (multiple) {
+    const packed = await Promise.all(quote.lines.map(async (line) => {
+      shippingPayload(zip, [{ sku: line.sku, quantity: 1 }], env.VAVI_SHIPPING_PRODUCTS_JSON);
+      const observation = await env.DB.prepare(
+        "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
+      ).bind(line.sku).first();
+      if (!observation || !Number.isSafeInteger(observation.observed_total_cents))
+        throw new CatalogError("shipping_product_unverified", "Produto sem custo e ficha log\xEDstica conferidos.", 409);
+      return {
+        sku: line.sku,
+        quantity: line.quantity,
+        supplierSku: observation.supplier_variant_sku,
+        unitCostCents: observation.observed_total_cents
+      };
+    }));
+    quotes = await (deps.simulateShippingCart || simulateVaviShippingCartProvisional)(env, zip, packed);
+  } else {
+    quotes = await (deps.simulateShipping || simulateVaviShipping)(env, zip, quote.lines);
+  }
   const option = Array.isArray(quotes) && quotes.find((x) => x.isActive === true && String(x.id) === body.shippingOptionId && !/retirada|retire|pickup/i.test(String(x.name || "")));
   if (!option || !Number.isFinite(option.shippingCost) || option.shippingCost < 0 || Math.abs(option.shippingCost * 100 - Math.round(option.shippingCost * 100)) > 1e-6)
     throw new CatalogError("shipping_option_invalid", "Frete n\xE3o dispon\xEDvel para este CEP.", 422);
@@ -2118,7 +2136,12 @@ var index_default = {
           } catch {
           }
         }
-        return json({ checkoutEnabled: checked.every(Boolean), availableSkus }, 200, cors.headers);
+        const checkoutEnabled = checked.every(Boolean);
+        return json({
+          checkoutEnabled,
+          availableSkus,
+          multiCheckoutEnabled: checkoutEnabled && env.LIVE_MULTICART_CHECKOUT_ENABLED === "true" && availableSkus.length > 0
+        }, 200, cors.headers);
       } catch {
         return json({ checkoutEnabled: false }, 200, cors.headers);
       }
