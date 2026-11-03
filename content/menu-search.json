@@ -95,6 +95,11 @@
     "url": "/pages/agnus-dei.html"
   },
   {
+    "title": "Finalizar carrinho",
+    "keywords": "Finalizar compra checkout carrinho",
+    "url": "/pages/checkout-carrinho.html"
+  },
+  {
     "title": "Finalizar compra",
     "keywords": "Finalizar compra checkout salve regina",
     "url": "/pages/checkout-salve-regina.html"
