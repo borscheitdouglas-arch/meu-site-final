@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {registerManualVaviOrder} from './live-order-admin.js';
+import {registerManualVaviOrder,getLivePaidDelivery,listLivePaidOrders} from './live-order-admin.js';
+import {encryptDelivery} from './delivery-repository.js';
 import worker from './index.js';
 
 const id='ord_'+'a'.repeat(32);
@@ -67,4 +68,75 @@ test('endpoint de registrar VAVI bloqueia operadores sem chave e responde ao pre
   }),env);
   assert.equal(unauth.status,401);
   assert.equal((await unauth.json()).error,'unauthorized');
+});
+
+test('painel autenticado lista os itens exatos pagos, variação, quantidades e endereço',async()=>{
+  const key=Buffer.alloc(32,18).toString('base64');
+  const buyer={name:'Pessoa Exemplo',email:'comprador@example.com',phone:'11999999999',
+    taxId:'12345678909',zipCode:'01001000',street:'Rua Exemplo',
+    number:'7',complement:'apto 2',neighborhood:'Centro',city:'São Paulo',state:'SP'};
+  const delivery=await encryptDelivery(id,buyer,key);
+  const items=[
+    {sku:'salve-regina-preta-g',label:'Camiseta Salve Regina — Preta G',
+      quantity:2,unit_price_cents:10990,line_total_cents:21980},
+    {sku:'caneca-salve-regina-pb',label:'Caneca P&B Salve Regina — Nossa Senhora',
+      quantity:1,unit_price_cents:4990,line_total_cents:4990}
+  ];
+  const db={
+    prepare(sql){
+      return {
+        bind(orderId){
+          assert.equal(orderId,id);
+          return {
+            first:async()=>{
+              if(sql.includes('store_order_delivery'))
+                return {encrypted_payload:delivery.encryptedPayload,iv:delivery.iv};
+              if(sql.includes('store_orders'))
+                return {id,status:'paid',shipping_option_id:'carrier-1',
+                  total_cents:29000,destination_zip:'01001000'};
+              throw Error('unexpected first');
+            },
+            all:async()=>{
+              if(sql.includes('store_order_items'))return {results:items};
+              throw Error('unexpected all');
+            }
+          };
+        }
+      };
+    }
+  };
+  const result=await getLivePaidDelivery({DB:db,DELIVERY_ENCRYPTION_KEY_B64:key},id);
+  assert.equal(result.order.status,'paid');
+  assert.equal(result.buyer.zipCode,'01001000');
+  assert.deepEqual(result.items,items);
+});
+
+test('sem itens salvos o painel recusa exibir pedido de produção incompleto',async()=>{
+  const key=Buffer.alloc(32,18).toString('base64');
+  const buyer={name:'Pessoa Exemplo',email:'comprador@example.com',phone:'11999999999',
+    taxId:'12345678909',zipCode:'01001000',street:'Rua Exemplo',
+    number:'7',neighborhood:'Centro',city:'São Paulo',state:'SP'};
+  const delivery=await encryptDelivery(id,buyer,key);
+  const db={prepare(sql){return {bind(){return {
+    first:async()=>sql.includes('store_order_delivery')?
+      {encrypted_payload:delivery.encryptedPayload,iv:delivery.iv}:
+      {id,status:'paid'},
+    all:async()=>({results:[]})
+  };}}}};
+  await assert.rejects(
+    ()=>getLivePaidDelivery({DB:db,DELIVERY_ENCRYPTION_KEY_B64:key},id),
+    {code:'order_items_unavailable'});
+});
+
+test('listagem administrativa devolve resumo do pedido com peças e quantidade',async()=>{
+  const db={prepare(sql){
+    assert.match(sql,/GROUP_CONCAT/);
+    return {all:async()=>({results:[{
+      id,items_summary:'2× Camiseta Salve Regina — Preta G',
+      items_quantity:2,total_cents:21980,status:'paid'
+    }]})};
+  }};
+  const data=await listLivePaidOrders({DB:db});
+  assert.equal(data.orders[0].items_quantity,2);
+  assert.match(data.orders[0].items_summary,/Camiseta/);
 });

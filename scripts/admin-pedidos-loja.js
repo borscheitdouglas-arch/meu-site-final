@@ -160,13 +160,29 @@
   });
 
   function formatAddress(data){
-    const b=data?.buyer, o=data?.order;
-    if(!b||!o||!/^ord_[0-9a-f]{32}$/.test(o.id||''))throw new Error('invalid_order');
+    const b=data?.buyer, o=data?.order, items=data?.items;
+    if(!b||!o||!/^ord_[0-9a-f]{32}$/.test(o.id||'') ||
+       !Array.isArray(items)||!items.length)throw new Error('invalid_order');
+    const productLines=items.map(item=>{
+      if(!item||typeof item.sku!=='string'||typeof item.label!=='string'||
+         !Number.isInteger(item.quantity)||item.quantity<1||
+         !Number.isSafeInteger(item.unit_price_cents)||
+         !Number.isSafeInteger(item.line_total_cents)||
+         item.quantity*item.unit_price_cents!==item.line_total_cents)
+        throw new Error('invalid_order_item');
+      return item.quantity+'× '+item.label+'\n'+
+        'SKU interno: '+item.sku+'\n'+
+        'Valor unitário: '+money(item.unit_price_cents)+
+        ' · Subtotal: '+money(item.line_total_cents);
+    });
     const lines=[
       'Pedido: '+o.id,
       'Status: '+o.status,
       'Total recebido: '+money(o.total_cents),
       'Frete (opção): '+o.shipping_option_id,
+      '',
+      'PRODUTOS COMPRADOS',
+      ...productLines,
       '',
       'DESTINATÁRIO',
       b.name,
@@ -223,6 +239,8 @@
       item.append(text('strong','Pedido '+order.id));
       item.append(text('p','Status: '+String(order.status||'')+
         ' · Total: '+money(order.total_cents)+' · CEP: '+String(order.destination_zip||'')));
+      item.append(text('p','Produtos: '+String(order.items_summary||'Não informados')+
+        ' · Unidades: '+String(order.items_quantity??'?')));
       item.append(text('p','Criado em: '+String(order.created_at||'')+
         (order.vavi_order_id?' · Produção VAVI: '+String(order.vavi_order_id):'')+
         (order.vavi_draft_state?' · Integração de produção: '+String(order.vavi_draft_state):'')+
