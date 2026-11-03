@@ -412,7 +412,6 @@
               : 'Frete sob consulta · pagamento deste tamanho ainda não liberado';
           };
           select.addEventListener('change',updateLink);
-          updateLink();
           addButton.insertAdjacentElement('afterend',buy);
           const state=shirt.querySelector('.shop-product-state');
           updateLink();
