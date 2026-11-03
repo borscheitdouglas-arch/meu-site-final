@@ -122,7 +122,7 @@ export default {
               'SELECT supplier_variant_sku,observed_total_cents '+
               'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
             ).bind(sku).first();
-            if(/^\\d{7}$/.test(String(row?.supplier_variant_sku||'')) &&
+            if(/^\d{7}$/.test(String(row?.supplier_variant_sku||'')) &&
               Number.isSafeInteger(row?.observed_total_cents) &&
               row.observed_total_cents>0)
               availableSkus.push(sku);
