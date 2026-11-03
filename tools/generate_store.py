@@ -103,6 +103,7 @@ def render_product(product: dict, first: bool) -> str:
 <h3 id="product-{p['id']}-title"><a href="/pages/produto-loja.html?id={p['id']}">{p['title']}</a></h3>
 <p class="atelier-product-subtitle">{p['subtitle']}</p>
 <p class="atelier-product-author">Por {p['author']}</p>
+<a class="shop-product-action" href="/pages/produto-loja.html?id={p['id']}">Ver detalhes <span aria-hidden="true">↗</span></a>
 <p class="atelier-product-description">{p['description']}</p>
 <div class="atelier-product-purchase">
 <p class="atelier-purchase-label">{purchase_label}</p>
