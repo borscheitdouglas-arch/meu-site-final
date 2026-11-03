@@ -4,25 +4,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="theme-color" content="#b76436">
+<meta name="theme-color" content="#073d42">
 <title>Finalizar carrinho | Douglas Assumpção</title>
 <link rel="icon" href="/assets/img/icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Spectral:wght@400;500;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles/checkout-salve-regina.css?v=20261101-safari">
 <link rel="stylesheet" href="/styles/store-cart-pro.css?v=20261101-v1">
 <link rel="stylesheet" href="/styles/checkout-salve-regina-pro.css?v=20261101-v1">
-<script src="/scripts/checkout-carrinho.js?v=20261103-carrinho-pagamento" defer></script>
+<link rel="stylesheet" href="/styles/shop-header.css?v=20261103-logo-grid-fix">
+<link rel="stylesheet" href="/styles/checkout-carrinho-premium.css?v=20261103-etapa2-v1">
+<script src="/scripts/checkout-carrinho.js?v=20261103-etapa2-v1" defer></script>
+<script src="/scripts/shop-header.js?v=20261103-shared" defer></script>
 </head>
-<body>
-<header><a href="/pages/cart.html">← Voltar ao carrinho</a><span>Douglas Assumpção · Arte & tradição</span></header>
-<main>
-<p class="eyebrow">Loja Douglas Assumpção</p>
+<body class="shop-shared-shell checkout-multi-polished">
+<header class="site-header shop-shared-header">
+<button aria-label="Abrir menu" aria-expanded="false" aria-controls="shop-shell-menu" class="menu-btn" id="menu-btn" type="button">
+<svg aria-hidden="true" focusable="false" height="16" viewBox="0 0 22 16" width="22" xmlns="http://www.w3.org/2000/svg"><rect fill="currentColor" height="2" rx="1" width="22" y="0"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="7"></rect><rect fill="currentColor" height="2" rx="1" width="22" y="14"></rect></svg>
+</button>
+<div class="logo"><a href="/index.html" aria-label="Douglas Assumpção — início"><img alt="" id="site-logo" src="/assets/img/icone.png"><span class="shop-brand">Douglas Assumpção<small>Música sacra · Arte &amp; tradição</small></span></a></div>
+<form class="shop-search" action="/pages/loja.html#catalogo" method="get" role="search" aria-label="Buscar no catálogo da loja">
+<label class="shop-header-sr" for="shop-query">Buscar produtos</label>
+<input id="shop-query" name="q" type="search" placeholder="Buscar produtos…" autocomplete="off" maxlength="100">
+<button type="submit" aria-label="Buscar produtos"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 5 5"></path></svg></button>
+</form>
+<a class="shop-cart-link" href="/pages/cart.html" aria-label="Abrir carrinho"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h3l3 13h11l3-9H6"></path><circle cx="9" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle></svg><span>Carrinho</span><span class="shop-cart-count" data-cart-count hidden aria-label="Quantidade de itens na sacola">0</span></a>
+</header>
+<main id="conteudo" class="checkout-multi-main">
+<h1>Finalizar compra</h1>
 <ol class="shop-steps checkout-steps" aria-label="Etapas da compra">
 <li><span class="step-number">1</span> Carrinho</li>
 <li aria-current="step"><span class="step-number">2</span> Entrega e dados</li>
 <li><span class="step-number">3</span> Pagamento</li>
 </ol>
-<h1>Finalizar compra</h1>
-<p id="checkout-multi-status" role="status">Conferindo disponibilidade do carrinho…</p>
+<p id="checkout-multi-status" role="status" aria-live="polite">Conferindo disponibilidade do carrinho…</p>
 <section id="checkout-multi-container" hidden>
 <form id="checkout-multi-form" class="checkout-grid">
 <div class="checkout-form-column">
@@ -82,7 +98,7 @@
 </aside>
 </form>
 </section>
-<p class="hint">A compra é registrada somente após confirmação do pagamento pelo servidor. A produção é acompanhada pela loja.</p>
+<p class="checkout-final-note">O pedido é confirmado após a validação do pagamento. A produção é acompanhada pela loja.</p>
 </main>
 <footer><a href="/pages/contato.html">Entre em contato</a></footer>
 </body>
