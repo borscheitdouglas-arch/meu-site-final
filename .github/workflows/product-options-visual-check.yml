@@ -1,0 +1,42 @@
+name: Página do produto — testar opções e quantidade
+on:
+  pull_request:
+    paths:
+      - "scripts/product-detail.js"
+      - "styles/store-product-detail.css"
+      - "pages/produto-loja.html"
+      - "tools/test_product_options.py"
+      - ".github/workflows/product-options-visual-check.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/product-detail.js"
+      - "styles/store-product-detail.css"
+      - "pages/produto-loja.html"
+      - "tools/test_product_options.py"
+      - ".github/workflows/product-options-visual-check.yml"
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verificar sintaxe do JavaScript
+        run: node --check scripts/product-detail.js
+      - name: Preparar navegador
+        run: |
+          python3 -m pip install playwright==1.60.0
+          python3 -m playwright install --with-deps chromium
+      - name: Testar seleção visual, quantidades e carrinho
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/product-options.log 2>&1 &
+          sleep 2
+          python3 tools/test_product_options.py

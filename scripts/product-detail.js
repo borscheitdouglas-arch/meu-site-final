@@ -72,10 +72,10 @@
       const row=el('div');row.append(el('dt','',name),el('dd','',value));list.append(row);
     });return list;
   }
-  function shipping(container,product,select) {
+  function shipping(container,product,select,quantity) {
     const section=el('section','shop-single-shipping');
     section.append(el('h2','','Calcule o frete pelo CEP'),
-      el('p','','Consulte o transporte de 1 unidade da variação escolhida. O prazo de produção não está incluído no transporte.'));
+      el('p','','Consulte o frete conforme tamanho, modelo e quantidade escolhidos. O prazo de produção não está incluído.'));
     const form=el('form');
     const input=el('input');input.type='text';input.name='zipCode';input.required=true;
     input.inputMode='numeric';input.autocomplete='postal-code';input.maxLength=9;
@@ -92,11 +92,17 @@
     }
     let serial=0,controller=null;
     function reset(){serial++;controller?.abort();controller=null;button.disabled=false;status.textContent='';results.replaceChildren();}
-    input.addEventListener('input',reset);select.addEventListener('change',reset);
+    input.addEventListener('input',reset);
+    select.addEventListener('change',reset);
+    quantity.addEventListener('change',reset);
     form.addEventListener('submit',async event=>{
       event.preventDefault();reset();
       const zipCode=input.value.replace(/\D/g,'');
       const variant=product.variants.find(v=>v.code===select.value);
+      const units=Number(quantity.value);
+      if(!Number.isInteger(units)||units<1||units>10){
+        status.textContent='Escolha entre 1 e 10 unidades.';return;
+      }
       if(!/^\d{8}$/.test(zipCode)){status.textContent='Informe um CEP válido com 8 números.';return;}
       if(!variant?.sku || !Number.isInteger(variant.priceCents)){
         status.textContent='Esta variação ainda não possui preço e dados de frete confirmados.';
@@ -105,16 +111,24 @@
       const turn=serial;controller=new AbortController();button.disabled=true;
       status.textContent='Consultando as opções disponíveis...';
       try {
-        const response=await fetch(API+'/api/shipping/preview',{
+        const response=await fetch(API+(units>1?
+          '/api/shipping/cart-preview':'/api/shipping/preview'),{
           method:'POST',mode:'cors',cache:'no-store',
           headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({zipCode,sku:variant.sku}),
+          body:JSON.stringify(units>1?
+            {zipCode,items:[{sku:variant.sku,quantity:units}]}:
+            {zipCode,sku:variant.sku}),
           signal:AbortSignal.any([controller.signal,AbortSignal.timeout(15000)])
         });
         const data=await response.json().catch(()=>({}));
         if(turn!==serial)return;
         if(!response.ok)throw Error(data?.error||'http_'+response.status);
-        if(data?.sku!==variant.sku||data?.zipCode!==zipCode||!Array.isArray(data.options))throw Error('cotacao');
+        const matching=units>1?
+          data?.items?.length===1 && data.items[0].sku===variant.sku &&
+          data.items[0].quantity===units:
+          data?.sku===variant.sku;
+        if(!matching||data?.zipCode!==zipCode||!Array.isArray(data.options))
+          throw Error('cotacao');
         const choices=data.options.filter(item=>item && item.isActive===true &&
           typeof item.name==='string' && item.name.length<=120 &&
           !/retirada|retire|pickup/i.test(item.name) &&
@@ -122,12 +136,12 @@
           Number.isInteger(item.deliveryTime) && item.deliveryTime>=0 && item.deliveryTime<=365);
         if(!choices.length)throw Error('sem_frete');
         status.textContent=data.provisional===true?
-          'Simulação orientativa para uma unidade (produto ainda não liberado para compra):':
-          'Opções estimadas para uma unidade:';
+          'Simulação orientativa para '+units+' unidade(s), sujeita à confirmação da embalagem:':
+          'Opções estimadas para '+units+' unidade(s):';
         choices.forEach(item=>{
           const quote=el('p','shop-single-quote-line',
             item.name+' · Frete: '+money(Math.round(item.shippingCost*100))+
-            ' · Total estimado: '+money(variant.priceCents+Math.round(item.shippingCost*100))+
+            ' · Total estimado: '+money(variant.priceCents*units+Math.round(item.shippingCost*100))+
             ' · Transporte: '+item.deliveryTime+' dia(s) úteis');
           results.append(quote);
         });
@@ -203,70 +217,118 @@
           'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
       }
       const form=el('form','shop-single-form');
-      const selectLabel=el('label','',variants.length>1?'Escolha o tamanho':'Modelo / variação');
-      select=el('select');select.required=true;select.setAttribute('aria-label','Escolha a variação');
+      const variationGroup=el('fieldset','shop-single-variant-group');
+      variationGroup.append(el('legend','shop-single-field-label',
+        isShirt?'Tamanho':'Modelo'));
+      const hiddenLabel=el('label','shop-single-visually-hidden','Escolha a variação');
+      select=el('select','shop-single-native-select');
+      select.required=true;select.setAttribute('aria-label','Escolha a variação');
+      const chips=el('div','shop-single-variant-chips');
+      const chipButtons=new Map();
       variants.forEach(v=>{
-        const opt=el('option','',v.label+(Number.isInteger(v.priceCents)?' — '+money(v.priceCents):''));
-        opt.value=v.code;select.append(opt);
+        const option=el('option','',v.label+(Number.isInteger(v.priceCents)?' — '+money(v.priceCents):''));
+        option.value=v.code;select.append(option);
+        const chip=el('button','shop-single-variant-chip',isShirt?v.code:v.label);
+        chip.type='button';chip.setAttribute('aria-pressed','false');
+        chip.addEventListener('click',()=>{
+          select.value=v.code;select.dispatchEvent(new Event('change',{bubbles:true}));
+        });
+        chips.append(chip);chipButtons.set(v.code,chip);
       });
-      select.value=variant?.code||'';selectLabel.append(select);
-      const quantityLabel=el('label','','Quantidade');
-      const quantity=el('input');quantity.type='number';quantity.min='1';quantity.max='10';
+      select.value=variant?.code||'';
+      hiddenLabel.append(select);variationGroup.append(hiddenLabel,chips);
+      const updateChips=()=>{
+        chipButtons.forEach((chip,code)=>{
+          const active=select.value===code;
+          chip.classList.toggle('is-selected',active);
+          chip.setAttribute('aria-pressed',String(active));
+        });
+      };
+      select.addEventListener('change',updateChips);updateChips();
+
+      const companionOptions=product.category==='canecas'?[
+        {id:'caneca-salve-regina-preta',label:'Preta'},
+        {id:'caneca-salve-regina-pb',label:'P&B'}
+      ]:product.category==='ecobags'?[
+        {id:'ecobag-salve-regina-m',label:'M'},
+        {id:'ecobag-salve-regina-g',label:'G'}
+      ]:null;
+      if(companionOptions){
+        const companion=el('nav','shop-single-companion-options');
+        companion.setAttribute('aria-label','Outras opções disponíveis');
+        companion.append(el('p','shop-single-field-label',
+          product.category==='canecas'?'Acabamento':'Tamanho'));
+        const buttons=el('div','shop-single-companion-choices');
+        companionOptions.forEach(option=>{
+          const active=option.id===product.id;
+          const choice=link(option.label,
+            '/pages/produto-loja.html?id='+encodeURIComponent(option.id),
+            'shop-single-variant-chip'+(active?' is-selected':''));
+          if(active)choice.setAttribute('aria-current','page');
+          buttons.append(choice);
+        });
+        companion.append(buttons);variationGroup.append(companion);
+      }
+
+      const quantityGroup=el('div','shop-single-quantity-group');
+      quantityGroup.append(el('span','shop-single-field-label','Quantidade'));
+      const stepper=el('div','shop-single-stepper');
+      const minus=el('button','shop-single-stepper-button','−');
+      minus.type='button';minus.setAttribute('aria-label','Diminuir quantidade');
+      const quantity=el('input','shop-single-quantity-input');
+      quantity.type='number';quantity.min='1';quantity.max='10';
       quantity.step='1';quantity.value='1';quantity.required=true;
-      quantityLabel.append(quantity);
+      quantity.setAttribute('aria-label','Quantidade de unidades');
+      const plus=el('button','shop-single-stepper-button','+');
+      plus.type='button';plus.setAttribute('aria-label','Aumentar quantidade');
+      const changeQty=()=>{
+        let value=Number(quantity.value);
+        if(!Number.isInteger(value))value=1;
+        value=Math.min(10,Math.max(1,value));
+        quantity.value=String(value);
+        minus.disabled=value===1;plus.disabled=value===10;
+        quantity.dispatchEvent(new Event('change',{bubbles:true}));
+      };
+      minus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)-1);changeQty();});
+      plus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)+1);changeQty();});
+      quantity.addEventListener('blur',changeQty);
+      minus.disabled=true;
+      stepper.append(minus,quantity,plus);
+      quantityGroup.append(stepper,el('span','shop-single-availability',
+        isPreparation?'Em preparação':'Produção sob demanda'));
       const actions=el('div','shop-single-actions');
       const add=el('button','','Adicionar ao carrinho');add.type='submit';
       const proceed=el('button','','Ver entrega e compra');proceed.type='button';
       const feedback=el('p','shop-single-feedback');
       feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
       actions.append(add,proceed);
-      if(isShirt){
-        const direct=link('Comprar agora · Calcular frete e pagar',
-          '/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value),'shop-single-buy');
-        direct.addEventListener('click',event=>{
-          if(Number(quantity.value)!==1){
-            event.preventDefault();
-            feedback.textContent='Para compra direta, selecione 1 camiseta por pedido.';
-          }
-        });
-        select.addEventListener('change',()=>{
-          direct.href='/pages/checkout-salve-regina.html?size='+encodeURIComponent(select.value);
-        });
-        actions.append(direct);
-        proceed.textContent='Adicionar e ver carrinho';
-      }else if(!isPreparation){
-        proceed.textContent='Consultar disponibilidade no carrinho';
-        const direct=link('Comprar agora · Calcular frete e pagar','#','shop-single-buy');
-        direct.hidden=true;
-        direct.addEventListener('click',event=>{
-          if(Number(quantity.value)!==1){
-            event.preventDefault();
-            feedback.textContent='A compra direta permite uma peça por pedido.';
-          }
-        });
-        actions.append(direct);
-        const approvedSkus=new Set();
-        const sync=()=>{
-          const selected=variants.find(v=>v.code===select.value);
-          const approved=Boolean(selected?.sku && approvedSkus.has(selected.sku));
-          direct.hidden=!approved;
-          if(approved){
-            direct.href='/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku);
-            productStatus.textContent='Compra online disponível · produção sob demanda';
-            priceNote.textContent='Preço de venda aprovado. Frete calculado pelo CEP no checkout.';
-            proceed.textContent='Adicionar e ver carrinho';
-          }
-        };
-        select.addEventListener('change',sync);
+      const approvedSkus=new Set();
+      const syncCheckout=()=>{
+        const selected=variants.find(v=>v.code===select.value);
+        const approved=Boolean(selected?.sku&&approvedSkus.has(selected.sku));
+        proceed.textContent=approved?'Comprar agora':'Consultar compra';
+        if(!isPreparation){
+          productStatus.textContent=approved?
+            'Compra online disponível · produção sob demanda':
+            'Produção sob demanda · compra sob consulta';
+          if(approved)priceNote.textContent=
+            'Preço aprovado. Frete e total confirmados no checkout.';
+        }
+      };
+      select.addEventListener('change',syncCheckout);
+      if(!isPreparation){
         fetch(API+'/api/checkout/live/readiness',{
           mode:'cors',cache:'no-store',signal:AbortSignal.timeout(8000)
-        }).then(r=>r.ok?r.json():null).then(data=>{
-          if(data?.checkoutEnabled!==true || !Array.isArray(data.availableSkus))return;
-          data.availableSkus.forEach(s=>{if(typeof s==='string')approvedSkus.add(s)});
-          sync();
-        }).catch(()=>{/* Sem confirmação do servidor não mostrar compra. */});
+        }).then(response=>response.ok?response.json():null).then(data=>{
+          if(data?.checkoutEnabled!==true||!Array.isArray(data.availableSkus))return;
+          data.availableSkus.forEach(code=>{
+            if(typeof code==='string')approvedSkus.add(code);
+          });
+          syncCheckout();
+        }).catch(()=>{/* Sem validação no servidor, só consulta assistida. */});
       }
-      form.append(selectLabel,quantityLabel,actions,feedback);
+      syncCheckout();
+      form.append(variationGroup,quantityGroup,actions,feedback);
       summary.append(form);
       const state=()=>{
         add.disabled=isPreparation||!window.Cart;
@@ -289,11 +351,21 @@
         }else feedback.textContent='Não foi possível adicionar. Verifique a quantidade ou a variação.';
       };
       form.addEventListener('submit',event=>{event.preventDefault();putInCart(false);});
-      proceed.addEventListener('click',()=>putInCart(true));
+      proceed.addEventListener('click',()=>{
+        const selected=variants.find(v=>v.code===select.value);
+        const units=Number(quantity.value);
+        if(units===1 && selected?.sku && approvedSkus.has(selected.sku)){
+          window.location.assign(isShirt?
+            '/pages/checkout-salve-regina.html?size='+encodeURIComponent(selected.code):
+            '/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku));
+        }else{
+          putInCart(true);
+        }
+      });
       summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
       // Calculadora na página individual de todas as peças físicas, não só camiseta.
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
-      shipping(summary,product,select);
+      shipping(summary,product,select,quantity);
     }
     const trust=el('div','shop-single-trust');
     trust.append(el('p','',isBook?
