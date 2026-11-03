@@ -16,7 +16,8 @@ jobs:
           python3 - <<'PY'
           import json,urllib.request
           url='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/checkout/live/readiness'
-          with urllib.request.urlopen(url,timeout=20) as r:
+          req=urllib.request.Request(url,headers={'Origin':'https://www.douglasassumpcao.com.br','User-Agent':'Douglas-Readiness-ReadOnly-20261103'})
+          with urllib.request.urlopen(req,timeout=20) as r:
             d=json.load(r)
           print(json.dumps({
             'checkoutEnabled':d.get('checkoutEnabled'),
