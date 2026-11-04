@@ -10,6 +10,14 @@
     "cta": "Saiba Mais"
   },
   {
+    "title": "Eis que o Senhor vem",
+    "description": "3º Domingo do Advento",
+    "category": "Canto de Entrada",
+    "url": "pages/advento-3-entrada.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
+    "published": "2026-11-04"
+  },
+  {
     "title": "Veni Veni Emmanuel",
     "description": "Hino do Advento",
     "category": "Advento",
@@ -22,14 +30,6 @@
     "description": "4º Domingo do Advento · Is 45,8",
     "category": "Canto de Entrada",
     "url": "pages/advento-4-entrada.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
-    "published": "2026-10-26"
-  },
-  {
-    "title": "Eis que o Senhor vem",
-    "description": "3º Domingo do Advento",
-    "category": "Canto de Entrada",
-    "url": "pages/advento-3-entrada.html",
     "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
     "published": "2026-10-26"
   },
