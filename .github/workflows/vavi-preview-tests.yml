@@ -91,7 +91,8 @@ jobs:
           result_page=Path('pages/resultado-pagamento.html').read_text(encoding='utf-8')
           result_js=Path('scripts/resultado-pagamento.js').read_text(encoding='utf-8')
           assert 'não comprova pagamento aprovado' in result_page
-          assert 'Pagamento enviado para conferência' in result_js
+          assert 'Pagamento confirmado' in result_js
+          assert '/api/payments/infinitepay-confirm' in result_js
           assert 'localStorage' not in result_js
           assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in result_page+result_js
           admin=Path('scripts/admin-pedidos-loja.js').read_text(encoding='utf-8')

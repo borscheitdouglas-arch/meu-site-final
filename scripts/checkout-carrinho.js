@@ -196,7 +196,8 @@ form.addEventListener('submit',async event=>{
     }
     const target=new URL(data.checkoutUrl);
     if(target.protocol!=='https:'||
-      !(target.hostname==='mercadopago.com.br'||target.hostname.endsWith('.mercadopago.com.br')||
+      !(target.hostname==='checkout.infinitepay.com.br'||
+        target.hostname==='mercadopago.com.br'||target.hostname.endsWith('.mercadopago.com.br')||
         target.hostname==='mercadopago.com'||target.hostname.endsWith('.mercadopago.com')))
       throw Error('bad_checkout_url');
     window.location.assign(target.href);

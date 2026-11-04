@@ -5,6 +5,7 @@ import {processOrdersWebhook} from './mp-orders-webhook.js';
 import {createCheckoutTest} from './checkout-orchestrator.js';
 import {createCheckoutLive,liveCheckoutReady} from './checkout-live.js';
 import {processLivePaymentWebhook} from './live-payment-webhook.js';
+import {processInfinitePayWebhook} from './infinitepay-webhook.js';
 import {reconcileLivePayment} from './live-payment-reconcile.js';
 import {authorizedLiveAdmin,listLivePaidOrders,getLivePaidDelivery,registerManualVaviOrder} from './live-order-admin.js';
 import {getPrivateLaunchReadiness} from './launch-readiness.js';
@@ -84,7 +85,7 @@ export default {
         (url.pathname.startsWith('/api/internal/live-orders/') &&
          /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length))) ||
         /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
-      if (!adminOptions && !['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/shipping/cart-preview','/api/checkout/test','/api/checkout/live','/api/internal/vavi/shipping-check'].includes(url.pathname))
+      if (!adminOptions && !['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/shipping/cart-preview','/api/checkout/test','/api/checkout/live','/api/payments/infinitepay-confirm','/api/internal/vavi/shipping-check'].includes(url.pathname))
         return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
@@ -255,6 +256,42 @@ export default {
         webhook:false // the route is still guarded, not consuming notifications
       };
       return json({mode:'preview',ready:false,checks},200,cors.headers);
+    }
+    // Retorno do navegador também é apenas um aviso não confiável: consultar a API.
+    // Permite conciliar caso o webhook demore, sem aceitar status enviado pelo cliente.
+    if (url.pathname === '/api/payments/infinitepay-confirm' && request.method === 'POST') {
+      try {
+        if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+          return json({error:'unsupported_media_type'},415,cors.headers);
+        const body=await request.text();
+        if(body.length>2000)return json({error:'request_too_large'},413,cors.headers);
+        const verified=await processInfinitePayWebhook({
+          request:new Request(request.url,{method:'POST',body}),
+          env
+        });
+        if(verified.vaviQueued===true && typeof ctx?.waitUntil==='function')
+          ctx.waitUntil(dispatchVaviDraft(env,verified.orderId));
+        return json({ok:true,processed:verified.processed===true},200,cors.headers);
+      }catch(error){
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status,cors.headers);
+        console.error('InfinitePay return verification unavailable:',error?.name||'unknown');
+        return json({error:'verification_failed'},503,cors.headers);
+      }
+    }
+    // InfinitePay: notificações não são assinadas; confirmar na API antes de pagar pedido.
+    if (url.pathname === '/api/payments/infinitepay-webhook' && request.method === 'POST') {
+      try {
+        const outcome=await processInfinitePayWebhook({request,env});
+        if(outcome.vaviQueued===true && typeof ctx?.waitUntil==='function')
+          ctx.waitUntil(dispatchVaviDraft(env,outcome.orderId));
+        return json({ok:true,processed:outcome.processed!==false},200);
+      } catch(error) {
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status);
+        console.error('InfinitePay webhook unavailable:',error?.name||'unknown');
+        return json({error:'webhook_processing_failed'},503);
+      }
     }
     // Independent PROD endpoint: accepts no sandbox key and never pays test orders.
     if (url.pathname === '/api/payments/live-webhook' && request.method === 'POST') {
