@@ -22,7 +22,7 @@ jobs:
             d=json.load(r)
           print(json.dumps({
             'checkoutEnabled':d.get('checkoutEnabled'),
-  'paymentProvider':d.get('paymentProvider'),
+            'paymentProvider':d.get('paymentProvider'),
             'multiCheckoutEnabled':d.get('multiCheckoutEnabled'),
             'availableSkus':d.get('availableSkus'),
             'keys':list(d.keys())
