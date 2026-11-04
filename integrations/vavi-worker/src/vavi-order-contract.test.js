@@ -42,3 +42,18 @@ test('bloqueia CEP, total, nome e endereço inconsistentes',()=>{
     order,buyer,items:[{...items[0],unitPriceCents:1}]
   }),{code:'vavi_total_mismatch'});
 });
+
+test('aceita comprovante InfinitePay validado sem inventar referência Mercado Pago',()=>{
+  const p=buildVaviIntegrationOrder({order:{
+    ...order,mpPaymentId:null,infinitePayTransactionNsu:'txn-verified-123'
+  },buyer,items});
+  assert.equal(p.code,order.id);
+  assert.equal(p.status,'paid');
+  assert.equal(p.paidAmount,125.44);
+  assert.equal(p.buyer.zipCode,order.destinationZip);
+});
+test('recusa pedido sem qualquer provedor validado',()=>{
+  assert.throws(()=>buildVaviIntegrationOrder({order:{
+    ...order,mpPaymentId:null,infinitePayTransactionNsu:null
+  },buyer,items}),{code:'vavi_unverified_payment'});
+});
