@@ -61,6 +61,10 @@ def main():
             for width in (390, 1440):
                 page.set_viewport_size({"width": width, "height": 900})
                 for name, path, body_expected, header_expected in PAGES:
+                    # O checkout individual tem estilo claro apenas no computador.
+                    # O Safari do iPhone mantém o tema original.
+                    if name == "checkout não ativo" and width >= 881:
+                        body_expected = "rgb(245, 242, 236)"
                     response = page.goto(base + path, wait_until="domcontentloaded")
                     assert response and response.status == 200, (name, response)
                     if body_expected:
@@ -77,10 +81,11 @@ def main():
                         backdrop = page.locator("body > .site-header").evaluate(
                             "el => getComputedStyle(el).backdropFilter")
                         assert backdrop == "none", (name, width, "backdrop", backdrop)
-                    if body_expected == COPPER:
+                    if body_expected == COPPER or name == "checkout não ativo":
                         meta = page.locator('meta[name="theme-color"]')
                         assert meta.count() == 1, (name, width, "missing theme-color")
-                        assert meta.get_attribute("content") == "#b76436", (name, width)
+                        expected_meta = "#073d42" if name == "checkout não ativo" else "#b76436"
+                        assert meta.get_attribute("content") == expected_meta, (name, width)
                     print(f"PASS: {name} — {width}px", flush=True)
             browser.close()
     finally:
