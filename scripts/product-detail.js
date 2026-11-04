@@ -4,8 +4,6 @@
   const root = document.getElementById('shop-single-root');
   if (!root) return;
   const id = new URLSearchParams(window.location.search).get('id');
-  if (id === 'caneca-salve-regina-preta') root.dataset.mugArt = 'partitura';
-  if (id === 'caneca-salve-regina-pb') root.dataset.mugArt = 'nossa-senhora';
   const money = cents => new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(cents / 100);
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const info = {
@@ -18,12 +16,14 @@
     'caneca-salve-regina-preta': {
       type:'Caneca · Coleção Salve Regina', material:'Porcelana (conforme catálogo preliminar)',
       finish:'Personalização por sublimação', description:'Caneca preta da coleção Salve Regina, com proposta de estampa dedicada à partitura gregoriana da antífona mariana. Um objeto cotidiano pensado para quem deseja manter próxima a beleza da oração e da tradição católica.',
-      note:'Imagem ilustrativa da coleção. Os detalhes dessa variante serão confirmados antes da produção.'
+      note:'Imagem ilustrativa. A estampa definitiva deve ser conferida com a arte original antes da produção.',
+      photos:['/assets/img/loja/Salve-Regina/web/caneca-partitura-individual.png']
     },
     'caneca-salve-regina-pb': {
       type:'Caneca · Coleção Salve Regina', material:'Porcelana (conforme catálogo preliminar)',
       finish:'Personalização por sublimação', description:'Caneca da coleção Salve Regina na proposta em preto e branco, destacando a imagem de Nossa Senhora. A estética da peça remete à arte sacra clássica e à tradição mariana.',
-      note:'Imagem ilustrativa da coleção, não uma prova da variante preto e branco. A arte final deverá ser validada antes da produção.'
+      note:'Imagem ilustrativa. A estampa definitiva deve ser conferida com a arte original antes da produção.',
+      photos:['/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png']
     },
     'ecobag-salve-regina-m': {
       type:'Ecobag · Coleção Salve Regina', material:'Algodão cru', finish:'Personalização DTF · tamanho M',

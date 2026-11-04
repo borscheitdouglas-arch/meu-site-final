@@ -389,25 +389,3 @@ body.shop-manto #shop-product-grid .atelier-product .shop-product-action { order
   body.shop-manto #shop-product-grid > .shop-product-card:hover,
   body.shop-manto #shop-product-grid > .atelier-catalog:hover { transform: none; }
 }
-/* Duas canecas da mesma fotografia original, mostradas separadamente.
-   Esquerda: arte mariana; direita: partitura. Não altera nenhuma nota da arte. */
-body.shop-manto #shop-product-grid > .shop-product-card[data-mug-art] .shop-product-image img {
-  transform: scale(2.13);
-  transition: transform .4s ease;
-}
-body.shop-manto #shop-product-grid > .shop-product-card[data-mug-art="partitura"] .shop-product-image img {
-  transform-origin: 92% 52%;
-}
-body.shop-manto #shop-product-grid > .shop-product-card[data-mug-art="nossa-senhora"] .shop-product-image img {
-  transform-origin: 8% 52%;
-}
-@media (hover:hover) and (pointer:fine) {
- body.shop-manto #shop-product-grid > .shop-product-card[data-mug-art] .shop-product-image:hover img {
-   transform: scale(2.18);
- }
-}
-@media (prefers-reduced-motion:reduce) {
- body.shop-manto #shop-product-grid > .shop-product-card[data-mug-art] .shop-product-image img {
-   transition: none;
- }
-}
