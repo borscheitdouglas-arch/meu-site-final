@@ -59,7 +59,8 @@ jobs:
           assert "data?.checkoutEnabled!==true" in store
           assert '/api/checkout/live' in client
           assert 'window.location.assign' in client
-          assert 'mercadopago.com.br' in client
+          assert 'checkout.infinitepay.com.br' in client
+          assert 'mercadopago.com.br' not in client
           assert 'MERCADOPAGO_LIVE_ACCESS_TOKEN' not in page+client+store
           assert 'MERCADOPAGO_LIVE_WEBHOOK_SECRET' not in page+client+store
           policies=Path('pages/condicoes-da-loja.html').read_text(encoding='utf-8')
