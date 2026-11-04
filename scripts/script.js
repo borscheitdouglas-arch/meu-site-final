@@ -748,3 +748,13 @@ function enhanceSacredMenu(nav) {
   input.addEventListener('input',render);
   clear.addEventListener('click', () => { input.value = ''; render(); input.focus(); });
 }
+
+// Divulgação editorial da loja, separada do modal de contribuição das partituras.
+(function loadShopInvitation(){
+ if(window.DouglasShopInvitationLoader)return;
+ window.DouglasShopInvitationLoader=true;
+ const script=document.createElement('script');
+ script.src='/scripts/shop-invitation.js?v=20261104-v1';
+ script.async=true;
+ document.head.appendChild(script);
+})();
