@@ -18,7 +18,8 @@ export function liveCheckoutReady(env) {
     env.DELIVERY_PERSISTENCE_ENABLED==='true' &&
     (env.INFINITEPAY_CHECKOUT_ENABLED==='true'
       ? Boolean(env.INFINITEPAY_API_KEY?.startsWith('inchk_') && env.INFINITEPAY_HANDLE)
-      : Boolean(env.MERCADOPAGO_LIVE_ACCESS_TOKEN && env.MERCADOPAGO_LIVE_WEBHOOK_SECRET)) &&
+      : Boolean(env.LEGACY_MP_CHECKOUT_ALLOWED==='true' &&
+          env.MERCADOPAGO_LIVE_ACCESS_TOKEN && env.MERCADOPAGO_LIVE_WEBHOOK_SECRET)) &&
     env.SHOP_ADMIN_API_KEY && env.SHOP_ADMIN_API_KEY.length>=32 &&
     env.DELIVERY_ENCRYPTION_KEY_B64 &&
     env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET &&
