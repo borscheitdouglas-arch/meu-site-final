@@ -1,13 +1,5 @@
 name: Checkout InfinitePay - testes sem cobranca
 on:
-  push:
-    branches: [fix/infinitepay-link-url]
-    paths:
-      - "integrations/vavi-worker/src/**"
-      - "integrations/vavi-worker/migrations/**"
-      - "scripts/checkout-carrinho.js"
-      - "scripts/checkout-salve-regina.js"
-      - ".github/workflows/infinitepay-integration-check.yml"
   pull_request:
     paths:
       - "integrations/vavi-worker/src/**"
