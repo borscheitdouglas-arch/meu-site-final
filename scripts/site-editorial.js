@@ -1,3 +1,23 @@
+/* Camada mobile carregada apenas em telas de telefone.
+   Mantém o desktop original e evita editar dezenas de páginas individualmente. */
+(() => {
+  const phone = window.matchMedia('(max-width: 767px)');
+  function loadMobileApp() {
+    if (!phone.matches || document.getElementById('mobile-app-shell-css')) return;
+    const style = document.createElement('link');
+    style.id = 'mobile-app-shell-css';
+    style.rel = 'stylesheet';
+    style.href = '/styles/mobile-app-shell.css?v=20261104-v1';
+    document.head.appendChild(style);
+    const script = document.createElement('script');
+    script.id = 'mobile-app-shell-script';
+    script.src = '/scripts/mobile-app-shell.js?v=20261104-v1';
+    document.body.appendChild(script);
+  }
+  loadMobileApp();
+  if (phone.addEventListener) phone.addEventListener('change', loadMobileApp);
+})();
+
 /* Acessibilidade do menu nas páginas de repertório, leitura e apoio. */
 (() => {
   'use strict';
