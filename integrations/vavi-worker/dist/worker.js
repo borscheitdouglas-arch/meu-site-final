@@ -1505,7 +1505,7 @@ var STR = (x, max = 160) => typeof x === "string" && x.trim().length > 0 && x.tr
 var MONEY = (n) => Number.isSafeInteger(n) && n >= 0;
 var brl = (cents) => Number((cents / 100).toFixed(2));
 function buildVaviIntegrationOrder({ order, buyer, items }) {
-  if (!order || !ORDER_ID3.test(order.id || "") || order.status !== "paid" || !MONEY(order.subtotalCents) || !MONEY(order.shippingCents) || !MONEY(order.totalCents) || order.totalCents !== order.subtotalCents + order.shippingCents || !STR(order.mpPaymentId, 80)) {
+  if (!order || !ORDER_ID3.test(order.id || "") || order.status !== "paid" || !MONEY(order.subtotalCents) || !MONEY(order.shippingCents) || !MONEY(order.totalCents) || order.totalCents !== order.subtotalCents + order.shippingCents || !(STR(order.mpPaymentId, 80) || STR(order.infinitePayTransactionNsu, 120))) {
     throw new CatalogError(
       "vavi_unverified_payment",
       "N\xE3o \xE9 poss\xEDvel enviar pedido sem confirma\xE7\xE3o persistida de pagamento.",
@@ -1659,6 +1659,11 @@ async function obtainVaviAccessToken(env, fetchImpl = fetch) {
 // src/vavi-auto-draft.js
 var ID2 = /^ord_[a-f0-9]{32}$/;
 var LIMIT = 3;
+var INFINITEPAY_NSU = /^[A-Za-z0-9_.:-]{6,120}$/;
+var VERIFIED_PAYMENT = `(o.mp_payment_id IS NOT NULL OR EXISTS (
+  SELECT 1 FROM store_infinitepay_payments ip
+  WHERE ip.order_id=o.id AND ip.amount_cents=o.total_cents
+    AND ip.paid_amount_cents>=ip.amount_cents))`;
 function vaviAutoDraftReady(env) {
   return env?.VAVI_AUTO_DRAFT_ENABLED === "true" && env?.LIVE_WEBHOOK_ENABLED === "true" && env?.LIVE_PRODUCT_APPROVED === "true" && env?.LIVE_POLICY_APPROVED === "true" && typeof env?.VAVI_CLIENT_ID === "string" && env.VAVI_CLIENT_ID.length > 0 && typeof env?.VAVI_CLIENT_SECRET === "string" && env.VAVI_CLIENT_SECRET.length > 0 && Boolean(env.DB?.prepare && env.DELIVERY_ENCRYPTION_KEY_B64);
 }
@@ -1666,9 +1671,9 @@ async function enqueuePaidVaviDraft(env, orderId) {
   if (!vaviAutoDraftReady(env)) return { queued: false, reason: "disabled" };
   if (!ID2.test(orderId || "")) throw new CatalogError("invalid_order_id", "Pedido inv\xE1lido.", 400);
   const result = await env.DB.prepare(`INSERT OR IGNORE INTO store_vavi_draft_dispatch(order_id,state)
-    SELECT id,'pending' FROM store_orders
-    WHERE id=? AND status='paid' AND payment_environment='live'
-    AND mp_payment_id IS NOT NULL AND vavi_order_id IS NULL`).bind(orderId).run();
+    SELECT o.id,'pending' FROM store_orders o
+    WHERE o.id=? AND o.status='paid' AND o.payment_environment='live'
+    AND ${VERIFIED_PAYMENT} AND o.vavi_order_id IS NULL`).bind(orderId).run();
   return { queued: result.meta?.changes === 1 };
 }
 async function dispatchVaviDraft(env, orderId, sendDraft = createVaviDraft, authenticate = obtainVaviAccessToken) {
@@ -1678,15 +1683,22 @@ async function dispatchVaviDraft(env, orderId, sendDraft = createVaviDraft, auth
     SET state='sending',attempted_at=strftime('%Y-%m-%dT%H:%M:%fZ','now'),
     last_error=NULL
     WHERE order_id=? AND state='pending'
-      AND EXISTS (SELECT 1 FROM store_orders
-        WHERE id=? AND status='paid' AND payment_environment='live'
-          AND mp_payment_id IS NOT NULL AND vavi_order_id IS NULL)`).bind(orderId, orderId).run();
+      AND EXISTS (SELECT 1 FROM store_orders o
+        WHERE o.id=? AND o.status='paid' AND o.payment_environment='live'
+          AND ${VERIFIED_PAYMENT} AND o.vavi_order_id IS NULL)`).bind(orderId, orderId).run();
   if (claim.meta?.changes !== 1) return { sent: false, reason: "already_claimed" };
   try {
-    const order = await env.DB.prepare(`SELECT id,status,subtotal_cents,shipping_cents,
-      total_cents,destination_zip,mp_payment_id,payment_environment
-      FROM store_orders WHERE id=? LIMIT 1`).bind(orderId).first();
-    if (!order || order.status !== "paid" || order.payment_environment !== "live" || !/^\d{1,30}$/.test(order.mp_payment_id || ""))
+    const order = await env.DB.prepare(`SELECT o.id,o.status,o.subtotal_cents,
+      o.shipping_cents,o.total_cents,o.destination_zip,o.mp_payment_id,
+      o.payment_environment,
+      (SELECT ip.transaction_nsu FROM store_infinitepay_payments ip
+       WHERE ip.order_id=o.id AND ip.amount_cents=o.total_cents
+         AND ip.paid_amount_cents>=ip.amount_cents LIMIT 1)
+         AS infinitepay_transaction_nsu
+      FROM store_orders o WHERE o.id=? LIMIT 1`).bind(orderId).first();
+    const verifiedMp = /^\d{1,30}$/.test(order?.mp_payment_id || "");
+    const verifiedInfinite = INFINITEPAY_NSU.test(order?.infinitepay_transaction_nsu || "");
+    if (!order || order.status !== "paid" || order.payment_environment !== "live" || !verifiedMp && !verifiedInfinite)
       throw new CatalogError("vavi_unverified_payment", "Pagamento n\xE3o confirmado.", 409);
     const [itemsResult, delivery] = await Promise.all([
       env.DB.prepare(`SELECT sku,label,quantity,unit_price_cents
@@ -1709,7 +1721,8 @@ async function dispatchVaviDraft(env, orderId, sendDraft = createVaviDraft, auth
         subtotalCents: order.subtotal_cents,
         shippingCents: order.shipping_cents,
         totalCents: order.total_cents,
-        mpPaymentId: order.mp_payment_id,
+        mpPaymentId: verifiedMp ? order.mp_payment_id : null,
+        infinitePayTransactionNsu: verifiedInfinite ? order.infinitepay_transaction_nsu : null,
         destinationZip: order.destination_zip
       },
       buyer,
@@ -1744,17 +1757,17 @@ async function dispatchVaviDraft(env, orderId, sendDraft = createVaviDraft, auth
 }
 async function processPendingPaidVaviDrafts(env, sendDraft = createVaviDraft) {
   if (!vaviAutoDraftReady(env)) return { processed: 0, reason: "disabled" };
-  const candidates = await env.DB.prepare(`SELECT id FROM store_orders
-    WHERE status='paid' AND payment_environment='live'
-      AND mp_payment_id IS NOT NULL AND vavi_order_id IS NULL
+  const candidates = await env.DB.prepare(`SELECT o.id FROM store_orders o
+    WHERE o.status='paid' AND o.payment_environment='live'
+      AND ${VERIFIED_PAYMENT} AND o.vavi_order_id IS NULL
       AND NOT EXISTS (SELECT 1 FROM store_vavi_draft_dispatch
-        WHERE order_id=store_orders.id)
+        WHERE order_id=o.id)
     ORDER BY created_at ASC LIMIT ?`).bind(LIMIT).all();
   for (const row of candidates.results || []) await enqueuePaidVaviDraft(env, row.id);
   const pending = await env.DB.prepare(`SELECT q.order_id FROM store_vavi_draft_dispatch q
     JOIN store_orders o ON o.id=q.order_id
     WHERE q.state='pending' AND o.status='paid'
-      AND o.payment_environment='live' AND o.mp_payment_id IS NOT NULL
+      AND o.payment_environment='live' AND ${VERIFIED_PAYMENT}
       AND o.vavi_order_id IS NULL
     ORDER BY q.created_at ASC LIMIT ?`).bind(LIMIT).all();
   const results = [];
