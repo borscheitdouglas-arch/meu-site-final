@@ -1287,7 +1287,9 @@ async function createInfinitePayCheckout({
     customer: { name: buyer.name, email: buyer.email, phone_number: phone },
     address,
     options: {
-      assured_installments: 3,
+      // Repassa ao comprador todas as taxas do cartao, inclusive 1x.
+      // Uma opcao por link prevalece sobre a configuracao geral InfinitePay.
+      assured_installments: 0,
       require_delivery_address: false,
       single_payment: true,
       valid_until: new Date(Date.now() + 30 * 60 * 1e3).toISOString(),
