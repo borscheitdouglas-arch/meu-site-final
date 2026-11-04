@@ -4,8 +4,8 @@
 
 body.shop-manto #shop-product-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 23px 18px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 17px 13px;
   align-items: stretch;
   max-width: none;
   margin: 0;
@@ -53,7 +53,7 @@ body.shop-manto #shop-product-grid .atelier-product-art {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  aspect-ratio: 5 / 5.5;
+  aspect-ratio: 1 / 1;
   border: 0;
   border-bottom: 1px solid #e2d9c8;
   border-radius: 0;
@@ -92,18 +92,18 @@ body.shop-manto #shop-product-grid .atelier-product-art img { object-fit: contai
 body.shop-manto #shop-product-grid .shop-product-badge {
   display: inline-block;
   position: absolute;
-  top: 13px;
+  top: 10px;
   bottom: auto;
-  left: 13px;
+  left: 10px;
   right: auto;
-  max-width: calc(100% - 26px);
-  padding: 7px 10px;
+  max-width: calc(100% - 20px);
+  padding: 5px 8px;
   border: 1px solid rgba(224, 201, 156, .83);
   border-radius: 5px;
   background: rgba(12, 57, 54, .94);
   color: #f7ead0;
   box-shadow: 0 3px 10px rgba(10, 25, 24, .15);
-  font: 600 10px/1.2 'Inter', Arial, sans-serif;
+  font: 600 9px/1.2 'Inter', Arial, sans-serif;
   letter-spacing: .035em;
   text-transform: none;
 }
@@ -128,7 +128,7 @@ body.shop-manto #shop-product-grid .atelier-product-copy {
   min-height: 0;
   height: auto;
   width: 100%;
-  padding: 18px 17px 17px;
+  padding: 12px 12px 13px;
   background: linear-gradient(175deg, #fffdf8 0%, #fbf8f0 100%);
   color: #1c393a;
   text-align: left;
@@ -136,7 +136,7 @@ body.shop-manto #shop-product-grid .atelier-product-copy {
 body.shop-manto #shop-product-grid .shop-product-collection {
   display: block !important;
   order: 0;
-  margin: 0 0 6px;
+  margin: 0 0 5px;
   color: #93743f;
   font: 700 9px/1.4 'Inter', Arial, sans-serif;
   letter-spacing: .17em;
@@ -145,12 +145,12 @@ body.shop-manto #shop-product-grid .shop-product-collection {
 body.shop-manto #shop-product-grid .shop-product-info h3,
 body.shop-manto #shop-product-grid .atelier-product h3 {
   display: block;
-  margin: 0 0 8px;
-  min-height: 51px;
+  margin: 0 0 6px;
+  min-height: 41px;
   max-height: none;
   overflow: visible;
   color: #1c393b;
-  font: 600 clamp(19px, 1.6vw, 23px)/1.13 'Spectral', Georgia, serif;
+  font: 600 clamp(17px, 1.3vw, 20px)/1.16 'Spectral', Georgia, serif;
   letter-spacing: -.012em;
   text-wrap: pretty;
 }
@@ -161,9 +161,9 @@ body.shop-manto #shop-product-grid .shop-product-variation {
   display: flex !important;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 5px;
-  min-height: 26px;
-  margin: 0 0 10px;
+  gap: 4px;
+  min-height: 23px;
+  margin: 0 0 7px;
   color: #63716f;
   font: 400 11px/1.4 'Inter', Arial, sans-serif;
 }
@@ -171,7 +171,7 @@ body.shop-manto #shop-product-grid .shop-product-variation > span {
   display: inline-flex;
   align-items: center;
   max-width: 100%;
-  padding: 3px 6px;
+  padding: 3px 5px;
   border: 1px solid #e8e2d7;
   border-radius: 4px;
   background: #f1ede4;
@@ -183,8 +183,8 @@ body.shop-manto #shop-product-grid .shop-price {
   display: block;
   order: 0;
   min-height: 0;
-  margin: 0 0 13px;
-  padding: 11px 0 0;
+  margin: 0 0 10px;
+  padding: 8px 0 0;
   border: 0;
   border-top: 1px solid #e7dfd0;
 }
@@ -199,7 +199,7 @@ body.shop-manto #shop-product-grid .shop-price strong {
   display: block;
   margin: 0;
   color: #164a47;
-  font: 650 clamp(20px, 1.55vw, 24px)/1.25 'Spectral', Georgia, serif;
+  font: 650 clamp(19px, 1.4vw, 22px)/1.25 'Spectral', Georgia, serif;
   letter-spacing: -.015em;
 }
 body.shop-manto #shop-product-grid .shop-price strong span {
@@ -215,16 +215,16 @@ body.shop-manto #shop-product-grid .shop-cart-size {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 39px;
-  margin: auto 0 8px;
+  min-height: 34px;
+  margin: auto 0 7px;
   color: #56655e;
   font: 600 11px/1.45 'Inter', Arial, sans-serif;
 }
 body.shop-manto #shop-product-grid .shop-cart-size select {
-  min-width: 79px;
-  min-height: 38px;
-  height: 38px;
-  padding: 7px 10px;
+  min-width: 70px;
+  min-height: 34px;
+  height: 34px;
+  padding: 5px 8px;
   border: 1px solid #c7bdab;
   border-radius: 6px;
   background: #fffefa;
@@ -239,9 +239,9 @@ body.shop-manto #shop-product-grid .shop-cart-add {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  min-height: 45px;
+  min-height: 40px;
   margin: auto 0 0;
-  padding: 10px 12px;
+  padding: 8px 9px;
   border: 1px solid #1c5b50;
   border-radius: 6px;
   background: #17564a;
@@ -270,9 +270,9 @@ body.shop-manto #shop-product-grid .shop-product-action {
   justify-content: center;
   gap: 9px;
   width: 100%;
-  min-height: 41px;
-  margin: 8px 0 0;
-  padding: 9px 12px;
+  min-height: 37px;
+  margin: 6px 0 0;
+  padding: 7px 9px;
   border: 1px solid #cfc6b6;
   border-radius: 6px;
   background: transparent;
@@ -312,7 +312,7 @@ body.shop-manto #shop-product-grid .atelier-product {
 body.shop-manto #shop-product-grid .atelier-product-copy::before {
   content: "LIVRO · MÚSICA SACRA";
   display: block;
-  margin: 0 0 7px;
+  margin: 0 0 5px;
   color: #93743f;
   font: 700 9px/1.4 'Inter', Arial, sans-serif;
   letter-spacing: .14em;
@@ -333,10 +333,10 @@ body.shop-manto #shop-product-grid a.atelier-buy-primary {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 45px;
+  min-height: 40px;
   width: 100%;
   margin: 0;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border: 1px solid #1c5b50;
   border-radius: 6px;
   background: #17564a;
@@ -351,31 +351,35 @@ body.shop-manto #shop-product-grid a.atelier-buy-primary:hover {
 body.shop-manto #shop-product-grid .atelier-product .shop-product-action { order: 3; margin-top: 8px; }
 
 /* Leitura confortável também no tablet e no celular. */
-@media (min-width: 1650px) {
-  body.shop-manto #shop-product-grid { grid-template-columns: repeat(5,minmax(0,1fr)); }
+@media (min-width: 1900px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: repeat(6,minmax(0,1fr)); }
 }
-@media (max-width: 1120px) {
-  body.shop-manto #shop-product-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 19px 15px; }
+@media (max-width: 1240px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px 12px; }
 }
-@media (max-width: 780px) {
-  body.shop-manto #shop-product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 13px; }
+@media (max-width: 940px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 700px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 11px; }
   body.shop-manto #shop-product-grid .shop-product-info,
-  body.shop-manto #shop-product-grid .atelier-product-copy { padding: 15px 13px 14px; }
+  body.shop-manto #shop-product-grid .atelier-product-copy { padding: 11px 10px 12px; }
   body.shop-manto #shop-product-grid .shop-product-info h3,
   body.shop-manto #shop-product-grid .atelier-product h3 {
-    font-size: 19px;
-    min-height: 46px;
+    font-size: 17px;
+    min-height: 38px;
   }
+  body.shop-manto #shop-product-grid .shop-product-badge { font-size: 9px; }
 }
-@media (max-width: 510px) {
-  body.shop-manto #shop-product-grid { grid-template-columns: minmax(0,1fr); max-width: 370px; gap: 16px; margin-inline: auto; }
+@media (max-width: 480px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: minmax(0,1fr); max-width: 340px; gap: 15px; margin-inline: auto; }
   body.shop-manto #shop-product-grid .shop-product-image,
-  body.shop-manto #shop-product-grid .atelier-product-art { aspect-ratio: 5/4.8; }
+  body.shop-manto #shop-product-grid .atelier-product-art { aspect-ratio: 5/4.7; }
   body.shop-manto #shop-product-grid .shop-product-info,
-  body.shop-manto #shop-product-grid .atelier-product-copy { padding: 18px 18px 17px; }
+  body.shop-manto #shop-product-grid .atelier-product-copy { padding: 14px 15px 15px; }
   body.shop-manto #shop-product-grid .shop-product-info h3,
-  body.shop-manto #shop-product-grid .atelier-product h3 { font-size: 23px; min-height: 0; }
-  body.shop-manto #shop-product-grid .shop-price strong { font-size: 23px; }
+  body.shop-manto #shop-product-grid .atelier-product h3 { font-size: 20px; min-height: 0; }
+  body.shop-manto #shop-product-grid .shop-price strong { font-size: 21px; }
 }
 @media (prefers-reduced-motion: reduce) {
   body.shop-manto #shop-product-grid > .shop-product-card,
