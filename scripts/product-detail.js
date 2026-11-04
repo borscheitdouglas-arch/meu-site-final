@@ -3,7 +3,11 @@
   'use strict';
   const root = document.getElementById('shop-single-root');
   if (!root) return;
-  const id = new URLSearchParams(window.location.search).get('id');
+  const params=new URLSearchParams(window.location.search);
+  const id=params.get('id');
+  const legacySize=id==='ecobag-salve-regina-m'?'M':id==='ecobag-salve-regina-g'?'G':null;
+  const requestedId=legacySize?'ecobag-salve-regina':id;
+  const preferredSize=legacySize||params.get('size');
   const money = cents => new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(cents / 100);
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const info = {
@@ -25,15 +29,34 @@
       note:'Imagem ilustrativa. A estampa definitiva deve ser conferida com a arte original antes da produção.',
       photos:['/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png']
     },
-    'ecobag-salve-regina-m': {
-      type:'Ecobag · Coleção Salve Regina', material:'Algodão cru', finish:'Personalização DTF · tamanho M',
-      description:'Ecobag em algodão cru, tamanho M, com arte inspirada na antífona mariana Salve Regina. A composição visual reúne elementos da tradição católica e da arte sacra.',
-      note:'Mockup ilustrativo. As medidas definitivas e a aplicação da estampa serão conferidas com o fornecedor.'
-    },
-    'ecobag-salve-regina-g': {
-      type:'Ecobag · Coleção Salve Regina', material:'Algodão cru', finish:'Personalização DTF · tamanho G',
-      description:'Ecobag em algodão cru, tamanho G, da coleção Salve Regina. Uma peça autoral inspirada na devoção mariana e na beleza dos manuscritos gregorianos.',
-      note:'Mockup ilustrativo. As medidas definitivas e a aplicação da estampa serão conferidas com o fornecedor.'
+    'ecobag-salve-regina':{
+      type:'Ecobag · Coleção Salve Regina',
+      material:'100% algodão cru',finish:'Estampa DTF · uma área incluída',
+      description:'Ecobag de algodão reutilizável com a arte mariana Salve Regina, para compras, trabalho, estudos e outras atividades do dia a dia.',
+      paragraphs:[
+        'A ecobag Salve Regina é uma bolsa reutilizável confeccionada em 100% algodão. Ideal para compras, estudos, trabalho e outras atividades do cotidiano, reúne praticidade, a devoção mariana e a beleza do canto gregoriano.',
+        'Sua estampa autoral é aplicada por impressão DTF. O preço anunciado contempla a aplicação em uma área conforme o modelo configurado. A impressão na frente e/ou no verso é tecnicamente possível, mas a aplicação em ambas as faces precisa de configuração e preço específicos.',
+        'Área máxima de impressão por tamanho: P, até 25 × 32 cm; M, até 35 × 42 cm; G, até 39 × 45 cm; GG, até 47 × 47 cm.'
+      ],
+      features:[
+        '100% algodão cru.',
+        'Tamanhos do modelo: P, M, G e GG.',
+        'Impressão DTF, com uma área incluída no anúncio.',
+        'Venda por peça; pedido mínimo de 1 unidade.'
+      ],
+      reasons:[
+        'Reutilizável em diferentes atividades do dia a dia.',
+        'Confeccionada em fibra natural de algodão.',
+        'Personalização DTF na frente e/ou no verso, conforme configuração de produção.',
+        'Quatro tamanhos com áreas de impressão correspondentes.'
+      ],
+      faq:[
+        ['É possível personalizar a ecobag?','A ecobag já recebe a estampa autoral Salve Regina. O editor online para alterar a arte não está disponível neste anúncio.'],
+        ['Quais áreas podem receber estampa?','A frente e o verso aceitam DTF. O valor anunciado inclui uma área; o uso de ambos os lados depende de confirmação e preço específicos.'],
+        ['Quais tamanhos estão disponíveis?','O modelo contempla P, M, G e GG. Nesta loja, M e G têm preço cadastrado; P e GG aguardam confirmação de preço e produção.'],
+        ['Qual é o pedido mínimo?','A partir de 1 peça.']
+      ],
+      note:'Imagem ilustrativa. A fidelidade da impressão e as medidas finais serão verificadas na produção.'
     }
   };
   const el = (tag,cls,value) => {
@@ -95,10 +118,19 @@
       return;
     }
     let serial=0,controller=null;
-    function reset(){serial++;controller?.abort();controller=null;button.disabled=false;status.textContent='';results.replaceChildren();}
+    const selectedReady=()=>{
+      const v=product.variants.find(v=>v.code===select.value);
+      return Boolean(v?.sku&&Number.isInteger(v.priceCents));
+    };
+    function reset(){
+      serial++;controller?.abort();controller=null;button.disabled=!selectedReady();
+      status.textContent=selectedReady()?'':'Frete indisponível para o tamanho sem preço e produção confirmados.';
+      results.replaceChildren();
+    }
     input.addEventListener('input',reset);
     select.addEventListener('change',reset);
     quantity.addEventListener('change',reset);
+    reset();
     form.addEventListener('submit',async event=>{
       event.preventDefault();reset();
       const zipCode=input.value.replace(/\D/g,'');
@@ -166,7 +198,7 @@
         status.textContent='Frete indisponível neste momento. '+reason+
           ' Você pode consultar na sacola ou entrar em contato.';
       } finally {
-        if(turn===serial){button.disabled=false;controller=null;}
+        if(turn===serial){button.disabled=!selectedReady();controller=null;}
       }
     });
   }
@@ -184,6 +216,7 @@
       el('h1','',title));
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
+    const isEcobag=product.id==='ecobag-salve-regina';
     const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isShirt?'Compra online disponível · produção sob demanda':'Sob consulta · preço sujeito à confirmação';
     const productStatus=el('span','shop-single-status',statusText);
     summary.append(productStatus);
@@ -210,12 +243,15 @@
       summary.append(shops);
     } else {
       const variants=Array.isArray(product.variants)?product.variants:[];
-      variant=variants.find(v=>v.code==='G')||variants[0];
+      variant=(isEcobag&&variants.find(v=>v.code===preferredSize))||
+        (isEcobag&&variants.find(v=>v.code==='M'))||variants.find(v=>v.code==='G')||variants[0];
       function renderPrice(){
         variant=variants.find(v=>v.code===select.value)||variants[0];
-        price.textContent=Number.isInteger(variant?.priceCents)?money(variant.priceCents):'Preço a definir';
+        price.textContent=Number.isInteger(variant?.priceCents)?money(variant.priceCents):'Preço a confirmar';
         if(detail.type?.includes('Camiseta') && variant?.code==='XG')
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
+        else if(isEcobag&&!variant?.sku)
+          priceNote.textContent='Tamanho '+variant.code+': preço e produção ainda não confirmados. M e G estão cadastrados para venda.';
         else priceNote.textContent=isPreparation?'Modelo e preço definitivo ainda não cadastrados.':
           isShirt?'Preço de venda definido. Calcule o frete pelo CEP antes de pagar.':
           'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
@@ -223,7 +259,7 @@
       const form=el('form','shop-single-form');
       const variationGroup=el('fieldset','shop-single-variant-group');
       variationGroup.append(el('legend','shop-single-field-label',
-        isShirt?'Tamanho':'Modelo'));
+        (isShirt||isEcobag)?'Tamanho':'Modelo'));
       const hiddenLabel=el('label','shop-single-visually-hidden','Escolha a variação');
       select=el('select','shop-single-native-select');
       select.required=true;select.setAttribute('aria-label','Escolha a variação');
@@ -232,7 +268,7 @@
       variants.forEach(v=>{
         const option=el('option','',v.label+(Number.isInteger(v.priceCents)?' — '+money(v.priceCents):''));
         option.value=v.code;select.append(option);
-        const chip=el('button','shop-single-variant-chip',isShirt?v.code:v.label);
+        const chip=el('button','shop-single-variant-chip',(isShirt||isEcobag)?v.code:v.label);
         chip.type='button';chip.setAttribute('aria-pressed','false');
         chip.addEventListener('click',()=>{
           select.value=v.code;select.dispatchEvent(new Event('change',{bubbles:true}));
@@ -253,9 +289,6 @@
       const companionOptions=product.category==='canecas'?[
         {id:'caneca-salve-regina-preta',label:'Partitura Gregoriana'},
         {id:'caneca-salve-regina-pb',label:'Nossa Senhora'}
-      ]:product.category==='ecobags'?[
-        {id:'ecobag-salve-regina-m',label:'M'},
-        {id:'ecobag-salve-regina-g',label:'G'}
       ]:null;
       if(companionOptions){
         const companion=el('nav','shop-single-companion-options');
@@ -310,10 +343,13 @@
       const syncCheckout=()=>{
         const selected=variants.find(v=>v.code===select.value);
         const approved=Boolean(selected?.sku&&approvedSkus.has(selected.sku));
-        proceed.textContent=approved?'Comprar agora':'Consultar compra';
+        const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
+        proceed.textContent=approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
+        add.disabled=isPreparation||!configured||!window.Cart;
+        proceed.disabled=isPreparation||!configured||!window.Cart;
         if(!isPreparation){
-          productStatus.textContent=approved?
-            'Compra online disponível · produção sob demanda':
+          productStatus.textContent=!configured?'Tamanho indisponível para compra':
+            approved?'Compra online disponível · produção sob demanda':
             'Produção sob demanda · compra sob consulta';
           if(approved)priceNote.textContent=
             'Preço aprovado. Frete e total confirmados no checkout.';
@@ -335,17 +371,27 @@
       form.append(variationGroup,quantityGroup,actions,feedback);
       summary.append(form);
       const state=()=>{
-        add.disabled=isPreparation||!window.Cart;
-        proceed.disabled=isPreparation||!window.Cart;
+        const selected=variants.find(v=>v.code===select.value);
+        const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
+        add.disabled=isPreparation||!configured||!window.Cart;
+        proceed.disabled=isPreparation||!configured||!window.Cart;
         if(isPreparation)feedback.textContent='Este modelo ainda não está disponível para compra.';
       };
       state();document.addEventListener('douglas-cart-ready',state);
-      select.addEventListener('change',()=>{renderPrice();feedback.textContent='';});
+      select.addEventListener('change',()=>{
+        renderPrice();feedback.textContent='';
+        if(isEcobag&&!variants.find(v=>v.code===select.value)?.sku)
+          feedback.textContent='Este tamanho ainda não está disponível. Escolha M ou G para comprar.';
+        state();
+      });
       renderPrice();
       const putInCart=goCart=>{
         const amount=Number(quantity.value);
         if(!Number.isInteger(amount)||amount<1||amount>10){
           feedback.textContent='Escolha uma quantidade entre 1 e 10.';return;
+        }
+        if(!variants.find(v=>v.code===select.value)?.sku){
+          feedback.textContent='Esta variação ainda não está disponível para compra.';return;
         }
         if(!window.Cart){feedback.textContent='O carrinho está carregando. Tente novamente.';return;}
         const ok=window.Cart.add(product.id,select.value,amount);
@@ -382,6 +428,22 @@
     const details=el('section','shop-single-details');
     const desc=el('div');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
+    if(isEcobag){
+      desc.replaceChildren(el('h2','','Descrição do produto'));
+      detail.paragraphs.forEach(p=>desc.append(el('p','',p)));
+      const bullets=(heading,items)=>{
+        desc.append(el('h3','shop-single-subheading',heading));
+        const list=el('ul','shop-single-bullet-list');
+        items.forEach(item=>list.append(el('li','',item)));desc.append(list);
+      };
+      bullets('Características do produto',detail.features);
+      bullets('Por que escolher',detail.reasons);
+      desc.append(el('h3','shop-single-subheading','Perguntas frequentes'));
+      const faq=el('dl','shop-single-faq');
+      detail.faq.forEach(([q,a])=>{
+        const row=el('div');row.append(el('dt','',q),el('dd','',a));faq.append(row);
+      });desc.append(faq);
+    }
     if(detail.note)desc.append(el('p','shop-single-muted',detail.note));
     const infoBox=el('div');infoBox.append(el('h2','','Informações'));
     infoBox.append(specs(isBook?{
@@ -415,7 +477,12 @@
     const literature=books.status==='fulfilled' && Array.isArray(books.value.products)?
       books.value.products.filter(p=>p.status==='published'):[];
     const all=[...merch,...literature];
-    const product=all.find(p=>p.id===id);
+    const product=all.find(p=>p.id===requestedId);
+    if(legacySize&&product){
+      const url=new URL(window.location.href);
+      url.searchParams.set('id',requestedId);url.searchParams.set('size',legacySize);
+      window.history.replaceState(null,'',url.pathname+url.search+url.hash);
+    }
     if(!product){showError('Produto não encontrado ou temporariamente indisponível.');return;}
     display(product,all);
   }
