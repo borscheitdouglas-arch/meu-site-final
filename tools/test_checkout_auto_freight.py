@@ -16,6 +16,7 @@ def main() -> None:
         browser = play.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1280, "height": 900})
         checkout_calls = []
+        allow_redirect = [False]
 
         page.add_init_script(
             """localStorage.setItem('douglasShopCart_v2',
@@ -64,10 +65,20 @@ def main() -> None:
 
         def checkout(route):
             checkout_calls.append(route.request.url)
-            route.fulfill(
-                status=400, content_type="application/json", headers=API_CORS,
-                body='{"error":"checkout_not_expected"}'
-            )
+            if allow_redirect[0]:
+                route.fulfill(
+                    status=201, content_type="application/json", headers=API_CORS,
+                    body=json.dumps({
+                        "mode": "live", "provider": "infinitepay",
+                        "totalCents": 23534,
+                        "checkoutUrl": "https://checkout.infinitepay.io/test-merchant/invoice-demo"
+                    })
+                )
+            else:
+                route.fulfill(
+                    status=400, content_type="application/json", headers=API_CORS,
+                    body='{"error":"checkout_not_expected"}'
+                )
 
         page.route("**/api/checkout/live/readiness", readiness)
         page.route("**/api/shipping/cart-preview", shipping)
@@ -130,6 +141,26 @@ def main() -> None:
         expect(page.locator("#checkout-multi-freight")).to_contain_text("15,54")
         assert len(checkout_calls) == 1
         print("PASS: erro do gateway preserva frete, total e botão de nova tentativa")
+
+        # Resposta exatamente como a InfinitePay retornou em produção:
+        # checkout.infinitepay.io. O navegador deve navegar para a URL,
+        # com rede interceptada e SEM gerar cobrança real.
+        allow_redirect[0] = True
+        page.route(
+            "https://checkout.infinitepay.io/**",
+            lambda route: route.fulfill(
+                status=200, content_type="text/html",
+                body="<html><body>Checkout InfinitePay simulado (sem cobranca)</body></html>"
+            )
+        )
+        pay.click()
+        page.wait_for_url(
+            "https://checkout.infinitepay.io/test-merchant/invoice-demo",
+            timeout=15000
+        )
+        expect(page.locator("body")).to_contain_text("simulado")
+        assert len(checkout_calls) == 2
+        print("PASS: redirecionamento ao dominio REAL InfinitePay apos cotacao valida")
         browser.close()
 
 
