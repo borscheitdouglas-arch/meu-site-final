@@ -1,7 +1,7 @@
 {
   "version": 1,
   "currency": "BRL",
-  "pricingNotice": "Produtos personalizados com preços publicados. O frete é calculado pela transportadora antes do pagamento pelo Mercado Pago; a produção começa após confirmação.",
+  "pricingNotice": "Produtos personalizados com preços publicados. O frete é calculado pela transportadora antes do pagamento pelo InfinitePay; a produção começa após confirmação.",
   "products": [
     {
       "id": "camiseta-salve-regina",
