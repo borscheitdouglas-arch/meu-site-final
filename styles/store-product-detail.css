@@ -184,3 +184,24 @@
   .shop-product-page .shop-single-actions{grid-template-columns:1fr;}
   .shop-product-page .shop-single-availability{font-size:11px;}
 }
+
+/* Descrição completa da ecobag, preservando a identidade sacra da loja. */
+.shop-product-page .shop-single-subheading{
+  font:500 clamp(20px,2vw,25px)/1.3 'Spectral',Georgia,serif;
+  color:#ead6ac;margin:24px 0 10px;
+}
+.shop-product-page .shop-single-bullet-list{
+  padding-left:21px;margin:7px 0 19px;color:#d7d8ce;
+  font:14px/1.8 'Inter',sans-serif;
+}
+.shop-product-page .shop-single-bullet-list li{margin-bottom:7px;}
+.shop-product-page .shop-single-faq{margin:0;}
+.shop-product-page .shop-single-faq div{padding:13px 0;border-top:1px solid #b59a5f33;}
+.shop-product-page .shop-single-faq dt{
+  font:600 13px/1.6 'Inter',sans-serif;color:#f1dfb9;margin-bottom:6px;
+}
+.shop-product-page .shop-single-faq dd{
+  font:13px/1.75 'Inter',sans-serif;color:#d1d6cb;margin:0;
+}
+.shop-product-page .shop-single-variant-chip[aria-pressed="true"]{cursor:pointer;}
+.shop-redesign .shop-product-card button:disabled{opacity:.48;cursor:not-allowed;}
