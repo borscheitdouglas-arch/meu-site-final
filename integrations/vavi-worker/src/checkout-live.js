@@ -125,25 +125,45 @@ export async function createCheckoutLive(env,body,deps={}) {
     throw new CatalogError('live_schema_unavailable','Checkout não configurado no banco.',503);
   await (deps.storeEncryptedDelivery||storeEncryptedDelivery)(env.DB,envelope);
   if (env.INFINITEPAY_CHECKOUT_ENABLED==='true') {
-    const payment=await (deps.createInfiniteCheckout||createInfinitePayCheckout)({
-      order:draft,lines:quote.lines,shippingCents,buyer,
-      apiKey:env.INFINITEPAY_API_KEY,siteBaseUrl:SITE,webhookUrl:NOTIFY_INFINITE
-    });
-    // Sem confirmar a persistência do link, o navegador não pode receber a URL.
-    const saved=await env.DB.prepare(
-      "INSERT INTO store_infinitepay_links(order_id,checkout_url) VALUES (?,?)"
-    ).bind(orderId,payment.checkoutUrl).run();
-    if(saved?.meta?.changes!==1)
-      throw new CatalogError('checkout_persistence_failed','Link de pagamento não registrado.',503);
-    const update=await env.DB.prepare(
-      "UPDATE store_orders SET status='awaiting_payment',"+
-      " updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') "+
-      "WHERE id=? AND status='draft' AND payment_environment='live'"
-    ).bind(orderId).run();
-    if(update?.meta?.changes!==1)
-      throw new CatalogError('checkout_persistence_failed','Pedido não preparado para pagamento.',503);
-    return {mode:'live',provider:'infinitepay',orderId,
-      totalCents:draft.totalCents,checkoutUrl:payment.checkoutUrl};
+    // O pedido já é um rascunho persistido. Se o gateway falhar, mantenha o
+    // rascunho, sem mudar status para pago ou apagar a cotação no navegador.
+    let stage='provider';
+    try {
+      const payment=await (deps.createInfiniteCheckout||createInfinitePayCheckout)({
+        order:draft,lines:quote.lines,shippingCents,buyer,
+        apiKey:env.INFINITEPAY_API_KEY,siteBaseUrl:SITE,webhookUrl:NOTIFY_INFINITE
+      });
+      stage='save_link';
+      const saved=await env.DB.prepare(
+        "INSERT INTO store_infinitepay_links(order_id,checkout_url) VALUES (?,?)"
+      ).bind(orderId,payment.checkoutUrl).run();
+      if(saved?.meta?.changes!==1)
+        throw new CatalogError('checkout_persistence_failed','Link de pagamento não registrado.',503);
+      stage='save_status';
+      const update=await env.DB.prepare(
+        "UPDATE store_orders SET status='awaiting_payment',"+
+        " updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') "+
+        "WHERE id=? AND status='draft' AND payment_environment='live'"
+      ).bind(orderId).run();
+      if(update?.meta?.changes!==1)
+        throw new CatalogError('checkout_persistence_failed','Pedido não preparado para pagamento.',503);
+      return {mode:'live',provider:'infinitepay',orderId,
+        totalCents:draft.totalCents,checkoutUrl:payment.checkoutUrl};
+    } catch(error){
+      // Registro de diagnóstico limitado a códigos públicos e status HTTP.
+      // Não salva API Key, comprador, endereço, payload ou URL de checkout.
+      const code=error instanceof CatalogError?error.code:'unexpected_error';
+      const http=Number.isInteger(error?.providerHttpStatus)?error.providerHttpStatus:null;
+      try {
+        await env.DB.prepare(
+          "INSERT OR REPLACE INTO store_checkout_failures "+
+          "(order_id,stage,error_code,provider_http_status) VALUES (?,?,?,?)"
+        ).bind(orderId,stage,code,http).run();
+      }catch {
+        console.error('InfinitePay: diagnostic storage unavailable');
+      }
+      throw error;
+    }
   }
   // Compatibilidade para pedidos antigos do Mercado Pago até a troca controlada.
   const preference=await (deps.createPreference||createTestPreference)({
