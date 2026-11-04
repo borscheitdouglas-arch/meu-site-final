@@ -333,7 +333,7 @@
           })
         });
         const u=new URL(data.checkoutUrl);
-        if(u.protocol!=='https:'||!['checkout.infinitepay.com.br','pay.infinitepay.io'].includes(u.hostname))
+        if(u.protocol!=='https:'||!['checkout.infinitepay.com.br','checkout.infinitepay.io','pay.infinitepay.io'].includes(u.hostname))
           throw new Error('provider_url_invalid');
         window.location.assign(u.href);
       }catch(problem){
