@@ -1235,12 +1235,12 @@ function approvedDirectVariant(sku, priceCents) {
 
 // src/infinitepay-client.js
 var API = "https://api.checkout.infinitepay.io/links";
-var CHECKOUT_HOST = "checkout.infinitepay.com.br";
+var CHECKOUT_HOSTS = /* @__PURE__ */ new Set(["checkout.infinitepay.com.br", "pay.infinitepay.io"]);
 var ORDER_ID2 = /^ord_[a-f0-9]{32}$/;
 function isInfinitePayCheckoutUrl(value) {
   try {
     const u = new URL(value);
-    return u.protocol === "https:" && u.hostname === CHECKOUT_HOST && !u.username && !u.password;
+    return typeof value === "string" && u.protocol === "https:" && CHECKOUT_HOSTS.has(u.hostname) && !u.port && !u.username && !u.password;
   } catch {
     return false;
   }
@@ -1318,8 +1318,18 @@ async function createInfinitePayCheckout({
   } catch {
     throw new CatalogError("infinitepay_response_invalid", "Resposta inv\xE1lida do checkout.", 502);
   }
-  if (!isInfinitePayCheckoutUrl(result?.url))
-    throw new CatalogError("infinitepay_response_invalid", "URL de checkout inv\xE1lida.", 502);
+  if (!isInfinitePayCheckoutUrl(result?.url)) {
+    const error = new CatalogError("infinitepay_response_invalid", "URL de checkout inv\xE1lida.", 502);
+    try {
+      const parsed = typeof result?.url === "string" ? new URL(result.url) : null;
+      if (parsed && /^[a-z0-9.-]{1,120}$/.test(parsed.hostname))
+        error.providerUrlHostname = parsed.hostname;
+      else error.providerUrlHostname = "missing_or_invalid";
+    } catch {
+      error.providerUrlHostname = "missing_or_invalid";
+    }
+    throw error;
+  }
   return { checkoutUrl: result.url };
 }
 
@@ -1452,10 +1462,11 @@ async function createCheckoutLive(env, body, deps = {}) {
     } catch (error) {
       const code = error instanceof CatalogError ? error.code : "unexpected_error";
       const http = Number.isInteger(error?.providerHttpStatus) ? error.providerHttpStatus : null;
+      const host = typeof error?.providerUrlHostname === "string" && /^[a-z0-9.-]{1,120}$/.test(error.providerUrlHostname) ? error.providerUrlHostname : null;
       try {
         await env.DB.prepare(
-          "INSERT OR REPLACE INTO store_checkout_failures (order_id,stage,error_code,provider_http_status) VALUES (?,?,?,?)"
-        ).bind(orderId, stage, code, http).run();
+          "INSERT OR REPLACE INTO store_checkout_failures (order_id,stage,error_code,provider_http_status,provider_url_hostname) VALUES (?,?,?,?,?)"
+        ).bind(orderId, stage, code, http, host).run();
       } catch {
         console.error("InfinitePay: diagnostic storage unavailable");
       }
