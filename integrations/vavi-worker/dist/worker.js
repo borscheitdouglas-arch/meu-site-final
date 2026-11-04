@@ -1233,11 +1233,100 @@ function approvedDirectVariant(sku, priceCents) {
   return approvedVariant(sku, priceCents) || Object.hasOwn(EXTRA_DIRECT_PRICES, sku) && EXTRA_DIRECT_PRICES[sku] === priceCents;
 }
 
+// src/infinitepay-client.js
+var API = "https://api.checkout.infinitepay.io/links";
+var CHECKOUT_HOST = "checkout.infinitepay.com.br";
+var ORDER_ID2 = /^ord_[a-f0-9]{32}$/;
+function isInfinitePayCheckoutUrl(value) {
+  try {
+    const u = new URL(value);
+    return u.protocol === "https:" && u.hostname === CHECKOUT_HOST && !u.username && !u.password;
+  } catch {
+    return false;
+  }
+}
+async function createInfinitePayCheckout({
+  order,
+  lines,
+  shippingCents,
+  buyer,
+  apiKey,
+  siteBaseUrl,
+  webhookUrl,
+  fetchImpl = fetch
+}) {
+  if (!ORDER_ID2.test(order?.id || "") || order?.status !== "draft" || !Number.isSafeInteger(order.totalCents) || order.totalCents < 100 || !apiKey?.startsWith("inchk_") || !Array.isArray(lines) || !lines.length || !Number.isSafeInteger(shippingCents) || shippingCents < 0)
+    throw new CatalogError("infinitepay_not_ready", "Pagamento n\xE3o configurado.", 503);
+  const items = lines.map((line) => ({
+    description: String(line.name + " \u2014 " + line.variation).slice(0, 200),
+    quantity: line.quantity,
+    price: line.unitPriceCents
+  }));
+  if (items.some((i) => !Number.isSafeInteger(i.quantity) || i.quantity < 1 || !Number.isSafeInteger(i.price) || i.price < 1) || lines.reduce((n, line) => n + line.quantity * line.unitPriceCents, 0) + shippingCents !== order.totalCents)
+    throw new CatalogError("checkout_total_mismatch", "Total do pedido inv\xE1lido.", 409);
+  if (shippingCents > 0) items.push({ description: "Frete", quantity: 1, price: shippingCents });
+  const site = new URL(siteBaseUrl), hook = new URL(webhookUrl);
+  if (site.protocol !== "https:" || hook.protocol !== "https:")
+    throw new CatalogError("infinitepay_not_ready", "URLs de integra\xE7\xE3o inv\xE1lidas.", 503);
+  const address = {
+    cep: buyer.zipCode,
+    street: buyer.street,
+    number: buyer.number,
+    neighborhood: buyer.neighborhood,
+    city: buyer.city,
+    state: buyer.state
+  };
+  if (buyer.complement) address.complement = buyer.complement;
+  const phoneDigits = String(buyer.phone || "").replace(/\D/g, "");
+  const phone = phoneDigits.startsWith("55") ? "+" + phoneDigits : "+55" + phoneDigits;
+  const payload = {
+    order_nsu: order.id,
+    items,
+    redirect_url: site.origin + "/pages/resultado-pagamento.html",
+    webhook_url: hook.href,
+    customer: { name: buyer.name, email: buyer.email, phone_number: phone },
+    address,
+    options: {
+      assured_installments: 3,
+      require_delivery_address: false,
+      single_payment: true,
+      valid_until: new Date(Date.now() + 30 * 60 * 1e3).toISOString(),
+      payment_methods_enabled: ["credit_card", "pix"]
+    }
+  };
+  let response;
+  try {
+    response = await fetchImpl(API, {
+      method: "POST",
+      headers: { "X-Api-Key": apiKey, "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(1e4)
+    });
+  } catch {
+    throw new CatalogError("payment_provider_unavailable", "InfinitePay indispon\xEDvel.", 503);
+  }
+  if (!response?.ok) throw new CatalogError(
+    "payment_provider_unavailable",
+    "InfinitePay n\xE3o iniciou o pagamento.",
+    503
+  );
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new CatalogError("payment_provider_unavailable", "Resposta inv\xE1lida do checkout.", 503);
+  }
+  if (!isInfinitePayCheckoutUrl(result?.url))
+    throw new CatalogError("payment_provider_unavailable", "URL de checkout inv\xE1lida.", 503);
+  return { checkoutUrl: result.url };
+}
+
 // src/checkout-live.js
 var SITE = "https://www.douglasassumpcao.com.br";
 var NOTIFY = "https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/live-webhook";
+var NOTIFY_INFINITE = "https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/infinitepay-webhook";
 function liveCheckoutReady(env) {
-  return Boolean(env.DB && env.LIVE_CHECKOUT_ENABLED === "true" && env.LIVE_PRODUCT_APPROVED === "true" && env.LIVE_POLICY_APPROVED === "true" && env.LIVE_WEBHOOK_ENABLED === "true" && env.DELIVERY_PERSISTENCE_ENABLED === "true" && env.MERCADOPAGO_LIVE_ACCESS_TOKEN && env.MERCADOPAGO_LIVE_WEBHOOK_SECRET && env.SHOP_ADMIN_API_KEY && env.SHOP_ADMIN_API_KEY.length >= 32 && env.DELIVERY_ENCRYPTION_KEY_B64 && env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET && env.VAVI_SHIPPING_PRODUCTS_JSON);
+  return Boolean(env.DB && env.LIVE_CHECKOUT_ENABLED === "true" && env.LIVE_PRODUCT_APPROVED === "true" && env.LIVE_POLICY_APPROVED === "true" && env.LIVE_WEBHOOK_ENABLED === "true" && env.DELIVERY_PERSISTENCE_ENABLED === "true" && (env.INFINITEPAY_CHECKOUT_ENABLED === "true" ? Boolean(env.INFINITEPAY_API_KEY?.startsWith("inchk_") && env.INFINITEPAY_HANDLE) : Boolean(env.MERCADOPAGO_LIVE_ACCESS_TOKEN && env.MERCADOPAGO_LIVE_WEBHOOK_SECRET)) && env.SHOP_ADMIN_API_KEY && env.SHOP_ADMIN_API_KEY.length >= 32 && env.DELIVERY_ENCRYPTION_KEY_B64 && env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET && env.VAVI_SHIPPING_PRODUCTS_JSON);
 }
 async function createCheckoutLive(env, body, deps = {}) {
   if (!liveCheckoutReady(env))
@@ -1327,6 +1416,34 @@ async function createCheckoutLive(env, body, deps = {}) {
   if (mode?.meta?.changes !== 1)
     throw new CatalogError("live_schema_unavailable", "Checkout n\xE3o configurado no banco.", 503);
   await (deps.storeEncryptedDelivery || storeEncryptedDelivery)(env.DB, envelope);
+  if (env.INFINITEPAY_CHECKOUT_ENABLED === "true") {
+    const payment = await (deps.createInfiniteCheckout || createInfinitePayCheckout)({
+      order: draft,
+      lines: quote.lines,
+      shippingCents,
+      buyer,
+      apiKey: env.INFINITEPAY_API_KEY,
+      siteBaseUrl: SITE,
+      webhookUrl: NOTIFY_INFINITE
+    });
+    const saved = await env.DB.prepare(
+      "INSERT INTO store_infinitepay_links(order_id,checkout_url) VALUES (?,?)"
+    ).bind(orderId, payment.checkoutUrl).run();
+    if (saved?.meta?.changes !== 1)
+      throw new CatalogError("checkout_persistence_failed", "Link de pagamento n\xE3o registrado.", 503);
+    const update2 = await env.DB.prepare(
+      "UPDATE store_orders SET status='awaiting_payment', updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=? AND status='draft' AND payment_environment='live'"
+    ).bind(orderId).run();
+    if (update2?.meta?.changes !== 1)
+      throw new CatalogError("checkout_persistence_failed", "Pedido n\xE3o preparado para pagamento.", 503);
+    return {
+      mode: "live",
+      provider: "infinitepay",
+      orderId,
+      totalCents: draft.totalCents,
+      checkoutUrl: payment.checkoutUrl
+    };
+  }
   const preference = await (deps.createPreference || createTestPreference)({
     order: draft,
     lines: quote.lines,
@@ -1345,6 +1462,7 @@ async function createCheckoutLive(env, body, deps = {}) {
     throw new CatalogError("checkout_persistence_failed", "Pedido n\xE3o preparado para pagamento.", 503);
   return {
     mode: "live",
+    provider: "mercadopago",
     orderId,
     totalCents: draft.totalCents,
     checkoutUrl: preference.checkoutUrl
@@ -1352,13 +1470,13 @@ async function createCheckoutLive(env, body, deps = {}) {
 }
 
 // src/vavi-order-contract.js
-var ORDER_ID2 = /^ord_[0-9a-f]{32}$/;
+var ORDER_ID3 = /^ord_[0-9a-f]{32}$/;
 var CEP = /^\d{8}$/;
 var STR = (x, max = 160) => typeof x === "string" && x.trim().length > 0 && x.trim().length <= max;
 var MONEY = (n) => Number.isSafeInteger(n) && n >= 0;
 var brl = (cents) => Number((cents / 100).toFixed(2));
 function buildVaviIntegrationOrder({ order, buyer, items }) {
-  if (!order || !ORDER_ID2.test(order.id || "") || order.status !== "paid" || !MONEY(order.subtotalCents) || !MONEY(order.shippingCents) || !MONEY(order.totalCents) || order.totalCents !== order.subtotalCents + order.shippingCents || !STR(order.mpPaymentId, 80)) {
+  if (!order || !ORDER_ID3.test(order.id || "") || order.status !== "paid" || !MONEY(order.subtotalCents) || !MONEY(order.shippingCents) || !MONEY(order.totalCents) || order.totalCents !== order.subtotalCents + order.shippingCents || !STR(order.mpPaymentId, 80)) {
     throw new CatalogError(
       "vavi_unverified_payment",
       "N\xE3o \xE9 poss\xEDvel enviar pedido sem confirma\xE7\xE3o persistida de pagamento.",
@@ -1622,7 +1740,7 @@ async function processPendingPaidVaviDrafts(env, sendDraft = createVaviDraft) {
 // src/live-payment-webhook.js
 var MP_API3 = "https://api.mercadopago.com";
 var PAYMENT_ID = /^\d{1,30}$/;
-var ORDER_ID3 = /^ord_[a-f0-9]{32}$/;
+var ORDER_ID4 = /^ord_[a-f0-9]{32}$/;
 async function processLivePaymentWebhook({ request, env, fetchImpl = fetch }) {
   if (env.LIVE_WEBHOOK_ENABLED !== "true" || !env.DB || !env.MERCADOPAGO_LIVE_ACCESS_TOKEN || !env.MERCADOPAGO_LIVE_WEBHOOK_SECRET)
     throw new CatalogError("live_webhook_disabled", "Notifica\xE7\xE3o de produ\xE7\xE3o indispon\xEDvel.", 503);
@@ -1656,7 +1774,7 @@ async function processLivePaymentWebhook({ request, env, fetchImpl = fetch }) {
   } catch {
     throw new CatalogError("payment_provider_unavailable", "Resposta do pagamento inv\xE1lida.", 503);
   }
-  if (String(payment?.id) !== id || payment?.live_mode !== true || !ORDER_ID3.test(payment.external_reference || ""))
+  if (String(payment?.id) !== id || payment?.live_mode !== true || !ORDER_ID4.test(payment.external_reference || ""))
     throw new CatalogError("payment_mismatch", "Pagamento n\xE3o pertence \xE0 loja de produ\xE7\xE3o.", 409);
   const order = await env.DB.prepare(`SELECT id,status,currency,total_cents,
     mp_payment_id,mp_preference_id,payment_environment
@@ -1668,6 +1786,117 @@ async function processLivePaymentWebhook({ request, env, fetchImpl = fetch }) {
   const result = await recordVerifiedPayment(env.DB, verified, "mp:live:payment:" + id);
   const queue = await enqueuePaidVaviDraft(env, result.orderId);
   return { ...result, vaviQueued: queue.queued };
+}
+
+// src/infinitepay-webhook.js
+var API2 = "https://api.checkout.infinitepay.io/payment_check";
+var ORDER_ID5 = /^ord_[a-f0-9]{32}$/;
+var NSU = /^[A-Za-z0-9_.:-]{6,120}$/;
+async function processInfinitePayWebhook({
+  request,
+  env,
+  fetchImpl = fetch,
+  queueDraft = enqueuePaidVaviDraft
+}) {
+  if (!env?.DB || !env.INFINITEPAY_API_KEY || !env.INFINITEPAY_HANDLE || env.INFINITEPAY_CHECKOUT_ENABLED !== "true")
+    throw new CatalogError("infinitepay_disabled", "Integra\xE7\xE3o indispon\xEDvel.", 503);
+  let text;
+  try {
+    text = await request.text();
+  } catch {
+    throw new CatalogError("invalid_notification", "Notifica\xE7\xE3o inv\xE1lida.", 400);
+  }
+  if (text.length > 12e3) throw new CatalogError("invalid_notification", "Notifica\xE7\xE3o inv\xE1lida.", 400);
+  let body;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    throw new CatalogError("invalid_notification", "Notifica\xE7\xE3o inv\xE1lida.", 400);
+  }
+  const event = String(body?.event || body?.eventType || body?.type || "").toLowerCase();
+  if (event && !["paid", "payment.paid", "payment_approved"].includes(event))
+    return { processed: false, status: "ignored" };
+  const info = body?.data && typeof body.data === "object" ? body.data : body;
+  const orderId = info?.order_nsu;
+  const slug = info?.invoice_slug || info?.slug;
+  const transaction = info?.transaction_nsu;
+  if (!ORDER_ID5.test(orderId || "") || !NSU.test(slug || "") || !NSU.test(transaction || ""))
+    throw new CatalogError("invalid_notification", "Identificadores inv\xE1lidos.", 400);
+  const order = await env.DB.prepare(
+    "SELECT o.id,o.status,o.currency,o.total_cents,o.payment_environment,l.order_id AS ip_order_id FROM store_orders o JOIN store_infinitepay_links l ON l.order_id=o.id WHERE o.id=? LIMIT 1"
+  ).bind(orderId).first();
+  if (!order || order.payment_environment !== "live" || order.currency !== "BRL" || order.ip_order_id !== orderId || !["awaiting_payment", "paid"].includes(order.status))
+    throw new CatalogError("payment_order_conflict", "Pedido n\xE3o localizado.", 409);
+  let answer;
+  try {
+    answer = await fetchImpl(API2, {
+      method: "POST",
+      headers: {
+        "X-Api-Key": env.INFINITEPAY_API_KEY,
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        handle: env.INFINITEPAY_HANDLE,
+        order_nsu: orderId,
+        transaction_nsu: transaction,
+        slug
+      }),
+      signal: AbortSignal.timeout(1e4)
+    });
+  } catch {
+    throw new CatalogError("payment_provider_unavailable", "Confirma\xE7\xE3o indispon\xEDvel.", 503);
+  }
+  if (!answer?.ok) throw new CatalogError("payment_provider_unavailable", "Confirma\xE7\xE3o indispon\xEDvel.", 503);
+  let checked;
+  try {
+    checked = await answer.json();
+  } catch {
+    throw new CatalogError("payment_provider_unavailable", "Resposta inv\xE1lida.", 503);
+  }
+  if (checked?.success !== true || checked.paid !== true)
+    return { processed: false, status: "not_approved" };
+  const amount = checked.amount, paidAmount = checked.paid_amount;
+  if (!Number.isSafeInteger(amount) || amount !== order.total_cents || !Number.isSafeInteger(paidAmount) || paidAmount < amount || !Number.isInteger(checked.installments) || checked.installments < 1 || checked.installments > 12 || !["pix", "credit_card"].includes(checked.capture_method))
+    throw new CatalogError("payment_mismatch", "Pagamento divergente.", 409);
+  let result;
+  try {
+    result = await env.DB.batch([
+      env.DB.prepare(
+        "INSERT OR IGNORE INTO store_infinitepay_payments (transaction_nsu,order_id,invoice_slug,amount_cents,paid_amount_cents,capture_method,installments) SELECT ?,?,?,?,?,?,? WHERE EXISTS (SELECT 1 FROM store_orders WHERE id=? AND status IN ('awaiting_payment','paid'))"
+      ).bind(
+        transaction,
+        orderId,
+        slug,
+        amount,
+        paidAmount,
+        checked.capture_method,
+        checked.installments,
+        orderId
+      ),
+      env.DB.prepare(
+        "UPDATE store_orders SET status='paid', updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=? AND status='awaiting_payment' AND EXISTS (SELECT 1 FROM store_infinitepay_payments WHERE order_id=? AND transaction_nsu=?)"
+      ).bind(orderId, orderId, transaction),
+      env.DB.prepare(
+        "INSERT OR IGNORE INTO store_payment_events (provider_event_id,order_id,provider_payment_id,event_kind) SELECT ?,id,?,'payment.approved' FROM store_orders WHERE id=? AND status='paid' AND EXISTS (SELECT 1 FROM store_infinitepay_payments WHERE order_id=id AND transaction_nsu=?)"
+      ).bind("ip:paid:" + transaction, transaction, orderId, transaction),
+      env.DB.prepare(
+        "SELECT o.status,p.transaction_nsu FROM store_orders o LEFT JOIN store_infinitepay_payments p ON p.order_id=o.id WHERE o.id=?"
+      ).bind(orderId)
+    ]);
+  } catch {
+    throw new CatalogError("payment_write_failed", "N\xE3o foi poss\xEDvel registrar o pagamento.", 503);
+  }
+  const row = result?.[3]?.results?.[0];
+  if (row?.status !== "paid" || row.transaction_nsu !== transaction)
+    throw new CatalogError("payment_order_conflict", "Pagamento n\xE3o corresponde ao pedido.", 409);
+  const queued = await queueDraft(env, orderId);
+  return {
+    processed: true,
+    orderId,
+    alreadyPaid: (result?.[1]?.meta?.changes || 0) === 0,
+    vaviQueued: queued?.queued === true
+  };
 }
 
 // src/live-payment-reconcile.js
@@ -2147,7 +2376,7 @@ var index_default = {
     if (!cors.allowed) return json({ error: "origin_not_allowed" }, 403, cors.headers);
     if (request.method === "OPTIONS") {
       const adminOptions = url.pathname === "/api/internal/launch/shipping-check" || url.pathname === "/api/internal/live-payments/reconcile" || url.pathname === "/api/internal/launch-readiness" || url.pathname === "/api/internal/live-orders" || url.pathname.startsWith("/api/internal/live-orders/") && /^ord_[a-f0-9]{32}$/.test(url.pathname.slice("/api/internal/live-orders/".length)) || /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
-      if (!adminOptions && !["/api/catalog", "/api/quote", "/api/shipping/quote", "/api/shipping/preview", "/api/shipping/cart-preview", "/api/checkout/test", "/api/checkout/live", "/api/internal/vavi/shipping-check"].includes(url.pathname))
+      if (!adminOptions && !["/api/catalog", "/api/quote", "/api/shipping/quote", "/api/shipping/preview", "/api/shipping/cart-preview", "/api/checkout/test", "/api/checkout/live", "/api/payments/infinitepay-confirm", "/api/internal/vavi/shipping-check"].includes(url.pathname))
         return json({ error: "not_found" }, 404, cors.headers);
       return new Response(null, { status: 204, headers: cors.headers });
     }
@@ -2302,6 +2531,39 @@ var index_default = {
         // the route is still guarded, not consuming notifications
       };
       return json({ mode: "preview", ready: false, checks }, 200, cors.headers);
+    }
+    if (url.pathname === "/api/payments/infinitepay-confirm" && request.method === "POST") {
+      try {
+        if (!(request.headers.get("Content-Type") || "").toLowerCase().startsWith("application/json"))
+          return json({ error: "unsupported_media_type" }, 415, cors.headers);
+        const body = await request.text();
+        if (body.length > 2e3) return json({ error: "request_too_large" }, 413, cors.headers);
+        const verified = await processInfinitePayWebhook({
+          request: new Request(request.url, { method: "POST", body }),
+          env
+        });
+        if (verified.vaviQueued === true && typeof ctx?.waitUntil === "function")
+          ctx.waitUntil(dispatchVaviDraft(env, verified.orderId));
+        return json({ ok: true, processed: verified.processed === true }, 200, cors.headers);
+      } catch (error) {
+        if (error instanceof CatalogError)
+          return json({ error: error.code }, error.status, cors.headers);
+        console.error("InfinitePay return verification unavailable:", error?.name || "unknown");
+        return json({ error: "verification_failed" }, 503, cors.headers);
+      }
+    }
+    if (url.pathname === "/api/payments/infinitepay-webhook" && request.method === "POST") {
+      try {
+        const outcome = await processInfinitePayWebhook({ request, env });
+        if (outcome.vaviQueued === true && typeof ctx?.waitUntil === "function")
+          ctx.waitUntil(dispatchVaviDraft(env, outcome.orderId));
+        return json({ ok: true, processed: outcome.processed !== false }, 200);
+      } catch (error) {
+        if (error instanceof CatalogError)
+          return json({ error: error.code }, error.status);
+        console.error("InfinitePay webhook unavailable:", error?.name || "unknown");
+        return json({ error: "webhook_processing_failed" }, 503);
+      }
     }
     if (url.pathname === "/api/payments/live-webhook" && request.method === "POST") {
       try {
