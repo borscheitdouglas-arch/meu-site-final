@@ -76,7 +76,7 @@ def main():
                     viewport={'width':width,'height':height},
                     has_touch=width<768,is_mobile=width<768,device_scale_factor=2,
                     reduced_motion='reduce')
-                context.add_init_script("localStorage.setItem('douglasShopCart_v2', JSON.stringify([{id:'camiseta-salve-regina',variant:'G',qty:1}]));")
+                context.add_init_script("localStorage.setItem('douglasShopCart_v2', JSON.stringify([{id:'camiseta-salve-regina',variant:'G',qty:2}]));")
                 context.route('**/*', lambda route:route.continue_()
                     if route.request.url.startswith(base) or route.request.url.startswith('data:')
                     else route.abort())
