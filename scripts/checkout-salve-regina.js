@@ -139,8 +139,8 @@
             </div>
             <div class="checkout-secure">
               <span aria-hidden="true">✦</span>
-              <div><strong>Pagamento seguro pelo Mercado Pago</strong>
-                <p>Você escolherá os meios de pagamento disponíveis, como Pix e cartões, diretamente no ambiente do Mercado Pago. Parcelamento e condições dependem do provedor.</p>
+              <div><strong>Pagamento seguro pela InfinitePay</strong>
+                <p>Você escolherá os meios de pagamento disponíveis, como Pix e cartões, diretamente no ambiente da InfinitePay. Parcelamento e condições dependem do provedor.</p>
               </div>
             </div>
             <label class="confirm"><input name="confirm" type="checkbox" required> Li e concordo com as <a href="/pages/condicoes-da-loja.html" target="_blank" rel="noopener noreferrer">condições de compra, entrega, trocas e privacidade</a>.</label>
@@ -333,7 +333,8 @@
           })
         });
         const u=new URL(data.checkoutUrl);
-        if(u.protocol!=='https:'||!['mercadopago.com.br','www.mercadopago.com.br',
+        if(u.protocol!=='https:'||!['checkout.infinitepay.com.br',
+          'mercadopago.com.br','www.mercadopago.com.br',
           'mercadopago.com','www.mercadopago.com'].includes(u.hostname))
           throw new Error('provider_url_invalid');
         window.location.assign(u.href);
@@ -346,7 +347,7 @@
           shipping_provider_unavailable:'Não foi possível confirmar o frete agora. Tente uma nova consulta.',
           live_price_unapproved:'Este produto está temporariamente indisponível. Entre em contato com a loja.',
           live_product_unavailable:'Esta combinação não está aprovada para compra online. Escolha uma peça disponível.',
-          payment_provider_unavailable:'O Mercado Pago não iniciou o pagamento. Tente novamente mais tarde.',
+          payment_provider_unavailable:'A plataforma de pagamento não iniciou o checkout. Tente novamente mais tarde.',
           invalid_order:'Não foi possível confirmar o pedido. Revise a quantidade e a entrega.'
         }[code];
         payStatus.textContent=helpful||
