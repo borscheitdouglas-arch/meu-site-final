@@ -65,15 +65,23 @@ export async function createInfinitePayCheckout({
       signal:AbortSignal.timeout(10000)
     });
   }catch{
-    throw new CatalogError('payment_provider_unavailable','InfinitePay indisponível.',503);
+    throw new CatalogError('infinitepay_connection_failed','InfinitePay indisponível.',503);
   }
-  if(!response?.ok)throw new CatalogError('payment_provider_unavailable',
-    'InfinitePay não iniciou o pagamento.',503);
+  if(!response?.ok){
+    const httpStatus=Number.isInteger(response?.status)?response.status:0;
+    // Nenhum dado de cartão, chave ou resposta com PII é armazenado/exposto.
+    const code=[401,403].includes(httpStatus)?'infinitepay_auth_failed':
+      [400,422].includes(httpStatus)?'infinitepay_request_rejected':
+      'infinitepay_provider_unavailable';
+    const error=new CatalogError(code,'A InfinitePay não iniciou o pagamento.',502);
+    error.providerHttpStatus=httpStatus;
+    throw error;
+  }
   let result;
   try{result=await response.json()}catch{
-    throw new CatalogError('payment_provider_unavailable','Resposta inválida do checkout.',503);
+    throw new CatalogError('infinitepay_response_invalid','Resposta inválida do checkout.',502);
   }
   if(!isInfinitePayCheckoutUrl(result?.url))
-    throw new CatalogError('payment_provider_unavailable','URL de checkout inválida.',503);
+    throw new CatalogError('infinitepay_response_invalid','URL de checkout inválida.',502);
   return {checkoutUrl:result.url};
 }
