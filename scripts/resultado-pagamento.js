@@ -51,7 +51,7 @@
     try {data=await response.json();}catch {throw Error('response_invalid');}
     if(!response.ok||data?.processed!==true||data?.orderId!==order)
       throw Error('unconfirmed');
-    setState('confirmed','Pagamento aprovado','Obrigado pela sua compra!',
+    setState('confirmed','Pagamento confirmado','Obrigado pela sua compra!',
       'Seu pagamento foi confirmado pela InfinitePay e o pedido foi registrado pela loja. Guarde o comprovante para referência.');
     note.hidden=true;
     caution.hidden=true;
