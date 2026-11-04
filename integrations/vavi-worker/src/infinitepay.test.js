@@ -45,7 +45,7 @@ test('checkout bloqueia valores falsos e URLs externas',async()=>{
   await assert.rejects(()=>createInfinitePayCheckout({...args,shippingCents:1}),{code:'checkout_total_mismatch'});
   assert.equal(isInfinitePayCheckoutUrl('https://checkout.infinitepay.com.br.evil.com'),false);
   await assert.rejects(()=>createInfinitePayCheckout({...args,fetchImpl:async()=>({
-    ok:true,json:async()=>({url:'https://evil.example/pay'})})}),{code:'payment_provider_unavailable'});
+    ok:true,json:async()=>({url:'https://evil.example/pay'})})}),{code:'infinitepay_response_invalid'});
 });
 
 function dbStub(history){
