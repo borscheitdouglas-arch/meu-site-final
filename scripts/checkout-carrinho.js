@@ -243,7 +243,7 @@ form.addEventListener('submit',async event=>{
     }
     const target=new URL(data.checkoutUrl);
     if(target.protocol!=='https:'||
-      !['checkout.infinitepay.com.br','pay.infinitepay.io'].includes(target.hostname))
+      !['checkout.infinitepay.com.br','checkout.infinitepay.io','pay.infinitepay.io'].includes(target.hostname))
       throw Error('bad_checkout_url');
     payStatus.textContent='Abrindo o ambiente seguro da InfinitePay…';
     window.location.assign(target.href);
