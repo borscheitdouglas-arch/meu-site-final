@@ -41,6 +41,29 @@ test('link gerado com valor conferido, frete separado, Pix, 3x e vencimento',asy
   assert.equal(result.checkoutUrl,link);
 });
 
+test('aceita os dois hosts oficiais exatos sem liberar subdomínio malicioso',async()=>{
+  const valid=[
+    'https://checkout.infinitepay.com.br/invoice/abc123',
+    'https://pay.infinitepay.io/minha-loja/exemplo',
+  ];
+  for(const link of valid){
+    assert.equal(isInfinitePayCheckoutUrl(link),true);
+    const result=await createInfinitePayCheckout({...args,fetchImpl:async()=>({
+      ok:true,json:async()=>({url:link})
+    })});
+    assert.equal(result.checkoutUrl,link);
+  }
+  for(const link of [
+    'http://pay.infinitepay.io/test',
+    'https://pay.infinitepay.io.evil.example/test',
+    'https://evil.example/?to=pay.infinitepay.io',
+    'https://pay.infinitepay.io@evil.example/test',
+    'https://other.pay.infinitepay.io/test',
+    'https://pay.infinitepay.io:444/test',
+    'javascript:alert(1)'
+  ])assert.equal(isInfinitePayCheckoutUrl(link),false,link);
+});
+
 test('checkout bloqueia valores falsos e URLs externas',async()=>{
   await assert.rejects(()=>createInfinitePayCheckout({...args,shippingCents:1}),{code:'checkout_total_mismatch'});
   assert.equal(isInfinitePayCheckoutUrl('https://checkout.infinitepay.com.br.evil.com'),false);
