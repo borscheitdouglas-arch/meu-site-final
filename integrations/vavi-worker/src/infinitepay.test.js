@@ -44,6 +44,7 @@ test('link gerado com valor conferido, frete separado, Pix, 3x e vencimento',asy
 test('aceita os dois hosts oficiais exatos sem liberar subdomínio malicioso',async()=>{
   const valid=[
     'https://checkout.infinitepay.com.br/invoice/abc123',
+    'https://checkout.infinitepay.io/douglas-borscheit/invoice-abc123',
     'https://pay.infinitepay.io/minha-loja/exemplo',
   ];
   for(const link of valid){
@@ -56,6 +57,9 @@ test('aceita os dois hosts oficiais exatos sem liberar subdomínio malicioso',as
   for(const link of [
     'http://pay.infinitepay.io/test',
     'https://pay.infinitepay.io.evil.example/test',
+    'https://checkout.infinitepay.io.evil.example/checkout',
+    'https://checkout.infinitepay.io:8443/checkout',
+    'http://checkout.infinitepay.io/checkout',
     'https://evil.example/?to=pay.infinitepay.io',
     'https://pay.infinitepay.io@evil.example/test',
     'https://other.pay.infinitepay.io/test',
