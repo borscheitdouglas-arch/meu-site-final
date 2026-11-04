@@ -26,8 +26,14 @@
     for (const item of rawCart().slice(0, 40)) {
       if (!item || typeof item.id !== 'string' || typeof item.variant !== 'string' ||
           !Number.isInteger(item.qty) || item.qty < 1) continue;
-      const product = catalog.get(item.id);
-      const variation = product?.variants?.find(v => v.code === item.variant);
+      // Compatibilidade com os dois IDs antigos no carrinho do cliente.
+      const migrated = item.id === 'ecobag-salve-regina-m'
+        ? {...item,id:'ecobag-salve-regina',variant:'M'}
+        : item.id === 'ecobag-salve-regina-g'
+          ? {...item,id:'ecobag-salve-regina',variant:'G'} : item;
+      const product = catalog.get(migrated.id);
+      const variation = product?.variants?.find(v => v.code === migrated.variant && v.sku &&
+        Number.isInteger(v.priceCents));
       if (!variation) continue;
       const key = product.id + ':' + variation.code;
       const existing = byKey.get(key);
@@ -69,7 +75,8 @@
   function add(id, variantCode, amount = 1) {
     const product = catalog.get(id);
     const variant = product?.variants.find(v => v.code === variantCode);
-    if (!product || !variant || !Number.isInteger(amount) || amount < 1) {
+    if (!product || !variant?.sku || !Number.isInteger(variant.priceCents) ||
+        !Number.isInteger(amount) || amount < 1) {
       notify('Escolha uma variação válida.'); return false;
     }
     const cart = rows();
@@ -336,11 +343,23 @@
         const product = catalog.get(productId);
         const price = select.closest('.shop-product-card')?.querySelector('.shop-price strong');
         if (!product || !price) return;
+        const card = select.closest('.shop-product-card');
+        const note = card?.querySelector('.shop-product-state');
+        const normalNote = note?.textContent || '';
+        const suffix = price.querySelector('span');
         const updatePrice = () => {
           const variation = product.variants.find(v => v.code === select.value);
-          if (variation && Number.isInteger(variation.priceCents) && price.firstChild) {
-            price.firstChild.textContent = money(variation.priceCents) + ' ';
-          }
+          const available = Boolean(variation?.sku && Number.isInteger(variation.priceCents));
+          if(price.firstChild) price.firstChild.textContent =
+            available ? money(variation.priceCents)+' ' : 'Preço a confirmar ';
+          if(suffix) suffix.hidden = !available;
+          if(note) note.textContent = available ? normalNote :
+            'Tamanho ' + select.value + ' ainda sem preço e produção confirmados.';
+          card?.querySelectorAll('[data-cart-add], [data-cart-buy]').forEach(button => {
+            button.disabled = !available;
+            if(!available) button.title = 'Tamanho indisponível para compra';
+            else button.removeAttribute('title');
+          });
         };
         select.addEventListener('change', updatePrice);
         updatePrice();
