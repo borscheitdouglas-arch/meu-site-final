@@ -16,7 +16,7 @@ const args={
   webhookUrl:'https://api.example.com/api/payments/infinitepay-webhook'
 };
 
-test('link gerado com valor conferido, frete separado, Pix, 3x e vencimento',async()=>{
+test('link gerado com frete, Pix, repasse total de taxas e vencimento',async()=>{
   let called=0;
   const result=await createInfinitePayCheckout({...args,fetchImpl:async (url,options)=>{
     called++;
@@ -27,7 +27,8 @@ test('link gerado com valor conferido, frete separado, Pix, 3x e vencimento',asy
     assert.deepEqual(body.items.map(i=>i.price),[10990,1554]);
     assert.equal(body.items.reduce((n,i)=>n+i.price*i.quantity,0),12544);
     assert.deepEqual(body.options.payment_methods_enabled,['credit_card','pix']);
-    assert.equal(body.options.assured_installments,3);
+    // Zero garante que nenhuma taxa do parcelamento seja absorvida pela loja.
+    assert.equal(body.options.assured_installments,0);
     assert.equal(body.options.single_payment,true);
     assert.equal(body.options.require_delivery_address,false);
     assert.equal(body.customer.email,buyer.email);
