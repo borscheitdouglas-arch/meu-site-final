@@ -85,7 +85,7 @@ export default {
         (url.pathname.startsWith('/api/internal/live-orders/') &&
          /^ord_[a-f0-9]{32}$/.test(url.pathname.slice('/api/internal/live-orders/'.length))) ||
         /^\/api\/internal\/live-orders\/ord_[a-f0-9]{32}\/fulfillment$/.test(url.pathname);
-      if (!adminOptions && !['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/shipping/cart-preview','/api/checkout/test','/api/checkout/live','/api/internal/vavi/shipping-check'].includes(url.pathname))
+      if (!adminOptions && !['/api/catalog','/api/quote','/api/shipping/quote','/api/shipping/preview','/api/shipping/cart-preview','/api/checkout/test','/api/checkout/live','/api/payments/infinitepay-confirm','/api/internal/vavi/shipping-check'].includes(url.pathname))
         return json({error:'not_found'},404,cors.headers);
       return new Response(null,{status:204,headers:cors.headers});
     }
@@ -256,6 +256,28 @@ export default {
         webhook:false // the route is still guarded, not consuming notifications
       };
       return json({mode:'preview',ready:false,checks},200,cors.headers);
+    }
+    // Retorno do navegador também é apenas um aviso não confiável: consultar a API.
+    // Permite conciliar caso o webhook demore, sem aceitar status enviado pelo cliente.
+    if (url.pathname === '/api/payments/infinitepay-confirm' && request.method === 'POST') {
+      try {
+        if (!(request.headers.get('Content-Type')||'').toLowerCase().startsWith('application/json'))
+          return json({error:'unsupported_media_type'},415,cors.headers);
+        const body=await request.text();
+        if(body.length>2000)return json({error:'request_too_large'},413,cors.headers);
+        const verified=await processInfinitePayWebhook({
+          request:new Request(request.url,{method:'POST',body}),
+          env
+        });
+        if(verified.vaviQueued===true && typeof ctx?.waitUntil==='function')
+          ctx.waitUntil(dispatchVaviDraft(env,verified.orderId));
+        return json({ok:true,processed:verified.processed===true},200,cors.headers);
+      }catch(error){
+        if(error instanceof CatalogError)
+          return json({error:error.code},error.status,cors.headers);
+        console.error('InfinitePay return verification unavailable:',error?.name||'unknown');
+        return json({error:'verification_failed'},503,cors.headers);
+      }
     }
     // InfinitePay: notificações não são assinadas; confirmar na API antes de pagar pedido.
     if (url.pathname === '/api/payments/infinitepay-webhook' && request.method === 'POST') {
