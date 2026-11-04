@@ -1,0 +1,31 @@
+name: Checkout InfinitePay - testes sem cobranca
+on:
+  pull_request:
+    paths:
+      - "integrations/vavi-worker/src/**"
+      - "integrations/vavi-worker/migrations/**"
+      - "scripts/checkout-carrinho.js"
+      - "scripts/checkout-salve-regina.js"
+      - ".github/workflows/infinitepay-integration-check.yml"
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Conferir JavaScript da loja
+        run: |
+          node --check scripts/checkout-carrinho.js
+          node --check scripts/checkout-salve-regina.js
+          node --check scripts/resultado-pagamento.js
+      - name: Executar testes do Worker
+        working-directory: integrations/vavi-worker
+        run: npm test
+      - name: Compilar API
+        working-directory: integrations/vavi-worker
+        run: npx --yes esbuild@0.25.12 src/index.js --bundle --platform=browser --format=esm --target=es2022 --outfile=/tmp/infinitepay-worker.js
