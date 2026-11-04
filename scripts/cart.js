@@ -135,6 +135,15 @@
       const row = make('article','cart-item');
       const img = make('img','cart-thumb');img.src = product.image;
       img.alt = product.title;img.loading = 'lazy';img.width=90;img.height=90;
+      const mugArt=product.id==='caneca-salve-regina-preta'?'partitura':
+        product.id==='caneca-salve-regina-pb'?'nossa-senhora':null;
+      let imageNode=img;
+      if(mugArt){
+        const frame=make('span','cart-mug-image-frame');
+        frame.dataset.mugArt=mugArt;
+        frame.append(img);
+        imageNode=frame;
+      }
       const content = make('div','cart-item-content');
       const category = make('p','cart-product-category',
         product.category==='camisetas'?'Camiseta':
@@ -167,7 +176,7 @@
       const remove=makeButton('Remover',()=>updateQty(item.id,item.variant,0));
       remove.className='cart-remove';
       qty.append(minus,amount,plus,remove);content.append(qty);
-      row.append(img,content);list.append(row);
+      row.append(imageNode,content);list.append(row);
     }
     const aside = make('aside','cart-summary');
     aside.append(make('p','cart-summary-overline','Seu pedido'));

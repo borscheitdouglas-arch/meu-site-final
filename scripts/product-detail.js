@@ -4,6 +4,8 @@
   const root = document.getElementById('shop-single-root');
   if (!root) return;
   const id = new URLSearchParams(window.location.search).get('id');
+  if (id === 'caneca-salve-regina-preta') root.dataset.mugArt = 'partitura';
+  if (id === 'caneca-salve-regina-pb') root.dataset.mugArt = 'nossa-senhora';
   const money = cents => new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(cents / 100);
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const info = {
@@ -51,7 +53,9 @@
     const figure=el('figure','shop-single-imagebox');
     const image=el('img');image.src=photos[0];image.alt='Imagem de '+title;image.width=850;image.height=850;
     const caption=el('figcaption','',note || 'Imagem ilustrativa da coleção');
-    figure.append(image,caption);
+    const imageClip=el('div','shop-single-image-clip');
+    imageClip.append(image);
+    figure.append(imageClip,caption);
     const thumbs=el('div','shop-single-thumbs');
     photos.forEach((photo,index)=>{
       const button=el('button','shop-single-thumb');button.type='button';
@@ -247,8 +251,8 @@
       select.addEventListener('change',updateChips);updateChips();
 
       const companionOptions=product.category==='canecas'?[
-        {id:'caneca-salve-regina-preta',label:'Preta'},
-        {id:'caneca-salve-regina-pb',label:'P&B'}
+        {id:'caneca-salve-regina-preta',label:'Partitura Gregoriana'},
+        {id:'caneca-salve-regina-pb',label:'Nossa Senhora'}
       ]:product.category==='ecobags'?[
         {id:'ecobag-salve-regina-m',label:'M'},
         {id:'ecobag-salve-regina-g',label:'G'}

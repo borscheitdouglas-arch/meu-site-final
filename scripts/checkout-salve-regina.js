@@ -13,22 +13,22 @@
   // Backend valida novamente SKU, preço, aprovação comercial e frete.
   const extras=Object.freeze({
     'caneca-salve-regina-preta':{
-      title:'Caneca Preta Salve Regina — Partitura',
+      title:'Caneca Salve Regina — Partitura Gregoriana',
       detail:'Caneca com partitura gregoriana',price:4990,
       image:'/assets/img/loja/Salve-Regina/web/caneca-480.webp'
     },
     'caneca-salve-regina-pb':{
-      title:'Caneca P&B Salve Regina — Nossa Senhora',
+      title:'Caneca Salve Regina — Nossa Senhora',
       detail:'Caneca com arte mariana',price:4990,
       image:'/assets/img/loja/Salve-Regina/web/caneca-480.webp'
     },
     'ecobag-salve-regina-m':{
-      title:'Ecobag Salve Regina — Algodão Cru M',
+      title:'Ecobag Salve Regina — Tamanho M',
       detail:'Ecobag tamanho M',price:3990,
       image:'/assets/img/loja/Salve-Regina/web/ecobag-480.webp'
     },
     'ecobag-salve-regina-g':{
-      title:'Ecobag Salve Regina — Algodão Cru G',
+      title:'Ecobag Salve Regina — Tamanho G',
       detail:'Ecobag tamanho G',price:3990,
       image:'/assets/img/loja/Salve-Regina/web/ecobag-480.webp'
     }

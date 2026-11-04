@@ -184,3 +184,19 @@
   .shop-product-page .shop-single-actions{grid-template-columns:1fr;}
   .shop-product-page .shop-single-availability{font-size:11px;}
 }
+
+/* Galeria das canecas: recorte não destrutivo da fotografia original dupla. */
+.shop-product-page .shop-single-image-clip { overflow:hidden; border-radius:5px; }
+.shop-product-page #shop-single-root[data-mug-art] .shop-single-imagebox img {
+  transform:scale(2.13); max-height:none; object-fit:cover;
+}
+.shop-product-page #shop-single-root[data-mug-art="partitura"] .shop-single-imagebox img,
+.shop-product-page #shop-single-root[data-mug-art="partitura"] .shop-single-thumb img {
+  transform-origin:92% 52%;
+}
+.shop-product-page #shop-single-root[data-mug-art="nossa-senhora"] .shop-single-imagebox img,
+.shop-product-page #shop-single-root[data-mug-art="nossa-senhora"] .shop-single-thumb img {
+  transform-origin:8% 52%;
+}
+.shop-product-page #shop-single-root[data-mug-art] .shop-single-thumb { overflow:hidden; }
+.shop-product-page #shop-single-root[data-mug-art] .shop-single-thumb img { transform:scale(2.13); }

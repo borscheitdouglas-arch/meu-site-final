@@ -5,7 +5,7 @@
   "products": [
     {
       "id": "camiseta-salve-regina",
-      "title": "Camiseta Salve Regina",
+      "title": "Camiseta Salve Regina — Arte Mariana",
       "category": "camisetas",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/camiseta-800.webp",
@@ -45,7 +45,7 @@
     },
     {
       "id": "caneca-salve-regina-preta",
-      "title": "Caneca Preta Salve Regina — Partitura",
+      "title": "Caneca Salve Regina — Partitura Gregoriana",
       "category": "canecas",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
@@ -61,7 +61,7 @@
     },
     {
       "id": "caneca-salve-regina-pb",
-      "title": "Caneca P&B Salve Regina — Nossa Senhora",
+      "title": "Caneca Salve Regina — Nossa Senhora",
       "category": "canecas",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-800.webp",
@@ -77,7 +77,7 @@
     },
     {
       "id": "ecobag-salve-regina-m",
-      "title": "Ecobag Salve Regina — Algodão Cru M",
+      "title": "Ecobag Salve Regina — Tamanho M",
       "category": "ecobags",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
@@ -93,7 +93,7 @@
     },
     {
       "id": "ecobag-salve-regina-g",
-      "title": "Ecobag Salve Regina — Algodão Cru G",
+      "title": "Ecobag Salve Regina — Tamanho G",
       "category": "ecobags",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
