@@ -1,13 +1,16 @@
 import {CatalogError} from './catalog.js';
 
 const API='https://api.checkout.infinitepay.io/links';
-const CHECKOUT_HOST='checkout.infinitepay.com.br';
+// A InfinitePay documenta o checkout.infinitepay.com.br e também publica links oficiais em pay.infinitepay.io.
+// O host deve coincidir EXATAMENTE: nunca aceitar subdomínios arbitrários ou HTTP.
+const CHECKOUT_HOSTS=new Set(['checkout.infinitepay.com.br','pay.infinitepay.io']);
 const ORDER_ID=/^ord_[a-f0-9]{32}$/;
 
 export function isInfinitePayCheckoutUrl(value) {
   try {
     const u=new URL(value);
-    return u.protocol==='https:' && u.hostname===CHECKOUT_HOST && !u.username && !u.password;
+    return typeof value==='string' && u.protocol==='https:' &&
+      CHECKOUT_HOSTS.has(u.hostname) && !u.port && !u.username && !u.password;
   } catch {
     return false;
   }
@@ -81,7 +84,17 @@ export async function createInfinitePayCheckout({
   try{result=await response.json()}catch{
     throw new CatalogError('infinitepay_response_invalid','Resposta inválida do checkout.',502);
   }
-  if(!isInfinitePayCheckoutUrl(result?.url))
-    throw new CatalogError('infinitepay_response_invalid','URL de checkout inválida.',502);
+  if(!isInfinitePayCheckoutUrl(result?.url)) {
+    const error=new CatalogError('infinitepay_response_invalid','URL de checkout inválida.',502);
+    // Só o host público é registrado para diagnóstico; nunca armazenar
+    // URL completa, parâmetros, pedido, comprador ou API Key.
+    try {
+      const parsed=typeof result?.url==='string'?new URL(result.url):null;
+      if(parsed && /^[a-z0-9.-]{1,120}$/.test(parsed.hostname))
+        error.providerUrlHostname=parsed.hostname;
+      else error.providerUrlHostname='missing_or_invalid';
+    }catch{error.providerUrlHostname='missing_or_invalid';}
+    throw error;
+  }
   return {checkoutUrl:result.url};
 }
