@@ -174,3 +174,19 @@ body.shop-manto .shop-payment-dialog :is(button,a):focus-visible {
  body.shop-manto .shop-payment-continue {transition:none;}
  body.shop-manto .shop-payment-continue:hover {transform:none;}
 }
+/* Estados do modal: verificação, pendente ou demonstração.
+   O fundo escurecido e a moldura permanecem iguais em todos os casos. */
+body.shop-manto .shop-payment-dialog[data-payment-state="pending"] .shop-payment-success-icon,
+body.shop-manto .shop-payment-dialog[data-payment-state="checking"] .shop-payment-success-icon,
+body.shop-manto .shop-payment-dialog[data-payment-state="preview"] .shop-payment-success-icon {
+  border-color:#ddc28f;
+  background:#f8efdb;
+  color:#9a7330;
+}
+body.shop-manto .shop-payment-dialog[data-payment-state="pending"] .shop-payment-lead,
+body.shop-manto .shop-payment-dialog[data-payment-state="checking"] .shop-payment-lead {
+  color:#8b6c35;
+}
+body.shop-manto .shop-payment-dialog[data-payment-state="preview"] .shop-payment-eyebrow {
+  color:#875e35;
+}
