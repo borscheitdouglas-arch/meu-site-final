@@ -1,0 +1,387 @@
+/* LOJA DOUGLAS ASSUMPÇÃO — VITRINE EDITORIAL PREMIUM
+   Escopo: somente #shop-product-grid da loja. Sem mudanças em carrinho, preços,
+   catálogos ou checkout. Carregado após as folhas legadas para resolver conflitos. */
+
+body.shop-manto #shop-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 23px 18px;
+  align-items: stretch;
+  max-width: none;
+  margin: 0;
+}
+
+/* A filtragem usa hidden; nenhuma regra de display deve anulá-la. */
+body.shop-manto #shop-product-grid > [hidden] { display: none !important; }
+
+body.shop-manto #shop-product-grid > .shop-product-card,
+body.shop-manto #shop-product-grid > .atelier-catalog {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #d8ceba;
+  border-radius: 13px;
+  background: #fffdf8;
+  box-shadow: 0 4px 14px rgba(35, 47, 39, .055), 0 16px 34px rgba(54, 44, 23, .035);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.shop-manto #shop-product-grid > .shop-product-card:hover,
+  body.shop-manto #shop-product-grid > .atelier-catalog:hover {
+    transform: translateY(-4px);
+    border-color: #bba574;
+    box-shadow: 0 14px 27px rgba(32, 49, 45, .11), 0 26px 48px rgba(54, 44, 23, .075);
+  }
+}
+body.shop-manto #shop-product-grid > :is(.shop-product-card,.atelier-catalog):focus-within {
+  border-color: #b99b60;
+}
+
+/* Fotografia ocupa a parte mais nobre do cartão. */
+body.shop-manto #shop-product-grid .shop-product-image,
+body.shop-manto #shop-product-grid .atelier-product-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  aspect-ratio: 5 / 5.5;
+  border: 0;
+  border-bottom: 1px solid #e2d9c8;
+  border-radius: 0;
+  background: #e6dfd3;
+}
+body.shop-manto #shop-product-grid .shop-product-image::after,
+body.shop-manto #shop-product-grid .atelier-product-art::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(255, 246, 221, .46);
+  border-radius: 3px;
+  pointer-events: none;
+}
+body.shop-manto #shop-product-grid .shop-product-image img,
+body.shop-manto #shop-product-grid .atelier-product-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+  transition: transform .55s cubic-bezier(.18,.7,.25,1);
+}
+body.shop-manto #shop-product-grid .shop-product-image img { object-fit: cover; }
+body.shop-manto #shop-product-grid .atelier-product-art img { object-fit: contain; }
+@media (hover: hover) and (pointer: fine) {
+  body.shop-manto #shop-product-grid .shop-product-image:hover img,
+  body.shop-manto #shop-product-grid .atelier-product-link:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* Etiqueta de disponibilidade na imagem, sem tomar atenção da peça. */
+body.shop-manto #shop-product-grid .shop-product-badge {
+  display: inline-block;
+  position: absolute;
+  top: 13px;
+  bottom: auto;
+  left: 13px;
+  right: auto;
+  max-width: calc(100% - 26px);
+  padding: 7px 10px;
+  border: 1px solid rgba(224, 201, 156, .83);
+  border-radius: 5px;
+  background: rgba(12, 57, 54, .94);
+  color: #f7ead0;
+  box-shadow: 0 3px 10px rgba(10, 25, 24, .15);
+  font: 600 10px/1.2 'Inter', Arial, sans-serif;
+  letter-spacing: .035em;
+  text-transform: none;
+}
+body.shop-manto #shop-product-grid .shop-product-card[data-availability="consultation"] .shop-product-badge {
+  background: #f1e5c9;
+  color: #69502a;
+  border-color: #d7c195;
+}
+body.shop-manto #shop-product-grid .shop-product-card[data-availability="preparation"] .shop-product-badge {
+  background: #e8e5dc;
+  color: #545a54;
+  border-color: #c9cbc1;
+}
+
+/* Todas as fichas compartilham altura e mesma linha inferior de botões. */
+body.shop-manto #shop-product-grid .shop-product-info,
+body.shop-manto #shop-product-grid .atelier-product-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  width: 100%;
+  padding: 18px 17px 17px;
+  background: linear-gradient(175deg, #fffdf8 0%, #fbf8f0 100%);
+  color: #1c393a;
+  text-align: left;
+}
+body.shop-manto #shop-product-grid .shop-product-collection {
+  display: block !important;
+  order: 0;
+  margin: 0 0 6px;
+  color: #93743f;
+  font: 700 9px/1.4 'Inter', Arial, sans-serif;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+body.shop-manto #shop-product-grid .shop-product-info h3,
+body.shop-manto #shop-product-grid .atelier-product h3 {
+  display: block;
+  margin: 0 0 8px;
+  min-height: 51px;
+  max-height: none;
+  overflow: visible;
+  color: #1c393b;
+  font: 600 clamp(19px, 1.6vw, 23px)/1.13 'Spectral', Georgia, serif;
+  letter-spacing: -.012em;
+  text-wrap: pretty;
+}
+body.shop-manto #shop-product-grid h3 a { color: inherit; text-decoration: none; }
+body.shop-manto #shop-product-grid h3 a:hover { color: #966f36; }
+
+body.shop-manto #shop-product-grid .shop-product-variation {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 5px;
+  min-height: 26px;
+  margin: 0 0 10px;
+  color: #63716f;
+  font: 400 11px/1.4 'Inter', Arial, sans-serif;
+}
+body.shop-manto #shop-product-grid .shop-product-variation > span {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 3px 6px;
+  border: 1px solid #e8e2d7;
+  border-radius: 4px;
+  background: #f1ede4;
+  color: #5f6964;
+  white-space: normal;
+  font: 500 10px/1.3 'Inter', Arial, sans-serif;
+}
+body.shop-manto #shop-product-grid .shop-price {
+  display: block;
+  order: 0;
+  min-height: 0;
+  margin: 0 0 13px;
+  padding: 11px 0 0;
+  border: 0;
+  border-top: 1px solid #e7dfd0;
+}
+body.shop-manto #shop-product-grid .shop-price small {
+  display: block;
+  margin: 0 0 2px;
+  color: #6d7770;
+  font: 500 10px/1.4 'Inter', Arial, sans-serif;
+  letter-spacing: .015em;
+}
+body.shop-manto #shop-product-grid .shop-price strong {
+  display: block;
+  margin: 0;
+  color: #164a47;
+  font: 650 clamp(20px, 1.55vw, 24px)/1.25 'Spectral', Georgia, serif;
+  letter-spacing: -.015em;
+}
+body.shop-manto #shop-product-grid .shop-price strong span {
+  color: #78817b;
+  font: 400 11px/1.4 'Inter', Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+/* Ações: seletor legível + botão principal + ação de detalhes. */
+body.shop-manto #shop-product-grid .shop-cart-size {
+  display: flex !important;
+  order: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 39px;
+  margin: auto 0 8px;
+  color: #56655e;
+  font: 600 11px/1.45 'Inter', Arial, sans-serif;
+}
+body.shop-manto #shop-product-grid .shop-cart-size select {
+  min-width: 79px;
+  min-height: 38px;
+  height: 38px;
+  padding: 7px 10px;
+  border: 1px solid #c7bdab;
+  border-radius: 6px;
+  background: #fffefa;
+  color: #243e3c;
+  font: 600 12px/1.4 'Inter', Arial, sans-serif;
+  color-scheme: light;
+}
+body.shop-manto #shop-product-grid .shop-cart-add {
+  display: flex !important;
+  order: 2;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 45px;
+  margin: auto 0 0;
+  padding: 10px 12px;
+  border: 1px solid #1c5b50;
+  border-radius: 6px;
+  background: #17564a;
+  color: #fffcf4;
+  box-shadow: 0 2px 6px rgba(20, 70, 61, .12);
+  font: 650 11px/1.35 'Inter', Arial, sans-serif;
+  text-align: center;
+  cursor: pointer;
+  transition: background .2s ease, box-shadow .2s ease;
+}
+body.shop-manto #shop-product-grid .shop-cart-add > span {
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 400;
+}
+body.shop-manto #shop-product-grid .shop-cart-add:hover:not(:disabled) {
+  background: #0c3e36;
+  border-color: #0c3e36;
+  box-shadow: 0 5px 14px rgba(10, 45, 39, .20);
+}
+body.shop-manto #shop-product-grid .shop-product-action {
+  display: flex;
+  order: 3;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 41px;
+  margin: 8px 0 0;
+  padding: 9px 12px;
+  border: 1px solid #cfc6b6;
+  border-radius: 6px;
+  background: transparent;
+  color: #28524b;
+  box-shadow: none;
+  font: 600 11px/1.4 'Inter', Arial, sans-serif;
+  letter-spacing: 0;
+  text-decoration: none;
+  transition: background .2s ease, border-color .2s ease;
+}
+body.shop-manto #shop-product-grid .shop-product-action:hover {
+  background: #f1eadc;
+  border-color: #ae9d7c;
+  color: #173f38;
+}
+body.shop-manto #shop-product-grid .shop-cart-quick,
+body.shop-manto #shop-product-grid .shop-cart-buy-now,
+body.shop-manto #shop-product-grid .shop-product-state { display: none !important; }
+body.shop-manto #shop-product-grid .shop-product-card :is(a,button,select):focus-visible,
+body.shop-manto #shop-product-grid .atelier-catalog :is(a,button,select):focus-visible {
+  outline: 3px solid #bb944e;
+  outline-offset: 3px;
+}
+
+/* Livro: mesma moldura, leitura e botão, mas compra continua nas lojas parceiras. */
+body.shop-manto #shop-product-grid .atelier-catalog-heading,
+body.shop-manto #shop-product-grid .atelier-product-meta,
+body.shop-manto #shop-product-grid .atelier-product-art figcaption,
+body.shop-manto #shop-product-grid .atelier-product-description { display: none !important; }
+body.shop-manto #shop-product-grid .atelier-grid,
+body.shop-manto #shop-product-grid .atelier-product {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+body.shop-manto #shop-product-grid .atelier-product-copy::before {
+  content: "LIVRO · MÚSICA SACRA";
+  display: block;
+  margin: 0 0 7px;
+  color: #93743f;
+  font: 700 9px/1.4 'Inter', Arial, sans-serif;
+  letter-spacing: .14em;
+}
+body.shop-manto #shop-product-grid .atelier-product-author {
+  color: #6b756d;
+  font: 500 11px/1.5 'Inter', Arial, sans-serif;
+}
+body.shop-manto #shop-product-grid .atelier-product-purchase {
+  display: block !important;
+  order: 2;
+  margin: auto 0 0;
+  padding: 0;
+  border: 0;
+}
+body.shop-manto #shop-product-grid .atelier-retailers { display: grid; gap: 8px; }
+body.shop-manto #shop-product-grid a.atelier-buy-primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 45px;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #1c5b50;
+  border-radius: 6px;
+  background: #17564a;
+  color: #fffcf4;
+  font: 650 11px/1.35 'Inter', Arial, sans-serif;
+  text-decoration: none;
+}
+body.shop-manto #shop-product-grid a.atelier-buy-primary:hover {
+  background: #0c3e36;
+  border-color: #0c3e36;
+}
+body.shop-manto #shop-product-grid .atelier-product .shop-product-action { order: 3; margin-top: 8px; }
+
+/* Leitura confortável também no tablet e no celular. */
+@media (min-width: 1650px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: repeat(5,minmax(0,1fr)); }
+}
+@media (max-width: 1120px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 19px 15px; }
+}
+@media (max-width: 780px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 13px; }
+  body.shop-manto #shop-product-grid .shop-product-info,
+  body.shop-manto #shop-product-grid .atelier-product-copy { padding: 15px 13px 14px; }
+  body.shop-manto #shop-product-grid .shop-product-info h3,
+  body.shop-manto #shop-product-grid .atelier-product h3 {
+    font-size: 19px;
+    min-height: 46px;
+  }
+}
+@media (max-width: 510px) {
+  body.shop-manto #shop-product-grid { grid-template-columns: minmax(0,1fr); max-width: 370px; gap: 16px; margin-inline: auto; }
+  body.shop-manto #shop-product-grid .shop-product-image,
+  body.shop-manto #shop-product-grid .atelier-product-art { aspect-ratio: 5/4.8; }
+  body.shop-manto #shop-product-grid .shop-product-info,
+  body.shop-manto #shop-product-grid .atelier-product-copy { padding: 18px 18px 17px; }
+  body.shop-manto #shop-product-grid .shop-product-info h3,
+  body.shop-manto #shop-product-grid .atelier-product h3 { font-size: 23px; min-height: 0; }
+  body.shop-manto #shop-product-grid .shop-price strong { font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.shop-manto #shop-product-grid > .shop-product-card,
+  body.shop-manto #shop-product-grid > .atelier-catalog,
+  body.shop-manto #shop-product-grid .shop-product-image img,
+  body.shop-manto #shop-product-grid .atelier-product-art img { transition: none; }
+  body.shop-manto #shop-product-grid > .shop-product-card:hover,
+  body.shop-manto #shop-product-grid > .atelier-catalog:hover { transform: none; }
+}
