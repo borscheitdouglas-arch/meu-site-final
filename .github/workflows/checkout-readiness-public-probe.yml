@@ -22,6 +22,7 @@ jobs:
             d=json.load(r)
           print(json.dumps({
             'checkoutEnabled':d.get('checkoutEnabled'),
+  'paymentProvider':d.get('paymentProvider'),
             'multiCheckoutEnabled':d.get('multiCheckoutEnabled'),
             'availableSkus':d.get('availableSkus'),
             'keys':list(d.keys())
@@ -38,6 +39,7 @@ jobs:
             headers={'Origin':origin,'User-Agent':'Douglas-Checkout-Smoke-20261103'})
           with urllib.request.urlopen(req,timeout=20) as res:state=json.load(res)
           assert state.get('checkoutEnabled') is True,state
+          assert state.get('paymentProvider') == 'infinitepay',state
           assert state.get('multiCheckoutEnabled') is True,state
           expected=['salve-regina-preta-p','salve-regina-preta-m',
             'salve-regina-preta-g','salve-regina-preta-gg','salve-regina-preta-xg',
