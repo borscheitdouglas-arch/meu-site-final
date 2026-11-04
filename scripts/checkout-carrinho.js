@@ -18,7 +18,7 @@ const payStatus=document.getElementById('checkout-multi-pay-status');
 const quoteButton=document.getElementById('checkout-multi-quote');
 const payButton=document.getElementById('checkout-multi-pay');
 const zip=form.elements.zipCode;
-let items=[],details=[],subtotal=0,options=[],quotedZip='',currentSelection='',doingRequest=false;
+let items=[],details=[],subtotal=0,options=[],quotedZip='',currentSelection='',doingRequest=false,quoteTimer=null,quoteToken=0;
 const fail=text=>{
   status.textContent=text;
   status.classList.add('warning');
@@ -38,9 +38,11 @@ const request=async(path,body)=>{
   return data;
 };
 function resetQuotes(){
+  quoteToken++;
   options=[];quotedZip='';currentSelection='';
   choices.hidden=true;choices.replaceChildren();
   payButton.disabled=true;freightEl.textContent='A calcular';totalEl.textContent='A calcular';
+  payStatus.textContent='O pagamento será liberado após calcular o frete para seu CEP.';
 }
 function updateTotal(){
   const choice=options.find(x=>x.id===currentSelection);
@@ -51,14 +53,21 @@ function updateTotal(){
   payButton.disabled=false;
 }
 async function quoteFreight(preferredId=''){
+  if(quoteTimer!==null){clearTimeout(quoteTimer);quoteTimer=null;}
   resetQuotes();
+  const token=quoteToken;
   const code=digits(zip.value);
-  if(!/^\d{8}$/.test(code)){quoteStatus.textContent='Informe um CEP com 8 números.';zip.focus();return;}
+  if(!/^\d{8}$/.test(code)){
+    quoteStatus.textContent='Informe um CEP com 8 números.';
+    payStatus.textContent='Informe o CEP de entrega para calcular o total.';
+    zip.focus();return;
+  }
   quoteButton.disabled=true;quoteStatus.textContent='Consultando transportadoras…';
   doingRequest=true;
   try{
     const result=await request('/api/shipping/cart-preview',{zipCode:code,items});
-    if(digits(zip.value)!==code)return;
+    // Descarta cotações anteriores quando o usuário modifica o CEP.
+    if(token!==quoteToken||digits(zip.value)!==code)return;
     const same=result.items?.length===items.length &&
       result.items.every((x,i)=>x.sku===items[i].sku&&x.quantity===items[i].quantity);
     if(!same||result.checkoutEnabled!==false||result.provisional!==true||
@@ -93,11 +102,17 @@ async function quoteFreight(preferredId=''){
       label.append(input,title);choices.append(label);
     }
     updateTotal();
-    quoteStatus.textContent='Cotação recebida. O valor será reconfirmado pelo servidor antes de criar o pagamento.';
+    quoteStatus.textContent='Frete calculado. O valor será reconfirmado no servidor antes do pagamento.';
+    payStatus.textContent='Frete e total calculados. Confira os dados e avance para o pagamento seguro.';
   }catch(e){
-    quoteStatus.textContent='Não foi possível consultar frete para este pedido. Confira o CEP ou entre em contato com a loja.';
-    resetQuotes();
-  }finally{quoteButton.disabled=false;doingRequest=false;}
+    if(token!==quoteToken)return;
+    options=[];quotedZip='';currentSelection='';
+    choices.hidden=true;choices.replaceChildren();payButton.disabled=true;
+    quoteStatus.textContent='Não foi possível calcular o frete para este CEP. Clique em Calcular frete para tentar novamente.';
+    payStatus.textContent='Pagamento indisponível enquanto não houver uma cotação de frete válida.';
+  }finally{
+    if(token===quoteToken){quoteButton.disabled=false;doingRequest=false;}
+  }
 }
 async function init(){
   try{
@@ -166,13 +181,43 @@ async function init(){
       // CEP herdado do carrinho: iniciar também a busca automática do endereço.
       zip.dispatchEvent(new Event('change',{bubbles:true}));
       quoteFreight(draft.shippingOptionId).catch(()=>{});
+    }else if(/^\d{8}$/.test(digits(zip.value))){
+      // Também cobre CEP preenchido pelo navegador após voltar ao checkout.
+      scheduleFreight();
+    }else{
+      quoteStatus.textContent='Informe seu CEP: o frete será calculado automaticamente.';
+      payStatus.textContent='O pagamento será liberado após escolher a entrega.';
     }
   }catch(e){
     fail('A disponibilidade do pagamento não pôde ser verificada. Volte ao carrinho.');
   }
 }
-zip.addEventListener('input',()=>{resetQuotes();quoteStatus.textContent='CEP alterado. Calcule novamente o frete.';});
-quoteButton.addEventListener('click',()=>{if(!doingRequest)quoteFreight();});
+function scheduleFreight(){
+  // Sair do campo CEP não pode apagar uma cotação já válida.
+  if(quotedZip && digits(zip.value)===quotedZip && options.length)return;
+  if(quoteTimer!==null){clearTimeout(quoteTimer);quoteTimer=null;}
+  resetQuotes();
+  // Recalcular a cotação automaticamente quando o CEP estiver completo.
+  const code=digits(zip.value);
+  if(!/^\d{8}$/.test(code)){
+    quoteStatus.textContent='Informe um CEP de 8 números para calcular o frete.';
+    return;
+  }
+  if(!items.length){
+    quoteStatus.textContent='Carregando os produtos do pedido…';
+    return;
+  }
+  quoteStatus.textContent='CEP completo. Consultando frete automaticamente…';
+  payStatus.textContent='Consultando transportadoras para calcular o total.';
+  const scheduledToken=quoteToken;
+  quoteTimer=setTimeout(()=>{
+    quoteTimer=null;
+    if(scheduledToken===quoteToken && digits(zip.value)===code)quoteFreight();
+  },550);
+}
+zip.addEventListener('input',scheduleFreight);
+zip.addEventListener('change',scheduleFreight);
+quoteButton.addEventListener('click',()=>quoteFreight());
 form.addEventListener('submit',async event=>{
   event.preventDefault();
   if(doingRequest||!form.reportValidity()||!currentSelection||

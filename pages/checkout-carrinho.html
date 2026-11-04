@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="/styles/shop-header.css?v=20261103-logo-grid-fix">
 <link rel="stylesheet" href="/styles/checkout-carrinho-premium.css?v=20261103-etapa2-v1">
 <script src="/scripts/checkout-address-autofill.js?v=20261103-cep-auto-v1" defer></script>
-<script src="/scripts/checkout-carrinho.js?v=20261104-infinitepay" defer></script>
+<script src="/scripts/checkout-carrinho.js?v=20261104-auto-frete-v1" defer></script>
 <script src="/scripts/shop-header.js?v=20261103-shared" defer></script>
 </head>
 <body class="shop-shared-shell checkout-multi-polished">
@@ -55,6 +55,7 @@
 <button type="button" id="checkout-multi-quote" class="secondary">Calcular frete</button>
 </div>
 <p id="checkout-multi-shipping-status" role="status" aria-live="polite"></p>
+<p class="hint">Ao digitar o CEP completo, consultaremos automaticamente as opções de entrega. O botão acima permite tentar novamente.</p>
 <fieldset id="checkout-multi-shipping-options" hidden><legend>Transportadoras</legend></fieldset>
 <p class="hint">O valor é atualizado pela transportadora. O prazo de fabricação não está incluído.</p>
 </section>

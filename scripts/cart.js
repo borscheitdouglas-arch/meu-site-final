@@ -206,7 +206,7 @@
     let multiPayButton=null;
     if (direct) {
       const pay = make('a','cart-action cart-action-primary',
-        'Finalizar compra com Mercado Pago →');
+        'Finalizar compra com InfinitePay →');
       pay.href = exactShirt
         ? '/pages/checkout-salve-regina.html?size=' + encodeURIComponent(cart[0].variant)
         : '/pages/checkout-salve-regina.html?sku=' + encodeURIComponent(directSku);
@@ -224,7 +224,7 @@
         } catch {}
       });
       aside.append(pay, make('p','cart-payment-note',
-        'Na próxima etapa você informará o CEP, escolherá o frete, revisará o total e seguirá para o Mercado Pago.'));
+        'Na próxima etapa você informará o CEP, escolherá o frete, revisará o total e seguirá para o InfinitePay.'));
     } else if(multiple){
       multiPayButton=makeButton('Finalizar compra →',()=>{
         // O cliente pode avançar mesmo sem consultar frete nesta tela:
@@ -242,7 +242,7 @@
       aside.append(multiPayButton,make('p','cart-payment-note',
         'Confira a entrega e o endereço na próxima etapa. O valor será consultado novamente antes da cobrança.'));
     } else {
-      // A compra só avança pelo Mercado Pago quando o Worker autorizar.
+      // A compra só avança pelo InfinitePay quando o Worker autorizar.
       // Nenhum produto redireciona o cliente para WhatsApp ou cotação manual.
       const unavailable=cart.filter(item=>{
         const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
@@ -286,7 +286,7 @@
       make('strong','','Como funciona sua compra'),
       make('p','','1. Revise os produtos e escolha a entrega pelo CEP.'),
       make('p','','2. Confira o valor total e informe os dados de envio no checkout, quando liberado.'),
-      make('p','','3. O pagamento é feito no ambiente seguro do Mercado Pago. O pedido só é confirmado após validação do pagamento.')
+      make('p','','3. O pagamento é feito no ambiente seguro do InfinitePay. O pedido só é confirmado após validação do pagamento.')
     );
     aside.append(explanation);
     const help=make('a','cart-terms-link','Entregas, trocas e privacidade');
@@ -377,7 +377,7 @@
         if (select && addButton) {
           const buy=document.createElement('a');
           buy.className='shop-cart-buy-now';
-          buy.textContent='Comprar agora com Mercado Pago →';
+          buy.textContent='Comprar agora com InfinitePay →';
           const updateLink=()=>{
             const allowed=readySkus.has('salve-regina-preta-'+select.value.toLowerCase());
             buy.hidden=!allowed;
@@ -404,7 +404,7 @@
         const buy=document.createElement('a');
         buy.className='shop-cart-buy-now';
         buy.href='/pages/checkout-salve-regina.html?sku='+encodeURIComponent(variant.sku);
-        buy.textContent='Comprar agora com Mercado Pago →';
+        buy.textContent='Comprar agora com InfinitePay →';
         button.insertAdjacentElement('afterend',buy);
         const state=card.querySelector('.shop-product-state');
         if(state)state.textContent='Compra online liberada · frete e total no checkout';
