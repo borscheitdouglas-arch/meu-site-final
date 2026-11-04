@@ -117,8 +117,8 @@
     const groupsRoot = document.createElement('div');
     repertoire.scroll.append(categories,groupsRoot);
     const groups = [];
-    const liturgicalNav = document.querySelector('#side-nav > ul');
-    if (liturgicalNav) {
+    function populateRepertoire(liturgicalNav) {
+      if (!liturgicalNav || groups.length) return;
       [...liturgicalNav.children].forEach((li,index) => {
         const summary = li.querySelector('details > summary');
         if (!summary) return;
@@ -146,6 +146,7 @@
         });
         categories.append(chip);
       });
+      if (typeof loadingHint !== 'undefined' && loadingHint) loadingHint.remove();
     }
     const empty = document.createElement('p');
     empty.className='mobile-app-empty';empty.hidden=true;
@@ -167,10 +168,24 @@
       empty.hidden=visible!==0;
     }
     search.addEventListener('input',()=>filter(search.value));
-    if(!groups.length) {
-      const fallback=document.createElement('p');fallback.className='mobile-app-empty';
-      fallback.textContent='A biblioteca está disponível pelo menu do site.';
-      groupsRoot.append(fallback);
+    const liturgicalNav = document.querySelector('#side-nav > ul');
+    let loadingHint = null;
+    if (liturgicalNav) populateRepertoire(liturgicalNav);
+    else {
+      loadingHint=document.createElement('p');
+      loadingHint.className='mobile-app-empty';
+      loadingHint.textContent='Carregando os tempos litúrgicos…';
+      groupsRoot.append(loadingHint);
+      fetch('/index.html').then(response=>{
+        if(!response.ok) throw new Error('Menu indisponível');
+        return response.text();
+      }).then(html=>{
+        const doc=new DOMParser().parseFromString(html,'text/html');
+        populateRepertoire(doc.querySelector('#side-nav > ul'));
+        if(!groups.length) loadingHint.textContent='Não foi possível carregar a biblioteca. Acesse a página inicial.';
+      }).catch(()=>{
+        loadingHint.textContent='Não foi possível carregar a biblioteca. Acesse a página inicial.';
+      });
     }
 
     const menuLinks = document.createElement('div');menuLinks.className='mobile-app-menu-links';
