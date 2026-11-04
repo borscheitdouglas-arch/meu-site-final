@@ -3,10 +3,12 @@ import {approvedDirectVariant,DIRECT_CHECKOUT_SKUS} from './salve-regina-variant
 import {normalizeZip,simulateVaviShipping,simulateVaviShippingCartProvisional,simulateVaviShippingProvisional,shippingPayload,canQuotePublishedPackage} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
+import {createInfinitePayCheckout} from './infinitepay-client.js';
 import {validateBuyerDetails,encryptDelivery,storeEncryptedDelivery} from './delivery-repository.js';
 
 const SITE='https://www.douglasassumpcao.com.br';
 const NOTIFY='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/live-webhook';
+const NOTIFY_INFINITE='https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/infinitepay-webhook';
 
 /** Todos os bloqueios ficam no servidor. Nenhum campo do navegador libera cobranças. */
 export function liveCheckoutReady(env) {
@@ -14,8 +16,9 @@ export function liveCheckoutReady(env) {
     env.LIVE_PRODUCT_APPROVED==='true' && env.LIVE_POLICY_APPROVED==='true' &&
     env.LIVE_WEBHOOK_ENABLED==='true' &&
     env.DELIVERY_PERSISTENCE_ENABLED==='true' &&
-    env.MERCADOPAGO_LIVE_ACCESS_TOKEN &&
-    env.MERCADOPAGO_LIVE_WEBHOOK_SECRET &&
+    (env.INFINITEPAY_CHECKOUT_ENABLED==='true'
+      ? Boolean(env.INFINITEPAY_API_KEY?.startsWith('inchk_') && env.INFINITEPAY_HANDLE)
+      : Boolean(env.MERCADOPAGO_LIVE_ACCESS_TOKEN && env.MERCADOPAGO_LIVE_WEBHOOK_SECRET)) &&
     env.SHOP_ADMIN_API_KEY && env.SHOP_ADMIN_API_KEY.length>=32 &&
     env.DELIVERY_ENCRYPTION_KEY_B64 &&
     env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET &&
@@ -120,6 +123,28 @@ export async function createCheckoutLive(env,body,deps={}) {
   if(mode?.meta?.changes!==1)
     throw new CatalogError('live_schema_unavailable','Checkout não configurado no banco.',503);
   await (deps.storeEncryptedDelivery||storeEncryptedDelivery)(env.DB,envelope);
+  if (env.INFINITEPAY_CHECKOUT_ENABLED==='true') {
+    const payment=await (deps.createInfiniteCheckout||createInfinitePayCheckout)({
+      order:draft,lines:quote.lines,shippingCents,buyer,
+      apiKey:env.INFINITEPAY_API_KEY,siteBaseUrl:SITE,webhookUrl:NOTIFY_INFINITE
+    });
+    // Sem confirmar a persistência do link, o navegador não pode receber a URL.
+    const saved=await env.DB.prepare(
+      "INSERT INTO store_infinitepay_links(order_id,checkout_url) VALUES (?,?)"
+    ).bind(orderId,payment.checkoutUrl).run();
+    if(saved?.meta?.changes!==1)
+      throw new CatalogError('checkout_persistence_failed','Link de pagamento não registrado.',503);
+    const update=await env.DB.prepare(
+      "UPDATE store_orders SET status='awaiting_payment',"+
+      " updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') "+
+      "WHERE id=? AND status='draft' AND payment_environment='live'"
+    ).bind(orderId).run();
+    if(update?.meta?.changes!==1)
+      throw new CatalogError('checkout_persistence_failed','Pedido não preparado para pagamento.',503);
+    return {mode:'live',provider:'infinitepay',orderId,
+      totalCents:draft.totalCents,checkoutUrl:payment.checkoutUrl};
+  }
+  // Compatibilidade para pedidos antigos do Mercado Pago até a troca controlada.
   const preference=await (deps.createPreference||createTestPreference)({
     order:draft,lines:quote.lines,shippingCents,
     accessToken:env.MERCADOPAGO_LIVE_ACCESS_TOKEN,
@@ -133,6 +158,6 @@ export async function createCheckoutLive(env,body,deps={}) {
     .bind(preference.preferenceId,orderId).run();
   if(update?.meta?.changes!==1)
     throw new CatalogError('checkout_persistence_failed','Pedido não preparado para pagamento.',503);
-  return {mode:'live',orderId,totalCents:draft.totalCents,
+  return {mode:'live',provider:'mercadopago',orderId,totalCents:draft.totalCents,
     checkoutUrl:preference.checkoutUrl};
 }
