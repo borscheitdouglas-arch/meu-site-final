@@ -1,0 +1,42 @@
+name: Checkout - frete automatico por CEP sem cobrar
+on:
+  pull_request:
+    paths:
+      - "scripts/checkout-carrinho.js"
+      - "pages/checkout-carrinho.html"
+      - "tools/test_checkout_auto_freight.py"
+      - ".github/workflows/checkout-auto-freight-e2e.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/checkout-carrinho.js"
+      - "pages/checkout-carrinho.html"
+      - "tools/test_checkout_auto_freight.py"
+      - ".github/workflows/checkout-auto-freight-e2e.yml"
+permissions:
+  contents: read
+jobs:
+  checkout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validar sintaxe do JavaScript
+        run: |
+          node --check scripts/checkout-carrinho.js
+          node --check scripts/cart.js
+      - name: Instalar navegador isolado para testes
+        run: |
+          python3 -m pip install playwright==1.60.0
+          python3 -m playwright install --with-deps chromium
+      - name: Testar CEP, frete, estado do botao e recuperacao
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/checkout-local.log 2>&1 &
+          sleep 2
+          python3 tools/test_checkout_auto_freight.py
