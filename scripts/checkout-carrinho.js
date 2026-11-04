@@ -193,6 +193,8 @@ async function init(){
   }
 }
 function scheduleFreight(){
+  // Sair do campo CEP não pode apagar uma cotação já válida.
+  if(quotedZip && digits(zip.value)===quotedZip && options.length)return;
   if(quoteTimer!==null){clearTimeout(quoteTimer);quoteTimer=null;}
   resetQuotes();
   // Recalcular a cotação automaticamente quando o CEP estiver completo.
