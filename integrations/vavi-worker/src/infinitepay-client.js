@@ -3,7 +3,7 @@ import {CatalogError} from './catalog.js';
 const API='https://api.checkout.infinitepay.io/links';
 // A InfinitePay documenta o checkout.infinitepay.com.br e também publica links oficiais em pay.infinitepay.io.
 // O host deve coincidir EXATAMENTE: nunca aceitar subdomínios arbitrários ou HTTP.
-const CHECKOUT_HOSTS=new Set(['checkout.infinitepay.com.br','pay.infinitepay.io']);
+const CHECKOUT_HOSTS=new Set(['checkout.infinitepay.com.br','checkout.infinitepay.io','pay.infinitepay.io']);
 const ORDER_ID=/^ord_[a-f0-9]{32}$/;
 
 export function isInfinitePayCheckoutUrl(value) {
