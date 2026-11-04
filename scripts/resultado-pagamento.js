@@ -8,20 +8,20 @@
   const states={
     sucesso:{
       title:'Pagamento enviado para conferência',
-      message:'O Mercado Pago informou um retorno de sucesso. Isso ainda não é a confirmação definitiva do pedido: a loja deverá verificar o recebimento no servidor antes de iniciar a produção.'
+      message:'O InfinitePay informou um retorno de sucesso. Isso ainda não é a confirmação definitiva do pedido: a loja deverá verificar o recebimento no servidor antes de iniciar a produção.'
     },
     pendente:{
       title:'Pagamento em processamento',
-      message:'O processamento do pagamento ainda pode estar pendente. Consulte a situação na sua conta do Mercado Pago e não repita a cobrança antes de conferir.'
+      message:'O processamento do pagamento ainda pode estar pendente. Consulte a situação na sua conta do InfinitePay e não repita a cobrança antes de conferir.'
     },
     falha:{
       title:'Pagamento não concluído',
-      message:'O Mercado Pago informou que o pagamento não foi finalizado. Consulte sua conta antes de tentar novamente ou entre em contato com a loja.'
+      message:'O InfinitePay informou que o pagamento não foi finalizado. Consulte sua conta antes de tentar novamente ou entre em contato com a loja.'
     }
   };
   const state=states[payment]||{
     title:'Acompanhamento do pagamento',
-    message:'Acesse o Mercado Pago para verificar a situação da transação. Esta página não recebe nem confirma pagamentos.'
+    message:'Acesse o InfinitePay para verificar a situação da transação. Esta página não recebe nem confirma pagamentos.'
   };
   title.textContent=state.title;
   message.textContent=state.message;
