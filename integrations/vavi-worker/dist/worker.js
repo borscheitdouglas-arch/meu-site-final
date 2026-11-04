@@ -1326,7 +1326,7 @@ var SITE = "https://www.douglasassumpcao.com.br";
 var NOTIFY = "https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/live-webhook";
 var NOTIFY_INFINITE = "https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/infinitepay-webhook";
 function liveCheckoutReady(env) {
-  return Boolean(env.DB && env.LIVE_CHECKOUT_ENABLED === "true" && env.LIVE_PRODUCT_APPROVED === "true" && env.LIVE_POLICY_APPROVED === "true" && env.LIVE_WEBHOOK_ENABLED === "true" && env.DELIVERY_PERSISTENCE_ENABLED === "true" && (env.INFINITEPAY_CHECKOUT_ENABLED === "true" ? Boolean(env.INFINITEPAY_API_KEY?.startsWith("inchk_") && env.INFINITEPAY_HANDLE) : Boolean(env.MERCADOPAGO_LIVE_ACCESS_TOKEN && env.MERCADOPAGO_LIVE_WEBHOOK_SECRET)) && env.SHOP_ADMIN_API_KEY && env.SHOP_ADMIN_API_KEY.length >= 32 && env.DELIVERY_ENCRYPTION_KEY_B64 && env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET && env.VAVI_SHIPPING_PRODUCTS_JSON);
+  return Boolean(env.DB && env.LIVE_CHECKOUT_ENABLED === "true" && env.LIVE_PRODUCT_APPROVED === "true" && env.LIVE_POLICY_APPROVED === "true" && env.LIVE_WEBHOOK_ENABLED === "true" && env.DELIVERY_PERSISTENCE_ENABLED === "true" && (env.INFINITEPAY_CHECKOUT_ENABLED === "true" ? Boolean(env.INFINITEPAY_API_KEY?.startsWith("inchk_") && env.INFINITEPAY_HANDLE) : Boolean(env.LEGACY_MP_CHECKOUT_ALLOWED === "true" && env.MERCADOPAGO_LIVE_ACCESS_TOKEN && env.MERCADOPAGO_LIVE_WEBHOOK_SECRET)) && env.SHOP_ADMIN_API_KEY && env.SHOP_ADMIN_API_KEY.length >= 32 && env.DELIVERY_ENCRYPTION_KEY_B64 && env.VAVI_CLIENT_ID && env.VAVI_CLIENT_SECRET && env.VAVI_SHIPPING_PRODUCTS_JSON);
 }
 async function createCheckoutLive(env, body, deps = {}) {
   if (!liveCheckoutReady(env))
@@ -2409,6 +2409,7 @@ var index_default = {
         const checkoutEnabled = checked.every(Boolean);
         return json({
           checkoutEnabled,
+          paymentProvider: env.INFINITEPAY_CHECKOUT_ENABLED === "true" ? "infinitepay" : "mercadopago",
           availableSkus,
           multiCheckoutEnabled: checkoutEnabled && env.LIVE_MULTICART_CHECKOUT_ENABLED === "true" && availableSkus.length > 0
         }, 200, cors.headers);
