@@ -17,14 +17,18 @@ const active={
   VAVI_CLIENT_SECRET:'fake-client-secret',
   DELIVERY_ENCRYPTION_KEY_B64:key
 };
-function setup(encrypted) {
+function setup(encrypted,provider='mercadopago') {
   let state='pending',vaviId=null,sends=0;
   const db={prepare(sql){
     return {bind(...args){return {
       async run(){
-        if(sql.includes("INSERT OR IGNORE INTO store_vavi_draft_dispatch"))
+        if(sql.includes("INSERT OR IGNORE INTO store_vavi_draft_dispatch")){
+          assert.match(sql,/store_infinitepay_payments/);
+          assert.match(sql,/ip\.amount_cents=o\.total_cents/);
           return {meta:{changes:1}};
+        }
         if(sql.includes("SET state='sending'")){
+          assert.match(sql,/store_infinitepay_payments/);
           if(state!=='pending')return {meta:{changes:0}};
           state='sending';return {meta:{changes:1}};
         }
@@ -39,10 +43,14 @@ function setup(encrypted) {
         throw Error('unexpected SQL run');
       },
       async first(){
-        if(sql.includes('FROM store_orders'))
+        if(sql.includes('FROM store_orders')){
+          assert.match(sql,/infinitepay_transaction_nsu/);
           return {id:ID,status:'paid',payment_environment:'live',
             subtotal_cents:10990,shipping_cents:1500,total_cents:12490,
-            destination_zip:buyer.zipCode,mp_payment_id:'12345'};
+            destination_zip:buyer.zipCode,
+            mp_payment_id:provider==='mercadopago'?'12345':null,
+            infinitepay_transaction_nsu:provider==='infinitepay'?'txn-verified-123':null};
+        }
         if(sql.includes('FROM store_order_delivery'))
           return encrypted;
         throw Error('unexpected SQL first');
@@ -110,4 +118,25 @@ test('pedido inválido é recusado antes do envio',async()=>{
   const env={...active,DB:{prepare(){throw Error('should not query')}}};
   await assert.rejects(()=>enqueuePaidVaviDraft(env,'bad'),{code:'invalid_order_id'});
   await assert.rejects(()=>dispatchVaviDraft(env,'bad',undefined,async()=> 'fake-short-lived-jwt'),{code:'invalid_order_id'});
+});
+
+test('InfinitePay confirmado pode criar apenas um rascunho VAVI com valor e frete exatos',async()=>{
+  const encrypted=await encryptDelivery(ID,buyer,key);
+  const m=setup({encrypted_payload:encrypted.encryptedPayload,iv:encrypted.iv},'infinitepay');
+  const env={...active,DB:m.db};
+  assert.equal((await enqueuePaidVaviDraft(env,ID)).queued,true);
+  const result=await dispatchVaviDraft(env,ID,m.send,async()=> 'fake-short-lived-jwt');
+  assert.equal(result.sent,true);
+  assert.equal(result.draftId,'DRAFT-001');
+  assert.equal(m.state(),'submitted');
+  assert.equal((await dispatchVaviDraft(env,ID,m.send)).reason,'already_claimed');
+  assert.equal(m.sends(),1);
+});
+test('sem autorização de automação, nem pagamento InfinitePay aprovado aciona a VAVI',async()=>{
+  const encrypted=await encryptDelivery(ID,buyer,key);
+  const m=setup({encrypted_payload:encrypted.encryptedPayload,iv:encrypted.iv},'infinitepay');
+  const env={...active,VAVI_AUTO_DRAFT_ENABLED:'false',DB:m.db};
+  assert.equal((await enqueuePaidVaviDraft(env,ID)).queued,false);
+  assert.equal((await dispatchVaviDraft(env,ID,m.send)).sent,false);
+  assert.equal(m.sends(),0);
 });
