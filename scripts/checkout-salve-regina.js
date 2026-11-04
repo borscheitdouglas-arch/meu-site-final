@@ -333,9 +333,7 @@
           })
         });
         const u=new URL(data.checkoutUrl);
-        if(u.protocol!=='https:'||!['checkout.infinitepay.com.br',
-          'mercadopago.com.br','www.mercadopago.com.br',
-          'mercadopago.com','www.mercadopago.com'].includes(u.hostname))
+        if(u.protocol!=='https:'||u.hostname!=='checkout.infinitepay.com.br')
           throw new Error('provider_url_invalid');
         window.location.assign(u.href);
       }catch(problem){

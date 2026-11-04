@@ -67,6 +67,7 @@ function readyEnv(){
   return {...envBase(),DB:{prepare(){throw Error('unexpected query')},batch(){}},
     LIVE_CHECKOUT_ENABLED:'true',LIVE_PRODUCT_APPROVED:'true',LIVE_POLICY_APPROVED:'true',
     LIVE_WEBHOOK_ENABLED:'true',DELIVERY_PERSISTENCE_ENABLED:'true',
+    LEGACY_MP_CHECKOUT_ALLOWED:'true',
     MERCADOPAGO_LIVE_ACCESS_TOKEN:'private-token',MERCADOPAGO_LIVE_WEBHOOK_SECRET:'private-webhook',
     DELIVERY_ENCRYPTION_KEY_B64:'private-encryption',VAVI_CLIENT_ID:'private-id',VAVI_CLIENT_SECRET:'private-secret',
     VAVI_SHIPPING_PRODUCTS_JSON:shippingConfig()};

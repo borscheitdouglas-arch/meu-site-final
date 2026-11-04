@@ -130,7 +130,7 @@ export default {
           }
         }
         const checkoutEnabled=checked.every(Boolean);
-        return json({checkoutEnabled,availableSkus,
+        return json({checkoutEnabled,paymentProvider:env.INFINITEPAY_CHECKOUT_ENABLED==='true'?'infinitepay':'mercadopago',availableSkus,
           multiCheckoutEnabled:checkoutEnabled &&
             env.LIVE_MULTICART_CHECKOUT_ENABLED==='true' &&
             availableSkus.length>0},200,cors.headers);
