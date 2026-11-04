@@ -7,7 +7,7 @@ const MONEY=(n)=>Number.isSafeInteger(n) && n>=0;
 const brl=cents=>Number((cents/100).toFixed(2));
 
 /** Build a VAVI integration DRAFT payload from a paid order already verified
- * against Mercado Pago. Buyer fields come from a validated checkout form;
+ * against Mercado Pago or InfinitePay. Buyer fields come from validated checkout;
  * product prices and freight must originate from our server-side order.
  * Never invoke this builder on a browser payload or redirect alone.
  */
@@ -16,7 +16,7 @@ export function buildVaviIntegrationOrder({order,buyer,items}) {
      order.status!=='paid' || !MONEY(order.subtotalCents) ||
      !MONEY(order.shippingCents) || !MONEY(order.totalCents) ||
      order.totalCents!==order.subtotalCents+order.shippingCents ||
-     !STR(order.mpPaymentId,80)) {
+     !(STR(order.mpPaymentId,80) || STR(order.infinitePayTransactionNsu,120))) {
     throw new CatalogError('vavi_unverified_payment',
       'Não é possível enviar pedido sem confirmação persistida de pagamento.',409);
   }
