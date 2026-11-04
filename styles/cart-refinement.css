@@ -534,26 +534,3 @@ body.cart-polished .shop-cart-page .cart-checkout-layout {
     margin-top: 12px;
   }
 }
-
-/* Miniaturas individuais das canecas, com a fotografia e arte originais. */
-body.cart-polished .shop-cart-page .cart-mug-image-frame {
-  display:block; flex:0 0 116px; width:116px; height:116px;
-  overflow:hidden; border:1px solid #e5e1da; border-radius:8px;
-  background:#f5f1e9;
-}
-body.cart-polished .shop-cart-page .cart-mug-image-frame .cart-thumb {
-  display:block; width:100%; height:100%; max-width:none; min-width:0;
-  border:0; border-radius:0; object-fit:cover; transform:scale(2.13);
-}
-body.cart-polished .shop-cart-page .cart-mug-image-frame[data-mug-art="partitura"] .cart-thumb { transform-origin:92% 52%; }
-body.cart-polished .shop-cart-page .cart-mug-image-frame[data-mug-art="nossa-senhora"] .cart-thumb { transform-origin:8% 52%; }
-@media(max-width:600px) {
- body.cart-polished .shop-cart-page .cart-mug-image-frame {
-  flex-basis:88px; width:88px; height:88px;
- }
-}
-@media(max-width:370px) {
- body.cart-polished .shop-cart-page .cart-mug-image-frame {
-  flex-basis:75px; width:75px; height:75px;
- }
-}

@@ -15,12 +15,12 @@
     'caneca-salve-regina-preta':{
       title:'Caneca Salve Regina — Partitura Gregoriana',
       detail:'Caneca com partitura gregoriana',price:4990,
-      image:'/assets/img/loja/Salve-Regina/web/caneca-480.webp'
+      image:'/assets/img/loja/Salve-Regina/web/caneca-partitura-individual.png'
     },
     'caneca-salve-regina-pb':{
       title:'Caneca Salve Regina — Nossa Senhora',
       detail:'Caneca com arte mariana',price:4990,
-      image:'/assets/img/loja/Salve-Regina/web/caneca-480.webp'
+      image:'/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png'
     },
     'ecobag-salve-regina-m':{
       title:'Ecobag Salve Regina — Tamanho M',
