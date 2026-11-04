@@ -154,11 +154,14 @@ export async function createCheckoutLive(env,body,deps={}) {
       // Não salva API Key, comprador, endereço, payload ou URL de checkout.
       const code=error instanceof CatalogError?error.code:'unexpected_error';
       const http=Number.isInteger(error?.providerHttpStatus)?error.providerHttpStatus:null;
+      const host=typeof error?.providerUrlHostname==='string' &&
+        /^[a-z0-9.-]{1,120}$/.test(error.providerUrlHostname)
+        ? error.providerUrlHostname : null;
       try {
         await env.DB.prepare(
           "INSERT OR REPLACE INTO store_checkout_failures "+
-          "(order_id,stage,error_code,provider_http_status) VALUES (?,?,?,?)"
-        ).bind(orderId,stage,code,http).run();
+          "(order_id,stage,error_code,provider_http_status,provider_url_hostname) VALUES (?,?,?,?,?)"
+        ).bind(orderId,stage,code,http,host).run();
       }catch {
         console.error('InfinitePay: diagnostic storage unavailable');
       }
