@@ -1235,7 +1235,7 @@ function approvedDirectVariant(sku, priceCents) {
 
 // src/infinitepay-client.js
 var API = "https://api.checkout.infinitepay.io/links";
-var CHECKOUT_HOSTS = /* @__PURE__ */ new Set(["checkout.infinitepay.com.br", "pay.infinitepay.io"]);
+var CHECKOUT_HOSTS = /* @__PURE__ */ new Set(["checkout.infinitepay.com.br", "checkout.infinitepay.io", "pay.infinitepay.io"]);
 var ORDER_ID2 = /^ord_[a-f0-9]{32}$/;
 function isInfinitePayCheckoutUrl(value) {
   try {
