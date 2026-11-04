@@ -55,21 +55,20 @@
       'Seu pagamento foi confirmado pela InfinitePay e o pedido foi registrado pela loja. Guarde o comprovante para referência.');
     note.hidden=true;
     caution.hidden=true;
-    redirect.hidden=false;
-    let remaining=7;
-    seconds.textContent=String(remaining);
-    redirectTimer=setInterval(()=>{
-      remaining-=1; seconds.textContent=String(Math.max(0,remaining));
-      if(remaining<=0) {
-        clearInterval(redirectTimer); redirectTimer=null;
-        try {sessionStorage.setItem(CONFIRMED_FLAG,'1');}catch {}
-        window.location.replace(SHOP_URL);
-      }
-    },1000);
-    const link=document.getElementById('result-store-link');
-    if(link)link.addEventListener('click',()=>{
-      try {sessionStorage.setItem(CONFIRMED_FLAG,'1');}catch {}
-    },{once:true});
+    // O retorno só chega à loja com a mensagem de sucesso após a aprovação
+    // confirmada pelo Worker; nenhuma informação da URL libera este fluxo.
+    let modalReady=false;
+    try {
+      sessionStorage.setItem(CONFIRMED_FLAG,'1');
+      modalReady=true;
+    }catch {}
+    if(modalReady) {
+      window.location.replace(SHOP_URL);
+      return;
+    }
+    // Sem armazenamento de sessão: manter a confirmação nesta página,
+    // sem mostrar uma janela não verificada ao voltar à loja.
+    redirect.hidden=true;
   }).catch(()=>{
     pending('Ainda não foi possível confirmar a transação pelo servidor. Isso não significa que o pagamento falhou. Confira o comprovante ou fale com a loja antes de pagar novamente.');
   }).finally(()=>clearTimeout(limit));

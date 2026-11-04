@@ -29,7 +29,7 @@
     }
   </script>
 <link href="../styles/site-editorial.css" rel="stylesheet"/><link href="../styles/store-book.css?v=20261031-imagens" rel="stylesheet"/><link href="../styles/storefront.css?v=20261101-boutique-sacra-compact-2" rel="stylesheet"/><link href="../styles/storefront-boutique-compact.css?v=20261101" rel="stylesheet"/><link href="../styles/storefront-iluminura.css?v=20261101-friso-gregoriano" rel="stylesheet"/><link href="../styles/store-cart.css?v=20261101-compra-completa" rel="stylesheet"/><link href="../styles/storefront-cards-dense.css?v=20261101-compact-v1" rel="stylesheet"/><link href="../styles/store-cart-pro.css?v=20261101-v1" rel="stylesheet"/><link href="/styles/store-product-detail.css?v=20261102" rel="stylesheet"/><link href="../styles/storefront-manto.css?v=20261103-abertura-manto" rel="stylesheet"/><link rel="stylesheet" href="/styles/shop-header.css?v=20261103-shared"><link rel="stylesheet" href="/styles/storefront-editorial-premium.css?v=20261104-fotos-proprias-v4">
-<link rel="stylesheet" href="/styles/shop-payment-return-banner.css?v=20261104-v1">
+<link rel="stylesheet" href="/styles/shop-payment-return-banner.css?v=20261104-modal-v2">
 <link rel="stylesheet" href="/styles/mobile-site-fixes.css?v=20261104-mobile-v1">
 </head>
 <body class="site-editorial bookshop-page shop-redesign shop-manto shop-shared-shell"><a class="editorial-skip" href="#conteudo">Pular para o conteúdo</a>
@@ -329,12 +329,35 @@
 <p>© 2026 Douglas Assumpção. Todos os direitos reservados.</p>
 <nav aria-label="Informações da loja"><a href="/pages/condicoes-da-loja.html">Condições da loja</a><a href="/politica-de-privacidade.html">Privacidade</a><a href="/pages/contato.html">Contato</a></nav>
 </footer>
+
+<!-- Janela de confirmação exibida somente após a verificação segura da InfinitePay. -->
+<dialog id="shop-payment-confirmation" class="shop-payment-dialog" aria-labelledby="shop-payment-title" aria-describedby="shop-payment-description">
+  <div class="shop-payment-dialog-frame">
+    <button type="button" class="shop-payment-close" data-shop-payment-close aria-label="Fechar mensagem de confirmação">×</button>
+    <div class="shop-payment-ornament" aria-hidden="true">
+      <span class="shop-payment-ornament-line"></span>
+      <span class="shop-payment-ornament-star">✦</span>
+      <span class="shop-payment-ornament-cross">✝</span>
+      <span class="shop-payment-ornament-star">✦</span>
+      <span class="shop-payment-ornament-line"></span>
+    </div>
+    <p class="shop-payment-eyebrow">DOUGLAS ASSUMPÇÃO · COLEÇÃO SALVE REGINA</p>
+    <div class="shop-payment-success-icon" aria-hidden="true">✓</div>
+    <h2 id="shop-payment-title">Pagamento confirmado!</h2>
+    <p class="shop-payment-lead">Muito obrigado pela sua compra.</p>
+    <p id="shop-payment-description" class="shop-payment-description">A InfinitePay confirmou o pagamento e seu pedido foi registrado com sucesso pela loja.</p>
+    <div class="shop-payment-assurance"><span aria-hidden="true">✦</span><p>Seu pedido seguirá para as próximas etapas de preparação. Guarde o comprovante da transação para futuras consultas.</p></div>
+    <button type="button" class="shop-payment-continue" data-shop-payment-continue>Continuar na loja <span aria-hidden="true">→</span></button>
+    <a class="shop-payment-help" href="/pages/contato.html">Preciso de ajuda com meu pedido</a>
+    <p class="shop-payment-signature">Música sacra · Arte &amp; tradição</p>
+  </div>
+</dialog>
 <script src="../scripts/script.js?v=20261103-preserve-shop-header"></script>
 
 <script src="../scripts/salve-regina-inquiry.js?v=20261031-premium" defer></script>
 <script src="../scripts/store-shipping-calculator.js?v=20261102-frete-provisorio" defer></script>
 <script src="../scripts/storefront.js?v=20261031-redesign" defer></script><script src="../scripts/cart.js?v=20261104-ecobag-variacoes-v1" defer></script>
 <script src="../scripts/site-editorial.js?v=menu-elegante-2"></script><script src="/scripts/shop-header.js?v=20261103-shared" defer></script>
-<script src="/scripts/shop-payment-return-banner.js?v=20261104-v1" defer></script>
+<script src="/scripts/shop-payment-return-banner.js?v=20261104-modal-v2" defer></script>
 </body>
 </html>

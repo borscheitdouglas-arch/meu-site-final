@@ -1,17 +1,176 @@
-.shop-return-confirmation {
- position:fixed;z-index:900;top:calc(var(--shop-header,88px) + 12px);
- left:50%;transform:translateX(-50%);width:min(710px,calc(100% - 28px));
- display:flex;align-items:center;justify-content:space-between;gap:14px;
- margin:0;padding:14px 18px;
- border:1px solid #bad4c2;border-left:4px solid #317c5e;
- border-radius:8px;background:#ebf4ed;color:#214f3e;
- box-shadow:0 6px 18px rgba(31,67,46,.06);
- font:600 13px/1.6 'Inter',Arial,sans-serif;
+/* Confirmação da compra sobre a vitrine Douglas Assumpção.
+   Não aparece sem flag local criada após validação do servidor. */
+body.shop-manto .shop-payment-dialog {
+  box-sizing:border-box;
+  position:fixed;
+  z-index:9999;
+  width:min(612px,calc(100vw - 32px));
+  max-width:612px;
+  max-height:min(90vh,830px);
+  max-height:min(90dvh,830px);
+  margin:auto;
+  padding:11px;
+  overflow:auto;
+  overscroll-behavior:contain;
+  border:1px solid #a7854c;
+  border-radius:14px;
+  background:#f9f6ee;
+  color:#3e4039;
+  box-shadow:0 30px 90px rgba(9,24,22,.4),0 0 0 1px rgba(247,226,172,.85) inset;
+  color-scheme:light;
 }
-.shop-return-confirmation button {
- flex-shrink:0; min-width:32px;min-height:32px;
- border:0;border-radius:5px;background:transparent;
- color:#315d4c;font-size:22px;cursor:pointer;
+body.shop-manto .shop-payment-dialog::backdrop {
+  background:rgba(8,18,17,.72);
+  -webkit-backdrop-filter:blur(3px);
+  backdrop-filter:blur(3px);
 }
-.shop-return-confirmation button:hover{background:#d4e9da;}
-.shop-return-confirmation button:focus-visible{outline:3px solid #b7955d;outline-offset:2px;}
+body.shop-manto .shop-payment-dialog-frame {
+  position:relative;
+  min-height:0;
+  padding:36px clamp(16px,5vw,40px) 29px;
+  border:1px solid #dac9a4;
+  border-radius:7px;
+  background:radial-gradient(ellipse at top,#fffdf7 0%,#f8f3e8 100%);
+  text-align:center;
+}
+body.shop-manto .shop-payment-dialog-frame::before,
+body.shop-manto .shop-payment-dialog-frame::after {
+  content:'';
+  position:absolute;
+  width:26px;height:26px;
+  pointer-events:none;
+  border-color:#b18e52;
+}
+body.shop-manto .shop-payment-dialog-frame::before {
+  top:7px;left:7px;border-top:1px solid;border-left:1px solid;
+}
+body.shop-manto .shop-payment-dialog-frame::after {
+  right:7px;bottom:7px;border-right:1px solid;border-bottom:1px solid;
+}
+body.shop-manto .shop-payment-close {
+  position:absolute;
+  top:8px;right:9px;
+  display:grid;place-items:center;
+  width:38px;height:38px;
+  margin:0;padding:0;
+  border:0;border-radius:6px;
+  background:transparent;
+  color:#6a5e47;
+  cursor:pointer;
+  font:400 27px/1 'Inter',Arial,sans-serif;
+}
+body.shop-manto .shop-payment-close:hover {
+  background:#eee5d2;color:#274840;
+}
+body.shop-manto .shop-payment-ornament {
+  display:flex;align-items:center;justify-content:center;gap:11px;
+  margin:0 auto 19px;
+  color:#a17b3a;
+}
+body.shop-manto .shop-payment-ornament-line {
+  display:inline-block;width:62px;height:1px;
+  background:linear-gradient(90deg,transparent,#c9ac72);
+}
+body.shop-manto .shop-payment-ornament-line:last-child {
+  transform:rotate(180deg);
+}
+body.shop-manto .shop-payment-ornament-star {
+  color:#a78248;font-size:12px;
+}
+body.shop-manto .shop-payment-ornament-cross {
+  color:#93743e;font:400 28px/1 Georgia,serif;
+}
+body.shop-manto .shop-payment-eyebrow {
+  margin:0 0 13px;color:#93723e;
+  font:700 10px/1.6 'Inter',Arial,sans-serif;
+  letter-spacing:.16em;
+}
+body.shop-manto .shop-payment-success-icon {
+  display:grid;place-items:center;
+  width:58px;height:58px;margin:0 auto 16px;
+  border:1px solid #9cbcaa;border-radius:50%;
+  background:#e7f0e7;color:#23694e;
+  font:600 29px/1 'Inter',Arial,sans-serif;
+}
+body.shop-manto .shop-payment-dialog h2 {
+  max-width:480px;
+  margin:0 auto 10px;padding:0;
+  color:#263b36;
+  font:600 clamp(30px,4.4vw,42px)/1.16 'Spectral',Georgia,serif;
+  letter-spacing:-.027em;
+  text-wrap:balance;
+}
+body.shop-manto .shop-payment-lead {
+  margin:0 0 14px;color:#775b34;
+  font:500 21px/1.35 'Spectral',Georgia,serif;
+}
+body.shop-manto .shop-payment-description {
+  max-width:450px;
+  margin:0 auto 20px;
+  color:#606359;
+  font:400 14px/1.75 'Inter',Arial,sans-serif;
+}
+body.shop-manto .shop-payment-assurance {
+  display:flex;align-items:flex-start;gap:11px;
+  margin:0 auto 21px;max-width:454px;
+  padding:14px 16px;
+  border-top:1px solid #ded2b9;
+  border-bottom:1px solid #ded2b9;
+  color:#52665a;
+  text-align:left;
+}
+body.shop-manto .shop-payment-assurance span {
+  color:#ab8a4a;font-size:17px;line-height:1.4;
+}
+body.shop-manto .shop-payment-assurance p {
+  margin:0;padding:0;
+  font:400 12px/1.68 'Inter',Arial,sans-serif;
+}
+body.shop-manto .shop-payment-continue {
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:min(390px,100%);
+  min-height:48px;margin:0 auto;
+  padding:11px 18px;
+  border:1px solid #185448;border-radius:7px;
+  background:#17554a;color:#fff9ec;
+  box-shadow:0 5px 12px rgba(19,70,60,.1);
+  cursor:pointer;
+  font:700 13px/1.4 'Inter',Arial,sans-serif;
+  transition:background .2s ease,transform .2s ease;
+}
+body.shop-manto .shop-payment-continue:hover {
+  background:#103f37;transform:translateY(-1px);
+}
+body.shop-manto .shop-payment-help {
+  display:inline-block;margin:13px auto 0;
+  padding:6px 9px;color:#66543b;
+  text-decoration:underline;text-underline-offset:3px;
+  font:500 12px/1.5 'Inter',Arial,sans-serif;
+}
+body.shop-manto .shop-payment-signature {
+  margin:19px 0 0;color:#9d9076;
+  font:500 10px/1.5 'Inter',Arial,sans-serif;
+  letter-spacing:.09em;text-transform:uppercase;
+}
+body.shop-manto .shop-payment-dialog :is(button,a):focus-visible {
+  outline:3px solid #b18a46;outline-offset:3px;
+}
+@media (max-width:550px) {
+ body.shop-manto .shop-payment-dialog {
+   width:calc(100vw - 22px);max-height:calc(100dvh - 26px);
+   padding:7px;border-radius:11px;
+ }
+ body.shop-manto .shop-payment-dialog-frame {
+   padding:31px 17px 23px;
+ }
+ body.shop-manto .shop-payment-ornament-line {width:39px;}
+ body.shop-manto .shop-payment-eyebrow {font-size:9px;letter-spacing:.1em;}
+ body.shop-manto .shop-payment-dialog h2 {font-size:32px;}
+ body.shop-manto .shop-payment-lead {font-size:20px;}
+ body.shop-manto .shop-payment-description {font-size:13px;}
+ body.shop-manto .shop-payment-assurance {padding:11px 8px;}
+}
+@media (prefers-reduced-motion:reduce) {
+ body.shop-manto .shop-payment-continue {transition:none;}
+ body.shop-manto .shop-payment-continue:hover {transform:none;}
+}
