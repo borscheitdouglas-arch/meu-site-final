@@ -76,34 +76,38 @@
       ]
     },
     {
-      "id": "ecobag-salve-regina-m",
-      "title": "Ecobag Salve Regina — Tamanho M",
+      "id": "ecobag-salve-regina",
+      "title": "Ecobag Salve Regina — Arte Mariana",
       "category": "ecobags",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
       "priceStatus": "final",
       "variants": [
         {
-          "code": "unico",
-          "label": "Algodão cru · M · 1 área",
-          "priceCents": 3990,
-          "sku": "ecobag-salve-regina-m"
-        }
-      ]
-    },
-    {
-      "id": "ecobag-salve-regina-g",
-      "title": "Ecobag Salve Regina — Tamanho G",
-      "category": "ecobags",
-      "status": "available",
-      "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
-      "priceStatus": "final",
-      "variants": [
+          "code": "P",
+          "label": "Algodão cru · P (em confirmação)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
+        },
         {
-          "code": "unico",
-          "label": "Algodão cru · G · 1 área",
-          "priceCents": 3990,
-          "sku": "ecobag-salve-regina-g"
+          "code": "M",
+          "label": "Algodão cru · M",
+          "sku": "ecobag-salve-regina-m",
+          "priceCents": 3990
+        },
+        {
+          "code": "G",
+          "label": "Algodão cru · G",
+          "sku": "ecobag-salve-regina-g",
+          "priceCents": 3990
+        },
+        {
+          "code": "GG",
+          "label": "Algodão cru · GG (em confirmação)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
         }
       ]
     }
