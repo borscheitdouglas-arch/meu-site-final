@@ -1,33 +1,76 @@
-/* Retorno do navegador nunca prova pagamento. O Worker consulta a InfinitePay. */
+/* O retorno do navegador não prova pagamento: somente o Worker confirma a InfinitePay. */
 (() => {
   'use strict';
+  const page=document.querySelector('.payment-return-panel');
   const title=document.getElementById('result-title');
   const message=document.getElementById('result-message');
-  if(!title||!message)return;
+  const note=document.getElementById('result-security-note');
+  const status=document.getElementById('result-status');
+  const symbol=document.getElementById('result-symbol');
+  const redirect=document.getElementById('result-redirect');
+  const seconds=document.getElementById('result-seconds');
+  const caution=document.getElementById('result-payment-caution');
+  if(!page||!title||!message||!status||!redirect||!seconds||!note)return;
+  const SHOP_URL='/pages/loja.html#catalogo';
+  const CONFIRMED_FLAG='douglasCheckoutConfirmedReturn_v1';
   const qs=new URLSearchParams(window.location.search);
   const order=qs.get('order_nsu');
   const slug=qs.get('slug');
   const transaction=qs.get('transaction_nsu');
   const matchOrder=/^ord_[a-f0-9]{32}$/;
   const matchRef=/^[A-Za-z0-9_.:-]{6,120}$/;
+  let redirectTimer=null;
+  const setState=(state,label,heading,body)=>{
+    page.dataset.state=state;
+    status.textContent=label;
+    title.textContent=heading;
+    message.textContent=body;
+    symbol.textContent=state==='confirmed'?'✓':state==='pending'?'!':'…';
+  };
+  function pending(text) {
+    if(redirectTimer!==null)clearInterval(redirectTimer);
+    redirect.hidden=true;
+    note.hidden=false;
+    caution.hidden=false;
+    setState('pending','Aguardando confirmação','Pagamento em verificação',text);
+  }
   if(!matchOrder.test(order||'')||!matchRef.test(slug||'')||
-     !matchRef.test(transaction||'')){
-    title.textContent='Acompanhamento do pagamento';
-    message.textContent='O retorno ainda não confirma a aprovação. Aguarde a confirmação segura do pedido pela loja. Antes de tentar pagar de novo, consulte suas vendas ou fale com a loja.';
+     !matchRef.test(transaction||'')) {
+    pending('O retorno ainda não contém todos os dados para confirmar a compra. Você pode voltar à loja, mas confira o comprovante antes de tentar pagar novamente.');
     return;
   }
-  title.textContent='Verificando seu pagamento';
-  message.textContent='Consultando a InfinitePay. O resultado será confirmado pelo servidor da loja.';
+  setState('checking','Verificando com segurança','Estamos conferindo seu pagamento','Consultando a InfinitePay para verificar a aprovação do pedido.');
+  const controller=new AbortController();
+  const limit=setTimeout(()=>controller.abort(),12000);
   fetch('https://douglas-loja-api.liturgia-gregoriano.workers.dev/api/payments/infinitepay-confirm',{
     method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({order_nsu:order,invoice_slug:slug,transaction_nsu:transaction})
+    body:JSON.stringify({order_nsu:order,invoice_slug:slug,transaction_nsu:transaction}),
+    signal:controller.signal
   }).then(async response=>{
-    const data=await response.json();
-    if(!response.ok||data.processed!==true)throw Error('unconfirmed');
-    title.textContent='Pagamento confirmado';
-    message.textContent='A InfinitePay confirmou o pagamento e o pedido foi registrado pela loja. Guarde o comprovante e acompanhe as informações enviadas ao seu contato.';
+    let data;
+    try {data=await response.json();}catch {throw Error('response_invalid');}
+    if(!response.ok||data?.processed!==true||data?.orderId!==order)
+      throw Error('unconfirmed');
+    setState('confirmed','Pagamento aprovado','Obrigado pela sua compra!',
+      'Seu pagamento foi confirmado pela InfinitePay e o pedido foi registrado pela loja. Guarde o comprovante para referência.');
+    note.hidden=true;
+    caution.hidden=true;
+    redirect.hidden=false;
+    let remaining=7;
+    seconds.textContent=String(remaining);
+    redirectTimer=setInterval(()=>{
+      remaining-=1; seconds.textContent=String(Math.max(0,remaining));
+      if(remaining<=0) {
+        clearInterval(redirectTimer); redirectTimer=null;
+        try {sessionStorage.setItem(CONFIRMED_FLAG,'1');}catch {}
+        window.location.replace(SHOP_URL);
+      }
+    },1000);
+    const link=document.getElementById('result-store-link');
+    if(link)link.addEventListener('click',()=>{
+      try {sessionStorage.setItem(CONFIRMED_FLAG,'1');}catch {}
+    },{once:true});
   }).catch(()=>{
-    title.textContent='Pagamento em verificação';
-    message.textContent='Ainda não foi possível confirmar a transação pelo servidor. Isso não significa que o pagamento falhou. Não pague novamente antes de conferir o comprovante ou entrar em contato com a loja.';
-  });
+    pending('Ainda não foi possível confirmar a transação pelo servidor. Isso não significa que o pagamento falhou. Confira o comprovante ou fale com a loja antes de pagar novamente.');
+  }).finally(()=>clearTimeout(limit));
 })();

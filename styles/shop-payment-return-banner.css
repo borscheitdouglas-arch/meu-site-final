@@ -1,0 +1,15 @@
+.shop-return-confirmation {
+ display:flex;align-items:center;justify-content:space-between;gap:14px;
+ max-width:1290px;margin:18px auto 14px;padding:14px 18px;
+ border:1px solid #bad4c2;border-left:4px solid #317c5e;
+ border-radius:8px;background:#ebf4ed;color:#214f3e;
+ box-shadow:0 6px 18px rgba(31,67,46,.06);
+ font:600 13px/1.6 'Inter',Arial,sans-serif;
+}
+.shop-return-confirmation button {
+ flex-shrink:0; min-width:32px;min-height:32px;
+ border:0;border-radius:5px;background:transparent;
+ color:#315d4c;font-size:22px;cursor:pointer;
+}
+.shop-return-confirmation button:hover{background:#d4e9da;}
+.shop-return-confirmation button:focus-visible{outline:3px solid #b7955d;outline-offset:2px;}
