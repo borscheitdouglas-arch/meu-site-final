@@ -1,6 +1,8 @@
 .shop-return-confirmation {
+ position:fixed;z-index:900;top:calc(var(--shop-header,88px) + 12px);
+ left:50%;transform:translateX(-50%);width:min(710px,calc(100% - 28px));
  display:flex;align-items:center;justify-content:space-between;gap:14px;
- max-width:1290px;margin:18px auto 14px;padding:14px 18px;
+ margin:0;padding:14px 18px;
  border:1px solid #bad4c2;border-left:4px solid #317c5e;
  border-radius:8px;background:#ebf4ed;color:#214f3e;
  box-shadow:0 6px 18px rgba(31,67,46,.06);
