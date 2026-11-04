@@ -1,0 +1,295 @@
+/* Correções móveis da loja Douglas Assumpção (2026-11-04).
+   Carregado por último. Não altera desktop, preços, frete, carrinho ou pagamentos. */
+
+/* Evita redimensionamento arbitrário de fontes pelo Safari ao girar o celular. */
+@media (max-width: 760px) {
+  html {-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+}
+
+/* Correção de uma coluna que expandia o catálogo da coleção no Safari em 320px. */
+@media (max-width: 620px) {
+  body.shop-shared-shell .cards {grid-template-columns:minmax(0,1fr);}
+  body.shop-shared-shell .cards > .product,
+  body.shop-shared-shell .cards .product-featured,
+  body.shop-shared-shell .cards .product-image-link,
+  body.shop-shared-shell .cards .product-content {min-width:0;max-width:100%;}
+  body.shop-shared-shell .cards img {max-width:100%;height:auto;}
+  body.shop-shared-shell .product-featured {grid-template-columns:minmax(0,1fr);}
+  body.shop-shared-shell .catalog {padding-block:44px 56px;}
+  body.shop-shared-shell .hero-copy {padding-block:38px 22px;}
+  body.shop-shared-shell .hero-art.collection-art {margin-inline:auto;max-width:100%;}
+}
+
+/* Cabeçalho de loja mais compacto em iPhone, sem esconder menu, busca ou carrinho. */
+@media (max-width: 540px) {
+  body.shop-shared-shell {
+    --shop-header:108px;
+    --header-height:108px;
+    padding-top:108px;
+  }
+  body.shop-shared-shell .shop-shared-header,
+  body.shop-manto.shop-shared-shell .shop-shared-header {
+    width:100%;
+    height:108px;
+    min-height:108px;
+    padding:8px 12px;
+    display:grid;
+    grid-template-columns:44px minmax(0,1fr) 44px;
+    grid-template-rows:46px 42px;
+    column-gap:10px;
+    row-gap:4px;
+    align-items:center;
+  }
+  body.shop-shared-shell .shop-shared-header .logo {
+    min-width:0;
+    max-width:100%;
+  }
+  body.shop-shared-shell .shop-shared-header .logo a {
+    min-width:0;
+    max-width:100%;
+    gap:7px;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-brand {
+    min-width:0;
+    font-size:clamp(15px,4.1vw,18px);
+    line-height:1.12;
+    overflow-wrap:normal;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-brand small {
+    font-size:7px;
+    line-height:1.4;
+    letter-spacing:.03em;
+    margin-top:3px;
+  }
+  body.shop-shared-shell .shop-shared-header .logo img {
+    width:30px;
+    height:30px;
+    flex:0 0 30px;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-search {
+    grid-column:1/-1;
+    grid-row:2;
+    width:100%;
+    min-width:0;
+    height:42px;
+    margin:0;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-search input {
+    font-size:16px;
+    height:40px;
+    padding:0 12px;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-search button {
+    min-width:44px;
+    width:44px;
+    height:40px;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link {
+    grid-column:3;
+    grid-row:1;
+    width:44px;
+    min-width:44px;
+    height:44px;
+    padding:0;
+  }
+  body.shop-shared-shell .shop-shared-header .menu-btn {
+    width:44px;
+    height:44px;
+  }
+  /* Movimentos involuntários de zoom ao focar campos de 14px no iPhone. */
+  body.checkout-multi-polished .checkout-grid input:not([type=radio]):not([type=checkbox]),
+  body.checkout-multi-polished .checkout-grid select,
+  body.shop-product-page .shop-single-form :is(input,select),
+  body.cart-polished :is(input,select),
+  body.shop-shared-shell .salve-quote input {
+    font-size:16px!important;
+  }
+}
+
+/* Vitrine: banner legível e cards compactos já no primeiro scroll. */
+@media (max-width: 600px) {
+  body.shop-manto .shop-hero {
+    height:auto;
+    min-height:0;
+    display:flex;
+    align-items:center;
+  }
+  body.shop-manto .shop-mantle-art {
+    width:100%;
+    height:100%;
+    object-position:60% center;
+  }
+  body.shop-manto .shop-hero-copy {
+    width:100%;
+    padding:42px 20px 45px;
+  }
+  body.shop-manto .shop-hero-copy .shop-kicker {
+    font-size:10px;
+    margin-bottom:12px;
+  }
+  body.shop-manto .shop-hero h1 {
+    font-size:clamp(37px,9.6vw,50px);
+    line-height:1.04;
+    max-width:520px;
+  }
+  body.shop-manto .shop-hero-copy > p:not(.shop-kicker) {
+    width:100%;
+    max-width:420px;
+    font-size:15px;
+    line-height:1.5;
+    margin-top:13px;
+  }
+  body.shop-manto .shop-hero-actions {
+    max-width:none;
+    margin:20px 0 0;
+    gap:9px;
+    align-items:stretch;
+  }
+  body.shop-manto .shop-hero .shop-button,
+  body.shop-manto .shop-hero-secondary {
+    min-height:44px;
+    padding:11px 16px;
+    font-size:11px;
+  }
+  body.shop-manto .shop-store-content {
+    padding-inline:12px;
+    min-width:0;
+  }
+  body.shop-manto #catalogo {
+    margin-top:14px;
+    padding:17px 9px 23px;
+  }
+  body.shop-manto #shop-product-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px 10px;
+    max-width:none;
+    width:100%;
+    margin:0;
+  }
+  body.shop-manto #shop-product-grid > :is(.shop-product-card,.atelier-catalog) {
+    min-width:0;
+    width:100%;
+    height:100%;
+    border-radius:9px;
+  }
+  body.shop-manto #shop-product-grid .shop-product-image,
+  body.shop-manto #shop-product-grid .atelier-product-art {
+    aspect-ratio:1;
+    min-width:0;
+  }
+  body.shop-manto #shop-product-grid .shop-product-info,
+  body.shop-manto #shop-product-grid .atelier-product-copy {
+    padding:10px 9px 11px;
+    min-width:0;
+  }
+  body.shop-manto #shop-product-grid .shop-product-info h3,
+  body.shop-manto #shop-product-grid .atelier-product h3 {
+    font-size:clamp(15px,4.15vw,18px);
+    line-height:1.15;
+    min-height:34px;
+    overflow-wrap:anywhere;
+  }
+  body.shop-manto #shop-product-grid .shop-product-variation {
+    gap:3px;
+    margin-bottom:6px;
+    font-size:10px;
+  }
+  body.shop-manto #shop-product-grid .shop-product-variation > span {
+    font-size:10px;
+    padding:3px 4px;
+  }
+  body.shop-manto #shop-product-grid .shop-price strong {font-size:19px;}
+  body.shop-manto #shop-product-grid .shop-cart-size {
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:5px;
+    min-width:0;
+  }
+  body.shop-manto #shop-product-grid .shop-cart-size select {
+    min-height:44px;
+    height:44px;
+    font-size:16px;
+  }
+  body.shop-manto #shop-product-grid :is(.shop-cart-add,.shop-product-action,a.atelier-buy-primary) {
+    min-height:44px;
+    font-size:11px;
+    padding:9px 6px;
+    overflow-wrap:anywhere;
+  }
+  body.shop-manto #shop-product-grid .shop-product-badge {
+    top:6px;
+    left:6px;
+    max-width:calc(100% - 12px);
+    padding:4px 5px;
+    font-size:9px;
+  }
+  /* Detalhe do produto: foto antes do texto, botões e frete acessíveis. */
+  body.shop-product-page .shop-single-main {
+    padding:16px 14px 40px!important;
+    min-width:0;
+  }
+  body.shop-product-page .shop-single-summary h1 {
+    font-size:clamp(29px,8vw,37px);
+    line-height:1.14;
+  }
+  body.shop-product-page .shop-single-gallery,
+  body.shop-product-page .shop-single-summary,
+  body.shop-product-page .shop-single-layout {
+    min-width:0;
+    max-width:100%;
+  }
+  body.shop-product-page .shop-single-imagebox {padding:9px;}
+  body.shop-product-page .shop-single-thumb {
+    min-width:56px;
+    min-height:56px;
+  }
+  body.shop-product-page .shop-single-shipping form > :is(input,button) {
+    flex:1 1 145px;
+    max-width:100%;
+    min-height:44px;
+  }
+  /* Carrinho e checkout mantêm campos confortáveis e ações tocáveis. */
+  body.cart-polished .shop-cart-page.container.editorial-main,
+  body.checkout-multi-polished main.checkout-multi-main {
+    padding-inline:12px;
+  }
+  body.cart-polished .shop-cart-page .cart-summary,
+  body.checkout-multi-polished .checkout-panel,
+  body.checkout-multi-polished .checkout-summary {
+    padding:17px 14px;
+  }
+  body.checkout-multi-polished .checkout-summary .pay,
+  body.cart-polished .cart-checkout-button,
+  body.cart-polished .cart-quantity-button {min-height:44px;}
+  body.checkout-multi-polished .checkout-grid {min-width:0;}
+  body.checkout-multi-polished .checkout-steps {
+    flex-wrap:wrap;
+    width:100%;
+    gap:7px 10px;
+    justify-content:flex-start;
+  }
+  body.checkout-multi-polished .checkout-steps li {white-space:normal;}
+}
+
+/* Telefones muito estreitos: um card por linha, evitando textos e selects espremidos. */
+@media (max-width: 359px) {
+  body.shop-shared-shell .shop-shared-header .logo img {display:none;}
+  body.shop-manto #shop-product-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:13px;
+    max-width:340px;
+    margin-inline:auto;
+  }
+  body.shop-manto #shop-product-grid .shop-product-info,
+  body.shop-manto #shop-product-grid .atelier-product-copy {padding:13px 14px;}
+  body.shop-manto #shop-product-grid .shop-product-info h3,
+  body.shop-manto #shop-product-grid .atelier-product h3 {font-size:19px;min-height:0;}
+}
+
+/* Evita animações pesadas enquanto se navega pelo catálogo em toque. */
+@media (hover:none) and (pointer:coarse) {
+  body.shop-manto #shop-product-grid .shop-product-image img,
+  body.shop-manto #shop-product-grid .atelier-product-art img {
+    transition:none;
+  }
+}
