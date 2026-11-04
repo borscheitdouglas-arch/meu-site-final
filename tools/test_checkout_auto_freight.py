@@ -110,6 +110,26 @@ def main() -> None:
         expect(pay).to_be_enabled(timeout=15000)
         assert not checkout_calls, "Testes de frete não podem cobrar"
         print("PASS: usuário consegue tentar novamente com CEP corrigido")
+
+        # O servidor simulado recusa o link. A loja NÃO pode apagar a cotação.
+        fields = {
+            "street": "Rua Exemplo", "number": "10",
+            "neighborhood": "Centro", "city": "Jundiaí", "state": "SP",
+            "name": "Cliente Teste", "email": "teste@example.com",
+            "phone": "11988887777", "taxId": "12345678909",
+        }
+        for field, value in fields.items():
+            page.locator('#checkout-multi-form [name="' + field + '"]').fill(value)
+        page.locator('#checkout-multi-form [name="confirm"]').check()
+        pay.click()
+        expect(page.locator("#checkout-multi-pay-status")).to_contain_text(
+            "Não foi possível iniciar o pagamento", timeout=15000
+        )
+        expect(pay).to_be_enabled()
+        expect(page.locator("#checkout-multi-total")).to_contain_text("235,34")
+        expect(page.locator("#checkout-multi-freight")).to_contain_text("15,54")
+        assert len(checkout_calls) == 1
+        print("PASS: erro do gateway preserva frete, total e botão de nova tentativa")
         browser.close()
 
 

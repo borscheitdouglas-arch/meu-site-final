@@ -236,17 +236,32 @@ form.addEventListener('submit',async event=>{
     const quote=options.find(x=>x.id===currentSelection);
     const expected=subtotal+Math.round(quote.shippingCost*100);
     if(!Number.isSafeInteger(data.totalCents)||data.totalCents!==expected){
-      payStatus.textContent='O frete foi atualizado. Confira o novo valor e tente novamente.';
-      resetQuotes();return;
+      resetQuotes();
+      quoteStatus.textContent='A cotação mudou. Calcule o frete novamente antes de pagar.';
+      payStatus.textContent='O valor do pedido foi atualizado pelo servidor. Nenhum pagamento foi iniciado.';
+      return;
     }
     const target=new URL(data.checkoutUrl);
     if(target.protocol!=='https:'||
       target.hostname!=='checkout.infinitepay.com.br')
       throw Error('bad_checkout_url');
+    payStatus.textContent='Abrindo o ambiente seguro da InfinitePay…';
     window.location.assign(target.href);
   }catch(e){
-    payStatus.textContent='Não foi possível abrir o pagamento. O pedido não foi cobrado. Consulte novamente o frete ou entre em contato.';
-    resetQuotes();
+    // Falhas do gateway NÃO invalidam a cotação de frete já aceita.
+    // O servidor só marca o pedido como aguardando pagamento após criar
+    // e salvar o link seguro, e não cobra pelo formulário do nosso site.
+    const details={
+      infinitepay_auth_failed:'A InfinitePay não autorizou a integração da loja. Não foi possível abrir o pagamento. Avise o responsável pela loja.',
+      infinitepay_request_rejected:'A InfinitePay recusou a solicitação de pagamento. O frete e o total foram preservados. A loja precisa revisar os dados da integração.',
+      infinitepay_provider_unavailable:'A InfinitePay está temporariamente indisponível. Seu frete permanece calculado. Tente novamente mais tarde.',
+      infinitepay_connection_failed:'Não foi possível conectar à InfinitePay agora. O frete continua calculado; tente novamente.',
+      infinitepay_response_invalid:'O endereço de pagamento recebido não passou na verificação de segurança. Nenhum redirecionamento foi realizado.',
+      checkout_persistence_failed:'A loja não conseguiu registrar o pagamento com segurança. Não tente pagar novamente até revisar a situação com a loja.',
+      bad_checkout_url:'O endereço de pagamento não passou na verificação de segurança.'
+    };
+    payStatus.textContent=details[e?.message]||
+      'Não foi possível iniciar o pagamento. O frete e o total continuam calculados. Confira a mensagem ou entre em contato com a loja.';
   }finally{payButton.disabled=!options.length;}
 });
 init();

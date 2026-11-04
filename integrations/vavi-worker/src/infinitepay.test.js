@@ -45,7 +45,7 @@ test('checkout bloqueia valores falsos e URLs externas',async()=>{
   await assert.rejects(()=>createInfinitePayCheckout({...args,shippingCents:1}),{code:'checkout_total_mismatch'});
   assert.equal(isInfinitePayCheckoutUrl('https://checkout.infinitepay.com.br.evil.com'),false);
   await assert.rejects(()=>createInfinitePayCheckout({...args,fetchImpl:async()=>({
-    ok:true,json:async()=>({url:'https://evil.example/pay'})})}),{code:'payment_provider_unavailable'});
+    ok:true,json:async()=>({url:'https://evil.example/pay'})})}),{code:'infinitepay_response_invalid'});
 });
 
 function dbStub(history){
@@ -119,4 +119,27 @@ test('webhook de reembolso não transforma pedido em pagamento aprovado',async()
   });
   assert.equal(result.processed,false);
   assert.equal(called,false);
+});
+
+
+test('HTTP 401, 403, 422 e 503 do gateway são identificados sem expor resposta',async()=>{
+  for(const [status,expected] of [
+    [401,'infinitepay_auth_failed'],
+    [403,'infinitepay_auth_failed'],
+    [422,'infinitepay_request_rejected'],
+    [400,'infinitepay_request_rejected'],
+    [503,'infinitepay_provider_unavailable']
+  ]){
+    await assert.rejects(
+      ()=>createInfinitePayCheckout({...args,fetchImpl:async()=>({
+        ok:false,status,json:async()=>({error:'dados privados ignorados'})
+      })}),
+      error=>{
+        assert.equal(error.code,expected);
+        assert.equal(error.providerHttpStatus,status);
+        assert.equal(String(error.message).includes('dados privados'),false);
+        return true;
+      }
+    );
+  }
 });
