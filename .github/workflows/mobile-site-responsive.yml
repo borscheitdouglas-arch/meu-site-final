@@ -1,0 +1,36 @@
+name: Auditoria responsiva mobile - loja e site
+on:
+  pull_request:
+    paths:
+      - "styles/**"
+      - "pages/loja.html"
+      - "pages/produto-loja.html"
+      - "pages/cart.html"
+      - "pages/checkout-carrinho.html"
+      - "pages/colecao-salve-regina.html"
+      - "pages/produtos-personalizados.html"
+      - "index.html"
+      - "tools/audit_mobile_responsive.py"
+      - ".github/workflows/mobile-site-responsive.yml"
+  push:
+    branches: [main]
+    paths:
+      - "styles/mobile-site-fixes.css"
+      - "tools/audit_mobile_responsive.py"
+permissions:
+  contents: read
+jobs:
+  mobile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Chromium and WebKit
+        run: |
+          python -m pip install playwright==1.60.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Audit seven pages at six screen sizes
+        run: AUDIT_STRICT=1 python tools/audit_mobile_responsive.py

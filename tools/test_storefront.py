@@ -160,7 +160,7 @@ def main():
                 expect(tiles).to_have_count(7)
                 boxes = [tile.bounding_box() for tile in tiles.all()]
                 columns = (6 if width > 1320 else 5 if width > 1080
-                           else 4 if width > 860 else 3 if width > 630 else 2)
+                           else 4 if width > 860 else 3 if width > 630 else 1 if width < 360 else 2)
                 assert sum(abs(box['y'] - boxes[0]['y']) < 2 for box in boxes) == columns
                 if width == 1440:
                     assert page.locator('.shop-hero').bounding_box()['height'] < 410
