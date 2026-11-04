@@ -754,7 +754,7 @@ function enhanceSacredMenu(nav) {
  if(window.DouglasShopInvitationLoader)return;
  window.DouglasShopInvitationLoader=true;
  const script=document.createElement('script');
- script.src='/scripts/shop-invitation.js?v=20261104-v1';
+ script.src='/scripts/shop-invitation.js?v=20261104-v2';
  script.async=true;
  document.head.appendChild(script);
 })();

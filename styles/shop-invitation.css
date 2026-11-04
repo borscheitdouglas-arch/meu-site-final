@@ -16,7 +16,7 @@
 .shop-invitation #si-description{max-width:420px;margin:0 auto 23px;color:#585348;font:400 13px/1.8 Inter,Arial,sans-serif;}
 .shop-invitation .si-primary{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:49px;padding:12px 16px;border:1px solid #19584c;border-radius:6px;background:#17594e;color:#fff7e7;text-decoration:none;font:700 13px/1.35 Inter,Arial,sans-serif;box-shadow:0 4px 12px rgba(9,60,50,.12);}
 .shop-invitation .si-primary:hover{background:#103e38;color:#fff7e7;}
-.shop-invitation .si-later{width:100%;min-height:44px;margin-top:9px;padding:10px 13px;border:1px solid #d2c19e;border-radius:6px;background:#fffdf8;color:#58472d;font:600 12px/1.4 Inter,Arial,sans-serif;cursor:pointer;}
+.shop-invitation .si-later{display:flex;align-items:center;justify-content:center;text-decoration:none;width:100%;min-height:44px;margin-top:9px;padding:10px 13px;border:1px solid #d2c19e;border-radius:6px;background:#fffdf8;color:#58472d;font:600 12px/1.4 Inter,Arial,sans-serif;cursor:pointer;}
 .shop-invitation .si-later:hover{background:#eee7d7;}
 .shop-invitation .si-signature{margin:17px 0 0;color:#9d8662;font:600 10px/1.4 Inter,Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;}
 .shop-invitation :is(button,a):focus-visible{outline:3px solid #b18a46;outline-offset:3px;}

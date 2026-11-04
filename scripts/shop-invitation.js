@@ -16,7 +16,7 @@
     if(seen())return;
     let styleReady=false, attempts=0;
     const sheet=document.createElement('link');
-    sheet.rel='stylesheet';sheet.href='/styles/shop-invitation.css?v=20261104-v1';
+    sheet.rel='stylesheet';sheet.href='/styles/shop-invitation.css?v=20261104-v2';
     sheet.onload=()=>{styleReady=true;};
     document.head.appendChild(sheet);
     const check=()=>{
@@ -36,11 +36,19 @@
         <p class="si-lead">A beleza da fé também no seu dia a dia.</p>
         <p id="si-description">Descubra a coleção <em>Salve Regina</em>: camisetas, canecas e ecobags inspiradas na beleza da música sacra.</p>
         <a class="si-primary" href="/pages/loja.html#catalogo">Visitar a loja <span aria-hidden="true">↗</span></a>
-        <button type="button" class="si-later">Continuar no site</button>
+        <a class="si-later" href="/pages/loja.html#catalogo" target="_blank" rel="noopener noreferrer" aria-label="Visitar depois: abrir a loja em uma nova aba">Visitar depois</a>
         <p class="si-signature">Música sacra · Arte · Tradição</p></div>`;
       const close=()=>{if(dialog.open)dialog.close();else dialog.remove();};
       dialog.querySelector('.si-close').addEventListener('click',close);
-      dialog.querySelector('.si-later').addEventListener('click',close);
+      // Deixar o navegador abrir a nova aba a partir do clique real.
+      // Fechar o modal após a ação padrão, sem navegar a página atual.
+      dialog.querySelector('.si-later').addEventListener('click',()=>{
+        setTimeout(()=>{
+          close();
+          // O foco é controlado pelo navegador; tentativa não garantida.
+          try{window.focus();}catch{}
+        },0);
+      });
       dialog.addEventListener('close',()=>dialog.remove(),{once:true});
       let outsideDown=false;
       const outside=e=>{const b=dialog.getBoundingClientRect();return e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom;};
