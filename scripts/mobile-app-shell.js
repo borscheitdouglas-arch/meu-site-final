@@ -10,6 +10,7 @@
   const ICONS = {
     menu: '<path d="M4 6.5h16M4 12h16M4 17.5h16"/>',
     shop: '<path d="M4 9h16l-1.5 12h-13L4 9Z"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+    home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v11h14V10M9 21v-7h6v7"/>',
     install: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 7v9m-4.5-4.5h9"/>',
     chevron: '<path d="m6 9 6 6 6-6"/>',
     cross: '<path d="M12 3v18M5 10h14"/>',
@@ -66,6 +67,11 @@
     brand.innerHTML='<img alt="" src="/assets/img/icone.png" width="30" height="30"><span>Douglas<br>Assumpção</span>';
     if(HOME) brand.setAttribute('aria-current','page');
 
+    const onShopPage=document.body.classList.contains('shop-shared-shell');
+    const homeShortcut=document.createElement('a');
+    homeShortcut.href='/index.html';homeShortcut.className='mobile-sacred-home-link';
+    homeShortcut.innerHTML=icon('home')+'<span>Início</span>';
+    homeShortcut.setAttribute('aria-label','Ir para a página inicial do site');
     const shopLink=document.createElement('a');
     shopLink.href='/pages/loja.html';shopLink.className='mobile-sacred-store-link';
     shopLink.innerHTML=icon('shop')+'<span>Loja</span>';
@@ -78,6 +84,7 @@
     installBtn.setAttribute('title','Adicionar à tela inicial');
     installBtn.innerHTML=icon('install');
     const actions=document.createElement('div');actions.className='mobile-sacred-actions';
+    if(onShopPage)actions.append(homeShortcut);
     actions.append(shopLink,installBtn);
     header.append(menuBtn,brand,actions);
     document.body.insertBefore(header,document.body.firstChild);

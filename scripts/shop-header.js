@@ -6,11 +6,11 @@
     const style = document.createElement('link');
     style.id = 'mobile-app-shell-css';
     style.rel = 'stylesheet';
-    style.href = '/styles/mobile-app-shell.css?v=20261105-sacred-gallery-v4';
+    style.href = '/styles/mobile-app-shell.css?v=20261105-shortcuts-v5';
     document.head.appendChild(style);
     const script = document.createElement('script');
     script.id = 'mobile-app-shell-script';
-    script.src = '/scripts/mobile-app-shell.js?v=20261105-sacred-gallery-v4';
+    script.src = '/scripts/mobile-app-shell.js?v=20261105-shortcuts-v5';
     document.body.appendChild(script);
   }
   loadMobileApp();
@@ -23,6 +23,21 @@
   function init() {
     const header = document.querySelector('.shop-shared-header');
     if (!header) return;
+    // Acessos diretos para a página principal e a vitrine.
+    if (!header.querySelector('.shop-header-shortcuts')) {
+      const shortcuts=document.createElement('nav');
+      shortcuts.className='shop-header-shortcuts';
+      shortcuts.setAttribute('aria-label','Navegação rápida');
+      for(const [label,href] of [['Início','/index.html'],['Loja','/pages/loja.html']]){
+        const link=document.createElement('a');
+        link.href=href;link.textContent=label;
+        if(location.pathname===href||(href==='/index.html'&&location.pathname==='/'))link.setAttribute('aria-current','page');
+        shortcuts.append(link);
+      }
+      const searchAnchor=header.querySelector('.shop-search');
+      if(searchAnchor)header.insertBefore(shortcuts,searchAnchor);
+      else header.append(shortcuts);
+    }
     const search = header.querySelector('.shop-search');
     if (search) search.hidden = false;
     // A busca enviada de outra página usa o filtro já existente no catálogo.

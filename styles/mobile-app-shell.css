@@ -703,3 +703,34 @@
     background:#f6e7cf!important;
   }
 }
+
+/* Dois atalhos acessíveis, visíveis no cabeçalho móvel da loja. */
+@media(max-width:767px) {
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions {gap:3px;}
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions .mobile-sacred-home-link,
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions .mobile-sacred-store-link {
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  width:46px;min-width:46px;height:50px;min-height:50px;
+  border:1px solid #c8a76c78;border-radius:8px;background:#12394a66;color:#f4d99c;
+  font:700 9px/1.15 'Inter',Arial,sans-serif;letter-spacing:.01em;text-transform:none;
+ }
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions .mobile-sacred-home-link svg,
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions .mobile-sacred-store-link svg {
+  width:21px;height:21px;
+ }
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions .mobile-sacred-store-link[aria-current="page"] {
+  border-color:#e4c587;background:#d5b97c;color:#183139;
+ }
+}
+@media(max-width:425px) {
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-brand {max-width:44px;width:44px;}
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-brand span {display:none;}
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-brand img {width:32px;height:32px;flex-basis:32px;}
+}
+@media(max-width:360px) {
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions .mobile-sacred-home-link,
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-actions .mobile-sacred-store-link {
+  min-width:42px;width:42px;
+ }
+ body.mobile-sacred-active.shop-shared-shell .mobile-sacred-install-trigger {width:38px;min-width:38px;flex-basis:38px;}
+}
