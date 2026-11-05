@@ -220,8 +220,8 @@
           if(i!==0)figure.inert=true;
           const img=document.createElement('img');
           img.src=art.src;img.alt=art.alt;img.decoding='async';
-          img.loading=i===0?'eager':'lazy';
-          if(i===0)img.fetchPriority='high';
+          img.loading='eager';
+          img.fetchPriority=i===0?'high':'low';
           img.width=844;img.height=1500;
           figure.append(img);
           welcome.append(figure);
