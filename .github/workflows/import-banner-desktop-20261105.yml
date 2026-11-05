@@ -1,0 +1,27 @@
+name: Importar arte do banner desktop (uso único)
+on:
+  push:
+    branches: [feature/home-desktop-maria-jose-wide-20261105]
+    paths:
+      - .github/workflows/import-banner-desktop-20261105.yml
+permissions:
+  contents: write
+jobs:
+  import-banner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Importar PNG original sem recompressão
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/img
+          curl -L --fail --silent --show-error --retry 4 --max-time 100 'https://at.adobe.com/qeoqS29zLEQJmAbT' -o assets/img/home-desktop-maria-jose-wide-20261105.png
+          echo '9390c9d503a28c22bd474808f55dfacc5b8a41968e25465f5c74d16c8e298ba6  assets/img/home-desktop-maria-jose-wide-20261105.png' | sha256sum -c -
+          file assets/img/home-desktop-maria-jose-wide-20261105.png
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/img/home-desktop-maria-jose-wide-20261105.png
+          git commit -m 'assets(home): import wide devotional desktop art in original PNG quality'
+          git push origin HEAD:feature/home-desktop-maria-jose-wide-20261105
