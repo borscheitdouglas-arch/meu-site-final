@@ -439,3 +439,122 @@
 @media (prefers-reduced-motion:reduce) {
   .mobile-sacred-category summary::after {transition:none!important}
 }
+
+
+/* Duas artes originais do usuário na HOME MOBILE; nenhuma alteração desktop. */
+@media (max-width:767px) {
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome.mobile-sacred-art-gallery {
+    display:block!important;
+    position:relative;
+    isolation:isolate;
+    width:100%;
+    height:100%;
+    min-height:0;
+    max-height:100%;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+    background:#080e16;
+    border:0;
+    touch-action:pan-y;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame {
+    display:block;
+    position:absolute;
+    inset:0;
+    z-index:1;
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .5s ease, visibility .5s ease;
+    background:#091420 url('/assets/img/mobile/manto-mariano-textura.svg') center/cover no-repeat;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-active {
+    z-index:2;
+    opacity:1;
+    visibility:visible;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame img {
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center center;
+    background:#091420;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame::after {
+    content:'';
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(180deg,rgba(3,8,15,.25) 0%,transparent 20%,transparent 80%,rgba(3,8,15,.37) 100%);
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-controls {
+    position:absolute;
+    z-index:5;
+    left:50%;
+    bottom:calc(14px + env(safe-area-inset-bottom, 0px));
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    min-height:44px;
+    border:1px solid rgba(218,178,107,.35);
+    border-radius:99px;
+    padding:0 9px;
+    background:rgba(6,13,20,.58);
+    box-shadow:0 4px 19px rgba(0,0,0,.24);
+    -webkit-backdrop-filter:blur(5px);
+    backdrop-filter:blur(5px);
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-dot {
+    display:grid;
+    place-items:center;
+    flex:0 0 45px;
+    width:45px;
+    min-width:45px;
+    height:44px;
+    min-height:44px;
+    border:0;
+    border-radius:99px;
+    margin:0;
+    padding:0;
+    background:transparent;
+    color:#eed5a2;
+    box-shadow:none;
+    cursor:pointer;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-dot::before {
+    content:'';
+    display:block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    border:1px solid #ebd19e;
+    background:transparent;
+    transition:background-color .2s ease, transform .2s ease;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-dot[aria-pressed="true"]::before {
+    transform:scale(1.25);
+    background:#f1d9a4;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-status {
+    position:absolute!important;
+    width:1px!important;
+    height:1px!important;
+    overflow:hidden!important;
+    clip-path:inset(50%)!important;
+    white-space:nowrap;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .mobile-sacred-art-frame,
+  .mobile-sacred-art-dot::before {
+    transition:none!important;
+  }
+}
