@@ -90,23 +90,12 @@
       '<h2>Menu</h2></div>'+
       '<button type="button" class="mobile-sacred-close" aria-label="Fechar menu">×</button></div>';
     const scroll=document.createElement('div');scroll.className='mobile-sacred-menu-scroll';
-    const quick=document.createElement('nav');
-    quick.className='mobile-sacred-quick';quick.setAttribute('aria-label','Páginas principais');
-    [
-      ['Início','/index.html'],['Formações','/pages/formacoes.html'],
-      ['Loja','/pages/loja.html'],['Coleção Salve Regina','/pages/colecao-salve-regina.html'],
-      ['Meu carrinho','/pages/cart.html'],['Apoiar o projeto','/pages/doacao.html'],
-      ['Contato','/pages/contato.html'],['Entregas e trocas','/pages/condicoes-da-loja.html']
-    ].forEach(([name,url])=>quick.append(link(name,url)));
-    scroll.append(quick);
-    const divider=document.createElement('div');divider.className='mobile-sacred-menu-divider';
-    divider.innerHTML='<span>✦</span><strong>Repertório litúrgico</strong><span>✦</span>';
-    scroll.append(divider);
-    const search=document.createElement('input');
-    search.className='mobile-sacred-menu-search';search.type='search';
-    search.setAttribute('aria-label','Buscar tempo litúrgico ou canto');
-    search.placeholder='Buscar tempo, domingo ou canto…';search.autocomplete='off';
-    scroll.append(search);
+    // O menu móvel mostra somente a navegação litúrgica: os demais
+    // destinos continuam acessíveis por seus próprios links/páginas.
+    const menuLabel=document.createElement('p');
+    menuLabel.className='mobile-sacred-menu-caption';
+    menuLabel.textContent='Repertório litúrgico';
+    scroll.append(menuLabel);
     const groupsHost=document.createElement('nav');groupsHost.className='mobile-sacred-groups';
     groupsHost.setAttribute('aria-label','Tempos litúrgicos e ordinário da Missa');
     scroll.append(groupsHost);
@@ -134,7 +123,14 @@
     const groups=[];
     function populateMenu(source) {
       if(!source || groups.length) return;
-      [...source.children].forEach((li,index)=>{
+      const order=['Tempo Comum','Advento','Natal','Quaresma','Páscoa','Festas e Solenidades','Ordinário da missa'];
+      const candidates=[...source.children];
+      candidates.sort((a,b)=>{
+        const title=li=>safeText(li.querySelector('summary')||li).toLowerCase();
+        const rank=li=>{const idx=order.findIndex(name=>name.toLowerCase()===title(li));return idx===-1?99:idx;};
+        return rank(a)-rank(b);
+      });
+      candidates.forEach((li,index)=>{
         const summary=li.querySelector('details > summary');
         if(!summary) return;
         const items=[...li.querySelectorAll('details ul a[href]')];
@@ -142,9 +138,8 @@
         const details=document.createElement('details');
         details.className='mobile-sacred-category';
         const summaryNew=document.createElement('summary');
-        const heading=document.createElement('span');heading.textContent=safeText(summary);
-        const count=document.createElement('small');count.textContent=String(items.length);
-        summaryNew.append(heading,count);
+        summaryNew.textContent=safeText(summary);
+        summaryNew.setAttribute('aria-label','Expandir '+safeText(summary));
         const choices=document.createElement('div');choices.className='mobile-sacred-choices';
         items.forEach(item=>{
           const href=item.getAttribute('href');
@@ -157,32 +152,6 @@
       const loading=groupsHost.querySelector('.mobile-sacred-loading');
       if(loading) loading.remove();
     }
-    const normalize=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-    search.addEventListener('input',()=>{
-      const query=normalize(search.value.trim());
-      let visible=0;
-      groups.forEach(({details,title,choices})=>{
-        const all=normalize(title).includes(query);
-        let matching=0;
-        choices.forEach(a=>{
-          const show=!query||all||normalize(a.textContent).includes(query);
-          a.hidden=!show;
-          if(show)matching++;
-        });
-        details.hidden=matching===0;
-        if(query && matching)details.open=true;
-        if(!query)details.open=false;
-        visible+=matching;
-      });
-      let nothing=groupsHost.querySelector('.mobile-sacred-no-results');
-      if(!nothing){
-        nothing=document.createElement('p');
-        nothing.className='mobile-sacred-no-results';
-        nothing.textContent='Nenhuma página encontrada. Experimente outra expressão.';
-        groupsHost.append(nothing);
-      }
-      nothing.hidden=visible!==0;
-    });
     const nativeSource=document.querySelector('#side-nav > ul');
     if(nativeSource)populateMenu(nativeSource);
     else {
@@ -245,11 +214,8 @@
           '<h1 id="mobile-sacred-title">A beleza que conduz à oração.</h1>'+
           '<div class="mobile-sacred-welcome-ornament" aria-hidden="true">✦ ─── ✧ ─── ✦</div>'+
           '<p>Repertório litúrgico, cantos e reflexões para acompanhar cada tempo do ano.</p>'+
-          '<div class="mobile-sacred-welcome-actions">'+
-          '<button type="button" class="mobile-sacred-explore">Explorar repertório</button>'+
-          '<a href="/pages/loja.html">Conhecer a loja</a></div>';
+          '<p class="mobile-sacred-home-signature">Ad Maiorem Dei Gloriam</p>';
         main.insertBefore(welcome,main.firstChild);
-        welcome.querySelector('.mobile-sacred-explore').addEventListener('click',openMenu);
       }
     }
 
