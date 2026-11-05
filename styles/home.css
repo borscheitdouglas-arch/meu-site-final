@@ -188,3 +188,60 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
     mask-image: none;
   }
 }
+
+/* 05/11/2026 — hero exclusivo para desktop: imagem panorâmica sem cortes,
+   largura completa e transição ao fundo escuro; mobile intacto. */
+@media (min-width: 768px) {
+  .home-page .hero-banner {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 76px 0 0;
+    overflow: hidden;
+    background: #151715;
+  }
+  .home-page .hero-banner .hero-inner {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background: #151715;
+  }
+  .home-page .hero-banner .home-hero-picture {
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .home-page .hero-banner .capa-superior {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center center;
+    mix-blend-mode: normal;
+    -webkit-mask-image: none;
+    mask-image: none;
+    border: 0;
+    border-radius: 0;
+  }
+  .home-page .hero-banner .home-hero-picture::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 16%;
+    background: linear-gradient(to bottom,
+      rgba(21,23,21,0) 0%,
+      rgba(21,23,21,.14) 45%,
+      rgba(21,23,21,.69) 80%,
+      #151715 100%);
+    pointer-events: none;
+  }
+}
