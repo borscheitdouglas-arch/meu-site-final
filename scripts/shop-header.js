@@ -6,11 +6,11 @@
     const style = document.createElement('link');
     style.id = 'mobile-app-shell-css';
     style.rel = 'stylesheet';
-    style.href = '/styles/mobile-app-shell.css?v=20261105-shortcuts-v5';
+    style.href = '/styles/mobile-app-shell.css?v=20261105-mobile-menu-spectral-v17';
     document.head.appendChild(style);
     const script = document.createElement('script');
     script.id = 'mobile-app-shell-script';
-    script.src = '/scripts/mobile-app-shell.js?v=20261105-shortcuts-v5';
+    script.src = '/scripts/mobile-app-shell.js?v=20261105-mobile-menu-spectral-v17';
     document.body.appendChild(script);
   }
   loadMobileApp();
