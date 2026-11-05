@@ -213,6 +213,28 @@
       m.content='Douglas Assumpção';document.head.append(m);
     }
 
+    // Busca da loja continua acessível mesmo com o cabeçalho desktop oculto.
+    if(pathname==='/pages/loja.html') {
+      const catalog=document.getElementById('catalogo');
+      if(catalog) {
+        const form=document.createElement('form');
+        form.className='mobile-lit-store-search';
+        form.setAttribute('role','search');
+        form.setAttribute('aria-label','Buscar produtos da loja');
+        form.method='get';
+        form.action='/pages/loja.html#catalogo';
+        const input=document.createElement('input');
+        input.type='search';input.name='q';input.maxLength=100;
+        input.placeholder='Buscar na loja…';
+        input.setAttribute('aria-label','Buscar produtos');
+        input.value=new URLSearchParams(location.search).get('q')?.slice(0,100)||'';
+        const submit=document.createElement('button');
+        submit.type='submit';submit.textContent='Buscar';
+        form.append(input,submit);
+        catalog.parentNode.insertBefore(form,catalog);
+      }
+    }
+
     if(isHome){
       const main=document.querySelector('main.editorial-main');
       if(main){
