@@ -7,11 +7,11 @@
     const style = document.createElement('link');
     style.id = 'mobile-app-shell-css';
     style.rel = 'stylesheet';
-    style.href = '/styles/mobile-app-shell.css?v=20261104-sacred-v2';
+    style.href = '/styles/mobile-app-shell.css?v=20261105-home-fixed-v3';
     document.head.appendChild(style);
     const script = document.createElement('script');
     script.id = 'mobile-app-shell-script';
-    script.src = '/scripts/mobile-app-shell.js?v=20261104-sacred-v2';
+    script.src = '/scripts/mobile-app-shell.js?v=20261105-home-fixed-v3';
     document.body.appendChild(script);
   }
   loadMobileApp();
