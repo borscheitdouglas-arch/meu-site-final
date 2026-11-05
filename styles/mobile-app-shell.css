@@ -780,3 +780,28 @@
     border-radius:0!important;
   }
 }
+
+
+/* 05/11/2026: arte Adobe com proporção refinada, bordas ornamentais contínuas.
+   Remove o letterbox do primeiro quadro em diferentes alturas do Safari. */
+@media(max-width:767px) {
+ body.mobile-sacred-active.home-page .mobile-sacred-art-gallery .mobile-sacred-art-frame.is-manuscript {
+   inset:0!important;
+   width:100%!important;
+   height:100%!important;
+   overflow:hidden!important;
+   background:#f8e7c9!important;
+ }
+ body.mobile-sacred-active.home-page .mobile-sacred-art-gallery .mobile-sacred-art-frame.is-manuscript img {
+   display:block!important;
+   inset:auto!important;
+   width:100%!important;
+   height:100%!important;
+   min-width:100%!important;
+   max-width:none!important;
+   object-fit:fill!important;
+   object-position:50% 50%!important;
+   border:0!important;
+   border-radius:0!important;
+ }
+}
