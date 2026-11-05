@@ -1,0 +1,27 @@
+name: Transferir PNG panorâmico de versão anterior (uso único)
+on:
+  push:
+    branches: [feature/home-desktop-short-panorama-synced-20261105]
+    paths:
+      - .github/workflows/transfer-desktop-panorama-20261105.yml
+permissions:
+  contents: write
+jobs:
+  import-art:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trazer a arte original já verificada do ramo anterior
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin feature/home-desktop-short-panorama-20261105
+          mkdir -p assets/img
+          git show FETCH_HEAD:assets/img/banner-desktop-maria-jose-panoramico-20261105.png > assets/img/banner-desktop-maria-jose-panoramico-20261105.png
+          echo '734ef966fc2a6dbf7ff5a4bd82f0f67ecb8d6c1dd0654d01cd8b326d86cd9bd0  assets/img/banner-desktop-maria-jose-panoramico-20261105.png' | sha256sum -c -
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/img/banner-desktop-maria-jose-panoramico-20261105.png
+          git commit -m 'assets(home): preserve panoramic artwork 2397x916 lossless'
+          git push origin HEAD:feature/home-desktop-short-panorama-synced-20261105
