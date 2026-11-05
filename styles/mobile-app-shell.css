@@ -1,115 +1,174 @@
-/* Experiência mobile — identidade mariana, navegação de aplicativo.
-   Toda alteração visual está isolada até 767px. Desktop permanece inalterado. */
-.mobile-app-bar,.mobile-app-drawer,.mobile-app-welcome {display:none}
+/* Site Douglas Assumpção — experiência mobile inspirada na liturgia.
+   Os estilos abaixo não são aplicados à versão desktop (>=768px).
+   Não modifica a interface dos meios de pagamento nem a integração com a loja. */
+.mobile-lit-header,.mobile-lit-drawer,.mobile-lit-install-dialog,.mobile-lit-home-intro {display:none}
 @media (max-width:767px) {
-  html {scroll-padding-bottom:94px}
-  body.mobile-app-active {
-    padding-bottom:calc(78px + env(safe-area-inset-bottom,0px));
+  :root {--mobile-lit-ink:#0b202d;--mobile-lit-gold:#d6b978;--mobile-lit-cream:#f3e8cd}
+  html {scroll-padding-top:calc(78px + env(safe-area-inset-top,0px));scroll-padding-bottom:15px}
+  body.mobile-lit-active,
+  body.mobile-lit-active.shop-shared-shell {
+    padding-top:calc(70px + env(safe-area-inset-top,0px))!important;
+    padding-bottom:0!important;
     -webkit-tap-highlight-color:transparent;
   }
-  body.mobile-app-active .editorial-main {min-width:0}
-  body.mobile-app-active a:focus-visible,
-  body.mobile-app-active button:focus-visible,
-  body.mobile-app-active input:focus-visible {outline:3px solid #e6c688;outline-offset:3px}
-  .mobile-app-bar {
-    display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-    align-items:start;position:fixed;inset:auto 0 0;z-index:1100;
-    width:100%;height:calc(72px + env(safe-area-inset-bottom,0px));
-    padding:5px 6px calc(5px + env(safe-area-inset-bottom,0px));
-    border-top:1px solid #c4a26882;
-    background:linear-gradient(145deg,rgba(6,39,45,.99),rgba(9,48,54,.99));
-    box-shadow:0 -9px 32px #020d1190;
-    font-family:'Inter',Arial,sans-serif;
-    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  body.mobile-lit-active .site-header,
+  body.mobile-lit-active.shop-shared-shell .site-header.shop-shared-header,
+  body.mobile-lit-active .mobile-app-bar,
+  body.mobile-lit-active .mobile-app-welcome {display:none!important}
+  body.mobile-lit-active :is(a,button,summary,input):focus-visible {outline:3px solid #e7c985;outline-offset:3px}
+  .mobile-lit-header {
+    position:fixed;inset:0 0 auto;z-index:1050;
+    display:grid;grid-template-columns:44px minmax(0,1fr) 56px 44px;align-items:center;
+    column-gap:7px;width:100%;height:calc(70px + env(safe-area-inset-top,0px));
+    padding:calc(5px + env(safe-area-inset-top,0px)) 12px 5px;
+    background:linear-gradient(120deg,#051621,#092938 55%,#071a28);
+    border-bottom:1px solid #c49f58;
+    box-shadow:0 3px 17px rgba(0,0,0,.4);
+    color:var(--mobile-lit-gold);font-family:'Inter',Arial,sans-serif;
   }
-  .mobile-app-bar :is(a,button) {
-    position:relative;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;gap:3px;min-width:0;min-height:60px;margin:0;padding:5px 1px;
-    border:0;border-radius:12px;background:transparent;box-shadow:none;
-    color:#e5decf;text-align:center;text-decoration:none;
-    font:500 10px/1.15 'Inter',Arial,sans-serif;letter-spacing:0;cursor:pointer;
+  .mobile-lit-header :is(button,a) {min-width:0;margin:0;border:0;box-shadow:none;text-decoration:none}
+  .mobile-lit-menu-trigger,.mobile-lit-install {
+    display:grid;place-items:center;width:44px;height:46px;padding:0;
+    background:transparent;color:var(--mobile-lit-gold);border-radius:6px;
+    cursor:pointer;
   }
-  .mobile-app-bar :is(a,button):is([aria-current="page"],[aria-pressed="true"]) {
-    color:#ffe1a3;background:#b78b3d2b;
+  .mobile-lit-header svg {display:block;width:24px;height:24px;flex:0 0 auto}
+  .mobile-lit-header :is(button,a):active {background:#d6b9781b}
+  .mobile-lit-brand {
+    display:flex;justify-content:center;align-items:center;gap:5px;
+    width:100%;min-width:0;height:52px;color:#f0dba7!important;
+    font:500 clamp(14px,3.7vw,19px)/1.02 'Spectral',Georgia,serif;
+    text-align:left;white-space:normal;letter-spacing:-.015em;
   }
-  .mobile-app-bar :is(a,button):active {background:#d5b47438}
-  .mobile-app-bar svg {flex-shrink:0;display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-  .mobile-app-badge {
-    position:absolute;top:1px;left:calc(50% + 9px);display:grid;place-items:center;
-    min-width:17px;height:17px;padding:0 4px;border:2px solid #08343b;
-    border-radius:99px;background:#e6c586;color:#122d30;font:700 10px/1 'Inter',sans-serif;
+  .mobile-lit-brand img {display:block;width:29px;height:29px;flex:0 0 29px;object-fit:contain}
+  .mobile-lit-brand span {display:block;min-width:0}
+  .mobile-lit-brand em {display:block;font-style:normal}
+  .mobile-lit-shop {
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;
+    min-height:50px;padding:2px 0;color:var(--mobile-lit-gold)!important;
+    background:transparent;border-radius:6px;
+    font:600 9px/1.4 'Inter',Arial,sans-serif;letter-spacing:.08em;
   }
-  .mobile-app-badge[hidden] {display:none}
-  .mobile-app-drawer[open] {
-    display:flex;flex-direction:column;position:fixed;inset:auto 0 0;z-index:1200;
-    width:100%;max-width:none;max-height:min(88dvh,770px);margin:0;
-    padding:0 0 env(safe-area-inset-bottom,0px);border:1px solid #b89a61;
-    border-bottom:0;border-radius:23px 23px 0 0;outline:0;
-    background:#112c30;color:#f5efdf;box-shadow:0 -20px 60px #0008;
-    font-family:'Inter',Arial,sans-serif;
+  .mobile-lit-shop svg {width:22px;height:22px}
+  .mobile-lit-install {border-left:1px solid #c49f5866!important;border-radius:0}
+  .mobile-lit-drawer[open] {
+    display:flex;position:fixed;inset:0 auto 0 0;z-index:1200;
+    flex-direction:column;width:min(365px,91vw);max-width:91vw;
+    height:100dvh;max-height:100dvh;margin:0;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);
+    border:0;border-right:1px solid #bf9b60;
+    border-radius:0 19px 19px 0;outline:none;
+    color:#f0e2c3;
+    background-image:linear-gradient(175deg,rgba(5,20,31,.96),rgba(8,34,44,.94) 60%,rgba(15,38,49,.91)),url('/assets/img/1.jpg');
+    background-position:center,center;background-size:cover;
+    font:400 15px/1.5 'Inter',Arial,sans-serif;
+    box-shadow:18px 0 45px #0009;overflow:hidden;
   }
-  .mobile-app-drawer::backdrop {background:rgba(4,12,15,.70);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-  .mobile-app-sheet-head {display:flex;justify-content:space-between;align-items:center;gap:12px;padding:19px 18px 12px;border-bottom:1px solid #d8bd8140}
-  .mobile-app-sheet-head h2 {margin:2px 0 0;color:#f7eedc;font:600 27px/1.2 'Spectral',Georgia,serif}
-  .mobile-app-eyebrow {margin:0;color:#d4b578;font:700 10px/1.4 'Inter',Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase}
-  .mobile-app-sheet-close {display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border:1px solid #bba37470;border-radius:50%;background:#ffffff09;color:#f7eedc;font:28px/1 Arial;cursor:pointer}
-  .mobile-app-sheet-scroll {min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:15px 17px 28px;scroll-padding-top:20px}
-  .mobile-app-sheet-label {display:block;margin:0 0 7px;color:#e1d4ba;font:600 12px/1.4 'Inter',Arial,sans-serif}
-  .mobile-app-filter {width:100%;min-height:48px;margin:0 0 14px;padding:0 16px;border:1px solid #c5af87;border-radius:13px;background:#f5f1e8;color:#173138;box-shadow:none;font:400 16px/1.2 'Inter',Arial,sans-serif;color-scheme:light}
-  .mobile-app-categories {display:flex;gap:8px;overflow-x:auto;padding:0 0 14px;scrollbar-width:none}
-  .mobile-app-categories button {flex:0 0 auto;min-height:40px;margin:0;padding:0 14px;border:1px solid #bda46d77;border-radius:30px;background:#173b41;color:#f3e6cc;font:600 12px/1.3 'Inter',Arial,sans-serif}
-  .mobile-app-group {margin:10px 0 23px}
-  .mobile-app-group h3 {margin:0 0 10px;color:#e6c586;font:600 18px/1.4 'Spectral',Georgia,serif}
-  .mobile-app-group-links {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .mobile-app-group-links a,.mobile-app-menu-links a,.mobile-app-menu-links button {
-    display:flex;align-items:center;min-width:0;min-height:46px;padding:12px 13px;
-    border:1px solid #d0b77e43;border-radius:12px;background:#ffffff09;
-    color:#eee9dc;text-align:left;text-decoration:none;
-    font:500 13px/1.35 'Inter',Arial,sans-serif;overflow-wrap:anywhere;
+  .mobile-lit-drawer::backdrop {background:#050c13ad;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+  .mobile-lit-drawer-head {display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 auto;padding:16px 15px;border-bottom:1px solid #d2b57564}
+  .mobile-lit-drawer-brand {display:flex;align-items:center;gap:9px;min-width:0;color:#eedebc;text-decoration:none;font:500 19px/1.2 'Spectral',Georgia,serif}
+  .mobile-lit-drawer-brand img {flex:0 0 38px;width:38px;height:38px;object-fit:contain}
+  .mobile-lit-drawer-brand small {display:block;color:#c7b58d;font:500 9px/1.5 'Inter',Arial,sans-serif;letter-spacing:.08em;margin-top:3px}
+  .mobile-lit-close {display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;border:1px solid #c5a3658c;border-radius:50%;background:#ffffff0a;color:#e8cc89;cursor:pointer}
+  .mobile-lit-close svg {width:21px;height:21px}
+  .mobile-lit-drawer-scroll {display:block;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:14px 17px 38px}
+  .mobile-lit-overline {display:block;margin:14px 4px 9px;color:#c9a968;font:600 10px/1.4 'Inter',Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+  .mobile-lit-main-link,.mobile-lit-season summary {
+    display:flex;justify-content:space-between;align-items:center;min-height:49px;
+    margin:0;padding:10px 12px 10px 8px;border:0;border-bottom:1px solid #b99b593b;
+    color:#eee2c6!important;text-decoration:none;
+    font:500 22px/1.22 'EB Garamond',Georgia,serif;cursor:pointer;
   }
-  .mobile-app-menu-links {display:grid;gap:9px}
-  .mobile-app-menu-links button {width:100%;cursor:pointer}
-  .mobile-app-empty {padding:12px;color:#efe1c5;font:400 14px/1.5 'Inter',Arial,sans-serif}
-  .mobile-app-drawer [hidden] {display:none!important}
-  /* Páginas de repertório: leitura sem colunas comprimidas e ações fáceis de tocar. */
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-main {padding-left:16px;padding-right:16px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-heading {margin-top:18px;margin-bottom:20px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-breadcrumb {gap:6px;margin-bottom:15px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-empty-copy {padding:22px 16px 27px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-resources {grid-template-columns:minmax(0,1fr);padding:12px 15px 20px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .repertoire-unified .card {width:100%;max-width:100%}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .repertoire-unified .card-link {min-height:44px}
-  /* Abertura de aplicativo na home: atalhos reais para o conteúdo existente. */
-  body.home-page .mobile-app-welcome {
-    display:block;margin:16px 0 22px;padding:20px 15px 17px;
-    border:1px solid #bca16d79;border-radius:18px;
-    background:linear-gradient(140deg,#17333a,#112528 78%);
-    box-shadow:0 9px 28px #040d104f;
+  .mobile-lit-main-link[aria-current="page"],.mobile-lit-page-link[aria-current="page"] {color:#f7ce76!important;background:#d6b97816;border-radius:6px}
+  .mobile-lit-season {display:block;margin:0;border:0}
+  .mobile-lit-season summary {list-style:none}
+  .mobile-lit-season summary::-webkit-details-marker {display:none}
+  .mobile-lit-season summary::after {content:'+';font:400 25px/1 Georgia,serif;color:#d6b978;margin-left:8px}
+  .mobile-lit-season[open] summary::after {content:'−'}
+  .mobile-lit-season-children {display:grid;gap:2px;padding:6px 4px 9px 15px;border-left:1px solid #ba9d596b;margin:0 0 5px 11px}
+  .mobile-lit-page-link {display:block;min-height:42px;padding:10px 8px;border-radius:4px;color:#e8dbc1;text-decoration:none;font:400 14px/1.4 'Inter',Arial,sans-serif}
+  .mobile-lit-page-link:active {background:#d6b97823}
+  .mobile-lit-loading {color:#ddcdac;padding:9px 8px;font:13px/1.5 'Inter',Arial,sans-serif}
+  .mobile-lit-flourish {padding:18px 0 10px;text-align:center;color:#d6b978;letter-spacing:20px;font-size:20px}
+  .mobile-lit-install-dialog[open] {
+    display:block;position:fixed;inset:0;z-index:1300;
+    width:min(390px,calc(100% - 28px));max-width:390px;
+    max-height:calc(100dvh - 60px);margin:auto;padding:0;
+    border:1px solid #d6b978;border-radius:18px;
+    background:#102b36;color:#f1e6cc;
+    box-shadow:0 23px 70px #0009;overflow:auto;
   }
-  .mobile-app-welcome h2 {margin:5px 0 7px!important;color:#f7ecd4!important;font:600 27px/1.17 'Spectral',Georgia,serif!important}
-  .mobile-app-welcome > p:not(.mobile-app-eyebrow) {margin:0 0 17px;color:#cfc9bd;font:400 13px/1.6 'Inter',Arial,sans-serif}
-  .mobile-app-quick-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .mobile-app-quick-grid :is(a,button) {display:flex;gap:10px;align-items:center;justify-content:flex-start;min-height:58px;min-width:0;padding:12px 11px;border:1px solid #d2b5756b;border-radius:13px;background:#f2ece0;color:#18353a;text-align:left;text-decoration:none;font:600 13px/1.35 'Inter',Arial,sans-serif;cursor:pointer}
-  .mobile-app-quick-grid svg {width:22px;height:22px;flex:0 0 22px;stroke:#7b5a2e;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  body.mobile-app-active.home-page .home-section-heading {padding-top:18px}
-  body.mobile-app-active.home-page #recent-content-carousel .lit-card {min-height:360px}
-  body.mobile-app-active.home-page #recent-content-carousel .lit-card-content {max-width:92%;padding:36px 16px 90px}
-  body.mobile-app-active.home-page #recent-content-carousel h3 {font-size:clamp(22px,6.5vw,31px)}
-  /* Loja: raio, espaçamento e campos legíveis sem interferir no checkout. */
-  body.mobile-app-active.shop-manto #catalogo {border-radius:16px}
-  body.mobile-app-active.shop-manto #shop-product-grid > :is(.shop-product-card,.atelier-catalog) {border-radius:14px;overflow:hidden}
-  body.mobile-app-active.shop-manto #shop-product-grid .shop-product-info {display:flex;flex-direction:column;gap:6px}
-  body.mobile-app-active.shop-manto #shop-product-grid .shop-cart-add {border-radius:9px}
-  body.mobile-app-active.shop-shared-shell .shop-shared-header {box-shadow:0 4px 20px #020d1166}
-  body.mobile-app-active :is(.shop-cart-page,.checkout-multi-main) {padding-bottom:25px}
-  body.mobile-app-active :is(.shop-cart-page,.checkout-multi-main) input:not([type=checkbox]):not([type=radio]),
-  body.mobile-app-active :is(.shop-cart-page,.checkout-multi-main) select {font-size:16px}
+  .mobile-lit-install-dialog::backdrop {background:#040c12c9}
+  .mobile-lit-install-inner {position:relative;padding:30px 23px 25px;text-align:center;font-family:'Inter',Arial,sans-serif}
+  .mobile-lit-install-inner > img {display:block;width:66px;height:66px;object-fit:contain;margin:0 auto 12px}
+  .mobile-lit-install-inner .mobile-lit-overline {margin:10px 0 5px}
+  .mobile-lit-install-inner h2 {margin:6px 0 14px;color:#f1dcad;font:600 26px/1.2 'Spectral',Georgia,serif}
+  .mobile-lit-install-inner #mobile-lit-install-message {font:400 15px/1.6 'Inter',Arial,sans-serif;color:#f0e4c9}
+  .mobile-lit-install-close {position:absolute;top:10px;right:10px;width:40px;height:40px;border:0;background:transparent;color:#f0dfbb;font-size:28px;cursor:pointer}
+  .mobile-lit-install-done {min-height:46px;width:100%;margin-top:15px;border:1px solid #dfc489;border-radius:9px;background:#dfc489;color:#182a30;font:600 14px/1.3 'Inter',Arial,sans-serif;cursor:pointer}
+  /* Home: tecido mariano fixo enquanto o conteúdo percorre a página. */
+  body.mobile-lit-active.home-page {
+    background-color:#071c2b!important;
+    background-image:none!important;
+    color:#f4e9d1;
+  }
+  body.mobile-lit-active.home-page::before {
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(circle at 20% 14%,#b49b5634,transparent 40%),
+      linear-gradient(180deg,#071c2b89,#071c2bdd 75%),
+      url('/assets/img/loja/manto-mariano-cabecalho.webp');
+    background-position:center,center,center;
+    background-size:cover,cover,cover;background-repeat:no-repeat;
+  }
+  body.mobile-lit-active.home-page > :is(.adsense-layout,.pix-with-ads,.adsense-bottom,.site-footer) {position:relative;z-index:1}
+  body.mobile-lit-active.home-page .hero-banner {display:none!important}
+  body.mobile-lit-active.home-page .adsense-layout {background:transparent!important}
+  body.mobile-lit-active.home-page main.editorial-main {position:relative;background:transparent;min-width:0;padding:0 16px 37px}
+  body.mobile-lit-active.home-page .editorial-heading {display:none!important}
+  .mobile-lit-home-intro {
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    min-height:min(690px,calc(100svh - 90px));width:100%;
+    padding:40px 14px 32px;margin:0 auto 22px;text-align:center;color:#f8efd8;
+  }
+  .mobile-lit-home-eyebrow {margin:0;color:#dfc889;font:600 10px/1.6 'Inter',Arial,sans-serif;letter-spacing:.17em}
+  .mobile-lit-home-ornament {font-size:42px;color:#d3b476;margin:20px 0}
+  .mobile-lit-home-intro h1 {
+    max-width:400px;margin:0 0 20px!important;color:#f8ebcd!important;
+    font:500 clamp(32px,8.5vw,43px)/1.19 'EB Garamond',Georgia,serif!important;
+    letter-spacing:.015em;text-shadow:0 2px 8px #010c13;
+  }
+  .mobile-lit-home-intro > p:not(.mobile-lit-home-eyebrow) {
+    max-width:330px;margin:0 0 30px;color:#efe2c9;
+    font:400 16px/1.7 'Spectral',Georgia,serif;text-shadow:0 1px 10px #06121a;
+  }
+  .mobile-lit-home-cta {
+    display:inline-flex;align-items:center;justify-content:center;gap:13px;
+    min-height:49px;padding:11px 21px;border:1px solid #e3ca90;
+    border-radius:4px;background:#061f2acc;color:#f4ddab!important;
+    text-decoration:none;font:600 12px/1.3 'Inter',Arial,sans-serif;letter-spacing:.02em;
+  }
+  .mobile-lit-home-motto {display:block;margin-top:32px;color:#d7bf8b;font:italic 17px/1.4 'Spectral',Georgia,serif}
+  body.mobile-lit-active.home-page .home-section-heading {border-top:1px solid #d6b97879}
+  body.mobile-lit-active.home-page .home-section-heading h2 {color:#f4e7c9!important}
+  body.mobile-lit-active.home-page .home-section-heading p {color:#d4c9b4}
+  body.mobile-lit-active.home-page #recent-content-carousel .lit-card {min-height:365px}
+  body.mobile-lit-active.home-page #recent-content-carousel .lit-card-content {max-width:92%;padding:35px 15px 90px}
+  body.mobile-lit-active.home-page #recent-content-carousel h3 {font-size:clamp(23px,6.8vw,33px)}
+  /* Leitura de cantos: preservar os downloads e aumentar conforto. */
+  body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .editorial-main {min-width:0;padding-left:16px;padding-right:16px}
+  body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .editorial-heading {margin-top:24px;margin-bottom:22px}
+  body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .editorial-empty-copy {padding:22px 16px 27px}
+  body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .editorial-resources {grid-template-columns:minmax(0,1fr);padding:12px 15px 20px}
+  body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .repertoire-unified .card {width:100%;max-width:100%}
+  /* Os campos já existentes da loja permanecem funcionais, sem alterar frete ou checkout. */
+  body.mobile-lit-active :is(.checkout-multi-main,.shop-cart-page) {padding-bottom:26px}
+  body.mobile-lit-active :is(.checkout-multi-main,.shop-cart-page) :is(input:not([type=checkbox]):not([type=radio]),select){font-size:16px}
 }
 @media (max-width:359px) {
-  .mobile-app-bar :is(a,button) {font-size:9px}
-  .mobile-app-bar svg {width:22px;height:22px}
-  .mobile-app-group-links {grid-template-columns:minmax(0,1fr)}
+  .mobile-lit-header {grid-template-columns:40px minmax(0,1fr) 44px 40px;gap:3px;padding-inline:7px}
+  .mobile-lit-brand {font-size:14px}
+  .mobile-lit-brand img {width:24px;height:24px;flex-basis:24px}
+  .mobile-lit-shop {font-size:8px}
 }
 @media (prefers-reduced-motion:reduce) {
-  .mobile-app-drawer * {scroll-behavior:auto!important}
+  .mobile-lit-drawer,.mobile-lit-drawer * {scroll-behavior:auto!important}
 }
