@@ -684,3 +684,22 @@
     margin-right:5px;
   }
 }
+
+
+/* 05/11/2026 — iluminura integral e bordas preservadas em qualquer celular.
+   Diferente de cover/contain, fill mantém os quatro lados visíveis
+   sem letterbox nem cortes; a página desktop permanece inalterada. */
+@media (max-width:767px) {
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-manuscript img {
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+    object-fit:fill!important;
+    object-position:center center;
+    background:#f6e7cf!important;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-manuscript {
+    background:#f6e7cf!important;
+  }
+}
