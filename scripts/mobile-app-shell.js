@@ -228,7 +228,7 @@
         welcome.className='mobile-sacred-welcome mobile-sacred-art-gallery';
         welcome.setAttribute('aria-label','Arte sacra da página inicial');
         const artworks=[
-          {src:'/assets/img/mobile/home-maria-jose-20261105-preservada.svg',name:'Nossa Senhora e São José',alt:'Iluminura medieval de Nossa Senhora e São José com duas partituras gregorianas, uma cruz e uma oração de bênção.',layout:'manuscript'},
+          {src:'/assets/img/mobile/home-maria-jose-mobile-sem-faixas-20261105.svg',name:'Nossa Senhora e São José',alt:'Iluminura medieval de Nossa Senhora e São José com cruz, oração e moldura gótica dourada completa.',layout:'manuscript'},
           {src:'/assets/img/mobile/mobile-home-maria.webp',name:'Nossa Senhora com o Menino Jesus',alt:'Nossa Senhora com o Menino Jesus em uma moldura gótica dourada, diante de uma imagem mariana escurecida.'},
           {src:'/assets/img/mobile/mobile-home-agnus-dei.webp',name:'Agnus Dei',alt:'Cordeiro Pascal diante de um ícone escurecido de Cristo, em moldura de quatro lóbulos com detalhes dourados.'}
         ];
