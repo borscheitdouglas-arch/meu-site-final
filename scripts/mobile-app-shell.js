@@ -138,8 +138,19 @@
         const details=document.createElement('details');
         details.className='mobile-sacred-category';
         const summaryNew=document.createElement('summary');
-        summaryNew.textContent=safeText(summary);
-        summaryNew.setAttribute('aria-label','Expandir '+safeText(summary));
+        const categoryName=safeText(summary);
+        if(HOME) {
+          // Iniciais discretamente iluminadas apenas no menu da página inicial.
+          const initial=document.createElement('span');
+          initial.className='mobile-sacred-menu-initial';
+          initial.textContent=categoryName.slice(0,1);
+          initial.setAttribute('aria-hidden','true');
+          const label=document.createElement('span');
+          label.className='mobile-sacred-menu-label';
+          label.textContent=categoryName.slice(1);
+          summaryNew.append(initial,label);
+        } else summaryNew.textContent=categoryName;
+        summaryNew.setAttribute('aria-label','Expandir '+categoryName);
         const choices=document.createElement('div');choices.className='mobile-sacred-choices';
         items.forEach(item=>{
           const href=item.getAttribute('href');
