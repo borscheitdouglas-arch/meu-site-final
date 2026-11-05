@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="t">
+<title id="t">Douglas Assumpção — Música Sacra</title>
+<defs><radialGradient id="b"><stop stop-color="#154052"/><stop offset="1" stop-color="#061725"/></radialGradient></defs>
+<rect width="512" height="512" rx="102" fill="url(#b)"/>
+<rect x="24" y="24" width="464" height="464" rx="82" fill="none" stroke="#d7b771" stroke-width="7"/>
+<rect x="45" y="45" width="422" height="422" rx="69" fill="none" stroke="#d7b771" stroke-opacity=".38" stroke-width="2"/>
+<path d="M256 71v92m-28-61h56" stroke="#e4c684" stroke-width="10" stroke-linecap="round"/>
+<path d="M157 363V177h83c105 0 146 38 146 93s-41 93-146 93Zm55-40h32c66 0 89-19 89-53s-23-53-89-53h-32Z" fill="#e7cf95"/>
+<path d="M122 393h268" stroke="#d7b771" stroke-width="5"/>
+<path d="m129 107 7-15 7 15 15 7-15 7-7 15-7-15-15-7Zm233 0 7-15 7 15 15 7-15 7-7 15-7-15-15-7Z" fill="#cda85d"/>
+</svg>
