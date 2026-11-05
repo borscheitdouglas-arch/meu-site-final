@@ -166,3 +166,25 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
     border-radius: 0;
   }
 }
+
+/* Banner amplo para desktop com a arte gregoriana original reestruturada. */
+@media (min-width: 651px) {
+  .home-page .hero-inner {
+    width: calc(100% - 32px);
+    max-width: 1500px;
+    margin-inline: auto;
+    background: transparent;
+  }
+  .home-page .home-hero-picture { display: block; width: 100%; }
+  .home-page .hero-banner .capa-superior {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    border-radius: 0;
+    mix-blend-mode: normal;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
