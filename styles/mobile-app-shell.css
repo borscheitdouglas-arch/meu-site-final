@@ -441,7 +441,7 @@
 }
 
 
-/* Duas artes originais do usuário na HOME MOBILE; nenhuma alteração desktop. */
+/* Galeria da HOME MOBILE com iluminura de Maria e José; nenhuma alteração desktop. */
 @media (max-width:767px) {
   body.mobile-sacred-active.home-page .mobile-sacred-welcome.mobile-sacred-art-gallery {
     display:block!important;
@@ -556,5 +556,29 @@
   .mobile-sacred-art-frame,
   .mobile-sacred-art-dot::before {
     transition:none!important;
+  }
+}
+
+/* 05/11/2026 — primeira arte da home mobile, exibida sem cortes e sem escurecer.
+   As duas outras artes da galeria mantêm seus estilos originais. */
+@media (max-width: 767px) {
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-manuscript {
+    background: #f6e7cf;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-manuscript img {
+    object-fit: contain;
+    object-position: center center;
+    background: #f6e7cf;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-manuscript::after {
+    display: none;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-gallery:has(.is-manuscript.is-active) .mobile-sacred-art-controls {
+    top: calc(10px + env(safe-area-inset-top, 0px));
+    right: 12px;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    background: rgba(10, 29, 42, .72);
   }
 }
