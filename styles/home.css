@@ -141,3 +141,28 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
 @media (max-width: 650px) {
  .home-page #recent-content-carousel .book-banner-stage::before { display: none; }
 }
+
+/* 20261105: banner ilustrado exclusivo para dispositivos móveis.
+   O desktop continua utilizando a capa original no elemento img do picture. */
+@media (max-width: 650px) {
+  .home-page .hero-banner,
+  .home-page .hero-inner {
+    background: #f5e7d2;
+  }
+  .home-page .home-hero-picture {
+    display: block;
+    width: 100%;
+  }
+  .home-page .hero-banner .capa-superior {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center top;
+    mix-blend-mode: normal;
+    -webkit-mask-image: none;
+    mask-image: none;
+    border-radius: 0;
+  }
+}
