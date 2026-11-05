@@ -12,8 +12,38 @@
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const info = {
     'camiseta-salve-regina': {
-      type:'Camiseta · Coleção Salve Regina', material:'Malha de algodão penteado 30.1',
-      finish:'DTF · estampa autoral', description:'Uma peça que reúne a devoção à Virgem Maria e a tradição do canto gregoriano. A coleção Salve Regina foi concebida com referências à iluminura medieval, combinando a figura de Nossa Senhora com a notação do canto sacro. A versão apresentada é preta, em tamanhos P, M, G, GG e XG.',
+      type:'Camiseta · Coleção Salve Regina', material:'100% algodão fio 30.1 penteado',
+      finish:'Impressão DTF na frente e nas costas',
+      description:'A beleza da arte sacra e a tradição do canto gregoriano em uma peça para o dia a dia. Confeccionada em 100% algodão fio 30.1 penteado, a Camiseta Salve Regina une toque macio, conforto e devoção mariana, com partitura gregoriana na frente e Nossa Senhora nas costas.',
+      paragraphs:[
+        'Inspirada na antífona mariana Salve Regina, esta camiseta aproxima a beleza do canto gregoriano e da arte sacra do cotidiano. A composição reúne a partitura na frente e a imagem de Nossa Senhora nas costas, com referências à iluminura medieval e à tradição católica.',
+        'Confeccionada em 100% algodão fio 30.1 penteado, oferece toque macio e respirabilidade para o uso diário. A modelagem unissex, a gola canelada reforçada e as costuras reforçadas completam a peça com conforto e cuidado no acabamento.',
+        'As estampas são aplicadas por impressão DTF na frente e nas costas. Disponível na cor preta, nos tamanhos P, M, G, GG e XG, a camiseta é produzida sob demanda e vendida a partir de uma unidade.'
+      ],
+      features:[
+        'Composição: 100% algodão fio 30.1 penteado.',
+        'Modelagem unissex, com gola canelada reforçada.',
+        'Toque macio, tecido respirável e costuras reforçadas.',
+        'Cor disponível neste anúncio: preta.',
+        'Tamanhos: P, M, G, GG e XG.',
+        'Estampas Salve Regina em DTF: partitura gregoriana na frente e Nossa Senhora nas costas.',
+        'Produção sob demanda; venda por peça, a partir de 1 unidade.'
+      ],
+      reasons:[
+        'Conforto do algodão penteado para acompanhar o dia a dia.',
+        'Arte que une a devoção à Virgem Maria à tradição do canto gregoriano.',
+        'Acabamento com gola e costuras reforçadas.',
+        'Uma opção de presente para quem aprecia a fé católica, a música sacra e a arte mariana.'
+      ],
+      faq:[
+        ['Qual é o tecido da camiseta?','A peça é confeccionada em 100% algodão fio 30.1 penteado, com toque macio e respirabilidade.'],
+        ['A modelagem é unissex?','Sim. A camiseta tem modelagem unissex e gola canelada reforçada.'],
+        ['Quais são as cores e os tamanhos disponíveis?','Neste anúncio, a camiseta está disponível na cor preta, nos tamanhos P, M, G, GG e XG. Escolha o tamanho desejado antes de adicionar ao carrinho.'],
+        ['Como são as estampas?','A camiseta recebe impressão DTF nas duas faces: partitura gregoriana da Salve Regina na frente e a imagem de Nossa Senhora nas costas.'],
+        ['Posso alterar a arte ou escolher outra técnica de impressão?','Este anúncio corresponde à camiseta com as estampas Salve Regina apresentadas nas imagens, em DTF. A compra não inclui edição da arte nem seleção de outra técnica de impressão.'],
+        ['Qual é o pedido mínimo?','Você pode comprar a partir de 1 peça. A produção é realizada sob demanda.'],
+        ['Como consulto o frete?','Selecione o tamanho e a quantidade e informe seu CEP na calculadora desta página. O prazo de produção não está incluído no prazo de transporte informado.']
+      ],
       photos:[
         '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png',
         '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-masculina.png',
@@ -464,7 +494,7 @@
     const details=el('section','shop-single-details');
     const desc=el('div');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
-    if(isEcobag){
+    if(Array.isArray(detail.paragraphs)){
       desc.replaceChildren(el('h2','','Descrição do produto'));
       detail.paragraphs.forEach(p=>desc.append(el('p','',p)));
       const bullets=(heading,items)=>{
