@@ -141,3 +141,22 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
 @media (max-width: 650px) {
  .home-page #recent-content-carousel .book-banner-stage::before { display: none; }
 }
+
+/* Ouro acetinado sóbrio: faixa superior da página inicial, sem imagens ornamentais ampliadas. */
+body.home-page .site-header {
+  background-color: #69471d;
+  background-image:
+    linear-gradient(180deg,rgba(31,20,7,.32),rgba(243,210,139,.055) 44%,rgba(25,15,5,.44)),
+    radial-gradient(ellipse 42% 190% at 49% -40%,rgba(248,212,136,.28),transparent 90%),
+    repeating-linear-gradient(96deg,rgba(255,229,173,.016) 0 1px,rgba(14,7,2,.025) 2px,transparent 5px),
+    linear-gradient(95deg,#4c3217 0%,#705023 20%,#99723b 46%,#8b642e 59%,#66461f 81%,#453016 100%);
+  background-size: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid rgba(220,179,101,.4);
+  box-shadow: inset 0 1px 0 rgba(241,206,132,.20),inset 0 -1px 0 rgba(29,18,6,.35),0 3px 15px rgba(0,0,0,.2);
+}
+@media (max-width: 480px) {
+  body.home-page .site-header { background-position: center; }
+}
+/* home-ouro-escovado-v2 */
