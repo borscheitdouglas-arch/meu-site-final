@@ -1,0 +1,60 @@
+name: Importar fotos originais da camiseta Salve Regina
+on:
+  push:
+    paths:
+      - ".github/workflows/importar-fotos-camiseta-salve-regina.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  importar-fotos-camiseta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter repositorio
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Baixar as seis imagens fornecidas
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/img/loja/Salve-Regina/web
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 100 \
+            "https://at.adobe.com/lFHGQCeqbUZTf5fL" --output "assets/img/loja/Salve-Regina/web/camiseta-salve-regina-frente-partitura-1.png"
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 100 \
+            "https://at.adobe.com/dGm0N0aPDxzZejx7" --output "assets/img/loja/Salve-Regina/web/camiseta-salve-regina-frente-partitura-2.png"
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 100 \
+            "https://at.adobe.com/OKwQSArEZVCsOU62" --output "assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png"
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 100 \
+            "https://at.adobe.com/yaFwTWQJ9STdGK2k" --output "assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-masculina.png"
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 100 \
+            "https://at.adobe.com/pjmSlrHNtwJpLhfk" --output "assets/img/loja/Salve-Regina/web/camiseta-salve-regina-costas-azul-mariano.png"
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 --max-time 100 \
+            "https://at.adobe.com/q36iLRcSREG5BVPP" --output "assets/img/loja/Salve-Regina/web/camiseta-salve-regina-costas-manto-mariano.png"
+          python3 - <<'PY'
+          from pathlib import Path
+          images=["camiseta-salve-regina-frente-partitura-1.png","camiseta-salve-regina-frente-partitura-2.png","camiseta-salve-regina-vitrine-casal.png","camiseta-salve-regina-vitrine-masculina.png","camiseta-salve-regina-costas-azul-mariano.png","camiseta-salve-regina-costas-manto-mariano.png"]
+          base=Path("assets/img/loja/Salve-Regina/web")
+          signature=bytes.fromhex("89504e470d0a1a0a")
+          for name in images:
+              path=base / name
+              data=path.read_bytes()
+              if not data.startswith(signature) or len(data)<50000:
+                  raise SystemExit(f"Arquivo invalido: {name} ({len(data)} bytes)")
+              print(f"Imagem importada: {name} / {len(data)} bytes")
+          PY
+      - name: Publicar imagens na pasta da loja
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/img/loja/Salve-Regina/web/camiseta-salve-regina-*.png
+          if git diff --cached --quiet; then
+            echo "Imagens ja atualizadas."
+            exit 0
+          fi
+          git commit -m "assets(loja): adicionar seis fotos oficiais da camiseta Salve Regina"
+          git push
