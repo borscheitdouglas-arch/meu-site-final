@@ -818,7 +818,7 @@
     top:auto!important;
     right:auto!important;
     left:50%!important;
-    bottom:calc(68px + env(safe-area-inset-bottom,0px))!important;
+    bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;
     transform:translateX(-50%)!important;
     display:flex!important;
     align-items:center!important;
