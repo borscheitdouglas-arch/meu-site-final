@@ -14,7 +14,6 @@
     'camiseta-salve-regina': {
       type:'Camiseta · Coleção Salve Regina', material:'Malha de algodão penteado 30.1',
       finish:'DTF · estampa autoral', description:'Uma peça que reúne a devoção à Virgem Maria e a tradição do canto gregoriano. A coleção Salve Regina foi concebida com referências à iluminura medieval, combinando a figura de Nossa Senhora com a notação do canto sacro. A versão apresentada é preta, em tamanhos P, M, G, GG e XG.',
-      note:'A imagem apresentada é um mockup ilustrativo. Os detalhes de produção e a fidelidade da impressão devem ser confirmados antes da compra.',
       photos:[
         '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png',
         '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-masculina.png',
@@ -87,13 +86,29 @@
   function showError(message) {
     root.replaceChildren(el('h1','',message),link('← Voltar ao catálogo','/pages/loja.html#catalogo','shop-single-back'));
   }
-  function gallery(photos, title, note, photoLabels) {
+  function gallery(photos, title, note, photoLabels, fitToFrame=false) {
     const figure=el('figure','shop-single-imagebox');
     const image=el('img');image.src=photos[0];image.alt=photoLabels?.[0] || ('Imagem de '+title);image.width=850;image.height=850;
-    const caption=el('figcaption','',note || 'Imagem ilustrativa da coleção');
     const imageClip=el('div','shop-single-image-clip');
     imageClip.append(image);
-    figure.append(imageClip,caption);
+    figure.append(imageClip);
+    // A camiseta exibe a fotografia inteira em uma moldura proporcional à foto,
+    // inclusive quando o cliente alterna entre imagens verticais e horizontais.
+    if(fitToFrame){
+      const updateFrame=()=>{
+        const w=image.naturalWidth, h=image.naturalHeight;
+        if(!w||!h)return;
+        const ratio=w/h;
+        const widthDesktop=Math.min(426,Math.round(390*ratio));
+        const widthMobile=Math.min(322,Math.round(300*ratio));
+        figure.style.setProperty('--shirt-frame-width', (widthDesktop+18)+'px');
+        figure.style.setProperty('--shirt-frame-mobile-width', (widthMobile+14)+'px');
+        figure.style.setProperty('--shirt-frame-ratio', w+' / '+h);
+      };
+      image.addEventListener('load',updateFrame);
+      if(image.complete)updateFrame();
+    }
+    if(note) figure.append(el('figcaption','',note));
     const thumbs=el('div','shop-single-thumbs');
     photos.forEach((photo,index)=>{
       const button=el('button','shop-single-thumb');button.type='button';
@@ -440,7 +455,11 @@
       'Adicionar à sacola não confirma pedido, reserva de produção nem pagamento. A autorização de cobrança depende da disponibilidade do checkout e da confirmação no servidor.'));
     trust.append(link('Condições de entrega e trocas','/pages/condicoes-da-loja.html'));
     summary.append(trust);
-    layout.append(gallery(photos,title,detail.note || (isBook?'Arte de divulgação do livro':'Imagem ilustrativa da coleção'),detail.photoLabels),summary);
+    layout.append(gallery(
+      photos,title,
+      isShirt?'':(detail.note || (isBook?'Arte de divulgação do livro':'Imagem ilustrativa da coleção')),
+      detail.photoLabels,isShirt
+    ),summary);
     root.replaceChildren(layout);
     const details=el('section','shop-single-details');
     const desc=el('div');desc.append(el('h2','','Descrição do produto'),
