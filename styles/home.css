@@ -141,17 +141,3 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
 @media (max-width: 650px) {
  .home-page #recent-content-carousel .book-banner-stage::before { display: none; }
 }
-
-/* Cabeçalho inicial: friso dourado com medalhão azul circular, sem flor central. */
-body.home-page .site-header {
-  background-color: #684218;
-  background-image: linear-gradient(rgba(21,11,3,.28), rgba(21,11,3,.28)), url('/assets/img/cabecalho-home-friso-azul-circular-v5.webp');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100% 100%;
-  border-bottom: 1px solid #7b4e1e;
-  box-shadow: 0 3px 14px rgba(0,0,0,.25);
-}
-@media (max-width: 650px) {
-  body.home-page .site-header { background-size: auto 100%; background-position:center center; }
-}
