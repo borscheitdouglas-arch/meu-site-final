@@ -93,11 +93,10 @@
     const quick=document.createElement('nav');
     quick.className='mobile-sacred-quick';quick.setAttribute('aria-label','Páginas principais');
     [
-      ['Início','/index.html'],['Loja','/pages/loja.html'],
-      ['Coleção Salve Regina','/pages/colecao-salve-regina.html'],
-      ['Meu carrinho','/pages/cart.html'],
-      ['Apoiar o projeto','/pages/doacao.html'],
-      ['Contato','/pages/contato.html']
+      ['Início','/index.html'],['Formações','/pages/formacoes.html'],
+      ['Loja','/pages/loja.html'],['Coleção Salve Regina','/pages/colecao-salve-regina.html'],
+      ['Meu carrinho','/pages/cart.html'],['Apoiar o projeto','/pages/doacao.html'],
+      ['Contato','/pages/contato.html'],['Entregas e trocas','/pages/condicoes-da-loja.html']
     ].forEach(([name,url])=>quick.append(link(name,url)));
     scroll.append(quick);
     const divider=document.createElement('div');divider.className='mobile-sacred-menu-divider';
@@ -210,7 +209,7 @@
     const text=installed
       ? 'Você já está utilizando o site pela tela inicial.'
       : ios
-        ? 'Abra este site no Safari, toque no botão Compartilhar (quadrado com seta para cima) e escolha “Adicionar à Tela de Início”. Depois, confirme em “Adicionar”.'
+        ? 'Abra este site no Safari, toque no botão Compartilhar (quadrado com seta para cima) e escolha “Adicionar à Tela de Início”. Ative “Abrir como App da Web”, se aparecer, e confirme em “Adicionar”.'
         : 'No navegador, abra o menu (⋮ ou Compartilhar) e escolha “Instalar aplicativo” ou “Adicionar à tela inicial”, conforme as opções disponíveis.';
     installDialog.innerHTML='<div class="mobile-sacred-install-panel">'+
       '<button type="button" class="mobile-sacred-install-close" aria-label="Fechar instruções">×</button>'+
