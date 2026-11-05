@@ -147,15 +147,12 @@
         const summaryNew=document.createElement('summary');
         const categoryName=safeText(summary);
         if(HOME) {
-          // Iniciais discretamente iluminadas apenas no menu da página inicial.
-          const initial=document.createElement('span');
-          initial.className='mobile-sacred-menu-initial';
-          initial.textContent=categoryName.slice(0,1);
-          initial.setAttribute('aria-hidden','true');
+          // Título inteiro em uma única linha tipográfica, sem inicial separada.
+          // Evita espaços artificiais e melhora a leitura no menu estreito.
           const label=document.createElement('span');
           label.className='mobile-sacred-menu-label';
-          label.textContent=categoryName.slice(1);
-          summaryNew.append(initial,label);
+          label.textContent=categoryName;
+          summaryNew.append(label);
         } else summaryNew.textContent=categoryName;
         summaryNew.setAttribute('aria-label','Expandir '+categoryName);
         const choices=document.createElement('div');choices.className='mobile-sacred-choices';
