@@ -341,7 +341,19 @@
       'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.');
     summary.append(price,priceNote);
     const description=isBook?product.description:detail.description||'Produto personalizado da coleção Salve Regina.';
-    summary.append(el('p','shop-single-excerpt',description));
+    if(isShirt){
+      const fullDescription=el('section','shop-single-shirt-description');
+      fullDescription.setAttribute('aria-label','Descrição da camiseta');
+      fullDescription.append(el('h2','','Descrição da camiseta'));
+      detail.paragraphs.forEach(text=>fullDescription.append(el('p','',text)));
+      fullDescription.append(el('h3','','Características do produto'));
+      const features=el('ul','shop-single-bullet-list');
+      detail.features.forEach(text=>features.append(el('li','',text)));
+      fullDescription.append(features);
+      summary.append(fullDescription);
+    }else{
+      summary.append(el('p','shop-single-excerpt',description));
+    }
     if(isBook){
       price.textContent='Consulte o valor nas lojas parceiras';
       const shops=el('div','shop-single-partners');
@@ -546,14 +558,14 @@
     const desc=el('div');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
     if(Array.isArray(detail.paragraphs)){
-      desc.replaceChildren(el('h2','','Descrição do produto'));
-      detail.paragraphs.forEach(p=>desc.append(el('p','',p)));
+      desc.replaceChildren(el('h2','',isShirt?'Mais sobre a camiseta':'Descrição do produto'));
+      if(!isShirt)detail.paragraphs.forEach(p=>desc.append(el('p','',p)));
       const bullets=(heading,items)=>{
         desc.append(el('h3','shop-single-subheading',heading));
         const list=el('ul','shop-single-bullet-list');
         items.forEach(item=>list.append(el('li','',item)));desc.append(list);
       };
-      bullets('Características do produto',detail.features);
+      if(!isShirt)bullets('Características do produto',detail.features);
       bullets('Por que escolher',detail.reasons);
       desc.append(el('h3','shop-single-subheading','Perguntas frequentes'));
       const faq=el('dl','shop-single-faq');

@@ -315,3 +315,20 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
   .shop-product-page .shop-gallery-viewer .shop-gallery-next {right:20px;}
   .shop-product-page .shop-gallery-viewer .shop-gallery-counter {bottom:24px;}
 }
+
+/* Descrição completa visível junto ao preço da camiseta. */
+.shop-product-page .shop-single-shirt-description {margin:22px 0 26px;}
+.shop-product-page .shop-single-shirt-description h2 {
+  margin:0 0 12px;color:#eddbb6;font:500 25px/1.3 'Spectral',Georgia,serif;
+  text-transform:none;letter-spacing:0;
+}
+.shop-product-page .shop-single-shirt-description p {
+  margin:0 0 13px;color:#d7d8ce;font:400 16px/1.7 'Spectral',Georgia,serif;
+}
+.shop-product-page .shop-single-shirt-description h3 {
+  margin:20px 0 10px;color:#ead6ac;font:600 14px/1.5 'Inter',sans-serif;
+  text-transform:none;letter-spacing:0;
+}
+.shop-product-page .shop-single-shirt-description .shop-single-bullet-list {
+  font-size:13px;line-height:1.7;margin-bottom:0;
+}
