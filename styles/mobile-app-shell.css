@@ -943,3 +943,134 @@
     letter-spacing:.06em;
   }
 }
+
+
+/* 05/11/2026 — tipografia nobre e fundo ilustrado mais legível no menu lateral mobile.
+   Mantém a largura atual do painel e privilegia a clareza da navegação. */
+@media (max-width:767px) {
+  body.mobile-sacred-active .mobile-sacred-drawer[open] {
+    background:#edd9b4;
+    border-right:1px solid rgba(123,84,43,.74);
+    color:#302318;
+    box-shadow:8px 0 34px rgba(10,16,22,.40);
+  }
+  /* A imagem é parte do pergaminho: mais nítida e visível,
+     mas com um véu cálido para preservar o contraste dos links. */
+  body.mobile-sacred-active .mobile-sacred-drawer[open]::before {
+    inset:-5px;
+    background:
+      linear-gradient(180deg,rgba(250,239,215,.32),rgba(246,231,200,.27)),
+      url('/assets/img/1.jpg') center center/cover no-repeat;
+    opacity:.64;
+    filter:blur(1.35px) saturate(.85) sepia(.08) contrast(1.05);
+    transform:scale(1.018);
+  }
+  body.mobile-sacred-active .mobile-sacred-drawer-head {
+    background:linear-gradient(180deg,rgba(254,246,226,.93),rgba(240,218,180,.84));
+    border-bottom:1px solid rgba(143,100,48,.48);
+    box-shadow:0 2px 7px rgba(70,48,25,.08);
+  }
+  body.mobile-sacred-active .mobile-sacred-drawer-head h2 {
+    color:#3a2718!important;
+    font:700 clamp(22px,6vw,27px)/1.14 'Cinzel',Georgia,serif!important;
+    letter-spacing:.015em;
+    text-shadow:0 1px 0 rgba(255,251,235,.7);
+  }
+  body.mobile-sacred-active .mobile-sacred-overline {
+    color:#694623;
+    font-weight:700;
+  }
+  body.mobile-sacred-active .mobile-sacred-close {
+    background:rgba(253,244,219,.72);
+    border-color:rgba(120,83,43,.54);
+    color:#412918;
+    box-shadow:0 1px 3px rgba(66,46,27,.10);
+  }
+  body.mobile-sacred-active .mobile-sacred-menu-caption {
+    color:#4a321c;
+    font:italic 600 clamp(16px,4.1vw,19px)/1.25 'EB Garamond',Georgia,serif;
+    letter-spacing:.012em;
+    text-shadow:0 1px 0 rgba(255,250,230,.65);
+    border-bottom-color:rgba(126,89,45,.32);
+  }
+  body.mobile-sacred-active .mobile-sacred-category {
+    border-bottom-color:rgba(109,78,42,.30);
+  }
+  body.mobile-sacred-active .mobile-sacred-category summary {
+    color:#362618;
+    font:700 clamp(20px,5.3vw,24px)/1.17 'EB Garamond',Georgia,serif;
+    letter-spacing:.005em;
+    text-shadow:0 1px 0 rgba(255,247,222,.74);
+  }
+  body.mobile-sacred-active .mobile-sacred-category summary::after {
+    color:#77542e;
+  }
+  body.mobile-sacred-active .mobile-sacred-category[open] summary {
+    color:#633c1b;
+  }
+  body.mobile-sacred-active .mobile-sacred-choices {
+    border-left-color:rgba(124,80,36,.48);
+  }
+  body.mobile-sacred-active .mobile-sacred-choices a {
+    color:#36291e!important;
+    font:500 clamp(16px,4.1vw,18px)/1.32 'Spectral',Georgia,serif;
+    text-shadow:0 1px 0 rgba(255,247,225,.54);
+  }
+  body.mobile-sacred-active .mobile-sacred-choices a:active,
+  body.mobile-sacred-active .mobile-sacred-choices a:focus-visible {
+    background:rgba(255,247,224,.53);
+    border-radius:4px;
+  }
+  /* Menu da HOME: conserva a largura de meia tela,
+     com iniciais iluminadas e títulos que quebram com elegância. */
+  body.mobile-sacred-active.home-page .mobile-sacred-drawer-head {
+    padding:10px 10px 9px 12px;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-drawer-head h2 {
+    font-size:clamp(19px,5.2vw,22px)!important;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-menu-scroll {
+    padding:11px 11px 29px;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-menu-caption {
+    margin:7px 0 10px;
+    padding:0 0 9px;
+    font:italic 600 clamp(14px,3.7vw,16px)/1.24 'EB Garamond',Georgia,serif;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-category summary {
+    min-height:50px;
+    padding:10px 1px;
+    gap:6px;
+    color:#342418;
+    font:700 clamp(17px,4.5vw,19px)/1.18 'EB Garamond',Georgia,serif;
+    letter-spacing:0;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-category summary::after {
+    flex:0 0 10px;
+    font-size:16px;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-menu-initial {
+    flex:0 0 20px;
+    color:#744820;
+    font:700 clamp(21px,5.4vw,25px)/1 'Cinzel',Georgia,serif;
+    text-shadow:0 1px 0 #f7e7bd,1px 1px 2px rgba(107,62,28,.24);
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-menu-label {
+    flex:1 1 auto;
+    min-width:0;
+    overflow-wrap:normal;
+    word-break:normal;
+    hyphens:auto;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-choices {
+    margin:0 0 8px 7px;
+    padding:0 0 9px 9px;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-choices a {
+    min-height:40px;
+    padding:8px 2px;
+    font:500 clamp(13px,3.65vw,15px)/1.3 'Spectral',Georgia,serif;
+    overflow-wrap:break-word;
+    hyphens:auto;
+  }
+}
