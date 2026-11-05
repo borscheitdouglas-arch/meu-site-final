@@ -1,266 +1,232 @@
-/* Navegação mobile de Douglas Assumpção.
- * Exclusiva de smartphones. Reutiliza os links litúrgicos reais do site,
- * sem alterar cabeçalho desktop, frete, carrinho ou checkout.
- */
+/* Interface móvel editorial — menu litúrgico e cabeçalho (novembro/2026).
+ * Ativada exclusivamente até 767px. A navegação desktop permanece intacta.
+ * Não interfere em pagamentos, frete, carrinho nem download de partituras. */
 (() => {
   'use strict';
-  const smallScreen = window.matchMedia('(max-width: 767px)');
-  if (!smallScreen.matches) return;
-  const PATH = location.pathname.replace(/\/+$/, '') || '/';
-  const HOME = PATH === '/' || PATH === '/index.html';
-  const CART = /\/pages\/(?:cart|checkout[\w-]*)\.html$/.test(PATH);
-  const SHOP = /\/pages\/(?:loja|colecao-salve-regina|produto-loja|produto-[\w-]+|condicoes-da-loja)\.html$/.test(PATH);
-  const REPERTOIRE = /\/pages\/(?:advento|natal|quaresma|pascoa|tempo-comum|kyrie|gloria|sanctus|agnus-dei|pater-noster|ad-libitum|solenidade)[\w-]*\.html$/.test(PATH);
-  const ICONS = {
-    home: '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/>',
-    music: '<path d="M9 18V5l12-2v13"/><ellipse cx="6" cy="19" rx="3" ry="2"/><ellipse cx="18" cy="17" rx="3" ry="2"/>',
-    store: '<path d="M4 9h16l-1.5 12h-13L4 9Z"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
-    cart: '<path d="M2 3h3l3 13h11l3-9H6"/><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>',
-    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
-    book: '<path d="M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1 3-2 6-2 9-1V5c-3-1-6-1-9 1Z"/><path d="M12 6v14"/>',
-    heart: '<path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 1 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z"/>'
+  const media=window.matchMedia('(max-width: 767px)');
+  if(!media.matches) return;
+  const pathname=location.pathname.replace(/\/+$/,'')||'/';
+  const isHome=pathname==='/'||pathname==='/index.html';
+  const isShop=/^\/pages\/(?:loja|produto-loja|colecao-salve-regina|cart|checkout[\w-]*|condicoes-da-loja)\.html$/.test(pathname);
+  const paths={
+    home:'/index.html',shop:'/pages/loja.html',collection:'/pages/colecao-salve-regina.html',
+    cart:'/pages/cart.html',support:'/pages/doacao.html',contact:'/pages/contato.html'
   };
-  const icon = name => '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[name] + '</svg>';
-  const makeLink = (label, href) => {
-    const a = document.createElement('a');
-    a.textContent = label;
-    a.href = href;
+  const icons={
+    menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+    shop:'<path d="M5 8h14l-1.2 13H6.2L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/>',
+    install:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 7v10M7 12h10"/>',
+    home:'<path d="m3 11 9-8 9 8v9H3v-9Z"/><path d="M9 20v-7h6v7"/>',
+    cart:'<path d="M2 4h3l3 12h11l2-9H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/>',
+    close:'<path d="M5 5l14 14M19 5 5 19"/>'
+  };
+  const svg=name=>'<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+icons[name]+'</svg>';
+  const link=(label,href,className='')=>{
+    const a=document.createElement('a');
+    a.href=href;a.textContent=label;if(className)a.className=className;
+    if(new URL(href,location.origin).pathname===pathname)a.setAttribute('aria-current','page');
     return a;
   };
   function init() {
-    if (!document.body || document.getElementById('mobile-app-bar')) return;
-    document.body.classList.add('mobile-app-active');
-
-    const bar = document.createElement('nav');
-    bar.id = 'mobile-app-bar';
-    bar.className = 'mobile-app-bar';
-    bar.setAttribute('aria-label', 'Navegação rápida para celular');
-    const items = [
-      {label:'Início',href:'/index.html',icon:'home',active:HOME},
-      {label:'Partituras',drawer:'repertoire',icon:'music',active:REPERTOIRE},
-      {label:'Loja',href:'/pages/loja.html',icon:'store',active:SHOP && !CART},
-      {label:'Sacola',href:'/pages/cart.html',icon:'cart',active:CART},
-      {label:'Menu',drawer:'menu',icon:'menu',active:false}
-    ];
-    items.forEach(item => {
-      const node = document.createElement(item.href ? 'a' : 'button');
-      if (item.href) node.href = item.href;
-      else { node.type = 'button'; node.setAttribute('aria-haspopup', 'dialog'); node.dataset.mobileOpen = item.drawer; node.setAttribute('aria-expanded','false'); }
-      node.innerHTML = icon(item.icon) + '<span>' + item.label + '</span>';
-      node.setAttribute('aria-label', item.label === 'Sacola' ? 'Abrir meu carrinho' : item.label);
-      if (item.active) {
-        if (node.tagName === 'A') node.setAttribute('aria-current','page');
-        else node.setAttribute('aria-pressed','true');
-      }
-      if (item.icon === 'cart') {
-        const badge = document.createElement('span');
-        badge.className = 'mobile-app-badge';
-        badge.setAttribute('aria-label','Itens no carrinho');
-        badge.hidden = true;
-        node.append(badge);
-      }
-      bar.append(node);
+    if(document.getElementById('mobile-lit-header'))return;
+    document.body.classList.add('mobile-app-active','mobile-lit-active');
+    media.addEventListener?.('change',e=>{
+      document.body.classList.toggle('mobile-app-active',e.matches);
+      document.body.classList.toggle('mobile-lit-active',e.matches);
     });
-    document.body.append(bar);
+    // A navegação principal do desktop permanece no DOM, mas não na interface móvel.
+    const top=document.createElement('header');
+    top.id='mobile-lit-header';top.className='mobile-lit-header';
+    top.setAttribute('aria-label','Cabeçalho mobile');
+    const openMenu=document.createElement('button');
+    openMenu.type='button';openMenu.className='mobile-lit-menu-trigger';
+    openMenu.setAttribute('aria-label','Abrir menu do site');
+    openMenu.setAttribute('aria-controls','mobile-lit-drawer');
+    openMenu.setAttribute('aria-expanded','false');
+    openMenu.innerHTML=svg('menu');
+    const brand=document.createElement('a');
+    brand.className='mobile-lit-brand';brand.href=paths.home;
+    brand.setAttribute('aria-label','Douglas Assumpção — página inicial');
+    brand.innerHTML='<img src="/assets/img/icone.png" width="30" height="30" alt=""/><span>Douglas <em>Assumpção</em></span>';
+    const shop=link('LOJA',paths.shop,'mobile-lit-shop');
+    shop.setAttribute('aria-label','Ir para a loja');
+    shop.innerHTML=svg('shop')+'<span>LOJA</span>';
+    const install=document.createElement('button');
+    install.type='button';install.className='mobile-lit-install';
+    install.setAttribute('aria-label','Adicionar o site à tela inicial');
+    install.setAttribute('title','Adicionar à tela inicial');
+    install.innerHTML=svg('install');
+    top.append(openMenu,brand,shop,install);
+    document.body.append(top);
 
-    function newDrawer(id,title,eyebrow) {
-      const dialog = document.createElement('dialog');
-      dialog.id = 'mobile-app-' + id;
-      dialog.className = 'mobile-app-drawer';
-      dialog.setAttribute('aria-label', title);
-      const head = document.createElement('div'); head.className = 'mobile-app-sheet-head';
-      const name = document.createElement('div');
-      const eyebrowNode = document.createElement('p'); eyebrowNode.className = 'mobile-app-eyebrow'; eyebrowNode.textContent = eyebrow;
-      const titleNode = document.createElement('h2'); titleNode.textContent = title;
-      name.append(eyebrowNode,titleNode);
-      const close = document.createElement('button');close.type='button';close.className='mobile-app-sheet-close';close.setAttribute('aria-label','Fechar painel');close.textContent='×';
-      head.append(name,close);
-      const scroll = document.createElement('div'); scroll.className = 'mobile-app-sheet-scroll';
-      dialog.append(head,scroll);
-      document.body.append(dialog);
-      close.addEventListener('click',()=>dialog.close());
-      dialog.addEventListener('click',e=>{if(e.target===dialog) dialog.close();});
-      dialog.addEventListener('close',()=> {
-        bar.querySelectorAll('[data-mobile-open]').forEach(button=>button.setAttribute('aria-expanded','false'));
-        if (lastOpener && lastOpener.isConnected) lastOpener.focus({preventScroll:true});
-      });
-      return {dialog,scroll};
-    }
-    let lastOpener = null;
-    const repertoire = newDrawer('repertoire','Encontre seu canto','Biblioteca de música sacra');
-    const menu = newDrawer('menu','Explore o site','Douglas Assumpção');
-
-    function openDrawer(which,opener) {
-      const chosen = which==='menu'?menu:repertoire;
-      const other = which==='menu'?repertoire:menu;
-      if (other.dialog.open) other.dialog.close();
-      if (!chosen.dialog.open) {
-        lastOpener = opener || document.activeElement;
-        chosen.dialog.showModal();
-        const button = bar.querySelector('[data-mobile-open="'+which+'"]');
-        if (button) button.setAttribute('aria-expanded','true');
-        const input = chosen.dialog.querySelector('input');
-        if (input) input.focus({preventScroll:true});
-        else chosen.dialog.querySelector('.mobile-app-sheet-close')?.focus({preventScroll:true});
-      }
-    }
-
-    const searchLabel = document.createElement('label');
-    searchLabel.className = 'mobile-app-sheet-label';
-    searchLabel.htmlFor = 'mobile-app-filter';
-    searchLabel.textContent = 'Buscar por tempo, domingo ou canto';
-    const search = document.createElement('input');
-    search.id='mobile-app-filter';search.type='search';search.className='mobile-app-filter';
-    search.placeholder='Ex.: Advento, Kyrie, 3º domingo';search.autocomplete='off';
-    repertoire.scroll.append(searchLabel,search);
-    const categories = document.createElement('div');categories.className='mobile-app-categories';categories.setAttribute('aria-label','Tempos e categorias');
-    const groupsRoot = document.createElement('div');
-    repertoire.scroll.append(categories,groupsRoot);
-    const groups = [];
-    function populateRepertoire(liturgicalNav) {
-      if (!liturgicalNav || groups.length) return;
-      [...liturgicalNav.children].forEach((li,index) => {
-        const summary = li.querySelector('details > summary');
-        if (!summary) return;
-        const title = summary.textContent.replace(/\s+/g,' ').trim();
-        const anchors = [...li.querySelectorAll('details ul a[href]')];
-        if (!anchors.length) return;
-        const group = document.createElement('section');
-        group.className='mobile-app-group';
-        group.id='mobile-app-group-'+index;
-        const h = document.createElement('h3');h.textContent=title;
-        const links = document.createElement('div');links.className='mobile-app-group-links';
-        anchors.forEach(source=>{
-          const label=source.textContent.replace(/\s+/g,' ').trim();
-          const href=source.getAttribute('href');
-          if(!href || href.startsWith('#') || /^(?:javascript:|data:)/i.test(href))return;
-          links.append(makeLink(label,href));
-        });
-        if(!links.children.length)return;
-        group.append(h,links);groupsRoot.append(group);
-        groups.push({title,group,links:[...links.children]});
-        const chip = document.createElement('button');chip.type='button';chip.textContent=title;
-        chip.addEventListener('click',()=>{
-          search.value='';filter('');
-          group.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
-        });
-        categories.append(chip);
-      });
-      if (typeof loadingHint !== 'undefined' && loadingHint) loadingHint.remove();
-    }
-    const empty = document.createElement('p');
-    empty.className='mobile-app-empty';empty.hidden=true;
-    empty.textContent='Não encontramos essa expressão no repertório. Experimente outro termo.';
-    groupsRoot.append(empty);
-    const normalize = str=>str.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
-    function filter(term) {
-      const value=normalize(term);
-      let visible=0;
-      groups.forEach(({title,group,links})=>{
-        let found=0;
-        const groupMatch=normalize(title).includes(value);
-        links.forEach(a=>{
-          const show=!value||groupMatch||normalize(a.textContent).includes(value);
-          a.hidden=!show;if(show){found++;visible++;}
-        });
-        group.hidden=found===0;
-      });
-      empty.hidden=visible!==0;
-    }
-    search.addEventListener('input',()=>filter(search.value));
-    const liturgicalNav = document.querySelector('#side-nav > ul');
-    let loadingHint = null;
-    if (liturgicalNav) populateRepertoire(liturgicalNav);
-    else {
-      loadingHint=document.createElement('p');
-      loadingHint.className='mobile-app-empty';
-      loadingHint.textContent='Carregando os tempos litúrgicos…';
-      groupsRoot.append(loadingHint);
-      fetch('/index.html').then(response=>{
-        if(!response.ok) throw new Error('Menu indisponível');
-        return response.text();
-      }).then(html=>{
-        const doc=new DOMParser().parseFromString(html,'text/html');
-        populateRepertoire(doc.querySelector('#side-nav > ul'));
-        if(!groups.length) loadingHint.textContent='Não foi possível carregar a biblioteca. Acesse a página inicial.';
-      }).catch(()=>{
-        loadingHint.textContent='Não foi possível carregar a biblioteca. Acesse a página inicial.';
-      });
-    }
-
-    const menuLinks = document.createElement('div');menuLinks.className='mobile-app-menu-links';
+    // Painel lateral semelhante ao aplicativo de referência. Sem atalho "Partituras":
+    // cada página litúrgica já oferece seu próprio material para download.
+    const drawer=document.createElement('dialog');
+    drawer.id='mobile-lit-drawer';drawer.className='mobile-lit-drawer';
+    drawer.setAttribute('aria-label','Menu de navegação do site');
+    const drawerHead=document.createElement('header');
+    drawerHead.className='mobile-lit-drawer-head';
+    const drawerBrand=document.createElement('a');drawerBrand.href=paths.home;
+    drawerBrand.className='mobile-lit-drawer-brand';
+    drawerBrand.innerHTML='<img src="/assets/img/icone.png" alt="" width="38" height="38"/><span>Douglas Assumpção<small>Música sacra · Arte & tradição</small></span>';
+    const close=document.createElement('button');
+    close.className='mobile-lit-close';close.type='button';close.setAttribute('aria-label','Fechar menu');
+    close.innerHTML=svg('close');
+    drawerHead.append(drawerBrand,close);
+    const scroller=document.createElement('nav');
+    scroller.className='mobile-lit-drawer-scroll';
+    scroller.setAttribute('aria-label','Tempos litúrgicos e outras páginas');
+    const sectionLabel=document.createElement('p');
+    sectionLabel.className='mobile-lit-overline';sectionLabel.textContent='NAVEGAÇÃO';
+    const homeLink=link('Início',paths.home,'mobile-lit-main-link');
+    const groupTitle=document.createElement('p');groupTitle.className='mobile-lit-overline';
+    groupTitle.textContent='REPERTÓRIO LITÚRGICO';
+    const seasons=document.createElement('div');seasons.className='mobile-lit-seasons';
+    const extrasLabel=document.createElement('p');extrasLabel.className='mobile-lit-overline';
+    extrasLabel.textContent='OUTRAS ÁREAS';
+    const extras=document.createElement('div');extras.className='mobile-lit-extras';
     [
-      ['Início','/index.html'],
-      ['Loja online','/pages/loja.html'],
-      ['Coleção Salve Regina','/pages/colecao-salve-regina.html'],
-      ['Meu carrinho','/pages/cart.html'],
-      ['Apoie a música sacra','/pages/doacao.html'],
-      ['Contato','/pages/contato.html']
-    ].forEach(([label,href])=>menuLinks.append(makeLink(label,href)));
-    const toRepertoire = document.createElement('button');
-    toRepertoire.type='button';toRepertoire.textContent='Explorar todas as partituras';
-    toRepertoire.addEventListener('click',()=>{
-      menu.dialog.close();
-      openDrawer('repertoire',bar.querySelector('[data-mobile-open="repertoire"]'));
+      ['Loja',paths.shop],['Coleção Salve Regina',paths.collection],
+      ['Meu carrinho',paths.cart],['Apoiar o projeto',paths.support],
+      ['Contato',paths.contact]
+    ].forEach(([title,href])=>extras.append(link(title,href,'mobile-lit-main-link')));
+    const flourish=document.createElement('div');
+    flourish.className='mobile-lit-flourish';flourish.setAttribute('aria-hidden','true');flourish.textContent='✦';
+    scroller.append(sectionLabel,homeLink,groupTitle,seasons,extrasLabel,extras,flourish);
+    drawer.append(drawerHead,scroller);
+    document.body.append(drawer);
+    function populateSeasons(source) {
+      if(!source||seasons.children.length)return false;
+      const items=[...source.querySelectorAll(':scope > li')];
+      items.forEach(li=>{
+        const summary=li.querySelector('details > summary');
+        if(!summary)return;
+        const links=[...li.querySelectorAll('details ul a[href]')];
+        if(!links.length)return;
+        const detail=document.createElement('details');
+        detail.className='mobile-lit-season';
+        const head=document.createElement('summary');
+        head.textContent=summary.textContent.replace(/\s+/g,' ').trim();
+        const sub=document.createElement('div');sub.className='mobile-lit-season-children';
+        links.forEach(a=>{
+          const href=a.getAttribute('href');
+          if(!href||/^(?:javascript:|data:)/i.test(href))return;
+          const label=a.textContent.replace(/\s+/g,' ').trim();
+          const item=link(label,href,'mobile-lit-page-link');
+          if(item.hasAttribute('aria-current'))detail.open=true;
+          sub.append(item);
+        });
+        if(sub.children.length){detail.append(head,sub);seasons.append(detail);}
+      });
+      return seasons.children.length>0;
+    }
+    if(!populateSeasons(document.querySelector('#side-nav > ul'))) {
+      // Algumas páginas de loja usam navegação própria, sem o menu litúrgico no HTML.
+      const loading=document.createElement('p');loading.className='mobile-lit-loading';
+      loading.textContent='Carregando tempos litúrgicos…';seasons.append(loading);
+      fetch('/index.html',{credentials:'same-origin'})
+        .then(response=>{if(!response.ok)throw new Error('Menu não encontrado');return response.text();})
+        .then(html=>{
+          const source=new DOMParser().parseFromString(html,'text/html').querySelector('#side-nav > ul');
+          loading.remove();
+          if(!populateSeasons(source))throw new Error('Menu vazio');
+        })
+        .catch(()=>{loading.textContent='Abra a página inicial para consultar os tempos litúrgicos.';seasons.append(loading);});
+    }
+    function openDrawer() {
+      if(drawer.open)return;
+      drawer.showModal();
+      openMenu.setAttribute('aria-expanded','true');
+      close.focus({preventScroll:true});
+    }
+    function closeDrawer(){
+      if(drawer.open)drawer.close();
+    }
+    openMenu.addEventListener('click',openDrawer);
+    close.addEventListener('click',closeDrawer);
+    drawer.addEventListener('close',()=>{
+      openMenu.setAttribute('aria-expanded','false');
+      if(media.matches&&openMenu.isConnected)openMenu.focus({preventScroll:true});
     });
-    menuLinks.insertBefore(toRepertoire,menuLinks.children[1]);
-    menu.scroll.append(menuLinks);
-    document.addEventListener('click',event=>{
-      const trigger=event.target.closest('[data-mobile-open]');
-      if(!trigger) return;
-      event.preventDefault();
-      openDrawer(trigger.dataset.mobileOpen,trigger);
+    drawer.addEventListener('click',e=>{
+      if(e.target!==drawer)return;
+      const bounds=drawer.getBoundingClientRect();
+      if(e.clientX>bounds.right)closeDrawer();
     });
 
-    if (HOME) {
-      const main=document.querySelector('main.editorial-main');
-      if(main) {
-        const welcome=document.createElement('section');
-        welcome.className='mobile-app-welcome';
-        welcome.setAttribute('aria-label','Acesso rápido');
-        welcome.innerHTML='<p class="mobile-app-eyebrow">Música sacra · Arte & tradição</p>'+
-          '<h2>O que deseja explorar?</h2><p>Partituras, cantos e criações inspiradas na beleza da fé.</p>'+
-          '<div class="mobile-app-quick-grid">'+
-          '<button type="button" data-mobile-open="repertoire">'+icon('music')+'<span>Partituras</span></button>'+
-          '<a href="/pages/loja.html">'+icon('store')+'<span>Nossa loja</span></a>'+
-          '<a href="/pages/colecao-salve-regina.html">'+icon('book')+'<span>Salve Regina</span></a>'+
-          '<a href="/pages/doacao.html">'+icon('heart')+'<span>Apoiar o projeto</span></a>'+
-          '</div>';
-        main.insertBefore(welcome,main.firstChild);
+    // Botão Adicionar à Tela Inicial: mostra prompt nativo quando suportado,
+    // ou instruções específicas do navegador sem prometer instalação automática.
+    const installDialog=document.createElement('dialog');
+    installDialog.id='mobile-lit-install-dialog';installDialog.className='mobile-lit-install-dialog';
+    installDialog.setAttribute('aria-labelledby','mobile-lit-install-title');
+    installDialog.innerHTML=
+      '<div class="mobile-lit-install-inner">'+
+      '<button type="button" class="mobile-lit-install-close" aria-label="Fechar">×</button>'+
+      '<img src="/assets/img/icone.png" alt="" width="66" height="66">'+
+      '<p class="mobile-lit-overline">ACESSO RÁPIDO</p>'+
+      '<h2 id="mobile-lit-install-title">Seu site como aplicativo</h2>'+
+      '<p id="mobile-lit-install-message"></p>'+
+      '<button class="mobile-lit-install-done" type="button">Entendi</button>'+
+      '</div>';
+    document.body.append(installDialog);
+    installDialog.querySelector('.mobile-lit-install-close').addEventListener('click',()=>installDialog.close());
+    installDialog.querySelector('.mobile-lit-install-done').addEventListener('click',()=>installDialog.close());
+    installDialog.addEventListener('click',event=>{if(event.target===installDialog)installDialog.close();});
+    let deferredPrompt=null;
+    window.addEventListener('beforeinstallprompt',event=>{
+      event.preventDefault();deferredPrompt=event;
+    });
+    window.addEventListener('appinstalled',()=>{deferredPrompt=null;});
+    function standalone(){return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;}
+    install.addEventListener('click',async()=>{
+      if(standalone()){
+        installDialog.querySelector('#mobile-lit-install-message').textContent='O site já está aberto como aplicativo na sua tela inicial.';
+        installDialog.showModal();return;
       }
+      if(deferredPrompt) {
+        const prompt=deferredPrompt;deferredPrompt=null;
+        try {await prompt.prompt();await prompt.userChoice;return;}catch(_) {}
+      }
+      const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+        (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+      const msg=isIOS
+        ?'No Safari, toque em Compartilhar (quadrado com uma seta para cima), escolha “Adicionar à Tela de Início” e confirme em “Adicionar”.'
+        :'No menu do navegador (geralmente ⋮), selecione “Instalar aplicativo” ou “Adicionar à tela inicial”, caso a opção esteja disponível.';
+      installDialog.querySelector('#mobile-lit-install-message').textContent=msg;
+      installDialog.showModal();
+    });
+    // Metadados de instalação complementares às páginas existentes.
+    if(!document.querySelector('link[rel="manifest"]')){
+      const manifest=document.createElement('link');manifest.rel='manifest';
+      manifest.href='/manifest.webmanifest';document.head.append(manifest);
+    }
+    if(!document.querySelector('link[rel="apple-touch-icon"]')){
+      const icon=document.createElement('link');icon.rel='apple-touch-icon';
+      icon.href='/assets/img/icone.png';document.head.append(icon);
+    }
+    if(!document.querySelector('meta[name="apple-mobile-web-app-capable"]')){
+      const m=document.createElement('meta');m.name='apple-mobile-web-app-capable';
+      m.content='yes';document.head.append(m);
+    }
+    if(!document.querySelector('meta[name="apple-mobile-web-app-title"]')){
+      const m=document.createElement('meta');m.name='apple-mobile-web-app-title';
+      m.content='Douglas Assumpção';document.head.append(m);
     }
 
-    function updateCartCount() {
-      let count=0;
-      try {
-        const rows=JSON.parse(localStorage.getItem('douglasShopCart_v2')||'[]');
-        if(Array.isArray(rows)) {
-          count=Math.min(30,rows.reduce((sum,row)=>
-            sum+(row&&typeof row.id==='string'&&typeof row.variant==='string'&&
-            Number.isInteger(row.qty)&&row.qty>0?Math.min(row.qty,10):0),0));
-        }
-      } catch (_) {}
-      const badge=bar.querySelector('.mobile-app-badge');
-      if(badge){badge.textContent=String(count);badge.hidden=count===0;}
-    }
-    updateCartCount();
-    document.addEventListener('douglas-cart-change',updateCartCount);
-    window.addEventListener('storage',event=>{if(event.key==='douglasShopCart_v2')updateCartCount();});
-
-    // O menu litúrgico tradicional continua funcionando; a barra fica fora do foco
-    // enquanto ele estiver aberto e não compete com suas camadas.
-    const nativeMenu=document.getElementById('side-nav');
-    if(nativeMenu) {
-      const sync=()=>{
-        const open=nativeMenu.classList.contains('open');
-        bar.inert=open;
-        if(open) {
-          if(menu.dialog.open)menu.dialog.close();
-          if(repertoire.dialog.open)repertoire.dialog.close();
-        }
-      };
-      new MutationObserver(sync).observe(nativeMenu,{attributes:true,attributeFilter:['class']});
-      sync();
+    if(isHome){
+      const main=document.querySelector('main.editorial-main');
+      if(main){
+        const intro=document.createElement('section');
+        intro.className='mobile-lit-home-intro';
+        intro.setAttribute('aria-label','Apresentação');
+        intro.innerHTML='<p class="mobile-lit-home-eyebrow">DOUGLAS ASSUMPÇÃO · MÚSICA SACRA</p>'+
+          '<div class="mobile-lit-home-ornament" aria-hidden="true">✦</div>'+
+          '<h1>A beleza do canto que eleva a alma.</h1>'+
+          '<p>Um espaço dedicado à música sacra, às partituras litúrgicas e à tradição da Igreja.</p>'+
+          '<a class="mobile-lit-home-cta" href="#destaques">Explorar o repertório <span aria-hidden="true">↓</span></a>'+
+          '<span class="mobile-lit-home-motto">Ad Maiorem Dei Gloriam</span>';
+        main.insertBefore(intro,main.firstChild);
+      }
     }
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
