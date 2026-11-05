@@ -40,6 +40,14 @@
       const meta=document.createElement('meta');
       meta.name='apple-mobile-web-app-capable';meta.content='yes';document.head.append(meta);
     }
+    if(!document.querySelector('link[rel="apple-touch-icon"]')) {
+      const touch=document.createElement('link');
+      touch.rel='apple-touch-icon';touch.href='/assets/img/icone.png';document.head.append(touch);
+    }
+    if(!document.querySelector('meta[name="apple-mobile-web-app-title"]')) {
+      const title=document.createElement('meta');
+      title.name='apple-mobile-web-app-title';title.content='Douglas Assumpção';document.head.append(title);
+    }
 
     const header=document.createElement('header');
     header.id='mobile-sacred-header';header.className='mobile-sacred-header';
