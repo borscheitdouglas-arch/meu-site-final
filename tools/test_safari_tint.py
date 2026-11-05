@@ -71,6 +71,11 @@ def main():
                         body_expected = "rgb(245, 242, 236)"
                     response = page.goto(base + path, wait_until="domcontentloaded")
                     assert response and response.status == 200, (name, response)
+                    # A camada mobile é carregada por um script leve após DOMContentLoaded.
+                    # Espere o cabeçalho real ficar visível antes de inspecionar a cor.
+                    if width < 768 and name == "início":
+                        page.locator("#mobile-sacred-header").wait_for(
+                            state="visible", timeout=12000)
                     if body_expected:
                         body_color = page.evaluate(
                             "() => getComputedStyle(document.body).backgroundColor")
