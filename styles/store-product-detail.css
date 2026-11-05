@@ -277,3 +277,41 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
     height:54px;
   }
 }
+
+/* Controles discretos e visualização ampliada da camiseta. */
+.shop-product-page .shop-gallery-control {
+  appearance:none;position:absolute;z-index:2;display:grid;place-items:center;
+  width:42px;height:42px;min-height:42px;padding:0;border:1px solid #d9c29599;
+  border-radius:50%;background:#0c211cce;color:#f1dfb9;
+  font:400 30px/1 Georgia,serif;cursor:pointer;box-shadow:0 2px 10px #0003;
+}
+.shop-product-page .shop-gallery-control:hover {background:#294238;color:#fff1d3;}
+.shop-product-page .shop-gallery-control:focus-visible {outline:3px solid #f3d697;outline-offset:3px;}
+.shop-product-page .shop-gallery-prev {left:8px;top:50%;transform:translateY(-50%);}
+.shop-product-page .shop-gallery-next {right:8px;top:50%;transform:translateY(-50%);}
+.shop-product-page .shop-gallery-zoom {right:9px;bottom:9px;font-size:26px;}
+.shop-product-page .shop-gallery-viewer {
+  position:fixed;inset:0;box-sizing:border-box;width:100%;max-width:none;height:100%;
+  height:100dvh;max-height:none;margin:0;padding:62px 64px 52px;border:0;
+  background:#07100cf2;color:#f1dfb9;overflow:hidden;
+}
+.shop-product-page .shop-gallery-viewer[open] {display:grid;place-items:center;}
+.shop-product-page .shop-gallery-viewer::backdrop {background:#050a08e8;}
+.shop-product-page .shop-gallery-viewer-stage {display:contents;}
+.shop-product-page .shop-gallery-viewer-stage img {
+  display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;
+  min-height:0;box-shadow:0 8px 40px #0007;
+}
+.shop-product-page .shop-gallery-viewer .shop-gallery-close {right:15px;top:12px;}
+.shop-product-page .shop-gallery-counter {
+  position:absolute;bottom:15px;left:0;right:0;margin:0;text-align:center;
+  font:500 13px/1.5 'Inter',sans-serif;color:#ead6ac;pointer-events:none;
+}
+@media(max-width:540px){
+  .shop-product-page .shop-gallery-viewer {padding:64px 12px 72px;}
+  .shop-product-page .shop-gallery-viewer .shop-gallery-prev,
+  .shop-product-page .shop-gallery-viewer .shop-gallery-next {top:auto;bottom:13px;transform:none;}
+  .shop-product-page .shop-gallery-viewer .shop-gallery-prev {left:20px;}
+  .shop-product-page .shop-gallery-viewer .shop-gallery-next {right:20px;}
+  .shop-product-page .shop-gallery-viewer .shop-gallery-counter {bottom:24px;}
+}

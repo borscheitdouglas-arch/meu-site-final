@@ -47,6 +47,23 @@ def main():
         page.goto(BASE + "/pages/produto-loja.html?id=camiseta-salve-regina",
             wait_until="domcontentloaded")
         expect(page.get_by_role("button", name="XG", exact=True)).to_be_visible(timeout=12000)
+        image = page.locator(".shop-single-image-clip > img")
+        first_photo = image.get_attribute("src")
+        page.get_by_role("button", name="Próxima imagem", exact=True).click()
+        assert image.get_attribute("src") != first_photo
+        page.get_by_role("button", name="Ampliar imagem", exact=True).click()
+        viewer = page.get_by_role("dialog")
+        expect(viewer).to_be_visible()
+        expect(viewer.locator(".shop-gallery-counter")).to_have_text("2 / 6")
+        page.get_by_role("button", name="Próxima imagem ampliada", exact=True).click()
+        expect(viewer.locator(".shop-gallery-counter")).to_have_text("3 / 6")
+        page.keyboard.press("Escape")
+        expect(viewer).not_to_be_visible()
+        expect(page.get_by_role("button", name="Ampliar imagem", exact=True)).to_be_focused()
+        page.get_by_role("button", name="Imagem anterior", exact=True).click()
+        page.get_by_role("button", name="Imagem anterior", exact=True).click()
+        expect(image).to_have_attribute("src", first_photo)
+        print("PASS: navegação, ampliação, contador, fechamento e retorno de foco da galeria")
         for size in ["P", "M", "G", "GG", "XG"]:
             expect(page.get_by_role("button", name=size, exact=True)).to_be_visible()
         page.get_by_role("button", name="XG", exact=True).click()
@@ -70,8 +87,8 @@ def main():
 
         page.goto(BASE + "/pages/produto-loja.html?id=caneca-salve-regina-preta",
             wait_until="domcontentloaded")
-        expect(page.get_by_role("link", name="P&B", exact=True)).to_be_visible(timeout=12000)
-        page.get_by_role("link", name="P&B", exact=True).click()
+        expect(page.get_by_role("link", name="Nossa Senhora", exact=True)).to_be_visible(timeout=12000)
+        page.get_by_role("link", name="Nossa Senhora", exact=True).click()
         expect(page).to_have_url(re.compile("id=caneca-salve-regina-pb"))
         print("PASS: alternativas de caneca navegáveis e sem habilitar cobrança")
 
