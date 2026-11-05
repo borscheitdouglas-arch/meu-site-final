@@ -7,11 +7,11 @@
     const style = document.createElement('link');
     style.id = 'mobile-app-shell-css';
     style.rel = 'stylesheet';
-    style.href = '/styles/mobile-app-shell.css?v=20261105-sacred-gallery-v4';
+    style.href = '/styles/mobile-app-shell.css?v=20261105-maria-jose-v5';
     document.head.appendChild(style);
     const script = document.createElement('script');
     script.id = 'mobile-app-shell-script';
-    script.src = '/scripts/mobile-app-shell.js?v=20261105-sacred-gallery-v4';
+    script.src = '/scripts/mobile-app-shell.js?v=20261105-maria-jose-v5';
     document.body.appendChild(script);
   }
   loadMobileApp();
