@@ -207,14 +207,82 @@
       const main=document.querySelector('main.editorial-main');
       if(main){
         const welcome=document.createElement('section');
-        welcome.className='mobile-sacred-welcome';
-        welcome.setAttribute('aria-labelledby','mobile-sacred-title');
-        welcome.innerHTML='<p class="mobile-sacred-overline">Douglas Assumpção · Música sacra</p>'+
-          '<div class="mobile-sacred-welcome-medallion" aria-hidden="true"><span>✦</span><img src="/assets/img/icone.png" alt=""></div>'+
-          '<h1 id="mobile-sacred-title">A beleza que conduz à oração.</h1>'+
-          '<div class="mobile-sacred-welcome-ornament" aria-hidden="true">✦ ─── ✧ ─── ✦</div>'+
-          '<p>Repertório litúrgico, cantos e reflexões para acompanhar cada tempo do ano.</p>'+
-          '<p class="mobile-sacred-home-signature">Ad Maiorem Dei Gloriam</p>';
+        welcome.className='mobile-sacred-welcome mobile-sacred-art-gallery';
+        welcome.setAttribute('aria-label','Arte sacra da página inicial');
+        const artworks=[
+          {src:'/assets/img/mobile/mobile-home-maria.webp',name:'Nossa Senhora com o Menino Jesus',alt:'Nossa Senhora com o Menino Jesus em uma moldura gótica dourada, diante de uma imagem mariana escurecida.'},
+          {src:'/assets/img/mobile/mobile-home-agnus-dei.webp',name:'Agnus Dei',alt:'Cordeiro Pascal diante de um ícone escurecido de Cristo, em moldura de quatro lóbulos com detalhes dourados.'}
+        ];
+        const frames=artworks.map((art,i)=>{
+          const figure=document.createElement('figure');
+          figure.className='mobile-sacred-art-frame'+(i===0?' is-active':'');
+          figure.setAttribute('aria-hidden',String(i!==0));
+          if(i!==0)figure.inert=true;
+          const img=document.createElement('img');
+          img.src=art.src;img.alt=art.alt;img.decoding='async';
+          img.loading='eager';
+          img.fetchPriority=i===0?'high':'low';
+          img.width=844;img.height=1500;
+          figure.append(img);
+          welcome.append(figure);
+          return figure;
+        });
+        const controls=document.createElement('div');
+        controls.className='mobile-sacred-art-controls';
+        controls.setAttribute('role','group');
+        controls.setAttribute('aria-label','Escolher uma das duas imagens da página inicial');
+        const dots=artworks.map((art,i)=>{
+          const button=document.createElement('button');
+          button.type='button';button.className='mobile-sacred-art-dot';
+          button.setAttribute('aria-label','Ver arte: '+art.name);
+          button.setAttribute('aria-pressed',String(i===0));
+          button.title=art.name;controls.append(button);
+          return button;
+        });
+        const status=document.createElement('p');
+        status.className='mobile-sacred-art-status';
+        status.setAttribute('aria-live','polite');
+        status.textContent='Imagem 1 de 2: '+artworks[0].name;
+        welcome.append(controls,status);
+        let selected=0;
+        function selectArtwork(index) {
+          const next=(index+artworks.length)%artworks.length;
+          if(next===selected)return;
+          selected=next;
+          frames.forEach((frame,i)=>{
+            const active=i===selected;
+            frame.classList.toggle('is-active',active);
+            frame.setAttribute('aria-hidden',String(!active));
+            frame.inert=!active;
+            dots[i].setAttribute('aria-pressed',String(active));
+          });
+          status.textContent='Imagem '+(selected+1)+' de '+artworks.length+': '+artworks[selected].name;
+        }
+        dots.forEach((button,i)=>{
+          button.addEventListener('click',()=>selectArtwork(i));
+          button.addEventListener('keydown',event=>{
+            if(event.key!=='ArrowRight'&&event.key!=='ArrowLeft')return;
+            event.preventDefault();
+            const next=(i+(event.key==='ArrowRight'?1:-1)+dots.length)%dots.length;
+            selectArtwork(next);dots[next].focus();
+          });
+        });
+        // Troca por gesto horizontal, sem rolagem vertical da home.
+        let touchX=null,touchY=null;
+        welcome.addEventListener('touchstart',event=>{
+          if(event.touches.length!==1)return;
+          touchX=event.touches[0].clientX;touchY=event.touches[0].clientY;
+        },{passive:true});
+        welcome.addEventListener('touchend',event=>{
+          if(touchX===null||touchY===null||event.changedTouches.length!==1)return;
+          const deltaX=event.changedTouches[0].clientX-touchX;
+          const deltaY=event.changedTouches[0].clientY-touchY;
+          touchX=null;touchY=null;
+          if(Math.abs(deltaX)>=45&&Math.abs(deltaX)>Math.abs(deltaY)*1.2){
+            selectArtwork(selected+(deltaX<0?1:-1));
+          }
+        },{passive:true});
+        welcome.addEventListener('touchcancel',()=>{touchX=null;touchY=null;},{passive:true});
         main.insertBefore(welcome,main.firstChild);
       }
     }
