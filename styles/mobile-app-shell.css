@@ -159,6 +159,23 @@
   body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .editorial-empty-copy {padding:22px 16px 27px}
   body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .editorial-resources {grid-template-columns:minmax(0,1fr);padding:12px 15px 20px}
   body.mobile-lit-active.site-editorial:not(.shop-shared-shell) .repertoire-unified .card {width:100%;max-width:100%}
+  /* Busca da vitrine, sem depender do antigo cabeçalho da loja. */
+  .mobile-lit-store-search {
+    display:flex;gap:8px;align-items:stretch;margin:15px 12px;
+    padding:9px;background:#f3eee2;border:1px solid #c9b17b;
+    border-radius:12px;box-shadow:0 7px 22px #081b2933;
+    color-scheme:light;
+  }
+  .mobile-lit-store-search input {
+    display:block;flex:1;min-width:0;width:100%;min-height:43px;
+    padding:0 12px;margin:0;border:1px solid #d2c19d;border-radius:7px;
+    background:#fff;color:#1b3234;font:400 16px/1.3 'Inter',Arial,sans-serif;
+  }
+  .mobile-lit-store-search button {
+    min-height:43px;min-width:65px;margin:0;padding:0 12px;
+    border:0;border-radius:7px;background:#102e38;color:#f4dfad;
+    font:600 12px/1.2 'Inter',Arial,sans-serif;cursor:pointer;
+  }
   /* Os campos já existentes da loja permanecem funcionais, sem alterar frete ou checkout. */
   body.mobile-lit-active :is(.checkout-multi-main,.shop-cart-page) {padding-bottom:26px}
   body.mobile-lit-active :is(.checkout-multi-main,.shop-cart-page) :is(input:not([type=checkbox]):not([type=radio]),select){font-size:16px}
