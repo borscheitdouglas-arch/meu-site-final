@@ -1,115 +1,273 @@
-/* Experiência mobile — identidade mariana, navegação de aplicativo.
-   Toda alteração visual está isolada até 767px. Desktop permanece inalterado. */
-.mobile-app-bar,.mobile-app-drawer,.mobile-app-welcome {display:none}
+/* Douglas Assumpção — experiência mobile sacra, nov/2026.
+   Visual exclusivo até 767px. O desktop e o fluxo comercial não são alterados. */
+.mobile-sacred-header,.mobile-sacred-drawer,.mobile-sacred-install-dialog,.mobile-sacred-welcome,.mobile-sacred-shop-search {display:none}
 @media (max-width:767px) {
-  html {scroll-padding-bottom:94px}
-  body.mobile-app-active {
-    padding-bottom:calc(78px + env(safe-area-inset-bottom,0px));
+  :root {--sacred-navy:#071f2e;--sacred-blue:#0d2c3f;--sacred-gold:#dfc182;--sacred-ink:#49361e;--sacred-parchment:#f4e7c7}
+  html {scroll-padding-top:90px;scroll-padding-bottom:0}
+  body.mobile-sacred-active {
+    --header-height:76px!important;--shop-header:76px!important;
+    padding-top:calc(76px + env(safe-area-inset-top,0px))!important;
+    padding-bottom:0!important;
     -webkit-tap-highlight-color:transparent;
   }
-  body.mobile-app-active .editorial-main {min-width:0}
-  body.mobile-app-active a:focus-visible,
-  body.mobile-app-active button:focus-visible,
-  body.mobile-app-active input:focus-visible {outline:3px solid #e6c688;outline-offset:3px}
-  .mobile-app-bar {
-    display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-    align-items:start;position:fixed;inset:auto 0 0;z-index:1100;
-    width:100%;height:calc(72px + env(safe-area-inset-bottom,0px));
-    padding:5px 6px calc(5px + env(safe-area-inset-bottom,0px));
-    border-top:1px solid #c4a26882;
-    background:linear-gradient(145deg,rgba(6,39,45,.99),rgba(9,48,54,.99));
-    box-shadow:0 -9px 32px #020d1190;
+  body.mobile-sacred-active > .site-header,
+  body.mobile-sacred-active #side-nav,
+  body.mobile-sacred-active #nav-overlay,
+  body.mobile-sacred-active > .mobile-app-bar,
+  body.mobile-sacred-active > .mobile-app-drawer {
+    display:none!important;
+  }
+  body.mobile-sacred-active .editorial-main {min-width:0}
+  body.mobile-sacred-active :is(a,button,input,summary):focus-visible {outline:3px solid #edc989;outline-offset:3px}
+  .mobile-sacred-header,.mobile-sacred-header * {box-sizing:border-box}
+  .mobile-sacred-header {
+    display:flex;align-items:center;justify-content:space-between;
+    position:fixed;inset:0 0 auto;z-index:1290;
+    width:100%;height:calc(76px + env(safe-area-inset-top,0px));
+    margin:0;padding:calc(8px + env(safe-area-inset-top,0px)) 12px 9px;
+    border:0;border-bottom:1px solid #c9a46298;
+    background:linear-gradient(150deg,#061522f9,#0b2d41f9 65%,#081c2bf9);
+    color:#ebd4a0;box-shadow:0 6px 22px #030b149e;
     font-family:'Inter',Arial,sans-serif;
-    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
   }
-  .mobile-app-bar :is(a,button) {
-    position:relative;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;gap:3px;min-width:0;min-height:60px;margin:0;padding:5px 1px;
-    border:0;border-radius:12px;background:transparent;box-shadow:none;
-    color:#e5decf;text-align:center;text-decoration:none;
-    font:500 10px/1.15 'Inter',Arial,sans-serif;letter-spacing:0;cursor:pointer;
+  .mobile-sacred-header::after {
+    content:'';position:absolute;left:11px;right:11px;bottom:4px;
+    height:1px;background:linear-gradient(90deg,transparent,#cfad6b6e,transparent);
+    pointer-events:none;
   }
-  .mobile-app-bar :is(a,button):is([aria-current="page"],[aria-pressed="true"]) {
-    color:#ffe1a3;background:#b78b3d2b;
+  .mobile-sacred-header button,.mobile-sacred-header a {
+    display:flex;align-items:center;justify-content:center;
+    min-width:44px;min-height:44px;margin:0;padding:0;
+    border:0;border-radius:8px;background:transparent;
+    color:#e7c786;text-decoration:none;cursor:pointer;box-shadow:none;
+    font:600 10px/1.2 'Inter',Arial,sans-serif;letter-spacing:.025em;
   }
-  .mobile-app-bar :is(a,button):active {background:#d5b47438}
-  .mobile-app-bar svg {flex-shrink:0;display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-  .mobile-app-badge {
-    position:absolute;top:1px;left:calc(50% + 9px);display:grid;place-items:center;
-    min-width:17px;height:17px;padding:0 4px;border:2px solid #08343b;
-    border-radius:99px;background:#e6c586;color:#122d30;font:700 10px/1 'Inter',sans-serif;
+  .mobile-sacred-header :is(button,a):active {background:#dbba6d24}
+  .mobile-sacred-header svg {width:25px;height:25px;display:block;flex:none}
+  .mobile-sacred-menu-trigger {flex:0 0 46px}
+  .mobile-sacred-brand {
+    position:absolute;left:50%;top:calc(9px + env(safe-area-inset-top,0px));
+    transform:translateX(-50%);z-index:1;
+    gap:6px;max-width:calc(100% - 200px);height:54px;
+    white-space:nowrap;text-align:center;color:#e9ca8c!important;
   }
-  .mobile-app-badge[hidden] {display:none}
-  .mobile-app-drawer[open] {
-    display:flex;flex-direction:column;position:fixed;inset:auto 0 0;z-index:1200;
-    width:100%;max-width:none;max-height:min(88dvh,770px);margin:0;
-    padding:0 0 env(safe-area-inset-bottom,0px);border:1px solid #b89a61;
-    border-bottom:0;border-radius:23px 23px 0 0;outline:0;
-    background:#112c30;color:#f5efdf;box-shadow:0 -20px 60px #0008;
-    font-family:'Inter',Arial,sans-serif;
+  .mobile-sacred-brand img {width:29px;height:29px;flex:0 0 29px;object-fit:contain;border-radius:50%}
+  .mobile-sacred-brand span {
+    color:#f0dba8;font:600 clamp(14px,3.9vw,17px)/1.08 'EB Garamond',Georgia,serif;
+    letter-spacing:.015em;text-shadow:0 2px 7px #0007;
   }
-  .mobile-app-drawer::backdrop {background:rgba(4,12,15,.70);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-  .mobile-app-sheet-head {display:flex;justify-content:space-between;align-items:center;gap:12px;padding:19px 18px 12px;border-bottom:1px solid #d8bd8140}
-  .mobile-app-sheet-head h2 {margin:2px 0 0;color:#f7eedc;font:600 27px/1.2 'Spectral',Georgia,serif}
-  .mobile-app-eyebrow {margin:0;color:#d4b578;font:700 10px/1.4 'Inter',Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase}
-  .mobile-app-sheet-close {display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border:1px solid #bba37470;border-radius:50%;background:#ffffff09;color:#f7eedc;font:28px/1 Arial;cursor:pointer}
-  .mobile-app-sheet-scroll {min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:15px 17px 28px;scroll-padding-top:20px}
-  .mobile-app-sheet-label {display:block;margin:0 0 7px;color:#e1d4ba;font:600 12px/1.4 'Inter',Arial,sans-serif}
-  .mobile-app-filter {width:100%;min-height:48px;margin:0 0 14px;padding:0 16px;border:1px solid #c5af87;border-radius:13px;background:#f5f1e8;color:#173138;box-shadow:none;font:400 16px/1.2 'Inter',Arial,sans-serif;color-scheme:light}
-  .mobile-app-categories {display:flex;gap:8px;overflow-x:auto;padding:0 0 14px;scrollbar-width:none}
-  .mobile-app-categories button {flex:0 0 auto;min-height:40px;margin:0;padding:0 14px;border:1px solid #bda46d77;border-radius:30px;background:#173b41;color:#f3e6cc;font:600 12px/1.3 'Inter',Arial,sans-serif}
-  .mobile-app-group {margin:10px 0 23px}
-  .mobile-app-group h3 {margin:0 0 10px;color:#e6c586;font:600 18px/1.4 'Spectral',Georgia,serif}
-  .mobile-app-group-links {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .mobile-app-group-links a,.mobile-app-menu-links a,.mobile-app-menu-links button {
-    display:flex;align-items:center;min-width:0;min-height:46px;padding:12px 13px;
-    border:1px solid #d0b77e43;border-radius:12px;background:#ffffff09;
-    color:#eee9dc;text-align:left;text-decoration:none;
-    font:500 13px/1.35 'Inter',Arial,sans-serif;overflow-wrap:anywhere;
+  .mobile-sacred-actions {display:flex;gap:2px;align-items:center;margin-left:auto}
+  .mobile-sacred-actions .mobile-sacred-store-link {
+    display:flex;flex-direction:column;gap:1px;min-width:45px;
+    font-size:9px;font-weight:600;text-transform:uppercase;
   }
-  .mobile-app-menu-links {display:grid;gap:9px}
-  .mobile-app-menu-links button {width:100%;cursor:pointer}
-  .mobile-app-empty {padding:12px;color:#efe1c5;font:400 14px/1.5 'Inter',Arial,sans-serif}
-  .mobile-app-drawer [hidden] {display:none!important}
-  /* Páginas de repertório: leitura sem colunas comprimidas e ações fáceis de tocar. */
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-main {padding-left:16px;padding-right:16px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-heading {margin-top:18px;margin-bottom:20px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-breadcrumb {gap:6px;margin-bottom:15px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-empty-copy {padding:22px 16px 27px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .editorial-resources {grid-template-columns:minmax(0,1fr);padding:12px 15px 20px}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .repertoire-unified .card {width:100%;max-width:100%}
-  body.mobile-app-active.site-editorial:not(.shop-shared-shell) .repertoire-unified .card-link {min-height:44px}
-  /* Abertura de aplicativo na home: atalhos reais para o conteúdo existente. */
-  body.home-page .mobile-app-welcome {
-    display:block;margin:16px 0 22px;padding:20px 15px 17px;
-    border:1px solid #bca16d79;border-radius:18px;
-    background:linear-gradient(140deg,#17333a,#112528 78%);
-    box-shadow:0 9px 28px #040d104f;
+  .mobile-sacred-store-link svg {width:22px;height:22px}
+  .mobile-sacred-install-trigger {width:44px;flex:0 0 44px}
+  .mobile-sacred-install-trigger svg {width:26px;height:26px}
+  /* A navegação litúrgica se abre como painel lateral de pergaminho. */
+  .mobile-sacred-drawer[open] {
+    display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;
+    width:min(370px,91vw);max-width:91vw;height:100dvh;max-height:100dvh;
+    margin:0;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);
+    overflow:hidden;border:0;border-right:1px solid #af8959;
+    border-radius:0;
+    background:linear-gradient(135deg,#f1dfb9 0%,#faedcd 43%,#e7d2a6 100%);
+    box-shadow:10px 0 40px #030c16a8;
+    color:var(--sacred-ink);font-family:'EB Garamond',Georgia,serif;
+    color-scheme:light;isolation:isolate;
   }
-  .mobile-app-welcome h2 {margin:5px 0 7px!important;color:#f7ecd4!important;font:600 27px/1.17 'Spectral',Georgia,serif!important}
-  .mobile-app-welcome > p:not(.mobile-app-eyebrow) {margin:0 0 17px;color:#cfc9bd;font:400 13px/1.6 'Inter',Arial,sans-serif}
-  .mobile-app-quick-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .mobile-app-quick-grid :is(a,button) {display:flex;gap:10px;align-items:center;justify-content:flex-start;min-height:58px;min-width:0;padding:12px 11px;border:1px solid #d2b5756b;border-radius:13px;background:#f2ece0;color:#18353a;text-align:left;text-decoration:none;font:600 13px/1.35 'Inter',Arial,sans-serif;cursor:pointer}
-  .mobile-app-quick-grid svg {width:22px;height:22px;flex:0 0 22px;stroke:#7b5a2e;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  body.mobile-app-active.home-page .home-section-heading {padding-top:18px}
-  body.mobile-app-active.home-page #recent-content-carousel .lit-card {min-height:360px}
-  body.mobile-app-active.home-page #recent-content-carousel .lit-card-content {max-width:92%;padding:36px 16px 90px}
-  body.mobile-app-active.home-page #recent-content-carousel h3 {font-size:clamp(22px,6.5vw,31px)}
-  /* Loja: raio, espaçamento e campos legíveis sem interferir no checkout. */
-  body.mobile-app-active.shop-manto #catalogo {border-radius:16px}
-  body.mobile-app-active.shop-manto #shop-product-grid > :is(.shop-product-card,.atelier-catalog) {border-radius:14px;overflow:hidden}
-  body.mobile-app-active.shop-manto #shop-product-grid .shop-product-info {display:flex;flex-direction:column;gap:6px}
-  body.mobile-app-active.shop-manto #shop-product-grid .shop-cart-add {border-radius:9px}
-  body.mobile-app-active.shop-shared-shell .shop-shared-header {box-shadow:0 4px 20px #020d1166}
-  body.mobile-app-active :is(.shop-cart-page,.checkout-multi-main) {padding-bottom:25px}
-  body.mobile-app-active :is(.shop-cart-page,.checkout-multi-main) input:not([type=checkbox]):not([type=radio]),
-  body.mobile-app-active :is(.shop-cart-page,.checkout-multi-main) select {font-size:16px}
+  .mobile-sacred-drawer[open]::before {
+    content:'';position:absolute;inset:0;z-index:-1;
+    background:
+      linear-gradient(0deg,#e9d6aece,#f3e3c0c2),
+      url('/assets/img/1.jpg') center/cover no-repeat;
+    opacity:.25;pointer-events:none;
+  }
+  .mobile-sacred-drawer::backdrop {background:#020b17c0;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .mobile-sacred-drawer-head {
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:15px 20px 11px;border-bottom:1px solid #a77e47a3;
+    background:#f5e7c7b3;
+  }
+  .mobile-sacred-drawer-head h2 {margin:4px 0 0!important;color:#4a301d!important;font:600 34px/1.12 'EB Garamond',Georgia,serif!important}
+  .mobile-sacred-overline {
+    margin:0;color:#946e41;font:600 10px/1.5 'Inter',Arial,sans-serif;
+    text-transform:uppercase;letter-spacing:.13em;
+  }
+  .mobile-sacred-close {
+    display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;
+    margin:0;padding:0;border:1px solid #ac8657;border-radius:50%;
+    background:#f1dbb3;color:#573923;box-shadow:none;
+    font:32px/1 'EB Garamond',serif;cursor:pointer;
+  }
+  .mobile-sacred-menu-scroll {
+    min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;
+    padding:16px 18px 36px;scrollbar-width:thin;scrollbar-color:#b99a64 transparent;
+  }
+  .mobile-sacred-quick {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .mobile-sacred-quick a {
+    display:flex;align-items:center;min-height:50px;padding:10px 11px;
+    border:1px solid #bba16c9c;border-radius:8px;
+    background:#fff7e7b6;color:#62462e!important;text-decoration:none;
+    box-shadow:0 1px 2px #4a342221;font:600 15px/1.2 'EB Garamond',Georgia,serif;
+  }
+  .mobile-sacred-quick a:active {background:#fff5d9}
+  .mobile-sacred-menu-divider {
+    display:flex;align-items:center;justify-content:center;gap:12px;
+    margin:21px 0 12px;color:#9a794b;font:600 14px/1.2 'EB Garamond',Georgia,serif;
+  }
+  .mobile-sacred-menu-divider::before,.mobile-sacred-menu-divider::after {content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#a78c64)}
+  .mobile-sacred-menu-divider::after {transform:rotate(180deg)}
+  .mobile-sacred-menu-divider span {font-size:9px}
+  .mobile-sacred-menu-search {
+    display:block;width:100%;height:44px;min-height:44px;margin:0 0 13px;
+    padding:0 12px;border:1px solid #baa37d;border-radius:8px;
+    background:#fdf7e8;color:#3c321f;box-shadow:none;
+    font:400 16px/1.4 'Inter',Arial,sans-serif;
+  }
+  .mobile-sacred-category {margin:0;border-bottom:1px solid #bda47c8e}
+  .mobile-sacred-category summary {
+    display:flex;align-items:center;gap:10px;justify-content:space-between;
+    min-height:56px;padding:13px 5px;list-style:none;cursor:pointer;
+    color:#4b321f;font:600 23px/1.2 'EB Garamond',Georgia,serif;
+  }
+  .mobile-sacred-category summary::-webkit-details-marker {display:none}
+  .mobile-sacred-category summary::before {
+    content:'✥';flex:0 0 19px;color:#937447;font-size:21px;
+  }
+  .mobile-sacred-category summary span {flex:1}
+  .mobile-sacred-category summary small {
+    display:grid;place-items:center;min-width:24px;height:24px;padding:0 5px;
+    border:1px solid #c5ae84;border-radius:50%;color:#815b32;
+    font:600 12px/1 'Inter',Arial,sans-serif;
+  }
+  .mobile-sacred-category[open] summary {color:#6e4a2a}
+  .mobile-sacred-choices {display:grid;grid-template-columns:minmax(0,1fr);gap:1px;padding:0 0 13px 24px}
+  .mobile-sacred-choices a {
+    display:flex;align-items:center;min-height:42px;padding:7px 11px;
+    border-radius:6px;color:#63442d!important;text-decoration:none;
+    font:500 16px/1.3 'EB Garamond',Georgia,serif;
+  }
+  .mobile-sacred-choices a::before {content:'◇';font-size:12px;margin-right:8px;color:#a1875a}
+  .mobile-sacred-choices a:active {background:#fff6dfb5}
+  .mobile-sacred-category[hidden],.mobile-sacred-choices a[hidden],.mobile-sacred-no-results[hidden] {display:none!important}
+  .mobile-sacred-loading,.mobile-sacred-no-results {padding:13px 7px;color:#785b3b;font:400 14px/1.5 'Inter',Arial,sans-serif}
+  /* Convite de instalação: nunca promete instalar automaticamente no Safari. */
+  .mobile-sacred-install-dialog[open] {
+    display:grid;place-items:center;position:fixed;inset:0;
+    width:min(360px,calc(100vw - 32px));max-width:calc(100vw - 32px);
+    max-height:calc(100dvh - 24px);padding:0;margin:auto;
+    border:1px solid #c29d62;border-radius:16px;
+    background:#f5e9ce;box-shadow:0 22px 65px #0009;color:#4b3826;
+    font-family:'Inter',Arial,sans-serif;color-scheme:light;
+  }
+  .mobile-sacred-install-dialog::backdrop {background:#020b17ba}
+  .mobile-sacred-install-panel {position:relative;padding:29px 23px 25px;text-align:center}
+  .mobile-sacred-install-close {position:absolute;top:10px;right:11px;display:grid;place-items:center;width:39px;height:39px;border:0;background:transparent;color:#574229;font:30px/1 Georgia;cursor:pointer}
+  .mobile-sacred-install-emblem {display:grid;place-items:center;width:65px;height:65px;margin:0 auto 12px;border:1px solid #bc985c;border-radius:50%;background:#102b3d;color:#e5c383}
+  .mobile-sacred-install-emblem svg {width:34px;height:34px}
+  .mobile-sacred-install-panel h2 {margin:7px 0 13px;color:#4b351f;font:600 29px/1.12 'EB Garamond',Georgia,serif}
+  .mobile-sacred-install-copy {margin:0 0 13px;color:#4b3826;font:400 15px/1.65 'Inter',Arial,sans-serif}
+  .mobile-sacred-install-note {margin:0 0 18px;color:#7b644b;font:400 12px/1.55 'Inter',Arial,sans-serif}
+  .mobile-sacred-install-ok {width:100%;min-height:44px;padding:11px 15px;border:0;border-radius:8px;background:#0c3041;color:#f8e5c1;font:600 14px/1 'Inter',Arial,sans-serif}
+  /* Fundo fixo: pseudo-elemento, mais estável que background-attachment no iOS. */
+  body.mobile-sacred-active.home-page {
+    background:#071a28!important;
+    background-image:none!important;
+  }
+  body.mobile-sacred-active.home-page::before {
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      linear-gradient(180deg,#03131d18,#06192616 70%,#07152090),
+      url('/assets/img/mobile/manto-mariano-textura.svg') center center / cover no-repeat;
+  }
+  body.mobile-sacred-active.home-page > :is(.adsense-layout,.pix-with-ads,.adsense-bottom,.site-footer) {
+    position:relative;z-index:1;
+  }
+  body.mobile-sacred-active.home-page :is(.adsense-layout,.editorial-main,.container.home-centered) {background:transparent!important}
+  body.mobile-sacred-active.home-page .hero-banner {display:none!important}
+  body.mobile-sacred-active.home-page .editorial-main {
+    padding:0 14px 48px!important;
+    width:100%;max-width:none;
+  }
+  .mobile-sacred-welcome {
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:0;min-height:calc(93svh - 76px);
+    margin:0 -14px 35px;padding:60px 25px 55px;
+    text-align:center;isolation:isolate;
+    background:linear-gradient(180deg,#061a25b0,#091f2d2b 42%,#071923b0);
+    border-bottom:1px solid #c6a3676b;
+  }
+  .mobile-sacred-welcome .mobile-sacred-overline {color:#ebc78f;font-size:10px;letter-spacing:.16em}
+  .mobile-sacred-welcome-medallion {
+    position:relative;display:grid;place-items:center;
+    width:158px;height:158px;flex:0 0 158px;
+    margin:30px auto 26px;border:1px solid #caa65f9c;border-radius:50%;
+    background:radial-gradient(circle,#aa824527,#05172376 73%);
+    box-shadow:0 0 0 8px #d1af6130,0 0 0 16px #d1af6110,0 0 45px #b18d4729;
+  }
+  .mobile-sacred-welcome-medallion::before,.mobile-sacred-welcome-medallion::after {
+    content:'✦';position:absolute;top:50%;transform:translateY(-50%);
+    font:16px Georgia,serif;color:#d4b477;
+  }
+  .mobile-sacred-welcome-medallion::before {left:-31px}
+  .mobile-sacred-welcome-medallion::after {right:-31px}
+  .mobile-sacred-welcome-medallion img {max-width:104px;max-height:104px;object-fit:contain;filter:drop-shadow(0 6px 13px #0007)}
+  .mobile-sacred-welcome-medallion span {position:absolute;top:-25px;color:#e3c68f}
+  .mobile-sacred-welcome h1 {
+    margin:0!important;max-width:340px;color:#f5e5bf!important;text-align:center!important;
+    font:600 clamp(30px,8.1vw,42px)/1.16 'EB Garamond',Georgia,serif!important;
+    text-shadow:0 3px 14px #000a;
+  }
+  .mobile-sacred-welcome-ornament {margin:19px auto 15px;color:#d1b276;font:17px/1.2 Georgia,serif;letter-spacing:.12em}
+  .mobile-sacred-welcome > p:not(.mobile-sacred-overline) {
+    max-width:335px;margin:0;color:#f0e6cf;
+    font:400 15px/1.65 'Spectral',Georgia,serif;
+    text-shadow:0 2px 7px #000c;
+  }
+  .mobile-sacred-welcome-actions {display:flex;flex-direction:column;align-items:stretch;gap:10px;width:100%;max-width:280px;margin:26px auto 0}
+  .mobile-sacred-welcome-actions :is(a,button) {
+    display:grid;place-items:center;width:100%;min-height:49px;margin:0;
+    padding:10px 16px;border:1px solid #c7aa72;border-radius:6px;
+    background:#edd8a7;color:#1b3440;text-decoration:none;box-shadow:0 3px 14px #0006;
+    font:600 13px/1.35 'Inter',Arial,sans-serif;cursor:pointer;
+  }
+  .mobile-sacred-welcome-actions a {background:#112e3ce0;color:#f2dba8}
+  body.mobile-sacred-active.home-page .editorial-heading {margin-top:0}
+  body.mobile-sacred-active.home-page .home-section-heading {border-top-color:#dec48d63}
+  body.mobile-sacred-active.home-page .articles {padding:15px 2px 0}
+  body.mobile-sacred-active.home-page #recent-content-carousel .lit-card {min-height:380px}
+  body.mobile-sacred-active.home-page #recent-content-carousel .lit-card-content {max-width:94%;padding:28px 16px 95px}
+  body.mobile-sacred-active.home-page #recent-content-carousel h3 {font-size:clamp(24px,7vw,32px)}
+  body.mobile-sacred-active.home-page .home-support > article {background:#0a2432e8}
+  /* Catálogo: busca continua disponível apesar do cabeçalho original ficar oculto. */
+  .mobile-sacred-shop-search {display:block;margin:5px 0 19px;padding:10px 13px 13px;border:1px solid #bda06e75;border-radius:10px;background:#0b2d3c}
+  .mobile-sacred-shop-search label {display:block;margin:0 0 6px;color:#f4ddb0;font:600 12px/1.4 'Inter',Arial,sans-serif}
+  .mobile-sacred-shop-search > div {display:flex;gap:0;height:44px;border:1px solid #d5bd8d;border-radius:7px;overflow:hidden;background:#fff9ee}
+  .mobile-sacred-shop-search input {
+    flex:1;min-width:0;min-height:44px;padding:0 12px;border:0;outline:none;
+    background:#fff9ee;color:#18343e;box-shadow:none;
+    font:400 16px/1.4 'Inter',Arial,sans-serif;
+  }
+  .mobile-sacred-shop-search button {
+    display:grid;place-items:center;flex:0 0 48px;width:48px;min-height:44px;
+    border:0;border-radius:0;background:#d9b675;color:#123341;box-shadow:none;cursor:pointer;
+  }
+  .mobile-sacred-shop-search svg {width:22px;height:22px}
+  body.mobile-sacred-active.shop-shared-shell .shop-shared-header {display:none!important}
+  body.mobile-sacred-active :is(.shop-cart-page,.checkout-multi-main) {padding-bottom:25px}
+  body.mobile-sacred-active :is(.shop-cart-page,.checkout-multi-main) input:not([type=checkbox]):not([type=radio]),
+  body.mobile-sacred-active :is(.shop-cart-page,.checkout-multi-main) select {font-size:16px}
 }
 @media (max-width:359px) {
-  .mobile-app-bar :is(a,button) {font-size:9px}
-  .mobile-app-bar svg {width:22px;height:22px}
-  .mobile-app-group-links {grid-template-columns:minmax(0,1fr)}
+  .mobile-sacred-header {padding-inline:7px}
+  .mobile-sacred-brand {max-width:calc(100% - 186px)}
+  .mobile-sacred-brand img {width:24px;height:24px;flex-basis:24px}
+  .mobile-sacred-brand span {font-size:13px}
+  .mobile-sacred-quick {gap:7px}
+  .mobile-sacred-quick a {font-size:14px}
 }
 @media (prefers-reduced-motion:reduce) {
-  .mobile-app-drawer * {scroll-behavior:auto!important}
+  .mobile-sacred-drawer,.mobile-sacred-drawer * {scroll-behavior:auto!important}
 }

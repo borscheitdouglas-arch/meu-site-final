@@ -13,6 +13,7 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parents[1]
 GOLD = "rgb(172, 116, 47)"   # Dourado-âmbar do conteúdo editorial
 COPPER = "rgb(183, 100, 54)"  # Cobre da loja e páginas próprias
+MARIAN_BLUE = "rgb(7, 26, 40)"  # Fundo fixo na home do aplicativo mobile
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -61,8 +62,11 @@ def main():
             for width in (390, 1440):
                 page.set_viewport_size({"width": width, "height": 900})
                 for name, path, body_expected, header_expected in PAGES:
+                    # A página inicial do aplicativo mobile usa tecido mariano azul.
+                    # No desktop, o fundo dourado-âmbar original é preservado.
+                    if name == "início" and width < 768:
+                        body_expected = MARIAN_BLUE
                     # O checkout individual tem estilo claro apenas no computador.
-                    # O Safari do iPhone mantém o tema original.
                     if name == "checkout não ativo" and width >= 881:
                         body_expected = "rgb(245, 242, 236)"
                     response = page.goto(base + path, wait_until="domcontentloaded")
@@ -73,7 +77,15 @@ def main():
                         assert body_color == body_expected, (name, width, "body", body_color)
                         bg_image = page.evaluate(
                             "() => getComputedStyle(document.body).backgroundImage")
-                        assert bg_image != "none", (name, width, "missing visual background")
+                        if name == "início" and width < 768:
+                            fixed_art = page.evaluate(
+                                "() => getComputedStyle(document.body, '::before').backgroundImage")
+                            fixed_position = page.evaluate(
+                                "() => getComputedStyle(document.body, '::before').position")
+                            assert "manto-mariano-textura.svg" in fixed_art, (name, width, fixed_art)
+                            assert fixed_position == "fixed", (name, width, fixed_position)
+                        else:
+                            assert bg_image != "none", (name, width, "missing visual background")
                     if header_expected:
                         header_color = page.locator("body > .site-header").evaluate(
                             "el => getComputedStyle(el).backgroundColor")

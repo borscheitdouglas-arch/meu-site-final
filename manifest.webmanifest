@@ -1,0 +1,35 @@
+{
+  "name": "Douglas Assumpção — Música Sacra",
+  "short_name": "Douglas Assumpção",
+  "description": "Repertório litúrgico, música sacra e coleção de arte religiosa.",
+  "lang": "pt-BR",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#071a28",
+  "theme_color": "#071a28",
+  "icons": [
+    {
+      "src": "/assets/img/icone.png",
+      "sizes": "450x450",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Loja",
+      "short_name": "Loja",
+      "url": "/pages/loja.html"
+    },
+    {
+      "name": "Repertório",
+      "short_name": "Cantos",
+      "url": "/index.html"
+    }
+  ]
+}
