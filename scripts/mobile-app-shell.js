@@ -190,7 +190,7 @@
       const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
         (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
       const msg=isIOS
-        ?'No Safari, toque em Compartilhar (quadrado com uma seta para cima), escolha “Adicionar à Tela de Início” e confirme em “Adicionar”.'
+        ?'No Safari, toque no menu da página e em Compartilhar (ou toque diretamente em Compartilhar), escolha “Adicionar à Tela de Início”, ative “Abrir como App da Web” e confirme em “Adicionar”.'
         :'No menu do navegador (geralmente ⋮), selecione “Instalar aplicativo” ou “Adicionar à tela inicial”, caso a opção esteja disponível.';
       installDialog.querySelector('#mobile-lit-install-message').textContent=msg;
       installDialog.showModal();
