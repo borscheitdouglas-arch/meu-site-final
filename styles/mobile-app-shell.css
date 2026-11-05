@@ -1089,3 +1089,81 @@
     background-repeat:no-repeat!important;
   }
 }
+
+
+/* 05/11/2026 — tipografia litúrgica legível no menu do celular.
+   Cinzel marca apenas o cabeçalho; Spectral mantém os nomes inteiros, sem
+   capitulares gigantes, sombras pesadas ou espaços artificiais entre letras.
+   Não se aplica ao desktop nem altera conteúdo e comportamento do menu. */
+@media (max-width:767px) {
+  body.mobile-sacred-active .mobile-sacred-menu-caption {
+    font: italic 500 clamp(15px, 4vw, 17px)/1.35 'Spectral', Georgia, serif;
+    letter-spacing: 0;
+    color: #4b3525;
+    text-shadow: 0 1px 0 rgba(255, 248, 228, .65);
+  }
+  body.mobile-sacred-active .mobile-sacred-category summary,
+  body.mobile-sacred-active.home-page .mobile-sacred-category summary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    min-height: 54px;
+    padding: 11px 2px;
+    color: #302316;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: clamp(16px, 4.35vw, 19px);
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1.27;
+    letter-spacing: -.012em;
+    text-shadow: 0 1px 0 rgba(255, 250, 232, .75);
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-category summary::before {
+    content: none;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-menu-initial {
+    display: none;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-menu-label {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+  body.mobile-sacred-active .mobile-sacred-category summary::after {
+    flex: 0 0 14px;
+    margin-left: auto;
+    color: #73522c;
+    font: 400 20px/1 Georgia, serif;
+    text-align: center;
+    opacity: .95;
+  }
+  body.mobile-sacred-active .mobile-sacred-category[open] summary,
+  body.mobile-sacred-active.home-page .mobile-sacred-category[open] summary {
+    color: #654222;
+  }
+  body.mobile-sacred-active .mobile-sacred-category summary:focus-visible {
+    outline: 2px solid #a87938;
+    outline-offset: -2px;
+    border-radius: 4px;
+  }
+  body.mobile-sacred-active .mobile-sacred-choices a {
+    font-family: 'Spectral', Georgia, serif;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-choices a {
+    font-size: clamp(14px, 3.6vw, 16px);
+  }
+}
