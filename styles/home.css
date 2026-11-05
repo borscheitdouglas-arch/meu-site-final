@@ -141,13 +141,3 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
 @media (max-width: 650px) {
  .home-page #recent-content-carousel .book-banner-stage::before { display: none; }
 }
-
-/* 2026-11-05: opção 4 (ouro litúrgico), apenas no cabeçalho da home. */
-body.home-page .site-header {
-  background-color:#603d16;
-  background-image:linear-gradient(rgba(24,13,4,.42),rgba(24,13,4,.42)),url('/assets/img/cabecalho-home-ouro-liturgico-v4.webp');
-  background-position:center center;
-  background-size:cover;
-  background-repeat:no-repeat;
-}
-@media(max-width:480px) { body.home-page .site-header { background-position:center center; } }
