@@ -1074,3 +1074,18 @@
     hyphens:auto;
   }
 }
+
+
+/* Arte do mesmo cabeçalho na HOME mobile.
+   Mantém o dourado já aprovado e a leitura dos ícones, sem alterações na loja. */
+@media(max-width:767px) {
+  body.mobile-sacred-active.home-page > .mobile-sacred-header {
+    background-color:#c18a39!important;
+    background-image:
+      linear-gradient(180deg,rgba(255,241,197,.10),rgba(113,73,27,.12)),
+      url('/assets/img/cabecalho-home-ouro-sacro-20261105.svg')!important;
+    background-size:100% 100%,cover!important;
+    background-position:center center,center 21%!important;
+    background-repeat:no-repeat!important;
+  }
+}
