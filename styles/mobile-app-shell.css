@@ -734,3 +734,49 @@
  }
  body.mobile-sacred-active.shop-shared-shell .mobile-sacred-install-trigger {width:38px;min-width:38px;flex-basis:38px;}
 }
+
+
+/* 05/11 — arte da home MOBILE de borda a borda (sem as margens laterais).
+   Expande a galeria até a largura real da viewport e elimina possíveis
+   restrições herdadas de .container/.adsense-layout, sem recortar a iluminura. */
+@media (max-width:767px) {
+  html:has(body.mobile-sacred-active.home-page) {
+    overflow-x:hidden!important;
+  }
+  body.mobile-sacred-active.home-page .adsense-layout,
+  body.mobile-sacred-active.home-page .adsense-layout > main.container.home-centered.editorial-main {
+    position:relative!important;
+    box-sizing:border-box!important;
+    width:100vw!important;
+    min-width:100vw!important;
+    max-width:100vw!important;
+    margin-left:calc(50% - 50vw)!important;
+    margin-right:0!important;
+    padding-left:0!important;
+    padding-right:0!important;
+    border-left:0!important;
+    border-right:0!important;
+  }
+  body.mobile-sacred-active.home-page .adsense-layout > main.container.home-centered.editorial-main > .mobile-sacred-welcome.mobile-sacred-art-gallery {
+    display:block!important;
+    position:relative!important;
+    width:100vw!important;
+    min-width:100vw!important;
+    max-width:100vw!important;
+    left:0!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    box-sizing:border-box!important;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-manuscript,
+  body.mobile-sacred-active.home-page .mobile-sacred-art-frame.is-manuscript img {
+    width:100%!important;
+    height:100%!important;
+    inset:0;
+    margin:0!important;
+    padding:0!important;
+    border-radius:0!important;
+  }
+}
