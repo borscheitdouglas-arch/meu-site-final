@@ -271,3 +271,171 @@
 @media (prefers-reduced-motion:reduce) {
   .mobile-sacred-drawer,.mobile-sacred-drawer * {scroll-behavior:auto!important}
 }
+
+/* Refinamento iLiturgia — aprovado em 05/11/2026.
+   Home imóvel no celular e menu estritamente litúrgico, com imagem suave. */
+@media (max-width:767px) {
+  /* Somente a página inicial fica presa à altura visível do telefone.
+     As páginas internas, partituras, loja e checkout continuam rolando normalmente. */
+  html:has(body.mobile-sacred-active.home-page) {
+    height:100%;
+    overflow:hidden!important;
+    overscroll-behavior:none;
+  }
+  body.mobile-sacred-active.home-page {
+    height:100vh;
+    height:100dvh;
+    min-height:0!important;
+    overflow:hidden!important;
+    overscroll-behavior:none;
+  }
+  body.mobile-sacred-active.home-page .adsense-layout {
+    display:block!important;
+    width:100%!important;
+    max-width:none!important;
+    height:calc(100dvh - 76px - env(safe-area-inset-top,0px));
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+    background:transparent!important;
+  }
+  body.mobile-sacred-active.home-page .adsense-layout > aside {display:none!important}
+  body.mobile-sacred-active.home-page main.editorial-main {
+    display:block!important;
+    height:100%!important;
+    max-height:100%!important;
+    min-height:0!important;
+    max-width:none!important;
+    width:100%!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+  body.mobile-sacred-active.home-page main.editorial-main > :not(.mobile-sacred-welcome) {display:none!important}
+  body.mobile-sacred-active.home-page > :is(.pix-with-ads,.adsense-bottom,.site-footer) {display:none!important}
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome {
+    width:100%;
+    height:100%;
+    max-height:100%;
+    min-height:0;
+    margin:0!important;
+    padding:22px 22px 24px;
+    overflow-x:hidden;
+    overflow-y:auto; /* acessibilidade em telas excepcionalmente baixas */
+    overscroll-behavior:contain;
+    border:0;
+    scrollbar-width:none;
+    justify-content:center;
+    background:linear-gradient(180deg,#061a25a6,#091f2d12 42%,#071923a3);
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome::-webkit-scrollbar {display:none}
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome-medallion {
+    width:clamp(92px,18svh,138px);
+    height:clamp(92px,18svh,138px);
+    flex:0 0 auto;
+    margin:clamp(10px,2.4svh,25px) auto clamp(14px,2.4svh,24px);
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome-medallion img {
+    max-width:66%;
+    max-height:66%;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome h1 {
+    font-size:clamp(29px,7.5vw,39px)!important;
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome-ornament {
+    margin:clamp(10px,2.3svh,19px) auto clamp(8px,1.8svh,15px);
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-welcome > p:not(.mobile-sacred-overline) {
+    max-width:330px;
+    font-size:clamp(14px,3.9vw,16px);
+  }
+  body.mobile-sacred-active.home-page .mobile-sacred-home-signature {
+    margin-top:clamp(15px,3svh,28px)!important;
+    font:italic 17px/1.35 'Spectral',Georgia,serif!important;
+    color:#e0c993!important;
+    letter-spacing:.025em;
+  }
+  /* Menu semelhante ao aplicativo: sem cartões, números ou botões extras. */
+  .mobile-sacred-drawer[open] {
+    background:#f1e0bd;
+    border-right:1px solid #b69a6c;
+  }
+  .mobile-sacred-drawer[open]::before {
+    inset:-10px;
+    background:url('/assets/img/1.jpg') center center / cover no-repeat;
+    opacity:.28;
+    filter:blur(4px) saturate(.65) sepia(.18);
+    transform:scale(1.03);
+  }
+  .mobile-sacred-drawer-head {
+    padding:22px 22px 12px;
+    background:linear-gradient(90deg,#f5e7cacf,#f5e7ca8f);
+  }
+  .mobile-sacred-drawer-head h2 {
+    font-size:29px!important;
+    font-weight:500!important;
+  }
+  .mobile-sacred-menu-scroll {
+    padding:18px 24px 35px;
+    scrollbar-width:none;
+  }
+  .mobile-sacred-menu-scroll::-webkit-scrollbar {display:none}
+  .mobile-sacred-menu-caption {
+    margin:10px 0 16px;
+    padding:0 0 12px;
+    border-bottom:1px solid #a98f655c;
+    color:#715331;
+    font:italic 19px/1.35 'EB Garamond',Georgia,serif;
+  }
+  .mobile-sacred-groups {display:block}
+  .mobile-sacred-category {
+    border:0;
+    border-bottom:1px solid #ab8d6040;
+  }
+  .mobile-sacred-category summary {
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:13px;
+    min-height:59px;
+    padding:11px 2px;
+    color:#49331f;
+    font:500 clamp(23px,6.4vw,28px)/1.15 'EB Garamond',Georgia,serif;
+    letter-spacing:.005em;
+  }
+  .mobile-sacred-category summary::before {
+    content:'✥';
+    font-size:17px;
+    line-height:1;
+    color:#866437;
+    flex:0 0 23px;
+  }
+  .mobile-sacred-category summary::after {
+    content:'⌄';
+    margin-left:auto;
+    font:400 24px/1 Georgia,serif;
+    color:#9f804c;
+    transition:transform .15s ease;
+  }
+  .mobile-sacred-category[open] summary::after {transform:rotate(180deg)}
+  .mobile-sacred-category[open] summary {color:#73502d}
+  .mobile-sacred-choices {
+    grid-template-columns:minmax(0,1fr);
+    gap:1px;
+    margin:0 0 7px 16px;
+    padding:0 0 8px 17px;
+    border-left:1px solid #b18c5577;
+  }
+  .mobile-sacred-choices a {
+    min-height:43px;
+    padding:10px 8px;
+    font:400 17px/1.25 'EB Garamond',Georgia,serif;
+    color:#5b422c!important;
+  }
+  .mobile-sacred-choices a::before {content:'·';font-size:20px;margin-right:9px}
+}
+@media (prefers-reduced-motion:reduce) {
+  .mobile-sacred-category summary::after {transition:none!important}
+}
