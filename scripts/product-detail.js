@@ -218,6 +218,8 @@
     });
   }
   function display(product,all) {
+    // Aplica o enquadramento compacto somente à camiseta; não altera outros produtos.
+    root.dataset.productId=product.id;
     const isBook=product.product_type==='book';
     const detail=info[product.id] || {};
     const photos=detail.photos || [product.image];
