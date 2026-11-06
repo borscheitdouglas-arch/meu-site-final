@@ -287,3 +287,23 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
     text-shadow:0 1px 0 rgba(255,237,186,.72);
   }
 }
+
+/* 05/11/2026 — acabamento suave para o cabeçalho dourado desktop.
+   Inset pequeno e cantos arredondados sem alterar a arte e a linha de
+   encontro com o banner. O topo começa 4px abaixo e termina na mesma
+   posição de antes: não cria uma faixa preta entre cabeçalho e arte. */
+@media (min-width:768px) {
+  body.home-page > .site-header {
+    top: 4px;
+    left: 9px;
+    right: 9px;
+    width: auto;
+    height: calc(var(--header-height) - 4px);
+    border: 1px solid rgba(118, 74, 28, .38);
+    border-radius: 14px;
+    overflow: hidden;
+    background-clip: padding-box;
+    box-shadow: 0 4px 15px rgba(15, 13, 9, .27),
+                inset 0 1px 0 rgba(255, 237, 188, .20);
+  }
+}
