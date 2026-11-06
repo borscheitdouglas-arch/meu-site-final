@@ -1,4 +1,5 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua:wght@400&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua:wght@400&display=swap');
 :root{
   --bg:#000000; --text:#ffffff; --accent:#c41616;
   --card:#0f0f10; --muted:#bdbdbd;
@@ -2302,5 +2303,33 @@ body.nav-open:not(.shop-redesign) > .site-header {
   }
   body #side-nav .menu-section-label {
     margin-top: 19px;
+  }
+}
+
+/* 2026-11-06: categoria do menu em caligrafia medieval legível.
+   Eagle Lake reproduz a linguagem de manuscritos sem comprometer a leitura. */
+@media (min-width: 768px) {
+  body #side-nav > ul > li > a,
+  body #side-nav > ul > li > details > summary {
+    font-family: 'Eagle Lake', 'EB Garamond', Georgia, serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: .005em;
+    min-height: 48px;
+    padding-block: 8px;
+    text-transform: none;
+  }
+  body #side-nav > ul > li > details > summary {
+    padding-inline: 10px 35px;
+  }
+  body #side-nav > ul > li {
+    margin-block: 0;
+  }
+  body #side-nav .menu-section-label {
+    margin-top: 14px;
+  }
+  body #side-nav .menu-brand strong {
+    font-size: 21px;
   }
 }
