@@ -247,14 +247,14 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
 }
 
 
-/* Cabeçalho da HOME desktop — faixa dourada sacra de 05/11/2026.
-   Recorte focal no terço superior para deixar visíveis os motivos pequenos,
-   sem deformar as cruzes, estrelas e florões. As páginas internas não mudam. */
-@media(min-width:768px) {
-  /* O fundo do documento acompanha o ouro, inclusive no limite elástico do Safari. */
+/* Cabeçalho desktop da HOME restaurado conforme página do Advento.
+   Usa exatamente o mesmo arquivo /assets/img/cabeçalho4.png,
+   a mesma sobreposição de cor e o mesmo posicionamento da imagem.
+   Escopo exclusivo da HOME desktop: não altera outras páginas nem mobile. */
+@media (min-width:768px) {
   html.editorial-root:has(> body.home-page) {
-    background-color:#b67b2b;
-    background-image:url('/assets/img/cabecalho-home-ouro-sacro-20261105.svg');
+    background-color:#ac742f;
+    background-image:url('/assets/img/cabeçalho4.png');
     background-size:100% auto;
     background-position:center top;
     background-repeat:no-repeat;
@@ -265,14 +265,23 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
     overscroll-behavior-y:none;
   }
   body.home-page > .site-header {
+    top:0;
+    left:0;
+    right:0;
+    width:100%;
     height:var(--header-height);
-    background-color:#b67b2b;
-    background-image:url('/assets/img/cabecalho-home-ouro-cantos-arredondados-sem-relevo-20261106.svg');
+    background-color:#ac742f;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.38),rgba(0,0,0,0.38)),
+      url('/assets/img/cabeçalho4.png');
+    background-size:cover;
+    background-position:center top;
     background-repeat:no-repeat;
-    background-size:100% 100%;
-    background-position:center center;
     border:0;
-    box-shadow:0 3px 12px rgba(35,23,8,.18);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    border-radius:0;
+    box-shadow:none;
+    overflow:hidden;
   }
   body.home-page > .site-header .menu-btn {
     background:rgba(62,36,16,.52);
@@ -283,24 +292,5 @@ body.home-page { background-color: #ac742f; background-image: linear-gradient(#1
   body.home-page > .site-header .header-actions .icon-label {
     color:#3e250f;
     text-shadow:0 1px 0 rgba(255,237,186,.72);
-  }
-}
-
-/* 05/11/2026 — acabamento suave para o cabeçalho dourado desktop.
-   Inset pequeno e cantos arredondados sem alterar a arte e a linha de
-   encontro com o banner. O topo começa 4px abaixo e termina na mesma
-   posição de antes: não cria uma faixa preta entre cabeçalho e arte. */
-@media (min-width:768px) {
-  body.home-page > .site-header {
-    top: 4px;
-    left: 9px;
-    right: 9px;
-    width: auto;
-    height: calc(var(--header-height) - 4px);
-    border: 0;
-    border-radius: 19px;
-    overflow: hidden;
-    background-clip: border-box;
-    box-shadow: 0 3px 12px rgba(45, 29, 7, .22);
   }
 }
