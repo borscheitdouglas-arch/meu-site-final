@@ -161,3 +161,42 @@ body.shop-shared-shell .shop-shared-header button:focus-visible { outline:2px so
 @media(prefers-reduced-motion:reduce) {
  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a {transition:none;}
 }
+
+
+/* 2026-11-06 — Cabeçalho desktop da loja com a mesma altura (48px) da HOME.
+   Preserva a arte da loja, a busca, os atalhos e o carrinho. Mobile intocado. */
+@media (min-width: 768px) {
+  body.shop-shared-shell {
+    --header-height: 48px;
+    --shop-header: 48px;
+    padding-top: 48px;
+  }
+  body.shop-shared-shell .shop-shared-header {
+    height: 48px;
+    min-height: 0;
+    grid-template-rows: 44px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+    align-items: center;
+  }
+  body.shop-shared-shell .shop-shared-header .logo a { gap: 8px; }
+  body.shop-shared-shell .shop-shared-header .logo img { width: 36px; height: 36px; }
+  body.shop-shared-shell .shop-shared-header .shop-brand { font-size: 18px; line-height: 1.04; }
+  body.shop-shared-shell .shop-shared-header .shop-brand small { font-size: 7px; line-height: 1.13; margin-top: 1px; }
+  body.shop-shared-shell .shop-shared-header .shop-search { height: 40px; }
+  body.shop-shared-shell .shop-shared-header .shop-search input { height: 38px; font-size: 13px; padding-inline: 10px; }
+  body.shop-shared-shell .shop-shared-header .shop-search button { height: 38px; min-height: 0; }
+  body.shop-shared-shell .shop-shared-header .shop-search button svg { width: 19px; height: 19px; }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link {
+    height: 42px; min-height: 42px; font-size: 12px; gap: 6px; padding-inline: 10px;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link svg { width: 21px; height: 21px; }
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a {
+    min-height: 36px; padding: 7px 10px; font-size: 11px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1050px) {
+  body.shop-shared-shell .shop-shared-header .shop-brand { font-size: 16px; }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link { padding-inline: 8px; }
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a { min-height: 34px; padding-inline: 8px; }
+}
