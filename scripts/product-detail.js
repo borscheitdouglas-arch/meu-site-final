@@ -11,98 +11,212 @@
   const money = cents => new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(cents / 100);
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const info = {
-    'camiseta-salve-regina': {
-      type:'Camiseta · Coleção Salve Regina', material:'100% algodão fio 30.1 penteado',
-      finish:'Impressão DTF na frente e nas costas',
-      description:'A beleza da arte sacra e a tradição do canto gregoriano em uma peça para o dia a dia. Confeccionada em 100% algodão fio 30.1 penteado, a Camiseta Salve Regina une toque macio, conforto e devoção mariana, com partitura gregoriana na frente e Nossa Senhora nas costas.',
-      paragraphs:[
-        'Inspirada na antífona mariana Salve Regina, esta camiseta aproxima a beleza do canto gregoriano e da arte sacra do cotidiano. A composição reúne a partitura na frente e a imagem de Nossa Senhora nas costas, com referências à iluminura medieval e à tradição católica.',
-        'Confeccionada em 100% algodão fio 30.1 penteado, oferece toque macio e respirabilidade para o uso diário. A modelagem unissex, a gola canelada reforçada e as costuras reforçadas completam a peça com conforto e cuidado no acabamento.',
-        'As estampas são aplicadas por impressão DTF na frente e nas costas. Disponível na cor preta, nos tamanhos P, M, G, GG e XG, a camiseta é produzida sob demanda e vendida a partir de uma unidade.'
+  "camiseta-salve-regina": {
+    "type": "Camiseta · Coleção Salve Regina",
+    "material": "100% algodão fio 30.1 penteado",
+    "finish": "Impressão DTF na frente e nas costas",
+    "description": "A beleza da arte sacra e a tradição do canto gregoriano em uma peça para o dia a dia. Confeccionada em 100% algodão fio 30.1 penteado, a Camiseta Salve Regina une toque macio, conforto e devoção mariana, com partitura gregoriana na frente e Nossa Senhora nas costas.",
+    "paragraphs": [
+      "Inspirada na antífona mariana Salve Regina, esta camiseta aproxima a beleza do canto gregoriano e da arte sacra do cotidiano. A composição reúne a partitura na frente e a imagem de Nossa Senhora nas costas, com referências à iluminura medieval e à tradição católica.",
+      "Confeccionada em 100% algodão fio 30.1 penteado, oferece toque macio e respirabilidade para o uso diário. A modelagem unissex, a gola canelada reforçada e as costuras reforçadas completam a peça com conforto e cuidado no acabamento.",
+      "As estampas são aplicadas por impressão DTF na frente e nas costas. Disponível na cor preta, nos tamanhos P, M, G, GG e XG, a camiseta é produzida sob demanda e vendida a partir de uma unidade."
+    ],
+    "features": [
+      "Composição: 100% algodão fio 30.1 penteado.",
+      "Modelagem unissex, com gola canelada reforçada.",
+      "Toque macio, tecido respirável e costuras reforçadas.",
+      "Cor disponível neste anúncio: preta.",
+      "Tamanhos: P, M, G, GG e XG.",
+      "Estampas Salve Regina em DTF: partitura gregoriana na frente e Nossa Senhora nas costas.",
+      "Produção sob demanda; venda por peça, a partir de 1 unidade."
+    ],
+    "reasons": [
+      "Conforto do algodão penteado para acompanhar o dia a dia.",
+      "Arte que une a devoção à Virgem Maria à tradição do canto gregoriano.",
+      "Acabamento com gola e costuras reforçadas.",
+      "Uma opção de presente para quem aprecia a fé católica, a música sacra e a arte mariana."
+    ],
+    "faq": [
+      [
+        "Qual é o tecido da camiseta?",
+        "A peça é confeccionada em 100% algodão fio 30.1 penteado, com toque macio e respirabilidade."
       ],
-      features:[
-        'Composição: 100% algodão fio 30.1 penteado.',
-        'Modelagem unissex, com gola canelada reforçada.',
-        'Toque macio, tecido respirável e costuras reforçadas.',
-        'Cor disponível neste anúncio: preta.',
-        'Tamanhos: P, M, G, GG e XG.',
-        'Estampas Salve Regina em DTF: partitura gregoriana na frente e Nossa Senhora nas costas.',
-        'Produção sob demanda; venda por peça, a partir de 1 unidade.'
+      [
+        "A modelagem é unissex?",
+        "Sim. A camiseta tem modelagem unissex e gola canelada reforçada."
       ],
-      reasons:[
-        'Conforto do algodão penteado para acompanhar o dia a dia.',
-        'Arte que une a devoção à Virgem Maria à tradição do canto gregoriano.',
-        'Acabamento com gola e costuras reforçadas.',
-        'Uma opção de presente para quem aprecia a fé católica, a música sacra e a arte mariana.'
+      [
+        "Quais são as cores e os tamanhos disponíveis?",
+        "Neste anúncio, a camiseta está disponível na cor preta, nos tamanhos P, M, G, GG e XG. Escolha o tamanho desejado antes de adicionar ao carrinho."
       ],
-      faq:[
-        ['Qual é o tecido da camiseta?','A peça é confeccionada em 100% algodão fio 30.1 penteado, com toque macio e respirabilidade.'],
-        ['A modelagem é unissex?','Sim. A camiseta tem modelagem unissex e gola canelada reforçada.'],
-        ['Quais são as cores e os tamanhos disponíveis?','Neste anúncio, a camiseta está disponível na cor preta, nos tamanhos P, M, G, GG e XG. Escolha o tamanho desejado antes de adicionar ao carrinho.'],
-        ['Como são as estampas?','A camiseta recebe impressão DTF nas duas faces: partitura gregoriana da Salve Regina na frente e a imagem de Nossa Senhora nas costas.'],
-        ['Posso alterar a arte ou escolher outra técnica de impressão?','Este anúncio corresponde à camiseta com as estampas Salve Regina apresentadas nas imagens, em DTF. A compra não inclui edição da arte nem seleção de outra técnica de impressão.'],
-        ['Qual é o pedido mínimo?','Você pode comprar a partir de 1 peça. A produção é realizada sob demanda.'],
-        ['Como consulto o frete?','Selecione o tamanho e a quantidade e informe seu CEP na calculadora desta página. O prazo de produção não está incluído no prazo de transporte informado.']
+      [
+        "Como são as estampas?",
+        "A camiseta recebe impressão DTF nas duas faces: partitura gregoriana da Salve Regina na frente e a imagem de Nossa Senhora nas costas."
       ],
-      photos:[
-        '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png',
-        '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-masculina.png',
-        '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-frente-partitura-1.png',
-        '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-frente-partitura-2.png',
-        '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-costas-azul-mariano.png',
-        '/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-costas-manto-mariano.png'
+      [
+        "Posso alterar a arte ou escolher outra técnica de impressão?",
+        "Este anúncio corresponde à camiseta com as estampas Salve Regina apresentadas nas imagens, em DTF. A compra não inclui edição da arte nem seleção de outra técnica de impressão."
       ],
-      photoLabels:[
-        'Camiseta Salve Regina em ensaio editorial, frente e costas',
-        'Camiseta Salve Regina em modelo, frente com partitura e costas com arte mariana',
-        'Camiseta Salve Regina, estampa frontal de partitura gregoriana, primeira apresentação',
-        'Camiseta Salve Regina, estampa frontal de partitura gregoriana, segunda apresentação',
-        'Camiseta Salve Regina, costas com Nossa Senhora, fundo azul mariano',
-        'Camiseta Salve Regina, costas com Nossa Senhora, fundo de manto mariano'
+      [
+        "Qual é o pedido mínimo?",
+        "Você pode comprar a partir de 1 peça. A produção é realizada sob demanda."
+      ],
+      [
+        "Como consulto o frete?",
+        "Selecione o tamanho e a quantidade e informe seu CEP na calculadora desta página. O prazo de produção não está incluído no prazo de transporte informado."
       ]
-    },
-    'caneca-salve-regina-preta': {
-      type:'Caneca · Coleção Salve Regina', material:'Porcelana (conforme catálogo preliminar)',
-      finish:'Personalização por sublimação', description:'Caneca preta da coleção Salve Regina, com proposta de estampa dedicada à partitura gregoriana da antífona mariana. Um objeto cotidiano pensado para quem deseja manter próxima a beleza da oração e da tradição católica.',
-      note:'Imagem ilustrativa. A estampa definitiva deve ser conferida com a arte original antes da produção.',
-      photos:['/assets/img/loja/Salve-Regina/web/caneca-partitura-individual.png']
-    },
-    'caneca-salve-regina-pb': {
-      type:'Caneca · Coleção Salve Regina', material:'Porcelana (conforme catálogo preliminar)',
-      finish:'Personalização por sublimação', description:'Caneca da coleção Salve Regina na proposta em preto e branco, destacando a imagem de Nossa Senhora. A estética da peça remete à arte sacra clássica e à tradição mariana.',
-      note:'Imagem ilustrativa. A estampa definitiva deve ser conferida com a arte original antes da produção.',
-      photos:['/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png']
-    },
-    'ecobag-salve-regina':{
-      type:'Ecobag · Coleção Salve Regina',
-      material:'100% algodão cru',finish:'Estampa DTF · uma área incluída',
-      description:'Ecobag de algodão reutilizável com a arte mariana Salve Regina, para compras, trabalho, estudos e outras atividades do dia a dia.',
-      paragraphs:[
-        'A ecobag Salve Regina é uma bolsa reutilizável confeccionada em 100% algodão. Ideal para compras, estudos, trabalho e outras atividades do cotidiano, reúne praticidade, a devoção mariana e a beleza do canto gregoriano.',
-        'Sua estampa autoral é aplicada por impressão DTF. O preço anunciado contempla a aplicação em uma área conforme o modelo configurado. A impressão na frente e/ou no verso é tecnicamente possível, mas a aplicação em ambas as faces precisa de configuração e preço específicos.',
-        'Área máxima de impressão por tamanho: P, até 25 × 32 cm; M, até 35 × 42 cm; G, até 39 × 45 cm; GG, até 47 × 47 cm.'
+    ],
+    "photos": [
+      "/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png",
+      "/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-masculina.png",
+      "/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-frente-partitura-1.png",
+      "/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-frente-partitura-2.png",
+      "/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-costas-azul-mariano.png",
+      "/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-costas-manto-mariano.png"
+    ],
+    "photoLabels": [
+      "Camiseta Salve Regina em ensaio editorial, frente e costas",
+      "Camiseta Salve Regina em modelo, frente com partitura e costas com arte mariana",
+      "Camiseta Salve Regina, estampa frontal de partitura gregoriana, primeira apresentação",
+      "Camiseta Salve Regina, estampa frontal de partitura gregoriana, segunda apresentação",
+      "Camiseta Salve Regina, costas com Nossa Senhora, fundo azul mariano",
+      "Camiseta Salve Regina, costas com Nossa Senhora, fundo de manto mariano"
+    ]
+  },
+  "caneca-salve-regina-preta": {
+    "type": "Caneca · Coleção Salve Regina",
+    "material": "Porcelana",
+    "finish": "Estampa por sublimação",
+    "description": "A beleza do canto gregoriano à mesa. Caneca de porcelana com a partitura da Salve Regina, para acompanhar suas pausas em casa ou no trabalho.",
+    "photos": [
+      "/assets/img/loja/Salve-Regina/web/caneca-partitura-individual.png"
+    ],
+    "paragraphs": [
+      "A beleza do canto gregoriano à mesa. Caneca de porcelana com a partitura da Salve Regina, para acompanhar suas pausas em casa ou no trabalho.",
+      "A estampa da coleção Salve Regina é aplicada por sublimação. A peça já é vendida com a arte apresentada nas imagens, pronta para integrar sua rotina ou presentear alguém que aprecia a tradição católica.",
+      "Produzida sob demanda e vendida por unidade, com frete consultado pelo CEP antes da compra."
+    ],
+    "features": [
+      "Confeccionada em porcelana.",
+      "Modelo preto com partitura gregoriana.",
+      "Estampa da coleção Salve Regina por sublimação.",
+      "Venda a partir de uma unidade."
+    ],
+    "reasons": [
+      "Uma peça de uso cotidiano com identidade sacra.",
+      "Uma opção de presente para quem aprecia a devoção mariana."
+    ],
+    "faq": [
+      [
+        "A caneca já vem estampada?",
+        "Sim. Você recebe o modelo com a arte Salve Regina apresentada nas imagens."
       ],
-      features:[
-        '100% algodão cru.',
-        'Tamanhos do modelo: P, M, G e GG.',
-        'Impressão DTF, com uma área incluída no anúncio.',
-        'Venda por peça; pedido mínimo de 1 unidade.'
+      [
+        "Qual é o material e a técnica de impressão?",
+        "A caneca é feita de porcelana e recebe estampa por sublimação."
       ],
-      reasons:[
-        'Reutilizável em diferentes atividades do dia a dia.',
-        'Confeccionada em fibra natural de algodão.',
-        'Personalização DTF na frente e/ou no verso, conforme configuração de produção.',
-        'Quatro tamanhos com áreas de impressão correspondentes.'
+      [
+        "Como escolho a estampa?",
+        "Escolha entre os anúncios Partitura Gregoriana e Nossa Senhora, conforme a apresentação de cada produto."
       ],
-      faq:[
-        ['É possível personalizar a ecobag?','A ecobag já recebe a estampa autoral Salve Regina. O editor online para alterar a arte não está disponível neste anúncio.'],
-        ['Quais áreas podem receber estampa?','A frente e o verso aceitam DTF. O valor anunciado inclui uma área; o uso de ambos os lados depende de confirmação e preço específicos.'],
-        ['Quais tamanhos estão disponíveis?','O modelo contempla P, M, G e GG. Nesta loja, M e G têm preço cadastrado; P e GG aguardam confirmação de preço e produção.'],
-        ['Qual é o pedido mínimo?','A partir de 1 peça.']
+      [
+        "Posso comprar apenas uma?",
+        "Sim. A venda é por unidade."
       ],
-      note:'Imagem ilustrativa. A fidelidade da impressão e as medidas finais serão verificadas na produção.'
-    }
-  };
+      [
+        "Como consulto a entrega?",
+        "Informe seu CEP na página do produto para consultar o frete."
+      ]
+    ]
+  },
+  "caneca-salve-regina-pb": {
+    "type": "Caneca · Coleção Salve Regina",
+    "material": "Porcelana",
+    "finish": "Estampa por sublimação",
+    "description": "Um toque de devoção mariana no cotidiano. Caneca de porcelana com a imagem de Nossa Senhora, inspirada na beleza da arte sacra.",
+    "photos": [
+      "/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png"
+    ],
+    "paragraphs": [
+      "Um toque de devoção mariana no cotidiano. Caneca de porcelana com a imagem de Nossa Senhora, inspirada na beleza da arte sacra.",
+      "A estampa da coleção Salve Regina é aplicada por sublimação. A peça já é vendida com a arte apresentada nas imagens, pronta para integrar sua rotina ou presentear alguém que aprecia a tradição católica.",
+      "Produzida sob demanda e vendida por unidade, com frete consultado pelo CEP antes da compra."
+    ],
+    "features": [
+      "Confeccionada em porcelana.",
+      "Modelo com arte de Nossa Senhora em composição preto e branco.",
+      "Estampa da coleção Salve Regina por sublimação.",
+      "Venda a partir de uma unidade."
+    ],
+    "reasons": [
+      "Uma peça de uso cotidiano com identidade sacra.",
+      "Uma opção de presente para quem aprecia a devoção mariana."
+    ],
+    "faq": [
+      [
+        "A caneca já vem estampada?",
+        "Sim. Você recebe o modelo com a arte Salve Regina apresentada nas imagens."
+      ],
+      [
+        "Qual é o material e a técnica de impressão?",
+        "A caneca é feita de porcelana e recebe estampa por sublimação."
+      ],
+      [
+        "Como escolho a estampa?",
+        "Escolha entre os anúncios Partitura Gregoriana e Nossa Senhora, conforme a apresentação de cada produto."
+      ],
+      [
+        "Posso comprar apenas uma?",
+        "Sim. A venda é por unidade."
+      ],
+      [
+        "Como consulto a entrega?",
+        "Informe seu CEP na página do produto para consultar o frete."
+      ]
+    ]
+  },
+  "ecobag-salve-regina": {
+    "type": "Ecobag · Coleção Salve Regina",
+    "material": "100% algodão",
+    "finish": "Estampa DTF",
+    "description": "A arte mariana da coleção Salve Regina em uma bolsa reutilizável de algodão, para acompanhar compras, estudos e trabalho.",
+    "paragraphs": [
+      "A arte mariana da coleção Salve Regina em uma bolsa reutilizável de algodão, para acompanhar compras, estudos e trabalho.",
+      "Confeccionada em 100% algodão, a ecobag reúne a praticidade de uma bolsa para o dia a dia e a beleza da tradição católica. A estampa é aplicada por impressão DTF, conforme a arte apresentada nas imagens.",
+      "Disponível para compra nos tamanhos M e G. Escolha o tamanho na página e consulte o frete pelo CEP. A venda é por unidade, com produção sob demanda."
+    ],
+    "features": [
+      "Composição de 100% algodão.",
+      "Bolsa reutilizável para diferentes atividades do cotidiano.",
+      "Estampa Salve Regina em DTF.",
+      "Tamanhos disponíveis para compra: M e G.",
+      "Pedido a partir de uma unidade."
+    ],
+    "reasons": [
+      "Praticidade para compras, trabalho e estudos.",
+      "Tecido de fibra natural de algodão.",
+      "Arte mariana para levar consigo ou presentear."
+    ],
+    "faq": [
+      [
+        "Quais tamanhos posso comprar?",
+        "Os tamanhos M e G estão disponíveis para compra. P e GG aparecem como indisponíveis."
+      ],
+      [
+        "A ecobag já vem estampada?",
+        "Sim. A compra inclui a arte Salve Regina apresentada no anúncio, aplicada por DTF."
+      ],
+      [
+        "Qual é o tecido?",
+        "A ecobag é confeccionada em 100% algodão."
+      ],
+      [
+        "Qual é o pedido mínimo?",
+        "Você pode comprar a partir de uma peça."
+      ]
+    ]
+  }
+};
   const el = (tag,cls,value) => {
     const node=document.createElement(tag);
     if(cls) node.className=cls;

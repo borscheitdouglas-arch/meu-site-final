@@ -5,7 +5,7 @@
   "products": [
     {
       "id": "camiseta-salve-regina",
-      "title": "Camiseta Salve Regina — Arte Mariana",
+      "title": "Camiseta Salve Regina — Nossa Senhora e Canto Gregoriano",
       "category": "camisetas",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png",
@@ -45,7 +45,7 @@
     },
     {
       "id": "caneca-salve-regina-preta",
-      "title": "Caneca Salve Regina — Partitura Gregoriana",
+      "title": "Caneca de Porcelana Salve Regina — Partitura Gregoriana",
       "category": "canecas",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-partitura-individual.png",
@@ -61,7 +61,7 @@
     },
     {
       "id": "caneca-salve-regina-pb",
-      "title": "Caneca Salve Regina — Nossa Senhora",
+      "title": "Caneca de Porcelana Salve Regina — Nossa Senhora",
       "category": "canecas",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png",
@@ -77,7 +77,7 @@
     },
     {
       "id": "ecobag-salve-regina",
-      "title": "Ecobag Salve Regina — Arte Mariana",
+      "title": "Ecobag de Algodão Salve Regina — Arte Mariana",
       "category": "ecobags",
       "status": "available",
       "image": "/assets/img/loja/Salve-Regina/web/ecobag-800.webp",
