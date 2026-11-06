@@ -543,7 +543,7 @@ body.shop-product-page #detalhes-camiseta .shop-single-faq details p {
   }
 }
 
-/* Azul-noite e grafite: card principal de produto, inspirado na separação visual
+/* Azul-noite profundo: card principal de produto, inspirado na separação visual
    de marketplace, sem perder a identidade sacra da loja.
    Escopo exclusivo do anúncio da Camiseta Salve Regina. */
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-layout {
@@ -552,8 +552,8 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
   border:1px solid #b8996673;
   border-radius:14px;
   background:
-    radial-gradient(ellipse at 8% 0%,#46537238 0%,transparent 52%),
-    linear-gradient(135deg,#222638 0%,#181d2c 49%,#0f1521 100%);
+    radial-gradient(ellipse at 8% 0%,#2d51813b 0%,transparent 52%),
+    linear-gradient(135deg,#172b4d 0%,#0e1d38 52%,#081327 100%);
   box-shadow:0 22px 45px #0008, inset 0 1px 0 #f4debd0c;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary h1 {
@@ -570,7 +570,7 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shirt-pricebox {
   border-color:#d7b87a58;
-  background:linear-gradient(100deg,#2b3042df,#191f30d1);
+  background:linear-gradient(100deg,#233a5ac9,#132741e3);
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shirt-price-label {
   color:#e2d7c0;
@@ -579,7 +579,7 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
   color:#f5d59b;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping {
-  background:#121927c9;
+  background:#0a1931cb;
   border-color:#e1c88a52;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping h2 {
@@ -592,28 +592,28 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-variant-chip {
   border-color:#d8c18e80;
-  background:#171e2d;
+  background:#0c1d36;
   color:#f5eddf;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-variant-chip:hover {
-  background:#293249;
+  background:#223d63;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-variant-chip.is-selected,
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-variant-chip[aria-pressed="true"] {
-  color:#fff0ce;border-color:#f0ca82;background:#303a50;
+  color:#fff0ce;border-color:#f0ca82;background:#2c4770;
   box-shadow:0 0 0 2px #e0c18226;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-stepper {
-  background:#161e2c;border-color:#ccb57a8c;
+  background:#0e1d36;border-color:#ccb57a8c;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-stepper-button {
-  background:#262d40;
+  background:#1c3353;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-stepper-button:hover:not(:disabled) {
-  background:#39445b;
+  background:#2d4a70;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-form .shop-single-quantity-input {
-  background:#1c2535!important;
+  background:#0f2542!important;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-trust {
   border-top-color:#d9bf8450;
@@ -622,12 +622,12 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
   padding:16px 20px;
   border:1px solid #bda36b65;
   border-radius:10px;
-  background:linear-gradient(110deg,#222a3c,#151c2c);
+  background:linear-gradient(110deg,#1b3254,#0d213d);
   color:#f3e6c9;
 }
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] #detalhes-camiseta .shop-single-specifications-block,
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] #detalhes-camiseta .shop-single-description-block {
-  background:linear-gradient(135deg,#20283a 0%,#121b2a 100%);
+  background:linear-gradient(135deg,#182e4e 0%,#0b1c35 100%);
   border:1px solid #c3a66e66;border-radius:12px;
   box-shadow:0 12px 28px #0003,inset 0 1px 0 #ffffff0c;
 }
@@ -660,7 +660,7 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
 
 /* Campos da ficha da camiseta permanecem em grafite azulado, sem verde. */
 body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping input {
-  background:#111a29;
+  background:#0b1a30;
   color:#f4ecdc;
   border-color:#a78e64;
 }
