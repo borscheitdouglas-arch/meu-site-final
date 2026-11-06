@@ -176,6 +176,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await ensureSideNav();
   await ensureHeader();
+  // Mantém a nova solenidade no menu de páginas existentes sem editar cada HTML.
+  // Executar antes do menu mobile ler os links da navegação principal.
+  (function ensureChristKingLink(){
+    const nav = document.getElementById('side-nav');
+    const summary = nav && nav.querySelector('summary.festas-solenidades');
+    const group = summary && summary.closest('details');
+    const list = group && group.querySelector('ul');
+    const path = '/pages/solenidade-cristo-rei.html';
+    if(!list || list.querySelector('a[href="' + path + '"]')) return;
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = path;
+    link.textContent = 'Solenidade de Jesus Cristo Rei do Universo';
+    if(location.pathname === path || location.pathname === '/pages/solenidade-cristo-rei-comunhao.html'){
+      link.classList.add('active');
+      link.setAttribute('aria-current', location.pathname === path ? 'page' : 'location');
+      group.open = true;
+    }
+    item.appendChild(link);
+    list.appendChild(item);
+  })();
   enhanceSacredMenu(sideNav);
   await loadAutoHighlights();
 
