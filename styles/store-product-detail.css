@@ -332,25 +332,3 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
 .shop-product-page .shop-single-shirt-description .shop-single-bullet-list {
   font-size:13px;line-height:1.7;margin-bottom:0;
 }
-
-/* Ficha da camiseta: galeria, painel de compra e detalhes no mesmo cartão. */
-body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-layout, body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-details {
-  box-sizing:border-box;background:#18251f;border:1px solid #857554;padding:clamp(16px,2.5vw,34px);
-}
-body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-layout {border-radius:16px 16px 0 0;border-bottom:0;gap:clamp(18px,3vw,40px);}
-body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary {background:#101d18;border:1px solid #766849;border-radius:12px;padding:clamp(16px,2vw,28px);}
-body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary h1 {font-size:clamp(27px,3vw,41px);margin-top:6px;}
-body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-details {margin-top:0;border-radius:0 0 16px 16px;scroll-margin-top:100px;}
-body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-faq details {padding:12px 0;border-bottom:1px solid #746644;}
-body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-faq summary {color:#eeddbb;cursor:pointer;}
-@media(min-width:901px){
-  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-layout {grid-template-columns:minmax(0,1.15fr) minmax(340px,1fr);}
-  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-gallery {display:grid;grid-template-columns:54px minmax(0,1fr);gap:12px;align-items:start;}
-  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-imagebox {grid-column:2;grid-row:1;}
-  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-thumbs {grid-column:1;grid-row:1;flex-direction:column;align-items:center;margin:0;gap:6px;}
-  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-thumb {width:50px;height:50px;flex:0 0 50px;}
-}
-@media(max-width:540px){
-  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-layout, body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-details {padding:12px;}
-  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary {padding:15px;}
-}
