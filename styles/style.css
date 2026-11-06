@@ -2257,3 +2257,20 @@ body.nav-open:not(.shop-redesign) > .site-header {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
+
+
+/* 2026-11-06 — Navegação simplificada: não exibir trilhas "Início / ... / Página".
+   Preserva o menu principal, navegação entre seções, cards e âncoras de matérias. */
+:is(
+  nav[aria-label="Você está em"],
+  nav[aria-label="Você está aqui"],
+  nav.chant-breadcrumb,
+  nav.editorial-breadcrumb,
+  nav.breadcrumb,
+  nav.materia-breadcrumb,
+  nav.contato-breadcrumb,
+  nav.doacao-breadcrumb,
+  nav.shop-single-breadcrumb
+) {
+  display: none !important;
+}
