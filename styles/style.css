@@ -1,4 +1,5 @@
-﻿:root{
+﻿@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua:wght@400&display=swap');
+:root{
   --bg:#000000; --text:#ffffff; --accent:#c41616;
   --card:#0f0f10; --muted:#bdbdbd;
   --header-height:48px;
@@ -2273,4 +2274,33 @@ body.nav-open:not(.shop-redesign) > .site-header {
   nav.shop-single-breadcrumb
 ) {
   display: none !important;
+}
+
+/* Menu sacro em uncial: categorias menores, mais delicadas e legíveis — 06/11/2026. */
+@media (min-width: 768px) {
+  body #side-nav > ul > li > a,
+  body #side-nav > ul > li > details > summary {
+    font-family: 'Uncial Antiqua', 'EB Garamond', Georgia, serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: .008em;
+    text-transform: none;
+    min-height: 48px;
+    padding-block: 8px;
+    text-shadow: 0 1px 2px rgba(0,0,0,.25);
+  }
+  body #side-nav > ul > li > details > summary {
+    padding-inline: 11px 36px;
+    border-bottom-color: rgba(229,206,154,.2);
+  }
+  body #side-nav > ul > li {
+    margin-block: 2px;
+  }
+  body #side-nav .menu-masthead .menu-brand strong {
+    font-size: 23px;
+  }
+  body #side-nav .menu-section-label {
+    margin-top: 19px;
+  }
 }
