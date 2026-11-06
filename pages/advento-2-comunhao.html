@@ -10,8 +10,9 @@
 <link href="../styles/style.css?v=20261005-menu-adornos" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
 <link href="../styles/liturgical-song.css?v=20261005-menu-adornos" rel="stylesheet"/>
+<link href="../styles/advent-communion-experiments.css?v=20261106-1" rel="stylesheet"/>
 </head>
-<body class="liturgical-song" data-season="advento">
+<body class="liturgical-song advent-experiment advent-layout-tabs" data-season="advento">
 <a class="chant-skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
 <button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
@@ -160,21 +161,11 @@
 <div class="nav-overlay" hidden="" id="nav-overlay"></div>
 <div class="wrap">
 <main class="main-panel" id="conteudo" tabindex="-1">
-<nav aria-label="Você está em" class="chant-breadcrumb">
-<a href="/index.html">Início</a><span aria-hidden="true">/</span>
-<a href="advento-2.html">2º Domingo do Advento</a><span aria-hidden="true">/</span>
-<span aria-current="page">Comunhão</span>
-</nav>
 <header class="chant-heading">
 <p class="eyebrow"><span aria-hidden="true" class="chant-season-dot"></span> Advento · Antífona de Comunhão</p>
 <h1 class="page-heading">O Senhor nos dará tudo o que é bom</h1>
 <p class="page-subheading">2º Domingo do Advento</p>
 <img alt="Cálice e hóstia com arabescos dourados" class="chant-divider" height="318" src="../assets/img/Icones/icone-eucaristico-comunhao-transparente.png" width="994"/>
-<nav aria-label="Acessos nesta página" class="chant-quick-nav">
-<a href="#ouvir-canto">Ouvir o canto</a>
-<a href="#partitura">Partitura</a>
-<a href="#preparacao-do-canto">Meditação</a>
-</nav>
 </header>
 <section aria-label="Ouvir e preparar o canto" class="chant-hero">
 <section aria-labelledby="video-title" class="chant-media" data-video-id="noFuggJDjRg" data-video-src="https://www.youtube.com/embed/noFuggJDjRg?start=1&amp;rel=0&amp;controls=1" data-video-title="Canto de Comunhão — 2º Domingo do Advento" id="ouvir-canto">
@@ -204,15 +195,23 @@
 </div>
 </div>
 </section>
-<div class="chant-download chant-pending" data-pending-score="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf" id="partitura"><p class="eyebrow">Para o seu ministério de música</p><h2>Partitura em breve</h2><p>No tempo certo, a partitura será publicada aqui.</p></div>
-
 </section>
 
-<div class="chant-bridge">
-<p>O canto de comunhão do 2º Domingo do Advento nos convida a acolher os dons que o Senhor nos oferece. Na espera vigilante do Advento, contemplamos a generosidade divina que se manifesta na Eucaristia, antecipando a plenitude da vinda do Salvador.</p>
-<a href="#preparacao-do-canto">Ler a meditação sobre a antífona <span aria-hidden="true">↓</span></a>
-</div>
-<section aria-labelledby="article-title" class="communion-article theology-section" id="preparacao-do-canto"><header class="section-intro"><p class="eyebrow">Para rezar e cantar</p><h2 id="article-title">Meditação sobre o canto</h2></header><div class="chant-prose">
+
+<section class="chant-tabs" data-chant-tabs aria-label="Recursos do canto">
+  <div class="chant-tablist" role="tablist" aria-label="Consultar conteúdo do canto">
+    <button class="chant-tab" id="aba-partitura" type="button" role="tab" aria-selected="false" aria-controls="painel-partitura" tabindex="-1">Partitura</button>
+    <button class="chant-tab" id="aba-meditacao" type="button" role="tab" aria-selected="true" aria-controls="painel-meditacao" tabindex="0">Meditação</button>
+    <button class="chant-tab" id="aba-informacoes" type="button" role="tab" aria-selected="false" aria-controls="painel-informacoes" tabindex="-1">Sobre o canto</button>
+  </div>
+  <section class="chant-tab-panel" id="painel-partitura" role="tabpanel" aria-labelledby="aba-partitura" tabindex="0" hidden>
+    <div class="chant-download chant-pending" data-pending-score="../assets/partituras/Advento/2%C2%B0%20Domingo%20do%20Advento/2%C2%B0Domingo_do_Advento-Comunhao.pdf" id="partitura"><p class="eyebrow">Para o seu ministério de música</p><h2>Partitura em breve</h2><p>No tempo certo, a partitura será publicada aqui.</p></div>
+
+
+  </section>
+  <section class="chant-tab-panel" id="painel-meditacao" role="tabpanel" aria-labelledby="aba-meditacao" tabindex="0">
+    <p class="chant-tab-lead">O canto de Comunhão do 2º Domingo do Advento nos convida a acolher os dons que o Senhor oferece. Na espera vigilante do Advento, contemplamos a generosidade divina que se manifesta na Eucaristia, antecipando a plenitude da vinda do Salvador.</p>
+    <section aria-labelledby="article-title" class="communion-article theology-section" id="preparacao-do-canto"><header class="section-intro"><p class="eyebrow">Para rezar e cantar</p><h2 id="article-title">Meditação sobre o canto</h2></header><div class="chant-prose">
 <p>No silêncio expectante do Advento, ergue-se um chamado antigo e santo: vigiar e orar, como fazem os santos Padres da Igreja em seus escritos. <span class="cite">diocesedemaraba.com.br</span> — um tempo de espera vigilante, não apenas pelo aniversário da encarnação, mas pela vinda definitiva do Senhor.</p>
 <h3>I. O Advento segundo os Santos</h3>
 <p>São João da Cruz, místico e doutor da Igreja, nos apresenta, em seu poema Romances, uma visão profunda do Advento:</p>
@@ -240,7 +239,23 @@
 <p>O canto gregoriano nos ajuda a moldar esse coração na sobriedade, na reverência e na harmonia com o sublime.</p>
 <p>E os santos, especialmente São João da Cruz, nos guiam para uma compreensão mais alta: a alma deve tornar-se uma casa para o Esposo, assim como Maria acolheu o Verbo no seu seio.</p>
 <p>Nesse encontro — entre vigilância, oração, música e mistério — descobrimos que o Advento é mais do que expectativa: é participação na história do amor trinitário, através de melodias antigas que nos recordam quem somos e para quem vivemos.</p>
-</div></section><section class="closing-section">
+</div></section>
+  </section>
+  <section class="chant-tab-panel" id="painel-informacoes" role="tabpanel" aria-labelledby="aba-informacoes" tabindex="0" hidden>
+    <div class="chant-information" id="sobre-o-canto">
+      <h2>Sobre esta antífona</h2>
+      <p>Informações litúrgicas e recursos para preparar o canto de Comunhão.</p>
+      <dl class="chant-info-grid">
+        <div><dt>Tempo litúrgico</dt><dd>Advento</dd></div>
+        <div><dt>Celebração</dt><dd>2º Domingo do Advento</dd></div>
+        <div><dt>Momento da Missa</dt><dd>Comunhão</dd></div>
+        <div><dt>Partitura</dt><dd>Em preparação</dd></div>
+      </dl>
+      <a href="https://youtu.be/noFuggJDjRg" target="_blank" rel="noopener noreferrer">Abrir o vídeo no YouTube ↗</a>
+    </div>
+  </section>
+</section>
+<section class="closing-section">
 <div class="closing-container">
 <div class="closing-divider"></div>
 <div class="closing-content">
@@ -295,5 +310,6 @@
 </footer>
 <script src="../scripts/script.js?v=20261005-menu-adornos"></script>
 <script src="../scripts/liturgical-song.js?v=menu-elegante-2"></script>
+<script src="../scripts/advent-communion-tabs.js?v=20261106-1"></script>
 </body>
 </html>
