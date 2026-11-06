@@ -341,19 +341,8 @@
       'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.');
     summary.append(price,priceNote);
     const description=isBook?product.description:detail.description||'Produto personalizado da coleção Salve Regina.';
-    if(isShirt){
-      const fullDescription=el('section','shop-single-shirt-description');
-      fullDescription.setAttribute('aria-label','Descrição da camiseta');
-      fullDescription.append(el('h2','','Descrição da camiseta'));
-      detail.paragraphs.forEach(text=>fullDescription.append(el('p','',text)));
-      fullDescription.append(el('h3','','Características do produto'));
-      const features=el('ul','shop-single-bullet-list');
-      detail.features.forEach(text=>features.append(el('li','',text)));
-      fullDescription.append(features);
-      summary.append(fullDescription);
-    }else{
-      summary.append(el('p','shop-single-excerpt',description));
-    }
+    summary.append(el('p','shop-single-excerpt',isShirt?'A partitura da Salve Regina na frente e Nossa Senhora nas costas. Camiseta preta unissex em 100% algodão penteado, com gola canelada reforçada.':description));
+    if(isShirt)summary.append(link('Ver detalhes da camiseta ↓','#detalhes-camiseta','shop-single-back'));
     if(isBook){
       price.textContent='Consulte o valor nas lojas parceiras';
       const shops=el('div','shop-single-partners');
@@ -558,19 +547,20 @@
     const desc=el('div');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
     if(Array.isArray(detail.paragraphs)){
-      desc.replaceChildren(el('h2','',isShirt?'Mais sobre a camiseta':'Descrição do produto'));
-      if(!isShirt)detail.paragraphs.forEach(p=>desc.append(el('p','',p)));
+      desc.replaceChildren(el('h2','','Descrição do produto'));
+      if(isShirt)details.id='detalhes-camiseta';
+      detail.paragraphs.forEach(p=>desc.append(el('p','',p)));
       const bullets=(heading,items)=>{
         desc.append(el('h3','shop-single-subheading',heading));
         const list=el('ul','shop-single-bullet-list');
         items.forEach(item=>list.append(el('li','',item)));desc.append(list);
       };
-      if(!isShirt)bullets('Características do produto',detail.features);
-      bullets('Por que escolher',detail.reasons);
+      bullets('Características do produto',detail.features);
+      if(!isShirt)bullets('Por que escolher',detail.reasons);
       desc.append(el('h3','shop-single-subheading','Perguntas frequentes'));
-      const faq=el('dl','shop-single-faq');
+      const faq=el(isShirt?'div':'dl','shop-single-faq');
       detail.faq.forEach(([q,a])=>{
-        const row=el('div');row.append(el('dt','',q),el('dd','',a));faq.append(row);
+        if(isShirt){const row=el('details');row.append(el('summary','',q),el('p','',a));faq.append(row);}else{const row=el('div');row.append(el('dt','',q),el('dd','',a));faq.append(row);}
       });desc.append(faq);
     }
     if(detail.note)desc.append(el('p','shop-single-muted',detail.note));
