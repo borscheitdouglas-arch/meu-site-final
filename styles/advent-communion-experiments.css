@@ -1,0 +1,301 @@
+/* Dois estudos de layout para as antífonas de Comunhão do Advento.
+   Escopo limitado às páginas que optam por estas classes. */
+.liturgical-song.advent-experiment .wrap {
+  width: min(1280px, 100%);
+  padding: clamp(12px, 2vw, 26px) clamp(14px, 2.6vw, 34px) 0;
+}
+.liturgical-song.advent-experiment .chant-heading {
+  text-align: left;
+  margin: 0 0 20px;
+}
+.liturgical-song.advent-experiment .chant-heading .eyebrow {
+  font-size: 11px;
+  letter-spacing: .13em;
+  color: #d8bd86;
+  margin-bottom: 4px;
+}
+.liturgical-song.advent-experiment .page-heading {
+  font-size: clamp(27px, 2.75vw, 37px);
+  line-height: 1.2;
+  margin: 0 0 4px;
+  letter-spacing: .008em;
+}
+.liturgical-song.advent-experiment .page-subheading {
+  font: 14px/1.5 'Inter', sans-serif;
+  color: #bdb8aa;
+}
+.liturgical-song.advent-experiment .chant-divider,
+.liturgical-song.advent-experiment .chant-quick-nav,
+.liturgical-song.advent-experiment .chant-breadcrumb {
+  display: none;
+}
+.liturgical-song.advent-experiment .video-shell {
+  border: 1px solid #8d7953;
+  border-radius: 12px;
+  box-shadow: 0 16px 52px #0008;
+}
+.liturgical-song.advent-experiment .chant-video-cover {
+  padding: 18px 22px;
+}
+.liturgical-song.advent-experiment .chant-video-center {
+  justify-content: center;
+  gap: 0;
+  padding-bottom: 0;
+}
+.liturgical-song.advent-experiment .chant-video-center h2 {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+}
+.liturgical-song.advent-experiment .chant-video-credit {
+  position: absolute;
+  bottom: 19px;
+  left: 22px;
+  font-size: 12px;
+  color: #f2ead9;
+  text-align: left;
+}
+.liturgical-song.advent-experiment .chant-play {
+  min-height: 59px;
+  margin: 0;
+  padding: 14px 25px;
+  border: 1px solid #f6e2b8;
+  background: #f8e9c9;
+  color: #26281f;
+  border-radius: 36px;
+  font-size: 14px;
+  box-shadow: 0 6px 28px #0009;
+}
+.liturgical-song.advent-experiment .chant-play:hover,
+.liturgical-song.advent-experiment .chant-play:focus-visible {
+  background: #fff8e9;
+}
+.liturgical-song.advent-experiment .chant-media-caption {
+  margin-top: 12px;
+}
+.liturgical-song.advent-experiment .chant-video-note {
+  font-size: 12px;
+}
+.liturgical-song.advent-experiment .chant-video-links { font-size: 13px; }
+
+/* 1º Domingo — biblioteca: vídeo e partitura lado a lado. */
+.liturgical-song.advent-layout-split .chant-hero {
+  max-width: none;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, .92fr);
+  grid-template-areas:
+    "media download"
+    "credits credits";
+  gap: 20px 22px;
+  align-items: stretch;
+}
+.liturgical-song.advent-layout-split .chant-media {
+  min-width: 0;
+}
+.liturgical-song.advent-layout-split .chant-download {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 20px;
+  gap: 12px;
+  border-radius: 12px;
+  background: linear-gradient(155deg, #303628, #1c221b 85%);
+  text-align: center;
+}
+.liturgical-song.advent-layout-split .chant-score-sheet {
+  align-self: center;
+  width: min(148px, 52%);
+  margin: 0;
+  transform: rotate(-1deg);
+}
+.liturgical-song.advent-layout-split .chant-score-sheet:hover { transform: rotate(0deg); }
+.liturgical-song.advent-layout-split .chant-download h2 { font-size: 27px; }
+.liturgical-song.advent-layout-split .chant-file-meta {
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+.liturgical-song.advent-layout-split .chant-download-content > .eyebrow { margin: 0 0 2px; font-size: 10px; }
+.liturgical-song.advent-layout-split .hero-cta-card {
+  justify-content: center;
+  gap: 8px;
+}
+.liturgical-song.advent-layout-split .cta-btn {
+  min-height: 44px;
+  font-size: 12px;
+  padding: 10px 12px;
+}
+.liturgical-song.advent-layout-split .chant-free-note {
+  margin-top: 8px;
+  font-size: 12px;
+}
+.liturgical-song.advent-layout-split .chant-pdf-link {
+  font-size: 12px;
+  justify-content: center;
+}
+.liturgical-song.advent-layout-split .score-details {
+  margin-top: 2px;
+  border-top: 1px solid #4a4b3e;
+  padding-top: 18px;
+}
+.liturgical-song.advent-layout-split .score-preview { max-width: 1100px; }
+.liturgical-song.advent-layout-split .chant-bridge { margin-top: 30px; }
+
+/* 2º Domingo — portal: player grande e abas funcionais. */
+.liturgical-song.advent-layout-tabs .chant-hero {
+  max-width: 1100px;
+  display: block;
+  margin: 0 auto;
+}
+.liturgical-song.advent-layout-tabs .chant-tabs {
+  max-width: 1100px;
+  margin: 23px auto 0;
+}
+.liturgical-song.advent-layout-tabs .chant-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0 14px;
+  border-bottom: 1px solid #665b40;
+  background: #151715;
+  position: sticky;
+  top: 0;
+  z-index: 8;
+}
+.liturgical-song.advent-layout-tabs .chant-tab {
+  min-height: 46px;
+  padding: 10px 20px;
+  border: 1px solid #5c5d4d;
+  border-radius: 24px;
+  background: #242920;
+  color: #e0d7c7;
+  font: 600 13px/1.4 'Inter', sans-serif;
+  transition: background .15s, border-color .15s;
+}
+.liturgical-song.advent-layout-tabs .chant-tab[aria-selected="true"] {
+  background: #e0c58c;
+  border-color: #e0c58c;
+  color: #242519;
+}
+.liturgical-song.advent-layout-tabs .chant-tab:hover:not([aria-selected="true"]) {
+  border-color: #d0b576;
+  background: #34392b;
+}
+.liturgical-song.advent-layout-tabs .chant-tab-panel {
+  padding: clamp(22px, 3vw, 35px);
+  border: 1px solid #44463a;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+  background: linear-gradient(160deg, #222820, #1b211d 75%);
+  min-width: 0;
+}
+.liturgical-song.advent-layout-tabs .chant-tab-panel:focus-visible {
+  outline: 2px solid #e0c58c;
+  outline-offset: 4px;
+}
+.liturgical-song.advent-layout-tabs .chant-tab-panel .chant-download {
+  margin: 0 auto;
+  max-width: 680px;
+}
+.liturgical-song.advent-layout-tabs .chant-tab-panel .chant-pending {
+  border-color: #777054;
+}
+.liturgical-song.advent-layout-tabs .chant-tab-lead {
+  max-width: 740px;
+  margin: 0 auto 22px;
+  color: #cec8b6;
+  font: 17px/1.8 'Spectral', Georgia, serif;
+}
+.liturgical-song.advent-layout-tabs .communion-article {
+  margin: 0 auto;
+  padding: 22px 0 0;
+}
+.liturgical-song.advent-layout-tabs .chant-information {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.liturgical-song.advent-layout-tabs .chant-information h2 {
+  font: 600 25px/1.35 'Spectral', Georgia, serif;
+  margin-bottom: 8px;
+}
+.liturgical-song.advent-layout-tabs .chant-information > p {
+  color: #c6c2b3;
+  font-size: 16px;
+}
+.liturgical-song.advent-layout-tabs .chant-info-grid {
+  margin: 22px 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+.liturgical-song.advent-layout-tabs .chant-info-grid > div {
+  padding: 14px 17px;
+  background: #2b3028;
+  border: 1px solid #454a3c;
+  border-radius: 8px;
+}
+.liturgical-song.advent-layout-tabs .chant-info-grid dt {
+  font: 11px/1.5 'Inter', sans-serif;
+  color: #bbb8ab;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.liturgical-song.advent-layout-tabs .chant-info-grid dd {
+  margin: 6px 0 0;
+  font: 18px/1.4 'Spectral', Georgia, serif;
+  color: #f0e6d6;
+}
+.liturgical-song.advent-layout-tabs .chant-information > a { font: 14px/1.6 'Inter', sans-serif; }
+
+@media (max-width: 900px) {
+  .liturgical-song.advent-layout-split .chant-hero {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "media" "download" "credits";
+    gap: 18px;
+    max-width: 720px;
+  }
+  .liturgical-song.advent-layout-split .chant-download {
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr);
+    gap: 16px;
+    text-align: left;
+    align-items: center;
+  }
+  .liturgical-song.advent-layout-split .chant-score-sheet { width: 112px; }
+  .liturgical-song.advent-layout-split .chant-pdf-link { justify-content: flex-start; }
+  .liturgical-song.advent-layout-split .hero-cta-card { justify-content: flex-start; }
+}
+@media (max-width: 600px) {
+  .liturgical-song.advent-experiment .wrap { padding: 12px 12px 0; }
+  .liturgical-song.advent-experiment .chant-heading { margin-bottom: 14px; }
+  .liturgical-song.advent-experiment .page-heading { font-size: clamp(25px, 6vw, 32px); }
+  .liturgical-song.advent-experiment .page-subheading { font-size: 12px; }
+  .liturgical-song.advent-experiment .chant-video-cover { padding: 12px; }
+  .liturgical-song.advent-experiment .chant-video-status { font-size: 9px; padding: 4px 7px; }
+  .liturgical-song.advent-experiment .chant-play { min-height: 43px; padding: 8px 14px; font-size: 12px; }
+  .liturgical-song.advent-experiment .chant-video-credit { display: none; }
+  .liturgical-song.advent-layout-split .chant-download {
+    display: grid;
+    grid-template-columns: 85px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+  .liturgical-song.advent-layout-split .chant-score-sheet { width: 82px; }
+  .liturgical-song.advent-layout-split .chant-download h2 { font-size: 23px; }
+  .liturgical-song.advent-layout-split .chant-download-content > .eyebrow { display: none; }
+  .liturgical-song.advent-layout-split .hero-cta-card { display: flex; }
+  .liturgical-song.advent-layout-split .cta-btn { width: 100%; }
+  .liturgical-song.advent-layout-tabs .chant-tabs { margin-top: 12px; }
+  .liturgical-song.advent-layout-tabs .chant-tablist { gap: 5px; padding: 8px 0 10px; }
+  .liturgical-song.advent-layout-tabs .chant-tab { flex: 1 1 auto; min-height: 43px; padding: 8px 10px; font-size: 12px; }
+  .liturgical-song.advent-layout-tabs .chant-tab-panel { padding: 18px 15px; }
+  .liturgical-song.advent-layout-tabs .chant-info-grid { grid-template-columns: 1fr; }
+  .liturgical-song.advent-layout-tabs .chant-tab-lead { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .liturgical-song.advent-experiment .chant-tab { transition: none; }
+}
