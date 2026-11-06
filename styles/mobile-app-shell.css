@@ -1214,3 +1214,43 @@
     font-size: 16px;
   }
 }
+
+/* 06/11/2026 — Subcategorias menores que os títulos Eagle Lake.
+   Mantém contraste, recuo e alvo de toque confortável no celular. */
+@media (max-width: 767px) {
+  body.mobile-sacred-active .mobile-sacred-choices,
+  body.mobile-sacred-active.home-page .mobile-sacred-choices {
+    margin: 1px 0 9px 8px;
+    padding: 2px 0 5px 12px;
+    border-left: 1px solid rgba(119,79,41,.42);
+    gap: 1px;
+  }
+  body.mobile-sacred-active .mobile-sacred-choices a,
+  body.mobile-sacred-active.home-page .mobile-sacred-choices a {
+    box-sizing: border-box;
+    min-height: 42px;
+    padding: 9px 7px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #513c2a !important;
+    font: 400 clamp(13.5px, 3.7vw, 15px)/1.45 'Spectral', Georgia, serif;
+    letter-spacing: 0;
+    text-shadow: none;
+    text-decoration: none;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: auto;
+  }
+  body.mobile-sacred-active .mobile-sacred-choices a::before,
+  body.mobile-sacred-active.home-page .mobile-sacred-choices a::before {
+    color: #9d783f;
+    font-size: 12px;
+    margin-right: 7px;
+  }
+  body.mobile-sacred-active .mobile-sacred-choices a:is(:hover,:focus-visible,:active),
+  body.mobile-sacred-active.home-page .mobile-sacred-choices a:is(:hover,:focus-visible,:active) {
+    color: #362515 !important;
+    background: rgba(123,84,39,.12);
+  }
+}
