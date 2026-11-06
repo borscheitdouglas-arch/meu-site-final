@@ -339,7 +339,13 @@
       isBook?'Preço e frete informados pela loja parceira.':
       isPreparation?'Modelo e preço definitivo ainda não cadastrados.':
       'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.');
-    summary.append(price,priceNote);
+    if(isShirt){
+      // Bloco compacto: título, situação e preço no estilo de uma ficha comercial.
+      // Mantém os valores sempre vinculados à variação escolhida.
+      const pricePanel=el('div','shop-single-shirt-pricebox');
+      pricePanel.append(el('span','shop-single-shirt-price-label','Preço'),price,priceNote);
+      summary.append(pricePanel);
+    }else summary.append(price,priceNote);
     const description=isBook?product.description:detail.description||'Produto personalizado da coleção Salve Regina.';
     summary.append(el('p','shop-single-excerpt',isShirt?'A partitura da Salve Regina na frente e Nossa Senhora nas costas. Camiseta preta unissex em 100% algodão penteado, com gola canelada reforçada.':description));
     if(isShirt)summary.append(link('Ver detalhes da camiseta ↓','#detalhes-camiseta','shop-single-back'));
@@ -553,7 +559,7 @@
       root.append(seller);
     }
     const details=el('section','shop-single-details');
-    const desc=el('div');desc.append(el('h2','','Descrição do produto'),
+    const desc=el('div',isShirt?'shop-single-description-block':'');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
     if(Array.isArray(detail.paragraphs)){
       desc.replaceChildren(el('h2','','Descrição do produto'));
@@ -573,7 +579,7 @@
       });desc.append(faq);
     }
     if(detail.note)desc.append(el('p','shop-single-muted',detail.note));
-    const infoBox=el('div');infoBox.append(el('h2','','Informações'));
+    const infoBox=el('div',isShirt?'shop-single-specifications-block':'');infoBox.append(el('h2','','Informações'));
     infoBox.append(specs(isBook?{
       'Categoria':product.category,'Formato':product.format,'Autor':product.author,'Venda':'Parceiros externos'
     }:{
@@ -582,7 +588,7 @@
       'Situação':isPreparation?'Em preparação':isShirt?'Compra online disponível':'Sob consulta'
     }));
     if(isShirt){
-      infoBox.replaceChildren(el('h2','','Detalhes do produto'),specs({
+      infoBox.replaceChildren(el('h2','','Informações do produto'),specs({
         'Coleção':'Salve Regina','Material':detail.material,'Modelagem':'Unissex','Gola':'Canelada reforçada','Cor':'Preta',
         'Tamanhos':product.variants.map(v=>v.code).join(', '),'Estampa':detail.finish,'Produção':'Sob demanda','Venda':'Por unidade'
       }));
