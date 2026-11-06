@@ -204,3 +204,134 @@ body.site-editorial {
 .site-editorial .repertoire-unified .card { justify-self: center; cursor: default; }
 .site-editorial .repertoire-unified .card-title { font: 600 26px/1.4 'Spectral', Georgia, serif; }
 .site-editorial .repertoire-pairs { max-width: 864px; }
+
+
+/* Repertório litúrgico — cards compactos e refinados (06/11/2026). */
+/* Apenas os cards de repertório, domingos e solenidades; não afeta produtos da loja. */
+.site-editorial :is(.carousel-section, .cards-container) .card {
+  max-width: 320px;
+  border: 1px solid rgba(210,181,117,.34);
+  border-radius: 13px;
+  background: linear-gradient(145deg,#272821 0%,#1d211e 62%,#191c1a 100%);
+  box-shadow: 0 8px 22px rgba(0,0,0,.20), inset 0 1px 0 rgba(238,218,167,.06);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(224,193,127,.7);
+  box-shadow: 0 14px 28px rgba(0,0,0,.24), inset 0 1px 0 rgba(238,218,167,.08);
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-header {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 12px;
+  padding: 20px 20px 12px;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-icon {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 2px 0 0;
+  opacity: .88;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-icon :is(img, svg) {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-title {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0 0 5px;
+  font: 600 20px/1.28 'Spectral', Georgia, serif;
+  letter-spacing: .005em;
+  color: #eee0c2;
+  overflow-wrap: break-word;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-subtitle {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  font: 400 13px/1.45 'Spectral', Georgia, serif;
+  color: #c4bba7;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-body {
+  flex: 1;
+  padding: 0 20px 15px;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-description {
+  margin: 0;
+  font: 400 14.5px/1.55 'Spectral', Georgia, serif;
+  color: #c9c7bb;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-footer {
+  padding: 0 20px 20px;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-link {
+  display: inline-flex;
+  width: 100%;
+  min-height: 39px;
+  padding: 8px 12px;
+  border: 1px solid rgba(206,174,111,.55);
+  border-radius: 7px;
+  background: rgba(211,180,117,.08);
+  color: #edd5a4;
+  box-shadow: none;
+  font: 600 11px/1.45 'Inter', sans-serif;
+  letter-spacing: .105em;
+  text-transform: uppercase;
+}
+.site-editorial :is(.carousel-section, .cards-container) .card-link:hover {
+  background: #d8bc83;
+  border-color: #e3c993;
+  color: #1b201b;
+  box-shadow: 0 4px 14px rgba(0,0,0,.15);
+}
+.site-editorial .carousel-section:not(:has(.carousel-controls)) .carousel-track,
+.site-editorial .cards-container {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 320px));
+  gap: 18px;
+  align-items: stretch;
+}
+.site-editorial .repertoire-unified .carousel-track {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 320px));
+  justify-content: center;
+  gap: 18px;
+}
+.site-editorial .carousel-section:has(.carousel-controls) .card {
+  flex: 0 0 min(320px, 90%);
+}
+.site-editorial .carousel-section .carousel-head {
+  margin-bottom: 18px;
+}
+@media (max-width: 600px) {
+  .site-editorial :is(.carousel-section, .cards-container) .card {
+    max-width: min(100%, 320px);
+  }
+  .site-editorial :is(.carousel-section, .cards-container) .card-header {
+    grid-template-columns: 32px minmax(0, 1fr);
+    column-gap: 11px;
+    padding: 18px 17px 11px;
+  }
+  .site-editorial :is(.carousel-section, .cards-container) .card-icon :is(img, svg) {
+    width: 32px;
+    height: 32px;
+  }
+  .site-editorial :is(.carousel-section, .cards-container) .card-title {
+    font-size: 19px;
+  }
+  .site-editorial :is(.carousel-section, .cards-container) .card-body {
+    padding: 0 17px 13px;
+  }
+  .site-editorial :is(.carousel-section, .cards-container) .card-footer {
+    padding: 0 17px 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-editorial :is(.carousel-section, .cards-container) .card {
+    transition: none;
+  }
+}
