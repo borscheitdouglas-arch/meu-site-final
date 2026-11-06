@@ -1,3 +1,28 @@
+
+// Remove as trilhas de localização de todas as páginas que carregam este script.
+// Não interfere nos menus, atalhos para partituras ou links das matérias.
+(function removeNavigationBreadcrumbs(){
+  const selector = [
+    'nav[aria-label="Você está em"]',
+    'nav[aria-label="Você está aqui"]',
+    'nav.chant-breadcrumb',
+    'nav.editorial-breadcrumb',
+    'nav.breadcrumb',
+    'nav.materia-breadcrumb',
+    'nav.contato-breadcrumb',
+    'nav.doacao-breadcrumb',
+    'nav.shop-single-breadcrumb'
+  ].join(', ');
+  function remove() {
+    document.querySelectorAll(selector).forEach(nav => nav.remove());
+  }
+  if(document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', remove, { once: true });
+  } else {
+    remove();
+  }
+})();
+
 ﻿// script.js - funções: carrossel, dark-mode e animações simples
 
 // Carrega dinamicamente o script do AdSense caso ainda não esteja presente.
