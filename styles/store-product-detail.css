@@ -332,3 +332,13 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
 .shop-product-page .shop-single-shirt-description .shop-single-bullet-list {
   font-size:13px;line-height:1.7;margin-bottom:0;
 }
+
+#shop-single-root[data-product-id="camiseta-salve-regina"] .shirt-seller {display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:32px 0 24px;padding:16px 0;border-block:1px solid #b59a5f55;color:#ead6ac;}
+#detalhes-camiseta.shop-single-details {display:block;border:0;padding:0;margin:0;scroll-margin-top:90px;}
+#detalhes-camiseta h2 {background:#c6a8740e;border-left:2px solid #b59a5f;padding:10px 16px;font-size:25px;}
+#detalhes-camiseta .shop-single-specs {margin-bottom:30px;}
+#detalhes-camiseta .shop-single-specs div {display:grid;grid-template-columns:minmax(95px,22%) 1fr;gap:16px;}
+#detalhes-camiseta .shop-single-specs dd {text-align:left;}
+#detalhes-camiseta p {max-width:85ch;}
+#detalhes-camiseta .shop-single-faq details {border-bottom:1px solid #b59a5f45;padding:12px 0;}
+#detalhes-camiseta summary {color:#ead6ac;cursor:pointer;}

@@ -529,7 +529,11 @@
       summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
       // Calculadora na página individual de todas as peças físicas, não só camiseta.
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
-      shipping(summary,product,select,quantity);
+      if(isShirt){
+        const delivery=el('div');
+        shipping(delivery,product,select,quantity);
+        form.before(delivery);
+      }else shipping(summary,product,select,quantity);
     }
     const trust=el('div','shop-single-trust');
     trust.append(el('p','',isBook?
@@ -543,6 +547,11 @@
       detail.photoLabels,isShirt
     ),summary);
     root.replaceChildren(layout);
+    if(isShirt){
+      const seller=el('section','shirt-seller');
+      seller.append(el('strong','','Loja Douglas Assumpção'),link('Visitar a loja','/pages/loja.html','shop-single-back'));
+      root.append(seller);
+    }
     const details=el('section','shop-single-details');
     const desc=el('div');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
@@ -555,7 +564,7 @@
         const list=el('ul','shop-single-bullet-list');
         items.forEach(item=>list.append(el('li','',item)));desc.append(list);
       };
-      bullets('Características do produto',detail.features);
+      if(!isShirt)bullets('Características do produto',detail.features);
       if(!isShirt)bullets('Por que escolher',detail.reasons);
       desc.append(el('h3','shop-single-subheading','Perguntas frequentes'));
       const faq=el(isShirt?'div':'dl','shop-single-faq');
@@ -572,7 +581,14 @@
       'Material':detail.material||'A confirmar','Acabamento':detail.finish||'A confirmar',
       'Situação':isPreparation?'Em preparação':isShirt?'Compra online disponível':'Sob consulta'
     }));
-    details.append(desc,infoBox);root.append(details);
+    if(isShirt){
+      infoBox.replaceChildren(el('h2','','Detalhes do produto'),specs({
+        'Coleção':'Salve Regina','Material':detail.material,'Modelagem':'Unissex','Gola':'Canelada reforçada','Cor':'Preta',
+        'Tamanhos':product.variants.map(v=>v.code).join(', '),'Estampa':detail.finish,'Produção':'Sob demanda','Venda':'Por unidade'
+      }));
+      details.append(infoBox,desc);
+    }else details.append(desc,infoBox);
+    root.append(details);
     const related=all.filter(p=>p.id!==product.id && (p.product_type==='book'||Array.isArray(p.variants))).slice(0,3);
     if(related.length){
       const section=el('section','shop-single-related');
