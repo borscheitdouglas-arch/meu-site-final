@@ -339,13 +339,10 @@
       isBook?'Preço e frete informados pela loja parceira.':
       isPreparation?'Modelo e preço definitivo ainda não cadastrados.':
       'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.');
-    if(isShirt){
-      // Bloco compacto: título, situação e preço no estilo de uma ficha comercial.
-      // Mantém os valores sempre vinculados à variação escolhida.
-      const pricePanel=el('div','shop-single-shirt-pricebox');
-      pricePanel.append(el('span','shop-single-shirt-price-label','Preço'),price,priceNote);
-      summary.append(pricePanel);
-    }else summary.append(price,priceNote);
+    // Ficha comercial uniforme: o preço mantém a variação e a origem de dados do produto.
+    const pricePanel=el('div','shop-single-pricebox');
+    pricePanel.append(el('span','shop-single-price-label','Preço'),price,priceNote);
+    summary.append(pricePanel);
     const description=isBook?product.description:detail.description||'Produto personalizado da coleção Salve Regina.';
     summary.append(el('p','shop-single-excerpt',isShirt?'A partitura da Salve Regina na frente e Nossa Senhora nas costas. Camiseta preta unissex em 100% algodão penteado, com gola canelada reforçada.':description));
     if(isShirt)summary.append(link('Ver detalhes da camiseta ↓','#detalhes-camiseta','shop-single-back'));
@@ -535,11 +532,10 @@
       summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
       // Calculadora na página individual de todas as peças físicas, não só camiseta.
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
-      if(isShirt){
-        const delivery=el('div');
-        shipping(delivery,product,select,quantity);
-        form.before(delivery);
-      }else shipping(summary,product,select,quantity);
+      // Frete aparece sempre antes das opções de compra, em todos os produtos físicos.
+      const delivery=el('div');
+      shipping(delivery,product,select,quantity);
+      form.before(delivery);
     }
     const trust=el('div','shop-single-trust');
     trust.append(el('p','',isBook?
@@ -550,16 +546,16 @@
     layout.append(gallery(
       photos,title,
       isShirt?'':(detail.note || (isBook?'Arte de divulgação do livro':'Imagem ilustrativa da coleção')),
-      detail.photoLabels,isShirt
+      detail.photoLabels,true
     ),summary);
     root.replaceChildren(layout);
-    if(isShirt){
+    if(!isBook){
       const seller=el('section','shirt-seller');
       seller.append(el('strong','','Loja Douglas Assumpção'),link('Visitar a loja','/pages/loja.html','shop-single-back'));
       root.append(seller);
     }
-    const details=el('section','shop-single-details');
-    const desc=el('div',isShirt?'shop-single-description-block':'');desc.append(el('h2','','Descrição do produto'),
+    const details=el('section','shop-single-details shop-single-details-unified');
+    const desc=el('div','shop-single-description-block');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
     if(Array.isArray(detail.paragraphs)){
       desc.replaceChildren(el('h2','','Descrição do produto'));
@@ -573,13 +569,13 @@
       if(!isShirt)bullets('Características do produto',detail.features);
       if(!isShirt)bullets('Por que escolher',detail.reasons);
       desc.append(el('h3','shop-single-subheading','Perguntas frequentes'));
-      const faq=el(isShirt?'div':'dl','shop-single-faq');
+      const faq=el('div','shop-single-faq');
       detail.faq.forEach(([q,a])=>{
-        if(isShirt){const row=el('details');row.append(el('summary','',q),el('p','',a));faq.append(row);}else{const row=el('div');row.append(el('dt','',q),el('dd','',a));faq.append(row);}
+        const row=el('details');row.append(el('summary','',q),el('p','',a));faq.append(row);
       });desc.append(faq);
     }
     if(detail.note)desc.append(el('p','shop-single-muted',detail.note));
-    const infoBox=el('div',isShirt?'shop-single-specifications-block':'');infoBox.append(el('h2','','Informações'));
+    const infoBox=el('div','shop-single-specifications-block');infoBox.append(el('h2','','Informações'));
     infoBox.append(specs(isBook?{
       'Categoria':product.category,'Formato':product.format,'Autor':product.author,'Venda':'Parceiros externos'
     }:{
@@ -593,7 +589,7 @@
         'Tamanhos':product.variants.map(v=>v.code).join(', '),'Estampa':detail.finish,'Produção':'Sob demanda','Venda':'Por unidade'
       }));
       details.append(infoBox,desc);
-    }else details.append(desc,infoBox);
+    }else details.append(infoBox,desc);
     root.append(details);
     const related=all.filter(p=>p.id!==product.id && (p.product_type==='book'||Array.isArray(p.variants))).slice(0,3);
     if(related.length){
