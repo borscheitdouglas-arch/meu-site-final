@@ -10,6 +10,14 @@
     "cta": "Saiba Mais"
   },
   {
+    "title": "O Senhor reinará",
+    "description": "Solenidade de Nosso Senhor Jesus Cristo, Rei do Universo · Sl 28(29),10–11",
+    "category": "Canto de Comunhão",
+    "url": "pages/solenidade-cristo-rei-comunhao.html",
+    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Festas e solenidades.png",
+    "published": "2026-11-06"
+  },
+  {
     "title": "Eis que o Senhor vem",
     "description": "3º Domingo do Advento",
     "category": "Canto de Entrada",
@@ -62,14 +70,6 @@
     "description": "29º Domingo do Tempo Comum · Mc 10,45",
     "category": "Canto de Comunhão",
     "url": "pages/tempo-comum-29-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-23"
-  },
-  {
-    "title": "Quando o Senhor se manifestar",
-    "description": "28º Domingo do Tempo Comum · 1Jo 3,2",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-28-comunhao.html",
     "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
     "published": "2026-10-23"
   }
