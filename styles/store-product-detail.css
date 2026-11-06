@@ -342,3 +342,203 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"
 #detalhes-camiseta p {max-width:85ch;}
 #detalhes-camiseta .shop-single-faq details {border-bottom:1px solid #b59a5f45;padding:12px 0;}
 #detalhes-camiseta summary {color:#ead6ac;cursor:pointer;}
+
+/* Camiseta: ficha comercial compacta inspirada na hierarquia da Shopee,
+   preservando a tipografia, o ouro antigo e os fundos escuros da loja.
+   Escopo restrito à camiseta; nenhuma outra página de produto é alterada. */
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary {
+  padding:0;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-kicker {
+  font:600 10px/1.45 'Inter',sans-serif;
+  letter-spacing:.11em;
+  margin:0 0 7px;
+  color:#c9b58c;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary h1 {
+  font:600 clamp(21px,2.1vw,25px)/1.37 'Inter',sans-serif;
+  letter-spacing:-.018em;
+  margin:0 0 9px;
+  color:#f1ecdf;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-status {
+  display:block;width:fit-content;
+  margin:0 0 15px;padding:0;border:0;background:none;
+  color:#c8cbbb;font:500 11px/1.5 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shirt-pricebox {
+  padding:14px 17px 15px;
+  border:1px solid #ba9b6050;border-radius:6px;
+  background:linear-gradient(110deg,#a786481c,#a7864807);
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shirt-price-label {
+  display:block;color:#c6bca3;
+  font:600 10px/1.4 'Inter',sans-serif;
+  letter-spacing:.075em;text-transform:uppercase;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-price {
+  font:600 clamp(28px,2.8vw,34px)/1.18 'Inter',sans-serif;
+  letter-spacing:-.025em;color:#f0d297;
+  margin:3px 0 5px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-price-note {
+  font:400 11.5px/1.6 'Inter',sans-serif;color:#cdd1c3;margin:0;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-excerpt {
+  font:400 12.5px/1.65 'Inter',sans-serif;
+  color:#d1d3c8;margin:13px 0 5px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary > .shop-single-back {
+  display:inline-block;font:500 11.5px/1.5 'Inter',sans-serif;
+  text-underline-offset:3px;margin:3px 0;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping {
+  margin:17px 0 0;padding:14px 16px;
+  border-color:#b59a5f40;border-radius:6px;background:#d2b98208;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping h2 {
+  font:600 14px/1.4 'Inter',sans-serif;color:#eadcbf;margin:0 0 5px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping p {
+  font:400 11px/1.55 'Inter',sans-serif;color:#bfc6b9;margin:4px 0;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping form {
+  margin:11px 0 4px;gap:8px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping input,
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shipping button {
+  min-height:42px;box-sizing:border-box;border-radius:4px;
+  font:500 12px/1.4 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-form {
+  padding:17px 0 3px;gap:12px;border-top:0;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-variant-group {
+  gap:8px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-field-label {
+  color:#d8d7c9;font:600 12px/1.45 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-variant-chips {
+  gap:8px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-variant-chip {
+  min-width:49px;min-height:43px;padding:9px 12px;border-radius:5px;
+  font:600 12px/1.2 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-quantity-group {
+  grid-template-columns:83px max-content minmax(0,1fr);gap:12px;margin-top:2px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-stepper {
+  grid-template-columns:39px 47px 39px;min-height:43px;border-radius:5px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-stepper-button {
+  min-height:43px;font-size:21px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-form .shop-single-quantity-input {
+  width:47px!important;min-height:43px!important;font-size:15px!important;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-availability {
+  font:500 11px/1.45 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-actions {
+  margin-top:6px;gap:10px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-actions button {
+  min-height:48px;padding:10px 12px;
+  border-radius:5px;font:700 12px/1.4 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-feedback {
+  min-height:0;margin:0;font:500 11px/1.5 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-feedback:empty {
+  display:none;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-trust {
+  margin-top:12px;padding:12px 0 0;
+  font:400 11px/1.65 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-trust p {
+  margin:0 0 7px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shirt-seller {
+  margin:26px 0 22px;padding:13px 2px;
+  font:500 12px/1.5 'Inter',sans-serif;
+}
+body.shop-product-page #detalhes-camiseta.shop-single-details {
+  display:grid;grid-template-columns:1fr;gap:17px;
+  padding:0;margin:0;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-specifications-block,
+body.shop-product-page #detalhes-camiseta .shop-single-description-block {
+  min-width:0;padding:19px 22px 20px;
+  background:#d8bf8708;border:1px solid #b59a5f38;border-radius:6px;
+}
+body.shop-product-page #detalhes-camiseta h2 {
+  font:600 17px/1.45 'Inter',sans-serif;color:#eddfc2;
+  margin:0 0 12px;padding:0 0 10px;
+  border:0;border-bottom:1px solid #b59a5f40;background:none;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-specs {margin:0;}
+body.shop-product-page #detalhes-camiseta .shop-single-specs div {
+  display:grid;grid-template-columns:minmax(110px,23%) minmax(0,1fr);
+  gap:10px;padding:10px 0;
+  font:400 12px/1.6 'Inter',sans-serif;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-specs div:last-child {
+  border-bottom:0;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-specs dt {color:#b6bdb1;}
+body.shop-product-page #detalhes-camiseta .shop-single-specs dd {
+  color:#e4dfd2;font-weight:500;text-align:left;overflow-wrap:anywhere;
+}
+body.shop-product-page #detalhes-camiseta p {
+  max-width:80ch;color:#d2d6ce;
+  font:400 13px/1.75 'Inter',sans-serif;margin:0 0 12px;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-subheading {
+  font:600 14px/1.45 'Inter',sans-serif;color:#e8d8b3;
+  margin:20px 0 9px;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-faq details {
+  border-top:1px solid #b59a5f35;border-bottom:0;padding:11px 0;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-faq details:last-child {
+  padding-bottom:0;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-faq summary {
+  font:600 12px/1.65 'Inter',sans-serif;color:#e3dcc7;
+  cursor:pointer;
+}
+body.shop-product-page #detalhes-camiseta .shop-single-faq details p {
+  margin:9px 0 0;font-size:12px;line-height:1.7;
+}
+@media(max-width:630px){
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-quantity-group {
+    grid-template-columns:max-content minmax(0,1fr);
+  }
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-quantity-group > .shop-single-field-label {
+    grid-column:1/-1;
+  }
+}
+@media(max-width:540px){
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-summary h1 {
+    font-size:21px;
+  }
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-shirt-pricebox {
+    padding:13px 14px;
+  }
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-actions {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-salve-regina"] .shop-single-actions button {
+    min-height:47px;padding:10px 8px;font-size:11px;
+  }
+  body.shop-product-page #detalhes-camiseta .shop-single-specifications-block,
+  body.shop-product-page #detalhes-camiseta .shop-single-description-block {
+    padding:16px 14px;
+  }
+  body.shop-product-page #detalhes-camiseta .shop-single-specs div {
+    grid-template-columns:94px minmax(0,1fr);gap:8px;font-size:11.5px;
+  }
+}
