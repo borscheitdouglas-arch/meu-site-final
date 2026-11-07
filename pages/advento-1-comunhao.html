@@ -11,51 +11,66 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;family=EB+Garamond:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
 <link href="../styles/liturgical-song.css?v=20261005-menu-adornos" rel="stylesheet"/>
 <style>
-/* Comunhão do 1º Domingo: ornamento acima, vídeo e título abaixo. */
+/* Comunhão — 1º Domingo do Advento.
+   Cabeçalho compacto, player em evidência e ornamento abaixo do vídeo.
+   Regras exclusivas desta página. */
 .liturgical-song.advent-communion-first .wrap {
-  padding-top: 12px;
+  padding-top: 10px;
 }
-.liturgical-song.advent-communion-first .chant-heading--ornament {
-  margin: 0 auto 18px;
+.liturgical-song.advent-communion-first .chant-heading--compact {
+  margin: 0 auto 14px;
   text-align: center;
+  max-width: 1060px;
 }
-.liturgical-song.advent-communion-first .chant-heading--ornament .chant-divider {
-  width: min(440px, 88%);
+.liturgical-song.advent-communion-first .chant-heading--compact .eyebrow {
+  margin-bottom: 5px;
+  color: #d9c5a0;
+  font-size: 12px;
+  letter-spacing: .12em;
+}
+.liturgical-song.advent-communion-first .chant-heading--compact .page-heading {
+  margin: 0 0 4px;
+  font-size: clamp(25px, 2.7vw, 37px);
+  line-height: 1.18;
+}
+.liturgical-song.advent-communion-first .chant-heading--compact .page-subheading {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.liturgical-song.advent-communion-first .chant-hero {
+  max-width: min(1060px, calc(150svh - 320px));
+  gap: 24px;
+}
+.liturgical-song.advent-communion-first .chant-ornament-separator {
+  text-align: center;
+  margin: 21px auto 0;
+}
+.liturgical-song.advent-communion-first .chant-ornament-separator img {
+  display: block;
+  width: min(440px, 90%);
+  max-width: 100%;
   height: auto;
   margin: 0 auto;
 }
-.liturgical-song.advent-communion-first .chant-heading--ornament .chant-quick-nav {
-  margin-top: 0;
-}
-.liturgical-song.advent-communion-first .chant-video-details {
-  margin: 24px auto 4px;
-  padding: 0 14px;
-  max-width: 840px;
-  text-align: center;
-}
-.liturgical-song.advent-communion-first .chant-video-details .eyebrow {
-  margin-bottom: 8px;
-  color: #d9c5a0;
-}
-.liturgical-song.advent-communion-first .chant-video-details .page-heading {
-  font-size: clamp(26px, 3.2vw, 40px);
-  margin-bottom: 8px;
-}
-.liturgical-song.advent-communion-first .chant-video-details .page-subheading {
-  font-size: 16px;
+.liturgical-song.advent-communion-first .chant-quick-nav {
+  margin-top: 2px;
 }
 @media (max-width: 700px) {
-  .liturgical-song.advent-communion-first .wrap { padding-top: 10px; }
-  .liturgical-song.advent-communion-first .chant-heading--ornament { margin-bottom: 12px; }
-  .liturgical-song.advent-communion-first .chant-heading--ornament .chant-divider {
+  .liturgical-song.advent-communion-first .wrap { padding-top: 8px; }
+  .liturgical-song.advent-communion-first .chant-heading--compact { margin-bottom: 12px; }
+  .liturgical-song.advent-communion-first .chant-heading--compact .eyebrow {
+    font-size: 10px;
+    letter-spacing: .09em;
+  }
+  .liturgical-song.advent-communion-first .chant-heading--compact .page-heading {
+    font-size: clamp(24px, 6vw, 30px);
+  }
+  .liturgical-song.advent-communion-first .chant-heading--compact .page-subheading { font-size: 13px; }
+  .liturgical-song.advent-communion-first .chant-hero { max-width: 100%; }
+  .liturgical-song.advent-communion-first .chant-ornament-separator { margin-top: 12px; }
+  .liturgical-song.advent-communion-first .chant-ornament-separator img {
     width: min(330px, 88%);
-  }
-  .liturgical-song.advent-communion-first .chant-video-details { margin-top: 19px; }
-  .liturgical-song.advent-communion-first .chant-video-details .page-heading {
-    font-size: clamp(25px, 6.2vw, 32px);
-  }
-  .liturgical-song.advent-communion-first .chant-video-details .page-subheading {
-    font-size: 14px;
   }
 }
 </style>
@@ -209,13 +224,10 @@
 <div class="nav-overlay" hidden="" id="nav-overlay"></div>
 <div class="wrap">
 <main class="main-panel" id="conteudo" tabindex="-1">
-<header class="chant-heading chant-heading--ornament">
-<img alt="Cálice e hóstia com arabescos dourados" class="chant-divider" height="318" src="../assets/img/Icones/icone-eucaristico-comunhao-transparente.png" width="994"/>
-<nav aria-label="Acessos nesta página" class="chant-quick-nav">
-<a href="#ouvir-canto">Ouvir o canto</a>
-<a href="#partitura">Partitura</a>
-<a href="#preparacao-do-canto">Meditação</a>
-</nav>
+<header class="chant-heading chant-heading--compact">
+<p class="eyebrow"><span aria-hidden="true" class="chant-season-dot"></span> ADVENTO · ANTÍFONA DE COMUNHÃO</p>
+<h1 class="page-heading">O Senhor nos dará seus benefícios</h1>
+<p class="page-subheading">1º Domingo do Advento · Sl 84,13</p>
 </header>
 <section aria-label="Ouvir e preparar o canto" class="chant-hero">
 <section aria-labelledby="video-title" class="chant-media" data-video-id="noFuggJDjRg" data-video-src="https://www.youtube.com/embed/noFuggJDjRg" data-video-title="Canto de Comunhão — 1º Domingo do Advento" id="ouvir-canto">
@@ -237,11 +249,6 @@
 </div>
 <div hidden="" id="video-player"></div>
 </div>
-<div class="chant-video-details">
-<p class="eyebrow"><span aria-hidden="true" class="chant-season-dot"></span> Advento · Antífona de Comunhão</p>
-<h1 class="page-heading">O Senhor nos dará seus benefícios</h1>
-<p class="page-subheading">1º Domingo do Advento · Sl 84,13</p>
-</div>
 <div class="chant-media-caption">
 <p class="chant-video-note" id="video-note">Novos vídeos às segundas-feiras. Se este canto ainda estiver agendado, aguarde a estreia no YouTube.</p>
 <div class="chant-video-links">
@@ -249,6 +256,14 @@
 <button class="chant-hide-player" hidden="" type="button">Fechar player</button>
 </div>
 </div>
+<div class="chant-ornament-separator" aria-hidden="true">
+<img src="../assets/img/Icones/icone-eucaristico-comunhao-transparente.png" alt="" width="994" height="318" loading="lazy"/>
+</div>
+<nav aria-label="Acessos nesta página" class="chant-quick-nav">
+<a href="#ouvir-canto">Ouvir o canto</a>
+<a href="#partitura">Partitura</a>
+<a href="#preparacao-do-canto">Meditação</a>
+</nav>
 </section>
 <div class="chant-download" id="partitura">
 <a aria-label="Abrir a partitura de O Senhor nos dará seus benefícios em nova aba" class="chant-score-sheet" href="../assets/partituras/Advento/1%C2%B0%20Domingo%20do%20Advento/1%C2%B0Domingo_do_Advento-comunh%C3%A3o.pdf" rel="noopener noreferrer" target="_blank">
