@@ -40,6 +40,15 @@ jobs:
               console.log("Cotação VAVI válida, custo privado protegido; sem pedido ou cobrança.");
             '
           done
+          echo "Conferindo vitrine pública sem cache."
+          public_page="$RUNNER_TEMP/loja.html"
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 \
+            --header 'Cache-Control: no-cache' \
+            'https://www.douglasassumpcao.com.br/pages/loja.html?cor_iesu_verificacao=20261111' \
+            --output "$public_page"
+          grep -Fq 'Nova coleção · compra online' "$public_page"
+          grep -Fq 'data-cart-add="camiseta-cor-iesu-sacratissimum"' "$public_page"
+          echo "Vitrine pública com camiseta Cor Iesu e botão de carrinho."
           echo "Verificando disponibilidade comercial no Worker (sem checkout real)."
           curl --fail --silent --show-error \
             --header 'Origin: https://www.douglasassumpcao.com.br' \
