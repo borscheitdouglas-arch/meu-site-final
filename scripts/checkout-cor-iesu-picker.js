@@ -93,6 +93,14 @@
         : 'Esta combinação ainda está sob consulta. Selecione Marrom em um tamanho disponível para comprar agora.';
       status.classList.toggle('is-unavailable',!ready);
       help.hidden=ready;
+      if(!ready){
+        const subject='Disponibilidade Camiseta Cor Iesu — '+
+          (knownColor(color)?.name||color)+' '+size;
+        const body='Olá! Gostaria de consultar a camiseta Cor Iesu Sacratissimum, '+
+          'cor '+(knownColor(color)?.name||color)+', tamanho '+size+'.';
+        help.href='mailto:douglas.assumpcao27@gmail.com?subject='+
+          encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+      }
       const quote=form.querySelector('#ship-quote');
       if(quote)quote.disabled=!ready;
       if(notify)form.elements.size.dispatchEvent(new Event('change',{bubbles:true}));
