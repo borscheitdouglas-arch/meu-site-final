@@ -15,6 +15,19 @@
   let multiReady = false;
   let readySkus = new Set();
 
+  // Cor Iesu tem 11 variantes com o mesmo código de tamanho.
+  // O SKU completo distingue a COR; não se pode usar apenas P/M/G/GG
+  // pois isso escolheria sempre Marrom no carrinho.
+  const isCorIesu=id=>id==='camiseta-cor-iesu-sacratissimum';
+  function findVariant(product,key){
+    if(!product?.variants||typeof key!=='string')return null;
+    return isCorIesu(product.id)?
+      (product.variants.find(v=>v.sku===key) ||
+       product.variants.find(v=>v.code===key)):
+      product.variants.find(v=>v.code===key);
+  }
+  const savedKey=(product,variant)=>isCorIesu(product.id)?variant.sku:variant.code;
+
   function rawCart() {
     try {
       const data = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
@@ -32,14 +45,15 @@
         : item.id === 'ecobag-salve-regina-g'
           ? {...item,id:'ecobag-salve-regina',variant:'G'} : item;
       const product = catalog.get(migrated.id);
-      const variation = product?.variants?.find(v => v.code === migrated.variant && v.sku &&
-        Number.isInteger(v.priceCents));
+      const variation = findVariant(product,migrated.variant);
+      if(!variation?.sku || !Number.isInteger(variation.priceCents))continue;
       if (!variation) continue;
-      const key = product.id + ':' + variation.code;
+      const code=savedKey(product,variation);
+      const key = product.id + ':' + code;
       const existing = byKey.get(key);
       if (existing) existing.qty = Math.min(MAX_QTY, existing.qty + Math.min(MAX_QTY,item.qty));
       else if (validated.length < 15) {
-        const row = {id:product.id, variant:variation.code, qty:Math.min(MAX_QTY,item.qty)};
+        const row = {id:product.id, variant:code, qty:Math.min(MAX_QTY,item.qty)};
         byKey.set(key,row); validated.push(row);
       }
     }
@@ -74,7 +88,7 @@
   }
   function add(id, variantCode, amount = 1) {
     const product = catalog.get(id);
-    const variant = product?.variants.find(v => v.code === variantCode);
+    const variant = findVariant(product,variantCode);
     if (!product || !variant?.sku || !Number.isInteger(variant.priceCents) ||
         !Number.isInteger(amount) || amount < 1) {
       notify('Escolha uma variação válida.'); return false;
@@ -85,7 +99,8 @@
       notify('A camiseta Cor Iesu é vendida uma unidade por pedido. Revise a camiseta que já está na sacola.');
       return false;
     }
-    const found = cart.find(item => item.id === id && item.variant === variantCode);
+    const code=savedKey(product,variant);
+    const found = cart.find(item => item.id === id && item.variant === code);
     if (found) {
       if (found.qty + amount > MAX_QTY) {
         notify('Máximo de 10 unidades por variação.'); return false;
@@ -93,7 +108,7 @@
       found.qty += amount;
     } else {
       if (cart.length >= 15) { notify('A sacola atingiu o limite de modelos.'); return false; }
-      cart.push({id,variant:variantCode,qty:amount});
+      cart.push({id,variant:code,qty:amount});
     }
     if (count(cart) > MAX_TOTAL) { notify('Máximo de 30 itens por sacola.'); return false; }
     if (!persist(cart)) return false;
@@ -143,7 +158,7 @@
     list.append(listHeading);
     for (const item of cart) {
       const product = catalog.get(item.id);
-      const variant = product.variants.find(v => v.code === item.variant);
+      const variant = findVariant(product,item.variant);
       const row = make('article','cart-item');
       const img = make('img','cart-thumb');
       const corIesuMatch=item.id==='camiseta-cor-iesu-sacratissimum'?
@@ -212,12 +227,12 @@
     const single = cart.length === 1 && cart[0].qty === 1;
     const exactShirt = single && cart[0].id === 'camiseta-salve-regina';
     const directSku = single
-      ? catalog.get(cart[0].id)?.variants?.find(v=>v.code===cart[0].variant)?.sku
+      ? findVariant(catalog.get(cart[0].id),cart[0].variant)?.sku
       : null;
     const direct = Boolean(ready && single && readySkus.has(directSku));
     const multiple=Boolean(ready && multiReady && !single && !hasPending &&
       cart.every(item=>{
-        const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
+        const sku=findVariant(catalog.get(item.id),item.variant)?.sku;
         return readySkus.has(sku) && !/^cor-iesu-/.test(sku||'');
       }));
     let multiPayButton=null;
@@ -262,7 +277,7 @@
       // A compra só avança pelo InfinitePay quando o Worker autorizar.
       // Nenhum produto redireciona o cliente para WhatsApp ou cotação manual.
       const unavailable=cart.filter(item=>{
-        const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
+        const sku=findVariant(catalog.get(item.id),item.variant)?.sku;
         return !readySkus.has(sku);
       });
       const checkoutForMultiple=cart.length!==1 || cart[0].qty!==1;
@@ -281,7 +296,7 @@
       aside.append(explanation);
     }
     const shippingItems=cart.map(item=>{
-      const variant=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant);
+      const variant=findVariant(catalog.get(item.id),item.variant);
       return {sku:variant?.sku,quantity:item.qty};
     });
     window.CartShipping?.mount(shippingSlot,{
