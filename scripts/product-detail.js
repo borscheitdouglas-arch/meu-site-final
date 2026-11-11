@@ -360,7 +360,7 @@
       const match=photos[index].match(/\/cores\/cor-iesu-([a-z-]+)-1200\.webp/);
       if(match?.[1]==='editorial')photoColor.textContent='Apresentação editorial · frente e costas';
       else if(match?.[1]&&photoColorNames[match[1]])photoColor.textContent=
-        'Cor: '+photoColorNames[match[1]]+(match[1]==='marrom'?' · compra online':' · sob consulta');
+        'Cor: '+photoColorNames[match[1]];
       else photoColor.textContent='Outras imagens da camiseta Marrom';
     };
     if(photoColor){syncPhotoColor(0);figure.append(photoColor);}
@@ -438,7 +438,7 @@
       const row=el('div');row.append(el('dt','',name),el('dd','',value));list.append(row);
     });return list;
   }
-  function shipping(container,product,select,quantity,canQuote=()=>true) {
+  function shipping(container,product,select,quantity,canQuote=()=>true,resolveVariant=()=>product.variants.find(v=>v.code===select.value)) {
     const section=el('section','shop-single-shipping');
     section.append(el('h2','','Calcule o frete pelo CEP'),
       el('p','','Consulte o frete conforme tamanho, modelo e quantidade escolhidos. O prazo de produção não está incluído.'));
@@ -458,7 +458,7 @@
     }
     let serial=0,controller=null;
     const selectedReady=()=>{
-      const v=product.variants.find(v=>v.code===select.value);
+      const v=resolveVariant();
       return Boolean(canQuote()&&v?.sku&&Number.isInteger(v.priceCents));
     };
     function reset(){
@@ -479,7 +479,7 @@
         return;
       }
       const zipCode=input.value.replace(/\D/g,'');
-      const variant=product.variants.find(v=>v.code===select.value);
+      const variant=resolveVariant();
       const units=Number(quantity.value);
       if(!Number.isInteger(units)||units<1||units>10){
         status.textContent='Escolha entre 1 e 10 unidades.';return;
@@ -578,7 +578,7 @@
       {slug:'areia',name:'Areia',hex:'#cbb79a'},
       {slug:'bordo',name:'Bordô',hex:'#702b41'}
     ]:[];
-    let chosenColor='marrom',showSelectedPhoto=null,syncColorFromGallery=()=>{};
+    let chosenColor='marrom',showSelectedPhoto=null,syncColorFromGallery=()=>{},refreshColorChoices=()=>{};
     const isEcobag=product.id==='ecobag-salve-regina';
     const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isShirt?'Compra online disponível · produção sob demanda':'Sob consulta · preço sujeito à confirmação';
     const productStatus=el('span','shop-single-status',statusText);
@@ -610,11 +610,17 @@
       summary.append(shops);
     } else {
       const variants=Array.isArray(product.variants)?product.variants:[];
+      const approvedSkus=new Set();
+      const sizeVariants=isCorIesuShirt?
+        variants.filter(v=>['P','M','G','GG'].includes(v.code)):variants;
+      const selectedVariant=()=>isCorIesuShirt?
+        variants.find(v=>v.sku==='cor-iesu-'+chosenColor+'-'+select.value.toLowerCase()):
+        variants.find(v=>v.code===select.value);
       variant=(isEcobag&&variants.find(v=>v.code===preferredSize))||
         (isEcobag&&variants.find(v=>v.code==='M'))||variants.find(v=>v.code==='G')||variants[0];
       function renderPrice(){
-        variant=variants.find(v=>v.code===select.value)||variants[0];
-        if(isCorIesuShirt&&chosenColor!=='marrom'){
+        variant=selectedVariant()||variants[0];
+        if(isCorIesuShirt&&chosenColor!=='marrom'&&!approvedSkus.has(variant?.sku)){
           price.textContent='Sob consulta';
           priceNote.textContent='Preço e produção ainda não confirmados para a cor selecionada.';
           return;
@@ -637,7 +643,7 @@
       select.required=true;select.setAttribute('aria-label','Escolha a variação');
       const chips=el('div','shop-single-variant-chips');
       const chipButtons=new Map();
-      variants.forEach(v=>{
+      sizeVariants.forEach(v=>{
         const option=el('option','',v.label+(Number.isInteger(v.priceCents)?' — '+money(v.priceCents):''));
         option.value=v.code;select.append(option);
         const chip=el('button','shop-single-variant-chip',(isShirt||isCorIesuShirt||isEcobag)?v.code:v.label);
@@ -675,9 +681,10 @@
           const changed=chosenColor!==slug;
           chosenColor=slug;
           chosenName.textContent=chosen.name;
-          hint.textContent=slug==='marrom'?
-            'Marrom: compra online conforme a disponibilidade no checkout.':
-            'Cor sob consulta: confirme disponibilidade e preço antes de comprar.';
+          const selected=variants.find(v=>v.sku==='cor-iesu-'+slug+'-'+select.value.toLowerCase());
+          hint.textContent=approvedSkus.has(selected?.sku)?
+            'Cor e tamanho liberados para compra online. O frete será confirmado antes do pagamento.':
+            'Esta cor e tamanho aguardam validação da produção e do frete.';
           buttons.forEach((button,key)=>{
             const active=slug===key;
             button.classList.toggle('is-selected',active);
@@ -691,9 +698,8 @@
           const option=el('button','shop-single-color-choice');
           option.type='button';
           option.setAttribute('aria-pressed',color.slug==='marrom'?'true':'false');
-          option.setAttribute('aria-label',color.name+
-            (color.slug==='marrom'?', compra online':', sob consulta'));
-          option.title=color.name+(color.slug==='marrom'?' · compra online':' · sob consulta');
+          option.setAttribute('aria-label','Selecionar cor '+color.name);
+          option.title='Selecionar '+color.name;
           const swatch=el('span','shop-single-color-swatch');
           swatch.style.setProperty('--color-swatch',color.hex);
           swatch.setAttribute('aria-hidden','true');
@@ -703,6 +709,7 @@
         }
         colorGroup.append(legend,choices,hint);
         chooseColor('marrom',true);
+        refreshColorChoices=()=>chooseColor(chosenColor,true);
         syncColorFromGallery=index=>{
           const color=corIesuColors[index];
           if(color)chooseColor(color.slug,true);
@@ -762,18 +769,17 @@
       const feedback=el('p','shop-single-feedback');
       feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
       actions.append(add,proceed);
-      const approvedSkus=new Set();
       const syncCheckout=()=>{
-        const selected=variants.find(v=>v.code===select.value);
-        const colorConsult=isCorIesuShirt&&chosenColor!=='marrom';
-        const approved=Boolean(!colorConsult&&selected?.sku&&approvedSkus.has(selected.sku));
-        const configured=Boolean(!colorConsult&&selected?.sku&&Number.isInteger(selected.priceCents));
+        const selected=selectedVariant();
+        const approved=Boolean(selected?.sku&&approvedSkus.has(selected.sku));
+        const colorConsult=isCorIesuShirt&&!approved;
+        const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
         proceed.textContent=colorConsult?'Consultar esta cor':
           approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
-        add.disabled=isPreparation||!configured||!window.Cart;
+        add.disabled=isPreparation||!configured||!approved||!window.Cart;
         proceed.disabled=colorConsult?false:isPreparation||!configured||!window.Cart;
         if(!isPreparation){
-          productStatus.textContent=colorConsult?'Cor '+corIesuColors.find(c=>c.slug===chosenColor)?.name+' · sob consulta':
+          productStatus.textContent=colorConsult?'Cor '+corIesuColors.find(c=>c.slug===chosenColor)?.name+' · aguardando confirmação':
             !configured?'Tamanho indisponível para compra':
             approved?'Compra online disponível · produção sob demanda':
             'Produção sob demanda · compra sob consulta';
@@ -789,7 +795,7 @@
           data.availableSkus.forEach(code=>{
             if(typeof code==='string')approvedSkus.add(code);
           });
-          syncCheckout();
+          syncCheckout();renderPrice();refreshColorChoices();
         }).catch(()=>{/* Sem validação no servidor, só consulta assistida. */});
       }
       syncCheckout();
@@ -797,8 +803,6 @@
       form.append(variationGroup,quantityGroup,actions,feedback);
       summary.append(form);
       const state=()=>{
-        const selected=variants.find(v=>v.code===select.value);
-        const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
         syncCheckout();
         if(isPreparation)feedback.textContent='Este modelo ainda não está disponível para compra.';
       };
@@ -807,7 +811,7 @@
         renderPrice();feedback.textContent='';
         if(isEcobag&&!variants.find(v=>v.code===select.value)?.sku)
           feedback.textContent='Este tamanho ainda não está disponível. Escolha M ou G para comprar.';
-        state();
+        state();refreshColorChoices();
       });
       renderPrice();
       const putInCart=goCart=>{
@@ -815,15 +819,15 @@
         if(!Number.isInteger(amount)||amount<1||amount>10){
           feedback.textContent='Escolha uma quantidade entre 1 e 10.';return;
         }
-        if(isCorIesuShirt&&chosenColor!=='marrom'){
-          feedback.textContent='Esta cor está sob consulta. Use o botão Consultar esta cor.';
+        if(isCorIesuShirt&&!approvedSkus.has(selectedVariant()?.sku)){
+          feedback.textContent='Esta combinação ainda não está liberada. Use o botão Consultar esta cor.';
           return;
         }
-        if(!variants.find(v=>v.code===select.value)?.sku){
+        if(!selectedVariant()?.sku){
           feedback.textContent='Esta variação ainda não está disponível para compra.';return;
         }
         if(!window.Cart){feedback.textContent='O carrinho está carregando. Tente novamente.';return;}
-        const ok=window.Cart.add(product.id,select.value,amount);
+        const ok=window.Cart.add(product.id,selectedVariant().code,amount);
         if(ok){
           if(goCart)window.location.assign('/pages/cart.html');
           else feedback.textContent='Produto adicionado. Você pode continuar comprando ou abrir o carrinho.';
@@ -831,7 +835,7 @@
       };
       form.addEventListener('submit',event=>{event.preventDefault();putInCart(false);});
       proceed.addEventListener('click',()=>{
-        if(isCorIesuShirt&&chosenColor!=='marrom'){
+        if(isCorIesuShirt&&!approvedSkus.has(selectedVariant()?.sku)){
           const color=corIesuColors.find(c=>c.slug===chosenColor)?.name||chosenColor;
           const size=select.value;
           const subject='Consulta de camiseta Cor Iesu — '+color+' '+size;
@@ -840,7 +844,7 @@
             encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
           return;
         }
-        const selected=variants.find(v=>v.code===select.value);
+        const selected=selectedVariant();
         const units=Number(quantity.value);
         if(units===1 && selected?.sku && approvedSkus.has(selected.sku)){
           window.location.assign(isShirt?
@@ -855,7 +859,7 @@
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
       // Frete aparece sempre antes das opções de compra, em todos os produtos físicos.
       const delivery=el('div');
-      shipping(delivery,product,select,quantity,()=>!isCorIesuShirt||chosenColor==='marrom');
+      shipping(delivery,product,select,quantity,()=>!isCorIesuShirt||approvedSkus.has(selectedVariant()?.sku),selectedVariant);
       form.before(delivery);
     }
     const trust=el('div','shop-single-trust');
