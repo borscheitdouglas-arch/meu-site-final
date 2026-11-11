@@ -51,3 +51,12 @@ Nenhuma migração preparatória liga o botão Comprar, aprova frete, cria pedid
 - **Não há checkout multipeça com Cor Iesu** até homologar pacote combinado; não prometer fabricação automática sem conferência.
 - Testes: [suite Worker](https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/43044944576), [cotação real dos 4 tamanhos, sem pedido ou cobrança](https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/43045388953).
 - Boné e ecobag: variantes e custos privados cadastrados, **enabled=0, verified=0, available=0**; ainda sem imagens/mockups próprios aprovados. Preço do boné **R$ 79,90** (R$ 75,00 apenas possível promoção futura). Preço planejado ecobag **R$ 39,90**. Nunca anunciar esses acessórios como disponíveis antes das fotos, frete e confirmação operacional.
+
+## Checkout com seletor visual — 11/11/2026
+
+- O campo genérico **“Único — R$ 109,90”** foi removido da camiseta Cor Iesu. A etapa 1 agora apresenta **paleta de cores com nomes**, botões P/M/G/GG e resumo dinâmico da variante; o preço permanece separado do seletor.
+- Cores observadas nas capturas VAVI: **Marrom, Bege, Vinho, Verde escuro, Cinza claro e Grafite**. Os nomes não são garantidos como denominações oficiais da VAVI; revisar no painel antes de liberar.
+- O D1 contém **24 SKUs internos** para a camiseta. **Somente os 4 Marrom estão ativos**; as outras 20 combinações foram inseridas com `available=0` e são selecionáveis visualmente apenas para consulta por e-mail. A interface consulta `/api/checkout/live/readiness` e **não** habilita frete/pagamento de combinações inativas.
+- Ao mudar tamanho/cor, o checkout atualiza o SKU interno, o título, o resumo e a URL; descarta o frete anterior e exige nova cotação real. Um retorno atrasado do frete não reativa combinações inativas.
+- A configuração visual das cores fica em `scripts/checkout-cor-iesu-picker.js`; a lista de SKUs autorizáveis fica em `integrations/vavi-worker/src/cor-iesu-assist.js`; fichas de embalagem em `integrations/vavi-worker/src/shipping.js`. Não inventar identificadores VAVI.
+- Para liberar qualquer cor nova: confirmar nome/cor oficial, custo DTF em **2 áreas**, disponibilidade real, arte correta frente/costas e foto/mockup fiel; atualizar `variants.label` e `variants.available=1` no D1. A venda segue **assistida**, com rascunho VAVI e conferência humana antes da produção.
