@@ -12,6 +12,9 @@ import {getPrivateLaunchReadiness} from './launch-readiness.js';
 import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.js';
 import {processVaviWebhook} from './vavi-webhook.js';
 import {SALVE_REGINA_VARIANTS,approvedVariant,SALVE_REGINA_SKUS,DIRECT_CHECKOUT_SKUS,approvedDirectVariant} from './salve-regina-variants.js';
+import {COR_IESU_ASSISTED_SKUS,approvedCorIesuAssistedVariant,isCorIesuAssistedSku,loadCorIesuAssistedCost,assertCorIesuSingleItem} from './cor-iesu-assist.js';
+const ALL_DIRECT_SKUS=[...DIRECT_CHECKOUT_SKUS,...COR_IESU_ASSISTED_SKUS];
+const approvedSaleVariant=(sku,price)=>approvedDirectVariant(sku,price)||approvedCorIesuAssistedVariant(sku,price);
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -105,11 +108,11 @@ export default {
         // Outras peças só são anunciadas para checkout após D1 verificado,
         // preço tabelado e configuração logística individual válida.
         const availableSkus=[];
-        for(const sku of DIRECT_CHECKOUT_SKUS){
+        for(const sku of ALL_DIRECT_SKUS){
           const variant=await loadVariant(env.DB,sku);
           if(!variant || variant.product_enabled!==1 ||
              variant.product_verified!==1 || variant.available!==1 ||
-             !approvedDirectVariant(sku,variant.price_cents))continue;
+             !approvedSaleVariant(sku,variant.price_cents))continue;
           try{
             shippingPayload('01001000',[{sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
@@ -119,14 +122,18 @@ export default {
             if(!(error instanceof CatalogError) ||
               error.code!=='shipping_product_unverified' ||
               !canQuotePublishedPackage(sku))continue;
-            const row=await env.DB.prepare(
-              'SELECT supplier_variant_sku,observed_total_cents '+
-              'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
-            ).bind(sku).first();
-            if(/^\d{7}$/.test(String(row?.supplier_variant_sku||'')) &&
-              Number.isSafeInteger(row?.observed_total_cents) &&
-              row.observed_total_cents>0)
-              availableSkus.push(sku);
+            if(isCorIesuAssistedSku(sku)){
+              if(await loadCorIesuAssistedCost(env.DB,sku))availableSkus.push(sku);
+            }else{
+              const row=await env.DB.prepare(
+                'SELECT supplier_variant_sku,observed_total_cents '+
+                'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
+              ).bind(sku).first();
+              if(/^\d{7}$/.test(String(row?.supplier_variant_sku||'')) &&
+                Number.isSafeInteger(row?.observed_total_cents) &&
+                row.observed_total_cents>0)
+                availableSkus.push(sku);
+            }
           }
         }
         const checkoutEnabled=checked.every(Boolean);
@@ -375,7 +382,7 @@ export default {
         const body=JSON.parse(textBody);
         const zipCode=normalizeZip(body?.zipCode);
         const sku=body?.sku||'salve-regina-preta-g';
-        if(!DIRECT_CHECKOUT_SKUS.includes(sku))
+        if(!ALL_DIRECT_SKUS.includes(sku))
           throw new CatalogError('invalid_sku','Produto inválido.',422);
         // A calculadora é independente da liberação da VENDA. Para peças
         // adicionais exigimos SKU interno e preço conhecido no D1, mas não
@@ -384,7 +391,7 @@ export default {
         if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku)){
           const registered=env.DB?.prepare && await loadVariant(env.DB,sku);
           if(!registered ||
-             !approvedDirectVariant(sku,registered.price_cents))
+             !approvedSaleVariant(sku,registered.price_cents))
             throw new CatalogError('unavailable_product','Produto ainda sem cadastro completo.',409);
         }
         const diagnostic=body?.diagnose===true?{}:null;
@@ -400,17 +407,22 @@ export default {
              error.code!=='shipping_product_unverified' ||
              !canQuotePublishedPackage(sku) || !env.DB?.prepare)
             throw error;
-          let observed;
-          try{
-            observed=await env.DB.prepare(
-              'SELECT observed_total_cents FROM supplier_variant_cost_observations '+
-              'WHERE internal_sku=? AND freight_config_verified=0 LIMIT 1'
-            ).bind(sku).first();
-          }catch{throw error;}
-          if(!Number.isSafeInteger(observed?.observed_total_cents))
-            throw error;
+          let unitCostCents;
+          if(isCorIesuAssistedSku(sku)){
+            unitCostCents=await loadCorIesuAssistedCost(env.DB,sku);
+          }else{
+            let observed;
+            try{
+              observed=await env.DB.prepare(
+                'SELECT observed_total_cents FROM supplier_variant_cost_observations '+
+                'WHERE internal_sku=? AND freight_config_verified=0 LIMIT 1'
+              ).bind(sku).first();
+            }catch{throw error;}
+            unitCostCents=observed?.observed_total_cents;
+          }
+          if(!Number.isSafeInteger(unitCostCents) || unitCostCents<1)throw error;
           options=await simulateVaviShippingProvisional(env,zipCode,sku,
-            observed.observed_total_cents,diagnostic);
+            unitCostCents,diagnostic);
           provisional=true;
         }
         // Factory pickup is not a shipping option to the buyer's CEP.
@@ -442,12 +454,13 @@ export default {
         const body=JSON.parse(textBody);
         const zipCode=normalizeZip(body.zipCode);
         const items=normalizeCart(body);
+        assertCorIesuSingleItem(items);
         const resolved=[];
         for(const line of items){
-          if(!DIRECT_CHECKOUT_SKUS.includes(line.sku))
+          if(!ALL_DIRECT_SKUS.includes(line.sku))
             throw new CatalogError('invalid_sku','Produto inválido para o frete.',422);
           const variant=await loadVariant(env.DB,line.sku);
-          if(!variant || !approvedDirectVariant(line.sku,variant.price_cents))
+          if(!variant || !approvedSaleVariant(line.sku,variant.price_cents))
             throw new CatalogError('unavailable_product','Item sem cadastro válido.',409);
           const row=await env.DB.prepare(
             'SELECT supplier_variant_sku,observed_total_cents '+
