@@ -18,13 +18,13 @@
     "description": "Uma peça de inspiração sacra que une a devoção ao Sacratíssimo Coração de Jesus à estética das gravuras tradicionais. O medalhão frontal apresenta o Coração inflamado de amor, coroado de espinhos e acompanhado por lírios. Nas costas, a composição gótica ampliada reúne cruz, chamas, rosas, ornamentos e a inscrição latina Cor Iesu Sacratissimum.",
     "paragraphs": [
       "O Sagrado Coração de Jesus expressa o amor de Cristo pela humanidade. Nesta criação, a cruz, as chamas e a coroa de espinhos aparecem em duas composições complementares: um medalhão refinado na frente e uma gravura gótica ampla nas costas.",
-      "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A versão Marrom está liberada para compra online. A galeria também apresenta outras tonalidades em mockups ilustrativos, ainda sob consulta.",
-      "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço de venda R$ 109,90 mais frete. O pagamento é liberado somente para variações aprovadas pelo servidor."
+      "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. Escolha sua cor entre as 11 opções da galeria e selecione o tamanho desejado.",
+      "Esta edição apresenta estampas fixas na frente e nas costas, com impressão DTF. Produção sob demanda, com preço de R$ 109,90 mais frete. A disponibilidade é confirmada conforme a cor e o tamanho escolhidos."
     ],
     "features": [
       "Composição: 100% algodão fio 30.1 penteado.",
       "Modelagem unissex; camiseta de manga curta e gola redonda.",
-      "11 cores ilustradas na galeria; somente Marrom liberada para compra online. As outras cores estão sob consulta.",
+      "11 cores apresentadas na galeria, com seleção de cor e tamanho.",
       "Frente: medalhão do Sagrado Coração de Jesus com lírios e raios.",
       "Costas: estampa grande com moldura gótica, rosas, cruz e inscrição latina.",
       "Impressão prevista: DTF, frente e costas, com artes fixas.",
@@ -36,36 +36,6 @@
       "Combina gravura sacra vintage e apresentação contemporânea.",
       "Algodão penteado macio e respirável, com modelagem unissex.",
       "Duas estampas complementares: frente discreta e costas ornamentadas."
-    ],
-    "faq": [
-      [
-        "Qual o tecido?",
-        "100% algodão fio 30.1 penteado, com modelagem unissex."
-      ],
-      [
-        "Qual estampa fica na frente e qual fica nas costas?",
-        "Na frente está o medalhão circular do Sagrado Coração com lírios. Nas costas está a estampa maior emoldurada por ornamentos góticos, com rosas e a inscrição COR IESU SACRATISSIMUM."
-      ],
-      [
-        "Posso personalizar as estampas ou escolher outro método?",
-        "Não neste anúncio. A proposta é uma edição com artes fixas em DTF nas duas faces."
-      ],
-      [
-        "Quais cores e tamanhos estão disponíveis?",
-        "A galeria apresenta 11 tonalidades. Somente Marrom está liberada para compra online nos tamanhos P, M, G e GG, conforme disponibilidade no checkout. As demais cores estão sob consulta."
-      ],
-      [
-        "Já posso comprar?",
-        "A compra é feita pelo checkout InfinitePay somente quando a loja confirmar a variação e o frete. O pedido é encaminhado à VAVI como rascunho para conferência manual antes da fabricação."
-      ],
-      [
-        "O que significa Cor Iesu Sacratissimum?",
-        "Em latim, Sacratíssimo Coração de Jesus."
-      ],
-      [
-        "Qual é o pedido mínimo?",
-        "A VAVI informa venda do produto-base a partir de uma peça; a produção desta edição depende de confirmação comercial."
-      ]
     ],
     "photos": [
       "/assets/img/loja/cor-iesu/cores/cor-iesu-marrom-1200.webp",
@@ -81,19 +51,18 @@
       "/assets/img/loja/cor-iesu/cores/cor-iesu-bordo-1200.webp"
     ],
     "photoLabels": [
-      "Camiseta Sagrado Coração de Jesus: Marrom — frente e costas, versão atualmente liberada para compra. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Branco — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Preto — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Off-white — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Azul-marinho — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Azul-royal — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Verde — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Cinza-claro — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Cinza-escuro — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Areia — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Bordô — frente e costas, cor sob consulta. Mockup ilustrativo."
-    ],
-    "note": "Imagens ilustrativas (mockups digitais), com enquadramento padronizado de 4:3. Somente Marrom está liberada para compra online; outras cores estão sob consulta. A cor real do tecido e a impressão podem variar."
+      "Camiseta Sagrado Coração de Jesus: Marrom — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Branco — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Preto — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Off-white — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Azul-marinho — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Azul-royal — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Verde — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Cinza-claro — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Cinza-escuro — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Areia — frente e costas.",
+      "Camiseta Sagrado Coração de Jesus: Bordô — frente e costas."
+    ]
   },
   "camiseta-salve-regina": {
     "type": "Camiseta · Coleção Salve Regina",
@@ -893,11 +862,13 @@
       };
       if(!isShirt)bullets('Características do produto',detail.features);
       if(!isShirt)bullets('Por que escolher',detail.reasons);
-      desc.append(el('h3','shop-single-subheading','Perguntas frequentes'));
-      const faq=el('div','shop-single-faq');
-      detail.faq.forEach(([q,a])=>{
-        const row=el('details');row.append(el('summary','',q),el('p','',a));faq.append(row);
-      });desc.append(faq);
+      if(Array.isArray(detail.faq)&&detail.faq.length){
+        desc.append(el('h3','shop-single-subheading','Perguntas frequentes'));
+        const faq=el('div','shop-single-faq');
+        detail.faq.forEach(([q,a])=>{
+          const row=el('details');row.append(el('summary','',q),el('p','',a));faq.append(row);
+        });desc.append(faq);
+      }
     }
     if(detail.note)desc.append(el('p','shop-single-muted',detail.note));
     const infoBox=el('div','shop-single-specifications-block');infoBox.append(el('h2','','Informações'));
@@ -913,17 +884,11 @@
         'Coleção':'Cor Iesu Sacratissimum',
         'Material':'100% algodão fio 30.1 penteado',
         'Modelagem':'Unissex',
-        'Cor':'Marrom: compra online. Outras 10 cores ilustradas: sob consulta',
-        'Tamanhos desta edição':'P, M, G e GG (em validação)',
-        'Impressão':'DTF · frente e costas · estampas fixas',
-        'Medidas do pacote (C × L × A)':'300 × 250 × 10 mm (informação da ficha-base)',
-        'Peso de catálogo':'0,25 kg (ficha-base)',
-        'NCM':'6109.10.00',
-        'SKU-base VAVI':'0000002',
-        'Unidade':'Peça',
-        'Fornecedor da peça-base':'VAVI',
-        'Preço de venda':'R$ 109,90 + frete',
-        'Situação':'Em preparação · integração e produção pendentes de validação'
+        'Cores':'11 opções disponíveis para seleção na galeria',
+        'Tamanhos':'P, M, G e GG',
+        'Estampas':'Medalhão do Sagrado Coração na frente e gravura gótica nas costas',
+        'Impressão':'DTF · frente e costas',
+        'Produção':'Sob demanda'
       }));
       details.append(infoBox,desc);
     }else if(isShirt){
