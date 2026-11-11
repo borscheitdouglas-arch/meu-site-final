@@ -938,3 +938,56 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacr
     padding:9px 6px;
   }
 }
+
+/* Quantidade Cor Iesu: seletor restaurado, compacto, subtotal sempre visível. */
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-quantity-group {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  column-gap:12px;
+  row-gap:7px;
+  margin-top:1px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-quantity-group > .shop-single-field-label {
+  flex:0 0 auto;
+  margin-right:1px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-stepper {
+  flex:0 0 auto;
+  display:grid;
+  grid-template-columns:35px 44px 35px;
+  min-height:38px;
+  overflow:hidden;
+  border-radius:6px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-stepper-button {
+  min-height:38px;
+  font-size:20px;
+  line-height:1;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-form .shop-single-quantity-input {
+  width:44px!important;
+  min-height:38px!important;
+  font-size:14px!important;
+  text-align:center;
+  -moz-appearance:textfield;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-form .shop-single-quantity-input::-webkit-inner-spin-button,
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-form .shop-single-quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance:none;
+  margin:0;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-quantity-subtotal {
+  flex:0 1 auto;
+  color:#f0d39e;
+  font:600 12px/1.45 'Inter',sans-serif;
+  font-variant-numeric:tabular-nums;
+}
+@media (max-width:380px){
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-quantity-group {
+    column-gap:8px;
+  }
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-quantity-subtotal {
+    font-size:11px;
+  }
+}
