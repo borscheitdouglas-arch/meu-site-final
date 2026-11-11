@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {CatalogError} from './catalog.js';
 import {createCheckoutLive} from './checkout-live.js';
+import worker from './index.js';
 import {COR_IESU_ASSISTED_SKUS,approvedCorIesuAssistedVariant,
   loadCorIesuAssistedCost,assertCorIesuSingleItem} from './cor-iesu-assist.js';
 import {canQuotePublishedPackage} from './shipping.js';
@@ -98,4 +99,17 @@ test('não cobra quando o custo ou o produto não foi homologado',async()=>{
   },{
     loadVariant:async()=>({...variant,sku:'cor-iesu-vinho-g',available:0})
   }),{code:'unavailable_product'});
+});
+
+test('API não fornece frete de cor Cor Iesu ainda inativa no D1',async()=>{
+  const db={prepare(){return {bind(){return {first:async()=>({
+    ...variant,sku:'cor-iesu-vinho-g',available:0
+  })};}}}};
+  const request=new Request('https://loja.example/api/shipping/preview',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({sku:'cor-iesu-vinho-g',zipCode:'01001000'})
+  });
+  const response=await worker.fetch(request,{...base,DB:db});
+  assert.equal(response.status,409);
+  assert.equal((await response.json()).error,'unavailable_product');
 });
