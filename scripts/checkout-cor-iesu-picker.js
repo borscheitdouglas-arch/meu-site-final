@@ -6,11 +6,16 @@
   'use strict';
   const COLORS=Object.freeze([
     {slug:'marrom',name:'Marrom',hex:'#67513f'},
-    {slug:'bege',name:'Bege',hex:'#c9b18e'},
-    {slug:'vinho',name:'Vinho',hex:'#632b3e'},
-    {slug:'verde-escuro',name:'Verde escuro',hex:'#28473c'},
-    {slug:'cinza-claro',name:'Cinza claro',hex:'#b6b9b7'},
-    {slug:'grafite',name:'Grafite',hex:'#44474a'}
+    {slug:'branco',name:'Branco',hex:'#f7f5f0'},
+    {slug:'preto',name:'Preto',hex:'#202024'},
+    {slug:'off-white',name:'Off-white',hex:'#ebe5d5'},
+    {slug:'azul-marinho',name:'Azul-marinho',hex:'#1d2b43'},
+    {slug:'azul-royal',name:'Azul-royal',hex:'#24509a'},
+    {slug:'verde',name:'Verde',hex:'#3c5941'},
+    {slug:'cinza-claro',name:'Cinza-claro',hex:'#bfc1c2'},
+    {slug:'cinza-escuro',name:'Cinza-escuro',hex:'#55575a'},
+    {slug:'areia',name:'Areia',hex:'#cbb79a'},
+    {slug:'bordo',name:'Bordô',hex:'#702b41'}
   ]);
   const SIZES=Object.freeze(['P','M','G','GG']);
   const knownColor=slug=>COLORS.find(c=>c.slug===slug);
@@ -52,7 +57,7 @@
         '<legend>Tamanho <strong id="checkout-selected-size"></strong></legend>'+
         '<div class="checkout-size-options">'+sizeOptions+'</div>'+
       '</fieldset>'+
-      '<p class="checkout-variant-note">A foto mostra a camiseta Marrom. As demais cores são opções observadas no fornecedor, ainda sujeitas à confirmação.</p>'+
+      '<p class="checkout-variant-note">A foto acompanha a cor selecionada. Pagamento liberado apenas para combinações aprovadas pela loja e pelo fornecedor.</p>'+
       '<p class="checkout-variant-status" id="checkout-variant-status" role="status" aria-live="polite"></p>'+
       '<a class="checkout-variant-help" id="checkout-variant-help" href="/pages/contato.html" hidden>Consultar disponibilidade desta combinação</a>'+
     '</div>';
@@ -90,7 +95,7 @@
       });
       status.textContent=ready
         ? 'Disponível para compra online. Confira a cor e o tamanho antes de calcular o frete.'
-        : 'Esta combinação ainda está sob consulta. Selecione Marrom em um tamanho disponível para comprar agora.';
+        : 'Esta combinação ainda aguarda validação de produção e frete para compra online.';
       status.classList.toggle('is-unavailable',!ready);
       help.hidden=ready;
       if(!ready){
