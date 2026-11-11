@@ -60,3 +60,57 @@ Nenhuma migração preparatória liga o botão Comprar, aprova frete, cria pedid
 - Ao mudar tamanho/cor, o checkout atualiza o SKU interno, o título, o resumo e a URL; descarta o frete anterior e exige nova cotação real. Um retorno atrasado do frete não reativa combinações inativas.
 - A configuração visual das cores fica em `scripts/checkout-cor-iesu-picker.js`; a lista de SKUs autorizáveis fica em `integrations/vavi-worker/src/cor-iesu-assist.js`; fichas de embalagem em `integrations/vavi-worker/src/shipping.js`. Não inventar identificadores VAVI.
 - Para liberar qualquer cor nova: confirmar nome/cor oficial, custo DTF em **2 áreas**, disponibilidade real, arte correta frente/costas e foto/mockup fiel; atualizar `variants.label` e `variants.available=1` no D1. A venda segue **assistida**, com rascunho VAVI e conferência humana antes da produção.
+
+
+## Ampliação da galeria para venda de 11 cores — 11/11/2026
+
+Objetivo: a página exibe a paleta com 11 fotos aprovadas em 4:3, cada uma com
+botões de tamanho P/M/G/GG. Ao escolher cor e tamanho, a página passa a consultar
+o SKU **interno** `cor-iesu-{cor}-{tamanho}` e preserva ambos no carrinho, no
+cálculo de frete e no checkout unitário. A imagem acompanha a cor escolhida.
+
+A lista da interface usa estes *slugs* internos:
+`marrom`, `branco`, `preto`, `off-white`, `azul-marinho`,
+`azul-royal`, `verde`, `cinza-claro`, `cinza-escuro`, `areia`,
+`bordo`. **As cores das fotos não bastam para provar equivalência com o
+tecido real da VAVI.** Verificar especialmente: Verde / Verde musgo,
+Cinza-claro / Cinza mescla, Cinza-escuro / Cinza chumbo,
+Areia / Caramelo e Bordô / Vinho. Não renomear automaticamente as variantes
+da VAVI sem reconferir as opções físicas.
+
+O arquivo `content/shop-cart-catalog.json` tem 44 SKUs internos (11×4).
+Para preservar carrinhos anteriores, os códigos de variação da cor Marrom
+continuam P/M/G/GG; para as demais, o código da sacola é
+`{slug}-{tamanho}`. O checkout usa o SKU interno completo da variante.
+O Worker aceita exclusivamente SKUs da lista fechada e exige preço de venda
+de R$ 109,90 **por enquanto como valor de trabalho**; não liberar outras
+cores se o custo de produção demonstrar que o preço é inviável.
+
+No D1 da loja foram cadastradas 40 combinações adicionais com `available=0`.
+As 4 Marrom permanecem ativas; há 16 variantes legadas de trabalho que não
+fazem parte da galeria atual e devem permanecer `available=0`.
+Nenhuma nova cor foi liberada para cobrança.
+
+**Critérios obrigatórios para liberação de cada cor/tamanho:**
+1. Identificar nomenclatura real e variante correspondente no catálogo VAVI,
+   sem usar os SKUs repetidos nas capturas do editor.
+2. Confirmar o custo final DTF em duas áreas com a arte D000007, qualidade da
+   impressão em cada cor de tecido e viabilidade de R$ 109,90.
+3. Registrar o fornecedor, SKU único, custo e evidência no
+   `supplier_variant_cost_observations` privado, conferir e marcar
+   `freight_config_verified=1` somente após homologação.
+4. Testar cotação de frete individual da VAVI e confirmar que o rascunho
+   do pedido contém cor e tamanho corretos. Uma unidade por pedido.
+5. Somente então atualizar `variants.available=1` para aquela combinação,
+   executar a suíte de testes do Worker e publicar o Worker com
+   `cor-iesu-assist.js` atualizado. Sem publicação do Worker, a loja
+   continuará anunciando apenas os SKUs antigos como aprovados.
+
+A interface determina se deve mostrar **Comprar agora** ou
+**Consultar esta cor** a partir do endpoint `/api/checkout/live/readiness`.
+Nunca habilitar checkout apenas por seleção visual, presença no JSON, ou
+preço aparente. Em caso de falha na API ou variação pendente, não cobrar.
+
+**Operação da VAVI:** após pagamento verificado, o pedido chega como
+rascunho e o operador vincula o produto e a arte no painel antes de
+confirmar a produção, conforme o guia de integrações do fornecedor.
