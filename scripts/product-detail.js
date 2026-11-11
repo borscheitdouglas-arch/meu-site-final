@@ -674,6 +674,11 @@
         }).catch(()=>{/* Sem validação no servidor, só consulta assistida. */});
       }
       syncCheckout();
+      if(isCorIesuShirt){
+        // Sem preço/variante homologados: consulta somente, sem carrinho ou checkout.
+        quantityGroup.hidden=true;
+        actions.replaceChildren(link('Consultar disponibilidade ↗','/pages/contato.html','shop-single-buy'));
+      }
       form.append(variationGroup,quantityGroup,actions,feedback);
       summary.append(form);
       const state=()=>{
