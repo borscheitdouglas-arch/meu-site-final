@@ -106,10 +106,12 @@ test('API não fornece frete de cor Cor Iesu ainda inativa no D1',async()=>{
     ...variant,sku:'cor-iesu-vinho-g',available:0
   })};}}}};
   const request=new Request('https://loja.example/api/shipping/preview',{
-    method:'POST',headers:{'Content-Type':'application/json'},
+    method:'POST',headers:{'Content-Type':'application/json',
+      'Origin':'https://www.douglasassumpcao.com.br'},
     body:JSON.stringify({sku:'cor-iesu-vinho-g',zipCode:'01001000'})
   });
-  const response=await worker.fetch(request,{...base,DB:db});
+  const response=await worker.fetch(request,{...base,DB:db,
+    ALLOWED_ORIGINS:'https://www.douglasassumpcao.com.br'});
   assert.equal(response.status,409);
   assert.equal((await response.json()).error,'unavailable_product');
 });
