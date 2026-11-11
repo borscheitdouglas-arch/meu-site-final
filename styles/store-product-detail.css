@@ -749,3 +749,57 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacr
   text-align:center;
   color:#5b4031;
 }
+
+
+/* Cor Iesu: seletor de cores diretamente acima dos tamanhos. */
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-color-group{
+  display:grid;gap:9px;min-width:0;margin:0 0 7px;padding:0;
+  border:0;
+}
+body.shop-product-page #shop-single-root .shop-single-color-selected-name{
+  color:#f0d297;font-weight:700;
+}
+body.shop-product-page #shop-single-root .shop-single-color-choices{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+  gap:8px;align-items:stretch;
+}
+body.shop-product-page #shop-single-root .shop-single-color-choice{
+  appearance:none;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:6px;min-width:0;min-height:72px;
+  padding:9px 5px;border:1px solid #bda67966;border-radius:8px;
+  background:#132742;color:#ebebed;cursor:pointer;
+  font:500 11px/1.3 'Inter',sans-serif;
+  transition:border-color .15s,background .15s,box-shadow .15s;
+}
+body.shop-product-page #shop-single-root .shop-single-color-choice:hover{
+  background:#1c3555;border-color:#dfc58e;
+}
+body.shop-product-page #shop-single-root .shop-single-color-choice.is-selected{
+  border:2px solid #e7c681;background:#2b4261;
+  box-shadow:0 0 0 2px #d7b16e22;
+}
+body.shop-product-page #shop-single-root .shop-single-color-choice:focus-visible{
+  outline:3px solid #e9c888;outline-offset:2px;
+}
+body.shop-product-page #shop-single-root .shop-single-color-swatch{
+  display:block;flex:none;width:29px;height:29px;border-radius:50%;
+  background:var(--color-swatch);border:1px solid #ffffff55;
+  box-shadow:inset 0 0 0 1px #00000015,0 2px 6px #0005;
+}
+body.shop-product-page #shop-single-root .shop-single-color-name{
+  display:block;text-align:center;overflow-wrap:anywhere;
+}
+body.shop-product-page #shop-single-root .shop-single-color-hint{
+  margin:0;color:#c6cbd4;font:400 11px/1.55 'Inter',sans-serif;
+}
+@media(max-width:540px){
+  body.shop-product-page #shop-single-root .shop-single-color-choices{
+    grid-template-columns:repeat(auto-fill,minmax(75px,1fr));gap:7px;
+  }
+  body.shop-product-page #shop-single-root .shop-single-color-choice{
+    min-height:67px;padding:7px 4px;font-size:10px;
+  }
+  body.shop-product-page #shop-single-root .shop-single-color-swatch{
+    width:27px;height:27px;
+  }
+}
