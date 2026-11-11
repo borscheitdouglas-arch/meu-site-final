@@ -31,23 +31,26 @@ function dbWithDesign(row=design){
     run:async()=>({meta:{changes:1}})
   };}}}};
 }
-test('24 SKUs internos reconhecidos, sem confundir com SKUs VAVI',()=>{
-  assert.equal(COR_IESU_ASSISTED_SKUS.length,24);
-  assert.ok(COR_IESU_ASSISTED_SKUS.includes('cor-iesu-vinho-p'));
-  assert.ok(COR_IESU_ASSISTED_SKUS.includes('cor-iesu-grafite-gg'));
-  // D1 mantém as 20 variantes não homologadas com available=0.
+test('44 SKUs internos da galeria reconhecidos sem inventar SKUs VAVI',()=>{
+  assert.equal(COR_IESU_ASSISTED_SKUS.length,44);
+  assert.equal(new Set(COR_IESU_ASSISTED_SKUS).size,44);
+  assert.ok(COR_IESU_ASSISTED_SKUS.includes('cor-iesu-bordo-p'));
+  assert.ok(COR_IESU_ASSISTED_SKUS.includes('cor-iesu-azul-royal-gg'));
+  // D1 mantém as 40 variantes novas sem liberação comercial.
   for(const sku of COR_IESU_ASSISTED_SKUS){
     assert.equal(approvedCorIesuAssistedVariant(sku,10990),true);
     assert.equal(approvedCorIesuAssistedVariant(sku,7990),false);
     assert.equal(canQuotePublishedPackage(sku),true);
   }
   assert.equal(approvedCorIesuAssistedVariant('cor-iesu-preta-p',10990),false);
+  assert.equal(approvedCorIesuAssistedVariant('cor-iesu-bordo-g',10990),false);
 });
 test('somente custo D000007 DTF 2 áreas confirmado no D1 autoriza prévia',async()=>{
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-marrom-g'),5691);
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign({...design,configured_areas:1}),'cor-iesu-marrom-g'),null);
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign({...design,confirmed_unit_cost_cents:null}),'cor-iesu-marrom-g'),null);
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'salve-regina-preta-g'),null);
+  assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-branco-g'),null);
 });
 test('embalagem conjunta da nova coleção permanece bloqueada',()=>{
   assert.doesNotThrow(()=>assertCorIesuSingleItem([{sku:'cor-iesu-marrom-p',quantity:1}]));
@@ -94,24 +97,42 @@ test('não cobra quando o custo ou o produto não foi homologado',async()=>{
   }),{code:'shipping_product_unverified'});
   assert.equal(paid,false);
   await assert.rejects(()=>createCheckoutLive({...base,DB:dbWithDesign()},{
-    items:[{sku:'cor-iesu-vinho-g',quantity:1}],
+    items:[{sku:'cor-iesu-bordo-g',quantity:1}],
     zipCode:'01001000',shippingOptionId:'express',buyer
   },{
-    loadVariant:async()=>({...variant,sku:'cor-iesu-vinho-g',available:0})
+    loadVariant:async()=>({...variant,sku:'cor-iesu-bordo-g',available:0})
   }),{code:'unavailable_product'});
 });
 
 test('API não fornece frete de cor Cor Iesu ainda inativa no D1',async()=>{
   const db={prepare(){return {bind(){return {first:async()=>({
-    ...variant,sku:'cor-iesu-vinho-g',available:0
+    ...variant,sku:'cor-iesu-bordo-g',available:0
   })};}}}};
   const request=new Request('https://loja.example/api/shipping/preview',{
     method:'POST',headers:{'Content-Type':'application/json',
       'Origin':'https://www.douglasassumpcao.com.br'},
-    body:JSON.stringify({sku:'cor-iesu-vinho-g',zipCode:'01001000'})
+    body:JSON.stringify({sku:'cor-iesu-bordo-g',zipCode:'01001000'})
   });
   const response=await worker.fetch(request,{...base,DB:db,
     ALLOWED_ORIGINS:'https://www.douglasassumpcao.com.br'});
   assert.equal(response.status,409);
   assert.equal((await response.json()).error,'unavailable_product');
+});
+
+test('nova cor exige código único VAVI, custo e frete privados confirmados',async()=>{
+  const sku='cor-iesu-branco-g';
+  const observed={supplier_design_code:'D000007',supplier_variant_sku:'0000004',
+    observed_total_cents:5691,freight_config_verified:1};
+  function dbFor(other,copies=1){
+    return {prepare(sql){return {bind(){return {first:async()=>{
+      if(sql.includes('supplier_design_observations'))return design;
+      if(sql.includes('COUNT(*)'))return {n:copies};
+      return other;
+    }};}}};
+  }
+  assert.equal(await loadCorIesuAssistedCost(dbFor(observed),sku),5691);
+  assert.equal(await loadCorIesuAssistedCost(dbFor({...observed,freight_config_verified:0}),sku),null);
+  assert.equal(await loadCorIesuAssistedCost(dbFor(observed,2),sku),null);
+  assert.equal(await loadCorIesuAssistedCost(dbFor({...observed,supplier_variant_sku:'D000007'}),sku),null);
+  assert.equal(await loadCorIesuAssistedCost(dbFor({...observed,supplier_design_code:'D000008'}),sku),null);
 });
