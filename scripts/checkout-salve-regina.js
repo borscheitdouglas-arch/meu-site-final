@@ -146,6 +146,7 @@
             <h2>Resumo do pedido</h2>
             <div class="total">
               <p>Produto (1 unidade) <strong id="product-amount">${format(extra?extra.price:10990)}</strong></p>
+              ${isCorIesu?'<p class="checkout-summary-variant">Cor · tamanho <strong id="checkout-summary-variant"></strong></p>':''}
               <p>Frete <strong id="freight-amount">Selecione uma opção</strong></p>
               <p>Total <strong id="checkout-total">A calcular</strong></p>
             </div>
@@ -168,7 +169,11 @@
       requestedSku,availableSkus:readiness?.availableSkus
     });
     const size=form.elements.size;
-    if(isCorIesu)form.querySelector('#checkout-product-name').textContent=picker.label();
+    if(isCorIesu){
+      form.querySelector('#checkout-product-name').textContent=picker.label();
+      form.querySelector('#checkout-summary-variant').textContent=
+        picker.label().replace('Camiseta Cor Iesu Sacratissimum — ','');
+    }
     if(!extra){
       // O endpoint já confere somente as variações com frete homologado.
       // Não permitir selecionar tamanhos cuja compra real falharia depois.
@@ -243,6 +248,8 @@
       productAmount.textContent=format(price());
       if(isCorIesu){
         form.querySelector('#checkout-product-name').textContent=productLabel(size.value);
+        form.querySelector('#checkout-summary-variant').textContent=
+          productLabel(size.value).replace('Camiseta Cor Iesu Sacratissimum — ','');
         if(!visualPreview){
           const url=new URL(location.href);
           url.searchParams.set('sku',sku());
