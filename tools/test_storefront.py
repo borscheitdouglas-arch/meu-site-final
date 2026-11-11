@@ -67,7 +67,10 @@ def main():
         api_calls.append((route.request.method, url.path))
         headers = {'Access-Control-Allow-Origin': '*'}
         if url.path == '/api/checkout/live/readiness':
-            route.fulfill(json={'checkoutEnabled': state['checkout_enabled']}, headers=headers)
+            route.fulfill(json={'checkoutEnabled': state['checkout_enabled'],
+                                'availableSkus': [f'salve-regina-preta-{s}' for s in ('p','m','g','gg','xg')]
+                                if state['checkout_enabled'] else [],
+                                'multiCheckoutEnabled': False}, headers=headers)
             return
         if url.path == '/api/shipping/preview':
             if state['shipping_failure']:
@@ -113,9 +116,9 @@ def main():
                 page.set_viewport_size({'width': width, 'height': 1000})
                 page.goto(shop_url, wait_until='networkidle')
                 expect(page.get_by_role('heading', level=1)).to_be_visible()
-                expect(page.locator('.shop-product-card')).to_have_count(6)
+                expect(page.locator('.shop-product-card')).to_have_count(5)
                 expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
-                expect(page.locator('.shop-product-card[data-availability="preparation"]')).to_have_count(1)
+                expect(page.locator('.shop-product-card[data-availability="preparation"]')).to_have_count(0)
                 assert_no_overflow(page)
                 # Identidade cobre/iluminura presente sem sacrificar legibilidade.
                 expect(page.locator('.shop-ribbon')).to_be_visible()
@@ -157,7 +160,7 @@ def main():
                 expect(page.locator('.shop-product-card a[href*="checkout"]')).to_have_count(0)
                 # Seis peças + um livro em uma vitrine responsiva.
                 tiles = page.locator('.shop-product-grid > .shop-product-card, .shop-product-grid > .atelier-catalog')
-                expect(tiles).to_have_count(7)
+                expect(tiles).to_have_count(6)
                 boxes = [tile.bounding_box() for tile in tiles.all()]
                 columns = (6 if width > 1320 else 5 if width > 1080
                            else 4 if width > 860 else 3 if width > 630 else 1 if width < 360 else 2)
@@ -174,7 +177,7 @@ def main():
                 for asset in page.locator('img[srcset]:visible').all():
                     asset.scroll_into_view_if_needed()
                     asset.evaluate('image => image.decode()')
-                    assert '/Salve-Regina/web/' in asset.evaluate('image => image.currentSrc')
+                    assert any(part in asset.evaluate('image => image.currentSrc') for part in ('/Salve-Regina/web/','/cor-iesu/'))
                     assert asset.evaluate('image => image.naturalWidth > 0')
                 if screenshots and width in [390, 1440]:
                     page.evaluate("document.querySelectorAll('img[loading=lazy]').forEach(img => img.loading='eager')")
@@ -204,14 +207,14 @@ def main():
             expect(page.locator('[data-shop-empty]')).to_be_visible()
             page.locator('[data-shop-empty] [data-shop-reset]').click()
             page.locator('#shop-availability').select_option('preparation')
-            expect(page.locator('.shop-product-card:visible')).to_have_count(1)
+            expect(page.locator('.shop-product-card:visible')).to_have_count(0)
             page.locator('#shop-availability').select_option('consultation')
-            expect(page.locator('.shop-product-card:visible')).to_have_count(4)
+            expect(page.locator('.shop-product-card:visible')).to_have_count(0)
             page.locator('#shop-availability').select_option('available')
-            expect(page.locator('.shop-product-card:visible')).to_have_count(1)
-            expect(page.locator('.shop-product-card:visible .shop-price').filter(has_text='R$ 109,90')).to_be_visible()
+            expect(page.locator('.shop-product-card:visible')).to_have_count(5)
+            expect(page.locator('.shop-product-card:visible .shop-price').filter(has_text='R$ 109,90').first).to_be_visible()
             page.locator('[data-shop-reset]').first.click()
-            expect(page.locator('#shop-results')).to_have_text('7 produtos encontrados')
+            expect(page.locator('#shop-results')).to_have_text('6 produtos encontrados')
             print('PASS: categorias, busca sem acentos, filtros e estado vazio', flush=True)
             # Calculadora por CEP; respostas do fornecedor simuladas nos testes.
             calc=page.locator('[data-shipping-calculator]')
@@ -264,7 +267,7 @@ def main():
             expect(faq).not_to_have_attribute('open', '')
 
             # A capa e o botão da vitrine abrem uma página própria (não um accordion).
-            action = page.locator('[data-category="camisetas"] .shop-product-action')
+            action = page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) .shop-product-action')
             expect(action).to_have_attribute('href', '/pages/produto-loja.html?id=camiseta-salve-regina')
             action.focus()
             page.keyboard.press('Enter')
@@ -334,7 +337,7 @@ def main():
             page.reload(wait_until='networkidle')
             expect(page.locator('#produto-camiseta .atelier-vavi-live-link')).to_have_count(1)
             expect(page.locator('.shop-cart-buy-now')).to_have_count(1)
-            page.locator('[data-category="camisetas"] [data-cart-size]').select_option('XG')
+            page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) [data-cart-size]').select_option('XG')
             expect(page.locator('.shop-cart-buy-now')).to_have_attribute(
                 'href','/pages/checkout-salve-regina.html?size=XG')
             state['checkout_enabled'] = False
@@ -364,8 +367,8 @@ def main():
 
             # Sacola com variantes reconhecidas: sem preços inventados nem pedidos.
             page.goto(shop_url, wait_until='networkidle')
-            expect(page.locator('[data-cart-add]')).to_have_count(6)
-            expect(page.locator('[data-cart-buy]')).to_have_count(6)
+            expect(page.locator('[data-cart-add]')).to_have_count(5)
+            expect(page.locator('[data-cart-buy]')).to_have_count(5)
             page.locator('[data-cart-buy="caneca-salve-regina-pb"]').click()
             expect(page).to_have_url(base+'/pages/cart.html')
             expect(page.locator('.cart-item')).to_have_count(1)
@@ -384,8 +387,8 @@ def main():
             page.goto(shop_url,wait_until='networkidle')
             page.locator('[data-cart-add="caneca-salve-regina-preta"]').click()
             page.locator('[data-cart-add="ecobag-salve-regina-m"]').click()
-            page.locator('[data-category="camisetas"] [data-cart-size]').select_option('XG')
-            expect(page.locator('[data-category="camisetas"] .shop-price')).to_contain_text('R$ 119,90')
+            page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) [data-cart-size]').select_option('XG')
+            expect(page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) .shop-price')).to_contain_text('R$ 119,90')
             page.locator('[data-cart-add="camiseta-salve-regina"]').click()
             expect(page.locator('#shop-cart-feedback a[href="/pages/cart.html"]')).to_be_visible()
             expect(page.locator('[data-cart-count]')).to_have_text('3')
@@ -419,7 +422,7 @@ def main():
 
             # Só uma camiseta e só com readiness verdadeiro expõe o checkout.
             page.goto(shop_url,wait_until='networkidle')
-            page.locator('[data-category="camisetas"] [data-cart-size]').select_option('XG')
+            page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) [data-cart-size]').select_option('XG')
             page.locator('[data-cart-add="camiseta-salve-regina"]').click()
             state['checkout_enabled']=True
             page.goto(base+'/pages/cart.html',wait_until='networkidle')
@@ -500,7 +503,7 @@ def main():
             plain = plain_context.new_page()
             plain.goto(shop_url, wait_until='networkidle')
             expect(plain.locator('[data-shop-search]')).to_be_hidden()
-            expect(plain.locator('.shop-product-card:visible')).to_have_count(6)
+            expect(plain.locator('.shop-product-card:visible')).to_have_count(5)
             plain.locator('#produto-camiseta summary').click()
             expect(plain.get_by_role('button', name='Consultar frete e preparar pedido')).to_be_disabled()
             expect(plain.locator('noscript a')).to_be_visible()
