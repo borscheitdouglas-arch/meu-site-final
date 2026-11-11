@@ -120,9 +120,23 @@ def main():
         cart=page.evaluate("JSON.parse(localStorage.getItem('douglasShopCart_v2'))")
         assert any(item["id"]=="camiseta-cor-iesu-sacratissimum" and
                    item["variant"]=="cor-iesu-bordo-gg" for item in cart), cart
+        # No checkout, simular resposta de disponibilidade aprovada (sem pagamento).
+        def checkout_ready(route):
+            colors=("marrom","branco","preto","off-white","azul-marinho",
+                    "azul-royal","verde","cinza-claro","cinza-escuro","areia","bordo")
+            skus=["cor-iesu-"+color+"-"+size for color in colors
+                  for size in ("p","m","g","gg")]
+            route.fulfill(status=200,content_type="application/json",
+                          headers={"Access-Control-Allow-Origin":"*"},
+                          body=json.dumps({"checkoutEnabled":True,
+                                           "paymentProvider":"infinitepay",
+                                           "availableSkus":skus}))
+        page.route("**/api/checkout/live/readiness",checkout_ready)
         top.click()
         expect(page).to_have_url(re.compile(r"checkout-salve-regina[.]html[?]sku=cor-iesu-bordo-gg"))
-        print("PASS: botão Comprar visível, sem consulta por e-mail; carrinho preserva Bordô GG; checkout recebe SKU correto")
+        expect(page.locator("#checkout-container")).to_be_visible(timeout=15000)
+        expect(page.locator("#checkout-product-name")).to_contain_text("Cor Iesu")
+        print("PASS: botão Comprar visível, sem consulta por e-mail; carrinho preserva Bordô GG; checkout abre a cor certa")
 
         browser.close()
 
