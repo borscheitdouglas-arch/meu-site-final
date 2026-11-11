@@ -35,10 +35,10 @@ form?.addEventListener('submit',async event=>{
     if(!Array.isArray(data.options)||!data.options.length){
       say('Não foram encontradas opções de frete para este CEP.');
     }else{
-      say('Valores estimados pela transportadora. O prazo informado pela VAVI deve ser considerado junto ao tempo de produção, de 3 a 5 dias úteis.');
+      say('Valores estimados pela transportadora. O prazo de transporte deve ser considerado separadamente do prazo de produção.');
       for(const option of data.options){
         const li=document.createElement('li');
-        li.textContent=`${option.name}: ${money.format(option.shippingCost)} · ${option.deliveryTime} dia(s) informados pela VAVI para o transporte (estimativa)`;
+        li.textContent=`${option.name}: ${money.format(option.shippingCost)} · ${option.deliveryTime} dia(s) úteis estimados para o transporte`;
         list.append(li);
       }
       result.append(list);
