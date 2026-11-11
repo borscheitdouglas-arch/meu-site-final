@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "collection": "Cor Iesu Sacratissimum",
+  "purpose": "Rascunhos internos de produtos. NAO alimentam a vitrine nem liberam pagamentos.",
+  "source": "Captura da secao Designs da VAVI, enviada em 11/11/2026",
+  "products": [
+    {
+      "id": "bone-cor-iesu-sacratissimum",
+      "title": "Boné Sagrado Coração de Jesus | Cor Iesu Sacratissimum",
+      "category": "bones",
+      "supplier": {
+        "designCode": "D000008",
+        "baseProduct": "Boné Frente Americana",
+        "technique": "DTF",
+        "printedAreas": 1
+      },
+      "status": "preparation",
+      "priceStatus": "pending",
+      "retailPriceCents": null,
+      "image": null,
+      "availableForCheckout": false,
+      "observedColorSwatches": [
+        "Preto",
+        "Azul-escuro (nome oficial a confirmar)",
+        "Verde-escuro (nome oficial a confirmar)"
+      ],
+      "description": "Boné com arte do Sacratíssimo Coração de Jesus em estilo de gravura sacra, reunindo o Coração inflamado, a cruz e a coroa de espinhos. Uma composição discreta e expressiva que integra a coleção Cor Iesu Sacratissimum.",
+      "features": [
+        "Modelo-base: Boné Frente Americana (VAVI).",
+        "Design Cor Iesu Sacratissimum em uma área DTF.",
+        "Estampa do Sagrado Coração em estilo de gravura sacra.",
+        "Cores, código da variante e posição final da aplicação pendentes de confirmação."
+      ],
+      "blockers": [
+        "Preço final da peça personalizada por cor",
+        "Nome oficial das cores e SKUs VAVI de cada variante",
+        "Fotografias/mockups aprovados",
+        "Ficha técnica e área real de impressão",
+        "Homologação de frete e checkout"
+      ]
+    },
+    {
+      "id": "ecobag-cor-iesu-sacratissimum",
+      "title": "Ecobag Sagrado Coração de Jesus | Cor Iesu Sacratissimum",
+      "category": "ecobags",
+      "supplier": {
+        "designCode": "D000009",
+        "baseProduct": "Ecobag Algodão Cru",
+        "technique": "DTF",
+        "printedAreas": 1
+      },
+      "status": "preparation",
+      "priceStatus": "pending",
+      "retailPriceCents": null,
+      "image": null,
+      "availableForCheckout": false,
+      "observedSizes": [
+        "M",
+        "G"
+      ],
+      "description": "Ecobag de algodão cru com estampa inspirada na tradição das gravuras religiosas católicas. O Sagrado Coração de Jesus é apresentado em composição ornamentada, com a cruz, chamas, coroa de espinhos e elementos florais, combinando arte sacra e praticidade cotidiana.",
+      "features": [
+        "Produto-base: Ecobag Algodão Cru (VAVI).",
+        "Uma área de impressão DTF.",
+        "Tamanhos M e G mostrados no design.",
+        "Arte em estilo sacro vintage, em tons de bronze envelhecido e vermelho profundo.",
+        "Código final de cada variação e área de impressão a confirmar."
+      ],
+      "blockers": [
+        "Preço final da ecobag estampada para M e G",
+        "SKUs VAVI por tamanho",
+        "Fotografias/mockups aprovados",
+        "Configuração da estampa em cada tamanho",
+        "Frete e checkout validados"
+      ]
+    }
+  ]
+}
