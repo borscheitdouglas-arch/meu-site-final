@@ -474,6 +474,10 @@
     reset();
     form.addEventListener('submit',async event=>{
       event.preventDefault();reset();
+      if(!canQuote()){
+        status.textContent='Esta cor está sob consulta e ainda não possui frete aprovado.';
+        return;
+      }
       const zipCode=input.value.replace(/\D/g,'');
       const variant=product.variants.find(v=>v.code===select.value);
       const units=Number(quantity.value);
