@@ -586,6 +586,15 @@
     } else {
       const variants=Array.isArray(product.variants)?product.variants:[];
       const approvedSkus=new Set();
+      // Botão principal próximo ao preço: aparece antes da longa grade de cores.
+      // O servidor continua sendo a única autoridade para liberar a cobrança.
+      const topBuy=isCorIesuShirt?el('button','shop-single-top-buy','Consultar disponibilidade'):null;
+      const topSelection=isCorIesuShirt?el('span','shop-single-top-selection','Marrom · G'):null;
+      if(topBuy){
+        topBuy.type='button';
+        topBuy.setAttribute('aria-label','Comprar camiseta Cor Iesu na cor e no tamanho selecionados');
+        pricePanel.append(topBuy,topSelection);
+      }
       const sizeVariants=isCorIesuShirt?
         variants.filter(v=>['P','M','G','GG'].includes(v.code)):variants;
       const selectedVariant=()=>isCorIesuShirt?
@@ -741,6 +750,17 @@
       const feedback=el('p','shop-single-feedback');
       feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
       actions.append(add,proceed);
+      if(topBuy){
+        topBuy.addEventListener('click',()=>{
+          const selected=selectedVariant();
+          if(selected?.sku&&approvedSkus.has(selected.sku)){
+            proceed.click();
+          }else{
+            feedback.textContent='Confira a disponibilidade da cor e do tamanho. O pagamento é liberado após confirmação da loja.';
+            form.scrollIntoView({behavior:'smooth',block:'start'});
+          }
+        });
+      }
       const syncCheckout=()=>{
         const selected=selectedVariant();
         const approved=Boolean(selected?.sku&&approvedSkus.has(selected.sku));
@@ -749,7 +769,16 @@
         proceed.textContent=colorConsult?'Consultar esta cor':
           approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
         add.disabled=isPreparation||!configured||(isCorIesuShirt&&!approved)||!window.Cart;
-        proceed.disabled=colorConsult?false:isPreparation||!configured||!window.Cart;
+        // A compra direta da Cor Iesu não depende de o carrinho ter carregado.
+        proceed.disabled=colorConsult?false:isPreparation||!configured||
+          (!isCorIesuShirt&&!window.Cart);
+        if(topBuy){
+          const name=corIesuColors.find(c=>c.slug===chosenColor)?.name||'Marrom';
+          topSelection.textContent='Cor '+name+' · Tamanho '+select.value;
+          topBuy.textContent=approved?'Comprar agora · R$ 109,90':'Consultar disponibilidade · R$ 109,90';
+          topBuy.disabled=isPreparation||!configured;
+          topBuy.classList.toggle('is-available',approved);
+        }
         if(!isPreparation){
           productStatus.textContent=colorConsult?'Cor '+corIesuColors.find(c=>c.slug===chosenColor)?.name+' · aguardando confirmação':
             !configured?'Tamanho indisponível para compra':
@@ -829,10 +858,12 @@
       summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
       // Calculadora na página individual de todas as peças físicas, não só camiseta.
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
-      // Frete aparece sempre antes das opções de compra, em todos os produtos físicos.
+      // Na Cor Iesu, compra e seletores vêm antes da calculadora de frete;
+      // o checkout oficial reconfirma o transporte antes de cobrar.
       const delivery=el('div');
       shipping(delivery,product,select,quantity,()=>!isCorIesuShirt||approvedSkus.has(selectedVariant()?.sku),selectedVariant);
-      form.before(delivery);
+      if(isCorIesuShirt)form.after(delivery);
+      else form.before(delivery);
     }
     const trust=el('div','shop-single-trust');
     trust.append(el('p','',isBook?
