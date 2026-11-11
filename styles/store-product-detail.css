@@ -991,3 +991,221 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacr
     font-size:11px;
   }
 }
+
+/* Mesmo design compacto em camisetas, ecobags e canecas. Mantém livros separados. */
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-summary h1 {
+  font-size:clamp(21px,2.15vw,26px);
+  line-height:1.25;
+  margin:0 0 7px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-kicker {margin-bottom:5px;letter-spacing:.09em}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-status {margin:0 0 9px;font-size:11px}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-pricebox {
+  padding:11px 15px;
+  border-radius:8px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-price {
+  font-size:clamp(26px,2.5vw,31px);
+  margin:1px 0 2px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-price-note {
+  font-size:11px;
+  line-height:1.4;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-form {
+  padding:12px 0 0;
+  gap:11px;
+  scroll-margin-top:94px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-color-group {gap:6px;margin:0;padding:0}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-color-choices {
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:6px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-color-choice {
+  min-height:56px;
+  padding:5px 3px;
+  gap:4px;
+  border-radius:7px;
+  font-size:10px;
+  line-height:1.15;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-color-swatch {
+  width:22px;
+  height:22px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-variant-group {gap:6px}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-variant-chips {gap:7px}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-variant-chip {
+  min-width:45px;
+  min-height:37px;
+  padding:8px 11px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-actions {
+  grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:9px;
+  margin-top:1px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-actions button {
+  min-height:51px;
+  font-size:13px;
+  font-weight:700;
+  padding:10px 12px;
+  border-radius:7px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-actions button:last-child {
+  background:#e9c987;
+  border-color:#e9c987;
+  color:#14233a;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-feedback:not(:empty){
+  margin:2px 0 0;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure {
+  margin:11px 0 4px;
+  border:1px solid #cbb18050;
+  border-radius:8px;
+  background:#10233ad9;
+  overflow:hidden;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure > summary {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  list-style:none;
+  padding:11px 14px;
+  color:#f1d7a2;
+  font:600 12px/1.45 'Inter',sans-serif;
+  cursor:pointer;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure > summary::-webkit-details-marker {display:none}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure > summary::after {
+  content:"+";
+  font:500 20px/1 'Inter',sans-serif;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure[open] > summary::after {content:"−"}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure > summary:focus-visible {
+  outline:2px solid #f2d69e;
+  outline-offset:-3px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure .shop-single-shipping {
+  margin:0;
+  padding:4px 14px 14px;
+  background:transparent;
+  border:0;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure .shop-single-shipping > h2,
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure .shop-single-shipping > p:first-of-type {display:none}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-freight-disclosure .shop-single-shipping form {
+  margin:4px 0;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-trust {
+  padding:0;
+  margin-top:7px;
+  border:0;
+  font-size:11px;
+}
+@media(max-width:650px){
+  body.shop-product-page #shop-single-root.shop-single-physical .shop-single-color-choices {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:6px;
+  }
+  body.shop-product-page #shop-single-root.shop-single-physical .shop-single-color-choice {
+    min-height:54px;
+    padding:5px 2px;
+    font-size:10px;
+  }
+}
+@media(max-width:380px){
+  body.shop-product-page #shop-single-root.shop-single-physical .shop-single-actions button {
+    font-size:11.5px;
+    padding:9px 6px;
+  }
+}
+
+/* Seletor e subtotal uniformes em todos os artigos físicos. */
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-quantity-group {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  column-gap:12px;
+  row-gap:7px;
+  margin-top:1px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-quantity-group > .shop-single-field-label {
+  flex:0 0 auto;
+  margin-right:1px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-stepper {
+  flex:0 0 auto;
+  display:grid;
+  grid-template-columns:35px 44px 35px;
+  min-height:38px;
+  overflow:hidden;
+  border-radius:6px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-stepper-button {
+  min-height:38px;
+  font-size:20px;
+  line-height:1;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-form .shop-single-quantity-input {
+  width:44px!important;
+  min-height:38px!important;
+  font-size:14px!important;
+  text-align:center;
+  -moz-appearance:textfield;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-form .shop-single-quantity-input::-webkit-inner-spin-button,
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-form .shop-single-quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance:none;
+  margin:0;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-quantity-subtotal {
+  flex:0 1 auto;
+  color:#f0d39e;
+  font:600 12px/1.45 'Inter',sans-serif;
+  font-variant-numeric:tabular-nums;
+}
+@media (max-width:380px){
+  body.shop-product-page #shop-single-root.shop-single-physical .shop-single-quantity-group {
+    column-gap:8px;
+  }
+  body.shop-product-page #shop-single-root.shop-single-physical .shop-single-quantity-subtotal {
+    font-size:11px;
+  }
+}
+
+/* As canecas têm tamanho único. Mostrar apenas as estampas alternativas. */
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-companion-options {
+  margin:0;
+  padding:0;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-companion-options .shop-single-field-label {
+  margin-bottom:6px;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-companion-choices {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-companion-choices .shop-single-variant-chip {
+  min-height:38px;
+  width:auto;
+  max-width:100%;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-variant-group:has(.shop-single-companion-options) {
+  padding:0;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-quantity-group {
+  align-items:center;
+}
+body.shop-product-page #shop-single-root.shop-single-physical .shop-single-quantity-subtotal {
+  min-width:0;
+}
+@media(max-width:540px) {
+  body.shop-product-page #shop-single-root.shop-single-physical .shop-single-summary h1 {
+    font-size:clamp(21px,5vw,25px);
+  }
+}
