@@ -50,7 +50,7 @@
       (/^salve-regina-preta-(p|m|g|gg|xg)$/.test(code) ||
        /^caneca-salve-regina-(preta|pb)$/.test(code) ||
        /^ecobag-salve-regina-(m|g)$/.test(code) ||
-        /^cor-iesu-marrom-(p|m|g|gg)$/.test(code));
+        /^cor-iesu-(marrom|branco|preto|off-white|azul-marinho|azul-royal|verde|cinza-claro|cinza-escuro|areia|bordo)-(p|m|g|gg)$/.test(code));
     const eligible=Array.isArray(items) && items.length===cart.length &&
       items.length>=1 && items.length<=15 &&
       items.reduce((n,x)=>n+x.quantity,0)<=30 &&
