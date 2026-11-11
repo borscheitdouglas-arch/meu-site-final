@@ -363,12 +363,29 @@
       if(image.complete)updateFrame();
     }
     if(note) figure.append(el('figcaption','',note));
+    const photoColor=fixedFrame?el('p','shop-single-photo-color'):null;
+    const photoColorNames={
+      'branco':'Branco','preto':'Preto','off-white':'Off-white',
+      'azul-marinho':'Azul-marinho','azul-royal':'Azul-royal','verde':'Verde',
+      'cinza-claro':'Cinza-claro','cinza-escuro':'Cinza-escuro',
+      'areia':'Areia','marrom':'Marrom','bordo':'Bordô'
+    };
+    const syncPhotoColor=index=>{
+      if(!photoColor)return;
+      const match=photos[index].match(/\/cores\/cor-iesu-([a-z-]+)-1200\.webp/);
+      if(match?.[1]==='editorial')photoColor.textContent='Apresentação editorial · frente e costas';
+      else if(match?.[1]&&photoColorNames[match[1]])photoColor.textContent=
+        'Cor: '+photoColorNames[match[1]]+(match[1]==='marrom'?' · compra online':' · sob consulta');
+      else photoColor.textContent='Outras imagens da camiseta Marrom';
+    };
+    if(photoColor){syncPhotoColor(0);figure.append(photoColor);}
     const thumbs=el('div','shop-single-thumbs');
     let currentIndex=0, viewer=null, enlargedImage=null, counter=null;
     const showPhoto=index=>{
       currentIndex=(index+photos.length)%photos.length;
       image.src=photos[currentIndex];
       image.alt=photoLabels?.[currentIndex] || ('Imagem '+(currentIndex+1)+' de '+title);
+      syncPhotoColor(currentIndex);
       thumbs.querySelectorAll('button').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===currentIndex)));
       if(enlargedImage){enlargedImage.src=image.src;enlargedImage.alt=image.alt;}
       if(counter)counter.textContent=(currentIndex+1)+' / '+photos.length;
