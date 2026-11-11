@@ -1,4 +1,5 @@
 import {CatalogError} from './catalog.js';
+import {COR_IESU_ASSISTED_SKUS} from './cor-iesu-assist.js';
 
 const VAVI_BASE = 'https://api.printbee.com.br';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -91,10 +92,9 @@ function safeQuote(option) {
 const PROVISIONAL_SINGLE_PACKAGE=Object.freeze({
   // Camiseta Cor Iesu: ficha de camiseta 30.1 penteada (0,25 kg; 300×250×10 mm).
   // Prévia sem UUID: a loja assume diferenças do pacote na operação assistida.
-  'cor-iesu-marrom-p': {weight:0.25,height:10,width:250,length:300},
-  'cor-iesu-marrom-m': {weight:0.25,height:10,width:250,length:300},
-  'cor-iesu-marrom-g': {weight:0.25,height:10,width:250,length:300},
-  'cor-iesu-marrom-gg':{weight:0.25,height:10,width:250,length:300},
+  ...Object.fromEntries(COR_IESU_ASSISTED_SKUS.map(sku=>
+    [sku,{weight:0.25,height:10,width:250,length:300}])),
+
   'salve-regina-preta-p': {weight:0.25,height:10,width:250,length:300},
   'salve-regina-preta-m': {weight:0.25,height:10,width:250,length:300},
   'salve-regina-preta-g': {weight:0.25,height:10,width:250,length:300},
