@@ -339,10 +339,14 @@ def main():
 
             page.reload(wait_until='networkidle')
             expect(page.locator('#produto-camiseta .atelier-vavi-live-link')).to_have_count(1)
-            expect(page.locator('.shop-cart-buy-now')).to_have_count(1)
+            expect(page.locator('.shop-cart-buy-now')).to_have_count(2)
+            salve_card=page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"])')
             page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) [data-cart-size]').select_option('XG')
-            expect(page.locator('.shop-cart-buy-now')).to_have_attribute(
+            expect(salve_card.locator('.shop-cart-buy-now')).to_have_attribute(
                 'href','/pages/checkout-salve-regina.html?size=XG')
+            cor_card=page.locator('.shop-product-card:has([data-cart-add="camiseta-cor-iesu-sacratissimum"])')
+            expect(cor_card.locator('.shop-cart-buy-now')).to_have_attribute(
+                'href','/pages/checkout-salve-regina.html?sku=cor-iesu-marrom-g')
             # Cor Iesu: cores e tamanhos são escolhas claras, sem o select "Único".
             # Apenas Marrom está aprovado; outras cores nunca liberam frete/pagamento.
             page.goto(base+'/pages/checkout-salve-regina.html?sku=cor-iesu-marrom-gg',
