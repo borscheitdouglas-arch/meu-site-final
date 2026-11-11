@@ -93,6 +93,42 @@ function groupCatalog(rows) {
   return [...products.values()];
 }
 
+// src/cor-iesu-assist.js
+var COR_IESU_COLOR_OPTIONS = Object.freeze([
+  { slug: "marrom", name: "Marrom" },
+  { slug: "bege", name: "Bege" },
+  { slug: "vinho", name: "Vinho" },
+  { slug: "verde-escuro", name: "Verde escuro" },
+  { slug: "cinza-claro", name: "Cinza claro" },
+  { slug: "grafite", name: "Grafite" }
+]);
+var COR_IESU_ASSISTED_VARIANTS = Object.freeze(Object.fromEntries(
+  COR_IESU_COLOR_OPTIONS.flatMap((color) => ["p", "m", "g", "gg"].map((size) => ["cor-iesu-" + color.slug + "-" + size, 10990]))
+));
+var COR_IESU_ASSISTED_SKUS = Object.freeze(Object.keys(COR_IESU_ASSISTED_VARIANTS));
+function isCorIesuAssistedSku(sku) {
+  return typeof sku === "string" && Object.hasOwn(COR_IESU_ASSISTED_VARIANTS, sku);
+}
+function approvedCorIesuAssistedVariant(sku, priceCents) {
+  return isCorIesuAssistedSku(sku) && COR_IESU_ASSISTED_VARIANTS[sku] === priceCents;
+}
+async function loadCorIesuAssistedCost(db, sku) {
+  if (!isCorIesuAssistedSku(sku) || !db?.prepare) return null;
+  const row = await db.prepare(
+    "SELECT supplier_design_code,method,configured_areas,confirmed_unit_cost_cents FROM supplier_design_observations WHERE product_id=? LIMIT 1"
+  ).bind("camiseta-cor-iesu-sacratissimum").first();
+  if (row?.supplier_design_code !== "D000007" || row?.method !== "DTF" || row?.configured_areas !== 2 || row?.confirmed_unit_cost_cents !== 5691) return null;
+  return row.confirmed_unit_cost_cents;
+}
+function assertCorIesuSingleItem(items) {
+  if (items.some((x) => isCorIesuAssistedSku(x.sku)) && (items.length !== 1 || items[0].quantity !== 1))
+    throw new CatalogError(
+      "shipping_package_unverified",
+      "A edi\xE7\xE3o Cor Iesu est\xE1 dispon\xEDvel somente em pedido unit\xE1rio at\xE9 validar embalagens combinadas.",
+      409
+    );
+}
+
 // src/shipping.js
 var VAVI_BASE = "https://api.printbee.com.br";
 var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -191,10 +227,7 @@ function safeQuote(option) {
 var PROVISIONAL_SINGLE_PACKAGE = Object.freeze({
   // Camiseta Cor Iesu: ficha de camiseta 30.1 penteada (0,25 kg; 300×250×10 mm).
   // Prévia sem UUID: a loja assume diferenças do pacote na operação assistida.
-  "cor-iesu-marrom-p": { weight: 0.25, height: 10, width: 250, length: 300 },
-  "cor-iesu-marrom-m": { weight: 0.25, height: 10, width: 250, length: 300 },
-  "cor-iesu-marrom-g": { weight: 0.25, height: 10, width: 250, length: 300 },
-  "cor-iesu-marrom-gg": { weight: 0.25, height: 10, width: 250, length: 300 },
+  ...Object.fromEntries(COR_IESU_ASSISTED_SKUS.map((sku) => [sku, { weight: 0.25, height: 10, width: 250, length: 300 }])),
   "salve-regina-preta-p": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-m": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-g": { weight: 0.25, height: 10, width: 250, length: 300 },
@@ -1237,37 +1270,6 @@ var DIRECT_CHECKOUT_SKUS = Object.freeze([
 ]);
 function approvedDirectVariant(sku, priceCents) {
   return approvedVariant(sku, priceCents) || Object.hasOwn(EXTRA_DIRECT_PRICES, sku) && EXTRA_DIRECT_PRICES[sku] === priceCents;
-}
-
-// src/cor-iesu-assist.js
-var COR_IESU_ASSISTED_VARIANTS = Object.freeze({
-  "cor-iesu-marrom-p": 10990,
-  "cor-iesu-marrom-m": 10990,
-  "cor-iesu-marrom-g": 10990,
-  "cor-iesu-marrom-gg": 10990
-});
-var COR_IESU_ASSISTED_SKUS = Object.freeze(Object.keys(COR_IESU_ASSISTED_VARIANTS));
-function isCorIesuAssistedSku(sku) {
-  return typeof sku === "string" && Object.hasOwn(COR_IESU_ASSISTED_VARIANTS, sku);
-}
-function approvedCorIesuAssistedVariant(sku, priceCents) {
-  return isCorIesuAssistedSku(sku) && COR_IESU_ASSISTED_VARIANTS[sku] === priceCents;
-}
-async function loadCorIesuAssistedCost(db, sku) {
-  if (!isCorIesuAssistedSku(sku) || !db?.prepare) return null;
-  const row = await db.prepare(
-    "SELECT supplier_design_code,method,configured_areas,confirmed_unit_cost_cents FROM supplier_design_observations WHERE product_id=? LIMIT 1"
-  ).bind("camiseta-cor-iesu-sacratissimum").first();
-  if (row?.supplier_design_code !== "D000007" || row?.method !== "DTF" || row?.configured_areas !== 2 || row?.confirmed_unit_cost_cents !== 5691) return null;
-  return row.confirmed_unit_cost_cents;
-}
-function assertCorIesuSingleItem(items) {
-  if (items.some((x) => isCorIesuAssistedSku(x.sku)) && (items.length !== 1 || items[0].quantity !== 1))
-    throw new CatalogError(
-      "shipping_package_unverified",
-      "A edi\xE7\xE3o Cor Iesu est\xE1 dispon\xEDvel somente em pedido unit\xE1rio at\xE9 validar embalagens combinadas.",
-      409
-    );
 }
 
 // src/infinitepay-client.js
