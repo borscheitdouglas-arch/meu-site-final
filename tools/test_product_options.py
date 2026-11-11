@@ -18,7 +18,10 @@ def main():
                 body=json.dumps({
                     "checkoutEnabled": True,
                     "multiCheckoutEnabled": True,
-                    "availableSkus": ["salve-regina-preta-g"]
+                    "availableSkus": ["salve-regina-preta-g",
+                      "salve-regina-preta-xg",
+                      "caneca-salve-regina-preta","caneca-salve-regina-pb",
+                      "ecobag-salve-regina-m","ecobag-salve-regina-g"]
                 }))
 
         def shipping_quote(route):
@@ -75,6 +78,9 @@ def main():
         page.get_by_role("button", name="Aumentar quantidade").click()
         expect(quantity).to_have_value("2")
 
+        expect(page.locator(".shop-single-freight-disclosure")).to_be_visible()
+        expect(page.locator(".shop-single-quantity-subtotal")).to_contain_text("219,80")
+        page.locator(".shop-single-freight-disclosure > summary").click()
         page.locator(".shop-single-shipping input[name=zipCode]").fill("01001-000")
         page.locator(".shop-single-shipping button[type=submit]").click()
         expect(page.locator(".shop-single-quote-line")).to_have_count(1, timeout=12000)
@@ -83,7 +89,7 @@ def main():
         page.get_by_role("button", name="Adicionar ao carrinho").click()
         cart = page.evaluate("JSON.parse(localStorage.getItem('douglasShopCart_v2'))")
         assert any(x["id"] == "camiseta-salve-regina" and x["qty"] == 2 for x in cart)
-        print("PASS: tamanhos, preço XG, quantidade, frete conjunto e carrinho")
+        print("PASS: Salve Regina — tamanhos, subtotal, frete recolhível e carrinho")
 
         page.goto(BASE + "/pages/produto-loja.html?id=caneca-salve-regina-preta",
             wait_until="domcontentloaded")
@@ -91,6 +97,72 @@ def main():
         page.get_by_role("link", name="Nossa Senhora", exact=True).click()
         expect(page).to_have_url(re.compile("id=caneca-salve-regina-pb"))
         print("PASS: alternativas de caneca navegáveis e sem habilitar cobrança")
+
+        # Regressão para todos os artigos físicos.
+        for pid,unit,unit_price in [
+            ("camiseta-salve-regina","camiseta","109,90"),
+            ("caneca-salve-regina-preta","caneca","49,90"),
+            ("caneca-salve-regina-pb","caneca","49,90"),
+            ("ecobag-salve-regina","ecobag","39,90"),
+        ]:
+            page.goto(BASE + "/pages/produto-loja.html?id=" + pid,
+                      wait_until="domcontentloaded")
+            root=page.locator("#shop-single-root")
+            expect(root).to_have_class(re.compile("shop-single-physical"),timeout=12000)
+            assert root.locator(".shop-single-excerpt").count()==0,pid
+            assert root.locator(".shirt-seller").count()==0,pid
+            assert root.locator(".shop-single-back").count()==0,pid
+            assert root.locator(".shop-single-pricebox button").count()==0,pid
+            assert root.locator(".shop-single-actions button").count()==2,pid
+            expect(root.locator(".shop-single-quantity-group")).to_be_visible()
+            expect(root.locator(".shop-single-quantity-subtotal")).to_contain_text(unit_price)
+            freight=root.locator(".shop-single-freight-disclosure")
+            expect(freight).to_be_visible()
+            assert not freight.get_attribute("open"),pid
+            assert root.locator(".shop-single-quantity-group").evaluate(
+              "(el)=>getComputedStyle(el).display")=="flex",pid
+            qty=root.locator(".shop-single-quantity-input")
+            expect(qty).to_have_value("1")
+            root.get_by_role("button",name="Aumentar quantidade").click()
+            expect(qty).to_have_value("2")
+            total={"109,90":"219,80","49,90":"99,80","39,90":"79,80"}[unit_price]
+            expect(root.locator(".shop-single-quantity-subtotal")).to_contain_text(total)
+            expect(root.get_by_role("button",name="Revisar 2 "+unit+"s")).to_be_visible()
+            root.get_by_role("button",name="Diminuir quantidade").click()
+            expect(qty).to_have_value("1")
+            expect(root.get_by_role("button",name="Comprar agora",exact=True)).to_be_visible()
+            assert root.get_by_role("button",name="Comprar agora",exact=True).count()==1
+            assert root.get_by_role("button",name="Adicionar ao carrinho").count()==1
+            if pid.startswith("caneca-"):
+                assert root.locator(".shop-single-variant-chips button").count()==0,pid
+                assert root.get_by_role("link",name="Nossa Senhora",exact=True).count()==1,pid
+                assert root.get_by_role("link",name="Partitura Gregoriana",exact=True).count()==1,pid
+            for width in (390,360):
+                page.set_viewport_size({"width":width,"height":800})
+                assert root.locator(".shop-single-summary").evaluate(
+                    "(el)=>el.scrollWidth<=el.clientWidth+2"),(pid,width)
+                expect(root.locator(".shop-single-quantity-input")).to_be_visible()
+                assert root.get_by_role("button",name="Comprar agora",exact=True).count()==1
+            page.set_viewport_size({"width":1280,"height":900})
+        page.goto(BASE + "/pages/produto-loja.html?id=ecobag-salve-regina",
+                  wait_until="domcontentloaded")
+        for size in ("P","GG"):
+            page.get_by_role("button",name=size,exact=True).click()
+            expect(page.locator(".shop-single-price")).to_contain_text("a confirmar")
+            expect(page.get_by_role("button",name="Adicionar ao carrinho")).to_be_disabled()
+        page.get_by_role("button",name="M",exact=True).click()
+        expect(page.locator(".shop-single-price")).to_contain_text("39,90")
+        print("PASS: 4 fichas compactas, quantidades e subtotais; canecas sem tamanho único; ecobag pendente bloqueada")
+
+        # Os livros continuam no fluxo de livrarias, sem carrinho físico.
+        page.goto(BASE + "/pages/produto-loja.html?id=o-canto-como-mistica",
+                  wait_until="domcontentloaded")
+        book=page.locator("#shop-single-root")
+        expect(book.locator(".shop-single-partners")).to_be_visible(timeout=12000)
+        assert not book.evaluate("(e)=>e.classList.contains('shop-single-physical')")
+        assert book.locator(".shop-single-quantity-input").count()==0
+        print("PASS: compra de livros sem alterações")
+
 
         # Cor Iesu: um único Comprar agora, campo de quantidade funcional
         # com subtotal e carrinho, sem permitir pagamento indevido de lote.
