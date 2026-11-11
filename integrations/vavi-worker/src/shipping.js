@@ -89,6 +89,12 @@ function safeQuote(option) {
 // orientativa, nunca na cobrança; embalagens finais ainda exigem confirmação.
 // Dimensões em mm, peso em kg. Nenhum UUID é inventado.
 const PROVISIONAL_SINGLE_PACKAGE=Object.freeze({
+  // Camiseta Cor Iesu: ficha de camiseta 30.1 penteada (0,25 kg; 300×250×10 mm).
+  // Prévia sem UUID: a loja assume diferenças do pacote na operação assistida.
+  'cor-iesu-marrom-p': {weight:0.25,height:10,width:250,length:300},
+  'cor-iesu-marrom-m': {weight:0.25,height:10,width:250,length:300},
+  'cor-iesu-marrom-g': {weight:0.25,height:10,width:250,length:300},
+  'cor-iesu-marrom-gg':{weight:0.25,height:10,width:250,length:300},
   'salve-regina-preta-p': {weight:0.25,height:10,width:250,length:300},
   'salve-regina-preta-m': {weight:0.25,height:10,width:250,length:300},
   'salve-regina-preta-g': {weight:0.25,height:10,width:250,length:300},
