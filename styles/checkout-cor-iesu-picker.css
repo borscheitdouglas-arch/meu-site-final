@@ -156,6 +156,16 @@ body.checkout-single-modern .checkout-select-label select {
   background-repeat:no-repeat!important;
   background-position:right 12px center!important;
 }
+body.checkout-single-modern .checkout-summary .total p.checkout-summary-variant {
+  padding-top:0;
+  margin-top:-4px;
+  color:#cbd8d4;
+  font-size:11px;
+}
+body.checkout-single-modern .checkout-summary .total p.checkout-summary-variant strong {
+  color:#efd09a;
+  font-size:12px;
+}
 @media(min-width:881px){
   body.checkout-single-modern #sale-checkout .checkout-variant-picker {
     border-color:#e7dfd2;
