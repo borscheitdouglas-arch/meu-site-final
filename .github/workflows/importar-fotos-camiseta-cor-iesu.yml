@@ -1,4 +1,4 @@
-name: Importar imagens da camiseta Cor Iesu para a loja
+name: Padronizar imagens Cor Iesu para a galeria da loja
 on:
   push:
     paths:
@@ -9,72 +9,94 @@ permissions:
   contents: write
 
 jobs:
-  importar:
+  preparar-galeria:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
-      - name: Preparar processamento das fotografias
+      - name: Instalar Pillow
         run: python3 -m pip install --quiet Pillow
-      - name: Baixar seis imagens originais fornecidas pelo lojista
+      - name: Obter 12 arquivos originais fornecidos pelo lojista
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
-            "https://at.adobe.com/iop8cosSfKPuS6fA" --output "$RUNNER_TEMP/frente-modelo.png"
-          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
-            "https://at.adobe.com/ZUYrkPGqyYh7wl3E" --output "$RUNNER_TEMP/costas-modelo.png"
-          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
-            "https://at.adobe.com/lK6sdTUSwzjZXZLw" --output "$RUNNER_TEMP/frente-fundo-vinho.png"
-          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
-            "https://at.adobe.com/WXGRjVjoYiii2ZFF" --output "$RUNNER_TEMP/conjunto-vinho.png"
-          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
-            "https://at.adobe.com/9xcHUlbHKQZ4R7OL" --output "$RUNNER_TEMP/costas-fundo-vinho.png"
-          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
-            "https://at.adobe.com/Nao0yByp1UJ0WMBb" --output "$RUNNER_TEMP/conjunto-neutro.png"
-      - name: Gerar imagens WebP para vitrine e galeria
+          mkdir -p "$RUNNER_TEMP/cor-iesu-originais"
+          while IFS='|' read -r nome url; do
+            [ -n "$nome" ] || continue
+            curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 180 \
+              "$url" --output "$RUNNER_TEMP/cor-iesu-originais/$nome.png"
+            echo "Transferido: $nome"
+          done <<'IMAGENS'
+01_branco|https://at.adobe.com/DyyjJeVGxSKnFgnU
+02_preto|https://at.adobe.com/LLZ03sNmhagACiOv
+03_off_white|https://at.adobe.com/BkiTNr2lvvyzePLt
+04_azul_marinho|https://at.adobe.com/cEHgnLjCMi9fBfSS
+05_azul_royal|https://at.adobe.com/z8yMnCdxhMr1SCW5
+06_verde|https://at.adobe.com/pri04LdeGLvmal0O
+07_cinza_claro|https://at.adobe.com/Cvil7JHmSUUrLSmf
+08_cinza_escuro|https://at.adobe.com/Dk3A6kY0iqPp3lkx
+09_areia|https://at.adobe.com/g1XKU2TockrpCLVz
+10_marrom|https://at.adobe.com/R8eWCkMBeMNnTT88
+11_bordo|https://at.adobe.com/Z4TURxwD2cHj279S
+12_editorial|https://at.adobe.com/P59bs4zGkTtJuRcm
+IMAGENS
+      - name: Enquadrar em 4 por 3 sem cortar as estampas
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          from PIL import Image
+          from PIL import Image, ImageFilter, ImageEnhance
           from pathlib import Path
           import os
-          source=Path(os.environ["RUNNER_TEMP"])
-          target=Path("assets/img/loja/cor-iesu")
+          source=Path(os.environ['RUNNER_TEMP'])/'cor-iesu-originais'
+          target=Path('assets/img/loja/cor-iesu/cores')
           target.mkdir(parents=True,exist_ok=True)
-          files=["frente-modelo","costas-modelo","frente-fundo-vinho","conjunto-vinho","costas-fundo-vinho","conjunto-neutro"]
-          for name in files:
-              raw=source/(name+".png")
-              with Image.open(raw) as img:
-                  img.load()
-                  if img.width < 900 or img.height < 900:
-                      raise SystemExit(f"Imagem muito pequena: {name} / {img.size}")
-                  if img.mode not in ("RGB","RGBA"):
-                      img=img.convert("RGB")
-                  for width in (480,1500):
-                      copy=img.copy()
-                      if copy.width > width:
-                          height=round(copy.height*width/copy.width)
-                          copy=copy.resize((width,height),Image.Resampling.LANCZOS)
-                      path=target/f"{name}-{width}.webp"
-                      copy.save(path,format="WEBP",quality=90,method=6)
-                      if path.stat().st_size < 15000:
-                          raise SystemExit(f"Falha na conversao: {path}")
-                      print("OK",path,copy.size,path.stat().st_size)
-
+          names=['branco','preto','off-white','azul-marinho','azul-royal','verde',
+                 'cinza-claro','cinza-escuro','areia','marrom','bordo','editorial']
+          for i,name in enumerate(names,1):
+              raw=source/f'{i:02d}_'+ ('editorial' if i==12 else [
+                  'branco','preto','off_white','azul_marinho','azul_royal','verde',
+                  'cinza_claro','cinza_escuro','areia','marrom','bordo'][i-1])
+              with Image.open(str(raw)+'.png') as opened:
+                  opened.load()
+                  if opened.width<900 or opened.height<900:
+                      raise ValueError(f'Imagem original insuficiente: {raw.name}, {opened.size}')
+                  img=opened.convert('RGB')
+              if name!='editorial':
+                  if abs(img.width/img.height-4/3)>.004:
+                      raise ValueError(f'Proporção inesperada: {name} {img.size}')
+                  canvas=img.resize((1200,900),Image.Resampling.LANCZOS)
+              else:
+                  # O original vertical é enquadrado inteiro dentro da moldura horizontal.
+                  iw,ih=img.size
+                  scale=max(1200/iw,900/ih)
+                  bg=img.resize((round(iw*scale),round(ih*scale)),Image.Resampling.LANCZOS)
+                  crop_x=(bg.width-1200)//2
+                  crop_y=(bg.height-900)//2
+                  bg=bg.crop((crop_x,crop_y,crop_x+1200,crop_y+900)).filter(ImageFilter.GaussianBlur(55))
+                  bg=Image.blend(bg,Image.new('RGB',(1200,900),(210,181,157)),.4)
+                  s=min(1100/iw,840/ih)
+                  fg=img.resize((round(iw*s),round(ih*s)),Image.Resampling.LANCZOS)
+                  canvas=bg
+                  canvas.paste(fg,((1200-fg.width)//2,(900-fg.height)//2))
+              for width in (480,1200):
+                  resized=canvas if width==1200 else canvas.resize((480,360),Image.Resampling.LANCZOS)
+                  outfile=target/f'cor-iesu-{name}-{width}.webp'
+                  resized.save(outfile,'WEBP',quality=90,method=6)
+                  assert outfile.stat().st_size>10000, outfile
+                  print(outfile, resized.size, outfile.stat().st_size)
           PY
-      - name: Publicar imagens locais versionadas no GitHub
+      - name: Salvar arquivos otimizados no repositorio
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/img/loja/cor-iesu/*.webp
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/img/loja/cor-iesu/cores/*.webp
           if git diff --cached --quiet; then
-            echo "Imagens ja importadas."
+            echo 'Arquivos ja existentes e padronizados.'
           else
-            git commit -m "assets(loja): importar seis fotos Cor Iesu em WebP"
+            git commit -m 'assets: adicionar 11 cores e foto editorial Cor Iesu padronizadas'
             git push
           fi
