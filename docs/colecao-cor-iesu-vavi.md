@@ -14,7 +14,7 @@ Os valores do tipo **“A PARTIR DE”** são observações do painel VAVI, não
 
 ## Produtos e situação
 - **Camiseta**: cadastro da loja com preço de venda R$ 109,90 para P/M/G/GG, status `preparation`. Frente com medalhão e costas com gravura gótica. D1 ainda desativado, sem SKUs de fornecedor/frete aprovados.
-- **Boné**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. Sem preço de venda, imagem de produto aprovada ou variantes homologadas. Não entra na vitrine ainda.
+- **Boné**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. **Preço normal definido: R$ 79,90; opção promocional futura: R$ 75,00, ainda não ativa.** Sem imagem de produto aprovada ou variantes homologadas; não entra na vitrine nem pode ser comprado. O valor de R$ 44,00 do painel VAVI é exibido como “a partir de”; verificar o custo final por cor antes da ativação.
 - **Ecobag**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. Sem preço de venda, imagem aprovada ou variantes homologadas. Não entra na vitrine ainda.
 
 ## Checklist de liberação, por produto
