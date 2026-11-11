@@ -146,7 +146,7 @@ def main():
         assert any(item["id"]=="camiseta-cor-iesu-sacratissimum" and
                    item["variant"]=="cor-iesu-bordo-gg" and item["qty"]==2
                    for item in cart),cart
-        expect(page.locator(".cart-quantity-number")).to_contain_text("2")
+        expect(page.locator(".cart-item").filter(has_text="Cor Iesu").locator(".cart-quantity-number")).to_have_text("2")
         # Pedido múltiplo não deve oferecer pagamento antes da homologação
         expect(page.locator("#cart-payment-explanation")).to_be_visible()
         page.goto(BASE + "/pages/produto-loja.html?id=camiseta-cor-iesu-sacratissimum",
