@@ -68,7 +68,7 @@
       ]
     ],
     "photos": [
-      "/assets/img/loja/cor-iesu/costas-modelo-com-pernas.jpg",
+      "/assets/img/loja/cor-iesu/costas-modelo-com-pernas.jpg?v=20261111-pernas-v2",
       "/assets/img/loja/cor-iesu/frente-modelo-1500.webp",
       "/assets/img/loja/cor-iesu/costas-fundo-vinho-1500.webp",
       "/assets/img/loja/cor-iesu/frente-fundo-vinho-1500.webp",
