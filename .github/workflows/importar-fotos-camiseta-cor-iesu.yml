@@ -1,0 +1,80 @@
+name: Importar imagens da camiseta Cor Iesu para a loja
+on:
+  push:
+    paths:
+      - ".github/workflows/importar-fotos-camiseta-cor-iesu.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Preparar processamento das fotografias
+        run: python3 -m pip install --quiet Pillow
+      - name: Baixar seis imagens originais fornecidas pelo lojista
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
+            "https://at.adobe.com/iop8cosSfKPuS6fA" --output "$RUNNER_TEMP/frente-modelo.png"
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
+            "https://at.adobe.com/ZUYrkPGqyYh7wl3E" --output "$RUNNER_TEMP/costas-modelo.png"
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
+            "https://at.adobe.com/lK6sdTUSwzjZXZLw" --output "$RUNNER_TEMP/frente-fundo-vinho.png"
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
+            "https://at.adobe.com/WXGRjVjoYiii2ZFF" --output "$RUNNER_TEMP/conjunto-vinho.png"
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
+            "https://at.adobe.com/9xcHUlbHKQZ4R7OL" --output "$RUNNER_TEMP/costas-fundo-vinho.png"
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 3 --max-time 150 \
+            "https://at.adobe.com/Nao0yByp1UJ0WMBb" --output "$RUNNER_TEMP/conjunto-neutro.png"
+      - name: Gerar imagens WebP para vitrine e galeria
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          import os
+          source=Path(os.environ["RUNNER_TEMP"])
+          target=Path("assets/img/loja/cor-iesu")
+          target.mkdir(parents=True,exist_ok=True)
+          files=["frente-modelo","costas-modelo","frente-fundo-vinho","conjunto-vinho","costas-fundo-vinho","conjunto-neutro"]
+          for name in files:
+              raw=source/(name+".png")
+              with Image.open(raw) as img:
+                  img.load()
+                  if img.width < 900 or img.height < 900:
+                      raise SystemExit(f"Imagem muito pequena: {name} / {img.size}")
+                  if img.mode not in ("RGB","RGBA"):
+                      img=img.convert("RGB")
+                  for width in (480,1500):
+                      copy=img.copy()
+                      if copy.width > width:
+                          height=round(copy.height*width/copy.width)
+                          copy=copy.resize((width,height),Image.Resampling.LANCZOS)
+                      path=target/f"{name}-{width}.webp"
+                      copy.save(path,format="WEBP",quality=90,method=6)
+                      if path.stat().st_size < 15000:
+                          raise SystemExit(f"Falha na conversao: {path}")
+                      print("OK",path,copy.size,path.stat().st_size)
+
+          PY
+      - name: Publicar imagens locais versionadas no GitHub
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/img/loja/cor-iesu/*.webp
+          if git diff --cached --quiet; then
+            echo "Imagens ja importadas."
+          else
+            git commit -m "assets(loja): importar seis fotos Cor Iesu em WebP"
+            git push
+          fi
