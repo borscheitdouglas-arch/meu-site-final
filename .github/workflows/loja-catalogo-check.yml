@@ -11,6 +11,8 @@ on:
       - 'scripts/cart.js'
       - 'scripts/cart-shipping.js'
       - 'scripts/checkout-salve-regina.js'
+      - 'scripts/checkout-cor-iesu-picker.js'
+      - 'styles/checkout-cor-iesu-picker.css'
       - 'content/shop-cart-catalog.json'
       - 'pages/cart.html'
       - 'pages/checkout-salve-regina.html'
@@ -37,6 +39,8 @@ on:
       - 'scripts/cart.js'
       - 'scripts/cart-shipping.js'
       - 'scripts/checkout-salve-regina.js'
+      - 'scripts/checkout-cor-iesu-picker.js'
+      - 'styles/checkout-cor-iesu-picker.css'
       - 'content/shop-cart-catalog.json'
       - 'pages/cart.html'
       - 'pages/checkout-salve-regina.html'
@@ -81,6 +85,7 @@ jobs:
           node --check scripts/cart.js
           node --check scripts/cart-shipping.js
           node --check scripts/checkout-salve-regina.js
+          node --check scripts/checkout-cor-iesu-picker.js
           python3 -m json.tool content/shop-cart-catalog.json > /dev/null
       - name: Testar comportamento da consulta de frete sem serviços externos
         run: node --test tools/test_salve_regina_inquiry.cjs
