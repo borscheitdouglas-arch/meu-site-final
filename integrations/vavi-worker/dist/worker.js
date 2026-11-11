@@ -189,6 +189,12 @@ function safeQuote(option) {
   };
 }
 var PROVISIONAL_SINGLE_PACKAGE = Object.freeze({
+  // Camiseta Cor Iesu: ficha de camiseta 30.1 penteada (0,25 kg; 300×250×10 mm).
+  // Prévia sem UUID: a loja assume diferenças do pacote na operação assistida.
+  "cor-iesu-marrom-p": { weight: 0.25, height: 10, width: 250, length: 300 },
+  "cor-iesu-marrom-m": { weight: 0.25, height: 10, width: 250, length: 300 },
+  "cor-iesu-marrom-g": { weight: 0.25, height: 10, width: 250, length: 300 },
+  "cor-iesu-marrom-gg": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-p": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-m": { weight: 0.25, height: 10, width: 250, length: 300 },
   "salve-regina-preta-g": { weight: 0.25, height: 10, width: 250, length: 300 },
@@ -1233,6 +1239,37 @@ function approvedDirectVariant(sku, priceCents) {
   return approvedVariant(sku, priceCents) || Object.hasOwn(EXTRA_DIRECT_PRICES, sku) && EXTRA_DIRECT_PRICES[sku] === priceCents;
 }
 
+// src/cor-iesu-assist.js
+var COR_IESU_ASSISTED_VARIANTS = Object.freeze({
+  "cor-iesu-marrom-p": 10990,
+  "cor-iesu-marrom-m": 10990,
+  "cor-iesu-marrom-g": 10990,
+  "cor-iesu-marrom-gg": 10990
+});
+var COR_IESU_ASSISTED_SKUS = Object.freeze(Object.keys(COR_IESU_ASSISTED_VARIANTS));
+function isCorIesuAssistedSku(sku) {
+  return typeof sku === "string" && Object.hasOwn(COR_IESU_ASSISTED_VARIANTS, sku);
+}
+function approvedCorIesuAssistedVariant(sku, priceCents) {
+  return isCorIesuAssistedSku(sku) && COR_IESU_ASSISTED_VARIANTS[sku] === priceCents;
+}
+async function loadCorIesuAssistedCost(db, sku) {
+  if (!isCorIesuAssistedSku(sku) || !db?.prepare) return null;
+  const row = await db.prepare(
+    "SELECT supplier_design_code,method,configured_areas,confirmed_unit_cost_cents FROM supplier_design_observations WHERE product_id=? LIMIT 1"
+  ).bind("camiseta-cor-iesu-sacratissimum").first();
+  if (row?.supplier_design_code !== "D000007" || row?.method !== "DTF" || row?.configured_areas !== 2 || row?.confirmed_unit_cost_cents !== 5691) return null;
+  return row.confirmed_unit_cost_cents;
+}
+function assertCorIesuSingleItem(items) {
+  if (items.some((x) => isCorIesuAssistedSku(x.sku)) && (items.length !== 1 || items[0].quantity !== 1))
+    throw new CatalogError(
+      "shipping_package_unverified",
+      "A edi\xE7\xE3o Cor Iesu est\xE1 dispon\xEDvel somente em pedido unit\xE1rio at\xE9 validar embalagens combinadas.",
+      409
+    );
+}
+
 // src/infinitepay-client.js
 var API = "https://api.checkout.infinitepay.io/links";
 var CHECKOUT_HOSTS = /* @__PURE__ */ new Set(["checkout.infinitepay.com.br", "checkout.infinitepay.io", "pay.infinitepay.io"]);
@@ -1347,8 +1384,9 @@ async function createCheckoutLive(env, body, deps = {}) {
     throw new CatalogError("live_checkout_disabled", "Compra online ainda indispon\xEDvel.", 503);
   const buyer = validateBuyerDetails(body?.buyer);
   const items = normalizeCart(body);
-  if (items.some((line) => !DIRECT_CHECKOUT_SKUS.includes(line.sku)))
+  if (items.some((line) => !DIRECT_CHECKOUT_SKUS.includes(line.sku) && !COR_IESU_ASSISTED_SKUS.includes(line.sku)))
     throw new CatalogError("live_product_unavailable", "Produto n\xE3o aprovado para venda.", 409);
+  assertCorIesuSingleItem(items);
   const multiple = items.length !== 1 || items[0].quantity !== 1;
   if (multiple && env.LIVE_MULTICART_CHECKOUT_ENABLED !== "true")
     throw new CatalogError("live_multicart_disabled", "Venda de carrinhos combinados ainda indispon\xEDvel.", 503);
@@ -1362,7 +1400,7 @@ async function createCheckoutLive(env, body, deps = {}) {
     WHERE v.sku=? LIMIT 1`
   ).bind(sku).first());
   const quote = await quoteCart(items, load);
-  if (!quote.lines.every((line) => approvedDirectVariant(line.sku, line.unitPriceCents)) || quote.subtotalCents !== quote.lines.reduce((sum, line) => sum + line.totalCents, 0))
+  if (!quote.lines.every((line) => approvedDirectVariant(line.sku, line.unitPriceCents) || approvedCorIesuAssistedVariant(line.sku, line.unitPriceCents)) || quote.subtotalCents !== quote.lines.reduce((sum, line) => sum + line.totalCents, 0))
     throw new CatalogError("live_price_unapproved", "Pre\xE7o dos produtos precisa ser revisado.", 503);
   let quotes;
   if (multiple) {
@@ -1391,16 +1429,23 @@ async function createCheckoutLive(env, body, deps = {}) {
     } catch (error) {
       const sku = quote.lines[0].sku;
       if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || !canQuotePublishedPackage(sku)) throw error;
-      const observation = await env.DB.prepare(
-        "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
-      ).bind(sku).first();
-      if (!observation || !/^\d{7}$/.test(String(observation.supplier_variant_sku || "")) || !Number.isSafeInteger(observation.observed_total_cents) || observation.observed_total_cents < 1)
+      let unitCostCents;
+      if (isCorIesuAssistedSku(sku)) {
+        unitCostCents = await loadCorIesuAssistedCost(env.DB, sku);
+      } else {
+        const observation = await env.DB.prepare(
+          "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
+        ).bind(sku).first();
+        if (/^\d{7}$/.test(String(observation?.supplier_variant_sku || "")) && Number.isSafeInteger(observation?.observed_total_cents) && observation.observed_total_cents > 0)
+          unitCostCents = observation.observed_total_cents;
+      }
+      if (!Number.isSafeInteger(unitCostCents) || unitCostCents < 1)
         throw new CatalogError("shipping_product_unverified", "Produto sem ficha log\xEDstica v\xE1lida.", 409);
       quotes = await (deps.simulateShippingProvisional || simulateVaviShippingProvisional)(
         env,
         zip,
         sku,
-        observation.observed_total_cents
+        unitCostCents
       );
     }
   }
@@ -1711,7 +1756,7 @@ async function dispatchVaviDraft(env, orderId, sendDraft = createVaviDraft, auth
     if (!delivery) throw new CatalogError("delivery_not_found", "Dados protegidos indispon\xEDveis.", 503);
     const buyer = await decryptDelivery(orderId, delivery, env.DELIVERY_ENCRYPTION_KEY_B64);
     const items = (itemsResult.results || []).map((x) => ({
-      name: x.label,
+      name: isCorIesuAssistedSku(x.sku) ? (x.label + " | VAVI design D000007, DTF 2 \xE1reas (medalh\xE3o frente; gravura costas)").slice(0, 180) : x.label,
       sku: x.sku,
       quantity: x.quantity,
       unitPriceCents: x.unit_price_cents
@@ -2351,6 +2396,8 @@ async function getPrivateLaunchReadiness(env, loadProduct, loadTables) {
 }
 
 // src/index.js
+var ALL_DIRECT_SKUS = [...DIRECT_CHECKOUT_SKUS, ...COR_IESU_ASSISTED_SKUS];
+var approvedSaleVariant = (sku, price) => approvedDirectVariant(sku, price) || approvedCorIesuAssistedVariant(sku, price);
 async function authorizedTestCheckout(request, env) {
   const header = request.headers.get("Authorization") || "";
   if (!header.startsWith("Bearer ") || header.length > 512) return false;
@@ -2435,19 +2482,23 @@ var index_default = {
           return p && p.product_enabled === 1 && p.product_verified === 1 && p.available === 1 && approvedVariant(sku, p.price_cents);
         }));
         const availableSkus = [];
-        for (const sku of DIRECT_CHECKOUT_SKUS) {
+        for (const sku of ALL_DIRECT_SKUS) {
           const variant = await loadVariant(env.DB, sku);
-          if (!variant || variant.product_enabled !== 1 || variant.product_verified !== 1 || variant.available !== 1 || !approvedDirectVariant(sku, variant.price_cents)) continue;
+          if (!variant || variant.product_enabled !== 1 || variant.product_verified !== 1 || variant.available !== 1 || !approvedSaleVariant(sku, variant.price_cents)) continue;
           try {
             shippingPayload("01001000", [{ sku, quantity: 1 }], env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
           } catch (error) {
             if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || !canQuotePublishedPackage(sku)) continue;
-            const row = await env.DB.prepare(
-              "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
-            ).bind(sku).first();
-            if (/^\d{7}$/.test(String(row?.supplier_variant_sku || "")) && Number.isSafeInteger(row?.observed_total_cents) && row.observed_total_cents > 0)
-              availableSkus.push(sku);
+            if (isCorIesuAssistedSku(sku)) {
+              if (await loadCorIesuAssistedCost(env.DB, sku)) availableSkus.push(sku);
+            } else {
+              const row = await env.DB.prepare(
+                "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
+              ).bind(sku).first();
+              if (/^\d{7}$/.test(String(row?.supplier_variant_sku || "")) && Number.isSafeInteger(row?.observed_total_cents) && row.observed_total_cents > 0)
+                availableSkus.push(sku);
+            }
           }
         }
         const checkoutEnabled = checked.every(Boolean);
@@ -2684,11 +2735,11 @@ var index_default = {
         const body = JSON.parse(textBody);
         const zipCode = normalizeZip(body?.zipCode);
         const sku = body?.sku || "salve-regina-preta-g";
-        if (!DIRECT_CHECKOUT_SKUS.includes(sku))
+        if (!ALL_DIRECT_SKUS.includes(sku))
           throw new CatalogError("invalid_sku", "Produto inv\xE1lido.", 422);
         if (!Object.hasOwn(SALVE_REGINA_VARIANTS, sku)) {
           const registered = env.DB?.prepare && await loadVariant(env.DB, sku);
-          if (!registered || !approvedDirectVariant(sku, registered.price_cents))
+          if (!registered || !approvedSaleVariant(sku, registered.price_cents))
             throw new CatalogError("unavailable_product", "Produto ainda sem cadastro completo.", 409);
         }
         const diagnostic = body?.diagnose === true ? {} : null;
@@ -2704,21 +2755,26 @@ var index_default = {
         } catch (error) {
           if (!(error instanceof CatalogError) || error.code !== "shipping_product_unverified" || !canQuotePublishedPackage(sku) || !env.DB?.prepare)
             throw error;
-          let observed;
-          try {
-            observed = await env.DB.prepare(
-              "SELECT observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? AND freight_config_verified=0 LIMIT 1"
-            ).bind(sku).first();
-          } catch {
-            throw error;
+          let unitCostCents;
+          if (isCorIesuAssistedSku(sku)) {
+            unitCostCents = await loadCorIesuAssistedCost(env.DB, sku);
+          } else {
+            let observed;
+            try {
+              observed = await env.DB.prepare(
+                "SELECT observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? AND freight_config_verified=0 LIMIT 1"
+              ).bind(sku).first();
+            } catch {
+              throw error;
+            }
+            unitCostCents = observed?.observed_total_cents;
           }
-          if (!Number.isSafeInteger(observed?.observed_total_cents))
-            throw error;
+          if (!Number.isSafeInteger(unitCostCents) || unitCostCents < 1) throw error;
           options = await simulateVaviShippingProvisional(
             env,
             zipCode,
             sku,
-            observed.observed_total_cents,
+            unitCostCents,
             diagnostic
           );
           provisional = true;
@@ -2755,12 +2811,13 @@ var index_default = {
         const body = JSON.parse(textBody);
         const zipCode = normalizeZip(body.zipCode);
         const items = normalizeCart(body);
+        assertCorIesuSingleItem(items);
         const resolved = [];
         for (const line of items) {
-          if (!DIRECT_CHECKOUT_SKUS.includes(line.sku))
+          if (!ALL_DIRECT_SKUS.includes(line.sku))
             throw new CatalogError("invalid_sku", "Produto inv\xE1lido para o frete.", 422);
           const variant = await loadVariant(env.DB, line.sku);
-          if (!variant || !approvedDirectVariant(line.sku, variant.price_cents))
+          if (!variant || !approvedSaleVariant(line.sku, variant.price_cents))
             throw new CatalogError("unavailable_product", "Item sem cadastro v\xE1lido.", 409);
           const row = await env.DB.prepare(
             "SELECT supplier_variant_sku,observed_total_cents FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1"
