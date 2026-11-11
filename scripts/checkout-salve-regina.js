@@ -168,6 +168,7 @@
       requestedSku,availableSkus:readiness?.availableSkus
     });
     const size=form.elements.size;
+    if(isCorIesu)form.querySelector('#checkout-product-name').textContent=picker.label();
     if(!extra){
       // O endpoint já confere somente as variações com frete homologado.
       // Não permitir selecionar tamanhos cuja compra real falharia depois.
@@ -183,7 +184,7 @@
     // A variante escolhida é somente uma preferência visual.
     // O Worker confirma SKU, preço, frete e autorização no D1.
     const requestedSize=params.get('size');
-    if(!isCorIesu && requestedSize && Object.hasOwn(prices,requestedSize) &&
+    if(!extra && requestedSize && Object.hasOwn(prices,requestedSize) &&
        [...size.options].some(option=>option.value===requestedSize && !option.disabled)){
       size.value=requestedSize;
     }else if(!extra && size.selectedOptions[0]?.disabled){
