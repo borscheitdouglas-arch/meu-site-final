@@ -344,8 +344,11 @@
         choices.hidden=false;choices.dispatchEvent(new Event('change'));
         shipFeedback.textContent='Frete consultado; valor e disponibilidade serão reconferidos no servidor ao pagar.';
       }catch{
-        shipFeedback.textContent='Não foi possível consultar o frete. Volte à loja e solicite uma cotação.';
-      }finally{quoteButton.disabled=false;}
+        if(normalize(zip.value)===code && sku()===requestedSku)
+          shipFeedback.textContent='Não foi possível consultar o frete. Volte à loja e solicite uma cotação.';
+      }finally{
+        quoteButton.disabled=isCorIesu && !picker.isAvailable();
+      }
     });
     if(cartDelivery) quoteButton.click();
     form.addEventListener('submit',async event=>{
