@@ -208,7 +208,7 @@
     const multiple=Boolean(ready && multiReady && !single && !hasPending &&
       cart.every(item=>{
         const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
-        return readySkus.has(sku);
+        return readySkus.has(sku) && !/^cor-iesu-marrom-(p|m|g|gg)$/.test(sku||'');
       }));
     let multiPayButton=null;
     if (direct) {
@@ -260,6 +260,8 @@
         ? 'O pagamento está temporariamente indisponível. Seus produtos permanecem no carrinho; tente novamente mais tarde.'
         : unavailable.length
           ? 'Alguns produtos deste carrinho ainda não estão liberados para pagamento. Para comprar os demais, remova temporariamente os itens indicados como sob consulta.'
+          : checkoutForMultiple && cart.some(item=>item.id==='camiseta-cor-iesu-sacratissimum')
+            ? 'A camiseta Cor Iesu é vendida uma unidade por pedido até a validação da embalagem combinada. Ajuste o carrinho para continuar.'
           : checkoutForMultiple && !multiReady
             ? 'O pagamento de várias unidades ou produtos juntos ainda não está habilitado. Ajuste o carrinho para uma unidade por pedido.'
             : 'Não foi possível liberar o pagamento deste carrinho agora. Revise os itens ou tente novamente.';
