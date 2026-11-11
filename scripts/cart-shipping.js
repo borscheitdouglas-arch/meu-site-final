@@ -49,7 +49,8 @@
     const validSku = code => typeof code==='string' &&
       (/^salve-regina-preta-(p|m|g|gg|xg)$/.test(code) ||
        /^caneca-salve-regina-(preta|pb)$/.test(code) ||
-       /^ecobag-salve-regina-(m|g)$/.test(code));
+       /^ecobag-salve-regina-(m|g)$/.test(code) ||
+        /^cor-iesu-marrom-(p|m|g|gg)$/.test(code));
     const eligible=Array.isArray(items) && items.length===cart.length &&
       items.length>=1 && items.length<=15 &&
       items.reduce((n,x)=>n+x.quantity,0)<=30 &&
@@ -186,10 +187,10 @@
         status.textContent=multiple?
           'Estimativa VAVI para todos os itens juntos. Escolha uma opção; a embalagem final ainda exige confirmação.':
           data.provisional===true?
-          'Simulação orientativa: embalagem em validação, sem compra disponível.':
+          'Frete consultado na VAVI. A loja confirma o valor e a disponibilidade no checkout.':
           'Cotação disponível. Escolha o frete para visualizar o total.';
         fineprint.textContent=(data.provisional===true?
-          'Estimativa de frete: a caixa final ainda não foi confirmada. Esta cotação NÃO autoriza o pagamento. ':'')+
+          'Cotação orientativa: a embalagem final será conferida na operação; o checkout valida o frete novamente. ':'')+
           'Prazos de transporte não incluem fabricação. Valor sujeito a atualização antes de qualquer cobrança.';
         draw();
       } catch(error) {
