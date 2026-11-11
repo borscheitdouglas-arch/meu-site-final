@@ -68,7 +68,7 @@
       ]
     ],
     "photos": [
-      "/assets/img/loja/cor-iesu/costas-modelo-1500.webp",
+      "/assets/img/loja/cor-iesu/costas-modelo-com-pernas.jpg",
       "/assets/img/loja/cor-iesu/frente-modelo-1500.webp",
       "/assets/img/loja/cor-iesu/costas-fundo-vinho-1500.webp",
       "/assets/img/loja/cor-iesu/frente-fundo-vinho-1500.webp",
@@ -76,7 +76,7 @@
       "/assets/img/loja/cor-iesu/conjunto-vinho-1500.webp"
     ],
     "photoLabels": [
-      "Camiseta unissex Cor Iesu Sacratissimum, costas com estampa gótica grande em modelo sem tatuagens",
+      "Camiseta unissex Cor Iesu Sacratissimum, modelo masculino de corpo inteiro, de costas, com calça jeans e estampa gótica grande, sem tatuagens",
       "Camiseta unissex Cor Iesu Sacratissimum, frente com medalhão do Sagrado Coração",
       "Camiseta vista de costas, estampa gótica grande e fundo vinho texturizado",
       "Camiseta vista de frente, medalhão do Sagrado Coração e fundo vinho texturizado",
@@ -317,8 +317,11 @@
         const w=image.naturalWidth, h=image.naturalHeight;
         if(!w||!h)return;
         const ratio=w/h;
-        const widthDesktop=Math.min(426,Math.round(390*ratio));
-        const widthMobile=Math.min(322,Math.round(300*ratio));
+        // Retratos de corpo inteiro ganham altura para que pernas e estampa
+        // fiquem visíveis, sem recortar a fotografia ou reduzir demais o modelo.
+        const tallPortrait=ratio<0.62;
+        const widthDesktop=Math.min(426,Math.round((tallPortrait?730:390)*ratio));
+        const widthMobile=Math.min(322,Math.round((tallPortrait?520:300)*ratio));
         figure.style.setProperty('--shirt-frame-width', (widthDesktop+18)+'px');
         figure.style.setProperty('--shirt-frame-mobile-width', (widthMobile+14)+'px');
         figure.style.setProperty('--shirt-frame-ratio', w+' / '+h);
