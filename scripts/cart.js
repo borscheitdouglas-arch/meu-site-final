@@ -80,6 +80,11 @@
       notify('Escolha uma variação válida.'); return false;
     }
     const cart = rows();
+    if (id==='camiseta-cor-iesu-sacratissimum' &&
+        (amount!==1 || cart.some(item=>item.id===id))) {
+      notify('A camiseta Cor Iesu é vendida uma unidade por pedido. Revise a camiseta que já está na sacola.');
+      return false;
+    }
     const found = cart.find(item => item.id === id && item.variant === variantCode);
     if (found) {
       if (found.qty + amount > MAX_QTY) {
@@ -99,7 +104,7 @@
   function updateQty(id,variant,qty) {
     const next = rows().filter(x => !(x.id === id && x.variant === variant && qty <= 0));
     const row = next.find(x => x.id === id && x.variant === variant);
-    if (row && qty > 0) row.qty = Math.min(MAX_QTY,qty);
+    if (row && qty > 0) row.qty = Math.min(id==='camiseta-cor-iesu-sacratissimum'?1:MAX_QTY,qty);
     if (persist(next)) { renderCart(); updateCount(); }
   }
   function make(tag, className, textValue) {
@@ -174,7 +179,7 @@
       const minus = makeButton('−',()=>updateQty(item.id,item.variant,item.qty-1));
       minus.setAttribute('aria-label','Diminuir quantidade de '+product.title);
       const amount = make('span','cart-quantity-number',String(item.qty));
-      const plus = makeButton('+',()=>updateQty(item.id,item.variant,item.qty+1),item.qty>=MAX_QTY||count(cart)>=MAX_TOTAL);
+      const plus = makeButton('+',()=>updateQty(item.id,item.variant,item.qty+1),item.id==='camiseta-cor-iesu-sacratissimum'||item.qty>=MAX_QTY||count(cart)>=MAX_TOTAL);
       plus.setAttribute('aria-label','Aumentar quantidade de '+product.title);
       const remove=makeButton('Remover',()=>updateQty(item.id,item.variant,0));
       remove.className='cart-remove';
