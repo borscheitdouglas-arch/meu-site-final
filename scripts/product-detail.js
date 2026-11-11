@@ -19,7 +19,7 @@
     "paragraphs": [
       "O Sagrado Coração de Jesus expressa o amor de Cristo pela humanidade. Nesta criação, a cruz, as chamas e a coroa de espinhos aparecem em duas composições complementares: um medalhão refinado na frente e uma gravura gótica ampla nas costas.",
       "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A peça é apresentada na cor Marrom das fotografias, com artes em vermelho profundo, bronze envelhecido e marfim.",
-      "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço de venda definido em R$ 109,90 mais frete, com disponibilidade e liberação do pagamento ainda sujeitas à validação."
+      "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço de venda R$ 109,90 mais frete. O pagamento é liberado somente para variações aprovadas pelo servidor."
     ],
     "features": [
       "Composição: 100% algodão fio 30.1 penteado.",
@@ -28,7 +28,7 @@
       "Frente: medalhão do Sagrado Coração de Jesus com lírios e raios.",
       "Costas: estampa grande com moldura gótica, rosas, cruz e inscrição latina.",
       "Impressão prevista: DTF, frente e costas, com artes fixas.",
-      "Tamanhos desta edição: P, M, G e GG; disponibilidade de cada tamanho a confirmar.",
+      "Tamanhos desta edição: P, M, G e GG, sujeitos à disponibilidade no checkout.",
       "Venda por peça; produção sob demanda após confirmação do pedido."
     ],
     "reasons": [
@@ -52,11 +52,11 @@
       ],
       [
         "Quais cores e tamanhos estão disponíveis?",
-        "O anúncio apresenta a cor Marrom das imagens. Esta edição oferece os tamanhos P, M, G e GG, com disponibilidade a confirmar na VAVI."
+        "O anúncio apresenta a cor Marrom das imagens. Esta edição oferece os tamanhos P, M, G e GG, com disponibilidade conferida no checkout."
       ],
       [
         "Já posso comprar?",
-        "O preço definido é R$ 109,90, mais frete. A compra segue em preparação até validação das variações e do checkout."
+        "A compra é feita pelo checkout InfinitePay somente quando a loja confirmar a variação e o frete. O pedido é encaminhado à VAVI como rascunho para conferência manual antes da fabricação."
       ],
       [
         "O que significa Cor Iesu Sacratissimum?",
@@ -83,7 +83,7 @@
       "Apresentação da camiseta frente e costas em cenário de estúdio neutro",
       "Apresentação editorial da camiseta frente e costas com cenário em vinho"
     ],
-    "note": "Imagens ilustrativas (mockups digitais). A cor do tecido e o resultado da impressão podem variar. Produto em preparação: nenhum pagamento é realizado nesta página."
+    "note": "Imagens ilustrativas (mockups digitais). A cor do tecido e o resultado da impressão podem variar. Produção sob demanda, com conferência manual da arte e da variante."
   },
   "camiseta-salve-regina": {
     "type": "Camiseta · Coleção Salve Regina",
@@ -674,11 +674,6 @@
         }).catch(()=>{/* Sem validação no servidor, só consulta assistida. */});
       }
       syncCheckout();
-      if(isCorIesuShirt){
-        // Sem preço/variante homologados: consulta somente, sem carrinho ou checkout.
-        quantityGroup.hidden=true;
-        actions.replaceChildren(link('Consultar disponibilidade ↗','/pages/contato.html','shop-single-buy'));
-      }
       form.append(variationGroup,quantityGroup,actions,feedback);
       summary.append(form);
       const state=()=>{
