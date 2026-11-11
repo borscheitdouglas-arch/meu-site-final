@@ -713,7 +713,7 @@
       const minus=el('button','shop-single-stepper-button','−');
       minus.type='button';minus.setAttribute('aria-label','Diminuir quantidade');
       const quantity=el('input','shop-single-quantity-input');
-      quantity.type='number';quantity.min='1';quantity.max=isCorIesuShirt?'1':'10';
+      quantity.type='number';quantity.min='1';quantity.max='10';
       quantity.step='1';quantity.value='1';quantity.required=true;
       quantity.setAttribute('aria-label','Quantidade de unidades');
       const plus=el('button','shop-single-stepper-button','+');
@@ -721,17 +721,18 @@
       const changeQty=()=>{
         let value=Number(quantity.value);
         if(!Number.isInteger(value))value=1;
-        value=Math.min(isCorIesuShirt?1:10,Math.max(1,value));
+        value=Math.min(10,Math.max(1,value));
         quantity.value=String(value);
-        minus.disabled=value===1;plus.disabled=isCorIesuShirt||value===10;
+        minus.disabled=value===1;plus.disabled=value===10;
         quantity.dispatchEvent(new Event('change',{bubbles:true}));
       };
       minus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)-1);changeQty();});
       plus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)+1);changeQty();});
       quantity.addEventListener('blur',changeQty);
-      minus.disabled=true;plus.disabled=isCorIesuShirt;
+      minus.disabled=true;plus.disabled=false;
       stepper.append(minus,quantity,plus);
-      quantityGroup.append(stepper,el('span','shop-single-availability',
+      const subtotalHint=isCorIesuShirt?el('span','shop-single-quantity-subtotal','1 camiseta · R$ 109,90'):null;
+      quantityGroup.append(stepper,isCorIesuShirt?subtotalHint:el('span','shop-single-availability',
         isPreparation?'Em preparação':'Produção sob demanda'));
       const actions=el('div','shop-single-actions');
       const add=el('button','','Adicionar ao carrinho');add.type='submit';
@@ -746,11 +747,19 @@
         // A disponibilidade anunciada pelo backend é informativa nesta tela.
         // A validação definitiva de SKU, preço e frete ocorre no checkout/API.
         // Se a consulta inicial falhar, não substituir Compra por e-mail.
-        proceed.textContent=isCorIesuShirt?'Comprar agora':
+        const units=Number(quantity.value);
+        const validUnits=Number.isInteger(units)&&units>=1&&units<=10;
+        if(isCorIesuShirt&&subtotalHint){
+          subtotalHint.textContent=validUnits&&configured?
+            units+(units===1?' camiseta':' camisetas')+' · '+money(selected.priceCents*units):
+            'Quantidade entre 1 e 10';
+        }
+        proceed.textContent=isCorIesuShirt?
+          (units>1?'Revisar '+units+' camisetas':'Comprar agora'):
           approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
-        add.disabled=isPreparation||!configured||!window.Cart;
+        add.disabled=isPreparation||!configured||!validUnits||!window.Cart;
         proceed.disabled=isPreparation||!configured||
-          (!isCorIesuShirt&&!window.Cart);
+          (isCorIesuShirt?!validUnits||units>1&&!window.Cart:!window.Cart);
         if(!isPreparation){
           productStatus.textContent=isCorIesuShirt?
             'Produção sob demanda':
@@ -758,7 +767,7 @@
             approved?'Compra online disponível · produção sob demanda':
             'Produção sob demanda · compra sob consulta';
           if(isCorIesuShirt)priceNote.textContent=
-            'Mesmo valor para todas as cores e tamanhos · frete no checkout.';
+            'R$ 109,90 por camiseta · frete no checkout para 1 unidade.';
           else if(approved)priceNote.textContent=
             'Preço aprovado. Frete e total confirmados no checkout.';
         }
@@ -776,12 +785,14 @@
       }
       syncCheckout();
       if(colorGroup)form.append(colorGroup);
-      // Uma peça por pedido: não exibir controle de quantidade com + e - inativos.
-      // O valor fixo continua no formulário para as validações já existentes.
+      // Controle de quantidade restaurado na Cor Iesu: o subtotal acompanha
+      // a seleção. Para 2+ unidades, o carrinho guarda o pedido para revisão
+      // sem criar cobrança antes de o frete conjunto ser homologado.
+      form.append(variationGroup,quantityGroup,actions,feedback);
       if(isCorIesuShirt){
-        quantity.type='hidden';
-        form.append(variationGroup,quantity,actions,feedback);
-      }else form.append(variationGroup,quantityGroup,actions,feedback);
+        quantity.addEventListener('input',syncCheckout);
+        quantity.addEventListener('change',syncCheckout);
+      }
       summary.append(form);
       const state=()=>{
         syncCheckout();
@@ -797,8 +808,8 @@
       renderPrice();
       const putInCart=goCart=>{
         const amount=Number(quantity.value);
-        if(!Number.isInteger(amount)||amount<1||amount>(isCorIesuShirt?1:10)){
-          feedback.textContent=isCorIesuShirt?'Esta camiseta é vendida uma unidade por pedido.':'Escolha uma quantidade entre 1 e 10.';return;
+        if(!Number.isInteger(amount)||amount<1||amount>10){
+          feedback.textContent='Escolha uma quantidade entre 1 e 10.';return;
         }
         // O carrinho conserva o SKU exato da cor escolhida.
         // O servidor só autoriza a cobrança de combinações habilitadas.
@@ -818,12 +829,18 @@
         const selected=selectedVariant();
         const units=Number(quantity.value);
         if(isCorIesuShirt){
-          if(!selected?.sku || !Number.isInteger(selected.priceCents) || units!==1){
-            feedback.textContent='Escolha uma cor e um tamanho válidos (1 peça por pedido).';
+          if(!selected?.sku || !Number.isInteger(selected.priceCents) ||
+             !Number.isInteger(units)||units<1||units>10){
+            feedback.textContent='Selecione cor, tamanho e quantidade entre 1 e 10.';
             return;
           }
-          // Encaminhar ao checkout não gera cobrança: os controles da API
-          // verificam SKU, preço, disponibilidade e frete antes do pagamento.
+          if(units>1){
+            // Frete conjunto não homologado. Carrinho preserva a quantidade;
+            // não abre checkout unitário com número incorreto de peças.
+            putInCart(true);
+            return;
+          }
+          // Pagamento direto somente de 1 unidade, validado pelo servidor.
           window.location.assign(
             '/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku)
           );
