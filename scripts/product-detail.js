@@ -18,13 +18,13 @@
     "description": "Uma peça de inspiração sacra que une a devoção ao Sacratíssimo Coração de Jesus à estética das gravuras tradicionais. O medalhão frontal apresenta o Coração inflamado de amor, coroado de espinhos e acompanhado por lírios. Nas costas, a composição gótica ampliada reúne cruz, chamas, rosas, ornamentos e a inscrição latina Cor Iesu Sacratissimum.",
     "paragraphs": [
       "O Sagrado Coração de Jesus expressa o amor de Cristo pela humanidade. Nesta criação, a cruz, as chamas e a coroa de espinhos aparecem em duas composições complementares: um medalhão refinado na frente e uma gravura gótica ampla nas costas.",
-      "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A peça é apresentada na cor Marrom das fotografias, com artes em vermelho profundo, bronze envelhecido e marfim.",
+      "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A versão Marrom está liberada para compra online. A galeria também apresenta outras tonalidades em mockups ilustrativos, ainda sob consulta.",
       "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço de venda R$ 109,90 mais frete. O pagamento é liberado somente para variações aprovadas pelo servidor."
     ],
     "features": [
       "Composição: 100% algodão fio 30.1 penteado.",
       "Modelagem unissex; camiseta de manga curta e gola redonda.",
-      "Cor desta edição: Marrom (fotografias ilustrativas).",
+      "11 cores ilustradas na galeria; somente Marrom liberada para compra online. As outras cores estão sob consulta.",
       "Frente: medalhão do Sagrado Coração de Jesus com lírios e raios.",
       "Costas: estampa grande com moldura gótica, rosas, cruz e inscrição latina.",
       "Impressão prevista: DTF, frente e costas, com artes fixas.",
@@ -52,7 +52,7 @@
       ],
       [
         "Quais cores e tamanhos estão disponíveis?",
-        "O anúncio apresenta a cor Marrom das imagens. Esta edição oferece os tamanhos P, M, G e GG, com disponibilidade conferida no checkout."
+        "A galeria apresenta 11 tonalidades. Somente Marrom está liberada para compra online nos tamanhos P, M, G e GG, conforme disponibilidade no checkout. As demais cores estão sob consulta."
       ],
       [
         "Já posso comprar?",
@@ -68,6 +68,18 @@
       ]
     ],
     "photos": [
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-marrom-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-branco-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-preto-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-off-white-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-azul-marinho-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-azul-royal-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-verde-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-cinza-claro-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-cinza-escuro-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-areia-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-bordo-1200.webp",
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-editorial-1200.webp",
       "/assets/img/loja/cor-iesu/costas-modelo-com-pernas.jpg?v=20261111-pernas-v2",
       "/assets/img/loja/cor-iesu/frente-modelo-1500.webp",
       "/assets/img/loja/cor-iesu/costas-fundo-vinho-1500.webp",
@@ -76,14 +88,26 @@
       "/assets/img/loja/cor-iesu/conjunto-vinho-1500.webp"
     ],
     "photoLabels": [
-      "Camiseta unissex Cor Iesu Sacratissimum, modelo masculino de corpo inteiro, de costas, com calça jeans e estampa gótica grande, sem tatuagens",
-      "Camiseta unissex Cor Iesu Sacratissimum, frente com medalhão do Sagrado Coração",
-      "Camiseta vista de costas, estampa gótica grande e fundo vinho texturizado",
-      "Camiseta vista de frente, medalhão do Sagrado Coração e fundo vinho texturizado",
-      "Apresentação da camiseta frente e costas em cenário de estúdio neutro",
-      "Apresentação editorial da camiseta frente e costas com cenário em vinho"
+      "Camiseta Sagrado Coração de Jesus: Marrom — frente e costas, versão atualmente liberada para compra. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Branco — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Preto — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Off-white — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Azul-marinho — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Azul-royal — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Verde — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Cinza-claro — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Cinza-escuro — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Areia — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Bordô — frente e costas, cor sob consulta. Mockup ilustrativo.",
+      "Camiseta Sagrado Coração de Jesus: Apresentação editorial das duas estampas na camiseta marrom. Mockup ilustrativo.",
+      "Modelo de costas com gravura gótica, cor marrom",
+      "Camiseta marrom de frente, medalhão do Sagrado Coração",
+      "Camiseta marrom de costas, estampa gótica em fundo vinho",
+      "Camiseta marrom de frente, medalhão em fundo vinho",
+      "Camiseta marrom, frente e costas em estúdio neutro",
+      "Camiseta marrom, frente e costas em estúdio vinho"
     ],
-    "note": "Imagens ilustrativas (mockups digitais). A cor do tecido e o resultado da impressão podem variar. Produção sob demanda, com conferência manual da arte e da variante."
+    "note": "Imagens ilustrativas (mockups digitais), com enquadramento padronizado de 4:3. Somente Marrom está liberada para compra online; outras cores estão sob consulta. A cor real do tecido e a impressão podem variar."
   },
   "camiseta-salve-regina": {
     "type": "Camiseta · Coleção Salve Regina",
@@ -304,15 +328,21 @@
   function showError(message) {
     root.replaceChildren(el('h1','',message),link('← Voltar ao catálogo','/pages/loja.html#catalogo','shop-single-back'));
   }
-  function gallery(photos, title, note, photoLabels, fitToFrame=false) {
+  function gallery(photos, title, note, photoLabels, fitToFrame=false, fixedFrame=false) {
     const figure=el('figure','shop-single-imagebox');
     const image=el('img');image.src=photos[0];image.alt=photoLabels?.[0] || ('Imagem de '+title);image.width=850;image.height=850;
     const imageClip=el('div','shop-single-image-clip');
     imageClip.append(image);
     figure.append(imageClip);
+    if(fixedFrame){
+      image.width=1200;image.height=900;
+      figure.style.setProperty('--shirt-frame-width','426px');
+      figure.style.setProperty('--shirt-frame-mobile-width','322px');
+      figure.style.setProperty('--shirt-frame-ratio','4 / 3');
+    }
     // A camiseta exibe a fotografia inteira em uma moldura proporcional à foto,
     // inclusive quando o cliente alterna entre imagens verticais e horizontais.
-    if(fitToFrame){
+    if(fitToFrame&&!fixedFrame){
       const updateFrame=()=>{
         const w=image.naturalWidth, h=image.naturalHeight;
         if(!w||!h)return;
@@ -347,7 +377,7 @@
       const button=el('button','shop-single-thumb');button.type='button';
       button.setAttribute('aria-label',photoLabels?.[index] || ('Ver imagem '+(index+1)+' do produto'));
       button.setAttribute('aria-pressed',index===0?'true':'false');
-      const img=el('img');img.src=photo;img.alt='';img.loading='lazy';button.append(img);
+      const img=el('img');img.src=photo.replace(/-1200\.webp$/, '-480.webp');img.alt='';img.loading='lazy';button.append(img);
       button.addEventListener('click',()=>{
         showPhoto(index);
       });
@@ -741,7 +771,7 @@
     layout.append(gallery(
       photos,title,
       isShirt?'':(detail.note || (isBook?'Arte de divulgação do livro':'Imagem ilustrativa da coleção')),
-      detail.photoLabels,true
+      detail.photoLabels,true,isCorIesuShirt
     ),summary);
     root.replaceChildren(layout);
     if(!isBook){
