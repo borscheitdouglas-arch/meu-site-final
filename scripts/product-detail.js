@@ -314,7 +314,7 @@
   function showError(message) {
     root.replaceChildren(el('h1','',message),link('← Voltar ao catálogo','/pages/loja.html#catalogo','shop-single-back'));
   }
-  function gallery(photos, title, photoLabels, fitToFrame=false, fixedFrame=false) {
+  function gallery(photos, title, photoLabels, fitToFrame=false, fixedFrame=false, onPhotoChange=null) {
     const figure=el('figure','shop-single-imagebox');
     const image=el('img');image.src=photos[0];image.alt=photoLabels?.[0] || ('Imagem de '+title);image.width=850;image.height=850;
     const imageClip=el('div','shop-single-image-clip');
@@ -374,6 +374,7 @@
       thumbs.querySelectorAll('button').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===currentIndex)));
       if(enlargedImage){enlargedImage.src=image.src;enlargedImage.alt=image.alt;}
       if(counter)counter.textContent=(currentIndex+1)+' / '+photos.length;
+      if(typeof onPhotoChange==='function')onPhotoChange(currentIndex);
     };
     photos.forEach((photo,index)=>{
       const button=el('button','shop-single-thumb');button.type='button';
@@ -428,6 +429,7 @@
       });
       gallery.append(viewer);
     }
+    gallery.showPhoto=showPhoto;
     return gallery;
   }
   function specs(data) {
@@ -436,7 +438,7 @@
       const row=el('div');row.append(el('dt','',name),el('dd','',value));list.append(row);
     });return list;
   }
-  function shipping(container,product,select,quantity) {
+  function shipping(container,product,select,quantity,canQuote=()=>true) {
     const section=el('section','shop-single-shipping');
     section.append(el('h2','','Calcule o frete pelo CEP'),
       el('p','','Consulte o frete conforme tamanho, modelo e quantidade escolhidos. O prazo de produção não está incluído.'));
@@ -457,11 +459,13 @@
     let serial=0,controller=null;
     const selectedReady=()=>{
       const v=product.variants.find(v=>v.code===select.value);
-      return Boolean(v?.sku&&Number.isInteger(v.priceCents));
+      return Boolean(canQuote()&&v?.sku&&Number.isInteger(v.priceCents));
     };
     function reset(){
       serial++;controller?.abort();controller=null;button.disabled=!selectedReady();
-      status.textContent=selectedReady()?'':'Frete indisponível para o tamanho sem preço e produção confirmados.';
+      status.textContent=selectedReady()?'':!canQuote()?
+        'Frete sob consulta para esta cor. Selecione Marrom para simular o envio.':
+        'Frete indisponível para o tamanho sem preço e produção confirmados.';
       results.replaceChildren();
     }
     input.addEventListener('input',reset);
@@ -556,6 +560,21 @@
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
     const isCorIesuShirt=product.id==='camiseta-cor-iesu-sacratissimum';
+    // A ordem corresponde às 11 imagens 4:3 aprovadas na galeria.
+    const corIesuColors=isCorIesuShirt?[
+      {slug:'marrom',name:'Marrom',hex:'#67513f'},
+      {slug:'branco',name:'Branco',hex:'#f7f5f0'},
+      {slug:'preto',name:'Preto',hex:'#202024'},
+      {slug:'off-white',name:'Off-white',hex:'#ebe5d5'},
+      {slug:'azul-marinho',name:'Azul-marinho',hex:'#1d2b43'},
+      {slug:'azul-royal',name:'Azul-royal',hex:'#24509a'},
+      {slug:'verde',name:'Verde',hex:'#3c5941'},
+      {slug:'cinza-claro',name:'Cinza-claro',hex:'#bfc1c2'},
+      {slug:'cinza-escuro',name:'Cinza-escuro',hex:'#55575a'},
+      {slug:'areia',name:'Areia',hex:'#cbb79a'},
+      {slug:'bordo',name:'Bordô',hex:'#702b41'}
+    ]:[];
+    let chosenColor='marrom',showSelectedPhoto=null,syncColorFromGallery=()=>{};
     const isEcobag=product.id==='ecobag-salve-regina';
     const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isShirt?'Compra online disponível · produção sob demanda':'Sob consulta · preço sujeito à confirmação';
     const productStatus=el('span','shop-single-status',statusText);
@@ -591,6 +610,11 @@
         (isEcobag&&variants.find(v=>v.code==='M'))||variants.find(v=>v.code==='G')||variants[0];
       function renderPrice(){
         variant=variants.find(v=>v.code===select.value)||variants[0];
+        if(isCorIesuShirt&&chosenColor!=='marrom'){
+          price.textContent='Sob consulta';
+          priceNote.textContent='Preço e produção ainda não confirmados para a cor selecionada.';
+          return;
+        }
         price.textContent=Number.isInteger(variant?.priceCents)?money(variant.priceCents):'Preço a confirmar';
         if(isShirt && variant?.code==='XG')
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
@@ -629,6 +653,57 @@
         });
       };
       select.addEventListener('change',updateChips);updateChips();
+
+      let colorGroup=null;
+      if(isCorIesuShirt){
+        colorGroup=el('fieldset','shop-single-color-group');
+        const legend=el('legend','shop-single-field-label');
+        const chosenName=el('strong','shop-single-color-selected-name','Marrom');
+        legend.append('Cor da camiseta · ',chosenName);
+        const choices=el('div','shop-single-color-choices');
+        const hint=el('p','shop-single-color-hint');
+        hint.setAttribute('role','status');
+        hint.setAttribute('aria-live','polite');
+        const buttons=new Map();
+        const chooseColor=(slug,fromGallery=false)=>{
+          const chosen=corIesuColors.find(color=>color.slug===slug);
+          if(!chosen)return;
+          const changed=chosenColor!==slug;
+          chosenColor=slug;
+          chosenName.textContent=chosen.name;
+          hint.textContent=slug==='marrom'?
+            'Marrom: compra online conforme a disponibilidade no checkout.':
+            'Cor sob consulta: confirme disponibilidade e preço antes de comprar.';
+          buttons.forEach((button,key)=>{
+            const active=slug===key;
+            button.classList.toggle('is-selected',active);
+            button.setAttribute('aria-pressed',String(active));
+          });
+          if(!fromGallery)showSelectedPhoto?.(corIesuColors.indexOf(chosen));
+          // Revalida preço, frete, carrinho e checkout após mudar de cor.
+          if(changed)select.dispatchEvent(new Event('change',{bubbles:true}));
+        };
+        for(const color of corIesuColors){
+          const option=el('button','shop-single-color-choice');
+          option.type='button';
+          option.setAttribute('aria-pressed',color.slug==='marrom'?'true':'false');
+          option.setAttribute('aria-label',color.name+
+            (color.slug==='marrom'?', compra online':', sob consulta'));
+          option.title=color.name+(color.slug==='marrom'?' · compra online':' · sob consulta');
+          const swatch=el('span','shop-single-color-swatch');
+          swatch.style.setProperty('--color-swatch',color.hex);
+          swatch.setAttribute('aria-hidden','true');
+          option.append(swatch,el('span','shop-single-color-name',color.name));
+          option.addEventListener('click',()=>chooseColor(color.slug));
+          choices.append(option);buttons.set(color.slug,option);
+        }
+        colorGroup.append(legend,choices,hint);
+        chooseColor('marrom',true);
+        syncColorFromGallery=index=>{
+          const color=corIesuColors[index];
+          if(color)chooseColor(color.slug,true);
+        };
+      }
 
       const companionOptions=product.category==='canecas'?[
         {id:'caneca-salve-regina-preta',label:'Partitura Gregoriana'},
@@ -686,20 +761,22 @@
       const approvedSkus=new Set();
       const syncCheckout=()=>{
         const selected=variants.find(v=>v.code===select.value);
-        const approved=Boolean(selected?.sku&&approvedSkus.has(selected.sku));
-        const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
-        proceed.textContent=approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
+        const colorConsult=isCorIesuShirt&&chosenColor!=='marrom';
+        const approved=Boolean(!colorConsult&&selected?.sku&&approvedSkus.has(selected.sku));
+        const configured=Boolean(!colorConsult&&selected?.sku&&Number.isInteger(selected.priceCents));
+        proceed.textContent=colorConsult?'Consultar esta cor':
+          approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
         add.disabled=isPreparation||!configured||!window.Cart;
-        proceed.disabled=isPreparation||!configured||!window.Cart;
+        proceed.disabled=colorConsult?false:isPreparation||!configured||!window.Cart;
         if(!isPreparation){
-          productStatus.textContent=!configured?'Tamanho indisponível para compra':
+          productStatus.textContent=colorConsult?'Cor '+corIesuColors.find(c=>c.slug===chosenColor)?.name+' · sob consulta':
+            !configured?'Tamanho indisponível para compra':
             approved?'Compra online disponível · produção sob demanda':
             'Produção sob demanda · compra sob consulta';
           if(approved)priceNote.textContent=
             'Preço aprovado. Frete e total confirmados no checkout.';
         }
       };
-      select.addEventListener('change',syncCheckout);
       if(!isPreparation){
         fetch(API+'/api/checkout/live/readiness',{
           mode:'cors',cache:'no-store',signal:AbortSignal.timeout(8000)
@@ -712,13 +789,13 @@
         }).catch(()=>{/* Sem validação no servidor, só consulta assistida. */});
       }
       syncCheckout();
+      if(colorGroup)form.append(colorGroup);
       form.append(variationGroup,quantityGroup,actions,feedback);
       summary.append(form);
       const state=()=>{
         const selected=variants.find(v=>v.code===select.value);
         const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
-        add.disabled=isPreparation||!configured||!window.Cart;
-        proceed.disabled=isPreparation||!configured||!window.Cart;
+        syncCheckout();
         if(isPreparation)feedback.textContent='Este modelo ainda não está disponível para compra.';
       };
       state();document.addEventListener('douglas-cart-ready',state);
@@ -734,6 +811,10 @@
         if(!Number.isInteger(amount)||amount<1||amount>10){
           feedback.textContent='Escolha uma quantidade entre 1 e 10.';return;
         }
+        if(isCorIesuShirt&&chosenColor!=='marrom'){
+          feedback.textContent='Esta cor está sob consulta. Use o botão Consultar esta cor.';
+          return;
+        }
         if(!variants.find(v=>v.code===select.value)?.sku){
           feedback.textContent='Esta variação ainda não está disponível para compra.';return;
         }
@@ -746,6 +827,15 @@
       };
       form.addEventListener('submit',event=>{event.preventDefault();putInCart(false);});
       proceed.addEventListener('click',()=>{
+        if(isCorIesuShirt&&chosenColor!=='marrom'){
+          const color=corIesuColors.find(c=>c.slug===chosenColor)?.name||chosenColor;
+          const size=select.value;
+          const subject='Consulta de camiseta Cor Iesu — '+color+' '+size;
+          const body='Olá! Gostaria de consultar a disponibilidade e o preço da camiseta Cor Iesu Sacratissimum, cor '+color+', tamanho '+size+'.';
+          window.location.href='mailto:douglas.assumpcao27@gmail.com?subject='+
+            encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+          return;
+        }
         const selected=variants.find(v=>v.code===select.value);
         const units=Number(quantity.value);
         if(units===1 && selected?.sku && approvedSkus.has(selected.sku)){
@@ -761,7 +851,7 @@
       // Produtos em preparação exibem a pendência sem consultar preço inexistente.
       // Frete aparece sempre antes das opções de compra, em todos os produtos físicos.
       const delivery=el('div');
-      shipping(delivery,product,select,quantity);
+      shipping(delivery,product,select,quantity,()=>!isCorIesuShirt||chosenColor==='marrom');
       form.before(delivery);
     }
     const trust=el('div','shop-single-trust');
@@ -770,9 +860,11 @@
       'Adicionar à sacola não confirma pedido, reserva de produção nem pagamento. A autorização de cobrança depende da disponibilidade do checkout e da confirmação no servidor.'));
     trust.append(link('Condições de entrega e trocas','/pages/condicoes-da-loja.html'));
     summary.append(trust);
-    layout.append(gallery(
-      photos,title,detail.photoLabels,true,isCorIesuShirt
-    ),summary);
+    const productGallery=gallery(
+      photos,title,detail.photoLabels,true,isCorIesuShirt,syncColorFromGallery
+    );
+    showSelectedPhoto=index=>productGallery.showPhoto(index);
+    layout.append(productGallery,summary);
     root.replaceChildren(layout);
     if(!isBook){
       const seller=el('section','shirt-seller');
@@ -813,7 +905,7 @@
         'Coleção':'Cor Iesu Sacratissimum',
         'Material':'100% algodão fio 30.1 penteado',
         'Modelagem':'Unissex',
-        'Cor':'Marrom, conforme fotos',
+        'Cor':'Marrom: compra online. Outras 10 cores ilustradas: sob consulta',
         'Tamanhos desta edição':'P, M, G e GG (em validação)',
         'Impressão':'DTF · frente e costas · estampas fixas',
         'Medidas do pacote (C × L × A)':'300 × 250 × 10 mm (informação da ficha-base)',
