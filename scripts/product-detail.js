@@ -19,16 +19,16 @@
     "paragraphs": [
       "O Sagrado Coração de Jesus expressa o amor de Cristo pela humanidade. Nesta criação, a cruz, as chamas e a coroa de espinhos aparecem em duas composições complementares: um medalhão refinado na frente e uma gravura gótica ampla nas costas.",
       "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A peça é apresentada na cor Marrom das fotografias, com artes em vermelho profundo, bronze envelhecido e marfim.",
-      "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço, disponibilidade dos tamanhos e frete serão confirmados antes da abertura das vendas."
+      "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço de venda definido em R$ 109,90 mais frete, com disponibilidade e liberação do pagamento ainda sujeitas à validação."
     ],
     "features": [
       "Composição: 100% algodão fio 30.1 penteado.",
       "Modelagem unissex; camiseta de manga curta e gola redonda.",
-      "Cor desta edição: marrom-acinzentado (conforme fotografias ilustrativas).",
+      "Cor desta edição: Marrom (fotografias ilustrativas).",
       "Frente: medalhão do Sagrado Coração de Jesus com lírios e raios.",
       "Costas: estampa grande com moldura gótica, rosas, cruz e inscrição latina.",
       "Impressão prevista: DTF, frente e costas, com artes fixas.",
-      "Grade do modelo-base: PP, P, M, G, GG e XG; disponibilidade de cada tamanho a confirmar.",
+      "Tamanhos desta edição: P, M, G e GG; disponibilidade de cada tamanho a confirmar.",
       "Venda por peça; produção sob demanda após confirmação do pedido."
     ],
     "reasons": [
