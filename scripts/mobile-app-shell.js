@@ -10,6 +10,7 @@
   const ICONS = {
     menu: '<path d="M4 6.5h16M4 12h16M4 17.5h16"/>',
     shop: '<path d="M4 9h16l-1.5 12h-13L4 9Z"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+    cart: '<path d="M2 3h3l3 13h11l3-9H6"/><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v11h14V10M9 21v-7h6v7"/>',
     install: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 7v9m-4.5-4.5h9"/>',
     chevron: '<path d="m6 9 6 6 6-6"/>',
@@ -83,10 +84,54 @@
     installBtn.setAttribute('aria-label','Adicionar este site à tela inicial como aplicativo');
     installBtn.setAttribute('title','Adicionar à tela inicial');
     installBtn.innerHTML=icon('install');
+    const cartLink=document.createElement('a');
+    cartLink.href='/pages/cart.html';cartLink.className='mobile-sacred-cart-link';
+    cartLink.setAttribute('aria-label','Abrir carrinho');
+    cartLink.innerHTML=icon('cart')+'<span>Carrinho</span><b class="mobile-sacred-cart-count" hidden aria-hidden="true">0</b>';
+    if(/\/pages\/cart\.html$/.test(PAGE))cartLink.setAttribute('aria-current','page');
+
     const actions=document.createElement('div');actions.className='mobile-sacred-actions';
-    if(onShopPage)actions.append(homeShortcut);
-    actions.append(shopLink,installBtn);
+    if(onShopPage)actions.append(shopLink,cartLink);
+    else actions.append(shopLink,installBtn);
     header.append(menuBtn,brand,actions);
+
+    if(onShopPage){
+      // Busca acessível nas páginas de catálogo, produto e carrinho.
+      // Usa o mesmo parâmetro q do catálogo; nenhum endpoint adicional.
+      menuBtn.setAttribute('aria-label','Abrir menu da loja');
+      const toolbar=document.createElement('form');
+      toolbar.className='mobile-sacred-shop-toolbar';
+      toolbar.action='/pages/loja.html#catalogo';
+      toolbar.method='get';
+      toolbar.setAttribute('role','search');
+      toolbar.setAttribute('aria-label','Pesquisar produtos da loja');
+      toolbar.innerHTML='<label class="mobile-sacred-shop-toolbar-label" for="mobile-shop-query">Pesquisar no catálogo</label>'+
+        '<input id="mobile-shop-query" type="search" name="q" placeholder="Buscar camisetas, canecas e mais…" autocomplete="off" maxlength="100">'+
+        '<button type="submit" aria-label="Buscar produtos">'+icon('search')+'</button>';
+      toolbar.querySelector('input').value=(new URLSearchParams(location.search).get('q')||'').slice(0,100);
+      header.append(toolbar);
+
+      // O mesmo formato validado pelo carrinho real da loja.
+      const badge=cartLink.querySelector('.mobile-sacred-cart-count');
+      function refreshCartCount(){
+        let count=0;
+        try {
+          const rows=JSON.parse(localStorage.getItem('douglasShopCart_v2')||'[]');
+          if(Array.isArray(rows)){
+            count=Math.min(30,rows.reduce((sum,row)=>sum+(row &&
+              typeof row.id==='string' && typeof row.variant==='string' &&
+              Number.isInteger(row.qty) && row.qty>0 ? Math.min(row.qty,10) : 0),0));
+          }
+        } catch (_) {}
+        badge.textContent=String(count);
+        badge.hidden=count===0;
+        cartLink.setAttribute('aria-label',count? 'Abrir carrinho, '+count+' itens':'Abrir carrinho');
+      }
+      refreshCartCount();
+      document.addEventListener('douglas-cart-change',refreshCartCount);
+      window.addEventListener('storage',event=>{if(event.key==='douglasShopCart_v2')refreshCartCount();});
+      window.addEventListener('pageshow',refreshCartCount);
+    }
     document.body.insertBefore(header,document.body.firstChild);
 
     const drawer=document.createElement('dialog');
@@ -104,7 +149,25 @@
     menuLabel.textContent='Repertório litúrgico';
     scroll.append(menuLabel);
     const groupsHost=document.createElement('nav');groupsHost.className='mobile-sacred-groups';
-    groupsHost.setAttribute('aria-label','Tempos litúrgicos e ordinário da Missa');
+    groupsHost.setAttribute('aria-label',onShopPage?'Navegação da loja':'Tempos litúrgicos e ordinário da Missa');
+    if(onShopPage){
+      drawer.classList.add('mobile-sacred-shop-drawer');
+      drawer.querySelector('h2').textContent='Menu da loja';
+      menuLabel.textContent='Explore a loja';
+      groupsHost.classList.add('mobile-sacred-shop-nav');
+      for(const [name,url] of [
+        ['Todos os produtos','/pages/loja.html#catalogo'],
+        ['Coleção Salve Regina','/pages/colecao-salve-regina.html'],
+        ['Meu carrinho','/pages/cart.html'],
+        ['Entregas e trocas','/pages/condicoes-da-loja.html'],
+        ['Fale conosco','/pages/contato.html'],
+        ['Página inicial do site','/index.html']
+      ]){
+        const a=link(name,url,'mobile-sacred-shop-nav-link');
+        if(PAGE==='/pages/cart.html' && url==='/pages/cart.html')a.setAttribute('aria-current','page');
+        groupsHost.append(a);
+      }
+    }
     scroll.append(groupsHost);
     drawer.append(scroll);
     document.body.append(drawer);
@@ -167,21 +230,23 @@
       const loading=groupsHost.querySelector('.mobile-sacred-loading');
       if(loading) loading.remove();
     }
-    const nativeSource=document.querySelector('#side-nav > ul');
-    if(nativeSource)populateMenu(nativeSource);
-    else {
-      const loading=document.createElement('p');
-      loading.className='mobile-sacred-loading';
-      loading.textContent='Carregando os tempos litúrgicos…';
-      groupsHost.append(loading);
-      fetch('/index.html').then(response=>{
-        if(!response.ok)throw new Error('Menu indisponível');
-        return response.text();
-      }).then(html=>{
-        const page=new DOMParser().parseFromString(html,'text/html');
-        populateMenu(page.querySelector('#side-nav > ul'));
-        if(!groups.length)loading.textContent='Abra a página inicial para consultar o repertório.';
-      }).catch(()=>{loading.textContent='Abra a página inicial para consultar o repertório.';});
+    if(!onShopPage){
+      const nativeSource=document.querySelector('#side-nav > ul');
+      if(nativeSource)populateMenu(nativeSource);
+      else {
+        const loading=document.createElement('p');
+        loading.className='mobile-sacred-loading';
+        loading.textContent='Carregando os tempos litúrgicos…';
+        groupsHost.append(loading);
+        fetch('/index.html').then(response=>{
+          if(!response.ok)throw new Error('Menu indisponível');
+          return response.text();
+        }).then(html=>{
+          const page=new DOMParser().parseFromString(html,'text/html');
+          populateMenu(page.querySelector('#side-nav > ul'));
+          if(!groups.length)loading.textContent='Abra a página inicial para consultar o repertório.';
+        }).catch(()=>{loading.textContent='Abra a página inicial para consultar o repertório.';});
+      }
     }
 
     // Instruções reais: o Safari do iPhone não fornece um prompt automático.
@@ -303,19 +368,6 @@
       }
     }
 
-    if(SHOP && document.querySelector('#shop-product-grid')) {
-      // A busca no cabeçalho antigo não deve desaparecer junto com ele.
-      // Formulário independente que usa o parâmetro q já suportado no catálogo.
-      const box=document.createElement('form');
-      box.className='mobile-sacred-shop-search';box.method='get';box.action='/pages/loja.html#catalogo';
-      box.setAttribute('role','search');box.setAttribute('aria-label','Buscar produtos');
-      box.innerHTML='<label for="mobile-shop-query">Buscar na loja</label>'+
-        '<div><input id="mobile-shop-query" type="search" name="q" placeholder="Pesquisar produtos…" maxlength="100" autocomplete="off">'+
-        '<button type="submit" aria-label="Buscar produtos">'+icon('search')+'</button></div>';
-      box.querySelector('input').value=new URLSearchParams(location.search).get('q')||'';
-      const shopMain=document.querySelector('main');
-      if(shopMain)shopMain.insertBefore(box,shopMain.firstChild);
-    }
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
   else init();
