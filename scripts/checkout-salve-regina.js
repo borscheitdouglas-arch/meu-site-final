@@ -12,26 +12,6 @@
   // Somente produtos cadastrados pela loja. Query string nunca define preço.
   // Backend valida novamente SKU, preço, aprovação comercial e frete.
   const extras=Object.freeze({
-    'cor-iesu-marrom-p':{
-      title:'Camiseta Cor Iesu Sacratissimum — Marrom P',
-      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
-      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
-    },
-    'cor-iesu-marrom-m':{
-      title:'Camiseta Cor Iesu Sacratissimum — Marrom M',
-      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
-      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
-    },
-    'cor-iesu-marrom-g':{
-      title:'Camiseta Cor Iesu Sacratissimum — Marrom G',
-      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
-      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
-    },
-    'cor-iesu-marrom-gg':{
-      title:'Camiseta Cor Iesu Sacratissimum — Marrom GG',
-      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
-      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
-    },
     'caneca-salve-regina-preta':{
       title:'Caneca Salve Regina — Partitura Gregoriana',
       detail:'Caneca com partitura gregoriana',price:4990,
@@ -55,10 +35,20 @@
   });
   const params=new URLSearchParams(location.search);
   const requestedSku=params.get('sku');
-  const extra=requestedSku && Object.hasOwn(extras,requestedSku)?extras[requestedSku]:null;
-  const prices=extra?{UNICO:extra.price}:{P:10990,M:10990,G:10990,GG:10990,XG:11990};
-  const skuForSize=size=>extra?requestedSku:'salve-regina-preta-'+size.toLowerCase();
-  const productLabel=size=>extra?extra.title:'Camiseta preta · tamanho '+size;
+  const isCorIesu=Boolean(window.DouglasCorIesuPicker?.parseSku(requestedSku));
+  const extra=isCorIesu
+    ? {title:'Camiseta Cor Iesu Sacratissimum',
+       detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',
+       price:10990,image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'}
+    : requestedSku && Object.hasOwn(extras,requestedSku)?extras[requestedSku]:null;
+  const prices=isCorIesu?{P:10990,M:10990,G:10990,GG:10990}
+    : extra?{UNICO:extra.price}:{P:10990,M:10990,G:10990,GG:10990,XG:11990};
+  let picker=null;
+  const skuForSize=size=>isCorIesu?(picker?.sku()||requestedSku)
+    :extra?requestedSku:'salve-regina-preta-'+size.toLowerCase();
+  const productLabel=size=>isCorIesu
+    ?picker?.label()||'Camiseta Cor Iesu Sacratissimum'
+    :extra?extra.title:'Camiseta preta · tamanho '+size;
   // Prévia visual explícita: nenhum campo ativo, requisição de pedido ou cobrança.
   const visualPreview=params.get('preview')==='visual';
   const error=text=>{notice.textContent=text;notice.classList.add('warning');};
@@ -85,15 +75,20 @@
     try {readiness=await getJson(API+'/api/checkout/live/readiness');}
     catch {if(!visualPreview){unavailable();return;}}
     const previewOnly=visualPreview;
+    const corIesuReady=isCorIesu && Array.isArray(readiness?.availableSkus) &&
+      readiness.availableSkus.some(s=>window.DouglasCorIesuPicker.parseSku(s));
     if((readiness?.checkoutEnabled!==true ||
         (requestedSku && !extra) ||
-        (extra && !readiness?.availableSkus?.includes(requestedSku))) &&
+        (extra && !isCorIesu && !readiness?.availableSkus?.includes(requestedSku)) ||
+        (isCorIesu && !corIesuReady)) &&
         !visualPreview){unavailable();return;}
     notice.textContent=previewOnly
       ? 'PRÉVIA VISUAL — Este checkout está desativado. Os campos são demonstrativos e não é possível fazer pedidos, cotar frete ou pagar.'
       : 'Confira seus dados e selecione o frete antes de pagar.';
     notice.classList.toggle('warning',previewOnly);
     document.body.classList.toggle('checkout-preview',previewOnly);
+    const collection=document.querySelector('main > .eyebrow');
+    if(collection && isCorIesu)collection.textContent='Coleção Cor Iesu Sacratissimum';
     container.hidden=false;
     container.innerHTML=`
       <form id="sale-checkout" class="checkout-grid">
@@ -103,17 +98,14 @@
             <div class="checkout-product">
               <img src="${extra?extra.image:'/assets/img/loja/Salve-Regina/web/camiseta-480.webp'}" width="92" height="92" alt="Produto da loja">
               <div>
-                <strong>${extra?extra.title:'Camiseta Salve Regina · Preta'}</strong>
+                <strong id="checkout-product-name">${extra?extra.title:'Camiseta Salve Regina · Preta'}</strong>
                 <p>${extra?extra.detail:'Estampa gregoriana e arte mariana'} · 1 unidade</p>
-                <label>${extra?'Modelo':'Tamanho'}
-                  <select name="size" required>
-                    ${extra
-                      ?'<option value="UNICO">Único — '+format(extra.price)+'</option>'
-                      :'<option value="P">P — R$ 109,90</option><option value="M">M — R$ 109,90</option><option value="G" selected>G — R$ 109,90</option><option value="GG">GG — R$ 109,90</option><option value="XG">XG — R$ 119,90</option>'}
-                  </select>
-                </label>
+                ${isCorIesu?'':extra
+                  ?'<div class="checkout-fixed-variant"><span>Modelo selecionado</span><strong>1 unidade</strong></div><input type="hidden" name="size" value="UNICO">'
+                  :'<label class="checkout-select-label">Tamanho <select name="size" required><option value="P">P</option><option value="M">M</option><option value="G" selected>G</option><option value="GG">GG</option><option value="XG">XG (+ R$ 10,00)</option></select></label>'}
               </div>
             </div>
+            ${isCorIesu?window.DouglasCorIesuPicker.render(requestedSku):''}
             <p class="hint">Nesta etapa é possível comprar uma peça por pedido. Para combinar produtos, use a cotação assistida.</p>
           </section>
           <section class="checkout-panel" aria-labelledby="shipping-heading">
@@ -172,6 +164,9 @@
         </aside>
       </form>`;
     const form=container.querySelector('form');
+    if(isCorIesu)picker=window.DouglasCorIesuPicker.mount(form,{
+      requestedSku,availableSkus:readiness?.availableSkus
+    });
     const size=form.elements.size;
     if(!extra){
       // O endpoint já confere somente as variações com frete homologado.
@@ -188,7 +183,7 @@
     // A variante escolhida é somente uma preferência visual.
     // O Worker confirma SKU, preço, frete e autorização no D1.
     const requestedSize=params.get('size');
-    if(requestedSize && Object.hasOwn(prices,requestedSize) &&
+    if(!isCorIesu && requestedSize && Object.hasOwn(prices,requestedSize) &&
        [...size.options].some(option=>option.value===requestedSize && !option.disabled)){
       size.value=requestedSize;
     }else if(!extra && size.selectedOptions[0]?.disabled){
@@ -245,8 +240,20 @@
       if(selection) selection.textContent=productLabel(size.value)+
         ' · 1 unidade — '+format(price())+' + frete';
       productAmount.textContent=format(price());
+      if(isCorIesu){
+        form.querySelector('#checkout-product-name').textContent=productLabel(size.value);
+        if(!visualPreview){
+          const url=new URL(location.href);
+          url.searchParams.set('sku',sku());
+          url.searchParams.delete('size');
+          history.replaceState(null,'',url);
+        }
+      }
       resetQuote();
-      shipFeedback.textContent='Variação alterada. Consulte novamente o frete.';
+      if(isCorIesu)quoteButton.disabled=!picker.isAvailable();
+      shipFeedback.textContent=isCorIesu && !picker.isAvailable()
+        ? 'Cor e tamanho sob consulta. Escolha uma combinação disponível para calcular o frete.'
+        : 'Variação alterada. Consulte novamente o frete.';
     });
     function selected(){
       const radio=choices.querySelector('input[name="shippingOption"]:checked');
@@ -263,6 +270,10 @@
       pay.disabled=false;
     });
     quoteButton.addEventListener('click',async()=>{
+      if(isCorIesu && !picker.isAvailable()){
+        shipFeedback.textContent='Esta cor e tamanho ainda não estão disponíveis para compra online.';
+        return;
+      }
       const code=normalize(zip.value);
       resetQuote();
       if(!/^\d{8}$/.test(code)){shipFeedback.textContent='Informe um CEP com 8 números.';zip.focus();return;}
@@ -332,6 +343,10 @@
     form.addEventListener('submit',async event=>{
       event.preventDefault();
       if(!form.reportValidity())return;
+      if(isCorIesu && !picker.isAvailable()){
+        payStatus.textContent='Esta cor e tamanho ainda não estão disponíveis para compra online.';
+        return;
+      }
       if(normalize(zip.value)!==quotedZip||quotedSku!==sku()||!selected()){
         payStatus.textContent='Consulte o frete para o CEP informado antes de pagar.';return;
       }
