@@ -109,6 +109,7 @@ def main():
           return price.contains(top) && top.compareDocumentPosition(options)&4 &&
                  options.compareDocumentPosition(freight)&4;
         }"""), "Compra deve aparecer junto ao preço; frete fica após as opções"
+        assert page.locator(".shop-single-variant-chip").count()==4, "Somente P/M/G/GG, sem tamanhos duplicados"
         page.locator('[aria-label="Selecionar cor Bordô"]').click()
         page.locator(".shop-single-native-select").select_option("GG")
         expect(top).to_contain_text("Comprar agora")
