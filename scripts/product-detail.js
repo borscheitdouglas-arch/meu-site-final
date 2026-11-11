@@ -662,9 +662,8 @@
           chosenColor=slug;
           chosenName.textContent=chosen.name;
           const selected=variants.find(v=>v.sku==='cor-iesu-'+slug+'-'+select.value.toLowerCase());
-          hint.textContent=approvedSkus.has(selected?.sku)?
-            'Cor e tamanho liberados para compra online. O frete será confirmado antes do pagamento.':
-            'Esta cor e tamanho aguardam validação da produção e do frete.';
+          hint.textContent='Cor '+chosen.name+' · tamanho '+select.value+
+            ' · R$ 109,90. Frete e disponibilidade verificados no checkout.';
           buttons.forEach((button,key)=>{
             const active=slug===key;
             button.classList.toggle('is-selected',active);
@@ -751,40 +750,36 @@
       feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
       actions.append(add,proceed);
       if(topBuy){
-        topBuy.addEventListener('click',()=>{
-          const selected=selectedVariant();
-          if(selected?.sku&&approvedSkus.has(selected.sku)){
-            proceed.click();
-          }else{
-            feedback.textContent='Confira a disponibilidade da cor e do tamanho. O pagamento é liberado após confirmação da loja.';
-            form.scrollIntoView({behavior:'smooth',block:'start'});
-          }
-        });
+        topBuy.addEventListener('click',()=>proceed.click());
       }
       const syncCheckout=()=>{
         const selected=selectedVariant();
         const approved=Boolean(selected?.sku&&approvedSkus.has(selected.sku));
-        const colorConsult=isCorIesuShirt&&!approved;
         const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
-        proceed.textContent=colorConsult?'Consultar esta cor':
+        // A disponibilidade anunciada pelo backend é informativa nesta tela.
+        // A validação definitiva de SKU, preço e frete ocorre no checkout/API.
+        // Se a consulta inicial falhar, não substituir Compra por e-mail.
+        proceed.textContent=isCorIesuShirt?'Comprar agora':
           approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
-        add.disabled=isPreparation||!configured||(isCorIesuShirt&&!approved)||!window.Cart;
-        // A compra direta da Cor Iesu não depende de o carrinho ter carregado.
-        proceed.disabled=colorConsult?false:isPreparation||!configured||
+        add.disabled=isPreparation||!configured||!window.Cart;
+        proceed.disabled=isPreparation||!configured||
           (!isCorIesuShirt&&!window.Cart);
         if(topBuy){
           const name=corIesuColors.find(c=>c.slug===chosenColor)?.name||'Marrom';
           topSelection.textContent='Cor '+name+' · Tamanho '+select.value;
-          topBuy.textContent=approved?'Comprar agora · R$ 109,90':'Consultar disponibilidade · R$ 109,90';
+          topBuy.textContent='Comprar agora · R$ 109,90';
           topBuy.disabled=isPreparation||!configured;
-          topBuy.classList.toggle('is-available',approved);
+          topBuy.classList.toggle('is-available',configured);
         }
         if(!isPreparation){
-          productStatus.textContent=colorConsult?'Cor '+corIesuColors.find(c=>c.slug===chosenColor)?.name+' · aguardando confirmação':
+          productStatus.textContent=isCorIesuShirt?
+            'Compra pelo checkout seguro · produção sob demanda':
             !configured?'Tamanho indisponível para compra':
             approved?'Compra online disponível · produção sob demanda':
             'Produção sob demanda · compra sob consulta';
-          if(approved)priceNote.textContent=
+          if(isCorIesuShirt)priceNote.textContent=
+            'Preço único de R$ 109,90. O frete é confirmado antes do pagamento.';
+          else if(approved)priceNote.textContent=
             'Preço aprovado. Frete e total confirmados no checkout.';
         }
       };
@@ -820,15 +815,14 @@
         if(!Number.isInteger(amount)||amount<1||amount>(isCorIesuShirt?1:10)){
           feedback.textContent=isCorIesuShirt?'Esta camiseta é vendida uma unidade por pedido.':'Escolha uma quantidade entre 1 e 10.';return;
         }
-        if(isCorIesuShirt&&!approvedSkus.has(selectedVariant()?.sku)){
-          feedback.textContent='Esta combinação ainda não está liberada. Use o botão Consultar esta cor.';
-          return;
-        }
+        // O carrinho conserva o SKU exato da cor escolhida.
+        // O servidor só autoriza a cobrança de combinações habilitadas.
         if(!selectedVariant()?.sku){
           feedback.textContent='Esta variação ainda não está disponível para compra.';return;
         }
         if(!window.Cart){feedback.textContent='O carrinho está carregando. Tente novamente.';return;}
-        const ok=window.Cart.add(product.id,selectedVariant().code,amount);
+        const ok=window.Cart.add(product.id,
+          isCorIesuShirt?selectedVariant().sku:selectedVariant().code,amount);
         if(ok){
           if(goCart)window.location.assign('/pages/cart.html');
           else feedback.textContent='Produto adicionado. Você pode continuar comprando ou abrir o carrinho.';
@@ -836,17 +830,20 @@
       };
       form.addEventListener('submit',event=>{event.preventDefault();putInCart(false);});
       proceed.addEventListener('click',()=>{
-        if(isCorIesuShirt&&!approvedSkus.has(selectedVariant()?.sku)){
-          const color=corIesuColors.find(c=>c.slug===chosenColor)?.name||chosenColor;
-          const size=select.value;
-          const subject='Consulta de camiseta Cor Iesu — '+color+' '+size;
-          const body='Olá! Gostaria de consultar a disponibilidade e o preço da camiseta Cor Iesu Sacratissimum, cor '+color+', tamanho '+size+'.';
-          window.location.href='mailto:douglas.assumpcao27@gmail.com?subject='+
-            encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-          return;
-        }
         const selected=selectedVariant();
         const units=Number(quantity.value);
+        if(isCorIesuShirt){
+          if(!selected?.sku || !Number.isInteger(selected.priceCents) || units!==1){
+            feedback.textContent='Escolha uma cor e um tamanho válidos (1 peça por pedido).';
+            return;
+          }
+          // Encaminhar ao checkout não gera cobrança: os controles da API
+          // verificam SKU, preço, disponibilidade e frete antes do pagamento.
+          window.location.assign(
+            '/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku)
+          );
+          return;
+        }
         if(units===1 && selected?.sku && approvedSkus.has(selected.sku)){
           window.location.assign(isShirt?
             '/pages/checkout-salve-regina.html?size='+encodeURIComponent(selected.code):
@@ -861,7 +858,9 @@
       // Na Cor Iesu, compra e seletores vêm antes da calculadora de frete;
       // o checkout oficial reconfirma o transporte antes de cobrar.
       const delivery=el('div');
-      shipping(delivery,product,select,quantity,()=>!isCorIesuShirt||approvedSkus.has(selectedVariant()?.sku),selectedVariant);
+      // Cotação só retorna frete para SKU ativo no backend. Não bloquear
+      // a consulta pelo estado de uma requisição anterior de readiness.
+      shipping(delivery,product,select,quantity,()=>true,selectedVariant);
       if(isCorIesuShirt)form.after(delivery);
       else form.before(delivery);
     }
