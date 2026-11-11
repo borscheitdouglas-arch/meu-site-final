@@ -523,9 +523,10 @@
     });
   }
   function display(product,all) {
-    // Aplica o enquadramento compacto somente à camiseta; não altera outros produtos.
+    // Ficha de compra compartilhada: mesma disposição para todos os artigos físicos.
     root.dataset.productId=product.id;
     const isBook=product.product_type==='book';
+    root.classList.toggle('shop-single-physical',!isBook);
     const detail=info[product.id] || {};
     const photos=detail.photos || [product.image];
     const title=product.title;
@@ -556,7 +557,7 @@
     ]:[];
     let chosenColor='marrom',showSelectedPhoto=null,syncColorFromGallery=()=>{},refreshColorChoices=()=>{};
     const isEcobag=product.id==='ecobag-salve-regina';
-    const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isCorIesuShirt?'Produção sob demanda':isShirt?'Produção sob demanda · compra online conforme disponibilidade':'Sob consulta · preço sujeito à confirmação';
+    const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':'Produção sob demanda';
     const productStatus=el('span','shop-single-status',statusText);
     summary.append(productStatus);
     let variant=null,select=null;
@@ -564,16 +565,14 @@
     const priceNote=el('p','shop-single-price-note',
       isBook?'Preço e frete informados pela loja parceira.':
       isPreparation?(isCorIesuShirt?'Preço definido: R$ 109,90. Venda em preparação; frete e disponibilidade serão validados antes do pagamento.':'Modelo e preço definitivo ainda não cadastrados.'):
-      'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.');
+      'Preço por unidade · frete confirmado antes do pagamento.');
     // Ficha comercial uniforme: o preço mantém a variação e a origem de dados do produto.
     const pricePanel=el('div','shop-single-pricebox');
     pricePanel.append(el('span','shop-single-price-label','Preço'),price,priceNote);
     summary.append(pricePanel);
     const description=isBook?product.description:detail.description||'Produto personalizado da coleção Salve Regina.';
-    // A descrição completa já aparece na ficha abaixo; não repetir um parágrafo
-    // extenso entre o preço e as escolhas de compra da Cor Iesu.
-    if(!isCorIesuShirt)summary.append(el('p','shop-single-excerpt',isShirt?'A partitura da Salve Regina na frente e Nossa Senhora nas costas. Camiseta preta unissex em 100% algodão penteado, com gola canelada reforçada.':description));
-    if(isShirt)summary.append(link('Ver detalhes da camiseta ↓','#detalhes-camiseta','shop-single-back'));
+    // Detalhes e descrições completas ficam abaixo da área de compra.
+    if(isBook)summary.append(el('p','shop-single-excerpt',description));
     if(isBook){
       price.textContent='Consulte o valor nas lojas parceiras';
       const shops=el('div','shop-single-partners');
@@ -605,14 +604,16 @@
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
         else if(isEcobag&&!variant?.sku)
           priceNote.textContent='Tamanho '+variant.code+': preço e produção ainda não confirmados. M e G estão cadastrados para venda.';
-        else priceNote.textContent=isPreparation?(isCorIesuShirt?'Preço definido: R$ 109,90. Venda em preparação; frete e disponibilidade serão validados antes do pagamento.':'Modelo e preço definitivo ainda não cadastrados.'):
-          isShirt?'Preço de venda definido. Calcule o frete pelo CEP antes de pagar.':
-          isCorIesuShirt?'Mesmo valor para todas as cores e tamanhos · frete no checkout.':
-          'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
+        else priceNote.textContent=isPreparation?
+          'Venda em preparação: consulte a disponibilidade antes de comprar.':
+          !Number.isInteger(variant?.priceCents)?
+            'Preço desta variação ainda não confirmado.':
+            'Preço por unidade · frete confirmado antes do pagamento.';
       }
       const form=el('form','shop-single-form');
       const variationGroup=el('fieldset','shop-single-variant-group');
-      variationGroup.append(el('legend','shop-single-field-label',
+      const hasSizeOptions=sizeVariants.length>1;
+      if(hasSizeOptions)variationGroup.append(el('legend','shop-single-field-label',
         (isShirt||isCorIesuShirt||isEcobag)?'Tamanho':'Modelo'));
       const hiddenLabel=el('label','shop-single-visually-hidden','Escolha a variação');
       select=el('select','shop-single-native-select');
@@ -630,7 +631,8 @@
         chips.append(chip);chipButtons.set(v.code,chip);
       });
       select.value=variant?.code||'';
-      hiddenLabel.append(select);variationGroup.append(hiddenLabel,chips);
+      hiddenLabel.append(select);variationGroup.append(hiddenLabel);
+      if(hasSizeOptions)variationGroup.append(chips);
       const updateChips=()=>{
         chipButtons.forEach((chip,code)=>{
           const active=select.value===code;
@@ -694,7 +696,7 @@
         const companion=el('nav','shop-single-companion-options');
         companion.setAttribute('aria-label','Outras opções disponíveis');
         companion.append(el('p','shop-single-field-label',
-          product.category==='canecas'?'Acabamento':'Tamanho'));
+          product.category==='canecas'?'Escolha a estampa':'Opções disponíveis'));
         const buttons=el('div','shop-single-companion-choices');
         companionOptions.forEach(option=>{
           const active=option.id===product.id;
@@ -731,9 +733,9 @@
       quantity.addEventListener('blur',changeQty);
       minus.disabled=true;plus.disabled=false;
       stepper.append(minus,quantity,plus);
-      const subtotalHint=isCorIesuShirt?el('span','shop-single-quantity-subtotal','1 camiseta · R$ 109,90'):null;
-      quantityGroup.append(stepper,isCorIesuShirt?subtotalHint:el('span','shop-single-availability',
-        isPreparation?'Em preparação':'Produção sob demanda'));
+      const unitLabel=(isShirt||isCorIesuShirt)?'camiseta':isEcobag?'ecobag':'caneca';
+      const subtotalHint=el('span','shop-single-quantity-subtotal');
+      quantityGroup.append(stepper,subtotalHint);
       const actions=el('div','shop-single-actions');
       const add=el('button','','Adicionar ao carrinho');add.type='submit';
       const proceed=el('button','','Ver entrega e compra');proceed.type='button';
@@ -749,27 +751,21 @@
         // Se a consulta inicial falhar, não substituir Compra por e-mail.
         const units=Number(quantity.value);
         const validUnits=Number.isInteger(units)&&units>=1&&units<=10;
-        if(isCorIesuShirt&&subtotalHint){
-          subtotalHint.textContent=validUnits&&configured?
-            units+(units===1?' camiseta':' camisetas')+' · '+money(selected.priceCents*units):
-            'Quantidade entre 1 e 10';
-        }
-        proceed.textContent=isCorIesuShirt?
-          (units>1?'Revisar '+units+' camisetas':'Comprar agora'):
-          approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
+        subtotalHint.textContent=validUnits&&configured?
+          units+' '+unitLabel+(units===1?'':'s')+' · '+money(selected.priceCents*units):
+          configured?'Informe de 1 a 10 unidades':'Preço a confirmar';
+        proceed.textContent=units>1?
+          'Revisar '+units+' '+unitLabel+(units===1?'':'s'):
+          isCorIesuShirt||approved?'Comprar agora':
+          configured?'Consultar disponibilidade':'Tamanho indisponível';
         add.disabled=isPreparation||!configured||!validUnits||!window.Cart;
-        proceed.disabled=isPreparation||!configured||
-          (isCorIesuShirt?!validUnits||units>1&&!window.Cart:!window.Cart);
+        proceed.disabled=isPreparation||!configured||!validUnits||
+          (units>1&&!window.Cart)||(!isCorIesuShirt&&!window.Cart);
         if(!isPreparation){
-          productStatus.textContent=isCorIesuShirt?
-            'Produção sob demanda':
-            !configured?'Tamanho indisponível para compra':
-            approved?'Compra online disponível · produção sob demanda':
-            'Produção sob demanda · compra sob consulta';
-          if(isCorIesuShirt)priceNote.textContent=
-            'R$ 109,90 por camiseta · frete no checkout para 1 unidade.';
-          else if(approved)priceNote.textContent=
-            'Preço aprovado. Frete e total confirmados no checkout.';
+          productStatus.textContent=!configured?'Variação em preparação':
+            approved||isCorIesuShirt?'Produção sob demanda':'Disponibilidade conferida no checkout';
+          if(configured)priceNote.textContent=
+            'Valor por unidade · frete confirmado antes do pagamento.';
         }
       };
       if(!isPreparation){
@@ -785,14 +781,11 @@
       }
       syncCheckout();
       if(colorGroup)form.append(colorGroup);
-      // Controle de quantidade restaurado na Cor Iesu: o subtotal acompanha
-      // a seleção. Para 2+ unidades, o carrinho guarda o pedido para revisão
-      // sem criar cobrança antes de o frete conjunto ser homologado.
+      // Um único padrão para produtos físicos. A quantidade (1 a 10)
+      // atualiza o subtotal, enquanto o checkout valida cada variante.
       form.append(variationGroup,quantityGroup,actions,feedback);
-      if(isCorIesuShirt){
-        quantity.addEventListener('input',syncCheckout);
-        quantity.addEventListener('change',syncCheckout);
-      }
+      quantity.addEventListener('input',syncCheckout);
+      quantity.addEventListener('change',syncCheckout);
       summary.append(form);
       const state=()=>{
         syncCheckout();
@@ -828,25 +821,24 @@
       proceed.addEventListener('click',()=>{
         const selected=selectedVariant();
         const units=Number(quantity.value);
+        if(!selected?.sku||!Number.isInteger(selected.priceCents)||
+           !Number.isInteger(units)||units<1||units>10){
+          feedback.textContent='Selecione uma variação e quantidade entre 1 e 10.';
+          return;
+        }
+        if(units>1){
+          // Mais de uma peça: registrar no carrinho e conferir frete conjunto.
+          // Não redirecionar para checkout unitário descartando quantidade.
+          putInCart(true);
+          return;
+        }
         if(isCorIesuShirt){
-          if(!selected?.sku || !Number.isInteger(selected.priceCents) ||
-             !Number.isInteger(units)||units<1||units>10){
-            feedback.textContent='Selecione cor, tamanho e quantidade entre 1 e 10.';
-            return;
-          }
-          if(units>1){
-            // Frete conjunto não homologado. Carrinho preserva a quantidade;
-            // não abre checkout unitário com número incorreto de peças.
-            putInCart(true);
-            return;
-          }
-          // Pagamento direto somente de 1 unidade, validado pelo servidor.
           window.location.assign(
             '/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku)
           );
           return;
         }
-        if(units===1 && selected?.sku && approvedSkus.has(selected.sku)){
+        if(approvedSkus.has(selected.sku)){
           window.location.assign(isShirt?
             '/pages/checkout-salve-regina.html?size='+encodeURIComponent(selected.code):
             '/pages/checkout-salve-regina.html?sku='+encodeURIComponent(selected.sku));
@@ -854,26 +846,21 @@
           putInCart(true);
         }
       });
-      if(!isCorIesuShirt)summary.append(link('Ver meu carrinho →','/pages/cart.html','shop-single-back'));
-      // Calculadora na página individual de todas as peças físicas, não só camiseta.
-      // Produtos em preparação exibem a pendência sem consultar preço inexistente.
-      // Na Cor Iesu, compra e seletores vêm antes da calculadora de frete;
-      // o checkout oficial reconfirma o transporte antes de cobrar.
+      // Carrinho já está acessível no cabeçalho da loja; remover link repetido.
+      // Mesma ordem em todas as fichas: quantidade e compra antes do frete.
+      // Frete conjunto ainda é confirmado pela API, não pela página.
       const delivery=el('div');
       // Cotação só retorna frete para SKU ativo no backend. Não bloquear
       // a consulta pelo estado de uma requisição anterior de readiness.
       shipping(delivery,product,select,quantity,()=>true,selectedVariant);
-      if(isCorIesuShirt){
-        const freight=el('details','shop-single-freight-disclosure');
-        freight.append(el('summary','','Calcular frete pelo CEP'),delivery);
-        form.after(freight);
-      }else form.before(delivery);
+      const freight=el('details','shop-single-freight-disclosure');
+      freight.append(el('summary','','Calcular frete pelo CEP'),delivery);
+      form.after(freight);
     }
     const trust=el('div','shop-single-trust');
-    if(!isCorIesuShirt)trust.append(el('p','',isBook?
-      'O pedido, o pagamento e a entrega do livro são responsabilidade da loja parceira escolhida.':
-      'Adicionar à sacola não confirma pedido, reserva de produção nem pagamento. A autorização de cobrança depende da disponibilidade do checkout e da confirmação no servidor.'));
-    trust.append(link(isCorIesuShirt?'Informações de entrega e trocas':'Condições de entrega e trocas','/pages/condicoes-da-loja.html'));
+    if(isBook)trust.append(el('p','',
+      'O pedido, pagamento e entrega do livro são responsabilidade da loja parceira.'));
+    trust.append(link('Informações de entrega e trocas','/pages/condicoes-da-loja.html'));
     summary.append(trust);
     const productGallery=gallery(
       photos,title,detail.photoLabels,true,isCorIesuShirt,syncColorFromGallery
@@ -881,11 +868,7 @@
     showSelectedPhoto=index=>productGallery.showPhoto(index);
     layout.append(productGallery,summary);
     root.replaceChildren(layout);
-    if(!isBook && !isCorIesuShirt){
-      const seller=el('section','shirt-seller');
-      seller.append(el('strong','','Loja Douglas Assumpção'),link('Visitar a loja','/pages/loja.html','shop-single-back'));
-      root.append(seller);
-    }
+    // Não duplicar o nome da loja e o link do cabeçalho sob cada produto.
     const details=el('section','shop-single-details shop-single-details-unified');
     const desc=el('div','shop-single-description-block');desc.append(el('h2','','Descrição do produto'),
       el('p','',description));
