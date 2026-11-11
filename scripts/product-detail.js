@@ -38,6 +38,7 @@
       "Duas estampas complementares: frente discreta e costas ornamentadas."
     ],
     "photos": [
+      "/assets/img/loja/cor-iesu/capa-modelos-frente-costas-20261111.jpg",
       "/assets/img/loja/cor-iesu/cores/cor-iesu-marrom-1200.webp",
       "/assets/img/loja/cor-iesu/cores/cor-iesu-branco-1200.webp",
       "/assets/img/loja/cor-iesu/cores/cor-iesu-preto-1200.webp",
@@ -51,6 +52,7 @@
       "/assets/img/loja/cor-iesu/cores/cor-iesu-bordo-1200.webp"
     ],
     "photoLabels": [
+      "Camiseta Cor Iesu Sacratissimum em dois modelos, vista frontal e traseira da cor Marrom.",
       "Camiseta Sagrado Coração de Jesus: Marrom — frente e costas.",
       "Camiseta Sagrado Coração de Jesus: Branco — frente e costas.",
       "Camiseta Sagrado Coração de Jesus: Preto — frente e costas.",
@@ -326,6 +328,10 @@
     };
     const syncPhotoColor=index=>{
       if(!photoColor)return;
+      if(index===0 && photos[index].endsWith('capa-modelos-frente-costas-20261111.jpg')){
+        photoColor.textContent='Camiseta Marrom · frente e costas';
+        return;
+      }
       const match=photos[index].match(/\/cores\/cor-iesu-([a-z-]+)-1200\.webp/);
       if(match?.[1]==='editorial')photoColor.textContent='Apresentação editorial · frente e costas';
       else if(match?.[1]&&photoColorNames[match[1]])photoColor.textContent=
@@ -533,7 +539,7 @@
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
     const isCorIesuShirt=product.id==='camiseta-cor-iesu-sacratissimum';
-    // A ordem corresponde às 11 imagens 4:3 aprovadas na galeria.
+    // A primeira foto é a capa; as 11 opções de cor começam no índice 1.
     const corIesuColors=isCorIesuShirt?[
       {slug:'marrom',name:'Marrom',hex:'#67513f'},
       {slug:'branco',name:'Branco',hex:'#f7f5f0'},
@@ -655,7 +661,7 @@
             button.classList.toggle('is-selected',active);
             button.setAttribute('aria-pressed',String(active));
           });
-          if(!fromGallery)showSelectedPhoto?.(corIesuColors.indexOf(chosen));
+          if(!fromGallery)showSelectedPhoto?.(corIesuColors.indexOf(chosen)+1);
           // Revalida preço, frete, carrinho e checkout após mudar de cor.
           if(changed)select.dispatchEvent(new Event('change',{bubbles:true}));
         };
@@ -676,7 +682,8 @@
         chooseColor('marrom',true);
         refreshColorChoices=()=>chooseColor(chosenColor,true);
         syncColorFromGallery=index=>{
-          const color=corIesuColors[index];
+          if(index===0){chooseColor('marrom',true);return;}
+          const color=corIesuColors[index-1];
           if(color)chooseColor(color.slug,true);
         };
       }
