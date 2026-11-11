@@ -596,6 +596,7 @@
           priceNote.textContent='Tamanho '+variant.code+': preço e produção ainda não confirmados. M e G estão cadastrados para venda.';
         else priceNote.textContent=isPreparation?(isCorIesuShirt?'Preço definido: R$ 109,90. Venda em preparação; frete e disponibilidade serão validados antes do pagamento.':'Modelo e preço definitivo ainda não cadastrados.'):
           isShirt?'Preço de venda definido. Calcule o frete pelo CEP antes de pagar.':
+          isCorIesuShirt?'Preço único em todas as cores e tamanhos. Frete calculado pelo CEP antes do pagamento.':
           'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
       }
       const form=el('form','shop-single-form');
