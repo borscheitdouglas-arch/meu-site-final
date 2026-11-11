@@ -171,6 +171,8 @@
     const size=form.elements.size;
     if(isCorIesu){
       form.querySelector('#checkout-product-name').textContent=picker.label();
+      form.querySelector('.checkout-product img').src=
+        '/assets/img/loja/cor-iesu/cores/cor-iesu-'+picker.color()+'-1200.webp';
       form.querySelector('#checkout-summary-variant').textContent=
         picker.label().replace('Camiseta Cor Iesu Sacratissimum — ','');
     }
@@ -248,6 +250,8 @@
       productAmount.textContent=format(price());
       if(isCorIesu){
         form.querySelector('#checkout-product-name').textContent=productLabel(size.value);
+        form.querySelector('.checkout-product img').src=
+          '/assets/img/loja/cor-iesu/cores/cor-iesu-'+picker.color()+'-1200.webp';
         form.querySelector('#checkout-summary-variant').textContent=
           productLabel(size.value).replace('Camiseta Cor Iesu Sacratissimum — ','');
         if(!visualPreview){
