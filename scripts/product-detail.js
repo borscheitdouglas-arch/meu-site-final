@@ -19,7 +19,7 @@
     "paragraphs": [
       "O Sagrado Coração de Jesus expressa o amor de Cristo pela humanidade. Nesta criação, a cruz, as chamas e a coroa de espinhos aparecem em duas composições complementares: um medalhão refinado na frente e uma gravura gótica ampla nas costas.",
       "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. Escolha sua cor entre as 11 opções da galeria e selecione o tamanho desejado.",
-      "Esta edição apresenta estampas fixas na frente e nas costas, com impressão DTF. Produção sob demanda, com preço de R$ 109,90 mais frete. A disponibilidade é confirmada conforme a cor e o tamanho escolhidos."
+      "Esta edição apresenta estampas fixas na frente e nas costas, com impressão DTF. Preço único de R$ 109,90 em todas as 11 cores e nos tamanhos P, M, G e GG, mais o frete calculado no checkout. Produção sob demanda com conferência manual das opções antes de fabricar."
     ],
     "features": [
       "Composição: 100% algodão fio 30.1 penteado.",
@@ -28,7 +28,7 @@
       "Frente: medalhão do Sagrado Coração de Jesus com lírios e raios.",
       "Costas: estampa grande com moldura gótica, rosas, cruz e inscrição latina.",
       "Impressão prevista: DTF, frente e costas, com artes fixas.",
-      "Tamanhos desta edição: P, M, G e GG, sujeitos à disponibilidade no checkout.",
+      "Tamanhos desta edição: P, M, G e GG, sem alteração de preço.",
       "Venda por peça; produção sob demanda após confirmação do pedido."
     ],
     "reasons": [
@@ -589,11 +589,6 @@
         (isEcobag&&variants.find(v=>v.code==='M'))||variants.find(v=>v.code==='G')||variants[0];
       function renderPrice(){
         variant=selectedVariant()||variants[0];
-        if(isCorIesuShirt&&chosenColor!=='marrom'&&!approvedSkus.has(variant?.sku)){
-          price.textContent='Sob consulta';
-          priceNote.textContent='Preço e produção ainda não confirmados para a cor selecionada.';
-          return;
-        }
         price.textContent=Number.isInteger(variant?.priceCents)?money(variant.priceCents):'Preço a confirmar';
         if(isShirt && variant?.code==='XG')
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
