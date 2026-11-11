@@ -40,7 +40,7 @@
       ],
       "promotionalPriceCents": 7500,
       "promotionActive": false,
-      "pricingNote": "Preço regular R$ 79,90; R$ 75,00 é opção de campanha futura, não promoção ativa. Os valores de venda não habilitam compra. Custo exibido pela VAVI a partir de R$ 44,00, sujeito a confirmação por variante."
+      "pricingNote": "Preço regular R$ 79,90; R$ 75,00 é opção de campanha futura, não ativa. Custo R$ 44,00 confirmado pelo lojista; confirmar o custo e a variante em cada cor antes da ativação. A venda permanece bloqueada até fotos e frete."
     },
     {
       "id": "ecobag-cor-iesu-sacratissimum",
@@ -53,8 +53,8 @@
         "printedAreas": 1
       },
       "status": "preparation",
-      "priceStatus": "pending",
-      "retailPriceCents": null,
+      "priceStatus": "defined",
+      "retailPriceCents": 3990,
       "image": null,
       "availableForCheckout": false,
       "observedSizes": [
@@ -70,12 +70,13 @@
         "Código final de cada variação e área de impressão a confirmar."
       ],
       "blockers": [
-        "Preço final da ecobag estampada para M e G",
+        "Confirmar preço de venda R$ 39,90 e margem antes de liberar a compra",
         "SKUs VAVI por tamanho",
         "Fotografias/mockups aprovados",
         "Configuração da estampa em cada tamanho",
         "Frete e checkout validados"
-      ]
+      ],
+      "pricingNote": "Preço de vitrine planejado R$ 39,90, igual à ecobag Salve Regina. Custo R$ 19,50 informado pelo lojista. Sem imagens aprovadas, frete ou compra habilitados."
     }
   ]
 }
