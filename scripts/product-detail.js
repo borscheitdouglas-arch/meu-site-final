@@ -78,13 +78,7 @@
       "/assets/img/loja/cor-iesu/cores/cor-iesu-cinza-claro-1200.webp",
       "/assets/img/loja/cor-iesu/cores/cor-iesu-cinza-escuro-1200.webp",
       "/assets/img/loja/cor-iesu/cores/cor-iesu-areia-1200.webp",
-      "/assets/img/loja/cor-iesu/cores/cor-iesu-bordo-1200.webp",
-      "/assets/img/loja/cor-iesu/cores/cor-iesu-editorial-1200.webp",
-      "/assets/img/loja/cor-iesu/frente-modelo-1500.webp",
-      "/assets/img/loja/cor-iesu/costas-fundo-vinho-1500.webp",
-      "/assets/img/loja/cor-iesu/frente-fundo-vinho-1500.webp",
-      "/assets/img/loja/cor-iesu/conjunto-neutro-1500.webp",
-      "/assets/img/loja/cor-iesu/conjunto-vinho-1500.webp"
+      "/assets/img/loja/cor-iesu/cores/cor-iesu-bordo-1200.webp"
     ],
     "photoLabels": [
       "Camiseta Sagrado Coração de Jesus: Marrom — frente e costas, versão atualmente liberada para compra. Mockup ilustrativo.",
@@ -97,13 +91,7 @@
       "Camiseta Sagrado Coração de Jesus: Cinza-claro — frente e costas, cor sob consulta. Mockup ilustrativo.",
       "Camiseta Sagrado Coração de Jesus: Cinza-escuro — frente e costas, cor sob consulta. Mockup ilustrativo.",
       "Camiseta Sagrado Coração de Jesus: Areia — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Bordô — frente e costas, cor sob consulta. Mockup ilustrativo.",
-      "Camiseta Sagrado Coração de Jesus: Apresentação editorial das duas estampas na camiseta marrom. Mockup ilustrativo.",
-      "Camiseta marrom de frente, medalhão do Sagrado Coração",
-      "Camiseta marrom de costas, estampa gótica em fundo vinho",
-      "Camiseta marrom de frente, medalhão em fundo vinho",
-      "Camiseta marrom, frente e costas em estúdio neutro",
-      "Camiseta marrom, frente e costas em estúdio vinho"
+      "Camiseta Sagrado Coração de Jesus: Bordô — frente e costas, cor sob consulta. Mockup ilustrativo."
     ],
     "note": "Imagens ilustrativas (mockups digitais), com enquadramento padronizado de 4:3. Somente Marrom está liberada para compra online; outras cores estão sob consulta. A cor real do tecido e a impressão podem variar."
   },
