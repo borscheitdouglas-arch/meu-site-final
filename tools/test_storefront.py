@@ -68,7 +68,8 @@ def main():
         headers = {'Access-Control-Allow-Origin': '*'}
         if url.path == '/api/checkout/live/readiness':
             route.fulfill(json={'checkoutEnabled': state['checkout_enabled'],
-                                'availableSkus': [f'salve-regina-preta-{s}' for s in ('p','m','g','gg','xg')]
+                                'availableSkus': ([f'salve-regina-preta-{s}' for s in ('p','m','g','gg','xg')] +
+                                                  [f'cor-iesu-marrom-{s}' for s in ('p','m','g','gg')])
                                 if state['checkout_enabled'] else [],
                                 'multiCheckoutEnabled': False}, headers=headers)
             return
@@ -81,7 +82,9 @@ def main():
             assert body.get('sku') in (
                 'salve-regina-preta-g','salve-regina-preta-xg',
                 'caneca-salve-regina-preta','caneca-salve-regina-pb',
-                'ecobag-salve-regina-m','ecobag-salve-regina-g'
+                'ecobag-salve-regina-m','ecobag-salve-regina-g',
+                'cor-iesu-marrom-p','cor-iesu-marrom-m',
+                'cor-iesu-marrom-g','cor-iesu-marrom-gg'
             ), body
             if body.get('sku', '').startswith(('caneca-', 'ecobag-')) and not state['extra_shipping_ready']:
                 route.fulfill(status=409,json={'error':'shipping_product_unverified'},headers=headers)
@@ -340,6 +343,43 @@ def main():
             page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) [data-cart-size]').select_option('XG')
             expect(page.locator('.shop-cart-buy-now')).to_have_attribute(
                 'href','/pages/checkout-salve-regina.html?size=XG')
+            # Cor Iesu: cores e tamanhos são escolhas claras, sem o select "Único".
+            # Apenas Marrom está aprovado; outras cores nunca liberam frete/pagamento.
+            page.goto(base+'/pages/checkout-salve-regina.html?sku=cor-iesu-marrom-gg',
+                      wait_until='networkidle')
+            expect(page.locator('.checkout-color-choice')).to_have_count(6)
+            expect(page.locator('.checkout-size-choice')).to_have_count(4)
+            expect(page.locator('select[name="size"]')).to_have_count(0)
+            expect(page.locator('input[name="corIesuColor"][value="marrom"]')).to_be_checked()
+            expect(page.locator('input[name="corIesuSize"][value="GG"]')).to_be_checked()
+            expect(page.locator('#checkout-product-name')).to_contain_text('Marrom GG')
+            expect(page.locator('#product-amount')).to_have_text('R$ 109,90')
+            page.locator('[data-size-choice="P"]').click()
+            expect(page.locator('#checkout-product-name')).to_contain_text('Marrom P')
+            expect(page.locator('#checkout-selection')).to_contain_text('Marrom P')
+            expect(page).to_have_url(base+'/pages/checkout-salve-regina.html?sku=cor-iesu-marrom-p')
+            page.locator('[data-color-choice="vinho"]').click()
+            expect(page.locator('#checkout-selected-color')).to_have_text('Vinho')
+            expect(page.locator('#checkout-variant-status')).to_contain_text('sob consulta')
+            expect(page.locator('#checkout-variant-help')).to_be_visible()
+            expect(page.locator('#ship-quote')).to_be_disabled()
+            expect(page.locator('#pay-now')).to_be_disabled()
+            page.locator('[data-color-choice="marrom"]').click()
+            expect(page.locator('#checkout-variant-help')).to_be_hidden()
+            expect(page.locator('#ship-quote')).to_be_enabled()
+            page.locator('input[name="zipCode"]').fill('01001-000')
+            page.locator('#ship-quote').click()
+            expect(page.locator('.shipping-choice')).to_have_count(2)
+            expect(page.locator('#checkout-total')).to_contain_text('139,80')
+            page.locator('[data-size-choice="M"]').click()
+            expect(page.locator('#ship-choices')).to_be_hidden()
+            expect(page.locator('#checkout-total')).to_have_text('A calcular')
+            expect(page.locator('#pay-now')).to_be_disabled()
+            for width in [320,390,768,1440]:
+                page.set_viewport_size({'width':width,'height':900})
+                assert_no_overflow(page)
+            page.set_viewport_size({'width':1440,'height':900})
+            print('PASS: Cor Iesu escolhe cor/tamanho e bloqueia combinações não aprovadas',flush=True)
             state['checkout_enabled'] = False
             page.reload(wait_until='networkidle')
             expect(page.locator('.atelier-vavi-live-link')).to_have_count(0)
