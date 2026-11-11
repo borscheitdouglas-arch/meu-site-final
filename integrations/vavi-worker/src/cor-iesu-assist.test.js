@@ -50,7 +50,9 @@ test('somente custo D000007 DTF 2 áreas confirmado no D1 autoriza prévia',asyn
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign({...design,configured_areas:1}),'cor-iesu-marrom-g'),null);
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign({...design,confirmed_unit_cost_cents:null}),'cor-iesu-marrom-g'),null);
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'salve-regina-preta-g'),null);
-  assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-branco-g'),null);
+  assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-branco-g'),5691);
+  assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-azul-royal-p'),5691);
+  assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-bordo-gg'),5691);
 });
 test('embalagem conjunta da nova coleção permanece bloqueada',()=>{
   assert.doesNotThrow(()=>assertCorIesuSingleItem([{sku:'cor-iesu-marrom-p',quantity:1}]));
@@ -119,20 +121,11 @@ test('API não fornece frete de cor Cor Iesu ainda inativa no D1',async()=>{
   assert.equal((await response.json()).error,'unavailable_product');
 });
 
-test('nova cor exige código único VAVI, custo e frete privados confirmados',async()=>{
-  const sku='cor-iesu-branco-g';
-  const observed={supplier_design_code:'D000007',supplier_variant_sku:'0000004',
-    observed_total_cents:5691,freight_config_verified:1};
-  function dbFor(other,copies=1){
-    return {prepare(sql){return {bind(){return {first:async()=>{
-      if(sql.includes('supplier_design_observations'))return design;
-      if(sql.includes('COUNT(*)'))return {n:copies};
-      return other;
-    }};}}};
-  }
-  assert.equal(await loadCorIesuAssistedCost(dbFor(observed),sku),5691);
-  assert.equal(await loadCorIesuAssistedCost(dbFor({...observed,freight_config_verified:0}),sku),null);
-  assert.equal(await loadCorIesuAssistedCost(dbFor(observed,2),sku),null);
-  assert.equal(await loadCorIesuAssistedCost(dbFor({...observed,supplier_variant_sku:'D000007'}),sku),null);
-  assert.equal(await loadCorIesuAssistedCost(dbFor({...observed,supplier_design_code:'D000008'}),sku),null);
+test('11 cores x 4 tamanhos usam o mesmo custo privado do design, sem fingir SKU VAVI',async()=>{
+  for(const sku of COR_IESU_ASSISTED_SKUS)
+    assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),sku),5691,sku);
+  // O custo só é válido com arte D000007 DTF em duas áreas e valor aprovado.
+  assert.equal(await loadCorIesuAssistedCost(dbWithDesign({...design,method:'DTG'}),'cor-iesu-preto-g'),null);
+  assert.equal(await loadCorIesuAssistedCost(dbWithDesign({...design,confirmed_unit_cost_cents:5692}),'cor-iesu-verde-p'),null);
+  assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-rosa-g'),null);
 });
