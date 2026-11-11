@@ -15,8 +15,8 @@
         "printedAreas": 1
       },
       "status": "preparation",
-      "priceStatus": "pending",
-      "retailPriceCents": null,
+      "priceStatus": "defined",
+      "retailPriceCents": 7990,
       "image": null,
       "availableForCheckout": false,
       "observedColorSwatches": [
@@ -32,12 +32,15 @@
         "Cores, código da variante e posição final da aplicação pendentes de confirmação."
       ],
       "blockers": [
-        "Preço final da peça personalizada por cor",
+        "Confirmar custo total efetivo por cor e margem antes de ativar as vendas",
         "Nome oficial das cores e SKUs VAVI de cada variante",
         "Fotografias/mockups aprovados",
         "Ficha técnica e área real de impressão",
         "Homologação de frete e checkout"
-      ]
+      ],
+      "promotionalPriceCents": 7500,
+      "promotionActive": false,
+      "pricingNote": "Preço regular R$ 79,90; R$ 75,00 é opção de campanha futura, não promoção ativa. Os valores de venda não habilitam compra. Custo exibido pela VAVI a partir de R$ 44,00, sujeito a confirmação por variante."
     },
     {
       "id": "ecobag-cor-iesu-sacratissimum",
