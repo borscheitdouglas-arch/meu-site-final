@@ -2741,7 +2741,7 @@ var index_default = {
           throw new CatalogError("invalid_sku", "Produto inv\xE1lido.", 422);
         if (!Object.hasOwn(SALVE_REGINA_VARIANTS, sku)) {
           const registered = env.DB?.prepare && await loadVariant(env.DB, sku);
-          if (!registered || !approvedSaleVariant(sku, registered.price_cents))
+          if (!registered || !approvedSaleVariant(sku, registered.price_cents) || isCorIesuAssistedSku(sku) && registered.available !== 1)
             throw new CatalogError("unavailable_product", "Produto ainda sem cadastro completo.", 409);
         }
         const diagnostic = body?.diagnose === true ? {} : null;
