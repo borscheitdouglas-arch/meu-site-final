@@ -7,7 +7,7 @@
     const style = document.createElement('link');
     style.id = 'mobile-app-shell-css';
     style.rel = 'stylesheet';
-    style.href = '/styles/mobile-app-shell.css?v=20261105-mobile-menu-spectral-v17';
+    style.href = '/styles/mobile-app-shell.css?v=20261111-header-buttons-contrast-v1';
     document.head.appendChild(style);
     const script = document.createElement('script');
     script.id = 'mobile-app-shell-script';
