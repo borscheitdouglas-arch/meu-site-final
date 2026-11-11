@@ -3,6 +3,7 @@ import {decryptDelivery} from './delivery-repository.js';
 import {buildVaviIntegrationOrder} from './vavi-order-contract.js';
 import {createVaviDraft} from './vavi-draft-client.js';
 import {obtainVaviAccessToken} from './vavi-auth.js';
+import {isCorIesuAssistedSku} from './cor-iesu-assist.js';
 
 const ID=/^ord_[a-f0-9]{32}$/;
 const LIMIT=3;
@@ -82,7 +83,10 @@ export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft,
     if(!delivery)throw new CatalogError('delivery_not_found','Dados protegidos indisponíveis.',503);
     const buyer=await decryptDelivery(orderId,delivery,env.DELIVERY_ENCRYPTION_KEY_B64);
     const items=(itemsResult.results||[]).map(x=>({
-      name:x.label,sku:x.sku,quantity:x.quantity,unitPriceCents:x.unit_price_cents
+      name:isCorIesuAssistedSku(x.sku)
+        ? (x.label+' | VAVI design D000007, DTF 2 áreas (medalhão frente; gravura costas)').slice(0,180)
+        : x.label,
+      sku:x.sku,quantity:x.quantity,unitPriceCents:x.unit_price_cents
     }));
     const payload=buildVaviIntegrationOrder({
       order:{id:order.id,status:order.status,subtotalCents:order.subtotal_cents,
