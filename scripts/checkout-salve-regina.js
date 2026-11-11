@@ -12,6 +12,26 @@
   // Somente produtos cadastrados pela loja. Query string nunca define preço.
   // Backend valida novamente SKU, preço, aprovação comercial e frete.
   const extras=Object.freeze({
+    'cor-iesu-marrom-p':{
+      title:'Camiseta Cor Iesu Sacratissimum — Marrom P',
+      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
+      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
+    },
+    'cor-iesu-marrom-m':{
+      title:'Camiseta Cor Iesu Sacratissimum — Marrom M',
+      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
+      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
+    },
+    'cor-iesu-marrom-g':{
+      title:'Camiseta Cor Iesu Sacratissimum — Marrom G',
+      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
+      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
+    },
+    'cor-iesu-marrom-gg':{
+      title:'Camiseta Cor Iesu Sacratissimum — Marrom GG',
+      detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',price:10990,
+      image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'
+    },
     'caneca-salve-regina-preta':{
       title:'Caneca Salve Regina — Partitura Gregoriana',
       detail:'Caneca com partitura gregoriana',price:4990,
@@ -81,7 +101,7 @@
           <section class="checkout-panel" aria-labelledby="product-heading">
             <div class="checkout-section-heading"><span class="checkout-step">1</span><div><p class="checkout-eyebrow">Revise seu produto</p><h2 id="product-heading">Produtos do pedido</h2></div></div>
             <div class="checkout-product">
-              <img src="${extra?extra.image:'/assets/img/loja/Salve-Regina/web/camiseta-480.webp'}" width="92" height="92" alt="Produto da coleção Salve Regina">
+              <img src="${extra?extra.image:'/assets/img/loja/Salve-Regina/web/camiseta-480.webp'}" width="92" height="92" alt="Produto da loja">
               <div>
                 <strong>${extra?extra.title:'Camiseta Salve Regina · Preta'}</strong>
                 <p>${extra?extra.detail:'Estampa gregoriana e arte mariana'} · 1 unidade</p>
