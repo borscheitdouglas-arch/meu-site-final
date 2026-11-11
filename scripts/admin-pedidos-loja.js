@@ -242,7 +242,7 @@
       item.append(text('p','Produtos: '+String(order.items_summary||'Não informados')+
         ' · Unidades: '+String(order.items_quantity??'?')));
       item.append(text('p','Criado em: '+String(order.created_at||'')+
-        (order.vavi_order_id?' · Produção VAVI: '+String(order.vavi_order_id):'')+
+        (order.vavi_order_id?' · Pedido de produção: '+String(order.vavi_order_id):'')+
         (order.vavi_draft_state?' · Integração de produção: '+String(order.vavi_draft_state):'')+
         (order.vavi_draft_id?' · Rascunho: '+String(order.vavi_draft_id):''),'muted'));
       const action=document.createElement('button');action.type='button';
