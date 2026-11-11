@@ -1254,3 +1254,116 @@
     background: rgba(123,84,39,.12);
   }
 }
+
+
+/* 11/11/2026 — contraste dos controles do cabeçalho mobile. */
+@media (max-width: 767px) {
+  /* Fundo próprio para cada ação: legibilidade mesmo sobre arte detalhada. */
+  body.mobile-sacred-active > .mobile-sacred-header > .mobile-sacred-menu-trigger,
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-actions > :is(a,button) {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1px;
+    height:49px;
+    min-height:49px;
+    border:1px solid rgba(241,208,147,.72);
+    border-radius:10px;
+    background:rgba(8,29,42,.74);
+    color:#fff2d5;
+    box-shadow:0 2px 6px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,244,211,.13);
+    text-shadow:none;
+    -webkit-tap-highlight-color:transparent;
+    transition:background-color .16s ease,border-color .16s ease;
+  }
+  body.mobile-sacred-active > .mobile-sacred-header > .mobile-sacred-menu-trigger {
+    width:46px;
+    min-width:46px;
+    flex:0 0 46px;
+  }
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-actions > .mobile-sacred-install-trigger {
+    width:44px;
+    min-width:44px;
+    flex:0 0 44px;
+  }
+  body.mobile-sacred-active > .mobile-sacred-header :is(.mobile-sacred-menu-trigger,.mobile-sacred-install-trigger) svg,
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-actions > a svg {
+    width:23px;
+    height:23px;
+    stroke-width:2.25;
+    color:inherit;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));
+  }
+  /* Legendas curtas tornam evidente a finalidade dos ícones. */
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-menu-trigger::after {
+    content:"MENU";
+  }
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-install-trigger::after {
+    content:"APP";
+  }
+  body.mobile-sacred-active > .mobile-sacred-header :is(.mobile-sacred-menu-trigger,.mobile-sacred-install-trigger)::after,
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-actions > a span {
+    display:block;
+    color:inherit;
+    font:700 9px/1.08 'Inter',Arial,sans-serif;
+    letter-spacing:.045em;
+    text-shadow:none;
+    text-transform:uppercase;
+  }
+  body.mobile-sacred-active > .mobile-sacred-header :is(.mobile-sacred-menu-trigger,.mobile-sacred-install-trigger):active,
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-actions > a:active {
+    background:rgba(33,64,77,.95);
+    border-color:#ffe0a0;
+  }
+  body.mobile-sacred-active > .mobile-sacred-header :is(.mobile-sacred-menu-trigger,.mobile-sacred-install-trigger):focus-visible,
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-actions > a:focus-visible {
+    outline:3px solid #fff1c9;
+    outline-offset:2px;
+  }
+  /* No cabeçalho dourado da HOME, botões de azul-noite e letras marfim. */
+  body.mobile-sacred-active.home-page > .mobile-sacred-header > .mobile-sacred-menu-trigger,
+  body.mobile-sacred-active.home-page > .mobile-sacred-header .mobile-sacred-actions > :is(a,button) {
+    background:rgba(9,30,45,.91);
+    border-color:rgba(255,232,183,.88);
+    color:#fff6df!important;
+    text-shadow:none;
+    box-shadow:0 2px 7px rgba(40,25,9,.24),inset 0 1px 0 rgba(255,255,255,.14);
+  }
+  body.mobile-sacred-active.home-page > .mobile-sacred-header .mobile-sacred-actions > a span {
+    color:#fff6df!important;
+  }
+  body.mobile-sacred-active.home-page > .mobile-sacred-header :is(.mobile-sacred-menu-trigger,.mobile-sacred-install-trigger):active,
+  body.mobile-sacred-active.home-page > .mobile-sacred-header .mobile-sacred-actions > a:active {
+    background:#254456;
+    color:#fff6df!important;
+  }
+  /* Na loja escura, a seção atual recebe destaque dourado nítido. */
+  body.mobile-sacred-active.shop-shared-shell > .mobile-sacred-header .mobile-sacred-actions > a[aria-current="page"] {
+    background:#e6c989;
+    border-color:#ffe2a4;
+    color:#142e3e;
+  }
+  body.mobile-sacred-active.shop-shared-shell > .mobile-sacred-header .mobile-sacred-actions > a[aria-current="page"] span {
+    color:#142e3e;
+  }
+}
+@media (max-width:360px) {
+  /* Botões separados do logotipo mesmo em telas de 320px. */
+  body.mobile-sacred-active.shop-shared-shell > .mobile-sacred-header .mobile-sacred-actions > :is(.mobile-sacred-home-link,.mobile-sacred-store-link) {
+    width:42px;
+    min-width:42px;
+  }
+  body.mobile-sacred-active.shop-shared-shell > .mobile-sacred-header .mobile-sacred-actions > .mobile-sacred-install-trigger {
+    width:40px;
+    min-width:40px;
+    flex-basis:40px;
+  }
+  body.mobile-sacred-active.shop-shared-shell > .mobile-sacred-header .mobile-sacred-brand {max-width:40px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  body.mobile-sacred-active > .mobile-sacred-header :is(.mobile-sacred-menu-trigger,.mobile-sacred-install-trigger),
+  body.mobile-sacred-active > .mobile-sacred-header .mobile-sacred-actions > a {
+    transition:none;
+  }
+}
