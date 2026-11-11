@@ -34,7 +34,7 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertEqual({a['href'] for a in links}, {r['url'] for r in self.data['products'][0]['retailers']})
         self.assertTrue(all(a['target'] == '_blank' and 'noopener' in a['rel'] for a in links))
         details = [a for t, a in tags if t == 'a' and a.get('href', '').startswith('/pages/produto-loja.html?id=')]
-        self.assertEqual(len(details), 2)
+        self.assertEqual(len(details), 3)
         self.assertTrue(all(a['href'].endswith('o-canto-como-mistica') for a in details))
 
     def test_incomplete_draft_is_never_exposed(self):
@@ -143,19 +143,19 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertNotIn('MERCADOPAGO_TEST_ACCESS_TOKEN', source)
         self.assertNotIn('CHECKOUT_TEST_API_KEY', source)
         self.assertNotIn('/api/checkout/test', source)
-        # Só a camiseta está disponível para checkout; outras peças
-        # continuam consultáveis e não geram cobrança automática.
-        self.assertEqual(source.count('data-availability="preparation"'), 1)
-        self.assertEqual(source.count('data-availability="consultation"'), 4)
-        self.assertEqual(source.count('data-availability="available"'), 1)
+        # Cinco produtos físicos aparecem como disponíveis; o Worker valida
+        # individualmente SKU, preço e frete antes de liberar o pagamento.
+        self.assertEqual(source.count('data-availability="preparation"'), 0)
+        self.assertEqual(source.count('data-availability="consultation"'), 0)
+        self.assertEqual(source.count('data-availability="available"'), 5)
         self.assertIn('Calcular frete', source)
         self.assertIn('data-shipping-calculator', source)
         self.assertIn('store-shipping-calculator.js', source)
         self.assertIn('R$ 49,90', source)
         self.assertIn('R$ 39,90', source)
-        self.assertEqual(source.count('data-cart-add='), 6)
+        self.assertEqual(source.count('data-cart-add='), 5)
         self.assertNotIn('data-cart-checkout', source)
-        self.assertIn('Em preparação · consulte a disponibilidade', source)
+        self.assertIn('data-cart-add="camiseta-cor-iesu-sacratissimum"', source)
         self.assertIn('R$ 109,90', source)
 
 
