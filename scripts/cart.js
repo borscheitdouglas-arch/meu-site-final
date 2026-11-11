@@ -392,7 +392,7 @@
       // A vitrine só mostra compra direta quando o servidor autorizar cobranças.
       ready=await checkReady();
       if (ready) {
-        const shirt=shop.querySelector('.shop-product-card[data-category="camisetas"]');
+        const shirt=shop.querySelector('[data-cart-add="camiseta-salve-regina"]')?.closest('.shop-product-card');
         const select=shirt?.querySelector('[data-cart-size]');
         const addButton=shirt?.querySelector('[data-cart-add="camiseta-salve-regina"]');
         if (select && addButton) {
@@ -416,7 +416,9 @@
     }
     if(shop && ready){
       for(const product of catalog.values()){
-        if(product.id==='camiseta-salve-regina' || !Array.isArray(product.variants))continue;
+        if(product.id==='camiseta-salve-regina' ||
+           product.id==='camiseta-cor-iesu-sacratissimum' ||
+           !Array.isArray(product.variants))continue;
         const variant=product.variants[0];
         if(!readySkus.has(variant?.sku))continue;
         const button=shop.querySelector('[data-cart-add="'+product.id+'"]');
@@ -429,6 +431,27 @@
         button.insertAdjacentElement('afterend',buy);
         const state=card.querySelector('.shop-product-state');
         if(state)state.textContent='Compra online liberada · frete e total no checkout';
+      }
+    }
+    // Camiseta Cor Iesu: o link de compra acompanha o tamanho escolhido,
+    // sem confundir SKU interno com código da VAVI.
+    if(shop && ready){
+      const addButton=shop.querySelector('[data-cart-add="camiseta-cor-iesu-sacratissimum"]');
+      const card=addButton?.closest('.shop-product-card');
+      const select=card?.querySelector('[data-cart-size]');
+      if(addButton && select){
+        const buy=document.createElement('a');
+        buy.className='shop-cart-buy-now';
+        buy.textContent='Comprar agora com InfinitePay →';
+        const update=()=>{
+          const sku='cor-iesu-marrom-'+select.value.toLowerCase();
+          const allowed=readySkus.has(sku);
+          buy.hidden=!allowed;
+          if(allowed)buy.href='/pages/checkout-salve-regina.html?sku='+encodeURIComponent(sku);
+        };
+        select.addEventListener('change',update);
+        addButton.insertAdjacentElement('afterend',buy);
+        update();
       }
     }
     if (document.getElementById('cart-root')) {
