@@ -17,6 +17,18 @@ Os valores do tipo **“A PARTIR DE”** são observações do painel VAVI, não
 - **Boné**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. **Preço normal definido: R$ 79,90; opção promocional futura: R$ 75,00, ainda não ativa.** Sem imagem de produto aprovada ou variantes homologadas; não entra na vitrine nem pode ser comprado. O valor de R$ 44,00 do painel VAVI é exibido como “a partir de”; verificar o custo final por cor antes da ativação.
 - **Ecobag**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. Sem preço de venda, imagem aprovada ou variantes homologadas. Não entra na vitrine ainda.
 
+## Levantamento visual das variantes da camiseta — 11/11/2026
+
+As **44 combinações** (11 cores × 4 tamanhos) foram transcritas das capturas da tela "Adicionar ao Carrinho" da VAVI e guardadas, com referência à captura de origem, em [`content/cor-iesu-vavi-variantes-observadas.json`](../content/cor-iesu-vavi-variantes-observadas.json).
+
+**AVISO DE CONFIABILIDADE:**
+- Embora 44 combinações apareçam selecionadas, há apenas **30 códigos distintos** visíveis.
+- **9 códigos se repetem**, afetando **23 combinações**; alguns aparecem para cores diferentes.
+- Isso pode ocorrer porque o resumo da variante demora a atualizar ao trocar cor/tamanho; não é prova de erro cadastral no fornecedor.
+- Portanto, **NENHUM dos 44 códigos está homologado para pedidos automáticos**. Os registros são **observações**, não mapeamento operacional validado.
+- Confirmar a relação cor+tamanho→SKU por API/autorização da VAVI ou reabrir o modal, selecionar cada variação e aguardar atualização completa do resumo; antes de liberar, conferir que cada SKU é único, pertence ao produto-base e recebe a arte `D000007`.
+- **Não atualizar `variants.supplier_variant_sku`, não habilitar checkout e não usar esses códigos para simulação de frete/produção até validar.**
+
 ## Checklist de liberação, por produto
 1. Confirmar SKUs específicos da VAVI para cada cor/tamanho; conferir qual cor é **Marrom** na camiseta.
 2. Confirmar preço final com arte e método de produção para cada variação, impostos e margem.
