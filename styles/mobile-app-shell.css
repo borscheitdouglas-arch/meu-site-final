@@ -1338,6 +1338,13 @@
     background:#254456;
     color:#fff6df!important;
   }
+  /* Contraste específico dos atalhos no cabeçalho azul-noite. */
+  body.mobile-sacred-active.shop-shared-shell > .mobile-sacred-header .mobile-sacred-actions > :is(.mobile-sacred-home-link,.mobile-sacred-store-link) {
+    background:rgba(21,61,78,.96);
+    border-color:rgba(250,218,159,.78);
+    color:#fff1d0;
+    box-shadow:0 2px 6px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,246,219,.10);
+  }
   /* Na loja escura, a seção atual recebe destaque dourado nítido. */
   body.mobile-sacred-active.shop-shared-shell > .mobile-sacred-header .mobile-sacred-actions > a[aria-current="page"] {
     background:#e6c989;
