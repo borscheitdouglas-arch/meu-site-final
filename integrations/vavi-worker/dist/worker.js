@@ -96,11 +96,16 @@ function groupCatalog(rows) {
 // src/cor-iesu-assist.js
 var COR_IESU_COLOR_OPTIONS = Object.freeze([
   { slug: "marrom", name: "Marrom" },
-  { slug: "bege", name: "Bege" },
-  { slug: "vinho", name: "Vinho" },
-  { slug: "verde-escuro", name: "Verde escuro" },
-  { slug: "cinza-claro", name: "Cinza claro" },
-  { slug: "grafite", name: "Grafite" }
+  { slug: "branco", name: "Branco" },
+  { slug: "preto", name: "Preto" },
+  { slug: "off-white", name: "Off-white" },
+  { slug: "azul-marinho", name: "Azul-marinho" },
+  { slug: "azul-royal", name: "Azul-royal" },
+  { slug: "verde", name: "Verde" },
+  { slug: "cinza-claro", name: "Cinza-claro" },
+  { slug: "cinza-escuro", name: "Cinza-escuro" },
+  { slug: "areia", name: "Areia" },
+  { slug: "bordo", name: "Bord\xF4" }
 ]);
 var COR_IESU_ASSISTED_VARIANTS = Object.freeze(Object.fromEntries(
   COR_IESU_COLOR_OPTIONS.flatMap((color) => ["p", "m", "g", "gg"].map((size) => ["cor-iesu-" + color.slug + "-" + size, 10990]))
