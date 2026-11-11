@@ -30,8 +30,11 @@ function dbWithDesign(row=design){
     run:async()=>({meta:{changes:1}})
   };}}}};
 }
-test('4 SKUs internos aprovados, nenhum SKU VAVI presumido',()=>{
-  assert.equal(COR_IESU_ASSISTED_SKUS.length,4);
+test('24 SKUs internos reconhecidos, sem confundir com SKUs VAVI',()=>{
+  assert.equal(COR_IESU_ASSISTED_SKUS.length,24);
+  assert.ok(COR_IESU_ASSISTED_SKUS.includes('cor-iesu-vinho-p'));
+  assert.ok(COR_IESU_ASSISTED_SKUS.includes('cor-iesu-grafite-gg'));
+  // D1 mantém as 20 variantes não homologadas com available=0.
   for(const sku of COR_IESU_ASSISTED_SKUS){
     assert.equal(approvedCorIesuAssistedVariant(sku,10990),true);
     assert.equal(approvedCorIesuAssistedVariant(sku,7990),false);
@@ -90,9 +93,9 @@ test('não cobra quando o custo ou o produto não foi homologado',async()=>{
   }),{code:'shipping_product_unverified'});
   assert.equal(paid,false);
   await assert.rejects(()=>createCheckoutLive({...base,DB:dbWithDesign()},{
-    items:[{sku:'cor-iesu-marrom-g',quantity:1}],
+    items:[{sku:'cor-iesu-vinho-g',quantity:1}],
     zipCode:'01001000',shippingOptionId:'express',buyer
   },{
-    loadVariant:async()=>({...variant,available:0})
+    loadVariant:async()=>({...variant,sku:'cor-iesu-vinho-g',available:0})
   }),{code:'unavailable_product'});
 });
