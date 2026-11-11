@@ -11,6 +11,80 @@
   const money = cents => new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(cents / 100);
   const API = 'https://douglas-loja-api.liturgia-gregoriano.workers.dev';
   const info = {
+  "camiseta-cor-iesu-sacratissimum": {
+    "type": "Camiseta · Coleção Cor Iesu Sacratissimum",
+    "material": "100% algodão fio 30.1 penteado",
+    "finish": "Estampas fixas em DTF: medalhão na frente e gravura gótica nas costas",
+    "description": "Uma peça de inspiração sacra que une a devoção ao Sacratíssimo Coração de Jesus à estética das gravuras tradicionais. O medalhão frontal apresenta o Coração inflamado de amor, coroado de espinhos e acompanhado por lírios. Nas costas, a composição gótica ampliada reúne cruz, chamas, rosas, ornamentos e a inscrição latina Cor Iesu Sacratissimum.",
+    "paragraphs": [
+      "O Sagrado Coração de Jesus expressa o amor de Cristo pela humanidade. Nesta criação, a cruz, as chamas e a coroa de espinhos aparecem em duas composições complementares: um medalhão refinado na frente e uma gravura gótica ampla nas costas.",
+      "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A peça é apresentada na cor marrom-acinzentada das fotografias, com artes em vermelho profundo, bronze envelhecido e marfim.",
+      "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço, disponibilidade dos tamanhos e frete serão confirmados antes da abertura das vendas."
+    ],
+    "features": [
+      "Composição: 100% algodão fio 30.1 penteado.",
+      "Modelagem unissex; camiseta de manga curta e gola redonda.",
+      "Cor desta edição: marrom-acinzentado (conforme fotografias ilustrativas).",
+      "Frente: medalhão do Sagrado Coração de Jesus com lírios e raios.",
+      "Costas: estampa grande com moldura gótica, rosas, cruz e inscrição latina.",
+      "Impressão prevista: DTF, frente e costas, com artes fixas.",
+      "Grade do modelo-base: PP, P, M, G, GG e XG; disponibilidade de cada tamanho a confirmar.",
+      "Venda por peça; produção sob demanda após confirmação do pedido."
+    ],
+    "reasons": [
+      "Expressa a devoção ao Sacratíssimo Coração de Jesus com arte autoral.",
+      "Combina gravura sacra vintage e apresentação contemporânea.",
+      "Algodão penteado macio e respirável, com modelagem unissex.",
+      "Duas estampas complementares: frente discreta e costas ornamentadas."
+    ],
+    "faq": [
+      [
+        "Qual o tecido?",
+        "100% algodão fio 30.1 penteado, com modelagem unissex."
+      ],
+      [
+        "Qual estampa fica na frente e qual fica nas costas?",
+        "Na frente está o medalhão circular do Sagrado Coração com lírios. Nas costas está a estampa maior emoldurada por ornamentos góticos, com rosas e a inscrição COR IESU SACRATISSIMUM."
+      ],
+      [
+        "Posso personalizar as estampas ou escolher outro método?",
+        "Não neste anúncio. A proposta é uma edição com artes fixas em DTF nas duas faces."
+      ],
+      [
+        "Quais cores e tamanhos estão disponíveis?",
+        "O anúncio apresenta a cor marrom-acinzentada das imagens. A grade do modelo-base abrange PP a XG, sujeita à confirmação de disponibilidade para esta edição."
+      ],
+      [
+        "Já posso comprar?",
+        "O produto está em preparação. Preço, disponibilidade e frete serão informados antes de liberar a compra."
+      ],
+      [
+        "O que significa Cor Iesu Sacratissimum?",
+        "Em latim, Sacratíssimo Coração de Jesus."
+      ],
+      [
+        "Qual é o pedido mínimo?",
+        "A VAVI informa venda do produto-base a partir de uma peça; a produção desta edição depende de confirmação comercial."
+      ]
+    ],
+    "photos": [
+      "/assets/img/loja/cor-iesu/costas-modelo-1500.webp",
+      "/assets/img/loja/cor-iesu/frente-modelo-1500.webp",
+      "/assets/img/loja/cor-iesu/costas-fundo-vinho-1500.webp",
+      "/assets/img/loja/cor-iesu/frente-fundo-vinho-1500.webp",
+      "/assets/img/loja/cor-iesu/conjunto-neutro-1500.webp",
+      "/assets/img/loja/cor-iesu/conjunto-vinho-1500.webp"
+    ],
+    "photoLabels": [
+      "Camiseta unissex Cor Iesu Sacratissimum, costas com estampa gótica grande em modelo sem tatuagens",
+      "Camiseta unissex Cor Iesu Sacratissimum, frente com medalhão do Sagrado Coração",
+      "Camiseta vista de costas, estampa gótica grande e fundo vinho texturizado",
+      "Camiseta vista de frente, medalhão do Sagrado Coração e fundo vinho texturizado",
+      "Apresentação da camiseta frente e costas em cenário de estúdio neutro",
+      "Apresentação editorial da camiseta frente e costas com cenário em vinho"
+    ],
+    "note": "Imagens ilustrativas (mockups digitais). A cor do tecido e o resultado da impressão podem variar. Produto em preparação: nenhum pagamento é realizado nesta página."
+  },
   "camiseta-salve-regina": {
     "type": "Camiseta · Coleção Salve Regina",
     "material": "100% algodão fio 30.1 penteado",
@@ -443,6 +517,7 @@
       el('h1','',title));
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
+    const isCorIesuShirt=product.id==='camiseta-cor-iesu-sacratissimum';
     const isEcobag=product.id==='ecobag-salve-regina';
     const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isShirt?'Compra online disponível · produção sob demanda':'Sob consulta · preço sujeito à confirmação';
     const productStatus=el('span','shop-single-status',statusText);
@@ -479,7 +554,7 @@
       function renderPrice(){
         variant=variants.find(v=>v.code===select.value)||variants[0];
         price.textContent=Number.isInteger(variant?.priceCents)?money(variant.priceCents):'Preço a confirmar';
-        if(detail.type?.includes('Camiseta') && variant?.code==='XG')
+        if(isShirt && variant?.code==='XG')
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
         else if(isEcobag&&!variant?.sku)
           priceNote.textContent='Tamanho '+variant.code+': preço e produção ainda não confirmados. M e G estão cadastrados para venda.';
@@ -490,7 +565,7 @@
       const form=el('form','shop-single-form');
       const variationGroup=el('fieldset','shop-single-variant-group');
       variationGroup.append(el('legend','shop-single-field-label',
-        (isShirt||isEcobag)?'Tamanho':'Modelo'));
+        (isShirt||isCorIesuShirt||isEcobag)?'Tamanho':'Modelo'));
       const hiddenLabel=el('label','shop-single-visually-hidden','Escolha a variação');
       select=el('select','shop-single-native-select');
       select.required=true;select.setAttribute('aria-label','Escolha a variação');
@@ -499,7 +574,7 @@
       variants.forEach(v=>{
         const option=el('option','',v.label+(Number.isInteger(v.priceCents)?' — '+money(v.priceCents):''));
         option.value=v.code;select.append(option);
-        const chip=el('button','shop-single-variant-chip',(isShirt||isEcobag)?v.code:v.label);
+        const chip=el('button','shop-single-variant-chip',(isShirt||isCorIesuShirt||isEcobag)?v.code:v.label);
         chip.type='button';chip.setAttribute('aria-pressed','false');
         chip.addEventListener('click',()=>{
           select.value=v.code;select.dispatchEvent(new Event('change',{bubbles:true}));
@@ -697,7 +772,24 @@
       'Material':detail.material||'A confirmar','Acabamento':detail.finish||'A confirmar',
       'Situação':isPreparation?'Em preparação':isShirt?'Compra online disponível':'Sob consulta'
     }));
-    if(isShirt){
+    if(isCorIesuShirt){
+      infoBox.replaceChildren(el('h2','','Informações do produto'),specs({
+        'Coleção':'Cor Iesu Sacratissimum',
+        'Material':'100% algodão fio 30.1 penteado',
+        'Modelagem':'Unissex',
+        'Cor':'Marrom-acinzentada, conforme fotos',
+        'Tamanhos do modelo-base':'PP, P, M, G, GG e XG (sob confirmação)',
+        'Impressão':'DTF · frente e costas · estampas fixas',
+        'Medidas do pacote (C × L × A)':'300 × 250 × 10 mm (informação da ficha-base)',
+        'Peso de catálogo':'0,25 kg (ficha-base)',
+        'NCM':'6109.10.00',
+        'SKU-base VAVI':'0000002',
+        'Unidade':'Peça',
+        'Fornecedor da peça-base':'VAVI',
+        'Situação':'Em preparação · preço e produção pendentes de confirmação'
+      }));
+      details.append(infoBox,desc);
+    }else if(isShirt){
       infoBox.replaceChildren(el('h2','','Informações do produto'),specs({
         'Coleção':'Salve Regina','Material':detail.material,'Modelagem':'Unissex','Gola':'Canelada reforçada','Cor':'Preta',
         'Tamanhos':product.variants.map(v=>v.code).join(', '),'Estampa':detail.finish,'Produção':'Sob demanda','Venda':'Por unidade'

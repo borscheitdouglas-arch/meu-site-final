@@ -44,6 +44,58 @@
       ]
     },
     {
+      "id": "camiseta-cor-iesu-sacratissimum",
+      "title": "Camiseta Sagrado Coração de Jesus | Cor Iesu Sacratissimum",
+      "category": "camisetas",
+      "status": "preparation",
+      "image": "/assets/img/loja/cor-iesu/costas-modelo-1500.webp",
+      "priceStatus": "pending",
+      "variants": [
+        {
+          "code": "PP",
+          "label": "Marrom acinzentado · PP (a confirmar)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
+        },
+        {
+          "code": "P",
+          "label": "Marrom acinzentado · P (a confirmar)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
+        },
+        {
+          "code": "M",
+          "label": "Marrom acinzentado · M (a confirmar)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
+        },
+        {
+          "code": "G",
+          "label": "Marrom acinzentado · G (a confirmar)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
+        },
+        {
+          "code": "GG",
+          "label": "Marrom acinzentado · GG (a confirmar)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
+        },
+        {
+          "code": "XG",
+          "label": "Marrom acinzentado · XG (a confirmar)",
+          "sku": null,
+          "priceCents": null,
+          "availability": "pending"
+        }
+      ]
+    },
+    {
       "id": "caneca-salve-regina-preta",
       "title": "Caneca de Porcelana Salve Regina — Partitura Gregoriana",
       "category": "canecas",

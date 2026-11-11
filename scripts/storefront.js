@@ -63,7 +63,7 @@
     category = 'all'; query.value = ''; availability.value = 'all'; render(); showCatalog();
   }));
   function openDetail(hash, focus = false) {
-    if (!/^#produto-(camiseta|caneca|ecobag)$/.test(hash)) return;
+    if (!/^#produto-(camiseta|caneca|ecobag|cor-iesu)$/.test(hash)) return;
     const detail = document.getElementById(hash.slice(1));
     if (!detail) return;
     detail.open = true;
