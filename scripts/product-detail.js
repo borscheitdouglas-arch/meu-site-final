@@ -481,7 +481,7 @@
           results.append(quote);
         });
         results.append(el('p','',
-          (data.provisional===true?'Embalagem ainda em validação, sem autorização de pagamento. ':'')+
+          (data.provisional===true?'Estimativa de frete: o checkout reconfirma o valor e a loja confere a embalagem na produção. ':'')+
           'Valores sujeitos a reconferência. O prazo de fabricação não está incluído.'));
       } catch(err) {
         if(turn!==serial)return;
