@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "designVavi": "D000007",
+  "product": "Camiseta Sagrado Coração de Jesus | Cor Iesu Sacratissimum",
+  "capturedOn": "2026-11-11",
+  "captureCount": 44,
+  "uniqueCodesShown": 30,
+  "collidingCodes": 9,
+  "impactedCombinations": 23,
+  "verificationStatus": "NAO HOMOLOGADO. NAO USAR PARA PEDIDOS OU FRETE.",
+  "reason": "A tela da VAVI mostra o mesmo codigo em diferentes tamanhos e ate em cores diferentes; pode haver atraso de atualizacao no modal. Estes dados representam somente o que estava visivel nas capturas, nao SKUs confiaveis de producao.",
+  "sizes": [
+    "P",
+    "M",
+    "G",
+    "GG"
+  ],
+  "colors": [
+    "Branca",
+    "Preta",
+    "OffWhite",
+    "Azul marinho",
+    "Azul royal",
+    "Verde musgo",
+    "Cinza mescla",
+    "Cinza chumbo",
+    "Caramelo",
+    "Marrom",
+    "Vinho"
+  ],
+  "observations": [
+    {
+      "color": "Branca",
+      "size": "P",
+      "codeShown": "0000002",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.19.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Branca",
+      "size": "M",
+      "codeShown": "0000003",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.24.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Branca",
+      "size": "G",
+      "codeShown": "0000004",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.26.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Branca",
+      "size": "GG",
+      "codeShown": "0000005",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.27.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Preta",
+      "size": "P",
+      "codeShown": "0000007",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.31.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Preta",
+      "size": "M",
+      "codeShown": "0000008",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.32.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Preta",
+      "size": "G",
+      "codeShown": "0000009",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.33.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Preta",
+      "size": "GG",
+      "codeShown": "0000010",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.35.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "OffWhite",
+      "size": "P",
+      "codeShown": "0000012",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.37.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "OffWhite",
+      "size": "M",
+      "codeShown": "0000012",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.39.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "OffWhite",
+      "size": "G",
+      "codeShown": "0000013",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.40.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "OffWhite",
+      "size": "GG",
+      "codeShown": "0000015",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.41.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Azul marinho",
+      "size": "P",
+      "codeShown": "0000040",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.44.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Azul marinho",
+      "size": "M",
+      "codeShown": "0000038",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.45.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Azul marinho",
+      "size": "G",
+      "codeShown": "0000037",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.46.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Azul marinho",
+      "size": "GG",
+      "codeShown": "0000040",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.48.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Azul royal",
+      "size": "P",
+      "codeShown": "0000042",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.50.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Azul royal",
+      "size": "M",
+      "codeShown": "0000043",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.51.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Azul royal",
+      "size": "G",
+      "codeShown": "0000043",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.52.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Azul royal",
+      "size": "GG",
+      "codeShown": "0000043",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.53.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Verde musgo",
+      "size": "P",
+      "codeShown": "0000110",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.55.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Verde musgo",
+      "size": "M",
+      "codeShown": "0000110",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.56.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Verde musgo",
+      "size": "G",
+      "codeShown": "0000107",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.57.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Verde musgo",
+      "size": "GG",
+      "codeShown": "0000109",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.58.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Cinza mescla",
+      "size": "P",
+      "codeShown": "0000109",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.38.59.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Cinza mescla",
+      "size": "M",
+      "codeShown": "0000110",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.00.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Cinza mescla",
+      "size": "G",
+      "codeShown": "0000110",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.01.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Cinza mescla",
+      "size": "GG",
+      "codeShown": "0000063",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.02.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Cinza chumbo",
+      "size": "P",
+      "codeShown": "0000070",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.04.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Cinza chumbo",
+      "size": "M",
+      "codeShown": "0000067",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.05.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Cinza chumbo",
+      "size": "G",
+      "codeShown": "0000067",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.06.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Cinza chumbo",
+      "size": "GG",
+      "codeShown": "0000067",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.06 1.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Caramelo",
+      "size": "P",
+      "codeShown": "0000069",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.08.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Caramelo",
+      "size": "M",
+      "codeShown": "0000073",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.09.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Caramelo",
+      "size": "G",
+      "codeShown": "0000073",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.10.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Caramelo",
+      "size": "GG",
+      "codeShown": "0000074",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.11.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Marrom",
+      "size": "P",
+      "codeShown": "0000085",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.13.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Marrom",
+      "size": "M",
+      "codeShown": "0000085",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.14.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Marrom",
+      "size": "G",
+      "codeShown": "0000085",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.15.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Marrom",
+      "size": "GG",
+      "codeShown": "0000084",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.16.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Vinho",
+      "size": "P",
+      "codeShown": "0000082",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.18.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    },
+    {
+      "color": "Vinho",
+      "size": "M",
+      "codeShown": "0000072",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.19.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Vinho",
+      "size": "G",
+      "codeShown": "0000072",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.20.png",
+      "status": "CONFLITO: repetir checagem VAVI/API"
+    },
+    {
+      "color": "Vinho",
+      "size": "GG",
+      "codeShown": "0000088",
+      "screenshot": "Captura de Tela 2026-11-11 às 10.39.21.png",
+      "status": "OBSERVADO: ainda nao homologado com API"
+    }
+  ],
+  "collisions": [
+    {
+      "code": "0000012",
+      "variants": [
+        "OffWhite / P",
+        "OffWhite / M"
+      ]
+    },
+    {
+      "code": "0000040",
+      "variants": [
+        "Azul marinho / P",
+        "Azul marinho / GG"
+      ]
+    },
+    {
+      "code": "0000043",
+      "variants": [
+        "Azul royal / M",
+        "Azul royal / G",
+        "Azul royal / GG"
+      ]
+    },
+    {
+      "code": "0000110",
+      "variants": [
+        "Verde musgo / P",
+        "Verde musgo / M",
+        "Cinza mescla / M",
+        "Cinza mescla / G"
+      ]
+    },
+    {
+      "code": "0000109",
+      "variants": [
+        "Verde musgo / GG",
+        "Cinza mescla / P"
+      ]
+    },
+    {
+      "code": "0000067",
+      "variants": [
+        "Cinza chumbo / M",
+        "Cinza chumbo / G",
+        "Cinza chumbo / GG"
+      ]
+    },
+    {
+      "code": "0000073",
+      "variants": [
+        "Caramelo / M",
+        "Caramelo / G"
+      ]
+    },
+    {
+      "code": "0000085",
+      "variants": [
+        "Marrom / P",
+        "Marrom / M",
+        "Marrom / G"
+      ]
+    },
+    {
+      "code": "0000072",
+      "variants": [
+        "Vinho / M",
+        "Vinho / G"
+      ]
+    }
+  ]
+}
