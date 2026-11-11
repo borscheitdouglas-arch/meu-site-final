@@ -28,19 +28,19 @@ jobs:
               "$url" --output "$RUNNER_TEMP/cor-iesu-originais/$nome.png"
             echo "Transferido: $nome"
           done <<'IMAGENS'
-01_branco|https://at.adobe.com/DyyjJeVGxSKnFgnU
-02_preto|https://at.adobe.com/LLZ03sNmhagACiOv
-03_off_white|https://at.adobe.com/BkiTNr2lvvyzePLt
-04_azul_marinho|https://at.adobe.com/cEHgnLjCMi9fBfSS
-05_azul_royal|https://at.adobe.com/z8yMnCdxhMr1SCW5
-06_verde|https://at.adobe.com/pri04LdeGLvmal0O
-07_cinza_claro|https://at.adobe.com/Cvil7JHmSUUrLSmf
-08_cinza_escuro|https://at.adobe.com/Dk3A6kY0iqPp3lkx
-09_areia|https://at.adobe.com/g1XKU2TockrpCLVz
-10_marrom|https://at.adobe.com/R8eWCkMBeMNnTT88
-11_bordo|https://at.adobe.com/Z4TURxwD2cHj279S
-12_editorial|https://at.adobe.com/P59bs4zGkTtJuRcm
-IMAGENS
+          01_branco|https://at.adobe.com/DyyjJeVGxSKnFgnU
+          02_preto|https://at.adobe.com/LLZ03sNmhagACiOv
+          03_off_white|https://at.adobe.com/BkiTNr2lvvyzePLt
+          04_azul_marinho|https://at.adobe.com/cEHgnLjCMi9fBfSS
+          05_azul_royal|https://at.adobe.com/z8yMnCdxhMr1SCW5
+          06_verde|https://at.adobe.com/pri04LdeGLvmal0O
+          07_cinza_claro|https://at.adobe.com/Cvil7JHmSUUrLSmf
+          08_cinza_escuro|https://at.adobe.com/Dk3A6kY0iqPp3lkx
+          09_areia|https://at.adobe.com/g1XKU2TockrpCLVz
+          10_marrom|https://at.adobe.com/R8eWCkMBeMNnTT88
+          11_bordo|https://at.adobe.com/Z4TURxwD2cHj279S
+          12_editorial|https://at.adobe.com/P59bs4zGkTtJuRcm
+          IMAGENS
       - name: Enquadrar em 4 por 3 sem cortar as estampas
         shell: bash
         run: |
@@ -55,9 +55,9 @@ IMAGENS
           names=['branco','preto','off-white','azul-marinho','azul-royal','verde',
                  'cinza-claro','cinza-escuro','areia','marrom','bordo','editorial']
           for i,name in enumerate(names,1):
-              raw=source/f'{i:02d}_'+ ('editorial' if i==12 else [
+              raw=source/(f'{i:02d}_'+ ('editorial' if i==12 else [
                   'branco','preto','off_white','azul_marinho','azul_royal','verde',
-                  'cinza_claro','cinza_escuro','areia','marrom','bordo'][i-1])
+                  'cinza_claro','cinza_escuro','areia','marrom','bordo'][i-1]))
               with Image.open(str(raw)+'.png') as opened:
                   opened.load()
                   if opened.width<900 or opened.height<900:
