@@ -47,37 +47,33 @@
       "id": "camiseta-cor-iesu-sacratissimum",
       "title": "Camiseta Sagrado Coração de Jesus | Cor Iesu Sacratissimum",
       "category": "camisetas",
-      "status": "preparation",
+      "status": "available",
       "image": "/assets/img/loja/cor-iesu/costas-modelo-1500.webp",
       "priceStatus": "final",
       "variants": [
         {
           "code": "P",
           "label": "Marrom · P",
-          "sku": null,
-          "priceCents": 10990,
-          "availability": "pending"
+          "sku": "cor-iesu-marrom-p",
+          "priceCents": 10990
         },
         {
           "code": "M",
           "label": "Marrom · M",
-          "sku": null,
-          "priceCents": 10990,
-          "availability": "pending"
+          "sku": "cor-iesu-marrom-m",
+          "priceCents": 10990
         },
         {
           "code": "G",
           "label": "Marrom · G",
-          "sku": null,
-          "priceCents": 10990,
-          "availability": "pending"
+          "sku": "cor-iesu-marrom-g",
+          "priceCents": 10990
         },
         {
           "code": "GG",
           "label": "Marrom · GG",
-          "sku": null,
-          "priceCents": 10990,
-          "availability": "pending"
+          "sku": "cor-iesu-marrom-gg",
+          "priceCents": 10990
         }
       ]
     },
