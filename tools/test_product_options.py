@@ -92,34 +92,56 @@ def main():
         expect(page).to_have_url(re.compile("id=caneca-salve-regina-pb"))
         print("PASS: alternativas de caneca navegáveis e sem habilitar cobrança")
 
-        # Regressão: mesmo sem readiness contendo os SKUs da Cor Iesu,
-        # o botão deve permanecer Comprar agora e ir ao checkout,
-        # onde a API fará sua própria validação antes de qualquer cobrança.
+        # Cor Iesu: exatamente um botão Comprar agora; seletores compactos;
+        # sem quantidade fixa desnecessária e frete recolhível.
         page.goto(BASE + "/pages/produto-loja.html?id=camiseta-cor-iesu-sacratissimum",
             wait_until="domcontentloaded")
-        top = page.locator(".shop-single-top-buy")
-        expect(top).to_be_visible(timeout=12000)
-        expect(top).to_contain_text("Comprar agora")
-        assert top.is_enabled()
-        assert page.evaluate("""() => {
-          const price=document.querySelector('.shop-single-pricebox');
-          const top=document.querySelector('.shop-single-top-buy');
-          const options=document.querySelector('.shop-single-color-group');
-          const freight=document.querySelector('.shop-single-shipping');
-          return price.contains(top) && top.compareDocumentPosition(options)&4 &&
-                 options.compareDocumentPosition(freight)&4;
-        }"""), "Compra deve aparecer junto ao preço; frete fica após as opções"
-        assert page.locator(".shop-single-variant-chip").count()==4, "Somente P/M/G/GG, sem tamanhos duplicados"
+        buy = page.get_by_role("button",name="Comprar agora",exact=True)
+        expect(buy).to_be_visible(timeout=12000)
+        assert buy.count()==1, "A página deve ter um único botão Comprar agora"
+        assert buy.is_enabled()
+        assert page.locator(".shop-single-top-buy").count()==0
+        assert page.locator(".shop-single-pricebox button").count()==0
+        assert page.locator(".shop-single-variant-chip").count()==4
+        assert page.locator(".shop-single-color-choice").count()==11
+        assert page.locator(".shop-single-quantity-group").count()==0
+        assert page.locator(".shop-single-quantity-input[type=hidden]").count()==1
+        assert page.locator(".shop-single-excerpt").count()==0, "Texto completo já está abaixo"
+        assert page.locator(".shop-single-freight-disclosure").count()==1
+        expect(page.locator(".shop-single-freight-disclosure .shop-single-shipping input")).not_to_be_visible()
+        page.locator(".shop-single-freight-disclosure > summary").click()
+        expect(page.locator(".shop-single-freight-disclosure .shop-single-shipping input")).to_be_visible()
+        page.locator(".shop-single-freight-disclosure > summary").click()
         page.locator('[aria-label="Selecionar cor Bordô"]').click()
         page.locator(".shop-single-native-select").select_option("GG")
-        expect(top).to_contain_text("Comprar agora")
-        expect(page.locator(".shop-single-top-selection")).to_contain_text("Bordô")
-        expect(page.locator(".shop-single-top-selection")).to_contain_text("GG")
         expect(page.locator(".shop-single-price")).to_contain_text("109,90")
-        page.get_by_role("button", name="Adicionar ao carrinho").click()
+        expect(buy).to_be_visible()
+        assert page.evaluate("""() => {
+          const form=document.querySelector('.shop-single-form');
+          const color=document.querySelector('.shop-single-color-group');
+          const size=document.querySelector('.shop-single-variant-group');
+          const actions=document.querySelector('.shop-single-actions');
+          const freight=document.querySelector('.shop-single-freight-disclosure');
+          return (form.compareDocumentPosition(freight)&4)!==0 &&
+            (color.compareDocumentPosition(size)&4)!==0 &&
+            (size.compareDocumentPosition(actions)&4)!==0;
+        }"""), "Ordem: cor, tamanho, compra, frete"
+        page.get_by_role("button",name="Adicionar ao carrinho").click()
         cart=page.evaluate("JSON.parse(localStorage.getItem('douglasShopCart_v2'))")
         assert any(item["id"]=="camiseta-cor-iesu-sacratissimum" and
-                   item["variant"]=="cor-iesu-bordo-gg" for item in cart), cart
+                   item["variant"]=="cor-iesu-bordo-gg" for item in cart),cart
+        for width in (390,360):
+            page.set_viewport_size({"width":width,"height":800})
+            expect(buy).to_be_visible()
+            assert buy.count()==1
+            columns=page.locator(".shop-single-color-choices").evaluate(
+                "(el)=>getComputedStyle(el).gridTemplateColumns.split(' ').length")
+            assert columns==4,(width,columns)
+            assert page.locator(".shop-single-summary").evaluate(
+                "(el)=>el.scrollWidth <= el.clientWidth+2"),"Sem transbordamento horizontal"
+        page.set_viewport_size({"width":1280,"height":900})
+        print("PASS: um Comprar agora, cores compactas, quatro tamanhos, mobile e frete recolhível")
+
         # No checkout, simular resposta de disponibilidade aprovada (sem pagamento).
         def checkout_ready(route):
             colors=("marrom","branco","preto","off-white","azul-marinho",
@@ -132,11 +154,11 @@ def main():
                                            "paymentProvider":"infinitepay",
                                            "availableSkus":skus}))
         page.route("**/api/checkout/live/readiness",checkout_ready)
-        top.click()
+        buy.click()
         expect(page).to_have_url(re.compile(r"checkout-salve-regina[.]html[?]sku=cor-iesu-bordo-gg"))
         expect(page.locator("#checkout-container")).to_be_visible(timeout=15000)
         expect(page.locator("#checkout-product-name")).to_contain_text("Cor Iesu")
-        print("PASS: botão Comprar visível, sem consulta por e-mail; carrinho preserva Bordô GG; checkout abre a cor certa")
+        print("PASS: compra única, carrinho preserva Bordô GG; checkout abre a cor certa")
 
         browser.close()
 
