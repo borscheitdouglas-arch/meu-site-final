@@ -43,7 +43,7 @@ test('44 SKUs internos da galeria reconhecidos sem inventar SKUs VAVI',()=>{
     assert.equal(canQuotePublishedPackage(sku),true);
   }
   assert.equal(approvedCorIesuAssistedVariant('cor-iesu-preta-p',10990),false);
-  assert.equal(approvedCorIesuAssistedVariant('cor-iesu-bordo-g',10990),false);
+  assert.equal(approvedCorIesuAssistedVariant('cor-iesu-bordo-g',10990),true);
 });
 test('somente custo D000007 DTF 2 áreas confirmado no D1 autoriza prévia',async()=>{
   assert.equal(await loadCorIesuAssistedCost(dbWithDesign(),'cor-iesu-marrom-g'),5691);
