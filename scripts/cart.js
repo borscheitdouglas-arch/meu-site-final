@@ -140,7 +140,12 @@
       const product = catalog.get(item.id);
       const variant = product.variants.find(v => v.code === item.variant);
       const row = make('article','cart-item');
-      const img = make('img','cart-thumb');img.src = product.image;
+      const img = make('img','cart-thumb');
+      const corIesuMatch=item.id==='camiseta-cor-iesu-sacratissimum'?
+        variant.sku?.match(/^cor-iesu-(.+)-(p|m|g|gg)$/):null;
+      img.src=corIesuMatch?
+        '/assets/img/loja/cor-iesu/cores/cor-iesu-'+corIesuMatch[1]+'-1200.webp':
+        product.image;
       img.alt = product.title;img.loading = 'lazy';img.width=90;img.height=90;
       const content = make('div','cart-item-content');
       const category = make('p','cart-product-category',
@@ -208,7 +213,7 @@
     const multiple=Boolean(ready && multiReady && !single && !hasPending &&
       cart.every(item=>{
         const sku=catalog.get(item.id)?.variants?.find(v=>v.code===item.variant)?.sku;
-        return readySkus.has(sku) && !/^cor-iesu-marrom-(p|m|g|gg)$/.test(sku||'');
+        return readySkus.has(sku) && !/^cor-iesu-/.test(sku||'');
       }));
     let multiPayButton=null;
     if (direct) {
