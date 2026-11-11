@@ -803,3 +803,50 @@ body.shop-product-page #shop-single-root .shop-single-color-hint{
     width:27px;height:27px;
   }
 }
+
+
+/* Cor Iesu: compra imediatamente visível junto ao preço, inclusive no celular. */
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-top-buy {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  min-height:49px;
+  margin-top:13px;
+  padding:10px 17px;
+  border:1px solid #a99162;
+  border-radius:7px;
+  background:#273d59;
+  color:#f4dba8;
+  font:700 14px/1.35 'Inter',sans-serif;
+  text-align:center;
+  cursor:pointer;
+  transition:background .15s,border-color .15s,box-shadow .15s;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-top-buy.is-available {
+  background:#dfc58e;
+  border-color:#dfc58e;
+  color:#152741;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-top-buy:hover:not(:disabled) {
+  filter:brightness(1.08);
+  box-shadow:0 4px 18px #0003;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-top-buy:focus-visible {
+  outline:3px solid #f6d593;
+  outline-offset:3px;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-top-buy:disabled {
+  opacity:.55;
+  cursor:not-allowed;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-top-selection {
+  display:block;
+  margin-top:7px;
+  color:#d5d9e4;
+  font:500 11px/1.4 'Inter',sans-serif;
+  text-align:center;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-form {
+  scroll-margin-top:94px;
+}
