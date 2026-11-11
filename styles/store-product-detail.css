@@ -741,3 +741,11 @@ body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacr
     height:56px;
   }
 }
+
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-photo-color {
+  margin:9px 3px 0;
+  font:600 12px/1.5 'Inter',sans-serif;
+  letter-spacing:.01em;
+  text-align:center;
+  color:#5b4031;
+}
