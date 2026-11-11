@@ -689,3 +689,55 @@ body.shop-product-page #shop-single-root .shop-single-image-clip > img {
     grid-template-columns:minmax(0,1fr);
   }
 }
+
+
+/* Coleção Cor Iesu — 12 novos mockups com mesmo quadro 4:3.
+   Miniaturas em faixa horizontal para não alongar a página do produto. */
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-imagebox {
+  width:min(100%,426px);
+  max-width:100%;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-image-clip {
+  aspect-ratio:4 / 3;
+  background:#e8e5de;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-image-clip > img {
+  width:100%;
+  height:100%;
+  aspect-ratio:4 / 3;
+  object-fit:contain;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-thumbs {
+  display:flex;
+  flex-wrap:nowrap;
+  max-width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:4px 3px 12px;
+  gap:9px;
+  justify-content:flex-start;
+  scroll-snap-type:x proximity;
+  overscroll-behavior-inline:contain;
+  scrollbar-width:thin;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-thumb {
+  flex:0 0 70px;
+  width:70px;
+  height:62px;
+  scroll-snap-align:start;
+}
+body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+@media(max-width:540px){
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-imagebox {
+    width:min(100%,322px);
+  }
+  body.shop-product-page #shop-single-root[data-product-id="camiseta-cor-iesu-sacratissimum"] .shop-single-thumb {
+    flex-basis:62px;
+    width:62px;
+    height:56px;
+  }
+}
