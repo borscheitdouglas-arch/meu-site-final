@@ -144,6 +144,7 @@
     "finish": "Estampa por sublimação",
     "description": "A beleza do canto gregoriano à mesa. Caneca de porcelana com a partitura da Salve Regina, para acompanhar suas pausas em casa ou no trabalho.",
     "photos": [
+      "/assets/img/loja/Salve-Regina/web/capa-caneca-partitura-azul-mariano-20261111.jpg",
       "/assets/img/loja/Salve-Regina/web/caneca-partitura-individual.png"
     ],
     "paragraphs": [
@@ -190,6 +191,7 @@
     "finish": "Estampa por sublimação",
     "description": "Um toque de devoção mariana no cotidiano. Caneca de porcelana com a imagem de Nossa Senhora, inspirada na beleza da arte sacra.",
     "photos": [
+      "/assets/img/loja/Salve-Regina/web/capa-caneca-nossa-senhora-azul-mariano-20261111.jpg",
       "/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png"
     ],
     "paragraphs": [
@@ -234,6 +236,10 @@
     "type": "Ecobag · Coleção Salve Regina",
     "material": "100% algodão",
     "finish": "Estampa DTF",
+    "photos": [
+      "/assets/img/loja/Salve-Regina/web/capa-ecobag-azul-mariano-20261111.jpg",
+      "/assets/img/loja/Salve-Regina/web/ecobag-800.webp"
+    ],
     "description": "A arte mariana da coleção Salve Regina em uma bolsa reutilizável de algodão, para acompanhar compras, estudos e trabalho.",
     "paragraphs": [
       "A arte mariana da coleção Salve Regina em uma bolsa reutilizável de algodão, para acompanhar compras, estudos e trabalho.",
