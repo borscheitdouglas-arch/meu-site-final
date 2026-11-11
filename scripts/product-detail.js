@@ -433,7 +433,7 @@
     function reset(){
       serial++;controller?.abort();controller=null;button.disabled=!selectedReady();
       status.textContent=selectedReady()?'':!canQuote()?
-        'Frete sob consulta para esta cor. Selecione Marrom para simular o envio.':
+        'Frete indisponível para esta combinação. Aguarde confirmação da loja.':
         'Frete indisponível para o tamanho sem preço e produção confirmados.';
       results.replaceChildren();
     }
@@ -549,7 +549,7 @@
     ]:[];
     let chosenColor='marrom',showSelectedPhoto=null,syncColorFromGallery=()=>{},refreshColorChoices=()=>{};
     const isEcobag=product.id==='ecobag-salve-regina';
-    const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':isShirt?'Compra online disponível · produção sob demanda':'Sob consulta · preço sujeito à confirmação';
+    const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':(isShirt||isCorIesuShirt)?'Produção sob demanda · compra online conforme disponibilidade':'Sob consulta · preço sujeito à confirmação';
     const productStatus=el('span','shop-single-status',statusText);
     summary.append(productStatus);
     let variant=null,select=null;
