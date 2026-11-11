@@ -185,9 +185,9 @@
         local.selected=options[0].id;
         local.provisional=data.provisional===true;
         status.textContent=multiple?
-          'Estimativa VAVI para todos os itens juntos. Escolha uma opção; a embalagem final ainda exige confirmação.':
+          'Estimativa de frete para os itens do carrinho. Escolha uma opção; os valores serão confirmados antes do pagamento.':
           data.provisional===true?
-          'Frete consultado na VAVI. A loja confirma o valor e a disponibilidade no checkout.':
+          'Frete estimado para sua entrega. O valor e a disponibilidade são confirmados no checkout.':
           'Cotação disponível. Escolha o frete para visualizar o total.';
         fineprint.textContent=(data.provisional===true?
           'Cotação orientativa: a embalagem final será conferida na operação; o checkout valida o frete novamente. ':'')+
