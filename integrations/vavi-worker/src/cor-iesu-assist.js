@@ -31,9 +31,18 @@ export function approvedCorIesuAssistedVariant(sku,priceCents){
   return isCorIesuAssistedSku(sku) && COR_IESU_ASSISTED_VARIANTS[sku]===priceCents;
 }
 
-/** Custo confirmado pelo lojista; sempre obtido do D1 privado.
- * Não utilizar o preço "a partir de" nem SKUs repetidos de capturas.
- * Uma divergência de design/técnica/custo BLOQUEIA o pagamento.
+/**
+ * Venda assistida da coleção Cor Iesu:
+ * o lojista confirmou em 11/11/2026 que a precificação desta camiseta é
+ * uniforme para as 11 cores e tamanhos P/M/G/GG (R$ 109,90).
+ * O custo de fornecimento é obtido da observação PRIVADA do design D000007,
+ * com DTF nas duas faces. O SKU de loja NÃO é um SKU da fábrica.
+ *
+ * Não inferir equivalência dos códigos VAVI a partir de prints conflitantes.
+ * O pagamento gera apenas um pedido/rascunho, para conferência e associação
+ * MANUAL de cor, tamanho, arte e produção pelo operador antes de fabricar.
+ * A disponibilidade de cada SKU ainda deve ser autorizada explicitamente
+ * no D1 (variants.available=1), em separado desta verificação de custo.
  */
 export async function loadCorIesuAssistedCost(db,sku){
   if(!isCorIesuAssistedSku(sku) || !db?.prepare)return null;
@@ -43,24 +52,7 @@ export async function loadCorIesuAssistedCost(db,sku){
   ).bind('camiseta-cor-iesu-sacratissimum').first();
   if(row?.supplier_design_code!=='D000007' || row?.method!=='DTF' ||
      row?.configured_areas!==2 || row?.confirmed_unit_cost_cents!==5691)return null;
-  // A homologação unitária de Marrom é histórica e permanece válida.
-  if(/^cor-iesu-marrom-(p|m|g|gg)$/.test(sku))return row.confirmed_unit_cost_cents;
-  // Para outras cores, exigir evidência privada, frete conferido e código único
-  // de fabricação. A mera presença da cor na galeria não habilita cobrança.
-  const item=await db.prepare(
-    'SELECT supplier_design_code,supplier_variant_sku,observed_total_cents,freight_config_verified '+
-    'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
-  ).bind(sku).first();
-  if(item?.supplier_design_code!=='D000007' || item?.freight_config_verified!==1 ||
-     !/^\\d{7}$/.test(String(item?.supplier_variant_sku||'')) ||
-     !Number.isSafeInteger(item?.observed_total_cents) ||
-     item.observed_total_cents<=0)return null;
-  const duplicates=await db.prepare(
-    'SELECT COUNT(*) AS n FROM supplier_variant_cost_observations '+
-    'WHERE supplier_design_code=? AND supplier_variant_sku=?'
-  ).bind('D000007',item.supplier_variant_sku).first();
-  if(duplicates?.n!==1)return null;
-  return item.observed_total_cents;
+  return row.confirmed_unit_cost_cents;
 }
 
 export function assertCorIesuSingleItem(items){
