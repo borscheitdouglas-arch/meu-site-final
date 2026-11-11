@@ -743,7 +743,7 @@
       const minus=el('button','shop-single-stepper-button','−');
       minus.type='button';minus.setAttribute('aria-label','Diminuir quantidade');
       const quantity=el('input','shop-single-quantity-input');
-      quantity.type='number';quantity.min='1';quantity.max='10';
+      quantity.type='number';quantity.min='1';quantity.max=isCorIesuShirt?'1':'10';
       quantity.step='1';quantity.value='1';quantity.required=true;
       quantity.setAttribute('aria-label','Quantidade de unidades');
       const plus=el('button','shop-single-stepper-button','+');
@@ -751,15 +751,15 @@
       const changeQty=()=>{
         let value=Number(quantity.value);
         if(!Number.isInteger(value))value=1;
-        value=Math.min(10,Math.max(1,value));
+        value=Math.min(isCorIesuShirt?1:10,Math.max(1,value));
         quantity.value=String(value);
-        minus.disabled=value===1;plus.disabled=value===10;
+        minus.disabled=value===1;plus.disabled=isCorIesuShirt||value===10;
         quantity.dispatchEvent(new Event('change',{bubbles:true}));
       };
       minus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)-1);changeQty();});
       plus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)+1);changeQty();});
       quantity.addEventListener('blur',changeQty);
-      minus.disabled=true;
+      minus.disabled=true;plus.disabled=isCorIesuShirt;
       stepper.append(minus,quantity,plus);
       quantityGroup.append(stepper,el('span','shop-single-availability',
         isPreparation?'Em preparação':'Produção sob demanda'));
@@ -776,7 +776,7 @@
         const configured=Boolean(selected?.sku&&Number.isInteger(selected.priceCents));
         proceed.textContent=colorConsult?'Consultar esta cor':
           approved?'Comprar agora':configured?'Consultar compra':'Tamanho indisponível';
-        add.disabled=isPreparation||!configured||!approved||!window.Cart;
+        add.disabled=isPreparation||!configured||(isCorIesuShirt&&!approved)||!window.Cart;
         proceed.disabled=colorConsult?false:isPreparation||!configured||!window.Cart;
         if(!isPreparation){
           productStatus.textContent=colorConsult?'Cor '+corIesuColors.find(c=>c.slug===chosenColor)?.name+' · aguardando confirmação':
@@ -816,8 +816,8 @@
       renderPrice();
       const putInCart=goCart=>{
         const amount=Number(quantity.value);
-        if(!Number.isInteger(amount)||amount<1||amount>10){
-          feedback.textContent='Escolha uma quantidade entre 1 e 10.';return;
+        if(!Number.isInteger(amount)||amount<1||amount>(isCorIesuShirt?1:10)){
+          feedback.textContent=isCorIesuShirt?'Esta camiseta é vendida uma unidade por pedido.':'Escolha uma quantidade entre 1 e 10.';return;
         }
         if(isCorIesuShirt&&!approvedSkus.has(selectedVariant()?.sku)){
           feedback.textContent='Esta combinação ainda não está liberada. Use o botão Consultar esta cor.';
