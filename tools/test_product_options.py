@@ -92,6 +92,37 @@ def main():
         expect(page).to_have_url(re.compile("id=caneca-salve-regina-pb"))
         print("PASS: alternativas de caneca navegáveis e sem habilitar cobrança")
 
+        # Regressão: mesmo sem readiness contendo os SKUs da Cor Iesu,
+        # o botão deve permanecer Comprar agora e ir ao checkout,
+        # onde a API fará sua própria validação antes de qualquer cobrança.
+        page.goto(BASE + "/pages/produto-loja.html?id=camiseta-cor-iesu-sacratissimum",
+            wait_until="domcontentloaded")
+        top = page.locator(".shop-single-top-buy")
+        expect(top).to_be_visible(timeout=12000)
+        expect(top).to_contain_text("Comprar agora")
+        assert top.is_enabled()
+        assert page.evaluate("""() => {
+          const price=document.querySelector('.shop-single-pricebox');
+          const top=document.querySelector('.shop-single-top-buy');
+          const options=document.querySelector('.shop-single-color-group');
+          const freight=document.querySelector('.shop-single-shipping');
+          return price.contains(top) && top.compareDocumentPosition(options)&4 &&
+                 options.compareDocumentPosition(freight)&4;
+        }"""), "Compra deve aparecer junto ao preço; frete fica após as opções"
+        page.locator('[aria-label="Selecionar cor Bordô"]').click()
+        page.locator(".shop-single-native-select").select_option("GG")
+        expect(top).to_contain_text("Comprar agora")
+        expect(page.locator(".shop-single-top-selection")).to_contain_text("Bordô")
+        expect(page.locator(".shop-single-top-selection")).to_contain_text("GG")
+        expect(page.locator(".shop-single-price")).to_contain_text("109,90")
+        page.get_by_role("button", name="Adicionar ao carrinho").click()
+        cart=page.evaluate("JSON.parse(localStorage.getItem('douglasShopCart_v2'))")
+        assert any(item["id"]=="camiseta-cor-iesu-sacratissimum" and
+                   item["variant"]=="cor-iesu-bordo-gg" for item in cart), cart
+        top.click()
+        expect(page).to_have_url(re.compile(r"checkout-salve-regina[.]html[?]sku=cor-iesu-bordo-gg"))
+        print("PASS: botão Comprar visível, sem consulta por e-mail; carrinho preserva Bordô GG; checkout recebe SKU correto")
+
         browser.close()
 
 
