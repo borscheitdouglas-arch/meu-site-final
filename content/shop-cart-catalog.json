@@ -74,6 +74,246 @@
           "label": "Marrom · GG",
           "sku": "cor-iesu-marrom-gg",
           "priceCents": 10990
+        },
+        {
+          "code": "branco-P",
+          "label": "Branco · P",
+          "sku": "cor-iesu-branco-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "branco-M",
+          "label": "Branco · M",
+          "sku": "cor-iesu-branco-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "branco-G",
+          "label": "Branco · G",
+          "sku": "cor-iesu-branco-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "branco-GG",
+          "label": "Branco · GG",
+          "sku": "cor-iesu-branco-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "preto-P",
+          "label": "Preto · P",
+          "sku": "cor-iesu-preto-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "preto-M",
+          "label": "Preto · M",
+          "sku": "cor-iesu-preto-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "preto-G",
+          "label": "Preto · G",
+          "sku": "cor-iesu-preto-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "preto-GG",
+          "label": "Preto · GG",
+          "sku": "cor-iesu-preto-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "off-white-P",
+          "label": "Off-white · P",
+          "sku": "cor-iesu-off-white-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "off-white-M",
+          "label": "Off-white · M",
+          "sku": "cor-iesu-off-white-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "off-white-G",
+          "label": "Off-white · G",
+          "sku": "cor-iesu-off-white-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "off-white-GG",
+          "label": "Off-white · GG",
+          "sku": "cor-iesu-off-white-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-marinho-P",
+          "label": "Azul-marinho · P",
+          "sku": "cor-iesu-azul-marinho-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-marinho-M",
+          "label": "Azul-marinho · M",
+          "sku": "cor-iesu-azul-marinho-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-marinho-G",
+          "label": "Azul-marinho · G",
+          "sku": "cor-iesu-azul-marinho-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-marinho-GG",
+          "label": "Azul-marinho · GG",
+          "sku": "cor-iesu-azul-marinho-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-royal-P",
+          "label": "Azul-royal · P",
+          "sku": "cor-iesu-azul-royal-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-royal-M",
+          "label": "Azul-royal · M",
+          "sku": "cor-iesu-azul-royal-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-royal-G",
+          "label": "Azul-royal · G",
+          "sku": "cor-iesu-azul-royal-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "azul-royal-GG",
+          "label": "Azul-royal · GG",
+          "sku": "cor-iesu-azul-royal-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "verde-P",
+          "label": "Verde · P",
+          "sku": "cor-iesu-verde-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "verde-M",
+          "label": "Verde · M",
+          "sku": "cor-iesu-verde-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "verde-G",
+          "label": "Verde · G",
+          "sku": "cor-iesu-verde-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "verde-GG",
+          "label": "Verde · GG",
+          "sku": "cor-iesu-verde-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-claro-P",
+          "label": "Cinza-claro · P",
+          "sku": "cor-iesu-cinza-claro-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-claro-M",
+          "label": "Cinza-claro · M",
+          "sku": "cor-iesu-cinza-claro-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-claro-G",
+          "label": "Cinza-claro · G",
+          "sku": "cor-iesu-cinza-claro-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-claro-GG",
+          "label": "Cinza-claro · GG",
+          "sku": "cor-iesu-cinza-claro-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-escuro-P",
+          "label": "Cinza-escuro · P",
+          "sku": "cor-iesu-cinza-escuro-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-escuro-M",
+          "label": "Cinza-escuro · M",
+          "sku": "cor-iesu-cinza-escuro-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-escuro-G",
+          "label": "Cinza-escuro · G",
+          "sku": "cor-iesu-cinza-escuro-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "cinza-escuro-GG",
+          "label": "Cinza-escuro · GG",
+          "sku": "cor-iesu-cinza-escuro-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "areia-P",
+          "label": "Areia · P",
+          "sku": "cor-iesu-areia-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "areia-M",
+          "label": "Areia · M",
+          "sku": "cor-iesu-areia-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "areia-G",
+          "label": "Areia · G",
+          "sku": "cor-iesu-areia-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "areia-GG",
+          "label": "Areia · GG",
+          "sku": "cor-iesu-areia-gg",
+          "priceCents": 10990
+        },
+        {
+          "code": "bordo-P",
+          "label": "Bordô · P",
+          "sku": "cor-iesu-bordo-p",
+          "priceCents": 10990
+        },
+        {
+          "code": "bordo-M",
+          "label": "Bordô · M",
+          "sku": "cor-iesu-bordo-m",
+          "priceCents": 10990
+        },
+        {
+          "code": "bordo-G",
+          "label": "Bordô · G",
+          "sku": "cor-iesu-bordo-g",
+          "priceCents": 10990
+        },
+        {
+          "code": "bordo-GG",
+          "label": "Bordô · GG",
+          "sku": "cor-iesu-bordo-gg",
+          "priceCents": 10990
         }
       ]
     },
