@@ -391,7 +391,8 @@ export default {
         if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku)){
           const registered=env.DB?.prepare && await loadVariant(env.DB,sku);
           if(!registered ||
-             !approvedSaleVariant(sku,registered.price_cents))
+             !approvedSaleVariant(sku,registered.price_cents) ||
+             (isCorIesuAssistedSku(sku) && registered.available!==1))
             throw new CatalogError('unavailable_product','Produto ainda sem cadastro completo.',409);
         }
         const diagnostic=body?.diagnose===true?{}:null;
