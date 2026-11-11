@@ -92,8 +92,8 @@ def main():
         expect(page).to_have_url(re.compile("id=caneca-salve-regina-pb"))
         print("PASS: alternativas de caneca navegáveis e sem habilitar cobrança")
 
-        # Cor Iesu: exatamente um botão Comprar agora; seletores compactos;
-        # sem quantidade fixa desnecessária e frete recolhível.
+        # Cor Iesu: um único Comprar agora, campo de quantidade funcional
+        # com subtotal e carrinho, sem permitir pagamento indevido de lote.
         page.goto(BASE + "/pages/produto-loja.html?id=camiseta-cor-iesu-sacratissimum",
             wait_until="domcontentloaded")
         buy = page.get_by_role("button",name="Comprar agora",exact=True)
@@ -104,8 +104,11 @@ def main():
         assert page.locator(".shop-single-pricebox button").count()==0
         assert page.locator(".shop-single-variant-chip").count()==4
         assert page.locator(".shop-single-color-choice").count()==11
-        assert page.locator(".shop-single-quantity-group").count()==0
-        assert page.locator(".shop-single-quantity-input[type=hidden]").count()==1
+        expect(page.locator(".shop-single-quantity-group")).to_be_visible()
+        quantity_cor=page.locator(".shop-single-quantity-input")
+        expect(quantity_cor).to_have_attribute("type","number")
+        expect(quantity_cor).to_have_value("1")
+        expect(page.locator(".shop-single-quantity-subtotal")).to_contain_text("109,90")
         assert page.locator(".shop-single-excerpt").count()==0, "Texto completo já está abaixo"
         assert page.locator(".shop-single-freight-disclosure").count()==1
         expect(page.locator(".shop-single-freight-disclosure .shop-single-shipping input")).not_to_be_visible()
@@ -126,10 +129,32 @@ def main():
             (color.compareDocumentPosition(size)&4)!==0 &&
             (size.compareDocumentPosition(actions)&4)!==0;
         }"""), "Ordem: cor, tamanho, compra, frete"
-        page.get_by_role("button",name="Adicionar ao carrinho").click()
+        page.get_by_role("button",name="Aumentar quantidade").click()
+        expect(quantity_cor).to_have_value("2")
+        expect(page.locator(".shop-single-quantity-subtotal")).to_contain_text("219,80")
+        review=page.get_by_role("button",name="Revisar 2 camisetas")
+        expect(review).to_be_visible()
+        assert page.get_by_role("button",name="Comprar agora",exact=True).count()==0
+        page.get_by_role("button",name="Diminuir quantidade").click()
+        expect(quantity_cor).to_have_value("1")
+        expect(page.locator(".shop-single-quantity-subtotal")).to_contain_text("109,90")
+        expect(buy).to_be_visible()
+        page.get_by_role("button",name="Aumentar quantidade").click()
+        review.click()
+        expect(page).to_have_url(re.compile("/pages/cart[.]html"))
         cart=page.evaluate("JSON.parse(localStorage.getItem('douglasShopCart_v2'))")
         assert any(item["id"]=="camiseta-cor-iesu-sacratissimum" and
-                   item["variant"]=="cor-iesu-bordo-gg" for item in cart),cart
+                   item["variant"]=="cor-iesu-bordo-gg" and item["qty"]==2
+                   for item in cart),cart
+        expect(page.locator(".cart-quantity-number")).to_contain_text("2")
+        # Pedido múltiplo não deve oferecer pagamento antes da homologação
+        expect(page.locator("#cart-payment-explanation")).to_be_visible()
+        page.goto(BASE + "/pages/produto-loja.html?id=camiseta-cor-iesu-sacratissimum",
+                  wait_until="domcontentloaded")
+        page.locator('[aria-label="Selecionar cor Bordô"]').click()
+        page.locator(".shop-single-native-select").select_option("GG")
+        buy=page.get_by_role("button",name="Comprar agora",exact=True)
+        expect(buy).to_be_visible()
         for width in (390,360):
             page.set_viewport_size({"width":width,"height":800})
             expect(buy).to_be_visible()
@@ -140,7 +165,7 @@ def main():
             assert page.locator(".shop-single-summary").evaluate(
                 "(el)=>el.scrollWidth <= el.clientWidth+2"),"Sem transbordamento horizontal"
         page.set_viewport_size({"width":1280,"height":900})
-        print("PASS: um Comprar agora, cores compactas, quatro tamanhos, mobile e frete recolhível")
+        print("PASS: campo 1–10, subtotal correto, revisão no carrinho e pagamento unitário preservado")
 
         # No checkout, simular resposta de disponibilidade aprovada (sem pagamento).
         def checkout_ready(route):
