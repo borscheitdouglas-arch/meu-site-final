@@ -13,9 +13,9 @@ Fonte: tela "Designs" da VAVI apresentada pelo lojista em **11/11/2026**.
 Os valores do tipo **“A PARTIR DE”** são observações do painel VAVI, não garantias de custo final para cada variação. O custo da camiseta personalizada foi confirmado pelo lojista separadamente. Valores observados são mantidos apenas no D1 (tabela privada `supplier_design_observations`) para não espalhar custos de fornecedor pelo front-end público.
 
 ## Produtos e situação
-- **Camiseta**: cadastro da loja com preço de venda R$ 109,90 para P/M/G/GG, status `preparation`. Frente com medalhão e costas com gravura gótica. D1 ainda desativado, sem SKUs de fornecedor/frete aprovados.
-- **Boné**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. **Preço normal definido: R$ 79,90; opção promocional futura: R$ 75,00, ainda não ativa.** Sem imagem de produto aprovada ou variantes homologadas; não entra na vitrine nem pode ser comprado. O valor de R$ 44,00 do painel VAVI é exibido como “a partir de”; verificar o custo final por cor antes da ativação.
-- **Ecobag**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. Sem preço de venda, imagem aprovada ou variantes homologadas. Não entra na vitrine ainda.
+- **Camiseta**: **venda assistida ativa** na loja, R$ 109,90, edição Marrom P/M/G/GG. Frente com medalhão e costas com gravura gótica; 4 SKUs internos, D1 enabled/verified/available=1. Frete real VAVI validado por CEP de teste em 11/11/2026, usando ficha física sem UUID. Uma unidade por pedido. Pagamento via InfinitePay; após confirmação validada, rascunho VAVI D000007 é criado e exige vínculo manual do produto/arte e pagamento da produção no portal.
+- **Boné**: cadastro técnico inativo no D1 e rascunho textual em `content/cor-iesu-product-drafts.json`. **Preço normal definido: R$ 79,90; opção promocional futura: R$ 75,00, ainda não ativa.** Sem imagem de produto aprovada ou variantes homologadas; não entra na vitrine nem pode ser comprado. O lojista confirmou custo de R$ 44,00; conferir a variação efetiva por cor antes de ativar. Há três SKUs internos de trabalho, todos inativos.
+- **Ecobag**: cadastro técnico inativo no D1 com variantes internas M/G e preço planejado R$ 39,90, igual à ecobag Salve Regina. Custo informado R$ 19,50; ainda faltam imagens aprovadas, variantes e frete homologados. Não entra na vitrine nem pode ser comprada.
 
 ## Levantamento visual das variantes da camiseta — 11/11/2026
 
@@ -41,3 +41,13 @@ As **44 combinações** (11 cores × 4 tamanhos) foram transcritas das capturas 
 Nenhuma migração preparatória liga o botão Comprar, aprova frete, cria pedido ou cobra pagamento.
 
 > IMPORTANTE: `0018_cor_iesu_accessories_preparation.sql` é uma migração idempotente, não um procedimento de ativação.
+
+
+## Implementação de venda assistida — 11/11/2026
+
+- O Worker aceita **somente** `cor-iesu-marrom-p/m/g/gg` com preço R$ 109,90, D1 ativo e custo privado confirmado para `D000007` / DTF / 2 áreas. Não usa códigos de fornecedor conflitantes das capturas.
+- O frete de uma peça é consultado de verdade na API VAVI usando peso/dimensões da ficha de camiseta 30.1 e custo confirmado no D1, sem UUID ou SKU VAVI inventado. A loja assume eventual diferença de embalagem no fechamento da produção. O valor é reconsultado pelo backend antes de iniciar pagamento.
+- O checkout unitário InfinitePay utiliza os controles existentes: dados cifrados, preço do D1, pagamento verificado, fila idempotente e envio de **rascunho** VAVI. O item do rascunho carrega `D000007` e indica **medalhão na frente / gravura gótica nas costas**. A produção só começa após o lojista conferir e pagar no painel VAVI.
+- **Não há checkout multipeça com Cor Iesu** até homologar pacote combinado; não prometer fabricação automática sem conferência.
+- Testes: [suite Worker](https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/43044944576), [cotação real dos 4 tamanhos, sem pedido ou cobrança](https://github.com/borscheitdouglas-arch/meu-site-final/actions/runs/43045388953).
+- Boné e ecobag: variantes e custos privados cadastrados, **enabled=0, verified=0, available=0**; ainda sem imagens/mockups próprios aprovados. Preço do boné **R$ 79,90** (R$ 75,00 apenas possível promoção futura). Preço planejado ecobag **R$ 39,90**. Nunca anunciar esses acessórios como disponíveis antes das fotos, frete e confirmação operacional.
