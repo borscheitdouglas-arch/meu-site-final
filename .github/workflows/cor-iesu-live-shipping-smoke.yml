@@ -1,0 +1,42 @@
+name: Cor Iesu — validar frete real VAVI sem cobrança
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/cor-iesu-live-shipping-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  frete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Consultar 4 tamanhos em CEP público sem criar pedidos
+        shell: bash
+        run: |
+          set -euo pipefail
+          API='https://douglas-loja-api.liturgia-gregoriano.workers.dev'
+          for size in p m g gg; do
+            sku="cor-iesu-marrom-$size"
+            code=$(curl --retry 2 --retry-delay 2 --silent --show-error \
+              --output "$RUNNER_TEMP/quote.json" --write-out '%{http_code}' \
+              --header 'Origin: https://www.douglasassumpcao.com.br' \
+              --header 'Content-Type: application/json' \
+              --data "{\"zipCode\":\"01001000\",\"sku\":\"$sku\"}" \
+              "$API/api/shipping/preview")
+            echo "$sku: HTTP $code"
+            test "$code" = "200"
+            node -e '
+              const fs=require("node:fs");
+              const q=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/quote.json","utf8"));
+              if(q.mode!=="preview"||q.checkoutEnabled!==false||q.provisional!==true||
+                 q.zipCode!=="01001000"||!Array.isArray(q.options)||
+                 !q.options.some(o=>o.isActive===true&&o.shippingCost>=0&&o.deliveryTime>=0))
+                process.exit(1);
+              if(JSON.stringify(q).includes("5691")||JSON.stringify(q).includes("D000007"))
+                process.exit(1);
+              console.log("Cotação VAVI válida, custo privado protegido; sem pedido ou cobrança.");
+            '
+          done
