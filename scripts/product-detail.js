@@ -328,7 +328,7 @@
   function showError(message) {
     root.replaceChildren(el('h1','',message),link('← Voltar ao catálogo','/pages/loja.html#catalogo','shop-single-back'));
   }
-  function gallery(photos, title, note, photoLabels, fitToFrame=false, fixedFrame=false) {
+  function gallery(photos, title, photoLabels, fitToFrame=false, fixedFrame=false) {
     const figure=el('figure','shop-single-imagebox');
     const image=el('img');image.src=photos[0];image.alt=photoLabels?.[0] || ('Imagem de '+title);image.width=850;image.height=850;
     const imageClip=el('div','shop-single-image-clip');
@@ -362,7 +362,6 @@
       image.addEventListener('load',updateFrame);
       if(image.complete)updateFrame();
     }
-    if(note) figure.append(el('figcaption','',note));
     const photoColor=fixedFrame?el('p','shop-single-photo-color'):null;
     const photoColorNames={
       'branco':'Branco','preto':'Preto','off-white':'Off-white',
@@ -786,9 +785,7 @@
     trust.append(link('Condições de entrega e trocas','/pages/condicoes-da-loja.html'));
     summary.append(trust);
     layout.append(gallery(
-      photos,title,
-      isShirt?'':(detail.note || (isBook?'Arte de divulgação do livro':'Imagem ilustrativa da coleção')),
-      detail.photoLabels,true,isCorIesuShirt
+      photos,title,detail.photoLabels,true,isCorIesuShirt
     ),summary);
     root.replaceChildren(layout);
     if(!isBook){
