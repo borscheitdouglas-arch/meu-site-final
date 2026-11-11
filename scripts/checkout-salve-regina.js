@@ -39,7 +39,7 @@
   const extra=isCorIesu
     ? {title:'Camiseta Cor Iesu Sacratissimum',
        detail:'DTF em duas áreas: medalhão na frente, gravura gótica nas costas',
-       price:10990,image:'/assets/img/loja/cor-iesu/costas-modelo-480.webp'}
+       price:10990,image:'/assets/img/loja/cor-iesu/costas-modelo-com-pernas.jpg'}
     : requestedSku && Object.hasOwn(extras,requestedSku)?extras[requestedSku]:null;
   const prices=isCorIesu?{P:10990,M:10990,G:10990,GG:10990}
     : extra?{UNICO:extra.price}:{P:10990,M:10990,G:10990,GG:10990,XG:11990};
