@@ -320,8 +320,11 @@
         // Retratos de corpo inteiro ganham altura para que pernas e estampa
         // fiquem visíveis, sem recortar a fotografia ou reduzir demais o modelo.
         const tallPortrait=ratio<0.62;
-        const widthDesktop=Math.min(426,Math.round((tallPortrait?730:390)*ratio));
-        const widthMobile=Math.min(322,Math.round((tallPortrait?520:300)*ratio));
+        // Retrato com jeans parcial (aprox. 2:3): não encolher a camisa
+        // como se fosse uma foto de corpo inteiro.
+        const partialLegs=ratio>=0.62&&ratio<0.72;
+        const widthDesktop=Math.min(426,Math.round((tallPortrait?730:partialLegs?520:390)*ratio));
+        const widthMobile=Math.min(322,Math.round((tallPortrait?520:partialLegs?390:300)*ratio));
         figure.style.setProperty('--shirt-frame-width', (widthDesktop+18)+'px');
         figure.style.setProperty('--shirt-frame-mobile-width', (widthMobile+14)+'px');
         figure.style.setProperty('--shirt-frame-ratio', w+' / '+h);
