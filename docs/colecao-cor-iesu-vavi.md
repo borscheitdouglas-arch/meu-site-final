@@ -4,7 +4,7 @@ Fonte: tela "Designs" da VAVI apresentada pelo lojista em **11/11/2026**.
 
 | Produto | Código do DESIGN VAVI | Técnica | Áreas | Observações |
 |---|---|---|---|---|
-| Camiseta Sagrado Coração | `D000007` | DTF | 2 | P, M, G, GG na edição da loja; cor comercial Marrom ainda precisa de SKU específico e confirmação no design |
+| Camiseta Sagrado Coração | `D000007` | DTF | 2 | Marrom P/M/G/GG com SKU interno; vínculo do produto físico ao design é manual no rascunho VAVI |
 | Boné Sagrado Coração | `D000008` | DTF | 1 | Boné Frente Americana; miniaturas mostram preto, azul-escuro e verde-escuro; confirmar nomes oficiais |
 | Ecobag Sagrado Coração | `D000009` | DTF | 1 | Ecobag Algodão Cru; tamanhos M e G apresentados |
 
