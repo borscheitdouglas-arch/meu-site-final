@@ -1,5 +1,6 @@
 import {CatalogError,normalizeCart,quoteCart} from './catalog.js';
 import {approvedDirectVariant,DIRECT_CHECKOUT_SKUS} from './salve-regina-variants.js';
+import {COR_IESU_ASSISTED_SKUS,approvedCorIesuAssistedVariant,isCorIesuAssistedSku,loadCorIesuAssistedCost,assertCorIesuSingleItem} from './cor-iesu-assist.js';
 import {normalizeZip,simulateVaviShipping,simulateVaviShippingCartProvisional,simulateVaviShippingProvisional,shippingPayload,canQuotePublishedPackage} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
@@ -31,8 +32,11 @@ export async function createCheckoutLive(env,body,deps={}) {
     throw new CatalogError('live_checkout_disabled','Compra online ainda indisponível.',503);
   const buyer=validateBuyerDetails(body?.buyer);
   const items=normalizeCart(body);
-  if(items.some(line=>!DIRECT_CHECKOUT_SKUS.includes(line.sku)))
+  if(items.some(line=>!DIRECT_CHECKOUT_SKUS.includes(line.sku) &&
+    !COR_IESU_ASSISTED_SKUS.includes(line.sku)))
     throw new CatalogError('live_product_unavailable','Produto não aprovado para venda.',409);
+  // Sem validação de embalagem conjunta, nunca cobrar frete de vários itens Cor Iesu.
+  assertCorIesuSingleItem(items);
   const multiple=items.length!==1 || items[0].quantity!==1;
   if(multiple && env.LIVE_MULTICART_CHECKOUT_ENABLED!=='true')
     throw new CatalogError('live_multicart_disabled','Venda de carrinhos combinados ainda indisponível.',503);
@@ -48,7 +52,8 @@ export async function createCheckoutLive(env,body,deps={}) {
   const quote=await quoteCart(items,load);
   // Preço de venda aprovado e conferido no D1; navegador não envia valores.
   // A lista interna não aprova o fornecedor: quoteCart exige enabled/verified/available.
-  if(!quote.lines.every(line=>approvedDirectVariant(line.sku,line.unitPriceCents)) ||
+  if(!quote.lines.every(line=>approvedDirectVariant(line.sku,line.unitPriceCents) ||
+     approvedCorIesuAssistedVariant(line.sku,line.unitPriceCents)) ||
      quote.subtotalCents!==quote.lines.reduce((sum,line)=>sum+line.totalCents,0))
     throw new CatalogError('live_price_unapproved','Preço dos produtos precisa ser revisado.',503);
 
@@ -88,16 +93,24 @@ export async function createCheckoutLive(env,body,deps={}) {
       if(!(error instanceof CatalogError) ||
         error.code!=='shipping_product_unverified' ||
         !canQuotePublishedPackage(sku))throw error;
-      const observation=await env.DB.prepare(
-        'SELECT supplier_variant_sku,observed_total_cents '+
-        'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
-      ).bind(sku).first();
-      if(!observation || !/^\d{7}$/.test(String(observation.supplier_variant_sku||'')) ||
-        !Number.isSafeInteger(observation.observed_total_cents) ||
-        observation.observed_total_cents<1)
+      let unitCostCents;
+      if(isCorIesuAssistedSku(sku)){
+        // Rascunho VAVI: SKU interno e design D000007, sem fingir SKU da fábrica.
+        unitCostCents=await loadCorIesuAssistedCost(env.DB,sku);
+      }else{
+        const observation=await env.DB.prepare(
+          'SELECT supplier_variant_sku,observed_total_cents '+
+          'FROM supplier_variant_cost_observations WHERE internal_sku=? LIMIT 1'
+        ).bind(sku).first();
+        if(/^\d{7}$/.test(String(observation?.supplier_variant_sku||'')) &&
+           Number.isSafeInteger(observation?.observed_total_cents) &&
+           observation.observed_total_cents>0)
+          unitCostCents=observation.observed_total_cents;
+      }
+      if(!Number.isSafeInteger(unitCostCents) || unitCostCents<1)
         throw new CatalogError('shipping_product_unverified','Produto sem ficha logística válida.',409);
       quotes=await (deps.simulateShippingProvisional||simulateVaviShippingProvisional)(
-        env,zip,sku,observation.observed_total_cents);
+        env,zip,sku,unitCostCents);
     }
   }
   const option=Array.isArray(quotes) && quotes.find(x=>
