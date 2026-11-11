@@ -595,8 +595,10 @@
         topBuy.setAttribute('aria-label','Comprar camiseta Cor Iesu na cor e no tamanho selecionados');
         pricePanel.append(topBuy,topSelection);
       }
+      // Cor Iesu tem 44 SKUs, mas somente 4 tamanhos visíveis.
+      // Duplicar o tamanho para cada cor alongava a tela e escondia o botão.
       const sizeVariants=isCorIesuShirt?
-        variants.filter(v=>['P','M','G','GG'].includes(v.code)):variants;
+        ['P','M','G','GG'].map(size=>variants.find(v=>v.code===size)).filter(Boolean):variants;
       const selectedVariant=()=>isCorIesuShirt?
         variants.find(v=>v.sku==='cor-iesu-'+chosenColor+'-'+select.value.toLowerCase()):
         variants.find(v=>v.code===select.value);
