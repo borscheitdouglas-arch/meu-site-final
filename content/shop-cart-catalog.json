@@ -49,48 +49,34 @@
       "category": "camisetas",
       "status": "preparation",
       "image": "/assets/img/loja/cor-iesu/costas-modelo-1500.webp",
-      "priceStatus": "pending",
+      "priceStatus": "final",
       "variants": [
         {
-          "code": "PP",
-          "label": "Marrom acinzentado · PP (a confirmar)",
-          "sku": null,
-          "priceCents": null,
-          "availability": "pending"
-        },
-        {
           "code": "P",
-          "label": "Marrom acinzentado · P (a confirmar)",
+          "label": "Marrom · P",
           "sku": null,
-          "priceCents": null,
+          "priceCents": 10990,
           "availability": "pending"
         },
         {
           "code": "M",
-          "label": "Marrom acinzentado · M (a confirmar)",
+          "label": "Marrom · M",
           "sku": null,
-          "priceCents": null,
+          "priceCents": 10990,
           "availability": "pending"
         },
         {
           "code": "G",
-          "label": "Marrom acinzentado · G (a confirmar)",
+          "label": "Marrom · G",
           "sku": null,
-          "priceCents": null,
+          "priceCents": 10990,
           "availability": "pending"
         },
         {
           "code": "GG",
-          "label": "Marrom acinzentado · GG (a confirmar)",
+          "label": "Marrom · GG",
           "sku": null,
-          "priceCents": null,
-          "availability": "pending"
-        },
-        {
-          "code": "XG",
-          "label": "Marrom acinzentado · XG (a confirmar)",
-          "sku": null,
-          "priceCents": null,
+          "priceCents": 10990,
           "availability": "pending"
         }
       ]

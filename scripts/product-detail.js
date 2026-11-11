@@ -18,7 +18,7 @@
     "description": "Uma peça de inspiração sacra que une a devoção ao Sacratíssimo Coração de Jesus à estética das gravuras tradicionais. O medalhão frontal apresenta o Coração inflamado de amor, coroado de espinhos e acompanhado por lírios. Nas costas, a composição gótica ampliada reúne cruz, chamas, rosas, ornamentos e a inscrição latina Cor Iesu Sacratissimum.",
     "paragraphs": [
       "O Sagrado Coração de Jesus expressa o amor de Cristo pela humanidade. Nesta criação, a cruz, as chamas e a coroa de espinhos aparecem em duas composições complementares: um medalhão refinado na frente e uma gravura gótica ampla nas costas.",
-      "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A peça é apresentada na cor marrom-acinzentada das fotografias, com artes em vermelho profundo, bronze envelhecido e marfim.",
+      "Confeccionada em 100% algodão fio 30.1 penteado, a camiseta possui modelagem unissex, toque macio e tecido respirável para o cotidiano. A peça é apresentada na cor Marrom das fotografias, com artes em vermelho profundo, bronze envelhecido e marfim.",
       "Este anúncio apresenta estampas fixas na frente e nas costas, previstas para aplicação DTF. Não inclui personalização de textos, troca de arte ou escolha livre de cores. Produção sob demanda; preço, disponibilidade dos tamanhos e frete serão confirmados antes da abertura das vendas."
     ],
     "features": [
@@ -52,11 +52,11 @@
       ],
       [
         "Quais cores e tamanhos estão disponíveis?",
-        "O anúncio apresenta a cor marrom-acinzentada das imagens. A grade do modelo-base abrange PP a XG, sujeita à confirmação de disponibilidade para esta edição."
+        "O anúncio apresenta a cor Marrom das imagens. Esta edição oferece os tamanhos P, M, G e GG, com disponibilidade a confirmar na VAVI."
       ],
       [
         "Já posso comprar?",
-        "O produto está em preparação. Preço, disponibilidade e frete serão informados antes de liberar a compra."
+        "O preço definido é R$ 109,90, mais frete. A compra segue em preparação até validação das variações e do checkout."
       ],
       [
         "O que significa Cor Iesu Sacratissimum?",
@@ -526,7 +526,7 @@
     const price=el('p','shop-single-price');
     const priceNote=el('p','shop-single-price-note',
       isBook?'Preço e frete informados pela loja parceira.':
-      isPreparation?'Modelo e preço definitivo ainda não cadastrados.':
+      isPreparation?(isCorIesuShirt?'Preço definido: R$ 109,90. Venda em preparação; frete e disponibilidade serão validados antes do pagamento.':'Modelo e preço definitivo ainda não cadastrados.'):
       'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.');
     // Ficha comercial uniforme: o preço mantém a variação e a origem de dados do produto.
     const pricePanel=el('div','shop-single-pricebox');
@@ -558,7 +558,7 @@
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
         else if(isEcobag&&!variant?.sku)
           priceNote.textContent='Tamanho '+variant.code+': preço e produção ainda não confirmados. M e G estão cadastrados para venda.';
-        else priceNote.textContent=isPreparation?'Modelo e preço definitivo ainda não cadastrados.':
+        else priceNote.textContent=isPreparation?(isCorIesuShirt?'Preço definido: R$ 109,90. Venda em preparação; frete e disponibilidade serão validados antes do pagamento.':'Modelo e preço definitivo ainda não cadastrados.'):
           isShirt?'Preço de venda definido. Calcule o frete pelo CEP antes de pagar.':
           'Valor sugerido. Frete e preço final conferidos antes de qualquer pagamento.';
       }
@@ -782,8 +782,8 @@
         'Coleção':'Cor Iesu Sacratissimum',
         'Material':'100% algodão fio 30.1 penteado',
         'Modelagem':'Unissex',
-        'Cor':'Marrom-acinzentada, conforme fotos',
-        'Tamanhos do modelo-base':'PP, P, M, G, GG e XG (sob confirmação)',
+        'Cor':'Marrom, conforme fotos',
+        'Tamanhos desta edição':'P, M, G e GG (em validação)',
         'Impressão':'DTF · frente e costas · estampas fixas',
         'Medidas do pacote (C × L × A)':'300 × 250 × 10 mm (informação da ficha-base)',
         'Peso de catálogo':'0,25 kg (ficha-base)',
@@ -791,7 +791,8 @@
         'SKU-base VAVI':'0000002',
         'Unidade':'Peça',
         'Fornecedor da peça-base':'VAVI',
-        'Situação':'Em preparação · preço e produção pendentes de confirmação'
+        'Preço de venda':'R$ 109,90 + frete',
+        'Situação':'Em preparação · integração e produção pendentes de validação'
       }));
       details.append(infoBox,desc);
     }else if(isShirt){
