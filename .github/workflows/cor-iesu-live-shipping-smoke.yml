@@ -40,3 +40,15 @@ jobs:
               console.log("Cotação VAVI válida, custo privado protegido; sem pedido ou cobrança.");
             '
           done
+          echo "Verificando disponibilidade comercial no Worker (sem checkout real)."
+          curl --fail --silent --show-error \
+            --header 'Origin: https://www.douglasassumpcao.com.br' \
+            "$API/api/checkout/live/readiness" > "$RUNNER_TEMP/readiness.json"
+          node -e '
+            const fs=require("node:fs");
+            const r=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/readiness.json","utf8"));
+            const skus=["p","m","g","gg"].map(s=>"cor-iesu-marrom-"+s);
+            if(r.checkoutEnabled!==true||r.paymentProvider!=="infinitepay"||
+               !skus.every(s=>r.availableSkus?.includes(s)))process.exit(1);
+            console.log("Readiness: 4 tamanhos liberados para InfinitePay, sem iniciar pagamento.");
+          '
