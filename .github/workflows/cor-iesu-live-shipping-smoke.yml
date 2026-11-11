@@ -1,63 +1,44 @@
-name: Cor Iesu — validar frete real VAVI sem cobrança
+name: Cor Iesu — 44 variacoes e frete real sem cobranca
 on:
   workflow_dispatch:
   push:
     paths:
       - ".github/workflows/cor-iesu-live-shipping-smoke.yml"
-
 permissions:
   contents: read
-
 jobs:
   frete:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
-      - name: Consultar 4 tamanhos em CEP público sem criar pedidos
+      - name: Validar 44 SKUs e calcular frete sem iniciar pagamento
         shell: bash
         run: |
           set -euo pipefail
-          API='https://douglas-loja-api.liturgia-gregoriano.workers.dev'
-          for size in p m g gg; do
-            sku="cor-iesu-marrom-$size"
-            code=$(curl --retry 2 --retry-delay 2 --silent --show-error \
-              --output "$RUNNER_TEMP/quote.json" --write-out '%{http_code}' \
-              --header 'Origin: https://www.douglasassumpcao.com.br' \
-              --header 'Content-Type: application/json' \
-              --data "{\"zipCode\":\"01001000\",\"sku\":\"$sku\"}" \
-              "$API/api/shipping/preview")
-            echo "$sku: HTTP $code"
-            test "$code" = "200"
-            node -e '
-              const fs=require("node:fs");
-              const q=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/quote.json","utf8"));
-              if(q.mode!=="preview"||q.checkoutEnabled!==false||q.provisional!==true||
-                 q.zipCode!=="01001000"||!Array.isArray(q.options)||
-                 !q.options.some(o=>o.isActive===true&&o.shippingCost>=0&&o.deliveryTime>=0))
-                process.exit(1);
-              if(JSON.stringify(q).includes("5691")||JSON.stringify(q).includes("D000007"))
-                process.exit(1);
-              console.log("Cotação VAVI válida, custo privado protegido; sem pedido ou cobrança.");
-            '
-          done
-          echo "Conferindo vitrine pública sem cache."
-          public_page="$RUNNER_TEMP/loja.html"
-          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 \
-            --header 'Cache-Control: no-cache' \
-            'https://www.douglasassumpcao.com.br/pages/loja.html?cor_iesu_verificacao=20261111' \
-            --output "$public_page"
-          grep -Fq 'Nova coleção · compra online' "$public_page"
-          grep -Fq 'data-cart-add="camiseta-cor-iesu-sacratissimum"' "$public_page"
-          echo "Vitrine pública com camiseta Cor Iesu e botão de carrinho."
-          echo "Verificando disponibilidade comercial no Worker (sem checkout real)."
-          curl --fail --silent --show-error \
-            --header 'Origin: https://www.douglasassumpcao.com.br' \
-            "$API/api/checkout/live/readiness" > "$RUNNER_TEMP/readiness.json"
-          node -e '
-            const fs=require("node:fs");
-            const r=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/readiness.json","utf8"));
-            const skus=["p","m","g","gg"].map(s=>"cor-iesu-marrom-"+s);
-            if(r.checkoutEnabled!==true||r.paymentProvider!=="infinitepay"||
-               !skus.every(s=>r.availableSkus?.includes(s)))process.exit(1);
-            console.log("Readiness: 4 tamanhos liberados para InfinitePay, sem iniciar pagamento.");
-          '
+          python3 - <<'PY'
+          import json,urllib.request
+          base='https://douglas-loja-api.liturgia-gregoriano.workers.dev'
+          hdr={'Origin':'https://www.douglasassumpcao.com.br','User-Agent':'Douglas-Cor-Iesu-ReadOnly'}
+          with urllib.request.urlopen(urllib.request.Request(base+'/api/checkout/live/readiness',headers=hdr),timeout=20) as response:
+              ready=json.load(response)
+          colors=['marrom','branco','preto','off-white','azul-marinho','azul-royal','verde','cinza-claro','cinza-escuro','areia','bordo']
+          names=['cor-iesu-'+color+'-'+size for color in colors for size in ('p','m','g','gg')]
+          published=ready.get('availableSkus') or []
+          missing=[x for x in names if x not in published]
+          assert ready.get('checkoutEnabled') is True,ready
+          assert ready.get('paymentProvider')=='infinitepay',ready
+          assert not missing,f'Variacoes nao habilitadas: {missing}'
+          assert len(names)==44
+          print('44 combinacoes aprovadas pelo Worker, sem gerar pagamento.')
+          for sku in ('cor-iesu-branco-p','cor-iesu-azul-royal-g','cor-iesu-bordo-gg','cor-iesu-marrom-m'):
+              body=json.dumps({'zipCode':'01001000','sku':sku}).encode()
+              req=urllib.request.Request(base+'/api/shipping/preview',data=body,headers={**hdr,'Content-Type':'application/json'},method='POST')
+              with urllib.request.urlopen(req,timeout=24) as response:
+                  assert response.status==200
+                  data=json.load(response)
+              assert data.get('mode')=='preview' and data.get('provisional') is True,sku
+              assert data.get('checkoutEnabled') is False
+              assert data.get('options') and any(o.get('isActive') and o.get('shippingCost',-1)>=0 for o in data['options'])
+              assert '5691' not in json.dumps(data) and 'D000007' not in json.dumps(data)
+              print(sku+': cotacao real retornada, sem pagamento ou rascunho.')
+          PY
