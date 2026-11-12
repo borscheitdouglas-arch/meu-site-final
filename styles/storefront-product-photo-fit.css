@@ -1,28 +1,10 @@
-/* Vitrine: fotos centralizadas e integradas ao card.
-   Preserve a arte inteira, independentemente do formato de origem.
-   Alterações restritas ao catálogo. Não alteram pedidos nem preços. */
+/* Loja Douglas Assumpção — enquadramento fotográfico dos cards (12/11/2026).
+   Imagens originais sem faixas borradas, vinhetas, molduras internas ou recorte
+   de estampas quadradas. Aplica-se somente à vitrine; galeria, preços e compras
+   continuam inalterados. */
 
-body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-cor-iesu-title"] {
-  --shop-photo:url("/assets/img/loja/cor-iesu/capa-modelos-frente-costas-20261111.jpg");
-}
-body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-camiseta-title"] {
-  --shop-photo:url("/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png");
-}
-body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-caneca-salve-regina-preta-title"] {
-  --shop-photo:url("/assets/img/loja/Salve-Regina/web/caneca-partitura-centralizada-capa-20261111.jpg");
-}
-body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-caneca-salve-regina-pb-title"] {
-  --shop-photo:url("/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-cartao-salve-regina-20261112.jpg");
-}
-body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-ecobag-salve-regina-title"] {
-  --shop-photo:url("/assets/img/loja/Salve-Regina/web/ecobag-salve-regina-capa-editorial-20261112.jpg");
-}
-body.shop-manto #shop-product-grid .atelier-catalog {
-  --shop-photo:url("/assets/img/Produtos/o-canto-como-mistica-card.png");
-}
-
-/* Mesmo formato e altura visual, sem recortar camisetas, canecas, bolsas
-   nem a capa do livro. O fundo difuso preenche o excedente lateral. */
+/* As fotografias dos produtos são quadradas. Uma janela quadrada permite
+   mostrá-las inteiras e elimina o preenchimento lateral difuso anterior. */
 body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art) {
   position:relative;
   isolation:isolate;
@@ -33,33 +15,26 @@ body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art)
   min-height:0;
   margin:0;
   padding:0;
-  aspect-ratio:5 / 4;
+  aspect-ratio:1 / 1;
   overflow:hidden;
-  background:linear-gradient(135deg,#e8e0d4,#f6f1e9 55%,#e6ddcf);
+  background:#e8dfd1;
   border:0;
-  border-bottom:1px solid #ddd2c1;
+  border-bottom:1px solid #ded3bf;
   border-radius:0;
 }
-body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art)::before {
-  content:"";
-  position:absolute;
-  z-index:0;
-  inset:-18px;
-  background-image:var(--shop-photo);
-  background-position:center;
-  background-size:cover;
-  background-repeat:no-repeat;
-  filter:blur(17px) saturate(.72);
-  opacity:.38;
-  transform:scale(1.08);
-  pointer-events:none;
-}
+
+/* Os pseudo-elementos antigos repetiam a própria foto, desfocada, dos lados,
+   e desenhavam um falso retângulo interno: remover ambos completamente. */
+body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art)::before,
 body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art)::after {
-  z-index:3;
-  inset:7px;
-  border:1px solid rgba(255,250,240,.38);
-  pointer-events:none;
+  content:none;
+  display:none;
+  border:0;
+  background:none;
+  filter:none;
 }
+
+/* Foto à borda do card, sem padding, barras, recortes ou movimento. */
 body.shop-manto #shop-product-grid .shop-product-image > img {
   position:absolute;
   z-index:1;
@@ -71,10 +46,17 @@ body.shop-manto #shop-product-grid .shop-product-image > img {
   max-height:none;
   margin:0;
   padding:0;
-  object-fit:contain;
-  object-position:center center;
   border:0;
+  border-radius:0;
+  object-fit:cover;
+  object-position:center center;
   transform:none;
+}
+
+/* O livro possui capa vertical: conservar a capa inteira sobre uma base lisa
+   semelhante à cor do papel, sem ampliar uma segunda imagem nas laterais. */
+body.shop-manto #shop-product-grid .atelier-product-art {
+  background:linear-gradient(145deg,#e3d8c6,#d8c8b1);
 }
 body.shop-manto #shop-product-grid .atelier-product-art .atelier-product-link {
   position:absolute;
@@ -83,41 +65,62 @@ body.shop-manto #shop-product-grid .atelier-product-art .atelier-product-link {
   display:block;
   width:100%;
   height:100%;
+  margin:0;
+  padding:9px;
 }
 body.shop-manto #shop-product-grid .atelier-product-art .atelier-product-link img {
   display:block;
+  position:static;
   width:100%;
   height:100%;
   max-width:none;
   max-height:none;
   margin:0;
-  padding:3px;
+  padding:0;
+  border:0;
+  border-radius:0;
   object-fit:contain;
   object-position:center center;
-  border:0;
   transform:none;
 }
-/* Evita cortes nas fotos e deixa o movimento restrito ao produto. */
-@media(hover:hover) and (pointer:fine) {
+
+/* O selo de compra deve aparecer POR CIMA da foto, nunca atrás dela. */
+body.shop-manto #shop-product-grid .shop-product-image .shop-product-badge {
+  position:absolute;
+  z-index:4;
+  top:9px;
+  left:9px;
+  right:auto;
+  bottom:auto;
+  display:inline-block;
+  max-width:calc(100% - 18px);
+  padding:4px 7px;
+  border:1px solid rgba(227,200,151,.74);
+  border-radius:5px;
+  background:rgba(16,46,64,.94);
+  color:#fff4df;
+  box-shadow:0 2px 8px rgba(0,0,0,.16);
+}
+
+/* Não deslocar a arte sob o cursor. O hover elegante fica no card inteiro. */
+@media (hover:hover) and (pointer:fine) {
   body.shop-manto #shop-product-grid .shop-product-image:hover > img,
-  body.shop-manto #shop-product-grid .atelier-product-link:hover img {
-    transform:scale(1.018);
+  body.shop-manto #shop-product-grid .atelier-product-art .atelier-product-link:hover img {
+    transform:none;
   }
 }
-/* A capa do livro é vertical e ganha respiro próprio na mesma janela. */
-body.shop-manto #shop-product-grid .atelier-product-art .atelier-product-link img {
-  padding:5px;
-}
-@media(max-width:700px) {
+@media (max-width:700px) {
   body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art) {
-    aspect-ratio:6 / 5;
+    aspect-ratio:1 / 1;
   }
-  body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art)::before {
-    filter:blur(13px) saturate(.72);
-    opacity:.3;
+  body.shop-manto #shop-product-grid .atelier-product-art .atelier-product-link {padding:7px;}
+  body.shop-manto #shop-product-grid .shop-product-image .shop-product-badge {
+    top:6px;left:6px;
+    max-width:calc(100% - 12px);
+    padding:3px 5px;
   }
 }
-@media(prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion:reduce) {
   body.shop-manto #shop-product-grid :is(.shop-product-image,.atelier-product-art) img {
     transition:none;
   }
