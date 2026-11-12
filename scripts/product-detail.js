@@ -233,6 +233,56 @@
       ]
     ]
   },
+  "bone-cor-iesu-sacratissimum": {
+    "type":"Boné · Coleção Cor Iesu Sacratissimum",
+    "material":"Tecido e composição em confirmação",
+    "finish":"Estampa sacra em DTF, uma área",
+    "photos":["/assets/img/loja/cor-iesu/bone-previsualizacao.svg"],
+    "photoLabels":["Prévia ilustrativa do boné Cor Iesu — arte e cores definitivas em confirmação"],
+    "description":"Boné com a arte do Sacratíssimo Coração de Jesus, inspirada nas gravuras tradicionais da arte sacra.",
+    "paragraphs":[
+      "Uma peça da coleção Cor Iesu Sacratissimum, dedicada à devoção ao Sagrado Coração de Jesus. O conceito reúne o Coração inflamado, a cruz e a coroa de espinhos em linguagem visual clássica.",
+      "Modelo de boné Frente Americana, com aplicação de estampa em uma área. As tonalidades apresentadas para avaliação são preto, azul-escuro e verde-escuro, ainda dependentes de confirmação.",
+      "O modelo está em preparação. A imagem atual é uma prévia conceitual e não comprova a aparência ou disponibilidade final. A compra será habilitada após a aprovação da estampa, das variantes e da entrega."
+    ],
+    "features":[
+      "Boné Frente Americana.",
+      "Estampa temática do Sagrado Coração de Jesus.",
+      "Cores em estudo: preto, azul-escuro e verde-escuro.",
+      "Preço regular definido para o lançamento: R$ 79,90.",
+      "Disponibilidade e características finais ainda em confirmação."
+    ],
+    "reasons":[
+      "Integra a coleção de arte sacra Cor Iesu Sacratissimum.",
+      "Expressa a devoção ao Sagrado Coração em acessório para o cotidiano."
+    ],
+    "note":"Imagem conceitual, não fotografia de uma peça produzida. Venda ainda não liberada."
+  },
+  "ecobag-cor-iesu-sacratissimum": {
+    "type":"Ecobag · Coleção Cor Iesu Sacratissimum",
+    "material":"Algodão cru",
+    "finish":"Estampa sacra em DTF, uma área",
+    "photos":["/assets/img/loja/cor-iesu/ecobag-previsualizacao.svg"],
+    "photoLabels":["Prévia ilustrativa da ecobag Cor Iesu — não representa uma amostra final aprovada"],
+    "description":"Ecobag de algodão cru com arte do Sagrado Coração de Jesus, unindo a tradição das gravuras religiosas à praticidade de uma bolsa reutilizável.",
+    "paragraphs":[
+      "A ecobag Cor Iesu Sacratissimum combina o tecido de algodão cru com a temática do Sagrado Coração de Jesus. O conceito artístico reúne a cruz, as chamas, a coroa de espinhos e os ornamentos florais.",
+      "Foram identificados os tamanhos M e G, com uma área de aplicação da estampa. As dimensões e o acabamento finais dependem de confirmação.",
+      "Este produto está em preparação e o valor apresentado é previsto. A ilustração atual é apenas conceitual; a compra será habilitada quando a arte, os tamanhos e o frete forem validados."
+    ],
+    "features":[
+      "Ecobag de algodão cru, reutilizável.",
+      "Estampa do Sagrado Coração em uma área.",
+      "Tamanhos em estudo: M e G.",
+      "Preço previsto: R$ 39,90.",
+      "Produto em preparação, ainda indisponível para compra."
+    ],
+    "reasons":[
+      "Arte de inspiração sacra aplicada a um acessório do cotidiano.",
+      "Modelo reutilizável com motivo devocional."
+    ],
+    "note":"Imagem ilustrativa em substituição à fotografia da peça final. Modelo em preparação."
+  },
   "ecobag-salve-regina": {
     "type": "Ecobag · Coleção Salve Regina",
     "material": "100% algodão",
@@ -543,7 +593,8 @@
     const layout=el('div','shop-single-layout');
     const summary=el('section','shop-single-summary');
     const corIesuPage=product.id==='camiseta-cor-iesu-sacratissimum';
-    summary.append(el('p','shop-single-kicker',corIesuPage?'COLEÇÃO COR IESU':isBook?'Livros · Música sacra':detail.type||'Coleção Salve Regina'),
+    const isCorIesuProduct=product.id.includes('cor-iesu');
+    summary.append(el('p','shop-single-kicker',isCorIesuProduct?'COLEÇÃO COR IESU':isBook?'Livros · Música sacra':detail.type||'Coleção Salve Regina'),
       el('h1','',corIesuPage?'Camiseta Cor Iesu Sacratissimum':title));
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
@@ -563,7 +614,7 @@
       {slug:'bordo',name:'Bordô',hex:'#702b41'}
     ]:[];
     let chosenColor='marrom',showSelectedPhoto=null,syncColorFromGallery=()=>{},refreshColorChoices=()=>{};
-    const isEcobag=product.id==='ecobag-salve-regina';
+    const isEcobag=product.category==='ecobags';
     const statusText=isBook?'Disponível nas lojas parceiras':isPreparation?'Em preparação · não disponível para compra':'Produção sob demanda';
     const productStatus=el('span','shop-single-status',statusText);
     summary.append(productStatus);
@@ -571,7 +622,7 @@
     const price=el('p','shop-single-price');
     const priceNote=el('p','shop-single-price-note',
       isBook?'Preço e frete informados pela loja parceira.':
-      isPreparation?(isCorIesuShirt?'Preço definido: R$ 109,90. Venda em preparação; frete e disponibilidade serão validados antes do pagamento.':'Modelo e preço definitivo ainda não cadastrados.'):
+      isPreparation?(product.priceStatus==='defined'?'Preço regular informado para o lançamento. A compra ainda não está disponível.':'Preço previsto, sujeito à confirmação antes do lançamento. Compra ainda indisponível.'):
       'Preço por unidade · frete confirmado antes do pagamento.');
     // Ficha comercial uniforme: o preço mantém a variação e a origem de dados do produto.
     const pricePanel=el('div','shop-single-pricebox');
@@ -607,7 +658,10 @@
       function renderPrice(){
         variant=selectedVariant()||variants[0];
         price.textContent=Number.isInteger(variant?.priceCents)?money(variant.priceCents):'Preço a confirmar';
-        if(isShirt && variant?.code==='XG')
+        if(isPreparation)priceNote.textContent=product.priceStatus==='defined'?
+          'Preço regular para lançamento · indisponível para compra.':
+          'Preço previsto · sujeito a confirmação antes da venda.';
+        else if(isShirt && variant?.code==='XG')
           priceNote.textContent='Tamanho XG · preço R$ 119,90 mais frete calculado pelo CEP.';
         else if(isEcobag&&!variant?.sku)
           priceNote.textContent='Tamanho '+variant.code+': preço e produção ainda não confirmados. M e G estão cadastrados para venda.';
@@ -621,7 +675,7 @@
       const variationGroup=el('fieldset','shop-single-variant-group');
       const hasSizeOptions=sizeVariants.length>1;
       if(hasSizeOptions)variationGroup.append(el('legend','shop-single-field-label',
-        (isShirt||isCorIesuShirt||isEcobag)?'Tamanho':'Modelo'));
+        product.category==='bones'?'Cor':(isShirt||isCorIesuShirt||isEcobag)?'Tamanho':'Modelo'));
       const hiddenLabel=el('label','shop-single-visually-hidden','Escolha a variação');
       select=el('select','shop-single-native-select');
       select.required=true;select.setAttribute('aria-label','Escolha a variação');
@@ -740,7 +794,7 @@
       quantity.addEventListener('blur',changeQty);
       minus.disabled=true;plus.disabled=false;
       stepper.append(minus,quantity,plus);
-      const unitLabel=(isShirt||isCorIesuShirt)?'camiseta':isEcobag?'ecobag':'caneca';
+      const unitLabel=(isShirt||isCorIesuShirt)?'camiseta':isEcobag?'ecobag':product.category==='bones'?'boné':'caneca';
       const subtotalHint=el('span','shop-single-quantity-subtotal');
       quantityGroup.append(stepper,subtotalHint);
       const actions=el('div','shop-single-actions');
@@ -790,7 +844,8 @@
       if(colorGroup)form.append(colorGroup);
       // Um único padrão para produtos físicos. A quantidade (1 a 10)
       // atualiza o subtotal, enquanto o checkout valida cada variante.
-      form.append(variationGroup,quantityGroup,actions,feedback);
+      if(isPreparation)form.append(variationGroup,feedback);
+      else form.append(variationGroup,quantityGroup,actions,feedback);
       quantity.addEventListener('input',syncCheckout);
       quantity.addEventListener('change',syncCheckout);
       summary.append(form);
@@ -801,7 +856,7 @@
       state();document.addEventListener('douglas-cart-ready',state);
       select.addEventListener('change',()=>{
         renderPrice();feedback.textContent='';
-        if(isEcobag&&!variants.find(v=>v.code===select.value)?.sku)
+        if(isEcobag&&!isPreparation&&!variants.find(v=>v.code===select.value)?.sku)
           feedback.textContent='Este tamanho ainda não está disponível. Escolha M ou G para comprar.';
         state();refreshColorChoices();
       });
@@ -859,10 +914,12 @@
       const delivery=el('div');
       // Cotação só retorna frete para SKU ativo no backend. Não bloquear
       // a consulta pelo estado de uma requisição anterior de readiness.
-      shipping(delivery,product,select,quantity,()=>true,selectedVariant);
-      const freight=el('details','shop-single-freight-disclosure');
-      freight.append(el('summary','','Calcular frete pelo CEP'),delivery);
-      form.after(freight);
+      if(!isPreparation){
+        shipping(delivery,product,select,quantity,()=>true,selectedVariant);
+        const freight=el('details','shop-single-freight-disclosure');
+        freight.append(el('summary','','Calcular frete pelo CEP'),delivery);
+        form.after(freight);
+      }
     }
     const trust=el('div','shop-single-trust');
     if(isBook)trust.append(el('p','',
@@ -903,7 +960,7 @@
     infoBox.append(specs(isBook?{
       'Categoria':product.category,'Formato':product.format,'Autor':product.author,'Venda':'Parceiros externos'
     }:{
-      'Coleção':'Salve Regina','Categoria':detail.type||product.category,
+      'Coleção':isCorIesuProduct?'Cor Iesu Sacratissimum':'Salve Regina','Categoria':detail.type||product.category,
       'Material':detail.material||'A confirmar','Acabamento':detail.finish||'A confirmar',
       'Situação':isPreparation?'Em preparação':isShirt?'Compra online disponível':'Sob consulta'
     }));

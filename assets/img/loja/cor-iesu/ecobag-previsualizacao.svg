@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960" role="img" aria-label="Prévia ilustrativa de ecobag de algodão cru Cor Iesu Sacratissimum">
+<defs>
+ <linearGradient id="wall" x2=".9" y2="1"><stop stop-color="#e7d4b7"/><stop offset=".53" stop-color="#d1b697"/><stop offset="1" stop-color="#ad8b6c"/></linearGradient>
+ <linearGradient id="cloth" x1=".1" x2=".93" y2=".92"><stop stop-color="#f6e8ce"/><stop offset=".46" stop-color="#ead4b0"/><stop offset="1" stop-color="#d3b58c"/></linearGradient>
+ <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#f1d494"/><stop offset=".47" stop-color="#ae7934"/><stop offset="1" stop-color="#f4dca6"/></linearGradient>
+ <linearGradient id="red" x2=".9" y2="1"><stop stop-color="#a6302a"/><stop offset=".5" stop-color="#6d1d21"/><stop offset="1" stop-color="#be4931"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#fff0d0" stop-opacity=".64"/><stop offset="1" stop-color="#fff4dc" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"/></filter>
+ <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3" seed="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".04"/></feComponentTransfer></filter>
+</defs>
+<rect width="960" height="960" fill="url(#wall)"/><rect width="960" height="960" fill="url(#light)"/>
+<path d="M0 810 Q360 750 960 790V960H0Z" fill="#b3977a"/><path d="M0 811Q460 771 960 790" stroke="#ddcaaf" stroke-width="4" fill="none"/>
+<ellipse cx="485" cy="829" rx="312" ry="46" fill="#443322" opacity=".23" filter="url(#shadow)"/>
+<path d="M328 303V170c0-95 55-140 154-140s156 58 156 142v131" fill="none" stroke="#b4966d" stroke-width="65" stroke-linecap="round"/>
+<path d="M328 303V170c0-95 55-140 154-140s156 58 156 142v131" fill="none" stroke="#e6d0ab" stroke-width="49" stroke-linecap="round"/>
+<path d="M193 269Q482 251 769 269L808 827Q482 847 151 827Z" fill="url(#cloth)" stroke="#c0a27b" stroke-width="4"/>
+<path d="M192 300Q485 282 771 302" fill="none" stroke="#ad8b65" opacity=".62" stroke-width="5"/>
+<path d="M210 319Q478 314 756 317" fill="none" stroke="#fff0d1" stroke-width="5" opacity=".5"/>
+<path d="M266 292V332M690 292V332" stroke="#bd9d74" stroke-width="25"/><path d="M266 289V327M690 289V327" stroke="#e8d1aa" stroke-width="19"/>
+<path d="M258 292l16 24m0-24l-16 24M680 292l16 24m0-24l-16 24" stroke="#c2a27d" stroke-width="2.6"/>
+<path d="M180 525q35 120 3 270M771 456q-35 145 4 318" fill="none" stroke="#b99c78" stroke-width="10" opacity=".14"/>
+<g transform="translate(480 559)">
+<ellipse rx="177" ry="204" fill="#7d562b" opacity=".1"/>
+<circle r="137" fill="none" stroke="url(#gold)" stroke-width="5"/><circle r="117" fill="none" stroke="#b18a50" stroke-width="2.4"/>
+<g stroke="url(#gold)" stroke-width="5" stroke-linecap="round">
+<path d="M0-159v-25M0 159v25M-159 0h-25M159 0h25M-113-113l-18-18M113-113l18-18M-113 113l-18 18M113 113l18 18"/>
+<path d="M-63-144l-10-19M63-144l10-19M-63 144l-10 19M63 144l10 19M-144-63l-19-10M144-63l19-10M-144 63l-19 10M144 63l19 10"/>
+</g>
+<path d="M-45-22C-99-72-127 3-81 66L0 139 81 66C125-5 94-70 45-22 23-6 10 4 0 4 -11 4-29-10-45-22Z" fill="url(#red)" stroke="#592423" stroke-width="6"/>
+<path d="M-63 16q52 35 124-2M-68 31q53-34 141 0" fill="none" stroke="#7f6a36" stroke-width="8"/>
+<path d="M-26-85Q-58-123-12-142Q-27-113 0-116Q26-155 38-125Q58-102 23-79" fill="#d59542" stroke="#8a4b22" stroke-width="4"/>
+<path d="M0-122V-60M-26-99H26" stroke="#4e3725" stroke-width="15" stroke-linecap="round"/><path d="M0-122V-60M-26-99H26" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
+<path d="M-118 110q36 26 63 14M118 110q-36 26-63 14" stroke="#b88a50" stroke-width="4" fill="none"/>
+</g>
+<text x="480" y="378" fill="#5a422c" stroke="#e5ce9e" stroke-width="1.5" text-anchor="middle" font-family="Georgia,serif" font-size="36" letter-spacing="4">COR IESU</text>
+<text x="480" y="745" fill="#76512c" text-anchor="middle" font-family="Georgia,serif" font-size="25" letter-spacing="3">SACRATISSIMUM</text>
+<rect width="960" height="960" filter="url(#noise)" opacity=".5"/>
+<rect y="915" width="960" height="45" fill="#44382b" opacity=".82"/>
+<text x="480" y="942" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" letter-spacing="4" fill="#f4dfb7">PRÉVIA ILUSTRATIVA</text>
+</svg>

@@ -384,6 +384,61 @@
           "availability": "pending"
         }
       ]
+    },
+    {
+      "id": "bone-cor-iesu-sacratissimum",
+      "title": "Boné Sagrado Coração de Jesus | Cor Iesu Sacratissimum",
+      "category": "bones",
+      "status": "preparation",
+      "image": "/assets/img/loja/cor-iesu/bone-previsualizacao.svg",
+      "priceStatus": "defined",
+      "variants": [
+        {
+          "code": "preto",
+          "label": "Preto · tonalidade a confirmar",
+          "sku": null,
+          "priceCents": 7990,
+          "availability": "pending"
+        },
+        {
+          "code": "azul-escuro",
+          "label": "Azul-escuro · tonalidade a confirmar",
+          "sku": null,
+          "priceCents": 7990,
+          "availability": "pending"
+        },
+        {
+          "code": "verde-escuro",
+          "label": "Verde-escuro · tonalidade a confirmar",
+          "sku": null,
+          "priceCents": 7990,
+          "availability": "pending"
+        }
+      ]
+    },
+    {
+      "id": "ecobag-cor-iesu-sacratissimum",
+      "title": "Ecobag Sagrado Coração de Jesus | Cor Iesu Sacratissimum",
+      "category": "ecobags",
+      "status": "preparation",
+      "image": "/assets/img/loja/cor-iesu/ecobag-previsualizacao.svg",
+      "priceStatus": "planned",
+      "variants": [
+        {
+          "code": "M",
+          "label": "Algodão cru · M",
+          "sku": null,
+          "priceCents": 3990,
+          "availability": "pending"
+        },
+        {
+          "code": "G",
+          "label": "Algodão cru · G",
+          "sku": null,
+          "priceCents": 3990,
+          "availability": "pending"
+        }
+      ]
     }
   ]
 }

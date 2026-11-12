@@ -22,7 +22,7 @@
     text: normalize(books.textContent), count: books.querySelectorAll('.atelier-product').length});
   const categories = [...root.querySelectorAll('[data-shop-category]')];
   const names = {all: 'Todo o catálogo', camisetas: 'Camisetas', canecas: 'Canecas',
-    ecobags: 'Ecobags', livros: 'Livros'};
+    ecobags: 'Ecobags', bones: 'Bonés', livros: 'Livros'};
   let category = 'all';
   function render() {
     const words = normalize(query.value).split(/\s+/).filter(Boolean);
