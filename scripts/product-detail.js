@@ -238,7 +238,7 @@
     "material": "100% algodão",
     "finish": "Estampa DTF",
     "photos": [
-      "/assets/img/loja/Salve-Regina/web/capa-ecobag-azul-mariano-20261111.jpg",
+      "/assets/img/loja/Salve-Regina/web/ecobag-salve-regina-capa-editorial-20261112.jpg",
       "/assets/img/loja/Salve-Regina/web/ecobag-800.webp"
     ],
     "description": "A arte mariana da coleção Salve Regina em uma bolsa reutilizável de algodão, para acompanhar compras, estudos e trabalho.",
