@@ -192,7 +192,7 @@
     "finish": "Estampa por sublimação",
     "description": "Um toque de devoção mariana no cotidiano. Caneca de porcelana com a imagem de Nossa Senhora, inspirada na beleza da arte sacra.",
     "photos": [
-      "/assets/img/loja/Salve-Regina/web/capa-caneca-nossa-senhora-azul-mariano-20261111.jpg",
+      "/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-cartao-salve-regina-20261112.jpg",
       "/assets/img/loja/Salve-Regina/web/caneca-nossa-senhora-individual.png"
     ],
     "paragraphs": [
