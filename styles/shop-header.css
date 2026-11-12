@@ -200,3 +200,189 @@ body.shop-shared-shell .shop-shared-header button:focus-visible { outline:2px so
   body.shop-shared-shell .shop-shared-header .shop-cart-link { padding-inline: 8px; }
   body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a { min-height: 34px; padding-inline: 8px; }
 }
+
+/* 12/11/2026 — Header editorial da loja: hierarquia clara, navegação agrupada
+   e busca equilibrada. Desktop apenas; a barra de app no celular é independente. */
+@media (min-width:768px) {
+  body.shop-shared-shell .shop-shared-header {
+    grid-template-columns:40px clamp(186px,19vw,255px) max-content minmax(170px,1fr) auto;
+    grid-template-rows:40px;
+    gap:0 clamp(9px,1.05vw,18px);
+    height:48px;
+    padding:4px clamp(18px,2.7vw,48px);
+    align-items:center;
+    border-bottom:1px solid rgba(214,181,116,.58);
+    background:
+      linear-gradient(90deg,rgba(3,29,38,.97),rgba(8,50,57,.97) 54%,rgba(3,29,38,.97)),
+      url('/assets/img/loja/manto-mariano-cabecalho.webp') center/cover no-repeat;
+    box-shadow:0 4px 15px rgba(0,13,19,.18);
+  }
+  body.shop-shared-shell .shop-shared-header::after {
+    display:block;
+    content:"";
+    position:absolute;
+    pointer-events:none;
+    left:2.7%;right:2.7%;bottom:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(225,192,131,.28),transparent);
+  }
+  body.shop-shared-shell .shop-shared-header .menu-btn {
+    width:38px;min-width:38px;height:38px;min-height:38px;
+    border:1px solid rgba(219,187,126,.42);
+    border-radius:7px;
+    background:rgba(5,38,46,.70);
+    color:#f3e8d1;
+    transition:background-color .18s ease,border-color .18s ease,color .18s ease;
+  }
+  body.shop-shared-shell .shop-shared-header .menu-btn svg {width:20px;height:16px;}
+  body.shop-shared-shell .shop-shared-header .menu-btn:is(:hover,:focus-visible) {
+    background:#164751;border-color:#e2c58d;color:#fff7e7;
+  }
+  body.shop-shared-shell .shop-shared-header .logo {
+    grid-column:2;grid-row:1;
+    min-width:0;max-width:100%;
+    justify-self:start;
+  }
+  body.shop-shared-shell .shop-shared-header .logo a {
+    gap:9px;
+    min-width:0;max-width:100%;
+  }
+  body.shop-shared-shell .shop-shared-header .logo img {
+    flex:0 0 34px;width:34px;height:34px;
+    border:1px solid rgba(228,196,136,.40);
+    box-shadow:0 0 0 2px rgba(7,39,46,.55);
+  }
+  body.shop-shared-shell .shop-shared-header .shop-brand {
+    font-size:clamp(16px,1.45vw,19px);
+    line-height:1.04;
+    font-weight:400;
+    letter-spacing:-.028em;
+    color:#f6eddd;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-brand small {
+    margin-top:2px;
+    color:#cbb993;
+    font-size:6.7px;
+    font-weight:600;
+    letter-spacing:.09em;
+    line-height:1.15;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts {
+    grid-column:3;grid-row:1;
+    display:inline-flex;align-items:center;justify-content:center;
+    gap:2px;width:max-content;min-width:0;
+    height:38px;padding:3px;margin:0;
+    border:1px solid rgba(214,182,123,.30);
+    border-radius:8px;
+    background:rgba(2,27,34,.49);
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.18);
+  }
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a {
+    display:inline-flex;align-items:center;justify-content:center;
+    height:30px;min-height:30px;
+    min-width:60px;
+    padding:0 13px;
+    border:0;border-radius:5px;
+    background:transparent;
+    color:#e3d7bf;
+    font:600 11.5px/1.2 'Inter',Arial,sans-serif;
+    letter-spacing:.01em;
+    box-shadow:none;
+    transition:background-color .18s ease,color .18s ease,box-shadow .18s ease;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a:hover {
+    background:rgba(224,191,130,.15);
+    color:#fff5e2;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a[aria-current="page"],
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a[aria-current="page"]:hover {
+    background:linear-gradient(150deg,#edd5a1,#d4ae70);
+    color:#17333a;
+    box-shadow:0 1px 5px rgba(0,0,0,.22);
+  }
+  body.shop-shared-shell .shop-shared-header .shop-search {
+    grid-column:4;grid-row:1;
+    width:100%;max-width:420px;
+    justify-self:end;
+    height:38px;
+    border:1px solid rgba(226,202,158,.68);
+    border-radius:7px;
+    background:#f5f0e6;
+    box-shadow:0 1px 3px rgba(0,0,0,.15);
+  }
+  body.shop-shared-shell .shop-shared-header .shop-search input {
+    height:36px;min-height:36px;
+    padding:0 13px;
+    background:transparent;
+    font-size:13px;
+    color:#1b3439;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-search input::placeholder {color:#777064;}
+  body.shop-shared-shell .shop-shared-header .shop-search button {
+    height:36px;min-height:36px;
+    width:42px;min-width:42px;flex:0 0 42px;
+    border-left:1px solid rgba(154,119,64,.33);
+    background:linear-gradient(140deg,#e8ce96,#d5b274);
+    color:#16333b;
+    transition:background-color .18s ease,filter .18s ease;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-search button:is(:hover,:focus-visible) {filter:brightness(1.075);}
+  body.shop-shared-shell .shop-shared-header .shop-search button svg {width:19px;height:19px;stroke-width:1.7;}
+  body.shop-shared-shell .shop-shared-header .shop-cart-link {
+    grid-column:5;grid-row:1;
+    justify-self:end;
+    height:38px;min-height:38px;
+    width:auto;min-width:42px;
+    gap:8px;padding:0 13px;
+    border:1px solid rgba(219,187,126,.53);
+    border-radius:7px;
+    background:rgba(5,41,49,.81);
+    color:#f7e8cb;
+    font-size:12px;font-weight:600;
+    white-space:nowrap;
+    transition:background-color .18s ease,border-color .18s ease,transform .18s ease;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link svg {width:20px;height:20px;color:#e5c58d;}
+  body.shop-shared-shell .shop-shared-header .shop-cart-link:hover {
+    background:#17444d;border-color:#e6c68b;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-cart-count {flex-shrink:0;}
+}
+@media (min-width:768px) and (max-width:1050px) {
+  body.shop-shared-shell .shop-shared-header {
+    grid-template-columns:38px clamp(174px,19vw,200px) max-content minmax(150px,1fr) auto;
+    column-gap:10px;
+    padding-inline:16px;
+  }
+  body.shop-shared-shell .shop-shared-header .logo a {gap:7px;}
+  body.shop-shared-shell .shop-shared-header .logo img {width:30px;height:30px;flex-basis:30px;}
+  body.shop-shared-shell .shop-shared-header .shop-brand {font-size:16px;}
+  body.shop-shared-shell .shop-shared-header .shop-brand small {font-size:6px;letter-spacing:.03em;}
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a {min-width:52px;padding:0 9px;font-size:11px;}
+  body.shop-shared-shell .shop-shared-header .shop-search {max-width:350px;}
+  body.shop-shared-shell .shop-shared-header .shop-cart-link {padding-inline:10px;}
+}
+@media (min-width:768px) and (max-width:900px) {
+  body.shop-shared-shell .shop-shared-header .shop-cart-link {
+    width:40px;min-width:40px;padding:0;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-cart-link > span:not(.shop-cart-count) {display:none;}
+  body.shop-shared-shell .shop-shared-header .shop-cart-count {
+    position:absolute;top:-5px;right:-7px;
+    border:1px solid #16343c;
+  }
+}
+@media (min-width:768px) and (max-width:820px) {
+  body.shop-shared-shell .shop-shared-header {
+    grid-template-columns:38px 160px max-content minmax(135px,1fr) 40px;
+    column-gap:8px;
+    padding-inline:12px;
+  }
+  body.shop-shared-shell .shop-shared-header .shop-brand {font-size:14px;}
+  body.shop-shared-shell .shop-shared-header .shop-brand small {font-size:5.6px;}
+  body.shop-shared-shell .shop-shared-header .logo img {width:26px;height:26px;flex-basis:26px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  body.shop-shared-shell .shop-shared-header :is(.menu-btn,.shop-cart-link,.shop-search button),
+  body.shop-shared-shell .shop-shared-header .shop-header-shortcuts a {transition:none!important;}
+}
