@@ -9,7 +9,7 @@ body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-cami
   --shop-photo:url("/assets/img/loja/Salve-Regina/web/camiseta-salve-regina-vitrine-casal.png");
 }
 body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-caneca-salve-regina-preta-title"] {
-  --shop-photo:url("/assets/img/loja/Salve-Regina/web/capa-caneca-partitura-azul-mariano-20261111.jpg");
+  --shop-photo:url("/assets/img/loja/Salve-Regina/web/caneca-partitura-fundo-azul-noite-20261111.jpg");
 }
 body.shop-manto #shop-product-grid .shop-product-card[aria-labelledby="card-caneca-salve-regina-pb-title"] {
   --shop-photo:url("/assets/img/loja/Salve-Regina/web/capa-caneca-nossa-senhora-azul-mariano-20261111.jpg");

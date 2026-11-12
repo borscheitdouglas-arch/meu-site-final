@@ -144,6 +144,8 @@
     "finish": "Estampa por sublimação",
     "description": "A beleza do canto gregoriano à mesa. Caneca de porcelana com a partitura da Salve Regina, para acompanhar suas pausas em casa ou no trabalho.",
     "photos": [
+      "/assets/img/loja/Salve-Regina/web/caneca-partitura-fundo-azul-noite-20261111.jpg",
+      "/assets/img/loja/Salve-Regina/web/caneca-partitura-fundo-azul-claro-20261111.jpg",
       "/assets/img/loja/Salve-Regina/web/capa-caneca-partitura-azul-mariano-20261111.jpg",
       "/assets/img/loja/Salve-Regina/web/caneca-partitura-individual.png"
     ],
