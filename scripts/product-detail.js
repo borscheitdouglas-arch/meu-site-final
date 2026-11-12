@@ -243,7 +243,7 @@
     "paragraphs":[
       "Uma peça da coleção Cor Iesu Sacratissimum, dedicada à devoção ao Sagrado Coração de Jesus. O conceito reúne o Coração inflamado, a cruz e a coroa de espinhos em linguagem visual clássica.",
       "Modelo de boné Frente Americana, com aplicação de estampa em uma área. As tonalidades apresentadas para avaliação são preto, azul-escuro e verde-escuro, ainda dependentes de confirmação.",
-      "O modelo está em preparação. A imagem atual é uma prévia conceitual e não comprova a aparência ou disponibilidade final. A compra será habilitada após a aprovação da estampa, das variantes e da entrega."
+      "Este modelo está em preparação. As opções definitivas serão apresentadas quando a coleção estiver pronta para lançamento."
     ],
     "features":[
       "Boné Frente Americana.",
@@ -255,8 +255,7 @@
     "reasons":[
       "Integra a coleção de arte sacra Cor Iesu Sacratissimum.",
       "Expressa a devoção ao Sagrado Coração em acessório para o cotidiano."
-    ],
-    "note":"Imagem conceitual, não fotografia de uma peça produzida. Venda ainda não liberada."
+    ]
   },
   "ecobag-cor-iesu-sacratissimum": {
     "type":"Ecobag · Coleção Cor Iesu Sacratissimum",
@@ -268,7 +267,7 @@
     "paragraphs":[
       "A ecobag Cor Iesu Sacratissimum combina o tecido de algodão cru com a temática do Sagrado Coração de Jesus. O conceito artístico reúne a cruz, as chamas, a coroa de espinhos e os ornamentos florais.",
       "Foram identificados os tamanhos M e G, com uma área de aplicação da estampa. As dimensões e o acabamento finais dependem de confirmação.",
-      "Este produto está em preparação e o valor apresentado é previsto. A ilustração atual é apenas conceitual; a compra será habilitada quando a arte, os tamanhos e o frete forem validados."
+      "Este produto está em preparação e o valor apresentado é previsto. A disponibilidade será anunciada após a confirmação das opções de produção e entrega."
     ],
     "features":[
       "Ecobag de algodão cru, reutilizável.",
@@ -280,8 +279,7 @@
     "reasons":[
       "Arte de inspiração sacra aplicada a um acessório do cotidiano.",
       "Modelo reutilizável com motivo devocional."
-    ],
-    "note":"Imagem ilustrativa em substituição à fotografia da peça final. Modelo em preparação."
+    ]
   },
   "ecobag-salve-regina": {
     "type": "Ecobag · Coleção Salve Regina",
