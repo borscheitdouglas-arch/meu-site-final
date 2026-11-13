@@ -597,6 +597,7 @@
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
     const isCorIesuShirt=product.id==='camiseta-cor-iesu-sacratissimum';
+    const isCorIesuBone=product.id==='bone-cor-iesu-sacratissimum';
     const isCorIesuAccessory=product.id==='bone-cor-iesu-sacratissimum'||product.id==='ecobag-cor-iesu-sacratissimum';
     // A primeira foto é a capa; as 11 opções de cor começam no índice 1.
     const corIesuColors=isCorIesuShirt?[
@@ -671,9 +672,10 @@
             'Preço por unidade · frete confirmado antes do pagamento.';
       }
       const form=el('form','shop-single-form');
-      const variationGroup=el('fieldset','shop-single-variant-group');
+      const variationGroup=el('fieldset','shop-single-variant-group'+
+        (isCorIesuBone?' shop-single-visually-hidden':''));
       const hasSizeOptions=sizeVariants.length>1;
-      if(hasSizeOptions)variationGroup.append(el('legend','shop-single-field-label',
+      if(hasSizeOptions&&!isCorIesuBone)variationGroup.append(el('legend','shop-single-field-label',
         product.category==='bones'?'Cor':(isShirt||isCorIesuShirt||isEcobag)?'Tamanho':'Modelo'));
       const hiddenLabel=el('label','shop-single-visually-hidden','Escolha a variação');
       select=el('select','shop-single-native-select');
@@ -692,7 +694,7 @@
       });
       select.value=variant?.code||'';
       hiddenLabel.append(select);variationGroup.append(hiddenLabel);
-      if(hasSizeOptions)variationGroup.append(chips);
+      if(hasSizeOptions&&!isCorIesuBone)variationGroup.append(chips);
       const updateChips=()=>{
         chipButtons.forEach((chip,code)=>{
           const active=select.value===code;
@@ -745,6 +747,60 @@
           if(index===0){chooseColor('marrom',true);return;}
           const color=corIesuColors[index-1];
           if(color)chooseColor(color.slug,true);
+        };
+      }
+
+      // Boné Cor Iesu usa as mesmas amostras circulares da camiseta.
+      // O select nativo oculto permanece como fonte do SKU para preço,
+      // carrinho, frete e checkout, sem duplicar opções na interface.
+      if(isCorIesuBone){
+        const boneColors=[
+          {slug:'preto',name:'Preto',hex:'#202024',photo:0},
+          {slug:'azul-escuro',name:'Azul-escuro',hex:'#1d2b43',photo:2}
+        ];
+        colorGroup=el('fieldset','shop-single-color-group');
+        const legend=el('legend','shop-single-field-label');
+        const chosenName=el('strong','shop-single-color-selected-name');
+        legend.append('Cor do boné · ',chosenName);
+        const choices=el('div','shop-single-color-choices');
+        const buttons=new Map();
+        refreshColorChoices=()=>{
+          const selected=boneColors.find(color=>color.slug===select.value)||boneColors[0];
+          chosenName.textContent=selected.name;
+          buttons.forEach((button,key)=>{
+            const active=key===selected.slug;
+            button.classList.toggle('is-selected',active);
+            button.setAttribute('aria-pressed',String(active));
+          });
+        };
+        boneColors.forEach(color=>{
+          const option=el('button','shop-single-color-choice');
+          option.type='button';
+          option.setAttribute('aria-label','Selecionar cor '+color.name);
+          option.title='Selecionar '+color.name;
+          const swatch=el('span','shop-single-color-swatch');
+          swatch.style.setProperty('--color-swatch',color.hex);
+          swatch.setAttribute('aria-hidden','true');
+          option.append(swatch,el('span','shop-single-color-name',color.name));
+          option.addEventListener('click',()=>{
+            if(select.value!==color.slug){
+              select.value=color.slug;
+              select.dispatchEvent(new Event('change',{bubbles:true}));
+            }
+            showSelectedPhoto?.(color.photo);
+          });
+          choices.append(option);
+          buttons.set(color.slug,option);
+        });
+        colorGroup.append(legend,choices);
+        refreshColorChoices();
+        // Navegar pelas fotos também mantém a cor escolhida sincronizada.
+        syncColorFromGallery=index=>{
+          const code=index===0?'preto':'azul-escuro';
+          if(select.value!==code){
+            select.value=code;
+            select.dispatchEvent(new Event('change',{bubbles:true}));
+          }
         };
       }
 
@@ -860,8 +916,6 @@
         if(isEcobag&&!isPreparation&&!variants.find(v=>v.code===select.value)?.sku)
           feedback.textContent='Este tamanho ainda não está disponível. Escolha M ou G para comprar.';
         state();refreshColorChoices();
-        if(product.id==='bone-cor-iesu-sacratissimum'&&showSelectedPhoto)
-          showSelectedPhoto(select.value==='azul-escuro'?2:0);
       });
       renderPrice();
       const putInCart=goCart=>{
