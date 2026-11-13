@@ -857,6 +857,8 @@
         if(isEcobag&&!isPreparation&&!variants.find(v=>v.code===select.value)?.sku)
           feedback.textContent='Este tamanho ainda não está disponível. Escolha M ou G para comprar.';
         state();refreshColorChoices();
+        if(product.id==='bone-cor-iesu-sacratissimum'&&showSelectedPhoto)
+          showSelectedPhoto(select.value==='azul-escuro'?2:0);
       });
       renderPrice();
       const putInCart=goCart=>{
