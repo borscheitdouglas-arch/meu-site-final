@@ -176,7 +176,7 @@ def main():
         expect(page.locator(".shop-single-color-selected-name")).to_have_text("Azul-escuro")
         expect(page.get_by_role("button",name="Selecionar cor Azul-escuro")).to_have_attribute(
             "aria-pressed","true")
-        expect(image).to_have_attribute("src",re.compile("bone-cor-iesu-modelo-20261113"))
+        expect(image).to_have_attribute("src",re.compile("bone-cor-iesu-na-mao-20261113"))
         # Galeria e opções de compra devem permanecer sincronizadas.
         page.get_by_role("button",name="Selecionar cor Preto").click()
         expect(native).to_have_value("preto")
