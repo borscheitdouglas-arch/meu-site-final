@@ -235,22 +235,22 @@
   },
   "bone-cor-iesu-sacratissimum": {
     "type":"Boné · Coleção Cor Iesu Sacratissimum",
-    "material":"Tecido e composição em confirmação",
+    "material":"Boné Frente Americana · composição conforme lote de fabricação",
     "finish":"Estampa sacra em DTF, uma área",
     "photos":["/assets/img/loja/cor-iesu/bone-sagrado-coracao-capa-20261113.jpg","/assets/img/loja/cor-iesu/bone-cor-iesu-ensaio-ambar-20261113.jpg","/assets/img/loja/cor-iesu/bone-cor-iesu-modelo-20261113.jpg","/assets/img/loja/cor-iesu/bone-cor-iesu-na-mao-20261113.jpg"],
     "photoLabels":["Mockup digital do boné preto Cor Iesu Sacratissimum com a estampa do Sagrado Coração","Mockup digital do boné azul Cor Iesu Sacratissimum, apresentação editorial com iluminação âmbar e mãos segurando a aba","Mockup digital de modelo masculino usando boné azul-escuro Cor Iesu Sacratissimum sobre fundo bege","Mockup digital do boné azul Cor Iesu Sacratissimum apoiado na mão, com aba alinhada e cenário de pedra clara"],
     "description":"Boné com a arte do Sacratíssimo Coração de Jesus, inspirada nas gravuras tradicionais da arte sacra.",
     "paragraphs":[
       "Uma peça da coleção Cor Iesu Sacratissimum, dedicada à devoção ao Sagrado Coração de Jesus. O conceito reúne o Coração inflamado, a cruz e a coroa de espinhos em linguagem visual clássica.",
-      "Modelo de boné Frente Americana, com aplicação de estampa em uma área. As tonalidades apresentadas para avaliação são preto, azul-escuro e verde-escuro, ainda dependentes de confirmação.",
-      "Este modelo está em preparação. As opções definitivas serão apresentadas quando a coleção estiver pronta para lançamento."
+      "Modelo de boné Frente Americana, com aplicação de estampa em uma área. Disponível em preto e azul-escuro, com estampa frontal em uma área.",
+      "Peça produzida sob demanda. A entrega e o valor do frete são consultados pelo CEP antes do pagamento."
     ],
     "features":[
       "Boné Frente Americana.",
       "Estampa temática do Sagrado Coração de Jesus.",
-      "Cores em estudo: preto, azul-escuro e verde-escuro.",
-      "Preço regular definido para o lançamento: R$ 79,90.",
-      "Disponibilidade e características finais ainda em confirmação."
+      "Cores disponíveis: preto e azul-escuro.",
+      "Preço de venda: R$ 79,90 por unidade, mais frete.",
+      "Produção sob demanda, com confirmação do pedido e do prazo de entrega."
     ],
     "reasons":[
       "Integra a coleção de arte sacra Cor Iesu Sacratissimum.",
@@ -266,15 +266,15 @@
     "description":"Ecobag de algodão cru com arte do Sagrado Coração de Jesus, unindo a tradição das gravuras religiosas à praticidade de uma bolsa reutilizável.",
     "paragraphs":[
       "A ecobag Cor Iesu Sacratissimum combina o tecido de algodão cru com a temática do Sagrado Coração de Jesus. O conceito artístico reúne a cruz, as chamas, a coroa de espinhos e os ornamentos florais.",
-      "Foram identificados os tamanhos M e G, com uma área de aplicação da estampa. As dimensões e o acabamento finais dependem de confirmação.",
-      "Este produto está em preparação e o valor apresentado é previsto. A disponibilidade será anunciada após a confirmação das opções de produção e entrega."
+      "Disponível nos tamanhos M e G, cada um com impressão frontal em uma área.",
+      "Produção sob demanda, com frete calculado pelo CEP e pagamento seguro no checkout da loja."
     ],
     "features":[
       "Ecobag de algodão cru, reutilizável.",
       "Estampa do Sagrado Coração em uma área.",
-      "Tamanhos em estudo: M e G.",
-      "Preço previsto: R$ 39,90.",
-      "Produto em preparação, ainda indisponível para compra."
+      "Tamanhos disponíveis: M e G.",
+      "Preço de venda: R$ 39,90 por unidade, mais frete.",
+      "Produção sob demanda com arte do Sagrado Coração de Jesus."
     ],
     "reasons":[
       "Arte de inspiração sacra aplicada a um acessório do cotidiano.",
