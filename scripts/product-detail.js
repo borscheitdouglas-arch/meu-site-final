@@ -4,7 +4,7 @@
   const root = document.getElementById('shop-single-root');
   if (!root) return;
   const params=new URLSearchParams(window.location.search);
-  const id=params.get('id');
+  const id=document.body.dataset.shopProductId || params.get('id');
   const legacySize=id==='ecobag-salve-regina-m'?'M':id==='ecobag-salve-regina-g'?'G':null;
   const requestedId=legacySize?'ecobag-salve-regina':id;
   const preferredSize=legacySize||params.get('size');
@@ -336,7 +336,10 @@
   const link = (text,href,cls) => {
     const a=el('a',cls,text);a.href=href;return a;
   };
-  const urlFor = product => '/pages/produto-loja.html?id='+encodeURIComponent(product.id);
+  const seoProductIds = new Set(["camiseta-salve-regina","camiseta-cor-iesu-sacratissimum","caneca-salve-regina-preta","caneca-salve-regina-pb","ecobag-salve-regina","bone-cor-iesu-sacratissimum","ecobag-cor-iesu-sacratissimum"]);
+  const urlFor = product => seoProductIds.has(product.id)
+    ? '/pages/produto-'+product.id+'.html'
+    : '/pages/produto-loja.html?id='+encodeURIComponent(product.id);
   function showError(message) {
     root.replaceChildren(el('h1','',message),link('← Voltar ao catálogo','/pages/loja.html#catalogo','shop-single-back'));
   }
@@ -817,7 +820,7 @@
         companionOptions.forEach(option=>{
           const active=option.id===product.id;
           const choice=link(option.label,
-            '/pages/produto-loja.html?id='+encodeURIComponent(option.id),
+            urlFor(option),
             'shop-single-variant-chip'+(active?' is-selected':''));
           if(active)choice.setAttribute('aria-current','page');
           buttons.append(choice);
@@ -1071,6 +1074,14 @@
       window.history.replaceState(null,'',url.pathname+url.search+url.hash);
     }
     if(!product){showError('Produto não encontrado ou temporariamente indisponível.');return;}
+    // Links antigos com ?id= continuam utilizáveis, mas apontam ao endereço canônico do produto.
+    if(!document.body.dataset.shopProductId && seoProductIds.has(product.id) &&
+       !document.querySelector('link[rel="canonical"]')){
+      const canonical=document.createElement('link');
+      canonical.rel='canonical';
+      canonical.href=new URL(urlFor(product),window.location.origin).href;
+      document.head.append(canonical);
+    }
     display(product,all);
   }
   init().catch(()=>showError('Não foi possível carregar os detalhes. Volte à loja e tente novamente.'));
