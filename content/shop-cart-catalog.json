@@ -395,15 +395,15 @@
       "variants": [
         {
           "code": "preto",
-          "label": "Preto · tonalidade a confirmar",
-          "sku": null,
+          "label": "Preto",
+          "sku": "cor-iesu-bone-preto",
           "priceCents": 7990,
           "availability": "pending"
         },
         {
           "code": "azul-escuro",
-          "label": "Azul-escuro · tonalidade a confirmar",
-          "sku": null,
+          "label": "Azul-escuro",
+          "sku": "cor-iesu-bone-azul-escuro",
           "priceCents": 7990,
           "availability": "pending"
         },
@@ -427,14 +427,14 @@
         {
           "code": "M",
           "label": "Algodão cru · M",
-          "sku": null,
+          "sku": "cor-iesu-ecobag-m",
           "priceCents": 3990,
           "availability": "pending"
         },
         {
           "code": "G",
           "label": "Algodão cru · G",
-          "sku": null,
+          "sku": "cor-iesu-ecobag-g",
           "priceCents": 3990,
           "availability": "pending"
         }

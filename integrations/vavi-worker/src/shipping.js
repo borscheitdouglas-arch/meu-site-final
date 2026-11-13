@@ -1,5 +1,6 @@
 import {CatalogError} from './catalog.js';
 import {COR_IESU_ASSISTED_SKUS} from './cor-iesu-assist.js';
+import {ACCESSORY_SKUS} from './cor-iesu-accessories.js';
 
 const VAVI_BASE = 'https://api.printbee.com.br';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -95,6 +96,11 @@ const PROVISIONAL_SINGLE_PACKAGE=Object.freeze({
   ...Object.fromEntries(COR_IESU_ASSISTED_SKUS.map(sku=>
     [sku,{weight:0.25,height:10,width:250,length:300}])),
 
+  // Medidas publicadas do produto-base VAVI, não garantia da embalagem final.
+  'cor-iesu-bone-preto':{weight:0.40,height:40,width:250,length:300},
+  'cor-iesu-bone-azul-escuro':{weight:0.40,height:40,width:250,length:300},
+  'cor-iesu-ecobag-m':{weight:0.20,height:10,width:250,length:250},
+  'cor-iesu-ecobag-g':{weight:0.20,height:10,width:250,length:250},
   'salve-regina-preta-p': {weight:0.25,height:10,width:250,length:300},
   'salve-regina-preta-m': {weight:0.25,height:10,width:250,length:300},
   'salve-regina-preta-g': {weight:0.25,height:10,width:250,length:300},

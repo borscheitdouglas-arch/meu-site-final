@@ -4,6 +4,7 @@ import {buildVaviIntegrationOrder} from './vavi-order-contract.js';
 import {createVaviDraft} from './vavi-draft-client.js';
 import {obtainVaviAccessToken} from './vavi-auth.js';
 import {isCorIesuAssistedSku} from './cor-iesu-assist.js';
+import {isAccessorySku,accessoryDesign} from './cor-iesu-accessories.js';
 
 const ID=/^ord_[a-f0-9]{32}$/;
 const LIMIT=3;
@@ -85,7 +86,9 @@ export async function dispatchVaviDraft(env,orderId,sendDraft=createVaviDraft,
     const items=(itemsResult.results||[]).map(x=>({
       name:isCorIesuAssistedSku(x.sku)
         ? (x.label+' | VAVI design D000007, DTF 2 áreas (medalhão frente; gravura costas)').slice(0,180)
-        : x.label,
+        : isAccessorySku(x.sku)
+          ? (x.label+' | VAVI design '+accessoryDesign(x.sku)+', DTF 1 área (frente); conferir a variante física antes de produzir').slice(0,180)
+          : x.label,
       sku:x.sku,quantity:x.quantity,unitPriceCents:x.unit_price_cents
     }));
     const payload=buildVaviIntegrationOrder({

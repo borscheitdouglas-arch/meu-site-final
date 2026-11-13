@@ -13,8 +13,9 @@ import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.
 import {processVaviWebhook} from './vavi-webhook.js';
 import {SALVE_REGINA_VARIANTS,approvedVariant,SALVE_REGINA_SKUS,DIRECT_CHECKOUT_SKUS,approvedDirectVariant} from './salve-regina-variants.js';
 import {COR_IESU_ASSISTED_SKUS,approvedCorIesuAssistedVariant,isCorIesuAssistedSku,loadCorIesuAssistedCost,assertCorIesuSingleItem} from './cor-iesu-assist.js';
-const ALL_DIRECT_SKUS=[...DIRECT_CHECKOUT_SKUS,...COR_IESU_ASSISTED_SKUS];
-const approvedSaleVariant=(sku,price)=>approvedDirectVariant(sku,price)||approvedCorIesuAssistedVariant(sku,price);
+import {ACCESSORY_SKUS,approvedAccessoryVariant,isAccessorySku,loadApprovedAccessoryCost,loadObservedAccessoryCost,assertAccessorySingleItem} from './cor-iesu-accessories.js';
+const ALL_DIRECT_SKUS=[...DIRECT_CHECKOUT_SKUS,...COR_IESU_ASSISTED_SKUS,...ACCESSORY_SKUS];
+const approvedSaleVariant=(sku,price)=>approvedDirectVariant(sku,price)||approvedCorIesuAssistedVariant(sku,price)||approvedAccessoryVariant(sku,price);
 
 /** Private test checkout only: never enable public or production charges by default. */
 async function authorizedTestCheckout(request, env) {
@@ -113,6 +114,7 @@ export default {
           if(!variant || variant.product_enabled!==1 ||
              variant.product_verified!==1 || variant.available!==1 ||
              !approvedSaleVariant(sku,variant.price_cents))continue;
+          if(isAccessorySku(sku) && !(await loadApprovedAccessoryCost(env.DB,sku)))continue;
           try{
             shippingPayload('01001000',[{sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
@@ -124,6 +126,8 @@ export default {
               !canQuotePublishedPackage(sku))continue;
             if(isCorIesuAssistedSku(sku)){
               if(await loadCorIesuAssistedCost(env.DB,sku))availableSkus.push(sku);
+            }else if(isAccessorySku(sku)){
+              if(await loadApprovedAccessoryCost(env.DB,sku))availableSkus.push(sku);
             }else{
               const row=await env.DB.prepare(
                 'SELECT supplier_variant_sku,observed_total_cents '+
@@ -391,6 +395,7 @@ export default {
         if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku)){
           const registered=env.DB?.prepare && await loadVariant(env.DB,sku);
           if(!registered ||
+             (isAccessorySku(sku) && !(await loadObservedAccessoryCost(env.DB,sku))) ||
              !approvedSaleVariant(sku,registered.price_cents) ||
              (isCorIesuAssistedSku(sku) && registered.available!==1))
             throw new CatalogError('unavailable_product','Produto ainda sem cadastro completo.',409);
@@ -411,6 +416,8 @@ export default {
           let unitCostCents;
           if(isCorIesuAssistedSku(sku)){
             unitCostCents=await loadCorIesuAssistedCost(env.DB,sku);
+          }else if(isAccessorySku(sku)){
+            unitCostCents=await loadObservedAccessoryCost(env.DB,sku);
           }else{
             let observed;
             try{
@@ -456,6 +463,7 @@ export default {
         const zipCode=normalizeZip(body.zipCode);
         const items=normalizeCart(body);
         assertCorIesuSingleItem(items);
+        assertAccessorySingleItem(items);
         const resolved=[];
         for(const line of items){
           if(!ALL_DIRECT_SKUS.includes(line.sku))

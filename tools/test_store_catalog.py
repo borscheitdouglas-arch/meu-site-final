@@ -145,7 +145,10 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertNotIn('/api/checkout/test', source)
         # Cinco produtos físicos aparecem como disponíveis; o Worker valida
         # individualmente SKU, preço e frete antes de liberar o pagamento.
-        self.assertEqual(source.count('data-availability="preparation"'), 0)
+        # Boné e ecobag Cor Iesu continuam como preparação enquanto frete e pagamento
+        # não estão homologados. A presença no catálogo não significa compra liberada.
+        self.assertEqual(source.count('data-availability="preparation"'), 2)
+        self.assertIn('Compra ainda indisponível', source)
         self.assertEqual(source.count('data-availability="consultation"'), 0)
         self.assertEqual(source.count('data-availability="available"'), 5)
         self.assertIn('Calcular frete', source)
@@ -153,9 +156,9 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertIn('store-shipping-calculator.js', source)
         self.assertIn('R$ 49,90', source)
         self.assertIn('R$ 39,90', source)
-        self.assertEqual(source.count('data-cart-add='), 5)
+        self.assertEqual(source.count('data-cart-add='), 2)
         self.assertNotIn('data-cart-checkout', source)
-        self.assertIn('data-cart-add="camiseta-cor-iesu-sacratissimum"', source)
+        self.assertIn('/pages/produto-loja.html?id=camiseta-cor-iesu-sacratissimum', source)
         self.assertIn('R$ 109,90', source)
 
 

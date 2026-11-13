@@ -31,6 +31,22 @@
       title:'Ecobag Salve Regina — Tamanho G',
       detail:'Ecobag tamanho G',price:3990,
       image:'/assets/img/loja/Salve-Regina/web/ecobag-480.webp'
+    },
+    'cor-iesu-bone-preto':{
+      title:'Boné Sagrado Coração — Preto',detail:'Boné Frente Americana · DTF frontal',
+      price:7990,image:'/assets/img/loja/cor-iesu/bone-sagrado-coracao-capa-20261113.jpg'
+    },
+    'cor-iesu-bone-azul-escuro':{
+      title:'Boné Sagrado Coração — Azul-escuro',detail:'Boné Frente Americana · DTF frontal',
+      price:7990,image:'/assets/img/loja/cor-iesu/bone-sagrado-coracao-capa-20261113.jpg'
+    },
+    'cor-iesu-ecobag-m':{
+      title:'Ecobag Sagrado Coração — M',detail:'Ecobag de algodão cru · M',
+      price:3990,image:'/assets/img/loja/cor-iesu/ecobag-sagrado-coracao-capa-20261113.jpg'
+    },
+    'cor-iesu-ecobag-g':{
+      title:'Ecobag Sagrado Coração — G',detail:'Ecobag de algodão cru · G',
+      price:3990,image:'/assets/img/loja/cor-iesu/ecobag-sagrado-coracao-capa-20261113.jpg'
     }
   });
   const params=new URLSearchParams(location.search);
