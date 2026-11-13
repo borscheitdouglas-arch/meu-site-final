@@ -756,7 +756,7 @@
       if(isCorIesuBone){
         const boneColors=[
           {slug:'preto',name:'Preto',hex:'#202024',photo:0},
-          {slug:'azul-escuro',name:'Azul-escuro',hex:'#1d2b43',photo:2}
+          {slug:'azul-escuro',name:'Azul-escuro',hex:'#1d2b43',photo:3}
         ];
         colorGroup=el('fieldset','shop-single-color-group');
         const legend=el('legend','shop-single-field-label');
