@@ -114,6 +114,7 @@ export default {
           if(!variant || variant.product_enabled!==1 ||
              variant.product_verified!==1 || variant.available!==1 ||
              !approvedSaleVariant(sku,variant.price_cents))continue;
+          if(isAccessorySku(sku) && !(await loadApprovedAccessoryCost(env.DB,sku)))continue;
           try{
             shippingPayload('01001000',[{sku,quantity:1}],env.VAVI_SHIPPING_PRODUCTS_JSON);
             availableSkus.push(sku);
@@ -394,6 +395,7 @@ export default {
         if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku)){
           const registered=env.DB?.prepare && await loadVariant(env.DB,sku);
           if(!registered ||
+             (isAccessorySku(sku) && !(await loadApprovedAccessoryCost(env.DB,sku))) ||
              !approvedSaleVariant(sku,registered.price_cents) ||
              ((isCorIesuAssistedSku(sku)||isAccessorySku(sku)) && registered.available!==1))
             throw new CatalogError('unavailable_product','Produto ainda sem cadastro completo.',409);
