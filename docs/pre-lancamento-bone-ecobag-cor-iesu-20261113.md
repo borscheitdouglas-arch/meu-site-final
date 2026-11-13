@@ -46,3 +46,22 @@ Para **cada variante**, conferir no painel/API oficial do fornecedor e guardar e
 ## Próxima ação concreta
 
 Obter e confirmar as cinco variantes físicas, suas fichas e custos finais no fornecedor. Com esses dados, implementar o aceite específico no Worker e realizar os testes de frete/checkout. **Esta preparação não executa pagamentos, não modifica D1 e não coloca os produtos à venda.**
+
+## Evidências visuais adicionais — capturas do fornecedor em 13/11/2026
+
+**Origem:** três capturas fornecidas pelo lojista, modal "Adicionar ao Carrinho" dos designs na VAVI. Registros visuais são observações, ainda NÃO são homologação via API.
+
+| Modelo e variante selecionada | Código mostrado em "Variação" | Base | Personalização | Subtotal sem desconto | Desconto mostrado | Total com desconto |
+|---|---|---:|---:|---:|---:|---:|
+| Boné Frente Americana, preto | `0001447` | R$ 39,90 | R$ 5,00 | R$ 44,90 | 2% (R$ 0,90) | R$ 44,00 |
+| Boné Frente Americana, azul-escuro | `0001449` | R$ 39,90 | R$ 5,00 | R$ 44,90 | 2% (R$ 0,90) | R$ 44,00 |
+| Ecobag Algodão Cru, M | `0000564` | R$ 11,90 | R$ 8,00 | R$ 19,90 | 2% (R$ 0,40) | R$ 19,50 |
+
+- O seletor de cor do boné exibiu **duas cores** (preto e azul-escuro); **verde-escuro NÃO aparece nas capturas** e não deve ser anunciado como disponível.
+- A ecobag mostra botões M e G, com **M selecionado**; SKU e custo de **G NÃO observados**.
+- O preço com desconto pode depender da condição de fechamento; considerar também o subtotal sem desconto na análise de margem e confirmar política vigente.
+- As prévias de impressão estão parcialmente carregadas/cortadas nas imagens; isso não confirma fidelidade ou alinhamento final da arte.
+- Não inserir esses códigos automaticamente como `supplier_variant_sku` operacional sem consultar/validar o endpoint do fornecedor e a associação com o design certo.
+- Os acessórios permanecem bloqueados em D1 e na vitrine até o teste real de frete e checkout.
+
+**Pendente de captura:** selecionar ecobag G e mostrar o campo "Variação" e o custo, além de confirmar na VAVI se há ou não boné verde-escuro.
