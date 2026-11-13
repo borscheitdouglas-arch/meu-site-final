@@ -145,12 +145,12 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertNotIn('/api/checkout/test', source)
         # Cinco produtos físicos aparecem como disponíveis; o Worker valida
         # individualmente SKU, preço e frete antes de liberar o pagamento.
-        # Boné e ecobag Cor Iesu continuam como preparação enquanto frete e pagamento
-        # não estão homologados. A presença no catálogo não significa compra liberada.
-        self.assertEqual(source.count('data-availability="preparation"'), 2)
-        self.assertIn('Compra ainda indisponível', source)
+        # Os dois novos acessórios foram publicados depois da homologação do frete.
+        self.assertEqual(source.count('data-availability="preparation"'), 0)
+        self.assertIn('Escolher cor e comprar', source)
+        self.assertIn('Escolher tamanho e comprar', source)
         self.assertEqual(source.count('data-availability="consultation"'), 0)
-        self.assertEqual(source.count('data-availability="available"'), 5)
+        self.assertEqual(source.count('data-availability="available"'), 7)
         self.assertIn('Calcular frete', source)
         self.assertIn('data-shipping-calculator', source)
         self.assertIn('store-shipping-calculator.js', source)
