@@ -6,9 +6,9 @@ Data de preparação: 13/11/2026 · **NÃO AUTORIZA VENDAS**
 | Produto | ID da loja | Design de produção | Variações internas | Preço de venda |
 |---|---|---|---|---|
 | Boné Sagrado Coração | `bone-cor-iesu-sacratissimum` | `D000008` (DTF, 1 área) | preto, azul-escuro, verde-escuro | R$ 79,90 |
-| Ecobag Sagrado Coração | `ecobag-cor-iesu-sacratissimum` | `D000009` (DTF, 1 área) | M, G | R$ 39,90 (a confirmar) |
+| Ecobag Sagrado Coração | `ecobag-cor-iesu-sacratissimum` | `D000009` (M) e `D000011` (G, confirmar vínculo) (DTF, 1 área) | M, G | R$ 39,90 (a confirmar) |
 
-Os códigos `D000008` e `D000009` são **IDs dos designs**, não identificadores de variantes físicas. **Não enviar como SKU de produção**.
+Os códigos `D000008`, `D000009` e `D000011` são **IDs dos designs**, não identificadores de variantes físicas. **Não enviar como SKU de produção**.
 
 Há capas de 13/11/2026 em `assets/img/loja/cor-iesu/`, já referenciadas em `pages/loja.html` e `scripts/product-detail.js`. A existência dos mockups não comprova a fabricação real nem a cor impressa.
 
@@ -24,7 +24,7 @@ Para **cada variante**, conferir no painel/API oficial do fornecedor e guardar e
 
 **Boné** — confirmar se preto, azul-escuro e verde-escuro são de fato oferecidos no modelo Frente Americana e se a estampa em DTF fica na posição esperada.
 
-**Ecobag** — confirmar dimensões, peso e área imprimível de M e G e custo final para ambos os tamanhos.
+**Ecobag** — o fornecedor apresenta M e G em cadastros/designs separados. Confirmar dimensões, peso e área imprimível de M e G e custo final para ambos os tamanhos. Vincular design de produção correto por tamanho, sem assumir que o código de M serve para G.
 
 ## Portões técnicos de liberação
 
@@ -65,3 +65,26 @@ Obter e confirmar as cinco variantes físicas, suas fichas e custos finais no fo
 - Os acessórios permanecem bloqueados em D1 e na vitrine até o teste real de frete e checkout.
 
 **Pendente de captura:** selecionar ecobag G e mostrar o campo "Variação" e o custo, além de confirmar na VAVI se há ou não boné verde-escuro.
+
+## Atualização — ecobag G criada separadamente em 13/11/2026
+
+O lojista informou que retirou o tamanho G do cadastro anterior e criou **um produto/design separado, exclusivo G**, na VAVI. Captura da tela "Adicionar ao Carrinho" mostra:
+
+| Campo | Valor observado |
+|---|---|
+| Nome do item no modal | Ecobag Algodão Cru — Ecobag G - Sagrado Coração de Jesus \| Cor Iesu Sacratissimum |
+| Tamanho | G (única opção no seletor) |
+| Código em **Variação** | `0000565` |
+| Produto-base | R$ 13,90 |
+| Customização | R$ 8,00 |
+| Subtotal antes do desconto | **R$ 21,90** |
+| Desconto mostrado | 2% = R$ 0,44 |
+| Total mostrado com desconto | **R$ 21,46** |
+| Código visível no card de design ao fundo | **`D000011`** (correspondência a confirmar no painel) |
+
+**Implicações técnicas:**
+- Design M observado anteriormente: `D000009` e variante física `0000564`, com custo exibido R$ 19,90 antes do desconto (R$ 19,50 com desconto).
+- Design G observado: **`D000011`** e variante física `0000565`, com custo exibido R$ 21,90 antes do desconto (R$ 21,46 com desconto).
+- Não tratar os dois tamanhos como uma mesma arte/design VAVI: o checkout deve mapear **cada SKU interno ao design correto** em rascunho de produção, com validação e evidência no servidor.
+- O preço planejado para ambos continua R$ 39,90, **a homologar margem separadamente para M e G**, inclusive frete, taxas e condições de desconto.
+- Nenhum registro D1 foi ativado, nenhum checkout foi liberado; ainda faltam frete real, teste de integração e validação dos vínculos de design.
