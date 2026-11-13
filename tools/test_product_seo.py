@@ -35,7 +35,7 @@ class SEOProductPagesTests(unittest.TestCase):
                 self.assertIn('<script src="/scripts/product-detail.js', html)
                 self.assertIn('<loc>' + url + '</loc>', sitemap)
                 self.assertIn('href="/pages/' + path.name + '"', shop)
-                match = re.search(r'<script type="application/ld\\+json">(.*?)</script>', html, re.S)
+                match = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
                 self.assertIsNotNone(match, f"{product_id}: JSON-LD ausente")
                 structured = json.loads(match.group(1))
                 self.assertEqual(structured["@type"], "Product")
