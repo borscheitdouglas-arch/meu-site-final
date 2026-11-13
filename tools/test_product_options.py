@@ -154,6 +154,43 @@ def main():
         expect(page.locator(".shop-single-price")).to_contain_text("39,90")
         print("PASS: 4 fichas compactas, quantidades e subtotais; canecas sem tamanho único; ecobag pendente bloqueada")
 
+        # Boné Cor Iesu: mesmo seletor circular da camiseta; as imagens
+        # e o SKU acompanham a cor, sem duplicar botões de variação.
+        page.goto(BASE + "/pages/produto-loja.html?id=bone-cor-iesu-sacratissimum",
+                  wait_until="domcontentloaded")
+        expect(page.locator(".shop-single-color-choice")).to_have_count(2)
+        expect(page.locator(".shop-single-variant-chips button")).to_have_count(0)
+        expect(page.locator(".shop-single-color-selected-name")).to_have_text("Preto")
+        native=page.locator(".shop-single-native-select")
+        expect(native).to_have_value("preto")
+        expect(page.locator(".shop-single-price")).to_contain_text("79,90")
+        swatches=page.locator(".shop-single-color-swatch")
+        assert swatches.count()==2
+        assert swatches.nth(0).evaluate(
+            "(el)=>el.style.getPropertyValue('--color-swatch')")=="#202024"
+        assert swatches.nth(1).evaluate(
+            "(el)=>el.style.getPropertyValue('--color-swatch')")=="#1d2b43"
+        image=page.locator(".shop-single-image-clip > img")
+        page.get_by_role("button",name="Selecionar cor Azul-escuro").click()
+        expect(native).to_have_value("azul-escuro")
+        expect(page.locator(".shop-single-color-selected-name")).to_have_text("Azul-escuro")
+        expect(page.get_by_role("button",name="Selecionar cor Azul-escuro")).to_have_attribute(
+            "aria-pressed","true")
+        expect(image).to_have_attribute("src",re.compile("bone-cor-iesu-modelo-20261113"))
+        # Galeria e opções de compra devem permanecer sincronizadas.
+        page.get_by_role("button",name="Selecionar cor Preto").click()
+        expect(native).to_have_value("preto")
+        expect(image).to_have_attribute("src",re.compile("bone-sagrado-coracao-capa"))
+        page.get_by_role("button",name="Próxima imagem",exact=True).click()
+        expect(native).to_have_value("azul-escuro")
+        expect(page.locator(".shop-single-color-selected-name")).to_have_text("Azul-escuro")
+        for width in (390,360):
+            page.set_viewport_size({"width":width,"height":800})
+            assert page.locator(".shop-single-summary").evaluate(
+                "(el)=>el.scrollWidth<=el.clientWidth+2"),width
+        page.set_viewport_size({"width":1280,"height":900})
+        print("PASS: boné com cores circulares iguais à camiseta, foto e SKU sincronizados")
+
         # Os livros continuam no fluxo de livrarias, sem carrinho físico.
         page.goto(BASE + "/pages/produto-loja.html?id=o-canto-como-mistica",
                   wait_until="domcontentloaded")
