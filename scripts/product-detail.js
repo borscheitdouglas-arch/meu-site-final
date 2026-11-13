@@ -237,8 +237,8 @@
     "type":"Boné · Coleção Cor Iesu Sacratissimum",
     "material":"Tecido e composição em confirmação",
     "finish":"Estampa sacra em DTF, uma área",
-    "photos":["/assets/img/loja/cor-iesu/bone-previsualizacao.svg"],
-    "photoLabels":["Prévia ilustrativa do boné Cor Iesu — arte e cores definitivas em confirmação"],
+    "photos":["/assets/img/loja/cor-iesu/bone-sagrado-coracao-capa-20261113.jpg"],
+    "photoLabels":["Mockup digital do boné preto Cor Iesu Sacratissimum com a estampa do Sagrado Coração"],
     "description":"Boné com a arte do Sacratíssimo Coração de Jesus, inspirada nas gravuras tradicionais da arte sacra.",
     "paragraphs":[
       "Uma peça da coleção Cor Iesu Sacratissimum, dedicada à devoção ao Sagrado Coração de Jesus. O conceito reúne o Coração inflamado, a cruz e a coroa de espinhos em linguagem visual clássica.",
@@ -261,8 +261,8 @@
     "type":"Ecobag · Coleção Cor Iesu Sacratissimum",
     "material":"Algodão cru",
     "finish":"Estampa sacra em DTF, uma área",
-    "photos":["/assets/img/loja/cor-iesu/ecobag-previsualizacao.svg"],
-    "photoLabels":["Prévia ilustrativa da ecobag Cor Iesu — não representa uma amostra final aprovada"],
+    "photos":["/assets/img/loja/cor-iesu/ecobag-sagrado-coracao-capa-20261113.jpg"],
+    "photoLabels":["Mockup digital da ecobag de algodão cru Cor Iesu Sacratissimum com estampa ornamental do Sagrado Coração"],
     "description":"Ecobag de algodão cru com arte do Sagrado Coração de Jesus, unindo a tradição das gravuras religiosas à praticidade de uma bolsa reutilizável.",
     "paragraphs":[
       "A ecobag Cor Iesu Sacratissimum combina o tecido de algodão cru com a temática do Sagrado Coração de Jesus. O conceito artístico reúne a cruz, as chamas, a coroa de espinhos e os ornamentos florais.",
