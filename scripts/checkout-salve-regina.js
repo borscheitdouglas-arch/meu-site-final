@@ -38,7 +38,7 @@
     },
     'cor-iesu-bone-azul-escuro':{
       title:'Boné Sagrado Coração — Azul-escuro',detail:'Boné Frente Americana · DTF frontal',
-      price:7990,image:'/assets/img/loja/cor-iesu/bone-sagrado-coracao-capa-20261113.jpg'
+      price:7990,image:'/assets/img/loja/cor-iesu/bone-cor-iesu-modelo-20261113.jpg'
     },
     'cor-iesu-ecobag-m':{
       title:'Ecobag Sagrado Coração — M',detail:'Ecobag de algodão cru · M',
