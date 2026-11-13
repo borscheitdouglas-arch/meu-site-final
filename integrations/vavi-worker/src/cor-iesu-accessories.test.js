@@ -45,8 +45,8 @@ test('custo privado aprovado usa subtotal sem desconto condicional',async()=>{
 
 test('acessórios bloqueiam carrinhos mistos ou com várias unidades',()=>{
   assert.doesNotThrow(()=>assertAccessorySingleItem([{sku:'cor-iesu-ecobag-g',quantity:1}]));
-  assert.throws(()=>assertAccessorySingleItem([{sku:'cor-iesu-ecobag-g',quantity:2}]),/pedido unitário/);
+  assert.throws(()=>assertAccessorySingleItem([{sku:'cor-iesu-ecobag-g',quantity:2}]),/pedidos unitários/);
   assert.throws(()=>assertAccessorySingleItem([
     {sku:'cor-iesu-bone-preto',quantity:1},{sku:'salve-regina-preta-p',quantity:1}
-  ]),/pedido unitário/);
+  ]),/pedidos unitários/);
 });
