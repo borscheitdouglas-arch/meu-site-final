@@ -13,7 +13,7 @@ import {dispatchVaviDraft,processPendingPaidVaviDrafts} from './vavi-auto-draft.
 import {processVaviWebhook} from './vavi-webhook.js';
 import {SALVE_REGINA_VARIANTS,approvedVariant,SALVE_REGINA_SKUS,DIRECT_CHECKOUT_SKUS,approvedDirectVariant} from './salve-regina-variants.js';
 import {COR_IESU_ASSISTED_SKUS,approvedCorIesuAssistedVariant,isCorIesuAssistedSku,loadCorIesuAssistedCost,assertCorIesuSingleItem} from './cor-iesu-assist.js';
-import {ACCESSORY_SKUS,approvedAccessoryVariant,isAccessorySku,loadApprovedAccessoryCost,assertAccessorySingleItem} from './cor-iesu-accessories.js';
+import {ACCESSORY_SKUS,approvedAccessoryVariant,isAccessorySku,loadApprovedAccessoryCost,loadObservedAccessoryCost,assertAccessorySingleItem} from './cor-iesu-accessories.js';
 const ALL_DIRECT_SKUS=[...DIRECT_CHECKOUT_SKUS,...COR_IESU_ASSISTED_SKUS,...ACCESSORY_SKUS];
 const approvedSaleVariant=(sku,price)=>approvedDirectVariant(sku,price)||approvedCorIesuAssistedVariant(sku,price)||approvedAccessoryVariant(sku,price);
 
@@ -395,9 +395,9 @@ export default {
         if(!Object.hasOwn(SALVE_REGINA_VARIANTS,sku)){
           const registered=env.DB?.prepare && await loadVariant(env.DB,sku);
           if(!registered ||
-             (isAccessorySku(sku) && !(await loadApprovedAccessoryCost(env.DB,sku))) ||
+             (isAccessorySku(sku) && !(await loadObservedAccessoryCost(env.DB,sku))) ||
              !approvedSaleVariant(sku,registered.price_cents) ||
-             ((isCorIesuAssistedSku(sku)||isAccessorySku(sku)) && registered.available!==1))
+             (isCorIesuAssistedSku(sku) && registered.available!==1))
             throw new CatalogError('unavailable_product','Produto ainda sem cadastro completo.',409);
         }
         const diagnostic=body?.diagnose===true?{}:null;
@@ -417,7 +417,7 @@ export default {
           if(isCorIesuAssistedSku(sku)){
             unitCostCents=await loadCorIesuAssistedCost(env.DB,sku);
           }else if(isAccessorySku(sku)){
-            unitCostCents=await loadApprovedAccessoryCost(env.DB,sku);
+            unitCostCents=await loadObservedAccessoryCost(env.DB,sku);
           }else{
             let observed;
             try{
