@@ -61,6 +61,13 @@ export async function createCheckoutLive(env,body,deps={}) {
      quote.subtotalCents!==quote.lines.reduce((sum,line)=>sum+line.totalCents,0))
     throw new CatalogError('live_price_unapproved','Preço dos produtos precisa ser revisado.',503);
 
+  // Nem mesmo uma configuração logística completa substitui a verificação
+  // de design/variante e custo homologados no D1 para estes acessórios.
+  for(const line of quote.lines){
+    if(isAccessorySku(line.sku) && !(await loadApprovedAccessoryCost(env.DB,line.sku)))
+      throw new CatalogError('shipping_product_unverified','Acessório aguardando homologação do fornecedor.',409);
+  }
+
   let quotes;
   if(multiple){
     // Só autorizar um carrinho de várias peças se CADA variante possuir
