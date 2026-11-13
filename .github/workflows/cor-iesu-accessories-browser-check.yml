@@ -1,0 +1,54 @@
+name: Cor Iesu acessórios - teste visual de compra sem pagamento
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/cor-iesu-accessories-browser-check.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compra:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar navegador para conferência do site
+        run: |
+          python3 -m pip install playwright==1.60.0
+          python3 -m playwright install --with-deps chromium
+      - name: Conferir seleção de variações e checkout real sem submeter pedidos
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from playwright.sync_api import sync_playwright,expect
+          site='https://www.douglasassumpcao.com.br'
+          variants=[
+            ('bone-cor-iesu-sacratissimum','preto','cor-iesu-bone-preto','79,90'),
+            ('bone-cor-iesu-sacratissimum','azul-escuro','cor-iesu-bone-azul-escuro','79,90'),
+            ('ecobag-cor-iesu-sacratissimum','M','cor-iesu-ecobag-m','39,90'),
+            ('ecobag-cor-iesu-sacratissimum','G','cor-iesu-ecobag-g','39,90')
+          ]
+          with sync_playwright() as p:
+            browser=p.chromium.launch(headless=True)
+            page=browser.new_page(viewport={'width':390,'height':844})
+            for product,color,sku,price in variants:
+              page.goto(site+'/pages/produto-loja.html?id='+product,wait_until='domcontentloaded',timeout=45000)
+              form=page.locator('.shop-single-form')
+              expect(form).to_be_visible(timeout=20000)
+              expect(page.locator('.shop-single-variant-chips button')).to_have_count(2)
+              form.locator('select').select_option(color)
+              button=page.locator('.shop-single-actions button').last
+              expect(button).to_have_text('Comprar agora',timeout=20000)
+              expect(button).to_be_enabled()
+              button.click()
+              page.wait_for_url(lambda u: '/pages/checkout-salve-regina.html?sku='+sku in u,timeout=20000)
+              expect(page.locator('#checkout-container')).to_be_visible(timeout=25000)
+              expect(page.locator('#checkout-product-name')).to_be_visible()
+              expect(page.locator('#product-amount')).to_contain_text(price)
+              assert page.locator('body').evaluate('el=>el.scrollWidth<=innerWidth+2')
+              print(sku+': seleção, comprar e checkout carregados no mobile, sem pagamento.',flush=True)
+            browser.close()
+          print('Quatro variantes validadas com navegador real.')
+          PY
