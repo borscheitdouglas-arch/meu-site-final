@@ -1,6 +1,7 @@
 import {CatalogError,normalizeCart,quoteCart} from './catalog.js';
 import {approvedDirectVariant,DIRECT_CHECKOUT_SKUS} from './salve-regina-variants.js';
 import {COR_IESU_ASSISTED_SKUS,approvedCorIesuAssistedVariant,isCorIesuAssistedSku,loadCorIesuAssistedCost,assertCorIesuSingleItem} from './cor-iesu-assist.js';
+import {ACCESSORY_SKUS,approvedAccessoryVariant,isAccessorySku,loadApprovedAccessoryCost,assertAccessorySingleItem} from './cor-iesu-accessories.js';
 import {normalizeZip,simulateVaviShipping,simulateVaviShippingCartProvisional,simulateVaviShippingProvisional,shippingPayload,canQuotePublishedPackage} from './shipping.js';
 import {newOrderId,prepareDraftOrder,insertDraftOrder} from './order-repository.js';
 import {createTestPreference} from './payment-preference-client.js';
@@ -33,10 +34,12 @@ export async function createCheckoutLive(env,body,deps={}) {
   const buyer=validateBuyerDetails(body?.buyer);
   const items=normalizeCart(body);
   if(items.some(line=>!DIRECT_CHECKOUT_SKUS.includes(line.sku) &&
-    !COR_IESU_ASSISTED_SKUS.includes(line.sku)))
+    !COR_IESU_ASSISTED_SKUS.includes(line.sku) &&
+    !ACCESSORY_SKUS.includes(line.sku)))
     throw new CatalogError('live_product_unavailable','Produto não aprovado para venda.',409);
   // Sem validação de embalagem conjunta, nunca cobrar frete de vários itens Cor Iesu.
   assertCorIesuSingleItem(items);
+  assertAccessorySingleItem(items);
   const multiple=items.length!==1 || items[0].quantity!==1;
   if(multiple && env.LIVE_MULTICART_CHECKOUT_ENABLED!=='true')
     throw new CatalogError('live_multicart_disabled','Venda de carrinhos combinados ainda indisponível.',503);
@@ -53,7 +56,8 @@ export async function createCheckoutLive(env,body,deps={}) {
   // Preço de venda aprovado e conferido no D1; navegador não envia valores.
   // A lista interna não aprova o fornecedor: quoteCart exige enabled/verified/available.
   if(!quote.lines.every(line=>approvedDirectVariant(line.sku,line.unitPriceCents) ||
-     approvedCorIesuAssistedVariant(line.sku,line.unitPriceCents)) ||
+     approvedCorIesuAssistedVariant(line.sku,line.unitPriceCents) ||
+     approvedAccessoryVariant(line.sku,line.unitPriceCents)) ||
      quote.subtotalCents!==quote.lines.reduce((sum,line)=>sum+line.totalCents,0))
     throw new CatalogError('live_price_unapproved','Preço dos produtos precisa ser revisado.',503);
 
@@ -97,6 +101,8 @@ export async function createCheckoutLive(env,body,deps={}) {
       if(isCorIesuAssistedSku(sku)){
         // Rascunho VAVI: SKU interno e design D000007, sem fingir SKU da fábrica.
         unitCostCents=await loadCorIesuAssistedCost(env.DB,sku);
+      }else if(isAccessorySku(sku)){
+        unitCostCents=await loadApprovedAccessoryCost(env.DB,sku);
       }else{
         const observation=await env.DB.prepare(
           'SELECT supplier_variant_sku,observed_total_cents '+
