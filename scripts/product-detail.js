@@ -597,6 +597,7 @@
     const isPreparation=product.status==='preparation';
     const isShirt=product.id==='camiseta-salve-regina';
     const isCorIesuShirt=product.id==='camiseta-cor-iesu-sacratissimum';
+    const isCorIesuAccessory=product.id==='bone-cor-iesu-sacratissimum'||product.id==='ecobag-cor-iesu-sacratissimum';
     // A primeira foto é a capa; as 11 opções de cor começam no índice 1.
     const corIesuColors=isCorIesuShirt?[
       {slug:'marrom',name:'Marrom',hex:'#67513f'},
@@ -774,7 +775,7 @@
       const minus=el('button','shop-single-stepper-button','−');
       minus.type='button';minus.setAttribute('aria-label','Diminuir quantidade');
       const quantity=el('input','shop-single-quantity-input');
-      quantity.type='number';quantity.min='1';quantity.max='10';
+      quantity.type='number';quantity.min='1';quantity.max=isCorIesuAccessory?'1':'10';
       quantity.step='1';quantity.value='1';quantity.required=true;
       quantity.setAttribute('aria-label','Quantidade de unidades');
       const plus=el('button','shop-single-stepper-button','+');
@@ -782,19 +783,21 @@
       const changeQty=()=>{
         let value=Number(quantity.value);
         if(!Number.isInteger(value))value=1;
-        value=Math.min(10,Math.max(1,value));
+        value=Math.min(isCorIesuAccessory?1:10,Math.max(1,value));
         quantity.value=String(value);
-        minus.disabled=value===1;plus.disabled=value===10;
+        minus.disabled=value===1;plus.disabled=isCorIesuAccessory||value===10;
         quantity.dispatchEvent(new Event('change',{bubbles:true}));
       };
       minus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)-1);changeQty();});
       plus.addEventListener('click',()=>{quantity.value=String(Number(quantity.value)+1);changeQty();});
       quantity.addEventListener('blur',changeQty);
-      minus.disabled=true;plus.disabled=false;
+      minus.disabled=true;plus.disabled=isCorIesuAccessory;
       stepper.append(minus,quantity,plus);
       const unitLabel=(isShirt||isCorIesuShirt)?'camiseta':isEcobag?'ecobag':product.category==='bones'?'boné':'caneca';
       const subtotalHint=el('span','shop-single-quantity-subtotal');
       quantityGroup.append(stepper,subtotalHint);
+      if(isCorIesuAccessory)quantityGroup.append(el('small','shop-single-limit-note',
+        'Uma unidade por pedido. Para comprar mais peças, finalize pedidos separados.'));
       const actions=el('div','shop-single-actions');
       const add=el('button','','Adicionar ao carrinho');add.type='submit';
       const proceed=el('button','','Ver entrega e compra');proceed.type='button';
@@ -809,7 +812,7 @@
         // A validação definitiva de SKU, preço e frete ocorre no checkout/API.
         // Se a consulta inicial falhar, não substituir Compra por e-mail.
         const units=Number(quantity.value);
-        const validUnits=Number.isInteger(units)&&units>=1&&units<=10;
+        const validUnits=Number.isInteger(units)&&units>=1&&units<=(isCorIesuAccessory?1:10);
         subtotalHint.textContent=validUnits&&configured?
           units+' '+unitLabel+(units===1?'':'s')+' · '+money(selected.priceCents*units):
           configured?'Informe de 1 a 10 unidades':'Preço a confirmar';
@@ -863,7 +866,7 @@
       renderPrice();
       const putInCart=goCart=>{
         const amount=Number(quantity.value);
-        if(!Number.isInteger(amount)||amount<1||amount>10){
+        if(!Number.isInteger(amount)||amount<1||amount>(isCorIesuAccessory?1:10)){
           feedback.textContent='Escolha uma quantidade entre 1 e 10.';return;
         }
         // O carrinho conserva o SKU exato da cor escolhida.
@@ -884,7 +887,7 @@
         const selected=selectedVariant();
         const units=Number(quantity.value);
         if(!selected?.sku||!Number.isInteger(selected.priceCents)||
-           !Number.isInteger(units)||units<1||units>10){
+           !Number.isInteger(units)||units<1||units>(isCorIesuAccessory?1:10)){
           feedback.textContent='Selecione uma variação e quantidade entre 1 e 10.';
           return;
         }
