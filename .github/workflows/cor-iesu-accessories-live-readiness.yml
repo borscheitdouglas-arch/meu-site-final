@@ -1,0 +1,46 @@
+name: Cor Iesu acessórios - validar lançamento publicado sem pagamento
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/cor-iesu-accessories-live-readiness.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Verificar API de vendas e loja publicada
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from urllib.request import Request,urlopen
+          from urllib.parse import urlencode
+          api='https://douglas-loja-api.liturgia-gregoriano.workers.dev'
+          site='https://www.douglasassumpcao.com.br'
+          with urlopen(Request(api+'/api/checkout/live/readiness',headers={
+              'Origin':site,'User-Agent':'CorIesuAcceptanceReadOnly/1.0'}),timeout=20) as r:
+              ready=json.load(r)
+          expected={'cor-iesu-bone-preto','cor-iesu-bone-azul-escuro',
+                    'cor-iesu-ecobag-m','cor-iesu-ecobag-g'}
+          visible=set(ready.get('availableSkus') or [])
+          assert ready.get('checkoutEnabled') is True,'Checkout global não liberado'
+          assert ready.get('paymentProvider')=='infinitepay','Gateway diferente do esperado'
+          assert expected <= visible,'Variantes faltando: '+str(expected-visible)
+          assert 'cor-iesu-bone-verde-escuro' not in visible,'Boné verde não confirmado foi habilitado'
+          print('API: quatro acessórios liberados, gateway InfinitePay, verde-escuro bloqueado.')
+          with urlopen(Request(site+'/pages/loja.html',headers={'User-Agent':'CorIesuAcceptanceReadOnly/1.0'}),timeout=25) as r:
+              html=r.read().decode('utf-8')
+          for phrase in ('Escolher cor e comprar','Escolher tamanho e comprar',
+             'data-category="bones" data-availability="available"',
+             'data-category="ecobags" data-availability="available"'):
+              assert phrase in html, 'Vitrine sem '+phrase
+          print('Loja publicada: dois cards com seleção de cor e tamanho para compra.')
+          for sku in sorted(expected):
+              with urlopen(Request(site+'/pages/checkout-salve-regina.html?'+urlencode({'sku':sku}),headers={'User-Agent':'CorIesuAcceptanceReadOnly/1.0'}),timeout=25) as r:
+                  assert r.status==200
+              print(sku+': checkout disponível em HTTP 200 (sem enviar pedido).')
+          print('Verificações de prontidão passaram sem criar pedidos ou cobranças.')
+          PY
