@@ -17,7 +17,7 @@ export const accessoryDesign=sku=>isAccessorySku(sku)?ACCESSORY_VARIANTS[sku].de
 // Fail-closed: nao autoriza vender por print, por preco no navegador nem por
 // codigo de design isolado. Exige ficha privada de frete homologada em D1,
 // correspondencia da variante real e custo confirmado SEM depender de desconto.
-export async function loadApprovedAccessoryCost(db,sku){
+export async function loadObservedAccessoryCost(db,sku,requireApproval=false){
   const expected=ACCESSORY_VARIANTS[sku];
   if(!expected || !db?.prepare)return null;
   try{
@@ -27,7 +27,7 @@ export async function loadApprovedAccessoryCost(db,sku){
     ).bind(sku).first();
     if(row?.supplier_design_code!==expected.design ||
        row?.supplier_variant_sku!==expected.supplierSku ||
-       row?.freight_config_verified!==1 ||
+       (requireApproval && row?.freight_config_verified!==1) ||
        !Number.isSafeInteger(row.subtotal_cents) || row.subtotal_cents<=0 ||
        !Number.isSafeInteger(row.observed_total_cents) ||
        row.observed_total_cents<=0 ||
@@ -36,6 +36,8 @@ export async function loadApprovedAccessoryCost(db,sku){
     return row.subtotal_cents;
   }catch{return null;}
 }
+export const loadApprovedAccessoryCost=(db,sku)=>loadObservedAccessoryCost(db,sku,true);
+
 export function assertAccessorySingleItem(items){
   if(items.some(x=>isAccessorySku(x.sku)) &&
      (items.length!==1 || items[0].quantity!==1))
