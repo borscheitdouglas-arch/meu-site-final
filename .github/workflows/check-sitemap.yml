@@ -19,5 +19,7 @@ jobs:
           python-version: "3.x"
       - name: Testar seleção de URLs
         run: python3 -m unittest discover -s tools -p test_sitemap.py
+      - name: Validar páginas SEO e catálogo comercial
+        run: python3 -m unittest discover -s tools -p test_product_seo.py
       - name: Conferir sitemap versionado
         run: python3 tools/generate_sitemap.py --check

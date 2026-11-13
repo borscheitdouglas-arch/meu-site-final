@@ -95,7 +95,7 @@ def main():
             wait_until="domcontentloaded")
         expect(page.get_by_role("link", name="Nossa Senhora", exact=True)).to_be_visible(timeout=12000)
         page.get_by_role("link", name="Nossa Senhora", exact=True).click()
-        expect(page).to_have_url(re.compile("id=caneca-salve-regina-pb"))
+        expect(page).to_have_url(re.compile("/pages/produto-caneca-salve-regina-pb[.]html"))
         print("PASS: alternativas de caneca navegáveis e sem habilitar cobrança")
 
         # Regressão para todos os artigos físicos.

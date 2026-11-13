@@ -271,10 +271,10 @@ def main():
 
             # A capa e o botão da vitrine abrem uma página própria (não um accordion).
             action = page.locator('.shop-product-card:has([data-cart-add="camiseta-salve-regina"]) .shop-product-action')
-            expect(action).to_have_attribute('href', '/pages/produto-loja.html?id=camiseta-salve-regina')
+            expect(action).to_have_attribute('href', '/pages/produto-camiseta-salve-regina.html')
             action.focus()
             page.keyboard.press('Enter')
-            expect(page).to_have_url(base + '/pages/produto-loja.html?id=camiseta-salve-regina')
+            expect(page).to_have_url(base + '/pages/produto-camiseta-salve-regina.html')
             expect(page.locator('.shop-single-summary h1')).to_have_text('Camiseta Salve Regina')
             expect(page.locator('.shop-single-imagebox img')).to_be_visible()
             expect(page.locator('.shop-single-actions button')).to_have_count(2)
