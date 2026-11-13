@@ -237,8 +237,8 @@
     "type":"Boné · Coleção Cor Iesu Sacratissimum",
     "material":"Tecido e composição em confirmação",
     "finish":"Estampa sacra em DTF, uma área",
-    "photos":["/assets/img/loja/cor-iesu/bone-sagrado-coracao-capa-20261113.jpg"],
-    "photoLabels":["Mockup digital do boné preto Cor Iesu Sacratissimum com a estampa do Sagrado Coração"],
+    "photos":["/assets/img/loja/cor-iesu/bone-sagrado-coracao-capa-20261113.jpg","/assets/img/loja/cor-iesu/bone-cor-iesu-ensaio-ambar-20261113.jpg","/assets/img/loja/cor-iesu/bone-cor-iesu-modelo-20261113.jpg","/assets/img/loja/cor-iesu/bone-cor-iesu-na-mao-20261113.jpg"],
+    "photoLabels":["Mockup digital do boné preto Cor Iesu Sacratissimum com a estampa do Sagrado Coração","Mockup digital do boné azul Cor Iesu Sacratissimum, apresentação editorial com iluminação âmbar e mãos segurando a aba","Mockup digital de modelo masculino usando boné azul-escuro Cor Iesu Sacratissimum sobre fundo bege","Mockup digital do boné azul Cor Iesu Sacratissimum apoiado na mão, com aba alinhada e cenário de pedra clara"],
     "description":"Boné com a arte do Sacratíssimo Coração de Jesus, inspirada nas gravuras tradicionais da arte sacra.",
     "paragraphs":[
       "Uma peça da coleção Cor Iesu Sacratissimum, dedicada à devoção ao Sagrado Coração de Jesus. O conceito reúne o Coração inflamado, a cruz e a coroa de espinhos em linguagem visual clássica.",
