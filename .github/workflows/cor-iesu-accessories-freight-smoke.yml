@@ -1,0 +1,49 @@
+name: Cor Iesu acessórios - frete real sem cobranças
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/cor-iesu-accessories-freight-smoke.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Simular frete real das quatro variantes, sem criar pedidos
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from urllib.request import Request,urlopen
+          from urllib.error import HTTPError,URLError
+          base='https://douglas-loja-api.liturgia-gregoriano.workers.dev'
+          headers={'Origin':'https://www.douglasassumpcao.com.br',
+                   'Content-Type':'application/json',
+                   'Accept':'application/json',
+                   'User-Agent':'DouglasCorIesuReadOnly/2026-11-13'}
+          names=['cor-iesu-bone-preto','cor-iesu-bone-azul-escuro',
+                 'cor-iesu-ecobag-m','cor-iesu-ecobag-g']
+          problems=[]
+          for sku in names:
+              payload=json.dumps({'zipCode':'01001000','sku':sku}).encode()
+              req=Request(base+'/api/shipping/preview',data=payload,headers=headers,method='POST')
+              try:
+                  with urlopen(req,timeout=24) as response:
+                      status=response.status
+                      data=json.load(response)
+              except HTTPError as error:
+                  status=error.code
+                  try:data=json.loads(error.read())
+                  except Exception:data={}
+              except (URLError,TimeoutError) as error:
+                  status=0
+                  data={'error':type(error).__name__}
+              options=data.get('options') if isinstance(data,dict) else []
+              good=status==200 and data.get('mode')=='preview' and data.get('sku')==sku and data.get('checkoutEnabled') is False and isinstance(options,list) and bool(options) and any(x.get('isActive') and x.get('shippingCost',-1)>=0 for x in options)
+              print(json.dumps({'sku':sku,'status':status,'cotacao_recebida':bool(good),'opcoes':len(options or []),'codigo':data.get('error')},ensure_ascii=False),flush=True)
+              if not good:problems.append(sku)
+          if problems:raise SystemExit('Sem frete validado para: '+', '.join(problems))
+          print('As quatro consultas retornaram fretes reais sem realizar pagamentos, pedidos ou reservas de produção.')
+          PY
