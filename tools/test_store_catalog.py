@@ -158,7 +158,7 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertIn('R$ 39,90', source)
         self.assertEqual(source.count('data-cart-add='), 2)
         self.assertNotIn('data-cart-checkout', source)
-        self.assertIn('data-cart-add="camiseta-cor-iesu-sacratissimum"', source)
+        self.assertIn('/pages/produto-loja.html?id=camiseta-cor-iesu-sacratissimum', source)
         self.assertIn('R$ 109,90', source)
 
 
