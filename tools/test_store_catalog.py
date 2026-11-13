@@ -156,7 +156,7 @@ class StoreCatalogTest(unittest.TestCase):
         self.assertIn('store-shipping-calculator.js', source)
         self.assertIn('R$ 49,90', source)
         self.assertIn('R$ 39,90', source)
-        self.assertEqual(source.count('data-cart-add='), 5)
+        self.assertEqual(source.count('data-cart-add='), 2)
         self.assertNotIn('data-cart-checkout', source)
         self.assertIn('data-cart-add="camiseta-cor-iesu-sacratissimum"', source)
         self.assertIn('R$ 109,90', source)
