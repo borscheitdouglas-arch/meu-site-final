@@ -63,8 +63,17 @@
 .liturgical-song[data-alma-mode="aula"] .alma-video{
   width:100%;max-width:830px;justify-self:center;
 }
+/* Compacta o espaço vazio entre o cabeçalho do site e o título da aula. */
+.liturgical-song[data-alma-mode="aula"] .wrap{padding-top:8px;}
 .liturgical-song[data-alma-mode="aula"] .chant-heading{
-  padding-bottom:22px;margin-bottom:28px;
+  margin-top:0;
+  padding-top:0;
+  padding-bottom:22px;
+  margin-bottom:28px;
+}
+@media (max-width:680px){
+  .liturgical-song[data-alma-mode="aula"] .wrap{padding-top:12px;}
+  .liturgical-song[data-alma-mode="aula"] .chant-heading{margin-top:0;padding-top:10px;}
 }
 </style>
 </head>
