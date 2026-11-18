@@ -48,6 +48,9 @@
 .liturgical-song[data-alma-mode] .alma-video .chant-video-cover::before{
   background:linear-gradient(180deg,rgba(2,9,16,.29),rgba(2,9,16,.025) 65%,rgba(2,9,16,.25));
 }
+/* A capa enviada já contém o título artístico: evita-se texto duplicado sobre a imagem. */
+.liturgical-song[data-alma-mode] .alma-video .chant-video-topline{display:none}
+.liturgical-song[data-alma-mode] .alma-video .chant-video-cover{grid-template-rows:minmax(0,1fr)}
 .liturgical-song[data-alma-mode] .alma-video .chant-video-center h2{
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0,0,0,0);white-space:nowrap;border:0;
@@ -114,6 +117,11 @@
 .liturgical-song[data-alma-mode] .alma-chapter--reverse .alma-side-verse{grid-column:1;grid-row:1}
 .liturgical-song[data-alma-mode] .alma-chapter-number{display:block;color:#ae8c58;font:500 15px/1 'Cinzel',Georgia,serif;letter-spacing:.2em;margin-bottom:12px}
 .liturgical-song[data-alma-mode] .alma-chapter h3{font:500 clamp(27px,3.5vw,39px)/1.18 'Spectral',Georgia,serif;margin:0 0 19px}
+/* Pequena capitular de manuscrito, sem comprometer a leitura. */
+.liturgical-song[data-alma-mode] .alma-chapter:first-of-type .alma-chapter-text p:first-of-type::first-letter{
+  float:left;font:500 48px/.89 'Cinzel',Georgia,serif;color:#9d7b48;
+  padding:8px 8px 0 0;text-shadow:1px 1px 0 rgba(255,255,255,.72);
+}
 .liturgical-song[data-alma-mode] .alma-chapter-text p{font:17px/1.78 'Spectral',Georgia,serif;margin:0 0 15px}
 .liturgical-song[data-alma-mode] .alma-side-verse{
   min-height:220px;display:flex;flex-direction:column;justify-content:center;
