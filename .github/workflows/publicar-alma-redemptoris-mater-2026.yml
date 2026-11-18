@@ -66,7 +66,7 @@ jobs:
 
           python3 scripts/publicar-alma-redemptoris-mater.py
           # Ao publicar as páginas definitivas, remover as duas cópias temporárias.
-          git rm -f --ignore-unmatch previews/alma-redemptoris-mater-2026.html previews/alma-redemptoris-mater-aula-2026.html
+          git rm -f --ignore-unmatch previews/alma-redemptoris-mater-2026.html previews/alma-redemptoris-mater-aula-2026.html previews/advento-1-alma-2026.html previews/advento-2-alma-2026.html previews/advento-3-alma-2026.html previews/advento-4-alma-2026.html
           python3 tools/generate_sitemap.py
           python3 tools/generate_sitemap.py --check
 
