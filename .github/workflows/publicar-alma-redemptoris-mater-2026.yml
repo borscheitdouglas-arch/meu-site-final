@@ -70,7 +70,7 @@ jobs:
           python3 tools/generate_sitemap.py
           python3 tools/generate_sitemap.py --check
 
-          git add -A -- "${FILES[@]}" pages/advento-1.html pages/advento-2.html pages/advento-3.html pages/advento-4.html sitemap.xml previews/alma-redemptoris-mater-2026.html previews/alma-redemptoris-mater-aula-2026.html
+          git add -- "${FILES[@]}" pages/advento-1.html pages/advento-2.html pages/advento-3.html pages/advento-4.html sitemap.xml
           if git diff --cached --quiet; then
             echo "Página já publicada. Nenhuma alteração necessária."
             exit 0
