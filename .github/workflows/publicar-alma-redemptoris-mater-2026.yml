@@ -1,0 +1,79 @@
+name: Publicar Alma Redemptoris Mater em 23 de novembro de 2026
+
+# GitHub Actions usa UTC. 13:00 UTC = 10:00 de Brasília em 23/11/2026.
+# Execuções de segurança compensam eventuais atrasos do agendador do GitHub.
+on:
+  schedule:
+    - cron: "0,5,10,20,30,45 13 23 11 *"
+    - cron: "10,35 14 23 11 *"
+    - cron: "17 13 24 11 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-alma-redemptoris-mater-2026
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Obter a versão mais recente do site
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Validar data e hora da publicação (Brasília)
+        id: horario
+        shell: bash
+        run: |
+          NOW=$(TZ=America/Sao_Paulo date '+%Y-%m-%dT%H:%M:%S')
+          echo "Horário de Brasília: $NOW"
+          if [[ "$NOW" < "2026-11-23T10:00:00" ]]; then
+            echo "Ainda não é hora de publicar."
+            echo "liberado=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "liberado=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publicar página, partitura, imagem e quatro cards
+        if: steps.horario.outputs.liberado == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH="publicacao-alma-redemptoris-mater-2026"
+          git fetch origin main
+          git checkout -B main origin/main
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+
+          # Não publicar sem os quatro arquivos essenciais.
+          FILES=(
+            pages/alma-redemptoris-mater.html
+            assets/img/alma-redemptoris-mater-contemplacao.webp
+            assets/partituras/Advento/Alma_Redemptoris_Mater.pdf
+            assets/img/partituras/alma-redemptoris-mater.webp
+          )
+          for f in "${FILES[@]}"; do
+            git cat-file -e "origin/$BRANCH:$f" || { echo "Arquivo ausente: $f"; exit 1; }
+          done
+          git restore --source="origin/$BRANCH" -- "${FILES[@]}"
+
+          python3 scripts/publicar-alma-redemptoris-mater.py
+          python3 tools/generate_sitemap.py
+          python3 tools/generate_sitemap.py --check
+
+          git add -- "${FILES[@]}" pages/advento-1.html pages/advento-2.html pages/advento-3.html pages/advento-4.html sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Página já publicada. Nenhuma alteração necessária."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Publicar Alma Redemptoris Mater e cards do Advento [skip ci]"
+          git push origin HEAD:main
+          echo "Publicação enviada ao GitHub. O deploy do site deve propagar as alterações."
