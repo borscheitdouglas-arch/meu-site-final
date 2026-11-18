@@ -54,6 +54,7 @@ jobs:
           FILES=(
             pages/alma-redemptoris-mater.html
             pages/alma-redemptoris-mater-aula.html
+            styles/alma-editorial.css
             assets/img/alma-redemptoris-mater-contemplacao.webp
             assets/img/alma-redemptoris-mater-aula.webp
             assets/partituras/Advento/Alma_Redemptoris_Mater.pdf
