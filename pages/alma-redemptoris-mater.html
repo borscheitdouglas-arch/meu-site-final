@@ -24,8 +24,40 @@
 .alma-video .chant-play {margin-top:0;box-shadow:0 3px 14px rgba(0,0,0,.55);}
 @media (max-width:580px){.alma-video .chant-video-cover{padding:12px}.alma-video .chant-video-topline{display:none}.alma-video .chant-play{min-height:42px;padding:7px 12px}}
 </style>
+
+<style id="alma-paginas-estilo">
+.liturgical-song .alma-pathway {position:relative;margin:36px 0 44px;padding:clamp(24px,4vw,42px);border:1px solid rgba(210,181,117,.5);border-radius:14px;background:radial-gradient(ellipse at 90% 0%,rgba(189,153,88,.13),transparent 60%),linear-gradient(135deg,#232923,#171c1a);box-shadow:0 16px 38px rgba(0,0,0,.22);overflow:hidden}
+.liturgical-song .alma-pathway::before {content:"✦";position:absolute;right:24px;top:10px;color:rgba(210,181,117,.27);font-size:80px;line-height:1;pointer-events:none}
+.liturgical-song .alma-pathway-label{font:600 11px/1.6 'Inter',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#d4b879;margin:0 0 12px}
+.liturgical-song .alma-pathway h2{max-width:700px;color:#f5e8c8;font:400 clamp(26px,4vw,37px)/1.22 'Spectral',Georgia,serif;margin:0 0 12px}
+.liturgical-song .alma-pathway p{max-width:700px;font:17px/1.75 'Spectral',Georgia,serif;color:#dedbd0;margin:0 0 20px}
+.liturgical-song .alma-pathway .alma-pathway-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.liturgical-song .alma-pathway a.alma-pathway-button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 18px;border-radius:7px;background:#d2b575;color:#1d231d;text-decoration:none;font:600 12px/1.3 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;transition:background .2s,transform .2s}
+.liturgical-song .alma-pathway a.alma-pathway-button:hover{background:#ead3a2;transform:translateY(-2px)}
+.liturgical-song .alma-pathway a.alma-pathway-text{display:inline-flex;align-items:center;min-height:44px;color:#f1dfbc;font:600 13px/1.5 'Inter',sans-serif}
+.liturgical-song .alma-intro{margin:20px 0 28px;padding:20px 24px;border-left:3px solid #cbb27d;background:linear-gradient(90deg,rgba(203,178,125,.10),transparent);color:#e4dfd3;font:18px/1.65 'Spectral',Georgia,serif}
+.liturgical-song .alma-study-section{margin:40px 0;padding:24px 0;border-top:1px solid var(--chant-line)}
+.liturgical-song .alma-section-overline{margin:0 0 9px;color:#d2b575;font:600 11px/1.6 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.liturgical-song .alma-study-section h2{font:400 clamp(27px,4vw,37px)/1.25 'Spectral',Georgia,serif;margin:0 0 10px}
+.liturgical-song .alma-study-section .alma-section-lead{color:#c7c5b8;font:16px/1.75 'Spectral',Georgia,serif;max-width:760px}
+.liturgical-song .alma-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:13px;margin:22px 0}
+.liturgical-song .alma-step{padding:21px 19px;border:1px solid #45463b;border-radius:9px;background:#202620}
+.liturgical-song .alma-step-number{display:block;color:#d7bd84;font:600 12px/1.5 'Inter',sans-serif;letter-spacing:.14em;margin-bottom:10px}
+.liturgical-song .alma-step h3{font:500 23px/1.2 'Spectral',Georgia,serif;color:#f2e7d1;margin:0 0 8px}
+.liturgical-song .alma-step p{color:#c8c6bb;font:14px/1.75 'Inter',sans-serif;margin:0}
+.liturgical-song .alma-pronuncia-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:13px;margin:22px 0}
+.liturgical-song .alma-pronuncia{padding:22px 20px;background:#202620;border:1px solid #4c4b3f;border-radius:10px}
+.liturgical-song .alma-pronuncia strong{display:block;color:#f0dbac;font:500 clamp(23px,3vw,30px)/1.2 'Spectral',Georgia,serif;margin-bottom:8px}
+.liturgical-song .alma-pronuncia p{color:#cbcbbf;font:15px/1.6 'Inter',sans-serif;margin:0}
+.liturgical-song .alma-latin{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px;margin:22px 0}
+.liturgical-song .alma-latin .alma-latin-card{padding:24px;background:linear-gradient(135deg,#282921,#20251f);border:1px solid rgba(210,181,117,.32);border-radius:11px}
+.liturgical-song .alma-latin-card h3{font:500 23px/1.3 'Spectral',Georgia,serif;color:#eddbb5;margin:0 0 14px}
+.liturgical-song .alma-latin-card p{font:17px/1.95 'Spectral',Georgia,serif;color:#eae5d9;margin:0}
+.liturgical-song .alma-details-note{font:14px/1.7 'Inter',sans-serif;color:#bfc0b6}
+@media(max-width:570px){.liturgical-song .alma-pathway{padding:23px 19px}.liturgical-song .alma-pathway a.alma-pathway-button{width:100%}.liturgical-song .alma-latin .alma-latin-card{padding:18px}.liturgical-song .alma-intro{padding:17px}}
+</style>
 </head>
-<body class="liturgical-song" data-season="advento">
+<body class="liturgical-song" data-season="advento" data-alma-mode="oracao">
 <a class="chant-skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
 <button aria-controls="side-nav" aria-expanded="false" aria-label="Abrir menu" class="menu-btn" id="menu-btn">
@@ -152,7 +184,7 @@
 <ul>
 <li><a href="/pages/solenidade-nossa-senhora-aparecida.html">Solenidade de Nossa Senhora Aparecida</a></li>
 <li><a href="/pages/solenidade-todos-os-santos.html">Solenidade de Todos os Santos</a></li>
-<li><a aria-current="location" class="active" href="/pages/solenidade-cristo-rei.html">Solenidade de Jesus Cristo Rei do Universo</a></li>
+<li><a href="/pages/solenidade-cristo-rei.html">Solenidade de Jesus Cristo Rei do Universo</a></li>
 </ul>
 </details>
 </li>
@@ -217,9 +249,10 @@
     <blockquote class="liturgical-text">Alma Redemptoris Mater,<br/>quae pervia caeli porta manes,<br/>et stella maris,<br/>succurre cadenti,<br/>surgere qui curat, populo:<br/>Tu quae genuisti,<br/>natura mirante,<br/>tuum sanctum Genitorem,<br/>Virgo prius ac posterius,<br/>Gabrielis ab ore,<br/>sumens illud Ave,<br/>peccatorum miserere.</blockquote>
     <h3>Para a contemplação</h3>
     <p>Que esta antífona nos ajude a fazer silêncio interior, a confiar nossas necessidades à intercessão da Santíssima Virgem Maria e a acolher com renovada fé o seu Filho, Jesus Cristo, nosso Redentor.</p>
-    <p>Para estudar a pronúncia e aprender a cantar, visite também a <a href="https://youtu.be/a8OQ3qLbUYk" target="_blank" rel="noopener noreferrer">aula de Alma Redemptoris Mater no YouTube</a>.</p>
+    <p>Para conhecer a pronúncia e aprender a cantar, a <a href="alma-redemptoris-mater-aula.html">página da aula de Alma Redemptoris Mater</a> reúne o vídeo didático, a partitura e um roteiro de estudo.</p>
   </div>
 </section>
+<section class="alma-pathway" aria-label="Acesse a aula de Alma Redemptoris Mater"><p class="alma-pathway-label">✦ Duas maneiras de viver a mesma antífona</p><h2>Aprenda a pronúncia e o canto</h2><p>Depois de rezar com esta antífona, conheça a aula: pratique o latim eclesiástico, acompanhe a melodia em tom simples e estude com a partitura.</p><div class="alma-pathway-actions"><a class="alma-pathway-button" href="alma-redemptoris-mater-aula.html">Ir para a aula <span aria-hidden="true"> ↗</span></a><a class="alma-pathway-text" href="#partitura">Ver partitura gratuita</a></div></section>
 <aside class="suggestions-column" aria-labelledby="related-title"><div class="suggestion-heading"><h2 id="related-title">Repertório para o Advento</h2><p>Continue sua preparação com as músicas dos domingos do Advento.</p></div><div class="suggestion-cards"><a class="suggestion-card" href="advento-1.html"><div class="suggestion-body"><span class="suggestion-line">Tempo do Advento</span><strong class="suggestion-title">1º Domingo do Advento</strong></div></a><a class="suggestion-card" href="advento-2.html"><div class="suggestion-body"><span class="suggestion-line">Música litúrgica</span><strong class="suggestion-title">2º Domingo do Advento</strong></div></a></div></aside>
 </main>
 <aside aria-label="Publicidade" class="ad-slot ad-slot--bottom" data-ad-zone="bottom"></aside>
