@@ -40,7 +40,7 @@ jobs:
             echo "liberado=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publicar página, partitura, imagem e quatro cards
+      - name: Publicar duas páginas, partitura, imagens e quatro cards
         if: steps.horario.outputs.liberado == 'true'
         shell: bash
         run: |
@@ -50,10 +50,12 @@ jobs:
           git checkout -B main origin/main
           git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
 
-          # Não publicar sem os quatro arquivos essenciais.
+          # Só liberar as duas páginas quando todos os arquivos estiverem completos.
           FILES=(
             pages/alma-redemptoris-mater.html
+            pages/alma-redemptoris-mater-aula.html
             assets/img/alma-redemptoris-mater-contemplacao.webp
+            assets/img/alma-redemptoris-mater-aula.webp
             assets/partituras/Advento/Alma_Redemptoris_Mater.pdf
             assets/img/partituras/alma-redemptoris-mater.webp
           )
@@ -63,10 +65,12 @@ jobs:
           git restore --source="origin/$BRANCH" -- "${FILES[@]}"
 
           python3 scripts/publicar-alma-redemptoris-mater.py
+          # Ao publicar as páginas definitivas, remover as duas cópias temporárias.
+          git rm -f --ignore-unmatch previews/alma-redemptoris-mater-2026.html previews/alma-redemptoris-mater-aula-2026.html
           python3 tools/generate_sitemap.py
           python3 tools/generate_sitemap.py --check
 
-          git add -- "${FILES[@]}" pages/advento-1.html pages/advento-2.html pages/advento-3.html pages/advento-4.html sitemap.xml
+          git add -A -- "${FILES[@]}" pages/advento-1.html pages/advento-2.html pages/advento-3.html pages/advento-4.html sitemap.xml previews/alma-redemptoris-mater-2026.html previews/alma-redemptoris-mater-aula-2026.html
           if git diff --cached --quiet; then
             echo "Página já publicada. Nenhuma alteração necessária."
             exit 0
@@ -74,6 +78,6 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Publicar Alma Redemptoris Mater e cards do Advento [skip ci]"
+          git commit -m "Publicar versões oracional e aula Alma Redemptoris Mater e cards do Advento [skip ci]"
           git push origin HEAD:main
           echo "Publicação enviada ao GitHub. O deploy do site deve propagar as alterações."
