@@ -10,6 +10,22 @@
     "cta": "Saiba Mais"
   },
   {
+    "title": "Alma Redemptoris Mater",
+    "description": "Mãe do Redentor · Canto gregoriano em Tom Simples · Oração e contemplação",
+    "category": "Ordinário da Missa",
+    "url": "pages/alma-redemptoris-mater.html",
+    "image": "/assets/img/cabeçalho4.png",
+    "published": "2026-11-23"
+  },
+  {
+    "title": "Alma Redemptoris Mater",
+    "description": "Aprenda a pronúncia e o canto · Latim eclesiástico · Tom simples",
+    "category": "Ordinário da Missa",
+    "url": "pages/alma-redemptoris-mater-aula.html",
+    "image": "/assets/img/cabeçalho4.png",
+    "published": "2026-11-23"
+  },
+  {
     "title": "O Senhor nos dará seus benefícios",
     "description": "1º Domingo do Advento · Sl 84,13",
     "category": "Canto de Comunhão",
@@ -56,21 +72,5 @@
     "url": "pages/advento-4-entrada.html",
     "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
     "published": "2026-10-26"
-  },
-  {
-    "title": "A Vós Senhor elevo a minha alma",
-    "description": "1º Domingo do Advento · Sl 24,1–4",
-    "category": "Canto de Entrada",
-    "url": "pages/advento-1-entrada.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrrosel - Tempo do Advento.png",
-    "published": "2026-10-26"
-  },
-  {
-    "title": "O Senhor é o Pastor",
-    "description": "32º Domingo do Tempo Comum",
-    "category": "Canto de Comunhão",
-    "url": "pages/tempo-comum-32-comunhao.html",
-    "image": "/assets/img/Carrossel da página inicial/Carrossel - Tempo Comum.png",
-    "published": "2026-10-23"
   }
 ]

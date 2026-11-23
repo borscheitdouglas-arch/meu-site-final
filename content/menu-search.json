@@ -95,6 +95,16 @@
     "url": "/pages/agnus-dei.html"
   },
   {
+    "title": "Alma Redemptoris Mater",
+    "keywords": "Alma Redemptoris Mater alma redemptoris mater aula",
+    "url": "/pages/alma-redemptoris-mater-aula.html"
+  },
+  {
+    "title": "Alma Redemptoris Mater",
+    "keywords": "Alma Redemptoris Mater alma redemptoris mater",
+    "url": "/pages/alma-redemptoris-mater.html"
+  },
+  {
     "title": "Finalizar carrinho",
     "keywords": "Finalizar compra checkout carrinho",
     "url": "/pages/checkout-carrinho.html"
